@@ -4,7 +4,7 @@
 */
 
 #pragma once
-
+#include "OzawaFuncs.h"
 
 #include "Scene.h"
 #include "GameStage.h"

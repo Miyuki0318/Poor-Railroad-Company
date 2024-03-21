@@ -13,6 +13,45 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h">
       <Filter>Scene</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OzawaFuncs.h">
+      <Filter>OzawaFuncs</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Billboard.h">
+      <Filter>OzawaFuncs\DrawObject\Billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BillboardNumber.h">
+      <Filter>OzawaFuncs\DrawObject\Billboard</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Number.h">
+      <Filter>OzawaFuncs\DrawObject\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h">
+      <Filter>OzawaFuncs\DrawObject\Sprite</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DrawObject.h">
+      <Filter>OzawaFuncs\DrawObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Bool_t.h">
+      <Filter>OzawaFuncs\BitFlag</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BitFlag.h">
+      <Filter>OzawaFuncs\BitFlag</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CSVLoader.h">
+      <Filter>OzawaFuncs\CSVLoader</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)DebugLog.h">
+      <Filter>OzawaFuncs\DebugLog</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OzawaUtility.h">
+      <Filter>OzawaFuncs\Utility</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TemplateObject.h">
+      <Filter>OzawaFuncs\TemplateObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Timer.h">
+      <Filter>OzawaFuncs\Timer</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -27,6 +66,33 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp">
       <Filter>Scene</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Billboard.cpp">
+      <Filter>OzawaFuncs\DrawObject\Billboard</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BillboardNumber.cpp">
+      <Filter>OzawaFuncs\DrawObject\Billboard</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Number.cpp">
+      <Filter>OzawaFuncs\DrawObject\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp">
+      <Filter>OzawaFuncs\DrawObject\Sprite</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CSVLoader.cpp">
+      <Filter>OzawaFuncs\CSVLoader</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)DebugLog.cpp">
+      <Filter>OzawaFuncs\DebugLog</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)OzawaUtility.cpp">
+      <Filter>OzawaFuncs\Utility</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TemplateObject.cpp">
+      <Filter>OzawaFuncs\TemplateObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Timer.cpp">
+      <Filter>OzawaFuncs\Timer</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GameStage">
@@ -40,6 +106,36 @@
     </Filter>
     <Filter Include="Scene">
       <UniqueIdentifier>{3bb0b70c-a563-425b-b1b0-d037c7c7b4b3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OzawaFuncs">
+      <UniqueIdentifier>{fed5e2fe-89fb-4de5-aa2e-09b184bd3e3f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OzawaFuncs\DrawObject">
+      <UniqueIdentifier>{28b0c17f-e5da-4eaf-a670-4cb46c931904}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OzawaFuncs\DrawObject\Sprite">
+      <UniqueIdentifier>{9888ab17-65fa-42dd-ac91-b36861fe7e1c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OzawaFuncs\DrawObject\Billboard">
+      <UniqueIdentifier>{d376f46c-e489-41a9-a44c-d8db97e79401}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OzawaFuncs\BitFlag">
+      <UniqueIdentifier>{edebfd07-e36e-4edb-b9e3-2306de66fb53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OzawaFuncs\CSVLoader">
+      <UniqueIdentifier>{34c70f6a-7e78-4ece-9946-3216e3601e28}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OzawaFuncs\DebugLog">
+      <UniqueIdentifier>{15b75635-a1ea-4689-b49f-3bece78bb6b9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OzawaFuncs\Utility">
+      <UniqueIdentifier>{f4fb218e-b8ed-4d0e-acb2-f23b6db7c8ee}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OzawaFuncs\TemplateObject">
+      <UniqueIdentifier>{87ce4d20-a20d-40a6-b4c4-124c5708a298}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OzawaFuncs\Timer">
+      <UniqueIdentifier>{4dee838c-2f60-452e-9f67-a0d5cab5ba31}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

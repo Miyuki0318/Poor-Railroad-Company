@@ -64,28 +64,6 @@ namespace basecross
 		virtual void OnCreate() override;
 
 		/*!
-		@brief ステージステート設定関数
-		@param eStageState
-		@param エラーログを出すかの真偽(デフォルトはtrue)
-		*/
-		template <typename T>
-		void SetStageState(const typename T::eStageState& state, bool exceptionActive = true)
-		{
-			GetTypeStage<T>(exceptionActive)->SetStageState(state);
-		}
-
-		/*!
-		@brief ステージステート取得
-		@param エラーログを出すかの真偽(デフォルトはtrue)
-		@return eStageState
-		*/
-		template <typename T>
-		const typename T::eStageState& GetStageState(bool exceptionActive = true)
-		{
-			return GetTypeStage<T>(exceptionActive)->GetStageState();
-		}
-
-		/*!
 		@brief ポジション設定関数
 		@param Vec3型座標
 		*/
@@ -233,116 +211,138 @@ namespace basecross
 			SetScale(m_scale);
 		}
 
-		/*!
-		@brief SE再生関数(途中で終了できる版)
-		*/
-		virtual void StartSE(const wstring& seKey, float volume);
+		///*!
+		//@brief ステージステート設定関数
+		//@param eStageState
+		//@param エラーログを出すかの真偽(デフォルトはtrue)
+		//*/
+		//template <typename T>
+		//void SetStageState(const typename T::eStageState& state, bool exceptionActive = true)
+		//{
+		//	GetTypeStage<T>(exceptionActive)->SetStageState(state);
+		//}
 
-		/*!
-		@brief SE終了関数
-		*/
-		virtual void StopSE(const wstring& seKey);
+		///*!
+		//@brief ステージステート取得
+		//@param エラーログを出すかの真偽(デフォルトはtrue)
+		//@return eStageState
+		//*/
+		//template <typename T>
+		//const typename T::eStageState& GetStageState(bool exceptionActive = true)
+		//{
+		//	return GetTypeStage<T>(exceptionActive)->GetStageState();
+		//}
 
-		/*!
-		@brief タイマー関数
-		@param 設定時間(s)
-		@param リセット真偽(デフォルトはfalse)
-		@return タイマーが終了しているかの真偽
-		*/
-		virtual bool SetTimer(float time, bool reset = false);
+		///*!
+		//@brief SE再生関数(途中で終了できる版)
+		//*/
+		//virtual void StartSE(const wstring& seKey, float volume);
 
-		/*!
-		@brief タイマーの時間取得関数
-		@return 経過時間
-		*/
-		virtual float GetTime(float time);
+		///*!
+		//@brief SE終了関数
+		//*/
+		//virtual void StopSE(const wstring& seKey);
 
-		/*!
-		@brief 指定の座標にオブジェクトがあるかの確認関数
-		@return 存在していればtrue
-		*/
-		virtual bool ObjectCheck(const vector<weak_ptr<GameObject>>& groupVec, const Vec3& checkPos)
-		{
-			bool check = false;
+		///*!
+		//@brief タイマー関数
+		//@param 設定時間(s)
+		//@param リセット真偽(デフォルトはfalse)
+		//@return タイマーが終了しているかの真偽
+		//*/
+		//virtual bool SetTimer(float time, bool reset = false);
 
-			for (const auto& ptr : groupVec)
-			{
-				if (!ptr.lock()) continue;
+		///*!
+		//@brief タイマーの時間取得関数
+		//@return 経過時間
+		//*/
+		//virtual float GetTime(float time);
 
-				// 型キャスト
-				const auto& block = dynamic_pointer_cast<TemplateObject>(ptr.lock());
-				if (!block) continue;
+		///*!
+		//@brief 指定の座標にオブジェクトがあるかの確認関数
+		//@return 存在していればtrue
+		//*/
+		//virtual bool ObjectCheck(const vector<weak_ptr<GameObject>>& groupVec, const Vec3& checkPos)
+		//{
+		//	bool check = false;
 
-				// 座標が一致しているか
-				if (block->GetPosition() == checkPos)
-				{
-					check = true;
-				}
-			}
+		//	for (const auto& ptr : groupVec)
+		//	{
+		//		if (!ptr.lock()) continue;
 
-			return check;
-		}
+		//		// 型キャスト
+		//		const auto& block = dynamic_pointer_cast<TemplateObject>(ptr.lock());
+		//		if (!block) continue;
 
-		/*!
-		@brief 指定の座標にアクティブなブロックがあるかの確認関数
-		@return 存在していればtrue
-		*/
-		virtual bool BlockCheck(const Vec3& checkPos)
-		{
-			// アクティブグループの取得
-			const auto& blockVec = GetStage()->GetSharedObjectGroup(L"Active")->GetGroupVector();
+		//		// 座標が一致しているか
+		//		if (block->GetPosition() == checkPos)
+		//		{
+		//			check = true;
+		//		}
+		//	}
 
-			return ObjectCheck(blockVec, checkPos);
-		}
+		//	return check;
+		//}
 
-		/*!
-		@brief オブジェクトに上から衝突しているか
-		@param 衝突座標
-		@param 衝突したオブジェクトの座標
-		@param 衝突したオブジェクトの半分のスケール
-		@return 衝突しているかの真偽
-		*/
-		virtual bool CollHitUpper(const Vec3& hitPos, const Vec3& hitObjPos, const Vec3& helfScale)
-		{
-			return hitPos.y > hitObjPos.y && ((hitPos.y - hitObjPos.y) >= helfScale.y);
-		}
+		///*!
+		//@brief 指定の座標にアクティブなブロックがあるかの確認関数
+		//@return 存在していればtrue
+		//*/
+		//virtual bool BlockCheck(const Vec3& checkPos)
+		//{
+		//	// アクティブグループの取得
+		//	const auto& blockVec = GetStage()->GetSharedObjectGroup(L"Active")->GetGroupVector();
 
-		/*!
-		@brief オブジェクトに下から衝突しているか
-		@param 衝突座標
-		@param 衝突したオブジェクトの座標
-		@param 衝突したオブジェクトの半分のスケール
-		@return 衝突しているかの真偽
-		*/
-		virtual bool CollHitUnder(const Vec3& hitPos, const Vec3& hitObjPos, const Vec3& helfScale)
-		{
-			return hitPos.y < hitObjPos.y && ((hitPos.y - hitObjPos.y) <= -helfScale.y);
-		}
+		//	return ObjectCheck(blockVec, checkPos);
+		//}
 
-		/*!
-		@brief オブジェクトに左から衝突しているか
-		@param 衝突座標
-		@param 衝突したオブジェクトの座標
-		@param 衝突したオブジェクトの半分のスケール
-		@return 衝突しているかの真偽
-		*/
-		virtual bool CollHitLeft(const Vec3& hitPos, const Vec3& hitObjPos, const Vec3& helfScale)
-		{
-			return ((hitPos.y - hitObjPos.y) < helfScale.y && (hitPos.y - hitObjPos.y) > -helfScale.y)
-				&& ((hitPos.x - hitObjPos.x) < helfScale.x);
-		}
+		///*!
+		//@brief オブジェクトに上から衝突しているか
+		//@param 衝突座標
+		//@param 衝突したオブジェクトの座標
+		//@param 衝突したオブジェクトの半分のスケール
+		//@return 衝突しているかの真偽
+		//*/
+		//virtual bool CollHitUpper(const Vec3& hitPos, const Vec3& hitObjPos, const Vec3& helfScale)
+		//{
+		//	return hitPos.y > hitObjPos.y && ((hitPos.y - hitObjPos.y) >= helfScale.y);
+		//}
 
-		/*!
-		@brief オブジェクトに右から衝突しているか
-		@param 衝突座標
-		@param 衝突したオブジェクトの座標
-		@param 衝突したオブジェクトの半分のスケール
-		@return 衝突しているかの真偽
-		*/
-		virtual bool CollHitRight(const Vec3& hitPos, const Vec3& hitObjPos, const Vec3& helfScale)
-		{
-			return ((hitPos.y - hitObjPos.y) < helfScale.y && (hitPos.y - hitObjPos.y) > -helfScale.y)
-				&& ((hitPos.x - hitObjPos.x) > -helfScale.x);
-		}
+		///*!
+		//@brief オブジェクトに下から衝突しているか
+		//@param 衝突座標
+		//@param 衝突したオブジェクトの座標
+		//@param 衝突したオブジェクトの半分のスケール
+		//@return 衝突しているかの真偽
+		//*/
+		//virtual bool CollHitUnder(const Vec3& hitPos, const Vec3& hitObjPos, const Vec3& helfScale)
+		//{
+		//	return hitPos.y < hitObjPos.y && ((hitPos.y - hitObjPos.y) <= -helfScale.y);
+		//}
+
+		///*!
+		//@brief オブジェクトに左から衝突しているか
+		//@param 衝突座標
+		//@param 衝突したオブジェクトの座標
+		//@param 衝突したオブジェクトの半分のスケール
+		//@return 衝突しているかの真偽
+		//*/
+		//virtual bool CollHitLeft(const Vec3& hitPos, const Vec3& hitObjPos, const Vec3& helfScale)
+		//{
+		//	return ((hitPos.y - hitObjPos.y) < helfScale.y && (hitPos.y - hitObjPos.y) > -helfScale.y)
+		//		&& ((hitPos.x - hitObjPos.x) < helfScale.x);
+		//}
+
+		///*!
+		//@brief オブジェクトに右から衝突しているか
+		//@param 衝突座標
+		//@param 衝突したオブジェクトの座標
+		//@param 衝突したオブジェクトの半分のスケール
+		//@return 衝突しているかの真偽
+		//*/
+		//virtual bool CollHitRight(const Vec3& hitPos, const Vec3& hitObjPos, const Vec3& helfScale)
+		//{
+		//	return ((hitPos.y - hitObjPos.y) < helfScale.y && (hitPos.y - hitObjPos.y) > -helfScale.y)
+		//		&& ((hitPos.x - hitObjPos.x) > -helfScale.x);
+		//}
 	};
 }
