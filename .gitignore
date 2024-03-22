@@ -396,3 +396,13 @@ FodyWeavers.xsd
 
 # JetBrains Rider
 *.sln.iml
+
+Project/.vs/**/*
+Project/Temp/Debug/**/*
+Project/Temp/DirectXTX/Debug/
+Project/Temp/Release/
+ReedMe.txt
+Project/media/
+Project/Temp/
+Project/Debug/
+Project/Release/
