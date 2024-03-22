@@ -38,11 +38,19 @@ namespace basecross
 	// 毎フレーム更新処理
 	void Player::OnUpdate()
 	{
-		// Aボタンが入力されたら
-		if (GetPushA()) OnPushA();
+		// Aボタンが入力され、クラフト中じゃなければ
+		if (GetPushA() && !m_status(ePlayerStatus::IsCrafting))
+		{
+			// Aボタン入力時の処理を送る
+			OnPushA();
+		}
 
-		// Xボタンが入力されたらクラフト
-		if (GetPushX()) OnCraft();
+		// Xボタンが入力されたら
+		if (GetPushX())
+		{
+			// クラフト状態を切り替える
+			m_status.Set(ePlayerStatus::IsCrafting) = !m_status(ePlayerStatus::IsCrafting);
+		}
 
 		// 移動更新
 		UpdateMove();
@@ -54,6 +62,8 @@ namespace basecross
 
 		// デバック用文字列
 		Debug::Log(L"プレイヤーの座標 : ", GetPosition());
+		Debug::Log(L"移動中か : ", m_status(ePlayerStatus::IsMove));
+		Debug::Log(L"クラフト中か : ", m_status(ePlayerStatus::IsCrafting));
 		Debug::Log(L"木の所持状態は", m_status(ePlayerStatus::IsHaveWood) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Wood), L"個");
 		Debug::Log(L"石の所持状態は", m_status(ePlayerStatus::IsHaveStone) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Stone), L"個");
 		Debug::Log(L"レールの所持状態は", m_status(ePlayerStatus::IsHaveRail) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Rail), L"個");
@@ -95,7 +105,9 @@ namespace basecross
 	// 採掘呼び出し
 	void Player::OnMining(const shared_ptr<TemplateObject>& miningObj)
 	{
-		
+		// 採掘可能オブジェクトに型キャストして
+		// 採掘呼び出し関数を送り
+		// タグに応じてアイテムカウンタを増加
 	}
 
 	// レールの設置呼び出し
@@ -111,19 +123,13 @@ namespace basecross
 		// レールの所持数を減らす
 		AddItemCount(eItemType::Rail, -1);
 	}
-
-	// クラフト呼び出し
-	void Player::OnCraft()
-	{
-
-	}
 	
 	// 移動更新
 	void Player::UpdateMove()
 	{
-		// LStickの入力があれば
-		bool isLstick = IsInputLStick();
-		if (isLstick)
+		// LStickの入力があり、クラフト中じゃなければ
+		bool isMoving = IsInputLStick() && !m_status(ePlayerStatus::IsCrafting);
+		if (isMoving)
 		{
 			// LStick入力量の取得
 			Vec3 stickValue = Vec3(GetLStickValue().x, 0.0f, GetLStickValue().y);
@@ -133,8 +139,8 @@ namespace basecross
 		}
 
 		// 移動状態を設定
-		m_status.Set(ePlayerStatus::IsMove) = isLstick;
-		m_status.Set(ePlayerStatus::IsIdle) = !isLstick;
+		m_status.Set(ePlayerStatus::IsMove) = isMoving;
+		m_status.Set(ePlayerStatus::IsIdle) = !isMoving;
 	}
 
 	// コントローラーによる回転

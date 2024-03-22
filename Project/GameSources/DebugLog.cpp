@@ -146,7 +146,7 @@ wstring Debug::GetWss(const wchar_t str[])
 wstring Debug::GetWss(const bool str)
 {
 	wstringstream wstr;
-	wstr << (str == true ? L"true" : L"false");
+	wstr << (str ? L"true" : L"false");
 	return wstr.str();
 }
 

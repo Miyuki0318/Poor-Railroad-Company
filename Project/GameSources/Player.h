@@ -95,11 +95,6 @@ namespace basecross
 		void OnRailed(const Vec3& railPosition);
 
 		/*!
-		@brief クラフト時に呼び出される関数
-		*/
-		void OnCraft();
-
-		/*!
 		@brief 移動更新関数
 		*/
 		void UpdateMove();

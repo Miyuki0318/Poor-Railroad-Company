@@ -124,15 +124,9 @@ namespace basecross
 			// 型キャスト
 			const auto& railObj = dynamic_pointer_cast<TemplateObject>(weakObj.lock());
 			if (!railObj) continue;
-
-			// 座標が一致してたら設置不可
-			Vec3 railPos = railObj->GetPosition();
-			if (checkPos == railPos)
-			{
-				return false;
-			}
-
+		
 			// レールの左右前後の座標と一致してたら設置可能
+			Vec3 railPos = railObj->GetPosition();
 			vector<Vec3> vec = { FRONT_VEC, BACK_VEC, LEFT_VEC, RIGHT_VEC };
 			for (const auto& v : vec)
 			{
