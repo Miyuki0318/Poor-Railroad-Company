@@ -25,4 +25,9 @@ namespace basecross {
 		// ƒ^ƒO‚Ìİ’è
 		AddTag(L"Rail");
 	}
+
+	void Rail::OnUpdate()
+	{
+
+	}
 }
