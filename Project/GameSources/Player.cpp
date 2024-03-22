@@ -86,14 +86,14 @@ namespace basecross
 			return;
 		}
 
-		// レールオブジェクトを生成
+		// レール設置用の座標を設定
 		Vec3 railPos = m_indicator.lock()->GetPosition();
 		railPos.y = 1.0f;
 
-		// レールを設置可能か
+		// レールを設置可能かをインディケーターから取得
 		if (m_indicator.lock()->GetRailedPossible(railPos))
 		{
-			// レールを設置
+			// レールを所持してたら設置処理を送る
 			if (GetItemCount(eItemType::Rail))
 			{
 				OnRailed(railPos);
