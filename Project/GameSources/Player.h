@@ -75,13 +75,13 @@ namespace basecross
 		void UpdateMove();
 
 		/*!
-		@brief コントローラー移動関数
-		*/
-		void ControllerMovement();
-
-		/*!
 		@brief コントローラー回転関数
 		*/
-		void ControllerRotation();
+		void ControllerRotation(const Vec3& stickValue);
+
+		/*!
+		@brief コントローラー移動関数
+		*/
+		void ControllerMovement(const Vec3& stickValue);
 	};
 }

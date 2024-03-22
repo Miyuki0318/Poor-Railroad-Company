@@ -23,6 +23,11 @@ namespace basecross
 		*/
 		void CreateGroundBox();
 
+		/*!
+		@brief プレイヤー生成
+		*/
+		void CreatePlayer();
+
 	public:
 
 		//構築と破棄

@@ -32,6 +32,16 @@ namespace basecross
 		AddGameObject<GroundBox>(Vec3(100.0f, 2.0f, 15.0f));
 	}
 
+	// プレイヤーの生成
+	void GameStage::CreatePlayer()
+	{
+		// プレイヤーオブジェクトの追加
+		const auto& player = AddGameObject<Player>();
+
+		// シェアオブジェクトに登録
+		SetSharedGameObject(L"Player", player);
+	}
+
 	void GameStage::OnCreate() 
 	{
 		try 
@@ -41,6 +51,9 @@ namespace basecross
 
 			// 床ボックスの生成
 			CreateGroundBox();
+
+			// プレイヤーの生成
+			CreatePlayer();
 		}
 		catch (...) 
 		{
@@ -48,4 +61,3 @@ namespace basecross
 		}
 	}
 }
-//end basecross

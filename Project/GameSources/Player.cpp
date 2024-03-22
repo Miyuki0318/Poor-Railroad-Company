@@ -13,14 +13,36 @@ namespace basecross
 	using namespace Input;
 	using namespace Utility;
 
+	// 生成時の処理
 	void Player::OnCreate()
 	{
+		// 継承元の生成時の処理を実行
+		TemplateObject::OnCreate();
+		SetTransParam();
 
+		// 描画コンポーネントの設定
+		m_ptrDraw = AddComponent<PNTStaticDraw>();
+		m_ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		m_ptrDraw->SetDiffuse(COL_RED);
+
+		// コリジョンOBBの追加
+		m_ptrColl = AddComponent<CollisionObb>();
+		
+		// タグの設定
+		AddTag(L"Player");
 	}
 
+	// 毎フレーム更新処理
 	void Player::OnUpdate()
 	{
+		// Aボタンが入力されたら採掘
+		if (GetPushA()) OnMining();
 
+		// Xボタンが入力されたらクラフト
+		if (GetPushX()) OnCraft();
+
+		// 移動更新
+		UpdateMove();
 	}
 
 	void Player::OnMining()
@@ -33,18 +55,36 @@ namespace basecross
 
 	}
 
+	// 移動更新
 	void Player::UpdateMove()
 	{
+		// LStickの入力があれば
+		if (IsInputLStick())
+		{
+			// LStick入力量の取得
+			Vec3 stickValue = Vec3(GetLStickValue().x, 0.0f, GetLStickValue().y);
 
+			ControllerRotation(stickValue); // 回転関数
+			ControllerMovement(stickValue);	// 移動関数
+		}
 	}
 
-	void Player::ControllerMovement()
+	// コントローラーによる回転
+	void Player::ControllerRotation(const Vec3& stickValue)
 	{
-
+		// スティックの傾きに合わせてオブジェクトを回転させる
+		float rotY = atan2f(-stickValue.z, stickValue.x);
+		SetRotation(Vec3(0.0f, rotY, 0.0f));
 	}
-
-	void Player::ControllerRotation()
+	
+	// コントローラーによる移動
+	void Player::ControllerMovement(const Vec3& stickValue)
 	{
-
+		// 現在の座標に入力量×速度×デルタタイムで加算
+		Vec3 pos = GetPosition();
+		pos += stickValue * m_speed * DELTA_TIME;
+		
+		// 座標の更新
+		SetPosition(pos);
 	}
 }
