@@ -38,8 +38,8 @@ namespace basecross
 	// 毎フレーム更新処理
 	void Player::OnUpdate()
 	{
-		// Aボタンが入力されたら採掘
-		if (GetPushA()) OnMining();
+		// Aボタンが入力されたら
+		if (GetPushA()) OnPushA();
 
 		// Xボタンが入力されたらクラフト
 		if (GetPushX()) OnCraft();
@@ -49,6 +49,12 @@ namespace basecross
 
 		// デバック用文字列
 		Debug::Log(L"プレイヤーの座標 : ", GetPosition());
+	}
+
+	// Aボタン入力時
+	void Player::OnPushA()
+	{
+
 	}
 
 	// 採掘呼び出し

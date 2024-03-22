@@ -79,6 +79,11 @@ namespace basecross
 	private:
 
 		/*!
+		@brief Aボタン入力時に呼び出される関数
+		*/
+		void OnPushA();
+
+		/*!
 		@brief 採掘時に呼び出される関数
 		*/
 		void OnMining();
@@ -132,7 +137,7 @@ namespace basecross
 		*/
 		void AddItemCount(eItemType type, int addNum = 1)
 		{
-			m_itemCount.at(static_cast<size_t>(type)) + addNum;
+			m_itemCount.at(static_cast<size_t>(type)) += addNum;
 		}
 	};
 }
