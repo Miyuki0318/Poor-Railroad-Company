@@ -56,10 +56,10 @@ namespace basecross
 		shared_ptr<TemplateObject> GetMiningPossible() const;
 
 		/*!
-		@brief セレクターの位置にレールを設置可能か、できないならレールを取得する関数
+		@brief セレクターの位置にレールを設置可能かを取得する関数
 		@param 設置する座標
-		@return 設置可能ならnullptr、不可能なら置かれているレールのポインタを返す
+		@return 設置可能ならtrue、不可能ならfalseを返す
 		*/
-		shared_ptr<TemplateObject> GetRailedPossible(const Vec3& checkPos) const;
+		bool GetRailedPossible(const Vec3& checkPos) const;
 	};
 }

@@ -81,8 +81,7 @@ namespace basecross
 		railPos.y = 1.0f;
 
 		// レールを設置可能か
-		const auto& railObj = m_indicator.lock()->GetRailedPossible(railPos);
-		if (!railObj)
+		if (m_indicator.lock()->GetRailedPossible(railPos))
 		{
 			// レールを設置
 			if (GetItemCount(eItemType::Rail))
@@ -91,8 +90,6 @@ namespace basecross
 			}
 			return;
 		}
-
-
 	}
 
 	// 採掘呼び出し
@@ -113,12 +110,6 @@ namespace basecross
 
 		// レールの所持数を減らす
 		AddItemCount(eItemType::Rail, -1);
-	}
-
-	// レールの回収呼び出し
-	void Player::CollectRailed(const shared_ptr<TemplateObject>& railObj)
-	{
-
 	}
 
 	// クラフト呼び出し

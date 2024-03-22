@@ -90,14 +90,9 @@ namespace basecross
 		void OnMining(const shared_ptr<TemplateObject>& miningObj);
 
 		/*!
-		@brief レールを設置に呼び出される関数
+		@brief レール設置時に呼び出される関数
 		*/
 		void OnRailed(const Vec3& railPosition);
-
-		/*!
-		@brief 採掘時に呼び出される関数
-		*/
-		void CollectRailed(const shared_ptr<TemplateObject>& railObj);
 
 		/*!
 		@brief クラフト時に呼び出される関数

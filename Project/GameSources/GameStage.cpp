@@ -53,12 +53,16 @@ namespace basecross
 	}
 	void GameStage::CreateRails()
 	{
+		// シェアオブジェクトグループ
+		const auto& railGroup = GetSharedObjectGroup(L"Rails");
+
 		for (int i = 0; i < 5; i++)
 		{
 			// 線路オブジェクトの追加
 			const auto& rail = AddGameObject<Rail>(Vec3((float)-i, 1.0f, 0.0f));
 			// シェアオブジェクトに登録
 			SetSharedGameObject(L"Rails" + i, rail);
+			railGroup->IntoGroup(rail);
 		}
 
 	}

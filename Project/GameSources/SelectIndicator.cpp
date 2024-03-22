@@ -63,6 +63,8 @@ namespace basecross
 			
 			// 方向ベクトルを定義
 			Vec3 velo = Vec3(cosf(rotY), 0.0f, -sinf(rotY));
+			velo.x = round(velo.x);
+			velo.z = round(velo.z);
 
 			// プレイヤーの座標を四捨五入する
 			Vec3 pos = player->GetPosition();
@@ -107,7 +109,7 @@ namespace basecross
 	}
 
 	// レール設置できるか、できない場合は置かれているレールを取得
-	shared_ptr<TemplateObject> SelectIndicator::GetRailedPossible(const Vec3& checkPos) const
+	bool SelectIndicator::GetRailedPossible(const Vec3& checkPos) const
 	{
 		// 採掘可能オブジェクト配列の取得
 		const auto& railsVec = GetStage()->GetSharedObjectGroup(L"Rails")->GetGroupVector();
@@ -124,13 +126,24 @@ namespace basecross
 			if (!railObj) continue;
 
 			// 座標が一致してたら設置不可
-			if (checkPos == railObj->GetPosition())
+			Vec3 railPos = railObj->GetPosition();
+			if (checkPos == railPos)
 			{
-				return railObj;
+				return false;
+			}
+
+			// レールの左右前後の座標と一致してたら設置可能
+			vector<Vec3> vec = { FRONT_VEC, BACK_VEC, LEFT_VEC, RIGHT_VEC };
+			for (const auto& v : vec)
+			{
+				if (checkPos == railPos + v)
+				{
+					return true;
+				}
 			}
 		}
 
-		// 一致しなかったら設置可能
-		return nullptr;
+		// 一致しなかったら設置不可
+		return false;
 	}
 }
