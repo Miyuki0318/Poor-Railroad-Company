@@ -30,4 +30,21 @@ namespace basecross {
 	{
 
 	}
+
+	void Train::OnCollisionExcute(shared_ptr<GameObject>& gameObject)
+	{
+		if (gameObject->FindTag(L"Rail"))
+		{
+			m_state = State::Onrail;
+		}
+		else
+		{
+			m_state = State::Derail;
+		}
+	}
+
+	void Train::Move(State state)
+	{
+
+	}
 }

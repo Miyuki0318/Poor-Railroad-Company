@@ -11,6 +11,17 @@
 namespace basecross {
 	class Train : public TemplateObject
 	{
+		/*!
+		@brief 列車の状態
+		*/
+		enum class State {
+			Onrail, // レールに乗っている
+			Derail // 脱線
+		};
+
+		// ステート変数
+		State m_state = State::Onrail;
+
 		shared_ptr<PNTStaticDraw> m_ptrDraw;
 		shared_ptr<CollisionObb> m_ptrColl;
 
@@ -32,5 +43,11 @@ namespace basecross {
 		*/
 		void OnUpdate() override;
 
+		/*!
+		@brief オブジェクトと衝突中に呼ばれる関数
+		*/
+		void OnCollisionExcute(shared_ptr<GameObject>& gameObject) override;
+
+		void Move(State state);
 	};
 }
