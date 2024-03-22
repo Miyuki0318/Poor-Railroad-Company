@@ -18,6 +18,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BillboardNumber.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BitFlag.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Bool_t.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftingIcon.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftingQTE.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftItemIcon.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftWindow.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CSVLoader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DebugLog.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DrawObject.h" />
@@ -40,6 +45,11 @@
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Billboard.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BillboardNumber.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftingIcon.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftingQTE.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftItemIcon.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftWindow.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CSVLoader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DebugLog.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp" />
