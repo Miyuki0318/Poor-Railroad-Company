@@ -10,3 +10,5 @@
 #include "GameStage.h"
 #include "Player.h"
 #include "Ground.h"
+
+#include "TitleStage.h"
