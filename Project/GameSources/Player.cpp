@@ -54,6 +54,9 @@ namespace basecross
 	// Aボタン入力時
 	void Player::OnPushA()
 	{
+		// エラーチェック
+		if (!m_indicator.lock()) return;
+
 
 	}
 
