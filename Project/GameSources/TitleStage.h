@@ -8,4 +8,58 @@
 
 namespace basecross
 {
+	class TitleStage : public Stage
+	{
+	private:
+		bool m_startPush;
+
+		/*
+		@brief ビューとライトの生成
+		*/
+		void CreateViewLight();
+
+		/*
+		@brief リソースの読込
+		*/
+		void CreateResourses();
+
+		/*
+		@brief スプライトの生成
+		*/
+		void CreateSpriteObject();
+
+		/*
+		@brief スタートボタンを押した処理
+		*/
+		void PushStartButton();
+
+	public:
+		/*
+		@brief コンストラクタ
+		*/
+		TitleStage() : Stage()
+		{
+			m_startPush = false;
+		}
+
+		/*
+		@brief デストラクタ
+		*/
+		virtual ~TitleStage() {};
+
+		/*
+		@brief 生成時に一度だけ呼び出される関数
+		*/
+		virtual void OnCreate() override;
+		
+		/*
+		@brief 毎フレーム呼び出される関数
+		*/
+		virtual void OnUpdate() override;
+		
+		/*
+		@brief オブジェクト破棄時に呼び出される関数
+		*/
+		virtual void OnDestroy() override;
+	};
 }
