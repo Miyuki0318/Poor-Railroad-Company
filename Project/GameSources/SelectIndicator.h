@@ -47,5 +47,19 @@ namespace basecross
 		@brief 毎フレーム度に呼び出される関数
 		*/
 		void OnUpdate() override;
+
+		/*!
+		@brief セレクターの位置が採掘可能かを取得する関数
+		@param 採掘可能オブジェクトグループ配列
+		@return 採掘可能オブジェクトのポインタを返す、不可能ならnullptr
+		*/
+		shared_ptr<TemplateObject> GetMiningPossible() const;
+
+		/*!
+		@brief セレクターの位置にレールを設置可能か、できないならレールを取得する関数
+		@param 設置する座標
+		@return 設置可能ならnullptr、不可能なら置かれているレールのポインタを返す
+		*/
+		shared_ptr<TemplateObject> GetRailedPossible(const Vec3& checkPos) const;
 	};
 }

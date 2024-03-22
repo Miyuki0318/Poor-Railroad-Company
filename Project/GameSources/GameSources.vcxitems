@@ -31,7 +31,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Project.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Rail.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)SelctIndicator.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SelectIndicator.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TemplateObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Timer.h" />

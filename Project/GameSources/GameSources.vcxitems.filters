@@ -58,7 +58,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Input.h">
       <Filter>OzawaFuncs</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SelctIndicator.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)SelectIndicator.h">
       <Filter>Player\SelectIndicator</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Rail.h">

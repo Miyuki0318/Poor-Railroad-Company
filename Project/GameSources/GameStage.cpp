@@ -78,8 +78,9 @@ namespace basecross
 	{
 		try 
 		{
-			// 採掘できるオブジェクトのグループを生成
-			CreateSharedObjectGroup(L"Mining");
+			// オブジェクトグループを生成
+			CreateSharedObjectGroup(L"Mining"); // 採掘可能オブジェクト
+			CreateSharedObjectGroup(L"Rails");  // レールオブジェクト
 
 			//ビューとライトの作成
 			CreateViewLight();

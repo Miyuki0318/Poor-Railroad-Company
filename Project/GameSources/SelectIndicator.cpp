@@ -19,7 +19,7 @@ namespace basecross
 		TemplateObject::OnCreate();
 
 		// 頂点データの設定
-		float HELF = 0.55f;
+		const float HELF = 0.55f;
 		vector<Vec3> point = {
 			Vec3(HELF, 0.0f, HELF),
 			Vec3(HELF, 0.0f, -HELF),
@@ -73,5 +73,64 @@ namespace basecross
 			// プレイヤーの座標+方向ベクトルで座標更新
 			SetPosition(pos + velo);
 		}
+	}
+
+	// 採掘可能オブジェクトか、採掘可能オブジェクトポインタの取得
+	shared_ptr<TemplateObject> SelectIndicator::GetMiningPossible() const
+	{
+		// 自身の座標を取得
+		Vec3 indiPos = GetPosition();
+
+		// 採掘可能オブジェクト配列の取得
+		const auto& miningVec = GetStage()->GetSharedObjectGroup(L"Mining")->GetGroupVector();
+
+		// 配列の数ループ
+		for (const auto& weakObj : miningVec)
+		{
+			// エラーチェック
+			if (!weakObj.lock()) continue;
+			if (!weakObj.lock()->IsUpdateActive()) continue;
+
+			// 型キャスト
+			const auto& miningObj = dynamic_pointer_cast<TemplateObject>(weakObj.lock());
+			if (!miningObj) continue;
+
+			// 座標が一致したらポインタを返す
+			if (indiPos == miningObj->GetPosition())
+			{
+				return miningObj;
+			}
+		}
+
+		// 可能オブジェクトが無かったのでnullptrを返す
+		return nullptr;
+	}
+
+	// レール設置できるか、できない場合は置かれているレールを取得
+	shared_ptr<TemplateObject> SelectIndicator::GetRailedPossible(const Vec3& checkPos) const
+	{
+		// 採掘可能オブジェクト配列の取得
+		const auto& railsVec = GetStage()->GetSharedObjectGroup(L"Rails")->GetGroupVector();
+
+		// 配列の数ループ
+		for (const auto& weakObj : railsVec)
+		{
+			// エラーチェック
+			if (!weakObj.lock()) continue;
+			if (!weakObj.lock()->IsUpdateActive()) continue;
+
+			// 型キャスト
+			const auto& railObj = dynamic_pointer_cast<TemplateObject>(weakObj.lock());
+			if (!railObj) continue;
+
+			// 座標が一致してたら設置不可
+			if (checkPos == railObj->GetPosition())
+			{
+				return railObj;
+			}
+		}
+
+		// 一致しなかったら設置可能
+		return nullptr;
 	}
 }
