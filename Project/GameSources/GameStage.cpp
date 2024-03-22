@@ -47,6 +47,9 @@ namespace basecross
 	{
 		try 
 		{
+			// 採掘できるオブジェクトのグループを生成
+			CreateSharedObjectGroup(L"Mining");
+
 			//ビューとライトの作成
 			CreateViewLight();
 
