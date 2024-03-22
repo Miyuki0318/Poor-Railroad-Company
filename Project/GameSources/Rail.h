@@ -16,7 +16,7 @@ namespace basecross {
 
 	public:
 		Rail(const shared_ptr<Stage>& stagePtr) :
-			TemplateObject(stagePtr, Vec3(0.0f, 1.0f, 2.0f), Vec3(0.0f), Vec3(1.0f, 2.0f, 1.0f))
+			TemplateObject(stagePtr, Vec3(0.0f, 1.0f, 2.0f), Vec3(0.0f), Vec3(1.0f, 0.2f, 1.0f))
 		{
 		}
 

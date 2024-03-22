@@ -58,6 +58,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Input.h">
       <Filter>OzawaFuncs</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Rail.h">
+      <Filter>StageObject\Rail</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -101,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp">
       <Filter>StageObject\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Rail.cpp">
+      <Filter>StageObject\Rail</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +157,9 @@
     </Filter>
     <Filter Include="StageObject\Ground">
       <UniqueIdentifier>{ab7af347-7f4d-4c24-9333-d0c2e7f05321}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Rail">
+      <UniqueIdentifier>{0f8bc38d-d9cc-492e-a658-39939d7761d2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
