@@ -10,3 +10,4 @@
 #include "GameStage.h"
 #include "Player.h"
 #include "Ground.h"
+#include "Rail.h"
