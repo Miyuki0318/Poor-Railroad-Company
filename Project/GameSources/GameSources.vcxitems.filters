@@ -58,6 +58,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Input.h">
       <Filter>OzawaFuncs</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SelctIndicator.h">
+      <Filter>Player\SelectIndicator</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -101,6 +104,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp">
       <Filter>StageObject\Ground</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SelectIndicator.cpp">
+      <Filter>Player\SelectIndicator</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -151,6 +157,9 @@
     </Filter>
     <Filter Include="StageObject\Ground">
       <UniqueIdentifier>{ab7af347-7f4d-4c24-9333-d0c2e7f05321}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\SelectIndicator">
+      <UniqueIdentifier>{5f4ee246-7983-4dd3-a4a3-971d6203b9a9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

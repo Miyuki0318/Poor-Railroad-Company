@@ -42,6 +42,7 @@ namespace basecross
 		SetSharedGameObject(L"Player", player);
 	}
 
+	// 生成時の処理
 	void GameStage::OnCreate() 
 	{
 		try 
@@ -59,5 +60,20 @@ namespace basecross
 		{
 			throw;
 		}
+	}
+
+	// 描画処理
+	void GameStage::OnDraw()
+	{
+		// デバッグ文字列を強制的に空にする
+		App::GetApp()->GetScene<Scene>()->SetDebugString(L"");
+
+		// 継承元の描画時の関数を実行する
+		Stage::OnDraw();
+
+		// デバック用文字列の表示非表示切り替え
+		const auto& debugStr = GetSharedObject(L"DebugString");
+		debugStr->SetDrawLayer(10);
+		debugStr->SetDrawActive(true);
 	}
 }

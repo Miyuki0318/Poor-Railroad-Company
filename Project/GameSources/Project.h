@@ -9,4 +9,5 @@
 #include "Scene.h"
 #include "GameStage.h"
 #include "Player.h"
+#include "SelctIndicator.h"
 #include "Ground.h"

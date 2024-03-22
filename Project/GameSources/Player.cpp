@@ -27,7 +27,10 @@ namespace basecross
 
 		// コリジョンOBBの追加
 		m_ptrColl = AddComponent<CollisionObb>();
-		
+
+		// セレクトインディケーターの生成
+		m_indicator = GetStage()->AddGameObject<SelectIndicator>(GetThis<Player>());
+
 		// タグの設定
 		AddTag(L"Player");
 	}
@@ -43,13 +46,18 @@ namespace basecross
 
 		// 移動更新
 		UpdateMove();
+
+		// デバック用文字列
+		Debug::Log(L"プレイヤーの座標 : ", GetPosition());
 	}
 
+	// 採掘呼び出し
 	void Player::OnMining()
 	{
 
 	}
 
+	// クラフト呼び出し
 	void Player::OnCraft()
 	{
 

@@ -5,7 +5,6 @@
 */
 
 #pragma once
-#include "stdafx.h"
 #include "TemplateObject.h"
 
 namespace basecross
@@ -25,9 +24,11 @@ namespace basecross
 	*/
 	class Player : public TemplateObject
 	{
-		shared_ptr<PNTStaticDraw> m_ptrDraw; // 描画コンポーネント
-		shared_ptr<CollisionObb> m_ptrColl;  // コリジョンOBBコンポーネント
-		Bool8_t<ePlayerFlags> m_flags;		 // フラグ管理クラス
+		weak_ptr<TemplateObject> m_indicator; // セレクトインディケーター
+
+		shared_ptr<PNTStaticDraw> m_ptrDraw;  // 描画コンポーネント
+		shared_ptr<CollisionObb> m_ptrColl;   // コリジョンOBBコンポーネント
+		Bool8_t<ePlayerFlags> m_flags;		  // フラグ管理クラス
 
 		const float m_speed; // 速度
 
@@ -38,7 +39,7 @@ namespace basecross
 		@param ステージポインタ
 		*/
 		Player(const shared_ptr<Stage>& stagePtr) :
-			TemplateObject(stagePtr, Vec3(0.0f, 1.0f, 0.0f), Vec3(0.0f), Vec3(1.0f, 2.0f, 1.0f)),
+			TemplateObject(stagePtr, Vec3(0.0f, 1.5f, 0.0f), Vec3(0.0f), Vec3(1.0f, 2.0f, 1.0f)),
 			m_speed(5.0f)
 		{
 			m_flags = 0;
