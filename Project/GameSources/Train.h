@@ -20,14 +20,18 @@ namespace basecross {
 		};
 
 		// ステート変数
-		State m_state = State::Onrail;
+		State m_state = State::Derail;
+		State m_beforeState = State::Derail;
+
+		const float m_MoveSpeed;
 
 		shared_ptr<PNTStaticDraw> m_ptrDraw;
 		shared_ptr<CollisionObb> m_ptrColl;
 
 	public:
 		Train(const shared_ptr<Stage>& stagePtr) :
-			TemplateObject(stagePtr, Vec3(0.0f, 1.0f, -4.0f), Vec3(0.0f), Vec3(1.0f, 2.0f, 2.0f))
+			TemplateObject(stagePtr, Vec3(-4.0f, 1.0f, 0.0f), Vec3(0.0f), Vec3(2.0f, 2.0f, 1.0f)),
+			m_MoveSpeed(3.0f)
 		{
 		}
 
@@ -46,7 +50,7 @@ namespace basecross {
 		/*!
 		@brief オブジェクトと衝突中に呼ばれる関数
 		*/
-		void OnCollisionExcute(shared_ptr<GameObject>& gameObject) override;
+		void OnCollisionEnter(shared_ptr<GameObject>& gameObject) override;
 
 		void Move(State state);
 	};

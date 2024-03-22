@@ -32,6 +32,7 @@ namespace basecross
 		@brief ü˜H¶¬
 		*/
 		void CreateRail();
+		void CreateRails();
 
 		/*!
 		@brief —ñÔ¶¬

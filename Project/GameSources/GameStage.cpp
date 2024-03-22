@@ -45,17 +45,29 @@ namespace basecross
 	// 線路の生成
 	void GameStage::CreateRail()
 	{
-		// プレイヤーオブジェクトの追加
+		// 線路オブジェクトの追加
 		const auto& rail = AddGameObject<Rail>();
 
 		// シェアオブジェクトに登録
 		SetSharedGameObject(L"Rail", rail);
 	}
+	void GameStage::CreateRails()
+	{
+		for (int i = 0; i < 5; i++)
+		{
+			// 線路オブジェクトの追加
+			const auto& rail = AddGameObject<Rail>(Vec3((float)-i, 1.0f, 0.0f));
+			// シェアオブジェクトに登録
+			SetSharedGameObject(L"Rails" + i, rail);
+		}
+
+	}
+
 
 	// 列車の生成
 	void GameStage::CreateTrain()
 	{
-		// プレイヤーオブジェクトの追加
+		// 列車オブジェクトの追加
 		const auto& train = AddGameObject<Train>();
 
 		// シェアオブジェクトに登録
@@ -76,7 +88,7 @@ namespace basecross
 			CreatePlayer();
 
 			// 線路の生成
-			CreateRail();
+			CreateRails();
 
 			// 列車の生成
 			CreateTrain();

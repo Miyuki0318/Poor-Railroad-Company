@@ -21,6 +21,7 @@ namespace basecross {
 
 		// コリジョンOBBの追加
 		m_ptrColl = AddComponent<CollisionObb>();
+		//m_ptrColl->SetFixed(true);
 
 		// タグの設定
 		AddTag(L"Train");
@@ -28,10 +29,11 @@ namespace basecross {
 
 	void Train::OnUpdate()
 	{
-
+		Move(m_state);
+		m_beforeState = m_state;
 	}
 
-	void Train::OnCollisionExcute(shared_ptr<GameObject>& gameObject)
+	void Train::OnCollisionEnter(shared_ptr<GameObject>& gameObject)
 	{
 		if (gameObject->FindTag(L"Rail"))
 		{
@@ -45,6 +47,14 @@ namespace basecross {
 
 	void Train::Move(State state)
 	{
-
+		if (state == State::Onrail)
+		{
+			m_position.x += DELTA_TIME * m_MoveSpeed;
+			SetPosition(m_position);
+		}
+		else if (state == State::Derail && m_state != m_beforeState)
+		{
+			MessageBeep(0xFFFFFFFF);
+		}
 	}
 }
