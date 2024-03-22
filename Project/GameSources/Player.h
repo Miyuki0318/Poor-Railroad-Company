@@ -10,13 +10,16 @@
 namespace basecross
 {
 	/*!
-	@brief プレイヤーフラグ
+	@brief プレイヤーの状態
 	*/
-	enum class ePlayerFlags : uint8_t
+	enum class ePlayerStatus : uint8_t
 	{
-		IsClafting,	// クラフト中か？
-		IsMining, // 採掘中か？
-		IsDash,	// ダッシュしたか？
+		IsIdle,		// 待機状態
+		IsMove,		// 移動状態
+		IsHaveWood,	// 木を所持中
+		IsHaveStone,// 石を所持中
+		IsCrafting,	// クラフト中
+		IsHaveRail,	// 線路所持中
 	};
 
 	/*!
@@ -28,7 +31,7 @@ namespace basecross
 
 		shared_ptr<PNTStaticDraw> m_ptrDraw;  // 描画コンポーネント
 		shared_ptr<CollisionObb> m_ptrColl;   // コリジョンOBBコンポーネント
-		Bool8_t<ePlayerFlags> m_flags;		  // フラグ管理クラス
+		Bool8_t<ePlayerStatus> m_status;	  // フラグ管理クラス
 
 		const float m_speed; // 速度
 
@@ -42,7 +45,7 @@ namespace basecross
 			TemplateObject(stagePtr, Vec3(0.0f, 1.5f, 0.0f), Vec3(0.0f), Vec3(1.0f, 2.0f, 1.0f)),
 			m_speed(5.0f)
 		{
-			m_flags = 0;
+			m_status = 0;
 		}
 
 		/*!
@@ -59,6 +62,8 @@ namespace basecross
 		@brief 毎フレーム度に呼び出される関数
 		*/
 		void OnUpdate() override;
+
+	private:
 
 		/*!
 		@brief 採掘時に呼び出される関数
@@ -84,5 +89,17 @@ namespace basecross
 		@brief コントローラー移動関数
 		*/
 		void ControllerMovement(const Vec3& stickValue);
+
+	public:
+
+		/*!
+		@brief 状態取得関数
+		@param プレイヤーの状態enum
+		@return その状態になっているかの真偽
+		*/
+		bool GetStatus(ePlayerStatus status)
+		{
+			return m_status(status);
+		}
 	};
 }
