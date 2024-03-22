@@ -52,6 +52,16 @@ namespace basecross
 		SetSharedGameObject(L"Rail", rail);
 	}
 
+	// 列車の生成
+	void GameStage::CreateTrain()
+	{
+		// プレイヤーオブジェクトの追加
+		const auto& train = AddGameObject<Train>();
+
+		// シェアオブジェクトに登録
+		SetSharedGameObject(L"Train", train);
+	}
+
 	void GameStage::OnCreate() 
 	{
 		try 
@@ -67,6 +77,9 @@ namespace basecross
 
 			// 線路の生成
 			CreateRail();
+
+			// 列車の生成
+			CreateTrain();
 		}
 		catch (...) 
 		{

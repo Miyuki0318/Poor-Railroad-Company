@@ -33,6 +33,11 @@ namespace basecross
 		*/
 		void CreateRail();
 
+		/*!
+		@brief —ñÔ¶¬
+		*/
+		void CreateTrain();
+
 	public:
 
 		//\’z‚Æ”jŠü
