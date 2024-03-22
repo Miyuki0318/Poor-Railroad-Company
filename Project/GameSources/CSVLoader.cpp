@@ -125,6 +125,17 @@ vector<float> CSVLoader::ReadDataToFloat(const vector<vector<string>>& data, con
 	return ret;
 }
 
+vector<float> CSVLoader::ReadDataToFloatRow(const vector<vector<string>>& date, const size_t& index)
+{
+	vector<float> ret;
+
+	for (size_t row = 0; row < date.size(); row++)
+	{
+		ret.push_back(stof(date.at(row).at(index)));
+	}
+	return ret;
+}
+
 vector<vector<double>> CSVLoader::ReadDataToDouble(const vector<vector<string>>& data)
 {
 	vector<vector<double>> ret;

@@ -23,4 +23,5 @@ public:
 	static vector<float> ReadDataToFloat(const vector<vector<string>>& data, const size_t& index);
 	static vector<double> ReadDataToDouble(const vector<string>& data);
 	static vector<double> ReadDataToDouble(const vector<vector<string>>& data, const size_t& index);
+	static vector<float> ReadDataToFloatRow(const vector<vector<string>>& data, const size_t& index);
 };
