@@ -3,6 +3,7 @@
 #include "CSVLoader.h"
 #include "Bool_t.h"
 #include "DebugLog.h"
+#include "Input.h"
 #include "Timer.h"
 #include "TemplateObject.h"
 #include "DrawObject.h"

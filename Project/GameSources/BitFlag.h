@@ -17,6 +17,7 @@ protected:
 
     /*!
     @brief コンストラクタ
+    @param 初期値 = 0
     */
     BitFlag(BitType initialValue = 0) : m_flags(initialValue) {}
 
