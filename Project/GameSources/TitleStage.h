@@ -13,6 +13,8 @@ namespace basecross
 	private:
 		bool m_startPush;
 
+		weak_ptr<Sprite> m_fadeSprite;
+
 		/*
 		@brief ビューとライトの生成
 		*/
@@ -27,11 +29,21 @@ namespace basecross
 		@brief スプライトの生成
 		*/
 		void CreateSpriteObject();
-
+		
 		/*
-		@brief スタートボタンを押した処理
+		@brief スタートボタンを押した時の処理
 		*/
 		void PushStartButton();
+
+		/*
+		@brief フェードイン処理
+		*/
+		void FadeInSprite();
+		
+		/*
+		@brief フェードアウト処理
+		*/
+		void FadeOutSprite();
 
 	public:
 		/*

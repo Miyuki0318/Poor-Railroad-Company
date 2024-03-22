@@ -10,6 +10,7 @@ namespace basecross
 {
 	using namespace Input;
 
+	// ビューとライトの作成
 	void TitleStage::CreateViewLight()
 	{
 		// ビューを作成
@@ -30,16 +31,27 @@ namespace basecross
 		App::GetApp()->GetScene<Scene>()->SetClearColor(color);
 	}
 
+	// リソースの読込
 	void TitleStage::CreateResourses()
 	{
+		const auto& app = App::GetApp();
 
+		wstring mediaPath = app->GetDataDirWString();
+		wstring texturePath = mediaPath + L"Textures/";
+
+		app->RegisterTexture(L"FADE_TX", texturePath + L"Blue.png");
 	}
 
+	// スプライトの生成
 	void TitleStage::CreateSpriteObject()
 	{
+		const float width = static_cast<float>(App::GetApp()->GetGameWidth());
+		const float height = static_cast<float>(App::GetApp()->GetGameHeight());
 
+		m_fadeSprite = AddGameObject<Sprite>(L"FADE_TX", Vec2(width, height), Vec3(0.0f));
 	}
 
+	// スタートボタンを押した時の処理
 	void TitleStage::PushStartButton()
 	{
 		// シーンの取得
@@ -51,11 +63,26 @@ namespace basecross
 		}
 	}
 
+	void TitleStage::FadeInSprite()
+	{
+
+	}
+
+	void TitleStage::FadeOutSprite()
+	{
+
+	}
+
+	// 実行時、一度だけ処理される関数
 	void TitleStage::OnCreate()
 	{
 		try
 		{
 			CreateViewLight();
+
+			CreateResourses();
+
+			CreateSpriteObject();
 		}
 		catch (...)
 		{
@@ -63,11 +90,13 @@ namespace basecross
 		}
 	}
 
+	// 毎フレーム実行される関数
 	void TitleStage::OnUpdate()
 	{
 		PushStartButton();
 	}
 
+	// オブジェクト破棄時に呼び出される処理
 	void TitleStage::OnDestroy()
 	{
 
