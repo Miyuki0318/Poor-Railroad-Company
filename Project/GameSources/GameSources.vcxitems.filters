@@ -61,6 +61,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SelctIndicator.h">
       <Filter>Player\SelectIndicator</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Rail.h">
+      <Filter>StageObject\Rail</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Train.h">
+      <Filter>StageObject\Train</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -107,6 +113,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectIndicator.cpp">
       <Filter>Player\SelectIndicator</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Rail.cpp">
+      <Filter>StageObject\Rail</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Train.cpp">
+      <Filter>StageObject\Train</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -160,6 +172,12 @@
     </Filter>
     <Filter Include="Player\SelectIndicator">
       <UniqueIdentifier>{5f4ee246-7983-4dd3-a4a3-971d6203b9a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Rail">
+      <UniqueIdentifier>{0f8bc38d-d9cc-492e-a658-39939d7761d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Train">
+      <UniqueIdentifier>{3a27608b-f436-4aec-90bc-c0b6421bf41e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

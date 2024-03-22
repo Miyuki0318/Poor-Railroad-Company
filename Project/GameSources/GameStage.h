@@ -28,6 +28,17 @@ namespace basecross
 		*/
 		void CreatePlayer();
 
+		/*!
+		@brief ü˜H¶¬
+		*/
+		void CreateRail();
+		void CreateRails();
+
+		/*!
+		@brief —ñÔ¶¬
+		*/
+		void CreateTrain();
+
 	public:
 
 		//\’z‚Æ”jŠü

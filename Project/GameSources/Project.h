@@ -11,3 +11,5 @@
 #include "Player.h"
 #include "SelctIndicator.h"
 #include "Ground.h"
+#include "Rail.h"
+#include "Train.h"
