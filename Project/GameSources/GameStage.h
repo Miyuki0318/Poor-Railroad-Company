@@ -13,6 +13,13 @@ namespace basecross
 	*/
 	class GameStage : public Stage
 	{
+		shared_ptr<Sprite> m_gameLogo;
+
+		/*!
+		@brief リソースの読込
+		*/
+		void CreateResourses();
+
 		/*!
 		@brief ビューとライトの生成
 		*/
@@ -39,6 +46,10 @@ namespace basecross
 		*/
 		void CreateTrain();
 
+		/*!
+		@brief スプライトの生成
+		*/
+		void CreateSpriteObject();
 	public:
 
 		//構築と破棄

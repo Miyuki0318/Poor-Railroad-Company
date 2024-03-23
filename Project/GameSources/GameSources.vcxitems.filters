@@ -82,6 +82,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftingQTE.h">
       <Filter>Player\Craft\CraftingQTE</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h">
+      <Filter>TitleStage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -149,6 +152,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftingQTE.cpp">
       <Filter>Player\Craft\CraftingQTE</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp">
+      <Filter>TitleStage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -223,6 +229,9 @@
     </Filter>
     <Filter Include="Player\Craft\CraftingQTE">
       <UniqueIdentifier>{f4a7f1b8-503b-48eb-b6ee-50c874a2a1d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="TitleStage">
+      <UniqueIdentifier>{6c23563c-dd73-4b49-a99e-db3417271d14}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

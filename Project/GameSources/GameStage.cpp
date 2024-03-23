@@ -8,6 +8,18 @@
 
 namespace basecross 
 {
+	// リソースの読み込み
+	void GameStage::CreateResourses()
+	{
+		const auto& app = App::GetApp();
+
+		wstring mediaPath = app->GetDataDirWString();
+		wstring texturePath = mediaPath + L"Textures/";
+
+		app->RegisterTexture(L"GAMECLEAR_TX", texturePath + L"Win.png");
+		app->RegisterTexture(L"GAMEOVER_TX", texturePath + L"Lose.png");
+	}
+
 	//ビューとライトの生成
 	void GameStage::CreateViewLight()
 	{
@@ -77,6 +89,12 @@ namespace basecross
 		SetSharedGameObject(L"Train", train);
 	}
 
+	// スプライトの生成
+	void GameStage::CreateSpriteObject()
+	{
+		m_gameLogo = AddGameObject<Sprite>(L"GAMEOVER_TX", Vec2(100.0f), Vec3(0.0f));
+	}
+
 	// 生成時の処理
 	void GameStage::OnCreate() 
 	{
@@ -85,6 +103,9 @@ namespace basecross
 			// オブジェクトグループを生成
 			CreateSharedObjectGroup(L"Mining"); // 採掘可能オブジェクト
 			CreateSharedObjectGroup(L"Rails");  // レールオブジェクト
+
+			// リソースの読み込み
+			CreateResourses();
 
 			//ビューとライトの作成
 			CreateViewLight();
@@ -100,6 +121,9 @@ namespace basecross
 
 			// 列車の生成
 			CreateTrain();
+
+			// スプライトの生成
+			CreateSpriteObject();
 		}
 		catch (...) 
 		{
