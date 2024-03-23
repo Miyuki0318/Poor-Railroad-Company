@@ -28,8 +28,15 @@ namespace basecross
 		// コリジョンOBBの追加
 		m_ptrColl = AddComponent<CollisionObb>();
 
+		// ステージの取得
+		const auto& stagePtr = GetStage();
+
 		// セレクトインディケーターの生成
-		m_indicator = GetStage()->AddGameObject<SelectIndicator>(GetThis<Player>());
+		m_indicator = stagePtr->AddGameObject<SelectIndicator>(GetThis<Player>());
+
+		// クラフト機能の生成
+		//const auto& cWindow = stagePtr->AddGameObject<CraftWindow>();
+		//m_craft = make_shared<CraftManager>(cWindow);
 
 		// タグの設定
 		AddTag(L"Player");
@@ -48,8 +55,16 @@ namespace basecross
 		// Xボタンが入力されたら
 		if (GetPushX())
 		{
-			// クラフト状態を切り替える
-			m_status.Set(ePlayerStatus::IsCrafting) = !m_status(ePlayerStatus::IsCrafting);
+			// 仮実装
+			if (GetItemCount(eItemType::Wood) >= 2 && GetItemCount(eItemType::Stone) >= 2)
+			{
+				AddItemCount(eItemType::Rail, 1);
+				AddItemCount(eItemType::Wood, -2);
+				AddItemCount(eItemType::Stone, -2);
+			}
+
+			//// クラフト状態を切り替える
+			//m_status.Set(ePlayerStatus::IsCrafting) = !m_status(ePlayerStatus::IsCrafting);
 		}
 
 		// 移動更新

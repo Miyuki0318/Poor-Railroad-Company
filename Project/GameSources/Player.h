@@ -7,6 +7,7 @@
 #pragma once
 #include "TemplateObject.h"
 #include "SelectIndicator.h"
+#include "CraftManager.h"
 
 namespace basecross
 {
@@ -39,6 +40,7 @@ namespace basecross
 	class Player : public TemplateObject
 	{
 		weak_ptr<SelectIndicator> m_indicator; // セレクトインディケーター
+		shared_ptr<CraftManager> m_craft;      // クラフトマネージャー
 
 		shared_ptr<PNTStaticDraw> m_ptrDraw;  // 描画コンポーネント
 		shared_ptr<CollisionObb> m_ptrColl;   // コリジョンOBBコンポーネント
