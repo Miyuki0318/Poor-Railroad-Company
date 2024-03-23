@@ -49,28 +49,43 @@ namespace basecross
 		const float height = static_cast<float>(App::GetApp()->GetGameHeight());
 
 		m_fadeSprite = AddGameObject<Sprite>(L"FADE_TX", Vec2(width, height), Vec3(0.0f));
+		m_fadeSprite->SetDiffuseColor(Col4(1.0f, 1.0f, 1.0f, 0.0f));
 	}
 
 	// スタートボタンを押した時の処理
 	void TitleStage::PushStartButton()
 	{
-		// シーンの取得
-		const auto& scene = App::GetApp()->GetScene<Scene>();
-
 		if (GetPushA())
 		{
-			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"GameStage");
+			m_startPush = true;
 		}
 	}
 
-	void TitleStage::FadeInSprite()
-	{
+	void TitleStage::FadeSprite()
+	{		
+		// シーンの取得
+		const auto& scene = App::GetApp()->GetScene<Scene>();
 
-	}
+		// デルタタイムの取得
+		float deltaTime = App::GetApp()->GetElapsedTime();
 
-	void TitleStage::FadeOutSprite()
-	{
+		float fadeTime = 3.0f;
 
+		Col4 color = m_fadeSprite->GetDiffuseColor();
+
+		if (color.w < 1.0f)
+		{
+			color.w += deltaTime / fadeTime;
+
+			m_fadeSprite->SetDiffuseColor(color);
+		}
+
+		if (color.w >= 1.0f)
+		{
+			color.w = 1.0f;
+			m_fadeSprite->SetDiffuseColor(color);
+			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"GameStage");
+		}
 	}
 
 	// 実行時、一度だけ処理される関数
@@ -94,6 +109,11 @@ namespace basecross
 	void TitleStage::OnUpdate()
 	{
 		PushStartButton();
+
+		if (m_startPush)
+		{
+			FadeSprite();
+		}
 	}
 
 	// オブジェクト破棄時に呼び出される処理
