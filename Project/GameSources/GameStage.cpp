@@ -42,10 +42,28 @@ namespace basecross
 		SetSharedGameObject(L"Player", player);
 	}
 
+	void GameStage::CreateResourses()
+	{
+		const auto& app = App::GetApp();
+
+		wstring mediaPath = app->GetDataDirWString();
+		wstring texturePath = mediaPath + L"Textures/";
+
+		app->RegisterTexture(L"GAMECLEAR_TX", texturePath + L"Win.png");
+		app->RegisterTexture(L"GAMEOVER_TX", texturePath + L"Lose.png");
+	}
+
+	void GameStage::CreateSpriteObject()
+	{
+		m_gameLogo = AddGameObject<Sprite>(L"GAMEOVER_TX", Vec2(100.0f), Vec3(0.0f));
+	}
+
 	void GameStage::OnCreate() 
 	{
 		try 
 		{
+			CreateResourses();
+
 			//ビューとライトの作成
 			CreateViewLight();
 
@@ -54,6 +72,8 @@ namespace basecross
 
 			// プレイヤーの生成
 			CreatePlayer();
+
+			CreateSpriteObject();
 		}
 		catch (...) 
 		{
