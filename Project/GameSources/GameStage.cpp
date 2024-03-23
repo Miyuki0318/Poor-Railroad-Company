@@ -11,13 +11,19 @@ namespace basecross
 	// リソースの読み込み
 	void GameStage::CreateResourses()
 	{
+		// アプリケーションオブジェクトの取得
 		const auto& app = App::GetApp();
 
+		// ディレクトリパスの定義
 		wstring mediaPath = app->GetDataDirWString();
 		wstring texturePath = mediaPath + L"Textures/";
 
 		app->RegisterTexture(L"GAMECLEAR_TX", texturePath + L"Win.png");
 		app->RegisterTexture(L"GAMEOVER_TX", texturePath + L"Lose.png");
+
+
+		// クラフトウィンドウのテクスチャ
+		app->RegisterTexture(L"CWINDOW_TX", texturePath + L"CraftWindow.png");
 	}
 
 	//ビューとライトの生成

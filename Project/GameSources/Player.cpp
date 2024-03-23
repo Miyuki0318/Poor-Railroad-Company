@@ -35,8 +35,8 @@ namespace basecross
 		m_indicator = stagePtr->AddGameObject<SelectIndicator>(GetThis<Player>());
 
 		// クラフト機能の生成
-		//const auto& cWindow = stagePtr->AddGameObject<CraftWindow>();
-		//m_craft = make_shared<CraftManager>(cWindow);
+		const auto& cWindow = stagePtr->AddGameObject<CraftWindow>();
+		m_craft = make_shared<CraftManager>(cWindow);
 
 		// タグの設定
 		AddTag(L"Player");
@@ -52,19 +52,21 @@ namespace basecross
 			OnPushA();
 		}
 
+		// Aボタンが入力され、クラフト中であれば
+		if (GetPushA() && m_status(ePlayerStatus::IsCrafting))
+		{
+			// Aボタン入力時の処理を送る
+			OnCraft();
+		}
+
 		// Xボタンが入力されたら
 		if (GetPushX())
 		{
-			// 仮実装
-			if (GetItemCount(eItemType::Wood) >= 2 && GetItemCount(eItemType::Stone) >= 2)
-			{
-				AddItemCount(eItemType::Rail, 1);
-				AddItemCount(eItemType::Wood, -2);
-				AddItemCount(eItemType::Stone, -2);
-			}
+			// クラフト状態を切り替える
+			m_status.Set(ePlayerStatus::IsCrafting) = !m_status(ePlayerStatus::IsCrafting);
 
-			//// クラフト状態を切り替える
-			//m_status.Set(ePlayerStatus::IsCrafting) = !m_status(ePlayerStatus::IsCrafting);
+			// クラフトマネージャーにクラフト状態を送る
+			m_craft->CraftingEnabled(m_status(ePlayerStatus::IsCrafting));
 		}
 
 		// 移動更新
@@ -115,6 +117,13 @@ namespace basecross
 			}
 			return;
 		}
+	}
+
+	// クラフト呼び出し
+	void Player::OnCraft()
+	{
+		// クラフトのみ送っているが、α版でQTEに移行させる
+		m_craft->Crafting(GetThis<Player>());
 	}
 
 	// 採掘呼び出し

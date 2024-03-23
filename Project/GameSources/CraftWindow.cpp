@@ -15,8 +15,11 @@ namespace basecross
 		// 継承元の生成時の処理を実行
 		Sprite::OnCreate();
 
-		// 非表示に
-		SetDrawActive(false);
+		// 描画モードを変更
+		m_ptrDraw->SetRasterizerState(RasterizerState::DoubleDraw);
+
+		// 透明度を変更
+		SetDiffuseColor(Col4(1.0f, 1.0f, 1.0f, 0.5f));
 	}
 
 	// 毎フレーム更新処理
@@ -36,7 +39,7 @@ namespace basecross
 		const bool& isEnable = m_enable(eWindowEnable::IsEnable);
 
 		// 展開割合を追加
-		m_showRatio += (isEnable ? DELTA_TIME : -DELTA_TIME) * m_showSpeed;
+		m_showRatio += (isEnable ? DELTA_TIME : -DELTA_TIME) / m_showSpeed;
 		m_showRatio = min(m_showRatio, 1.0f);
 		m_showRatio = max(m_showRatio, 0.0f);
 
@@ -47,7 +50,6 @@ namespace basecross
 		// 始点or終点になったのなら状態を揃える
 		if (m_showRatio == 1.0f || m_showRatio == 0.0f)
 		{
-			SetDrawActive(isEnable);
 			m_enable.Set(eWindowEnable::IsPastEnable) = isEnable;
 		}
 	}
@@ -55,7 +57,17 @@ namespace basecross
 	// 表示切り替え
 	void CraftWindow::SetDrawEnable(bool b)
 	{
+		// 表示状態を設定
 		m_enable.Set(eWindowEnable::IsEnable) = b;
+
+		// プレイヤーの頭上の座標の位置に移動
+		const auto& stagePtr = GetStage();
+		const auto& player = stagePtr->GetSharedGameObject<Player>(L"Player");
+		Vec3 point = Utility::ConvertToWorldPosition(stagePtr->GetView(), player->GetPosition());
+		point.z = 0.0f;
+
+		// 座標を更新
+		SetPosition(point);
 	}
 
 	// 位置設定

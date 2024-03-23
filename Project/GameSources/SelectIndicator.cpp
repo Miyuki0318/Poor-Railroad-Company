@@ -111,6 +111,8 @@ namespace basecross
 	// レール設置できるか、できない場合は置かれているレールを取得
 	bool SelectIndicator::GetRailedPossible(const Vec3& checkPos) const
 	{
+		bool achiev = false; // 設置できるかの真偽
+
 		// 採掘可能オブジェクト配列の取得
 		const auto& railsVec = GetStage()->GetSharedObjectGroup(L"Rails")->GetGroupVector();
 
@@ -125,19 +127,24 @@ namespace basecross
 			const auto& railObj = dynamic_pointer_cast<TemplateObject>(weakObj.lock());
 			if (!railObj) continue;
 		
-			// レールの左右前後の座標と一致してたら設置可能
+			// 座標の取得
 			Vec3 railPos = railObj->GetPosition();
+
+			// 同じ座標にレールがあるなら設置不可
+			if (railPos == checkPos) return false;
+
+			// レールの左右前後の座標と一致してたら設置可能
 			vector<Vec3> vec = { FRONT_VEC, BACK_VEC, LEFT_VEC, RIGHT_VEC };
 			for (const auto& v : vec)
 			{
 				if (checkPos == railPos + v)
 				{
-					return true;
+					achiev = true;
 				}
 			}
 		}
 
 		// 一致しなかったら設置不可
-		return false;
+		return achiev;
 	}
 }

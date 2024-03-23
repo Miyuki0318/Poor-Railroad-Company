@@ -61,7 +61,7 @@ namespace basecross
 			m_speed(5.0f)
 		{
 			m_status = 0;
-			m_itemCount = { 0, 0, 10 };
+			m_itemCount = { 10, 10, 0 };
 		}
 
 		/*!
@@ -85,6 +85,11 @@ namespace basecross
 		@brief Aボタン入力時に呼び出される関数
 		*/
 		void OnPushA();
+
+		/*!
+		@brief クラフト時に呼び出される関数
+		*/
+		void OnCraft();
 
 		/*!
 		@brief 採掘時に呼び出される関数
