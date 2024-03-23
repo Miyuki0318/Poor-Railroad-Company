@@ -45,18 +45,11 @@ namespace basecross
 	// 毎フレーム更新処理
 	void Player::OnUpdate()
 	{
-		// Aボタンが入力され、クラフト中じゃなければ
-		if (GetPushA() && !m_status(ePlayerStatus::IsCrafting))
+		// Aボタンが入力されたら
+		if (GetPushA())
 		{
-			// Aボタン入力時の処理を送る
-			OnPushA();
-		}
-
-		// Aボタンが入力され、クラフト中であれば
-		if (GetPushA() && m_status(ePlayerStatus::IsCrafting))
-		{
-			// Aボタン入力時の処理を送る
-			OnCraft();
+			// Aボタン入力時の処理をクラフト状態で分岐させる
+			m_status(ePlayerStatus::IsCrafting) ? OnCraft() : OnPushA();
 		}
 
 		// Xボタンが入力されたら
