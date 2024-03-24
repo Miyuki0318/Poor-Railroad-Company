@@ -35,11 +35,7 @@ namespace basecross {
 
 	void Train::OnCollisionEnter(shared_ptr<GameObject>& gameObject)
 	{
-		if (gameObject->FindTag(L"Rail"))
-		{
-			m_state = State::Onrail;
-		}
-		else
+		if (gameObject->FindTag(L"Tarminal"))
 		{
 			m_state = State::Derail;
 		}

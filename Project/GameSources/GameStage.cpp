@@ -128,6 +128,8 @@ namespace basecross
 			// 列車の生成
 			CreateTrain();
 
+			CreateTarminal();
+
 			// スプライトの生成
 			CreateSpriteObject();
 		}

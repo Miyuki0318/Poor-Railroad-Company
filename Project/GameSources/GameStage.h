@@ -47,6 +47,11 @@ namespace basecross
 		void CreateTrain();
 
 		/*!
+		@brief 線路の終着生成
+		*/
+		void CreateTarminal();
+
+		/*!
 		@brief スプライトの生成
 		*/
 		void CreateSpriteObject();

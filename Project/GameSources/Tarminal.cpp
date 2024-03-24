@@ -21,10 +21,10 @@ namespace basecross {
 
 		// コリジョンOBBの追加
 		m_ptrColl = AddComponent<CollisionObb>();
-		m_ptrColl->SetAfterCollision(AfterCollision::None);
+		m_ptrColl->SetFixed(true);
 
 		// タグの設定
-		AddTag(L"Rail");
+		AddTag(L"Tarminal");
 	}
 
 	void Tarminal::OnUpdate()
