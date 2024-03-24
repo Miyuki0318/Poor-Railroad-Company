@@ -36,23 +36,35 @@ namespace Utility
 #if BASECROSS
 
 	/*!
+	@brief シンプルな頂点データを作成
+	@param (vertices) 頂点データ
+	*/
+	void SimpleVertices(vector<basecross::VertexPositionColorTexture>& vertices, const Col4& color)
+	{
+		// 半分のサイズ
+		const float HALF_SIZE = 0.5f;
+
+		// 初期化
+		vertices.clear();
+
+		// 頂点データ
+		vertices = {
+			{ Vec3(-HALF_SIZE, HALF_SIZE, 0.0f), color, Vec2(0.0f, 0.0f)},
+			{ Vec3(HALF_SIZE, HALF_SIZE, 0.0f), color , Vec2(1.0f, 0.0f)},
+			{ Vec3(-HALF_SIZE, -HALF_SIZE, 0.0f), color, Vec2(0.0f, 1.0f)},
+			{ Vec3(HALF_SIZE, -HALF_SIZE, 0.0f), color, Vec2(1.0f, 1.0f)},
+		};
+	}
+
+	/*!
 	@brief シンプルな頂点データと頂点インデックスを作成
 	@param (vertices) 頂点データ
 	@param (indices) 頂点インデックス
 	*/
 	void SimpleVerticesIndices(vector<basecross::VertexPositionColorTexture>& vertices, vector<uint16_t>& indices)
 	{
-		// 半分のサイズとデフォルトの色
-		const float HALF_SIZE = 0.5f;
-		const Col4 DEFAULT_COLOR = Col4(1.0f);
-
-		// 頂点データ
-		vertices = {
-			{ Vec3(-HALF_SIZE, HALF_SIZE, 0.0f), DEFAULT_COLOR, Vec2(0.0f, 0.0f)},
-			{ Vec3(HALF_SIZE, HALF_SIZE, 0.0f), DEFAULT_COLOR , Vec2(1.0f, 0.0f)},
-			{ Vec3(-HALF_SIZE, -HALF_SIZE, 0.0f), DEFAULT_COLOR, Vec2(0.0f, 1.0f)},
-			{ Vec3(HALF_SIZE, -HALF_SIZE, 0.0f), DEFAULT_COLOR, Vec2(1.0f, 1.0f)},
-		};
+		// シンプルな頂点データの作成
+		SimpleVertices(vertices);
 
 		// 頂点の並び順
 		indices = {
@@ -68,17 +80,8 @@ namespace Utility
 	*/
 	void SimpleVerticesIndices(basecross::VertexData& vertex)
 	{
-		// 半分のサイズとデフォルトの色
-		const float HALF_SIZE = 0.5f;
-		const Col4 DEFAULT_COLOR = Col4(1.0f);
-
-		// 頂点データ
-		vertex.vertices = {
-			{ Vec3(-HALF_SIZE, HALF_SIZE, 0.0f), DEFAULT_COLOR, Vec2(0.0f, 0.0f)},
-			{ Vec3(HALF_SIZE, HALF_SIZE, 0.0f), DEFAULT_COLOR , Vec2(1.0f, 0.0f)},
-			{ Vec3(-HALF_SIZE, -HALF_SIZE, 0.0f), DEFAULT_COLOR, Vec2(0.0f, 1.0f)},
-			{ Vec3(HALF_SIZE, -HALF_SIZE, 0.0f), DEFAULT_COLOR, Vec2(1.0f, 1.0f)},
-		};
+		// シンプルな頂点データの作成
+		SimpleVertices(vertex.vertices);
 
 		// 頂点の並び順
 		vertex.indices = {
@@ -95,17 +98,8 @@ namespace Utility
 	*/
 	void SimpleVerticesIndices(vector<basecross::VertexPositionColorTexture>& vertices, vector<uint16_t>& indices, const Col4& color)
 	{
-		// 半分のサイズとデフォルトの色
-		const float HELF_SIZE = 0.5f;
-		const Col4 DEFAULT_COLOR = color;
-
-		// 頂点データ
-		vertices = {
-			{ Vec3(-HELF_SIZE, HELF_SIZE, 0), DEFAULT_COLOR, Vec2(0.0f, 0.0f)},
-			{ Vec3(HELF_SIZE, HELF_SIZE, 0), DEFAULT_COLOR , Vec2(1.0f, 0.0f)},
-			{ Vec3(-HELF_SIZE, -HELF_SIZE, 0), DEFAULT_COLOR, Vec2(0.0f, 1.0f)},
-			{ Vec3(HELF_SIZE, -HELF_SIZE, 0), DEFAULT_COLOR, Vec2(1.0f, 1.0f)},
-		};
+		// シンプルな頂点データの作成
+		SimpleVertices(vertices, color);
 
 		// 頂点の並び順
 		indices = {
@@ -121,17 +115,8 @@ namespace Utility
 	*/
 	void SimpleVerticesIndices(basecross::VertexData& vertex, const Col4& color)
 	{
-		// 半分のサイズとデフォルトの色
-		const float HALF_SIZE = 0.5f;
-		const Col4 DEFAULT_COLOR = color;
-
-		// 頂点データ
-		vertex.vertices = {
-			{ Vec3(-HALF_SIZE, HALF_SIZE, 0.0f), DEFAULT_COLOR, Vec2(0.0f, 0.0f)},
-			{ Vec3(HALF_SIZE, HALF_SIZE, 0.0f), DEFAULT_COLOR , Vec2(1.0f, 0.0f)},
-			{ Vec3(-HALF_SIZE, -HALF_SIZE, 0.0f), DEFAULT_COLOR, Vec2(0.0f, 1.0f)},
-			{ Vec3(HALF_SIZE, -HALF_SIZE, 0.0f), DEFAULT_COLOR, Vec2(1.0f, 1.0f)},
-		};
+		// シンプルな頂点データの作成
+		SimpleVertices(vertex.vertices, color);
 
 		// 頂点の並び順
 		vertex.indices = {

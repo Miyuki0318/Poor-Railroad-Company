@@ -86,6 +86,20 @@ private:
 		return wstr;
 	}
 
+
+	/*!
+	@brief 値をwstringstream型に変換し返す関数
+	@param template型の変換する値四つ
+	@return wstringstream型に変換された値
+	*/
+	template <class T, class U, class V, class W>
+	static wstringstream SetWss(const T& str1, const U& str2, const V& str3, const W& str4)
+	{
+		wstringstream wstr;
+		wstr << Debug::GetWss(str1) << Debug::GetWss(str2) << Debug::GetWss(str3) << Debug::GetWss(str4);
+		return wstr;
+	}
+
 public:
 
 	/*!
@@ -124,6 +138,20 @@ public:
 	static void Log(const T& param1, const U& param2, const V& param3)
 	{
 		wstringstream wss = Debug::SetWss(param1, param2, param3);
+		wss << std::endl;
+		auto scene = basecross::App::GetApp()->GetScene<basecross::Scene>();
+		auto dstr = scene->GetDebugString();
+		scene->SetDebugString(dstr + wss.str());
+	}
+
+	/*!
+	@brief 値をwstringstream型に変換し、左上に文字列を表示する
+	@param template型の変換する値四つ
+	*/
+	template <class T, class U, class V, class W>
+	static void Log(const T& param1, const U& param2, const V& param3, const W& param4)
+	{
+		wstringstream wss = Debug::SetWss(param1, param2, param3, param4);
 		wss << std::endl;
 		auto scene = basecross::App::GetApp()->GetScene<basecross::Scene>();
 		auto dstr = scene->GetDebugString();

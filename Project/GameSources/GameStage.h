@@ -17,6 +17,11 @@ namespace basecross
 		shared_ptr<Sprite> m_gameOverLogo;
 
 		/*!
+		@brief リソースの読込
+		*/
+		void CreateResourses();
+
+		/*!
 		@brief ビューとライトの生成
 		*/
 		void CreateViewLight();
@@ -32,9 +37,20 @@ namespace basecross
 		void CreatePlayer();
 
 		/*!
-		@brief リソースの読込
+		@brief 線路生成
 		*/
-		void CreateResourses();
+		void CreateRail();
+		void CreateRails();
+
+		/*!
+		@brief 列車生成
+		*/
+		void CreateTrain();
+
+		/*!
+		@brief 線路の終着生成
+		*/
+		void CreateTarminal();
 
 		/*!
 		@brief スプライトの生成
@@ -55,6 +71,8 @@ namespace basecross
 
 		//初期化
 		virtual void OnCreate() override;
+
+		virtual void OnDraw() override;
 	};
 
 

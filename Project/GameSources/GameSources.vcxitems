@@ -18,6 +18,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BillboardNumber.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BitFlag.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Bool_t.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftingIcon.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftingQTE.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftItemIcon.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftWindow.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CSVLoader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DebugLog.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DrawObject.h" />
@@ -29,15 +34,24 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OzawaUtility.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Project.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Rail.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SelectIndicator.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Tarminal.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TemplateObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Timer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Train.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)Billboard.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BillboardNumber.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftingIcon.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftingQTE.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftItemIcon.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftWindow.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CSVLoader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DebugLog.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp" />
@@ -45,10 +59,14 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Number.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OzawaUtility.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Rail.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SelectIndicator.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Tarminal.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TemplateObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Timer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Train.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp" />
   </ItemGroup>

@@ -406,10 +406,28 @@ namespace Utility
 #define RIGHT_VEC	Vec3(1.0f, 0.0f, 0.0f)
 
 	 /*!
-	 @brief シンプルな頂点データと頂点インデックスを作成
-	 @param (vertices) 頂点データ
-	 @param (indices) 頂点インデックス
+	 @brief 前方向Vec3
+	 @return Vec3(0.0f, 0.0f, -1.0f)
 	 */
+#define FRONT_VEC	Vec3(0.0f, 0.0f, -1.0f)
+
+	 /*!
+	 @brief 後方向Vec3
+	 @return Vec3(0.0f, 0.0f, 1.0f)
+	 */
+#define BACK_VEC	Vec3(0.0f, 0.0f, 1.0f)
+
+	/*!
+	@brief シンプルな頂点データを作成
+	@param (vertices) 頂点データ
+	*/
+	void SimpleVertices(vector<basecross::VertexPositionColorTexture>& vertices, const Col4& color = COL_WHITE);
+
+	/*!
+	@brief シンプルな頂点データと頂点インデックスを作成
+	@param (vertices) 頂点データ
+	@param (indices) 頂点インデックス
+	*/
 	void SimpleVerticesIndices(vector<basecross::VertexPositionColorTexture>& vertices, vector<uint16_t>& indices);
 
 	/*!

@@ -58,8 +58,35 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Input.h">
       <Filter>OzawaFuncs</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SelectIndicator.h">
+      <Filter>Player\SelectIndicator</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Rail.h">
+      <Filter>StageObject\Rail</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Train.h">
+      <Filter>StageObject\Train</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftManager.h">
+      <Filter>Player\Craft</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftingIcon.h">
+      <Filter>Player\Craft\CraftingIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftItemIcon.h">
+      <Filter>Player\Craft\CraftItemIcon</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftWindow.h">
+      <Filter>Player\Craft\CraftWindow</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftingQTE.h">
+      <Filter>Player\Craft\CraftingQTE</Filter>
+    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h">
       <Filter>TitleStage</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Tarminal.h">
+      <Filter>StageObject\Tarminal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -105,8 +132,35 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp">
       <Filter>StageObject\Ground</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SelectIndicator.cpp">
+      <Filter>Player\SelectIndicator</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Rail.cpp">
+      <Filter>StageObject\Rail</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Train.cpp">
+      <Filter>StageObject\Train</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftManager.cpp">
+      <Filter>Player\Craft</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftingIcon.cpp">
+      <Filter>Player\Craft\CraftingIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftItemIcon.cpp">
+      <Filter>Player\Craft\CraftItemIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftWindow.cpp">
+      <Filter>Player\Craft\CraftWindow</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftingQTE.cpp">
+      <Filter>Player\Craft\CraftingQTE</Filter>
+    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp">
       <Filter>TitleStage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Tarminal.cpp">
+      <Filter>StageObject\Tarminal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -158,8 +212,35 @@
     <Filter Include="StageObject\Ground">
       <UniqueIdentifier>{ab7af347-7f4d-4c24-9333-d0c2e7f05321}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Player\SelectIndicator">
+      <UniqueIdentifier>{5f4ee246-7983-4dd3-a4a3-971d6203b9a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Rail">
+      <UniqueIdentifier>{0f8bc38d-d9cc-492e-a658-39939d7761d2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Train">
+      <UniqueIdentifier>{3a27608b-f436-4aec-90bc-c0b6421bf41e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Craft">
+      <UniqueIdentifier>{eea4401e-a506-4257-af28-d7b93e6a3204}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Craft\CraftingIcon">
+      <UniqueIdentifier>{77cbad18-3cb3-48c8-bafa-d76064ddcbab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Craft\CraftItemIcon">
+      <UniqueIdentifier>{14d3a9f5-fd76-4cbe-88bb-dd1cb3acbbf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Craft\CraftWindow">
+      <UniqueIdentifier>{e7f02516-575c-4118-bda2-19ef8539b878}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Craft\CraftingQTE">
+      <UniqueIdentifier>{f4a7f1b8-503b-48eb-b6ee-50c874a2a1d0}</UniqueIdentifier>
+    </Filter>
     <Filter Include="TitleStage">
       <UniqueIdentifier>{6c23563c-dd73-4b49-a99e-db3417271d14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Tarminal">
+      <UniqueIdentifier>{a3d9a28f-d5b1-4470-80ac-19d3da80f63d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

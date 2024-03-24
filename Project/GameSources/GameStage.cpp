@@ -8,6 +8,24 @@
 
 namespace basecross 
 {
+	// リソースの読み込み
+	void GameStage::CreateResourses()
+	{
+		// アプリケーションオブジェクトの取得
+		const auto& app = App::GetApp();
+
+		// ディレクトリパスの定義
+		wstring mediaPath = app->GetDataDirWString();
+		wstring texturePath = mediaPath + L"Textures/";
+
+		app->RegisterTexture(L"GAMECLEAR_TX", texturePath + L"Win.png");
+		app->RegisterTexture(L"GAMEOVER_TX", texturePath + L"Lose.png");
+
+
+		// クラフトウィンドウのテクスチャ
+		app->RegisterTexture(L"CWINDOW_TX", texturePath + L"CraftWindow.png");
+	}
+
 	//ビューとライトの生成
 	void GameStage::CreateViewLight()
 	{
@@ -42,17 +60,51 @@ namespace basecross
 		SetSharedGameObject(L"Player", player);
 	}
 
-	void GameStage::CreateResourses()
+	// 線路の生成
+	void GameStage::CreateRail()
 	{
-		const auto& app = App::GetApp();
+		// 線路オブジェクトの追加
+		const auto& rail = AddGameObject<Rail>();
 
-		wstring mediaPath = app->GetDataDirWString();
-		wstring texturePath = mediaPath + L"Textures/";
+		// シェアオブジェクトに登録
+		SetSharedGameObject(L"Rail", rail);
+	}
+	void GameStage::CreateRails()
+	{
+		// シェアオブジェクトグループ
+		const auto& railGroup = GetSharedObjectGroup(L"Rails");
 
-		app->RegisterTexture(L"GAMECLEAR_TX", texturePath + L"Win.png");
-		app->RegisterTexture(L"GAMEOVER_TX", texturePath + L"Lose.png");
+		for (int i = 0; i < 5; i++)
+		{
+			// 線路オブジェクトの追加
+			const auto& rail = AddGameObject<Rail>(Vec3((float)-i, 1.0f, 0.0f));
+			// シェアオブジェクトに登録
+			SetSharedGameObject(L"Rails" + i, rail);
+			railGroup->IntoGroup(rail);
+		}
+
 	}
 
+	// 列車の生成
+	void GameStage::CreateTrain()
+	{
+		// 列車オブジェクトの追加
+		const auto& train = AddGameObject<Train>();
+
+		// シェアオブジェクトに登録
+		SetSharedGameObject(L"Train", train);
+	}
+
+	void GameStage::CreateTarminal()
+	{
+		// 列車オブジェクトの追加
+		const auto& tarminal = AddGameObject<Tarminal>(Vec3(10.0f, 1.0f, 0.0f));
+
+		// シェアオブジェクトに登録
+		SetSharedGameObject(L"Tarminal", tarminal);
+	}
+
+	// スプライトの生成
 	void GameStage::CreateSpriteObject()
 	{
 		m_gameClearLogo = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(100.0f), Vec3(0.0f));
@@ -69,10 +121,16 @@ namespace basecross
 		// 電車が駅にいったらGameClearLogoを表示する
 	}
 
+	// 生成時の処理
 	void GameStage::OnCreate() 
 	{
 		try 
 		{
+			// オブジェクトグループを生成
+			CreateSharedObjectGroup(L"Mining"); // 採掘可能オブジェクト
+			CreateSharedObjectGroup(L"Rails");  // レールオブジェクト
+
+			// リソースの読み込み
 			CreateResourses();
 
 			//ビューとライトの作成
@@ -84,11 +142,35 @@ namespace basecross
 			// プレイヤーの生成
 			CreatePlayer();
 
+			// 線路の生成
+			CreateRails();
+
+			// 列車の生成
+			CreateTrain();
+
+			CreateTarminal();
+
+			// スプライトの生成
 			CreateSpriteObject();
 		}
 		catch (...) 
 		{
 			throw;
 		}
+	}
+
+	// 描画処理
+	void GameStage::OnDraw()
+	{
+		// デバッグ文字列を強制的に空にする
+		App::GetApp()->GetScene<Scene>()->SetDebugString(L"");
+
+		// 継承元の描画時の関数を実行する
+		Stage::OnDraw();
+
+		// デバック用文字列の表示非表示切り替え
+		const auto& debugStr = GetSharedObject(L"DebugString");
+		debugStr->SetDrawLayer(10);
+		debugStr->SetDrawActive(true);
 	}
 }
