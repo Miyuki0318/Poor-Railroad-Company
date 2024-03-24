@@ -152,8 +152,24 @@ namespace basecross
 
 			// スプライトの生成
 			CreateSpriteObject();
+
+			// タイマーオブジェクトの生成
+			m_timer = AddGameObject<Timer>();
 		}
 		catch (...) 
+		{
+			throw;
+		}
+	}
+
+	// 毎フレーム更新処理
+	void GameStage::OnUpdate()
+	{
+		try
+		{
+
+		}
+		catch (...)
 		{
 			throw;
 		}

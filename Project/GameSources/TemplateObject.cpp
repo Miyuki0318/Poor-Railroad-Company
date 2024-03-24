@@ -34,9 +34,10 @@ namespace basecross
 	{
 		//// 所属ステージからタイマーを取得
 		//const auto& timer = GetTypeStage<BaseStage>()->GetTimer();
+		const auto& timer = GetTypeStage<GameStage>()->GetTimer();
 
-		//// タイマーを設定
-		//return timer->SetTimer(ThisPtr, time, reset);
+		// タイマーを設定
+		return timer->SetTimer(ThisPtr, time, reset);
 	}
 
 	// タイマーの経過時間取得
@@ -44,8 +45,9 @@ namespace basecross
 	{
 		//// 所属ステージからタイマーを取得
 		//const auto& timer = GetTypeStage<BaseStage>()->GetTimer();
+		const auto& timer = GetTypeStage<GameStage>()->GetTimer();
 
-		//// タイマーの経過時間を取得
-		//return timer->GetTime(ThisPtr, time);
+		// タイマーの経過時間を取得
+		return timer->GetTime(ThisPtr, time);
 	}
 }
