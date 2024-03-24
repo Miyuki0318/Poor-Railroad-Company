@@ -67,7 +67,10 @@ namespace basecross
 		/*!
 		@brief デストラクタ
 		*/
-		virtual ~Player() {}
+		virtual ~Player() 
+		{
+			m_craft.reset();
+		}
 
 		/*!
 		@brief 生成時に一度だけ呼び出される関数
