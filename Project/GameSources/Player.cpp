@@ -48,16 +48,8 @@ namespace basecross
 		// 採掘中なら
 		if (m_status(ePlayerStatus::IsMining))
 		{
-			// 採掘時のアニメーション更新
-			// UpdateAnimation(ePlayerStatus::IsMining);
-
-			// 採掘中の待機時間
-			// 本来ならアニメーション終了時間で状態遷移させるが
-			// 現状はタイマーで待機時間を再現する
-			if (SetTimer(0.5f))
-			{
-				m_status.Set(ePlayerStatus::IsMining) = false;
-			}
+			// 採掘中の更新
+			UpdateMining();
 		}
 
 		// 採掘中じゃなければ
@@ -89,9 +81,7 @@ namespace basecross
 		}
 
 		// アイテム状態の更新
-		m_status.Set(ePlayerStatus::IsHaveRail) = GetItemCount(eItemType::Rail);
-		m_status.Set(ePlayerStatus::IsHaveWood) = GetItemCount(eItemType::Wood);
-		m_status.Set(ePlayerStatus::IsHaveStone) = GetItemCount(eItemType::Stone);
+		UpdateItemStatus();
 
 		// デバック用文字列
 		Debug::Log(L"プレイヤーの座標 : ", GetPosition());
@@ -132,7 +122,6 @@ namespace basecross
 			{
 				OnRailed(railPos);
 			}
-			return;
 		}
 	}
 
@@ -172,6 +161,21 @@ namespace basecross
 		AddItemCount(eItemType::Rail, -1);
 	}
 	
+	// 採掘中の更新
+	void Player::UpdateMining()
+	{
+		// 採掘時のアニメーション更新
+		// UpdateAnimation(ePlayerStatus::IsMining);
+
+		// 採掘中の待機時間
+		// 本来ならアニメーション終了時間で状態遷移させるが
+		// 現状はタイマーで待機時間を再現する
+		if (SetTimer(0.5f))
+		{
+			m_status.Set(ePlayerStatus::IsMining) = false;
+		}
+	}
+
 	// 移動更新
 	void Player::UpdateMove()
 	{
@@ -189,6 +193,15 @@ namespace basecross
 		// 移動状態を設定
 		m_status.Set(ePlayerStatus::IsMove) = isMoving;
 		m_status.Set(ePlayerStatus::IsIdle) = !isMoving;
+	}
+
+	// アイテム状態の更新
+	void Player::UpdateItemStatus()
+	{
+		// アイテム状態の更新(今後アイテムの追加があれば適宜追加)
+		m_status.Set(ePlayerStatus::IsHaveRail) = GetItemCount(eItemType::Rail);
+		m_status.Set(ePlayerStatus::IsHaveWood) = GetItemCount(eItemType::Wood);
+		m_status.Set(ePlayerStatus::IsHaveStone) = GetItemCount(eItemType::Stone);
 	}
 
 	// コントローラーによる回転

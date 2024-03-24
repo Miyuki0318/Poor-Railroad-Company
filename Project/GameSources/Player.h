@@ -97,18 +97,30 @@ namespace basecross
 
 		/*!
 		@brief 採掘時に呼び出される関数
+		@param 採掘されるオブジェクトのポインタ
 		*/
 		void OnMining(const shared_ptr<TemplateObject>& miningObj);
 
 		/*!
 		@brief レール設置時に呼び出される関数
+		@param レールを設置する座標
 		*/
 		void OnRailed(const Vec3& railPosition);
+
+		/*!
+		@brief 採掘中の更新関数
+		*/
+		void UpdateMining();
 
 		/*!
 		@brief 移動更新関数
 		*/
 		void UpdateMove();
+
+		/*!
+		@brief アイテム状態の更新関数
+		*/
+		void UpdateItemStatus();
 
 		/*!
 		@brief コントローラー回転関数
