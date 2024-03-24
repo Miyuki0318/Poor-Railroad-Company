@@ -82,5 +82,14 @@ namespace basecross
 		@param eWindowRect
 		*/
 		void SetWindowRect(eWindowRect rect);
+
+		/*!
+		@brief ウィンドウ描画が完了したかの真偽取得関数
+		@return 完了してたらtrue、それ以外はfalse
+		*/
+		bool GetShowWindow() const
+		{
+			return m_enable(eWindowEnable::IsEnable, eWindowEnable::IsPastEnable);
+		}
 	};
 }

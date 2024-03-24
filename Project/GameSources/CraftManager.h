@@ -28,7 +28,7 @@ namespace basecross
 	};
 
 	/*!
-	@brief クラフト管理クラス
+	@brief クラフト管理クラス(プレイヤーとクラフト関連クラスの仲介クラス)
 	*/
 	class CraftManager
 	{
@@ -55,15 +55,24 @@ namespace basecross
 
 		/*!
 		@brief アイテムクラフト関数
+		@param プレイヤーのポインタ
 		*/
 		void Crafting(const shared_ptr<TemplateObject>& tempPtr);
 
 		/*!
 		@brief クラフト有効化関数
+		@param 有効にするかの真偽
 		*/
 		void CraftingEnabled(bool enable);
 
-
+		/*!
+		@brief ウィンドウ描画が完了したかの真偽取得関数
+		@return 描画完了してたらtrue、それ以外はfalse
+		*/
+		bool GetShowCraftWindow() const
+		{
+			return m_window.lock()->GetShowWindow();
+		}
 
 	private:
 

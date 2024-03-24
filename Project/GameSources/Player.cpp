@@ -115,8 +115,12 @@ namespace basecross
 	// クラフト呼び出し
 	void Player::OnCraft()
 	{
-		// クラフトのみ送っているが、α版でQTEに移行させる
-		m_craft->Crafting(GetThis<Player>());
+		// クラフトウィンドウが表示完了しているか
+		if (m_craft->GetShowCraftWindow())
+		{
+			// クラフトのみ送っているが、α版でQTEに移行させる
+			m_craft->Crafting(GetThis<Player>());
+		}
 	}
 
 	// 採掘呼び出し
