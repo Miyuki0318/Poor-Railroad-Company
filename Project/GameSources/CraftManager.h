@@ -71,6 +71,7 @@ namespace basecross
 		@brief クラフト要求素材数取得関数
 		@param クラフトアイテム
 		@param 素材タイプ
+		@return 素材要求数
 		*/
 		int GetRacipeValue(eCraftItem item, eCraftParam param)
 		{
