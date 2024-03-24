@@ -95,6 +95,15 @@ namespace basecross
 		SetSharedGameObject(L"Train", train);
 	}
 
+	void GameStage::CreateTarminal()
+	{
+		// 列車オブジェクトの追加
+		const auto& tarminal = AddGameObject<Tarminal>(Vec3(10.0f, 1.0f, 0.0f));
+
+		// シェアオブジェクトに登録
+		SetSharedGameObject(L"Tarminal", tarminal);
+	}
+
 	// スプライトの生成
 	void GameStage::CreateSpriteObject()
 	{
