@@ -105,18 +105,5 @@ namespace basecross
 		{
 			return m_timer.lock();
 		}
-
-		/*!
-		@brief タイマークラス取得関数
-		@return const shared_ptr<Timer>
-		*/
-		const shared_ptr<Timer> GetTimer() const
-		{
-			return m_timer.lock();
-		}
 	};
-
-
 }
-//end basecross
-

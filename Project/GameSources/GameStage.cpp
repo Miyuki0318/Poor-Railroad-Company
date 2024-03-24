@@ -178,8 +178,15 @@ namespace basecross
 	// 描画処理
 	void GameStage::OnDraw()
 	{
+		// アプリケーションオブジェクトの取得
+		const auto& app = App::GetApp();
+
 		// デバッグ文字列を強制的に空にする
-		App::GetApp()->GetScene<Scene>()->SetDebugString(L"");
+		app->GetScene<Scene>()->SetDebugString(L"");
+		
+		// FPSの描画
+		const auto& fps = app->GetStepTimer().GetFramesPerSecond();
+		Debug::Log(L"FPS : ", fps);
 
 		// 継承元の描画時の関数を実行する
 		Stage::OnDraw();
