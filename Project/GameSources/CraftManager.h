@@ -14,13 +14,13 @@
 namespace basecross
 {
 	// クラフトアイテムenum
-	enum class eCraftItem
+	enum class eCraftItem : size_t
 	{
 		Rail, // レール
 	};
 
 	// クラフトCSVパラメータ
-	enum class eCraftParam
+	enum class eCraftParam : size_t
 	{
 		ItemType,	// 作るアイテムタイプ
 		StoneValue,	// 石の要求数
@@ -48,6 +48,9 @@ namespace basecross
 		{
 		}
 
+		/*!
+		@brief デストラクタ
+		*/
 		~CraftManager() {}
 
 		/*!
@@ -71,8 +74,7 @@ namespace basecross
 		*/
 		int GetRacipeValue(eCraftItem item, eCraftParam param)
 		{
-			return stoi(m_racipe.at(static_cast<int>(item)).at(static_cast<int>(param)));
+			return stoi(m_racipe.at(static_cast<size_t>(item)).at(static_cast<size_t>(param)));
 		}
-
 	};
 }
