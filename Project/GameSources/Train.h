@@ -20,8 +20,8 @@ namespace basecross {
 		};
 
 		// ステート変数
-		State m_state = State::Derail;
-		State m_beforeState = State::Derail;
+		State m_state = State::Onrail;
+		State m_beforeState = State::Onrail;
 
 		const float m_MoveSpeed;
 
