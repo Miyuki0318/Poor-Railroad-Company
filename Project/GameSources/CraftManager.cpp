@@ -30,7 +30,7 @@ namespace basecross
 		// 素材消費とクラフト
 		playerPtr->AddItemCount(eItemType::Wood, -woodValue);
 		playerPtr->AddItemCount(eItemType::Stone, -stoneValue);
-		playerPtr->AddItemCount(eItemType::Rail, 1);
+		playerPtr->AddItemCount(eItemType::Rail, GetRacipeValue(eCraftItem::Rail, eCraftParam::SuccesValue));
 	}
 
 	// クラフトウィンドウの呼び出し

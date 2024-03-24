@@ -22,9 +22,11 @@ namespace basecross
 	// クラフトCSVパラメータ
 	enum class eCraftParam : size_t
 	{
-		ItemType,	// 作るアイテムタイプ
-		StoneValue,	// 石の要求数
-		WoodValue,	// 木の要求数
+		ItemType,	 // 作るアイテムタイプ
+		StoneValue,	 // 石の要求数
+		WoodValue,	 // 木の要求数
+		SuccesValue, // QTE成功時の作成量
+		FailedValue, // QTE失敗時の作成量
 	};
 
 	/*!
