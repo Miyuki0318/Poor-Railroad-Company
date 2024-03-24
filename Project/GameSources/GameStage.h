@@ -13,7 +13,8 @@ namespace basecross
 	*/
 	class GameStage : public Stage
 	{
-		shared_ptr<Sprite> m_gameLogo;
+		shared_ptr<Sprite> m_gameClearLogo;
+		shared_ptr<Sprite> m_gameOverLogo;
 
 		/*!
 		@brief ビューとライトの生成
@@ -39,6 +40,12 @@ namespace basecross
 		@brief スプライトの生成
 		*/
 		void CreateSpriteObject();
+
+		/*!
+		@brief スプライトの生成
+		*/
+		void LogoActive();
+
 	public:
 
 		//構築と破棄
