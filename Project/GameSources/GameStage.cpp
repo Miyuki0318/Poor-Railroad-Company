@@ -107,7 +107,18 @@ namespace basecross
 	// スプライトの生成
 	void GameStage::CreateSpriteObject()
 	{
-		m_gameLogo = AddGameObject<Sprite>(L"GAMEOVER_TX", Vec2(100.0f), Vec3(0.0f));
+		m_gameClearLogo = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(100.0f), Vec3(0.0f));
+		m_gameOverLogo = AddGameObject<Sprite>(L"GAMEOVER_TX", Vec2(100.0f), Vec3(0.0f));
+
+		m_gameClearLogo->SetDrawActive(false);
+		m_gameOverLogo->SetDrawActive(false);
+	}
+
+	void GameStage::LogoActive()
+	{
+		// 電車の状態を取得する
+		// 電車が壊れたらGameOverLogoを表示し、
+		// 電車が駅にいったらGameClearLogoを表示する
 	}
 
 	// 生成時の処理
