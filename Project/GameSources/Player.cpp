@@ -45,25 +45,48 @@ namespace basecross
 	// 毎フレーム更新処理
 	void Player::OnUpdate()
 	{
-		// Aボタンが入力されたら
-		if (GetPushA())
+		// 採掘中なら
+		if (m_status(ePlayerStatus::IsMining))
 		{
-			// Aボタン入力時の処理をクラフト状態で分岐させる
-			m_status(ePlayerStatus::IsCrafting) ? OnCraft() : OnPushA();
+			// 採掘時のアニメーション更新
+			// UpdateAnimation(ePlayerStatus::IsMining);
+
+			// 採掘中の待機時間
+			// 本来ならアニメーション終了時間で状態遷移させるが
+			// 現状はタイマーで待機時間を再現する
+			if (SetTimer(0.5f))
+			{
+				m_status.Set(ePlayerStatus::IsMining) = false;
+			}
 		}
 
-		// Xボタンが入力されたら
-		if (GetPushX())
+		// 採掘中じゃなければ
+		if (!m_status(ePlayerStatus::IsMining))
 		{
-			// クラフト状態を切り替える
-			m_status.Set(ePlayerStatus::IsCrafting) = !m_status(ePlayerStatus::IsCrafting);
+			// Aボタンが入力されたら
+			if (GetPushA())
+			{
+				// Aボタン入力時の処理をクラフト状態で分岐させる
+				m_status(ePlayerStatus::IsCrafting) ? OnCraft() : OnPushA();
+			}
 
-			// クラフトマネージャーにクラフト状態を送る
-			m_craft->CraftingEnabled(m_status(ePlayerStatus::IsCrafting));
+			// Xボタンが入力されたら
+			if (GetPushX())
+			{
+				// クラフト状態を切り替える
+				m_status.Set(ePlayerStatus::IsCrafting) = !m_status(ePlayerStatus::IsCrafting);
+
+				// クラフトマネージャーにクラフト状態を送る
+				m_craft->CraftingEnabled(m_status(ePlayerStatus::IsCrafting));
+			}
+
+			// クラフト中じゃなければ
+			if (!m_status(ePlayerStatus::IsCrafting))
+			{
+				// 移動更新
+				UpdateMove();
+			}
 		}
-
-		// 移動更新
-		UpdateMove();
 
 		// アイテム状態の更新
 		m_status.Set(ePlayerStatus::IsHaveRail) = GetItemCount(eItemType::Rail);
@@ -73,6 +96,7 @@ namespace basecross
 		// デバック用文字列
 		Debug::Log(L"プレイヤーの座標 : ", GetPosition());
 		Debug::Log(L"移動中か : ", m_status(ePlayerStatus::IsMove));
+		Debug::Log(L"採掘中か : ", m_status(ePlayerStatus::IsMining));
 		Debug::Log(L"クラフト中か : ", m_status(ePlayerStatus::IsCrafting));
 		Debug::Log(L"木の所持状態は", m_status(ePlayerStatus::IsHaveWood) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Wood), L"個");
 		Debug::Log(L"石の所持状態は", m_status(ePlayerStatus::IsHaveStone) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Stone), L"個");
@@ -115,7 +139,7 @@ namespace basecross
 	// クラフト呼び出し
 	void Player::OnCraft()
 	{
-		// クラフトウィンドウが表示完了しているか
+		// クラフト
 		if (m_craft->GetShowCraftWindow())
 		{
 			// クラフトのみ送っているが、α版でQTEに移行させる
@@ -129,6 +153,9 @@ namespace basecross
 		// 採掘可能オブジェクトに型キャストして
 		// 採掘呼び出し関数を送り
 		// タグに応じてアイテムカウンタを増加
+
+		// 採掘状態にする
+		m_status.Set(ePlayerStatus::IsMining) = true;
 	}
 
 	// レールの設置呼び出し
@@ -149,7 +176,7 @@ namespace basecross
 	void Player::UpdateMove()
 	{
 		// LStickの入力があり、クラフト中じゃなければ
-		bool isMoving = IsInputLStick() && !m_status(ePlayerStatus::IsCrafting);
+		bool isMoving = IsInputLStick();
 		if (isMoving)
 		{
 			// LStick入力量の取得

@@ -18,6 +18,7 @@ namespace basecross
 	{
 		IsIdle,		// 待機状態
 		IsMove,		// 移動状態
+		IsMining,	// 採掘状態
 		IsHaveWood,	// 木を所持中
 		IsHaveStone,// 石を所持中
 		IsCrafting,	// クラフト中
