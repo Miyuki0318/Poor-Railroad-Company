@@ -9,12 +9,26 @@
 namespace basecross 
 {
 	/*!
+	@brief ゲームの進行状況
+	*/
+	enum eGameProgress
+	{
+		Playing,
+		GameClear,
+		GameOver
+	};
+
+	/*!
 	@brief ゲーム中のステージ
 	*/
 	class GameStage : public Stage
 	{
+		// ゲームクリア・ゲームオーバーのスプライト
 		shared_ptr<Sprite> m_gameClearLogo;
 		shared_ptr<Sprite> m_gameOverLogo;
+
+		// ゲームの状況
+		eGameProgress m_gameProgress;
 
 		// タイマーオブジェクト
 		weak_ptr<Timer> m_timer;
@@ -70,7 +84,9 @@ namespace basecross
 		/*!
 		@brief コンストラクタ
 		*/
-		GameStage() :Stage() {}
+		GameStage() :Stage() {
+			m_gameProgress = eGameProgress::Playing;
+		}
 
 		/*!
 		@brief デストラクタ
@@ -104,6 +120,22 @@ namespace basecross
 		const shared_ptr<Timer> GetTimer() const
 		{
 			return m_timer.lock();
+		}
+
+		/*!
+		@brief ゲームの進行状態をゲットする関数
+		*/
+		eGameProgress GetGameProgress()
+		{
+			return m_gameProgress;
+		}
+
+		/*!
+		@brief ゲームの進行状態をセットする関数
+		*/
+		void SetGameProgress(eGameProgress progress)
+		{
+			m_gameProgress = progress;
 		}
 	};
 }

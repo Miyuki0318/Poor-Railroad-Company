@@ -6,7 +6,7 @@
 #include "stdafx.h"
 #include "Project.h"
 
-namespace basecross 
+namespace basecross
 {
 	// リソースの読み込み
 	void GameStage::CreateResourses()
@@ -109,16 +109,27 @@ namespace basecross
 	{
 		m_gameClearLogo = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(100.0f), Vec3(0.0f));
 		m_gameOverLogo = AddGameObject<Sprite>(L"GAMEOVER_TX", Vec2(100.0f), Vec3(0.0f));
-
-		m_gameClearLogo->SetDrawActive(false);
-		m_gameOverLogo->SetDrawActive(false);
 	}
 
 	void GameStage::LogoActive()
 	{
-		// 電車の状態を取得する
-		// 電車が壊れたらGameOverLogoを表示し、
-		// 電車が駅にいったらGameClearLogoを表示する
+		switch (m_gameProgress)
+		{
+		case eGameProgress::Playing :
+			m_gameClearLogo->SetDrawActive(false);
+			m_gameOverLogo->SetDrawActive(false);
+			break;
+
+		case eGameProgress::GameClear:
+			m_gameClearLogo->SetDrawActive(true);
+			m_gameOverLogo->SetDrawActive(false);
+			break;
+
+		case eGameProgress::GameOver:
+			m_gameClearLogo->SetDrawActive(false);
+			m_gameOverLogo->SetDrawActive(true);
+			break;
+		}
 	}
 
 	// 生成時の処理
@@ -167,7 +178,7 @@ namespace basecross
 	{
 		try
 		{
-
+			LogoActive();
 		}
 		catch (...)
 		{
