@@ -82,6 +82,7 @@ namespace basecross
 	{
 		// 自身の座標を取得
 		Vec3 indiPos = GetPosition();
+		indiPos.y = 1.5f;
 
 		// 採掘可能オブジェクト配列の取得
 		const auto& miningVec = GetStage()->GetSharedObjectGroup(L"MiningObject")->GetGroupVector();
