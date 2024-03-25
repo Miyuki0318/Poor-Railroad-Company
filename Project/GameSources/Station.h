@@ -12,8 +12,6 @@ namespace basecross {
 	protected:
 		// 生成座標
 		const Vec3 m_spawnPos;
-		// 自分自身のトランスフォームコンポーネント
-		shared_ptr<Transform> m_transform;
 		// 開始時だけ処理させたい関数用のbool
 		bool m_setFlg;
 		// トランスフォームとモデルの差分行列
@@ -27,15 +25,13 @@ namespace basecross {
 			TemplateObject(stagePtr), // ステージのポインタ
 			m_spawnPos(position) // 初期座標
 		{
-			// 変数の初期化
-						// トランスフォームとモデルの差分行列を代入
+			// トランスフォームとモデルの差分行列を代入
 			m_modelMat.affineTransformation(
 				Vec3(1.0f, 1.0f, 1.0f),
 				Vec3(0.0f),
 				Vec3(0.0f),
 				Vec3(0.0f)
 			);
-
 		}
 
 		/*!

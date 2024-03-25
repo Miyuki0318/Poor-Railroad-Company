@@ -14,8 +14,6 @@ namespace basecross {
 		const Vec3 m_spawnPos;
 		// 採掘した回数
 		int m_miningCount;
-		// 自分自身のトランスフォームコンポーネント
-		shared_ptr<Transform> m_transform;
 		// 開始時だけ処理させたい関数用のbool
 		bool m_setFlg;
 
@@ -92,7 +90,6 @@ namespace basecross {
 		void OnReset() override;
 
 	};
-
 
 
 

@@ -12,10 +12,10 @@
 namespace basecross {
 	void Station::OnCreate() {
 		//初期位置などの設定
-		m_transform = GetComponent<Transform>();
-		m_transform->SetScale(Vec3(1.0f));
-		m_transform->SetRotation(Vec3(0.0f));
-		m_transform->SetPosition(m_spawnPos);
+		TemplateObject::OnCreate();
+		SetScale(Vec3(1.0f));
+		SetRotation(Vec3(0.0f));
+		SetPosition(m_spawnPos);
 
 		//CollisionObb衝突判定を付ける
 		auto ptrColl = AddComponent<CollisionObb>();
@@ -48,7 +48,5 @@ namespace basecross {
 			// フラグをfalseに変更
 			m_setFlg = false;
 		}
-
-
 	}
 }
