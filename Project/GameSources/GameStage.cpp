@@ -63,18 +63,16 @@ namespace basecross
 	// 採掘物の生成
 	void GameStage::CreateStageObject()
 	{
-		// Treeの追加
-		shared_ptr<Tree> treeObj;
-		shared_ptr<Rock> rockObj;
-		for (int i = 0; i < 10; i++) {
-			treeObj = AddGameObject<Tree>(Vec3(1.0f * i, 1.5f, 1.0f), 2);
-			rockObj = AddGameObject<Rock>(Vec3(1.0f * i, 1.5f, 4.0f), 2);
-		}
-
-		// シェアドオブジェクトグループに登録
+		// シェアドオブジェクトグループを取得
 		const auto& group = GetSharedObjectGroup(L"MiningObject");
-		group->IntoGroup(treeObj);
-		group->IntoGroup(rockObj);
+
+		for (int i = 0; i < 10; i++) {
+			const auto& treeObj = AddGameObject<Tree>(Vec3(1.0f * i, 1.5f, 1.0f), 2);
+			const auto& rockObj = AddGameObject<Rock>(Vec3(1.0f * i, 1.5f, 4.0f), 2);
+
+			group->IntoGroup(treeObj);
+			group->IntoGroup(rockObj);
+		}
 	}
 
 	// 線路の生成
