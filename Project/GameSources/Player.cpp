@@ -139,9 +139,22 @@ namespace basecross
 	// 採掘呼び出し
 	void Player::OnMining(const shared_ptr<TemplateObject>& miningObj)
 	{
-		// 採掘可能オブジェクトに型キャストして
-		// 採掘呼び出し関数を送り
-		// タグに応じてアイテムカウンタを増加
+		// 採掘可能オブジェクトに型キャスト
+		const auto& mining = dynamic_pointer_cast<MiningObject>(miningObj);
+		if (!mining) return;
+		
+		// 採掘オブジェクトに採掘処理を送る
+		mining->OnMining();
+
+		// タグに応じてアイテムを追加
+		if (mining->FindTag(L"Tree"))
+		{
+			AddItemCount(eItemType::Wood, 1);
+		}
+		if (mining->FindTag(L"Rock"))
+		{
+			AddItemCount(eItemType::Stone, 1);
+		}
 
 		// 採掘状態にする
 		m_status.Set(ePlayerStatus::IsMining) = true;
