@@ -61,6 +61,7 @@ namespace basecross {
 		if (m_miningCount == m_miningCountLimit) {
 			// 現状、破壊されるアニメーションがないので更新止めるだけ
 			SetUpdateActive(false);
+			SetDrawActive(false);
 		}
 	}
 
@@ -108,6 +109,7 @@ namespace basecross {
 		if (m_miningCount == m_miningCountLimit) {
 			// 現状、破壊されるアニメーションがないので更新止めるだけ
 			SetUpdateActive(false);
+			SetDrawActive(false);
 		}
 	}
 
