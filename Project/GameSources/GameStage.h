@@ -28,6 +28,12 @@ namespace basecross
 		*/
 		void CreatePlayer();
 
+		/*!
+		@brief 採掘系オブジェクトの生成生成
+		*/
+		void CreateStageObject();
+
+
 	public:
 
 		//構築と破棄

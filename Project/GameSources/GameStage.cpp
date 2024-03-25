@@ -42,10 +42,30 @@ namespace basecross
 		SetSharedGameObject(L"Player", player);
 	}
 
+	// 採掘物の生成
+	void GameStage::CreateStageObject()
+	{
+		// Treeの追加
+		shared_ptr<Tree> treeObj;
+		shared_ptr<Rock> rockObj;
+		for (int i = 0; i < 10; i++) {
+			treeObj = AddGameObject<Tree>(Vec3(1.0f * i, 1.5f, 1.0f), 2);
+			rockObj = AddGameObject<Rock>(Vec3(1.0f * i, 1.5f, 4.0f), 2);
+		}
+
+		// シェアドオブジェクトグループに登録
+		const auto& group = GetSharedObjectGroup(L"MiningObject");
+		group->IntoGroup(treeObj);
+		group->IntoGroup(rockObj);
+	}
+
 	void GameStage::OnCreate() 
 	{
 		try 
 		{
+			// オブジェクトグループの作成
+			CreateSharedObjectGroup(L"MiningObject");
+
 			//ビューとライトの作成
 			CreateViewLight();
 
@@ -54,6 +74,9 @@ namespace basecross
 
 			// プレイヤーの生成
 			CreatePlayer();
+
+			// MiningObjectの生成
+			CreateStageObject();
 		}
 		catch (...) 
 		{
