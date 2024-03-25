@@ -84,7 +84,7 @@ namespace basecross
 		Vec3 indiPos = GetPosition();
 
 		// 採掘可能オブジェクト配列の取得
-		const auto& miningVec = GetStage()->GetSharedObjectGroup(L"Mining")->GetGroupVector();
+		const auto& miningVec = GetStage()->GetSharedObjectGroup(L"MiningObject")->GetGroupVector();
 
 		// 配列の数ループ
 		for (const auto& weakObj : miningVec)
