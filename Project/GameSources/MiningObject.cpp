@@ -12,10 +12,10 @@
 namespace basecross {
 	void MiningObject::OnCreate() {
 		//‰ŠúˆÊ’u‚È‚Ç‚Ìİ’è
-		m_transform = GetComponent<Transform>();
-		m_transform->SetScale(Vec3(1.0f));
-		m_transform->SetRotation(Vec3(0.0f));
-		m_transform->SetPosition(m_spawnPos);
+		TemplateObject::OnCreate();
+		SetScale(Vec3(1.0f));
+		SetRotation(Vec3(0.0f));
+		SetPosition(m_spawnPos);
 
 		//CollisionObbÕ“Ë”»’è‚ğ•t‚¯‚é
 		auto ptrColl = AddComponent<CollisionObb>();

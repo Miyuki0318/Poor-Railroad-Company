@@ -12,8 +12,6 @@ namespace basecross {
 	protected:
 		// 生成座標
 		const Vec3 m_spawnPos;
-		// 自分自身のトランスフォームコンポーネント
-		shared_ptr<Transform> m_transform;
 		// 開始時だけ処理させたい関数用のbool
 		bool m_setFlg;
 		// トランスフォームとモデルの差分行列
