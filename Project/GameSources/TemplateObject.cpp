@@ -29,23 +29,25 @@ namespace basecross
 	//	GetTypeStage<BaseStage>()->StopSE(seKey, ThisPtr);
 	//}
 
-	//// タイマー設定
-	//bool TemplateObject::SetTimer(float time, bool reset)
-	//{
-	//	// 所属ステージからタイマーを取得
-	//	const auto& timer = GetTypeStage<BaseStage>()->GetTimer();
+	// タイマー設定
+	bool TemplateObject::SetTimer(float time, bool reset)
+	{
+		//// 所属ステージからタイマーを取得
+		//const auto& timer = GetTypeStage<BaseStage>()->GetTimer();
+		const auto& timer = GetTypeStage<GameStage>()->GetTimer();
 
-	//	// タイマーを設定
-	//	return timer->SetTimer(ThisPtr, time, reset);
-	//}
+		// タイマーを設定
+		return timer->SetTimer(ThisPtr, time, reset);
+	}
 
-	//// タイマーの経過時間取得
-	//float TemplateObject::GetTime(float time)
-	//{
-	//	// 所属ステージからタイマーを取得
-	//	const auto& timer = GetTypeStage<BaseStage>()->GetTimer();
+	// タイマーの経過時間取得
+	float TemplateObject::GetTime(float time)
+	{
+		//// 所属ステージからタイマーを取得
+		//const auto& timer = GetTypeStage<BaseStage>()->GetTimer();
+		const auto& timer = GetTypeStage<GameStage>()->GetTimer();
 
-	//	// タイマーの経過時間を取得
-	//	return timer->GetTime(ThisPtr, time);
-	//}
+		// タイマーの経過時間を取得
+		return timer->GetTime(ThisPtr, time);
+	}
 }

@@ -243,19 +243,19 @@ namespace basecross
 		//*/
 		//virtual void StopSE(const wstring& seKey);
 
-		///*!
-		//@brief タイマー関数
-		//@param 設定時間(s)
-		//@param リセット真偽(デフォルトはfalse)
-		//@return タイマーが終了しているかの真偽
-		//*/
-		//virtual bool SetTimer(float time, bool reset = false);
+		/*!
+		@brief タイマー関数
+		@param 設定時間(s)
+		@param リセット真偽(デフォルトはfalse)
+		@return タイマーが終了しているかの真偽
+		*/
+		virtual bool SetTimer(float time, bool reset = false);
 
-		///*!
-		//@brief タイマーの時間取得関数
-		//@return 経過時間
-		//*/
-		//virtual float GetTime(float time);
+		/*!
+		@brief タイマーの時間取得関数
+		@return 経過時間
+		*/
+		virtual float GetTime(float time);
 
 		///*!
 		//@brief 指定の座標にオブジェクトがあるかの確認関数

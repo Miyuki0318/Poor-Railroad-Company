@@ -9,10 +9,35 @@
 namespace basecross 
 {
 	/*!
+	@brief ゲームの進行状況
+	*/
+	enum eGameProgress
+	{
+		Playing,
+		GameClear,
+		GameOver
+	};
+
+	/*!
 	@brief ゲーム中のステージ
 	*/
 	class GameStage : public Stage
 	{
+		// ゲームクリア・ゲームオーバーのスプライト
+		shared_ptr<Sprite> m_gameClearLogo;
+		shared_ptr<Sprite> m_gameOverLogo;
+
+		// ゲームの状況
+		eGameProgress m_gameProgress;
+
+		// タイマーオブジェクト
+		weak_ptr<Timer> m_timer;
+
+		/*!
+		@brief リソースの読込
+		*/
+		void CreateResourses();
+
 		/*!
 		@brief ビューとライトの生成
 		*/
@@ -33,19 +58,89 @@ namespace basecross
 		*/
 		void CreateStageObject();
 
+		/*!
+		@brief 線路生成
+		*/
+		void CreateRail();
+		void CreateRails();
+
+		/*!
+		@brief 列車生成
+		*/
+		void CreateTrain();
+
+		/*!
+		@brief 線路の終着生成
+		*/
+		void CreateTarminal();
+
+		/*!
+		@brief スプライトの生成
+		*/
+		void CreateSpriteObject();
+
+		/*!
+		@brief スプライトの生成
+		*/
+		void LogoActive();
 
 	public:
 
-		//構築と破棄
-		GameStage() :Stage() {}
+		/*!
+		@brief コンストラクタ
+		*/
+		GameStage() :Stage() {
+			m_gameProgress = eGameProgress::Playing;
+		}
 
+		/*!
+		@brief デストラクタ
+		*/
 		virtual ~GameStage() {}
 
-		//初期化
+		/*!
+		@brief 生成時に一度だけ呼び出される関数
+		*/
 		virtual void OnCreate() override;
+
+		///*!
+		//@brief 破棄される時に一度だけ呼び出される関数
+		//*/
+		//virtual void OnDestroy() override;
+
+		/*!
+		@brief 毎フレーム度に呼び出される関数
+		*/
+		virtual void OnUpdate() override;
+
+		/*!
+		@brief 描画更新関数
+		*/
+		virtual void OnDraw() override;
+
+		/*!
+		@brief タイマークラス取得関数
+		@return const shared_ptr<Timer>
+		*/
+		const shared_ptr<Timer> GetTimer() const
+		{
+			return m_timer.lock();
+		}
+
+		/*!
+		@brief ゲームの進行状態をゲットする関数
+		*/
+		eGameProgress GetGameProgress()
+		{
+			return m_gameProgress;
+		}
+
+		/*!
+		@brief ゲームの進行状態をセットする関数
+		*/
+		void SetGameProgress(eGameProgress progress)
+		{
+			m_gameProgress = progress;
+		}
 	};
-
-
 }
-//end basecross
-

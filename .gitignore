@@ -97,6 +97,7 @@ StyleCopReport.xml
 *.pidb
 *.svclog
 *.scc
+*.cso
 
 # Chutzpah Test files
 _Chutzpah*
@@ -401,8 +402,7 @@ Project/.vs/**/*
 Project/Temp/Debug/**/*
 Project/Temp/DirectXTX/Debug/
 Project/Temp/Release/
-ReedMe.txt
-Project/media/
+ReadMe.txt
 Project/Temp/
 Project/Debug/
 Project/Release/
