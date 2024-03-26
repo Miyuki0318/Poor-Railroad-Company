@@ -78,7 +78,7 @@ namespace basecross
 	}
 
 	// 採掘可能オブジェクトか、採掘可能オブジェクトポインタの取得
-	shared_ptr<TemplateObject> SelectIndicator::GetMiningPossible() const
+	const shared_ptr<TemplateObject> SelectIndicator::GetMiningPossible() const
 	{
 		// 自身の座標を取得
 		Vec3 indiPos = GetPosition();
