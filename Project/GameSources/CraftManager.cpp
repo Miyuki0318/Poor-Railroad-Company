@@ -10,27 +10,14 @@
 namespace basecross
 {
 	// アイテムクラフト
-	void CraftManager::Crafting(const shared_ptr<TemplateObject>& tempPtr)
+	bool CraftManager::Crafting(eCraftItem item)
 	{
-		// クラフトアイコン等から選択肢を取得する機能をα版で追加
-		// またQTEが無い為、今回は固定で１個クラフトできる状態
+		// 素材要求数の取得
+		const int woodValue = GetRacipeValue(item, eCraftParam::WoodValue);
+		const int stoneValue = GetRacipeValue(item, eCraftParam::StoneValue);
 
-		// 型キャスト
-		const auto& playerPtr = dynamic_pointer_cast<Player>(tempPtr);
-		if (!playerPtr) return;
-
-		// 簡易実装
-		const int woodValue = GetRacipeValue(eCraftItem::Rail, eCraftParam::WoodValue);
-		const int stoneValue = GetRacipeValue(eCraftItem::Rail, eCraftParam::StoneValue);
-
-		// 素材要求数に足りてなければ終了
-		if (woodValue > playerPtr->GetItemCount(eItemType::Wood)) return;
-		if (stoneValue > playerPtr->GetItemCount(eItemType::Stone)) return;
-
-		// 素材消費とクラフト
-		playerPtr->AddItemCount(eItemType::Wood, -woodValue);
-		playerPtr->AddItemCount(eItemType::Stone, -stoneValue);
-		playerPtr->AddItemCount(eItemType::Rail, GetRacipeValue(eCraftItem::Rail, eCraftParam::SuccesValue));
+		// 作成可能かの真偽を返す
+		return GetCraftPossible(woodValue, stoneValue);
 	}
 
 	// クラフトウィンドウの呼び出し
@@ -43,6 +30,36 @@ namespace basecross
 			// ウィンドウの方向と描画状態設定を送る(条件未設定だから一旦右上固定)
 			window->SetWindowRect(eWindowRect::UpperRight);
 			window->SetDrawEnable(enable);
+		}
+	}
+
+	// QTEの開始呼び出し
+	void CraftManager::StartQTE()
+	{
+		// qteオブジェクトにQTE開始呼び出しを送る
+		const auto& qte = m_craftQTE.lock();
+		if (qte)
+		{
+			qte->StartQTE();
+		}
+	}
+
+	// QTEの停止呼び出し
+	void CraftManager::StopQTE(eCraftItem item)
+	{
+		// qteオブジェクトを取得
+		const auto& qte = m_craftQTE.lock();
+		if (qte)
+		{
+			// QTE停止呼び出しとQTE結果の真偽を取得
+			bool succes = qte->StopQTE();
+
+			// 素材消費
+			AddItemCount(eItemType::Wood, -GetRacipeValue(item, eCraftParam::WoodValue));
+			AddItemCount(eItemType::Stone, -GetRacipeValue(item, eCraftParam::StoneValue));
+
+			// QTE結果に応じて作成量を設定
+			AddItemCount(eItemType::Rail, GetRacipeValue(item, succes ? eCraftParam::SuccesValue : eCraftParam::FailedValue));
 		}
 	}
 }

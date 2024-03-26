@@ -29,25 +29,40 @@ namespace basecross
 		FailedValue, // QTE失敗時の作成量
 	};
 
+	// アイテムカウンタ用enum
+	enum class eItemType : size_t
+	{
+		Wood,	// 木
+		Stone,	// 石
+		Rail,	// レール
+	};
+
 	/*!
 	@brief クラフト管理クラス(プレイヤーとクラフト関連クラスの仲介クラス)
 	*/
 	class CraftManager
 	{
-		weak_ptr<CraftWindow> m_window;	// クラフトウィンドウ
+		const weak_ptr<CraftingQTE> m_craftQTE; // クラフトQTE
+		const weak_ptr<CraftWindow> m_window;	// クラフトウィンドウ
 
 		const vector<vector<string>> m_racipe; // クラフトレシピ
+
+		vector<int> m_itemCount; // アイテム数
 
 	public:
 
 		/*!
 		@brief コンストラクタ
 		@param ウィンドウオブジェクトのポインタ
+		@param クラフトQTEオブジェクトのポインタ
 		*/
-		CraftManager(const shared_ptr<CraftWindow>& windowPtr) :
+		CraftManager(const shared_ptr<CraftWindow>& windowPtr,
+			const shared_ptr<CraftingQTE>& qtePtr) :
 			m_window(windowPtr),
+			m_craftQTE(qtePtr),
 			m_racipe(CSVLoader::LoadFile("CraftRacipe"))
 		{
+			m_itemCount = {10, 10, 0};
 		}
 
 		/*!
@@ -59,7 +74,7 @@ namespace basecross
 		@brief アイテムクラフト関数
 		@param プレイヤーのポインタ
 		*/
-		void Crafting(const shared_ptr<TemplateObject>& tempPtr);
+		bool Crafting(eCraftItem item);
 
 		/*!
 		@brief クラフト有効化関数
@@ -68,12 +83,43 @@ namespace basecross
 		void CraftingEnabled(bool enable);
 
 		/*!
+		@brief QTE開始関数
+		*/
+		void StartQTE();
+
+		/*!
+		@brief QTE停止とQTE結果取得関数
+		@param クラフトアイテム
+		*/
+		void StopQTE(eCraftItem item);
+
+		/*!
 		@brief ウィンドウ描画が完了したかの真偽取得関数
 		@return 描画完了してたらtrue、それ以外はfalse
 		*/
 		bool GetShowCraftWindow() const
 		{
 			return m_window.lock()->GetShowWindow();
+		}
+
+		/*!
+		@brief アイテム数取得関数
+		@param アイテムタイプenum
+		@return アイテム数
+		*/
+		int GetItemCount(eItemType type) const
+		{
+			return m_itemCount.at(static_cast<size_t>(type));
+		}
+
+		/*!
+		@brief アイテム数追加関数
+		@param アイテムタイプenum
+		@param 追加数(デフォ1)
+		*/
+		void AddItemCount(eItemType type, int addNum = 1)
+		{
+			m_itemCount.at(static_cast<size_t>(type)) += addNum;
 		}
 
 	private:
@@ -87,6 +133,17 @@ namespace basecross
 		int GetRacipeValue(eCraftItem item, eCraftParam param)
 		{
 			return stoi(m_racipe.at(static_cast<size_t>(item)).at(static_cast<size_t>(param)));
+		}
+
+		/*!
+		@brief クラフト可能かの真偽取得関数
+		@param 木の要求数
+		@param 石の要求数
+		@return 可能かの真偽
+		*/
+		bool GetCraftPossible(int woodValue, int stoneValue) const
+		{
+			return woodValue <= GetItemCount(eItemType::Wood) && stoneValue <= GetItemCount(eItemType::Stone);
 		}
 	};
 }

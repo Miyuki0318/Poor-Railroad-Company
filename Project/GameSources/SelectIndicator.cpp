@@ -122,7 +122,7 @@ namespace basecross
 		{
 			// エラーチェック
 			if (!weakObj.lock()) continue;
-			if (!weakObj.lock()->IsUpdateActive()) continue;
+			//if (!weakObj.lock()->IsUpdateActive()) continue;
 
 			// 型キャスト
 			const auto& railObj = dynamic_pointer_cast<TemplateObject>(weakObj.lock());

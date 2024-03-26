@@ -28,6 +28,9 @@ namespace basecross
 		// コリジョンOBBの追加
 		m_ptrColl = AddComponent<CollisionObb>();
 
+		// 重力の追加
+		AddComponent<Gravity>();
+
 		// ステージの取得
 		const auto& stagePtr = GetStage();
 
@@ -36,7 +39,8 @@ namespace basecross
 
 		// クラフト機能の生成
 		const auto& cWindow = stagePtr->AddGameObject<CraftWindow>();
-		m_craft = make_shared<CraftManager>(cWindow);
+		const auto& cQTE = stagePtr->AddGameObject<CraftingQTE>();
+		m_craft = make_shared<CraftManager>(cWindow, cQTE);
 
 		// タグの設定
 		AddTag(L"Player");
@@ -88,6 +92,7 @@ namespace basecross
 		Debug::Log(L"移動中か : ", m_status(ePlayerStatus::IsMove));
 		Debug::Log(L"採掘中か : ", m_status(ePlayerStatus::IsMining));
 		Debug::Log(L"クラフト中か : ", m_status(ePlayerStatus::IsCrafting));
+		Debug::Log(L"クラフトQTE中か : ", m_status(ePlayerStatus::IsCraftQTE));
 		Debug::Log(L"木の所持状態は", m_status(ePlayerStatus::IsHaveWood) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Wood), L"個");
 		Debug::Log(L"石の所持状態は", m_status(ePlayerStatus::IsHaveStone) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Stone), L"個");
 		Debug::Log(L"レールの所持状態は", m_status(ePlayerStatus::IsHaveRail) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Rail), L"個");
@@ -128,11 +133,26 @@ namespace basecross
 	// クラフト呼び出し
 	void Player::OnCraft()
 	{
+		//// アイコンが選択しているクラフトアイテムを取得
+		//eCraftItem item = m_craft->GetIconItem();
+
 		// クラフト
-		if (m_craft->GetShowCraftWindow())
+		if (m_craft->GetShowCraftWindow() && !m_status(ePlayerStatus::IsCraftQTE))
 		{
-			// クラフトのみ送っているが、α版でQTEに移行させる
-			m_craft->Crafting(GetThis<Player>());
+			// クラフトできるかを取得
+			m_status.Set(ePlayerStatus::IsCraftQTE) = m_craft->Crafting(eCraftItem::Rail);
+
+			// QTEに移行させる
+			if (m_status(ePlayerStatus::IsCraftQTE)) m_craft->StartQTE();
+			return;
+		}
+
+		// クラフトQTE
+		if (m_status(ePlayerStatus::IsCraftQTE))
+		{
+			// クラフトマネージャにQTEのバーの停止を送る
+			 m_craft->StopQTE(eCraftItem::Rail);
+			 m_status.Set(ePlayerStatus::IsCraftQTE) = false;
 		}
 	}
 

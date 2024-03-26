@@ -22,17 +22,8 @@ namespace basecross
 		IsHaveWood,	// 木を所持中
 		IsHaveStone,// 石を所持中
 		IsCrafting,	// クラフト中
+		IsCraftQTE,	// クラフトQTE中
 		IsHaveRail,	// 線路所持中
-	};
-
-	/*!
-	@brief アイテムタイプ
-	*/
-	enum class eItemType : size_t
-	{
-		Wood,	// 木
-		Stone,	// 石
-		Rail,	// レール
 	};
 
 	/*!
@@ -47,8 +38,6 @@ namespace basecross
 		shared_ptr<CollisionObb> m_ptrColl;   // コリジョンOBBコンポーネント
 		Bool8_t<ePlayerStatus> m_status;	  // フラグ管理クラス
 
-		vector<int> m_itemCount; // アイテムカウンタ
-
 		const float m_speed; // 速度
 
 	public:
@@ -58,11 +47,10 @@ namespace basecross
 		@param ステージポインタ
 		*/
 		Player(const shared_ptr<Stage>& stagePtr) :
-			TemplateObject(stagePtr, Vec3(0.0f, 1.5f, 0.0f), Vec3(0.0f), Vec3(1.0f, 1.5f, 1.0f)),
+			TemplateObject(stagePtr, Vec3(0.0f, 3.0f, 0.0f), Vec3(0.0f), Vec3(1.0f, 1.5f, 1.0f)),
 			m_speed(5.0f)
 		{
 			m_status = 0;
-			m_itemCount = { 10, 10, 0 };
 		}
 
 		/*!
@@ -132,6 +120,27 @@ namespace basecross
 		*/
 		void ControllerMovement(const Vec3& stickValue);
 
+
+		/*!
+		@brief アイテム数取得関数
+		@param アイテムタイプenum
+		@return アイテム数
+		*/
+		int GetItemCount(eItemType type)
+		{
+			return m_craft->GetItemCount(type);
+		}
+
+		/*!
+		@brief アイテム数追加関数
+		@param アイテムタイプenum
+		@param 追加数(デフォ1)
+		*/
+		void AddItemCount(eItemType type, int addNum = 1)
+		{
+			m_craft->AddItemCount(type, addNum);
+		}
+
 	public:
 
 		/*!
@@ -142,26 +151,6 @@ namespace basecross
 		bool GetStatus(ePlayerStatus status)
 		{
 			return m_status(status);
-		}
-
-		/*!
-		@brief アイテム数取得関数
-		@param アイテムタイプenum
-		@return アイテム数
-		*/
-		int GetItemCount(eItemType type)
-		{
-			return m_itemCount.at(static_cast<size_t>(type));
-		}
-
-		/*!
-		@brief アイテム数追加関数
-		@param アイテムタイプenum
-		@param 追加数(デフォ1)
-		*/
-		void AddItemCount(eItemType type, int addNum = 1)
-		{
-			m_itemCount.at(static_cast<size_t>(type)) += addNum;
 		}
 	};
 }
