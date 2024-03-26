@@ -62,6 +62,7 @@ namespace basecross
 		}
 	}
 
+	// フェードイン処理
 	void TitleStage::FadeInSprite()
 	{
 		// ステージ変更のため、シーンを取得
@@ -73,6 +74,7 @@ namespace basecross
 		}
 	}
 
+	// フェードアウト処理
 	void TitleStage::FadeOutSprite()
 	{
 		if (!m_canPush && m_fadeSprite->FadeOutColor(1.0f))
