@@ -107,8 +107,8 @@
       <Filter>Player\State\Mining</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerCraftingState.h">
-    </ClInclude>
       <Filter>Player\State\Crafting</Filter>
+    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)GoalRail.h">
       <Filter>StageObject\Rail\Goal</Filter>
     </ClInclude>
