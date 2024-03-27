@@ -23,7 +23,10 @@ namespace basecross
 
 
 		// クラフトウィンドウのテクスチャ
-		app->RegisterTexture(L"CWINDOW_TX", texturePath + L"CraftWindow.png");
+		app->RegisterTexture(L"C_WINDOW_TX", texturePath + L"CraftWindow.png");
+
+		// QTEバーのフレームのテクスチャ
+		app->RegisterTexture(L"C_QTE_FLAME_TX", texturePath + L"BarFlame.png");
 	}
 
 	//ビューとライトの生成

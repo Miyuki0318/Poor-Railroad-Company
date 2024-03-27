@@ -72,9 +72,10 @@ namespace basecross
 
 		/*!
 		@brief アイテムクラフト関数
-		@param プレイヤーのポインタ
+		@param クラフトするアイテム
+		@return クラフト可能かの真偽
 		*/
-		bool Crafting(eCraftItem item);
+		bool CraftOrder(eCraftItem item);
 
 		/*!
 		@brief クラフト有効化関数

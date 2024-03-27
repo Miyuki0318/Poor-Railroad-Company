@@ -4,7 +4,7 @@
 */
 
 #pragma once
-#include "stdafx.h"
+#include "TemplateObject.h"
 #include "OzawaUtility.h"
 
 namespace basecross
@@ -12,21 +12,16 @@ namespace basecross
 	/*!
 	@brief 描画用オブジェクトの継承元
 	*/
-	class DrawObject : public GameObject
+	class DrawObject : public TemplateObject
 	{
 	protected:
 
-		Vec2 m_scale;			// スケール
 		Vec2 m_velocity;		// UV用ベロシティ
-		Vec3 m_position;		// ポジション
-		Vec3 m_rotation;		// ローテーション
 		Col4 m_diffuseColor;	// ディヒューズ色
 		Col4 m_verticesColor;	// 頂点色
 		Col4 m_emissiveColor;	// エミッシブ色
 		wstring m_texWstr;		// テクスチャキー
 		VertexData m_vertex;	// 頂点データ
-
-		shared_ptr<Transform> m_ptrTrans; // トランスフォームコンポーネント
 
 	public:
 
@@ -35,7 +30,7 @@ namespace basecross
 		@param ステージポインタ
 		*/
 		DrawObject(const shared_ptr<Stage>& stagePtr) :
-			GameObject(stagePtr)
+			TemplateObject(stagePtr)
 		{
 			m_scale.zero();
 			m_velocity.zero();
@@ -59,11 +54,8 @@ namespace basecross
 			const wstring& texWstr, const Vec3& position,
 			const Vec3& rotation, const Vec2& scale
 		) :
-			GameObject(stagePtr),
-			m_texWstr(texWstr),
-			m_position(position),
-			m_rotation(rotation),
-			m_scale(scale)
+			TemplateObject(stagePtr, position, rotation, Vec3(scale.x, scale.y, 1.0f)),
+			m_texWstr(texWstr)
 		{
 			m_velocity.zero();
 			m_emissiveColor = COL_NONE;
@@ -78,17 +70,6 @@ namespace basecross
 		virtual ~DrawObject() {}
 
 		/*!
-		@brief 生成時に一度だけ呼び出される関数
-		*/
-		virtual void OnCreate() override
-		{
-			m_ptrTrans = GetComponent<Transform>();
-			m_ptrTrans->SetScale(m_scale.x, m_scale.y, 1.0f);
-			m_ptrTrans->SetRotation(m_rotation);
-			m_ptrTrans->SetPosition(m_position);
-		}
-
-		/*!
 		@brief 色の範囲が0.0f～1.0fの間になってるかの修正関数
 		@param 色
 		*/
@@ -100,66 +81,6 @@ namespace basecross
 				color.setElem(i, min(color.getElem(i), 1.0f));
 				color.setElem(i, max(color.getElem(i), 0.0f));
 			}
-		}
-
-		/*!
-		@brief スケールを変更する関数
-		@param scale
-		*/
-		void SetScale(const Vec2& scale)
-		{
-			m_ptrTrans->SetScale(scale.x, scale.y, 1.0f);
-			m_scale = scale;
-		}
-
-		/*!
-		@brief スケールを変更する関数
-		@param x
-		@param y
-		*/
-		void SetScale(const float x, const float y)
-		{
-			m_ptrTrans->SetScale(x, y, 1.0f);
-			m_scale.x = x;
-			m_scale.y = y;
-		}
-
-		/*!
-		@brief ポジションを変更する関数
-		@param ポジション
-		*/
-		void SetPosition(const Vec3& position)
-		{
-			m_ptrTrans->SetPosition(position);
-			m_position = position;
-		}
-
-		/*!
-		@brief ポジションを変更する関数
-		@param ポジション
-		*/
-		void SetPosition(float x, float y, float z)
-		{
-			SetPosition(Vec3(x, y, z));
-		}
-
-		/*!
-		@brief ローテーションを変更する関数
-		@param ローテーション
-		*/
-		void SetRotation(const Vec3& rotation)
-		{
-			m_ptrTrans->SetRotation(rotation);
-			m_rotation = rotation;
-		}
-
-		/*!
-		@brief ローテーションを変更する関数
-		@param ローテーション
-		*/
-		void SetRotation(float x, float y, float z)
-		{
-			SetRotation(Vec3(x, y, z));
 		}
 
 		/*!
@@ -178,33 +99,6 @@ namespace basecross
 		void SetVelocity(float x, float y)
 		{
 			SetVelocity(Vec2(x, y));
-		}
-
-		/*!
-		@brief スケールを返す関数
-		@return スケール
-		*/
-		Vec2 GetScale() const
-		{
-			return m_scale;
-		}
-
-		/*!
-		@brief ポジションを返す関数
-		@return ポジション
-		*/
-		Vec3 GetPosition() const
-		{
-			return m_position;
-		}
-
-		/*!
-		@brief ローテーション返す関数
-		@return ローテーション
-		*/
-		Vec3 GetRotation() const
-		{
-			return m_rotation;
 		}
 
 		/*!

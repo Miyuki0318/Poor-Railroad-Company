@@ -14,6 +14,10 @@ namespace basecross
 	*/
 	class CraftingQTE : public Sprite
 	{
+		weak_ptr<Sprite> m_barFlame; // バーのフレーム
+		weak_ptr<Sprite> m_qtePoint; // QTEのタイミング範囲
+
+		const Vec2 m_barScale;  // QTEバーのスケール
 		const float m_barSpeed; // QTEバーの速度
 		float m_barRatio; // バーの進んだ割合
 		float m_qteRatio; // QTEの成功割合
@@ -24,7 +28,8 @@ namespace basecross
 		@brief コンストラクタ
 		*/
 		CraftingQTE(const shared_ptr<Stage>& stagePtr) :
-			Sprite(stagePtr, L"WHITE_TX", Vec2(0.0f), Vec3(0.0f)),
+			Sprite(stagePtr, L"WHITE_TX", Vec2(0.0f, 25.0f), Vec3(0.0f)),
+			m_barScale(Vec2(200.0f, 10.0f)),
 			m_barSpeed(1.0f)
 		{
 			m_barRatio = 0.0f;
@@ -47,9 +52,15 @@ namespace basecross
 		void OnUpdate() override;
 
 		/*!
-		@brief QTE開始関数
+		@brief QTEの更新関数
 		*/
-		void StartQTE();
+		void UpdateQTE();
+
+		/*!
+		@brief QTE開始関数
+		@param クラフトウィンドウの座標
+		*/
+		void StartQTE(const Vec3& windowPos);
 
 		/*!
 		@brief QTE停止とQTE結果取得関数

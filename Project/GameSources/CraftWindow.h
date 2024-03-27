@@ -43,7 +43,7 @@ namespace basecross
 		@param ステージポインタ
 		*/
 		CraftWindow(const shared_ptr<Stage>& stagePtr) :
-			Sprite(stagePtr, L"CWINDOW_TX", Vec2(0.0f), Vec3(0.0f)),
+			Sprite(stagePtr, L"C_WINDOW_TX", Vec2(0.0f), Vec3(0.0f)),
 			m_showScale(Vec2(200.0f)),
 			m_showSpeed(0.25f)
 		{

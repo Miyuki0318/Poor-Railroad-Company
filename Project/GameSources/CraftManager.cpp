@@ -10,7 +10,7 @@
 namespace basecross
 {
 	// アイテムクラフト
-	bool CraftManager::Crafting(eCraftItem item)
+	bool CraftManager::CraftOrder(eCraftItem item)
 	{
 		// 素材要求数の取得
 		const int woodValue = GetRacipeValue(item, eCraftParam::WoodValue);
@@ -36,11 +36,13 @@ namespace basecross
 	// QTEの開始呼び出し
 	void CraftManager::StartQTE()
 	{
-		// qteオブジェクトにQTE開始呼び出しを送る
+		// QTEとウィンドウオブジェクトの取得
 		const auto& qte = m_craftQTE.lock();
-		if (qte)
+		const auto& window = m_window.lock();
+		if (qte && window)
 		{
-			qte->StartQTE();
+			// qteオブジェクトにQTE開始呼び出しを送る
+			qte->StartQTE(window->GetPosition());
 		}
 	}
 

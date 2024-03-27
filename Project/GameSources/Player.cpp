@@ -135,15 +135,18 @@ namespace basecross
 	{
 		//// アイコンが選択しているクラフトアイテムを取得
 		//eCraftItem item = m_craft->GetIconItem();
+		eCraftItem item = eCraftItem::Rail;
 
 		// クラフト
 		if (m_craft->GetShowCraftWindow() && !m_status(ePlayerStatus::IsCraftQTE))
 		{
-			// クラフトできるかを取得
-			m_status.Set(ePlayerStatus::IsCraftQTE) = m_craft->Crafting(eCraftItem::Rail);
-
-			// QTEに移行させる
-			if (m_status(ePlayerStatus::IsCraftQTE)) m_craft->StartQTE();
+			// クラフト命令を送り、クラフト可能であればtrue
+			if (m_craft->CraftOrder(item))
+			{
+				// QTE状態をオンにし、QTEを開始させる
+				m_status.Set(ePlayerStatus::IsCraftQTE) = true;
+				m_craft->StartQTE();
+			}
 			return;
 		}
 
@@ -151,8 +154,8 @@ namespace basecross
 		if (m_status(ePlayerStatus::IsCraftQTE))
 		{
 			// クラフトマネージャにQTEのバーの停止を送る
-			 m_craft->StopQTE(eCraftItem::Rail);
-			 m_status.Set(ePlayerStatus::IsCraftQTE) = false;
+			m_craft->StopQTE(item);
+			m_status.Set(ePlayerStatus::IsCraftQTE) = false;
 		}
 	}
 
