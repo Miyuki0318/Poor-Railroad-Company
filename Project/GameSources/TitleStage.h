@@ -11,7 +11,11 @@ namespace basecross
 	class TitleStage : public Stage
 	{
 	private:
+		// ボタンが押されたか
 		bool m_startPush;
+
+		// ボタンが反応するか
+		bool m_canPush;
 
 		shared_ptr<Sprite> m_fadeSprite;
 
@@ -36,9 +40,14 @@ namespace basecross
 		void PushStartButton();
 
 		/*
-		@brief フェード処理
+		@brief フェードイン処理
 		*/
-		void FadeSprite();
+		void FadeInSprite();
+
+		/*
+		@brief フェードアウト処理
+		*/
+		void FadeOutSprite();
 
 	public:
 		/*
@@ -47,6 +56,7 @@ namespace basecross
 		TitleStage() : Stage()
 		{
 			m_startPush = false;
+			m_canPush = false;
 		}
 
 		/*
