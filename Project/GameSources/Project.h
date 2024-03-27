@@ -9,6 +9,7 @@
 #include "Scene.h"
 #include "GameStage.h"
 #include "Player.h"
+#include "PlayerState.h"
 #include "Ground.h"
 #include "MiningObject.h"
 #include "Station.h"

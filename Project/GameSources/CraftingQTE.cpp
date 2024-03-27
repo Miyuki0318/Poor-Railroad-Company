@@ -15,44 +15,108 @@ namespace basecross
 		// 継承元の生成時の処理を実行
 		Sprite::OnCreate();
 
-		// 頂点データの座標を加算
-		Vec3 diffPos = Vec3(0.5f, 0.5f, 0.0f);
-		for (auto& v : m_vertex.vertices)
-		{
-			v.position += diffPos;
-		}
-		m_ptrDraw->UpdateVertices(m_vertex.vertices);
-
 		// ステージの取得
 		const auto& stagePtr = GetStage();
 
 		// フレームとQTEポイントを生成
-		//m_barFlame = stagePtr->AddGameObject<Sprite>(L"C_QTE_FLAME_TX", m_barScale + Vec2(5.0f), Vec3(0.0f));
-		//m_qtePoint = stagePtr->AddGameObject<Sprite>(L"WHITE_TX", Vec2(40.0f, 10.0f), Vec3(0.0f));
+		m_barFlame = stagePtr->AddGameObject<CraftUI>(L"C_QTE_FLAME_TX", m_drawScale, m_drawSpeed);
+		m_qtePoint = stagePtr->AddGameObject<CraftUI>(L"WHITE_TX", Vec2(40.0f, 10.0f), m_drawSpeed);
+		m_qtePoint.lock()->SetDiffuseColor(Col4(1.0f, 1.0f, 0.0f, 0.75f));
 	}
 
 	// 毎フレーム更新処理
 	void CraftingQTE::OnUpdate()
 	{
+		// 継承元の毎フレーム更新処理を実行
+		CraftUI::OnUpdate();
 
+		// QTE中ならQTEの更新処理を実行
+		if (m_qteEnable)
+		{
+			UpdateQTE();
+		}
+	}
+
+	// ウィンドウの更新
+	void CraftingQTE::DrawWindow()
+	{
+		// 継承元のウィンドウの更新処理を実行
+		CraftUI::DrawWindow();
+
+		// Y軸のスケールは0の状態にする
+		SetScale(0.0f, m_scale.y);
+	}
+
+	// 表示切り替え
+	void CraftingQTE::SetDrawEnable(bool enable, Vec3 windowPos)
+	{
+		// 継承元の表示切替え処理を実行
+		CraftUI::SetDrawEnable(enable);
+
+		// フレームとQTEポイントにも表示切替えの処理を送る
+		m_barFlame.lock()->SetDrawEnable(enable);
+		m_qtePoint.lock()->SetDrawEnable(enable);
+
+		// 座標を設定
+		Vec3 pos = GetPosition() + Vec3(0.0f, m_posDiff + m_drawScale.y, 0.0f);
+		SetPosition(Vec3(pos.x, pos.y, 0.2f));
+		m_barFlame.lock()->SetPosition(Vec3(pos.x, pos.y, 0.0f));
+		m_qtePoint.lock()->SetPosition(Vec3(pos.x + (m_drawScale.x * (m_qteRatio - 0.1f)), pos.y, 0.1f));
+	}
+	
+	// 描画変更設定
+	void CraftingQTE::SetVerticesRect(eVerticesRect rect)
+	{
+		// 継承元の描画変更設定処理を送る
+		Sprite::SetVerticesRect(rect);
+
+		// フレームとQTEポイントにも描画変更設定の処理を送る
+		m_barFlame.lock()->SetVerticesRect(rect);
+		m_qtePoint.lock()->SetVerticesRect(rect);
 	}
 
 	// QTEの更新処理
 	void CraftingQTE::UpdateQTE()
 	{
+		// 割合をデルタタイムとバーの速度で加算
+		m_barRatio += DELTA_TIME / m_barSpeed;
+		m_barRatio = min(m_barRatio, 1.0f);
+		m_barRatio = max(m_barRatio, 0.0f);
 
+		// スケールXを割合を使ってLerpで求める
+		float scaleX = Utility::Lerp(0.0f, m_drawScale.x, m_barRatio);
+		SetScale(scaleX, m_drawScale.y);
+
+		// 始点or終点になったのならQTEを終了
+		if (m_barRatio == 1.0f)
+		{
+			m_barRatio = 0.0f;
+			m_qteEnable = false;
+		}
 	}
 
 	// QTEの開始処理
 	void CraftingQTE::StartQTE(const Vec3& windowPos)
 	{
+		// 開始時の初期化を行う
 		m_barRatio = 0.0f;
-		m_qteRatio = Utility::RangeRand(0.9f, 0.55f);
+		m_qteEnable = true;
 	}
 
 	// QTEの停止処理
 	bool CraftingQTE::StopQTE()
 	{
-		return true;
+		// QTEを停止
+		m_qteEnable = false;
+
+		// Y軸のスケールは0の状態にする
+		SetScale(0.0f, m_scale.y);
+
+		// QTEの範囲を設定
+		const float upper = m_qteRatio + 0.1f;
+		const float under = m_qteRatio - 0.1f;
+
+		// バーの割合がQTEの範囲内かを返す
+		return Utility::GetBetween(m_barRatio, upper, under);
 	}
 }

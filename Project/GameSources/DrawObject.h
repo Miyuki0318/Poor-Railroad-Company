@@ -9,6 +9,20 @@
 
 namespace basecross
 {
+	// ウィンドウ描画方向enum
+	enum class eVerticesRect
+	{
+		Center,		// 中央
+		Upper,		// 上
+		Under,		// 下
+		Right,		// 右
+		Left,		// 左
+		UpperRight,	// 右上
+		UpperLeft,	// 左上
+		UnderRight,	// 右下
+		UnderLeft,	// 左下
+	};
+
 	/*!
 	@brief 描画用オブジェクトの継承元
 	*/
@@ -70,6 +84,16 @@ namespace basecross
 		virtual ~DrawObject() {}
 
 		/*!
+		@brief 生成時に一度だけ呼び出される関数
+		*/
+		virtual void OnCreate() override
+		{
+			// 継承元の生成時の関数とトランスフォームの簡易設定を送る
+			TemplateObject::OnCreate();
+			SetTransParam();
+		}
+
+		/*!
 		@brief 色の範囲が0.0f～1.0fの間になってるかの修正関数
 		@param 色
 		*/
@@ -100,6 +124,12 @@ namespace basecross
 		{
 			SetVelocity(Vec2(x, y));
 		}
+
+		/*!
+		@brief 頂点座標の中心を変更する関数
+		@param 設定タイプ
+		*/
+		virtual void SetVerticesRect(eVerticesRect rect) = 0;
 
 		/*!
 		@brief ディフューズ色を返す関数

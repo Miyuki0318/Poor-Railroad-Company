@@ -6,6 +6,7 @@
 
 #pragma once
 #include "TemplateObject.h"
+#include "CraftUI.h"
 #include "CraftWindow.h"
 #include "CraftItemIcon.h"
 #include "CraftingIcon.h"
@@ -75,7 +76,7 @@ namespace basecross
 		@param クラフトするアイテム
 		@return クラフト可能かの真偽
 		*/
-		bool CraftOrder(eCraftItem item);
+		bool CraftOrder();
 
 		/*!
 		@brief クラフト有効化関数
@@ -92,7 +93,7 @@ namespace basecross
 		@brief QTE停止とQTE結果取得関数
 		@param クラフトアイテム
 		*/
-		void StopQTE(eCraftItem item);
+		void StopQTE();
 
 		/*!
 		@brief ウィンドウ描画が完了したかの真偽取得関数
@@ -101,6 +102,15 @@ namespace basecross
 		bool GetShowCraftWindow() const
 		{
 			return m_window.lock()->GetShowWindow();
+		}
+
+		/*!
+		@brief QTEが終了したかの真偽取得関数
+		@return 終了してたらtrue、それ以外はfalse
+		*/
+		bool GetEndedQTE() const
+		{
+			return !m_craftQTE.lock()->GetEnableQTE();
 		}
 
 		/*!

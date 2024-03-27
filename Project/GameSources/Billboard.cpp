@@ -93,6 +93,68 @@ namespace basecross
 	}
 
 	/*!
+	@brief 描画変更設定関数
+	@param eVerticesRect
+	*/
+	void Billboard::SetVerticesRect(eVerticesRect rect)
+	{
+		// 頂点座標の初期化
+		Utility::SimpleVertices(m_vertex.vertices);
+
+		// 加算量用変数
+		const float HELF = 0.5f;
+		Vec3 addPos;
+
+		// 向きに応じて設定
+		switch (rect)
+		{
+		case eVerticesRect::Upper: // 左上なら
+			addPos = Vec2(0.0f, HELF);
+			break;
+
+		case eVerticesRect::Under: // 右下なら
+			addPos = Vec2(0.0f, -HELF);
+			break;
+
+		case eVerticesRect::Right: // 左下なら
+			addPos = Vec2(HELF, 0.0f);
+			break;
+
+		case eVerticesRect::Left: // 右上なら
+			addPos = Vec2(-HELF, 0.0f);
+			break;
+
+		case eVerticesRect::UpperRight: // 右上なら
+			addPos = Vec2(HELF, HELF);
+			break;
+
+		case eVerticesRect::UpperLeft: // 左上なら
+			addPos = Vec2(-HELF, HELF);
+			break;
+
+		case eVerticesRect::UnderRight: // 右下なら
+			addPos = Vec2(HELF, -HELF);
+			break;
+
+		case eVerticesRect::UnderLeft: // 左下なら
+			addPos = Vec2(-HELF, -HELF);
+			break;
+
+		default:
+			break;
+		}
+
+		// 頂点データの座標を加算
+		for (auto& v : m_vertex.vertices)
+		{
+			v.position += addPos;
+		}
+
+		// 頂点データの更新
+		m_ptrDraw->UpdateVertices(m_vertex.vertices);
+	}
+
+	/*!
 	@brief テクスチャをベロシティに応じて回転させる関数
 	*/
 	void Billboard::RotateTexture()

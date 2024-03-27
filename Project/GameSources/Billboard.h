@@ -100,6 +100,12 @@ namespace basecross
 		void SetTexture(const wstring& textureKey);
 
 		/*!
+		@brief 描画変更設定関数
+		@param eVerticesRect
+		*/
+		void SetVerticesRect(eVerticesRect rect) override;
+
+		/*!
 		@brief テクスチャをベロシティに応じて回転させる関数
 		*/
 		void RotateTexture();

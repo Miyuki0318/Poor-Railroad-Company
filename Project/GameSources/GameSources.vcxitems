@@ -22,6 +22,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftingQTE.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftItemIcon.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftWindow.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CSVLoader.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DebugLog.h" />
@@ -34,6 +35,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OzawaFuncs.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OzawaUtility.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerCraftingState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerMiningState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerMovingState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Project.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Rail.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
@@ -53,6 +58,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftingQTE.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftItemIcon.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftWindow.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CSVLoader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DebugLog.cpp" />
@@ -62,6 +68,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MiningObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OzawaUtility.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerCraftingState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMiningState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMovingState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Rail.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectIndicator.cpp" />

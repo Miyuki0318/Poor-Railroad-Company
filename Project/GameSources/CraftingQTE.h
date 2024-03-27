@@ -5,22 +5,23 @@
 */
 
 #pragma once
-#include "Sprite.h"
+#include "CraftUI.h"
 
 namespace basecross
 {
 	/*!
 	@brief クラフトQTE
 	*/
-	class CraftingQTE : public Sprite
+	class CraftingQTE : public CraftUI
 	{
-		weak_ptr<Sprite> m_barFlame; // バーのフレーム
-		weak_ptr<Sprite> m_qtePoint; // QTEのタイミング範囲
+		weak_ptr<CraftUI> m_barFlame; // バーのフレーム
+		weak_ptr<CraftUI> m_qtePoint; // QTEのタイミング範囲
 
-		const Vec2 m_barScale;  // QTEバーのスケール
+		const float m_posDiff;  // ウィンドウとの座標差分
+		const float m_qteRatio; // QTEの成功位置の割合
 		const float m_barSpeed; // QTEバーの速度
-		float m_barRatio; // バーの進んだ割合
-		float m_qteRatio; // QTEの成功割合
+		float m_barRatio; // QTEバーの割合
+		bool m_qteEnable; // QTE中かの真偽
 
 	public:
 
@@ -28,12 +29,13 @@ namespace basecross
 		@brief コンストラクタ
 		*/
 		CraftingQTE(const shared_ptr<Stage>& stagePtr) :
-			Sprite(stagePtr, L"WHITE_TX", Vec2(0.0f, 25.0f), Vec3(0.0f)),
-			m_barScale(Vec2(200.0f, 10.0f)),
+			CraftUI(stagePtr, L"WHITE_TX", Vec2(200.0f, 10.0f), 0.25f),
+			m_posDiff(130.0f),
+			m_qteRatio(0.75f),
 			m_barSpeed(1.0f)
 		{
 			m_barRatio = 0.0f;
-			m_qteRatio = 0.0f;
+			m_qteEnable = false;
 		}
 
 		/*!
@@ -52,6 +54,23 @@ namespace basecross
 		void OnUpdate() override;
 
 		/*!
+		@brief ウィンドウサイズの更新関数
+		*/
+		void DrawWindow() override;
+
+		/*!
+		@brief 表示非表示設定関数
+		@param bool
+		*/
+		void SetDrawEnable(bool enable, Vec3 windowPos);
+
+		/*!
+		@brief 描画変更設定関数
+		@param eVerticesRect
+		*/
+		void SetVerticesRect(eVerticesRect rect) override;
+
+		/*!
 		@brief QTEの更新関数
 		*/
 		void UpdateQTE();
@@ -67,5 +86,13 @@ namespace basecross
 		@return 成功したかの真偽
 		*/
 		bool StopQTE();
+
+		/*!
+		@brief QTE中かの真偽取得関数
+		*/
+		bool GetEnableQTE() const
+		{
+			return m_qteEnable;
+		}
 	};
 }

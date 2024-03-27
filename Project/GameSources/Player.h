@@ -11,9 +11,7 @@
 
 namespace basecross
 {
-	/*!
-	@brief プレイヤーの状態
-	*/
+	// プレイヤーの状態
 	enum class ePlayerStatus : uint8_t
 	{
 		IsIdle,		// 待機状態
@@ -34,9 +32,12 @@ namespace basecross
 		weak_ptr<SelectIndicator> m_indicator; // セレクトインディケーター
 		shared_ptr<CraftManager> m_craft;      // クラフトマネージャー
 
-		shared_ptr<PNTStaticDraw> m_ptrDraw;  // 描画コンポーネント
-		shared_ptr<CollisionObb> m_ptrColl;   // コリジョンOBBコンポーネント
-		Bool8_t<ePlayerStatus> m_status;	  // フラグ管理クラス
+		shared_ptr<PNTStaticDraw> m_ptrDraw;   // 描画コンポーネント
+		shared_ptr<CollisionObb> m_ptrColl;    // コリジョンOBBコンポーネント
+		Bool8_t<ePlayerStatus> m_status;	   // フラグ管理クラス
+
+		// ステートマシン
+		unique_ptr<StateMachine<Player>> m_stateMachine; 
 
 		const float m_speed; // 速度
 
@@ -46,6 +47,7 @@ namespace basecross
 		@brief コンストラクタ
 		@param ステージポインタ
 		*/
+		
 		Player(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr, Vec3(0.0f, 3.0f, 0.0f), Vec3(0.0f), Vec3(1.0f, 1.5f, 1.0f)),
 			m_speed(5.0f)
@@ -71,34 +73,42 @@ namespace basecross
 		*/
 		void OnUpdate() override;
 
-	private:
-
 		/*!
 		@brief Aボタン入力時に呼び出される関数
 		*/
-		void OnPushA();
+		void MovingPushA();
 
 		/*!
 		@brief クラフト時に呼び出される関数
 		*/
-		void OnCraft();
+		void CraftingPushA();
+
+		/*!
+		@brief パッド入力時の関数
+		*/
+		void CraftingPushX();
 
 		/*!
 		@brief 採掘時に呼び出される関数
 		@param 採掘されるオブジェクトのポインタ
 		*/
-		void OnMining(const shared_ptr<TemplateObject>& miningObj);
+		void MiningProcces(const shared_ptr<TemplateObject>& miningObj);
 
 		/*!
 		@brief レール設置時に呼び出される関数
 		@param レールを設置する座標
 		*/
-		void OnRailed(const Vec3& railPosition);
+		void AddRailed(const Vec3& railPosition);
 
 		/*!
-		@brief 採掘中の更新関数
+		@brief 採掘状態中の更新関数
 		*/
-		void UpdateMining();
+		void MiningWaiting();
+
+		/*!
+		@brief クラフトQTEが終わっているかの確認関数
+		*/
+		void CheckedCraftQTE();
 
 		/*!
 		@brief 移動更新関数
@@ -120,7 +130,15 @@ namespace basecross
 		*/
 		void ControllerMovement(const Vec3& stickValue);
 
-
+		/*!
+		@brief State変更関数
+		@param 新しいステートのポインタ
+		*/
+		void ChangeState(const shared_ptr<ObjState<Player>>& newState)
+		{
+			m_stateMachine->ChangeState(newState);
+		}
+			
 		/*!
 		@brief アイテム数取得関数
 		@param アイテムタイプenum
@@ -141,16 +159,15 @@ namespace basecross
 			m_craft->AddItemCount(type, addNum);
 		}
 
-	public:
-
 		/*!
 		@brief 状態取得関数
 		@param プレイヤーの状態enum
 		@return その状態になっているかの真偽
 		*/
-		bool GetStatus(ePlayerStatus status)
+		bool GetStatus(ePlayerStatus status) const
 		{
 			return m_status(status);
 		}
 	};
+
 }

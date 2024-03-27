@@ -97,6 +97,12 @@ namespace basecross
 		void SetTexture(const wstring& textureKey);
 
 		/*!
+		@brief 描画変更設定関数
+		@param eVerticesRect
+		*/
+		void SetVerticesRect(eVerticesRect rect) override;
+
+		/*!
 		@brief フェードイン処理する関数
 		@param フェードに掛かる時間
 		@return フェードが完了したかの真偽

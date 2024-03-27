@@ -77,22 +77,37 @@
       <Filter>Player\Craft</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftingIcon.h">
-      <Filter>Player\Craft\CraftingIcon</Filter>
+      <Filter>Player\Craft\CraftUI\CraftingIcon</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftItemIcon.h">
-      <Filter>Player\Craft\CraftItemIcon</Filter>
+      <Filter>Player\Craft\CraftUI\CraftItemIcon</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftWindow.h">
-      <Filter>Player\Craft\CraftWindow</Filter>
+      <Filter>Player\Craft\CraftUI\CraftWindow</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftingQTE.h">
-      <Filter>Player\Craft\CraftingQTE</Filter>
+      <Filter>Player\Craft\CraftUI\CraftingQTE</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h">
       <Filter>TitleStage</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Tarminal.h">
       <Filter>StageObject\Tarminal</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftUI.h">
+      <Filter>Player\Craft\CraftUI</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerMovingState.h">
+      <Filter>Player\State\Moving</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerState.h">
+      <Filter>Player\State</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerMiningState.h">
+      <Filter>Player\State\Mining</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerCraftingState.h">
+      <Filter>Player\State\Crafting</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -157,22 +172,34 @@
       <Filter>Player\Craft</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftingIcon.cpp">
-      <Filter>Player\Craft\CraftingIcon</Filter>
+      <Filter>Player\Craft\CraftUI\CraftingIcon</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftItemIcon.cpp">
-      <Filter>Player\Craft\CraftItemIcon</Filter>
+      <Filter>Player\Craft\CraftUI\CraftItemIcon</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftWindow.cpp">
-      <Filter>Player\Craft\CraftWindow</Filter>
+      <Filter>Player\Craft\CraftUI\CraftWindow</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftingQTE.cpp">
-      <Filter>Player\Craft\CraftingQTE</Filter>
+      <Filter>Player\Craft\CraftUI\CraftingQTE</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp">
       <Filter>TitleStage</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Tarminal.cpp">
       <Filter>StageObject\Tarminal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftUI.cpp">
+      <Filter>Player\Craft\CraftUI</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMovingState.cpp">
+      <Filter>Player\State\Moving</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMiningState.cpp">
+      <Filter>Player\State\Mining</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerCraftingState.cpp">
+      <Filter>Player\State\Crafting</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -242,23 +269,38 @@
     <Filter Include="Player\Craft">
       <UniqueIdentifier>{eea4401e-a506-4257-af28-d7b93e6a3204}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Player\Craft\CraftingIcon">
-      <UniqueIdentifier>{77cbad18-3cb3-48c8-bafa-d76064ddcbab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Player\Craft\CraftItemIcon">
-      <UniqueIdentifier>{14d3a9f5-fd76-4cbe-88bb-dd1cb3acbbf6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Player\Craft\CraftWindow">
-      <UniqueIdentifier>{e7f02516-575c-4118-bda2-19ef8539b878}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Player\Craft\CraftingQTE">
-      <UniqueIdentifier>{f4a7f1b8-503b-48eb-b6ee-50c874a2a1d0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="TitleStage">
       <UniqueIdentifier>{6c23563c-dd73-4b49-a99e-db3417271d14}</UniqueIdentifier>
     </Filter>
     <Filter Include="StageObject\Tarminal">
       <UniqueIdentifier>{a3d9a28f-d5b1-4470-80ac-19d3da80f63d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Craft\CraftUI">
+      <UniqueIdentifier>{9daab37d-9590-401e-adab-74d74c5a7409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Craft\CraftUI\CraftingIcon">
+      <UniqueIdentifier>{77cbad18-3cb3-48c8-bafa-d76064ddcbab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Craft\CraftUI\CraftingQTE">
+      <UniqueIdentifier>{f4a7f1b8-503b-48eb-b6ee-50c874a2a1d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Craft\CraftUI\CraftItemIcon">
+      <UniqueIdentifier>{14d3a9f5-fd76-4cbe-88bb-dd1cb3acbbf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Craft\CraftUI\CraftWindow">
+      <UniqueIdentifier>{e7f02516-575c-4118-bda2-19ef8539b878}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\State">
+      <UniqueIdentifier>{b5631a27-0a5b-45df-95f6-45be262082e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\State\Moving">
+      <UniqueIdentifier>{406bf76f-6cd6-43c6-887a-66267bbf430e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\State\Mining">
+      <UniqueIdentifier>{85f07715-97f4-46c9-a4cc-8c7b64787723}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\State\Crafting">
+      <UniqueIdentifier>{54758f4d-e230-42c6-9dc6-335c4e38edbc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

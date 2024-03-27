@@ -31,6 +31,10 @@ namespace basecross
 		// 重力の追加
 		AddComponent<Gravity>();
 
+		// ステートマシンの初期化
+		m_stateMachine.reset(new StateMachine<Player>(GetThis<Player>()));
+		m_stateMachine->ChangeState(PlayerMovingState::Instance());
+
 		// ステージの取得
 		const auto& stagePtr = GetStage();
 
@@ -49,57 +53,23 @@ namespace basecross
 	// 毎フレーム更新処理
 	void Player::OnUpdate()
 	{
-		// 採掘中なら
-		if (m_status(ePlayerStatus::IsMining))
-		{
-			// 採掘中の更新
-			UpdateMining();
-		}
-
-		// 採掘中じゃなければ
-		if (!m_status(ePlayerStatus::IsMining))
-		{
-			// Aボタンが入力されたら
-			if (GetPushA())
-			{
-				// Aボタン入力時の処理をクラフト状態で分岐させる
-				m_status(ePlayerStatus::IsCrafting) ? OnCraft() : OnPushA();
-			}
-
-			// Xボタンが入力されたら
-			if (GetPushX())
-			{
-				// クラフト状態を切り替える
-				m_status.Set(ePlayerStatus::IsCrafting) = !m_status(ePlayerStatus::IsCrafting);
-
-				// クラフトマネージャーにクラフト状態を送る
-				m_craft->CraftingEnabled(m_status(ePlayerStatus::IsCrafting));
-			}
-
-			// クラフト中じゃなければ
-			if (!m_status(ePlayerStatus::IsCrafting))
-			{
-				// 移動更新
-				UpdateMove();
-			}
-		}
+		// ステートマシンの更新処理を送る
+		m_stateMachine->Update();
 
 		// アイテム状態の更新
 		UpdateItemStatus();
 
 		// デバック用文字列
+		Debug::Log(L"プレイヤーのステート : ", m_stateMachine->GetCurrentState()->GetStateName());
 		Debug::Log(L"プレイヤーの座標 : ", GetPosition());
-		Debug::Log(L"移動中か : ", m_status(ePlayerStatus::IsMove));
-		Debug::Log(L"採掘中か : ", m_status(ePlayerStatus::IsMining));
-		Debug::Log(L"クラフト中か : ", m_status(ePlayerStatus::IsCrafting));
 		Debug::Log(L"クラフトQTE中か : ", m_status(ePlayerStatus::IsCraftQTE));
 		Debug::Log(L"木の所持状態は", m_status(ePlayerStatus::IsHaveWood) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Wood), L"個");
 		Debug::Log(L"石の所持状態は", m_status(ePlayerStatus::IsHaveStone) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Stone), L"個");
 		Debug::Log(L"レールの所持状態は", m_status(ePlayerStatus::IsHaveRail) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Rail), L"個");
 	}
 
-	// Aボタン入力時
-	void Player::OnPushA()
+	// 移動状態でのAボタン入力時
+	void Player::MovingPushA()
 	{
 		// エラーチェック
 		if (!m_indicator.lock()) return;
@@ -111,7 +81,7 @@ namespace basecross
 		if (miningObj)
 		{
 			// 採掘関数を返す
-			OnMining(miningObj);
+			MiningProcces(miningObj);
 			return;
 		}
 
@@ -125,42 +95,13 @@ namespace basecross
 			// レールを所持してたら設置処理を送る
 			if (GetItemCount(eItemType::Rail))
 			{
-				OnRailed(railPos);
+				AddRailed(railPos);
 			}
 		}
 	}
 
-	// クラフト呼び出し
-	void Player::OnCraft()
-	{
-		//// アイコンが選択しているクラフトアイテムを取得
-		//eCraftItem item = m_craft->GetIconItem();
-		eCraftItem item = eCraftItem::Rail;
-
-		// クラフト
-		if (m_craft->GetShowCraftWindow() && !m_status(ePlayerStatus::IsCraftQTE))
-		{
-			// クラフト命令を送り、クラフト可能であればtrue
-			if (m_craft->CraftOrder(item))
-			{
-				// QTE状態をオンにし、QTEを開始させる
-				m_status.Set(ePlayerStatus::IsCraftQTE) = true;
-				m_craft->StartQTE();
-			}
-			return;
-		}
-
-		// クラフトQTE
-		if (m_status(ePlayerStatus::IsCraftQTE))
-		{
-			// クラフトマネージャにQTEのバーの停止を送る
-			m_craft->StopQTE(item);
-			m_status.Set(ePlayerStatus::IsCraftQTE) = false;
-		}
-	}
-
-	// 採掘呼び出し
-	void Player::OnMining(const shared_ptr<TemplateObject>& miningObj)
+	// 採掘処理
+	void Player::MiningProcces(const shared_ptr<TemplateObject>& miningObj)
 	{
 		// 採掘可能オブジェクトに型キャスト
 		const auto& mining = dynamic_pointer_cast<MiningObject>(miningObj);
@@ -183,8 +124,8 @@ namespace basecross
 		m_status.Set(ePlayerStatus::IsMining) = true;
 	}
 
-	// レールの設置呼び出し
-	void Player::OnRailed(const Vec3& railPosition)
+	// レールの設置
+	void Player::AddRailed(const Vec3& railPosition)
 	{
 		// 所属ステージの取得
 		const auto& stagePtr = GetStage();
@@ -197,8 +138,8 @@ namespace basecross
 		AddItemCount(eItemType::Rail, -1);
 	}
 	
-	// 採掘中の更新
-	void Player::UpdateMining()
+	// 採掘状態での待機処理
+	void Player::MiningWaiting()
 	{
 		// 採掘時のアニメーション更新
 		// UpdateAnimation(ePlayerStatus::IsMining);
@@ -206,9 +147,60 @@ namespace basecross
 		// 採掘中の待機時間
 		// 本来ならアニメーション終了時間で状態遷移させるが
 		// 現状はタイマーで待機時間を再現する
-		if (SetTimer(0.5f))
+		if (SetTimer(0.1f))
 		{
 			m_status.Set(ePlayerStatus::IsMining) = false;
+		}
+	}
+
+	// クラフト状態でのAボタン入力
+	void Player::CraftingPushA()
+	{
+		// クラフトウィンドウが表示済みで、QTE中じゃなければ
+		if (m_craft->GetShowCraftWindow() && !m_status(ePlayerStatus::IsCraftQTE))
+		{
+			// クラフト命令を送り、クラフト可能であればtrue
+			if (m_craft->CraftOrder())
+			{
+				// QTE状態をオンにし、QTEを開始させる
+				m_status.Set(ePlayerStatus::IsCraftQTE) = true;
+				m_craft->StartQTE();
+			}
+			return;
+		}
+
+		// クラフトQTE
+		if (m_status(ePlayerStatus::IsCraftQTE))
+		{
+			// クラフトマネージャにQTEのバーの停止を送る
+			m_craft->StopQTE();
+			m_status.Set(ePlayerStatus::IsCraftQTE) = false;
+		}
+	}
+
+	// クラフト状態でのXボタン入力
+	void Player::CraftingPushX()
+	{
+		// Xボタンが入力され、QTE状態じゃなければ
+		if (!m_status(ePlayerStatus::IsCraftQTE))
+		{
+			// クラフト状態を切り替える
+			m_status.Set(ePlayerStatus::IsCrafting) = !m_status(ePlayerStatus::IsCrafting);
+
+			// クラフトマネージャーにクラフト状態を送る
+			m_craft->CraftingEnabled(m_status(ePlayerStatus::IsCrafting));
+		}
+	}
+
+	// クラフトQTEが終わっているかの確認
+	void Player::CheckedCraftQTE()
+	{
+		// QTEが終わったら
+		if (m_craft->GetEndedQTE())
+		{
+			// QTE終了時の処理を送り、QtE状態を解除
+			m_craft->StopQTE();
+			m_status.Set(ePlayerStatus::IsCraftQTE) = false;
 		}
 	}
 
