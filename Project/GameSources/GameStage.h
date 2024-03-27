@@ -65,6 +65,11 @@ namespace basecross
 		void CreateRails();
 
 		/*!
+		@briefƒS[ƒ‹’n“_‚Ì¶¬
+		*/
+		void CreateGoalRail();
+
+		/*!
 		@brief —ñÔ¶¬
 		*/
 		void CreateTrain();

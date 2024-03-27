@@ -100,7 +100,11 @@ namespace basecross
 			SetSharedGameObject(L"Rails" + i, rail);
 			railGroup->IntoGroup(rail);
 		}
+	}
 
+	void GameStage::CreateGoalRail()
+	{
+		AddGameObject<GoalRail>(Vec3(9.0f, 1.0f, 0.0f));
 	}
 
 	// —ñÔ‚Ì¶¬
@@ -173,8 +177,12 @@ namespace basecross
 
 			// MiningObject‚Ì¶¬
 			CreateStageObject();
+
 			// ü˜H‚Ì¶¬
 			CreateRails();
+
+			// ƒS[ƒ‹’n“_‚Ì¶¬
+			CreateGoalRail();
 
 			// —ñÔ‚Ì¶¬
 			CreateTrain();

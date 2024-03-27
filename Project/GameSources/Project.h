@@ -16,6 +16,7 @@
 #include "CraftManager.h"
 #include "Ground.h"
 #include "Rail.h"
+#include "GoalRail.h"
 #include "Train.h"
 #include "Tarminal.h"
 
