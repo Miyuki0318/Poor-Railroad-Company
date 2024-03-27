@@ -24,7 +24,7 @@ namespace basecross {
 		m_ptrColl->SetAfterCollision(AfterCollision::None);
 
 		// タグの設定
-		AddTag(L"Rail");
+		AddTag(L"GoalRail");
 
 		// Stationオブジェクトの生成
 		const auto ptrTrans = GetComponent<Transform>();
