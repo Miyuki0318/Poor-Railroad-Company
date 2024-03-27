@@ -9,6 +9,16 @@
 
 namespace basecross {
 	class MiningObject : public  TemplateObject {
+	public:
+		// 状態管理用定数
+		enum class eState
+		{
+			Normal, //通常の状態
+			Damage, // 損傷した状態
+			Broken, // 破壊された状態
+			None // 消滅した状態
+		};
+
 	protected:
 		// 生成座標
 		const Vec3 m_spawnPos;
@@ -16,6 +26,8 @@ namespace basecross {
 		int m_miningCount;
 		// 開始時だけ処理させたい関数用のbool
 		bool m_setFlg;
+		// 状態を保持する変数
+		eState m_state;
 
 	public:
 		// コンストラクタ
@@ -28,6 +40,7 @@ namespace basecross {
 			// 変数の初期化
 			m_miningCount = 0;
 			m_setFlg = true;
+			m_state = eState::Normal;
 		}
 
 		/*!
@@ -88,6 +101,11 @@ namespace basecross {
 		@brief	 オブジェクトをリセットする関数
 		*/
 		void OnReset() override;
+
+		/*
+		@brief	 ステートに応じて処理を行う関数
+		*/
+		void AccordingState();
 
 	};
 

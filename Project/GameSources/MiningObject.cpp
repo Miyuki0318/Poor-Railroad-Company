@@ -59,7 +59,7 @@ namespace basecross {
 
 		// 採掘回数が上限に達した場合、オブジェクトを破壊
 		if (m_miningCount == m_miningCountLimit) {
-			// 現状、破壊されるアニメーションがないので更新止めるだけ
+			m_state = eState::Broken;
 			SetUpdateActive(false);
 			SetDrawActive(false);
 		}
@@ -73,10 +73,37 @@ namespace basecross {
 	void Tree::OnReset() {
 		// 変数の初期化
 		m_miningCount = 0;
+
+		// オブジェクトの見た目を初期状態にする処理を入れる
+		 
+		
 		// オブジェクトの更新を再開
 		SetUpdateActive(true);
 	}
 
+	void Tree::AccordingState() {
+		switch (m_state)
+		{
+		case eState::Damage:
+			// 損傷時の見た目に変更する処理を入れる
+
+			break;
+		case eState::Broken:
+			// 破壊されたアニメーションを再生する処理を入れる
+
+			// 破壊時のパーティクルを再生する処理を入れる
+
+			break;
+		case eState::None:
+			// 更新を停止し、不可視にする
+			SetUpdateActive(false);
+			SetDrawActive(false);
+
+			break;
+		default:
+			break;
+		}
+	}
 
 
 	void Rock::OnCreate() {
@@ -121,6 +148,10 @@ namespace basecross {
 	void Rock::OnReset() {
 		// 変数の初期化
 		m_miningCount = 0;
+
+		//ドローコンポーネント
+		
+
 		// オブジェクトの更新を再開
 		SetUpdateActive(true);
 	}
