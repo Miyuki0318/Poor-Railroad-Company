@@ -1,6 +1,6 @@
 /*!
 @file Station.cpp
-@brief
+@brief Tarminalの後方マスに配置される駅オブジェ
 @author 小宅碧
 */
 

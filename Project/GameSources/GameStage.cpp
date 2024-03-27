@@ -67,8 +67,8 @@ namespace basecross
 		const auto& group = GetSharedObjectGroup(L"MiningObject");
 
 		for (int i = 0; i < 10; i++) {
-			const auto& treeObj = AddGameObject<Tree>(Vec3(1.0f * i, 1.5f, 1.0f), 2);
-			const auto& rockObj = AddGameObject<Rock>(Vec3(1.0f * i, 1.5f, 4.0f), 2);
+			const auto& treeObj = AddGameObject<Tree>(Vec3(1.0f * i, 1.5f, 2.0f), 2);
+			const auto& rockObj = AddGameObject<Rock>(Vec3(1.0f * i, 1.5f, 5.0f), 2);
 
 			group->IntoGroup(treeObj);
 			group->IntoGroup(rockObj);
