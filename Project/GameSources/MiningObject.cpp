@@ -24,6 +24,7 @@ namespace basecross {
 		//描画コンポーネントの設定
 		SetAlphaActive(true);
 		SetDrawActive(true);
+		SetAlphaActive(false);
 
 		// タグの設定
 		AddTag(L"MiningObject");
@@ -45,7 +46,7 @@ namespace basecross {
 	}
 
 	void Tree::OnUpdate() {
-		if (m_setFlg) {
+		if (!m_setFlg) {
 			// 自身のコリジョンを取得
 			auto ptrColl = GetComponent<CollisionObb>();
 			// MiningObjectGroupを取得
@@ -54,7 +55,7 @@ namespace basecross {
 			ptrColl->SetExcludeCollisionGroup(group);
 
 			// フラグをfalseに変更
-			m_setFlg = false;
+			m_setFlg = true;
 		}
 
 		// 採掘回数が上限に達した場合、オブジェクトを破壊
