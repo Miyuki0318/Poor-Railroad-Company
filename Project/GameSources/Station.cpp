@@ -13,9 +13,10 @@ namespace basecross {
 	void Station::OnCreate() {
 		//初期位置などの設定
 		TemplateObject::OnCreate();
-		SetScale(Vec3(1.0f));
+		SetScale(Vec3(1.0f, 2.0f, 1.0f));
 		SetRotation(Vec3(0.0f));
-		SetPosition(m_spawnPos);
+		float hulfScale = GetScale().getY() / 2.0f;
+		SetPosition(m_spawnPos.x, m_spawnPos.y + hulfScale, m_spawnPos.z);
 
 		//CollisionObb衝突判定を付ける
 		auto ptrColl = AddComponent<CollisionObb>();
@@ -30,6 +31,7 @@ namespace basecross {
 		//描画コンポーネントの設定
 		SetAlphaActive(true);
 		SetDrawActive(true);
+		SetAlphaActive(false);
 
 		// タグの設定
 		AddTag(L"Station");
@@ -37,7 +39,7 @@ namespace basecross {
 	}
 
 	void Station::OnUpdate() {
-		if (m_setFlg) {
+		if (!m_setFlg) {
 			// 自身のコリジョンを取得
 			auto ptrColl = GetComponent<CollisionObb>();
 			// MiningObjectGroupを取得
@@ -46,7 +48,11 @@ namespace basecross {
 			ptrColl->SetExcludeCollisionGroup(group);
 
 			// フラグをfalseに変更
-			m_setFlg = false;
+			m_setFlg = true;
 		}
+	}
+
+	void Station::OnReset(){
+	
 	}
 }

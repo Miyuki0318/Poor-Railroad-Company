@@ -32,6 +32,8 @@ namespace basecross {
 				Vec3(0.0f),
 				Vec3(0.0f)
 			);
+			// 変数の初期化
+			m_setFlg = false;
 		}
 
 		/*!
@@ -43,11 +45,6 @@ namespace basecross {
 		@brief	 毎フレーム実行される関数
 		*/
 		void OnUpdate() override;
-
-		/*!
-		@brief	 採掘時に呼び出される関数
-		*/
-		void OnMining();
 
 		/*
 		@brief	 オブジェクトをリセットする関数
