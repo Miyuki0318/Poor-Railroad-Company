@@ -39,7 +39,7 @@ namespace basecross {
 		{
 			// •Ï”‚Ì‰Šú‰»
 			m_miningCount = 0;
-			m_setFlg = true;
+			m_setFlg = false;
 			m_state = eState::Normal;
 		}
 

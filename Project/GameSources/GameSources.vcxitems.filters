@@ -107,7 +107,10 @@
       <Filter>Player\State\Mining</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerCraftingState.h">
+    </ClInclude>
       <Filter>Player\State\Crafting</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GoalRail.h">
+      <Filter>StageObject\Rail\Goal</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -200,6 +203,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerCraftingState.cpp">
       <Filter>Player\State\Crafting</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GoalRail.cpp">
+      <Filter>StageObject\Rail\Goal</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -301,6 +307,9 @@
     </Filter>
     <Filter Include="Player\State\Crafting">
       <UniqueIdentifier>{54758f4d-e230-42c6-9dc6-335c4e38edbc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Rail\Goal">
+      <UniqueIdentifier>{4007fc3e-1d7d-4d3e-a06f-5c09b8211644}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
