@@ -25,10 +25,6 @@ namespace basecross
 
 		//デフォルトのライティングを指定
 		PtrMultiLight->SetDefaultLighting();
-
-		// クリアする色を設定
-		Col4 color = Col4(31.0f / 255.0f, 30.0f / 255.0f, 71.0f / 255.0f, 255.0f / 255.0f);
-		App::GetApp()->GetScene<Scene>()->SetClearColor(color);
 	}
 
 	// リソースの読込
@@ -68,7 +64,7 @@ namespace basecross
 		// ステージ変更のため、シーンを取得
 		auto& scene = App::GetApp()->GetScene<Scene>();
 
-		if (m_startPush && m_fadeSprite->FadeInColor(3.0f))
+		if (m_startPush && m_fadeSprite->FadeInColor(m_fadeInTime))
 		{
 			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"GameStage");
 		}
@@ -77,9 +73,9 @@ namespace basecross
 	// フェードアウト処理
 	void TitleStage::FadeOutSprite()
 	{
-		if (!m_canPush && m_fadeSprite->FadeOutColor(1.0f))
+		if (!m_fadeStop && m_fadeSprite->FadeOutColor(m_fadeOutTime))
 		{
-			m_canPush = true;
+			m_fadeStop = true;
 		}
 	}
 

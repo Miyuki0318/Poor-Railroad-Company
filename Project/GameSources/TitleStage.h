@@ -11,11 +11,14 @@ namespace basecross
 	class TitleStage : public Stage
 	{
 	private:
-		// ボタンが押されたか
+		// スタートボタンが押されたか
 		bool m_startPush;
 
-		// ボタンが反応するか
-		bool m_canPush;
+		// フェードが終わったか
+		bool m_fadeStop;
+
+		const float m_fadeOutTime = 1.0f;
+		const float m_fadeInTime = 3.0f;
 
 		shared_ptr<Sprite> m_fadeSprite;
 
@@ -56,7 +59,7 @@ namespace basecross
 		TitleStage() : Stage()
 		{
 			m_startPush = false;
-			m_canPush = false;
+			m_fadeStop = false;
 		}
 
 		/*
