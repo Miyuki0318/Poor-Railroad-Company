@@ -133,6 +133,7 @@ namespace basecross
 		m_gameOverLogo = AddGameObject<Sprite>(L"GAMEOVER_TX", Vec2(100.0f), Vec3(0.0f));
 	}
 
+	// スプライトの表示
 	void GameStage::LogoActive()
 	{
 		switch (m_gameProgress)
@@ -206,6 +207,7 @@ namespace basecross
 	{
 		try
 		{
+			// スプライトの表示
 			LogoActive();
 		}
 		catch (...)

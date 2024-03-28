@@ -85,7 +85,7 @@ namespace basecross
 		void CreateSpriteObject();
 
 		/*!
-		@brief スプライトの生成
+		@brief スプライトの表示
 		*/
 		void LogoActive();
 
