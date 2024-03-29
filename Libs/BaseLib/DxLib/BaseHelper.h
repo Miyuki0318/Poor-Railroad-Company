@@ -2258,7 +2258,7 @@ namespace basecross{
 	template <typename T>
 	class StateMachine
 	{
-	private:
+	protected:
 		//このステートマシンを持つオーナー
 		weak_ptr<T> m_Owner;
 		//現在のステート
