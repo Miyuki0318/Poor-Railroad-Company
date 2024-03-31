@@ -18,6 +18,16 @@ namespace basecross
 		GameOver
 	};
 
+	// ステージオブジェクトID
+	enum class eStageID
+	{
+		Rail = 1,	// レール
+		DeRail,		// 脱線部分
+		GoalRail,	// ゴールレール
+		Rock = 10,	// 岩
+		Tree,		// 木
+	};
+
 	/*!
 	@brief ゲーム中のステージ
 	*/
@@ -32,6 +42,9 @@ namespace basecross
 
 		// タイマーオブジェクト
 		weak_ptr<Timer> m_timer;
+
+		// ステージマップ
+		vector<vector<int>> m_stageMap;
 
 		/*!
 		@brief リソースの読込
@@ -52,6 +65,12 @@ namespace basecross
 		@brief プレイヤー生成
 		*/
 		void CreatePlayer();
+
+		/*!
+		@brief ステージをcsvで生成
+		@param csvのファイル名
+		*/
+		void CreateStageCSV(string csvPath = "TestStage");
 
 		/*!
 		@brief 採掘系オブジェクトの生成生成

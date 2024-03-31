@@ -63,6 +63,69 @@ namespace basecross
 		SetSharedGameObject(L"Player", player);
 	}
 
+	// csvでのステージ生成
+	void GameStage::CreateStageCSV(string csvPath)
+	{
+		// 左と下の端
+		const float leftX = -7.0f;
+		const float upperZ = 7.0f;
+
+		// CSVデータ(int型の二次元配列)
+		m_stageMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath));
+
+		// オブジェクトグループ
+		const auto& railGroup = GetSharedObjectGroup(L"Rails");
+		const auto& miningGroup = GetSharedObjectGroup(L"MiningObject");
+
+		// 二重ループ
+		for (int i = 0; i < m_stageMap.size(); i++)
+		{
+			for (int j = 0; j < m_stageMap.at(i).size(); j++)
+			{
+				// 仮オブジェクト
+				shared_ptr<Rail> rail = nullptr;
+				shared_ptr<MiningObject> mining = nullptr;
+
+				// 座標(左限+列番号×スケール,下限+行数-行番号×スケール)
+				Vec3 position = Vec3(leftX + j, 1.5f, upperZ + -i);
+
+				// 数値の別名
+				const int& num = m_stageMap.at(i).at(j);
+				switch (static_cast<eStageID>(num))
+				{
+				case eStageID::Rail: // レールなら
+					rail = AddGameObject<Rail>(position);
+					break;
+
+				case eStageID::GoalRail: // ゴールレールなら
+					AddGameObject<GoalRail>(position);
+					break;
+					
+				case eStageID::Rock: // 岩なら
+					mining = AddGameObject<Rock>(position, 2); 
+					break;
+
+				case eStageID::Tree: // 木なら
+					mining = AddGameObject<Tree>(position, 2);
+					break;
+
+				default:
+					break;
+				}
+
+				// オブジェクトグループへの追加
+				if (rail)
+				{
+					railGroup->IntoGroup(rail);
+				}
+				if (mining)
+				{
+					miningGroup->IntoGroup(mining);
+				}
+			}
+		}
+	}
+
 	// 採掘物の生成
 	void GameStage::CreateStageObject()
 	{
@@ -176,14 +239,17 @@ namespace basecross
 			// プレイヤーの生成
 			CreatePlayer();
 
-			// MiningObjectの生成
-			CreateStageObject();
+			//// MiningObjectの生成
+			//CreateStageObject();
 
-			// 線路の生成
-			CreateRails();
+			//// 線路の生成
+			//CreateRails();
 
-			// ゴール地点の生成
-			CreateGoalRail();
+			//// ゴール地点の生成
+			//CreateGoalRail();
+
+			// CSVでステージを生成
+			CreateStageCSV();
 
 			// 列車の生成
 			CreateTrain();
