@@ -25,7 +25,7 @@ namespace basecross
 		IsHaveRail,	// 線路所持中
 	};
 
-	// プレイヤーの状態ステートクラス(名前用)
+	// プレイヤーの状態ステートクラス(名前のみ宣言)
 	class PlayerMovingState;	// 移動状態
 	class PlayerMiningState;	// 採掘状態
 	class PlayerCraftingState;	// クラフト状態
@@ -41,9 +41,12 @@ namespace basecross
 		shared_ptr<PNTStaticDraw> m_ptrDraw;   // 描画コンポーネント
 		shared_ptr<CollisionObb> m_ptrColl;    // コリジョンOBBコンポーネント
 		Bool8_t<ePlayerStatus> m_status;	   // フラグ管理クラス
+		
+		map<wstring, eItemType> m_minings;     // 採掘対象と取得アイテムタイプ
 
 		// ステートマシン
-		unique_ptr<PlayerStateMachine> m_stateMachine; 
+		unique_ptr<PlayerStateMachine> m_playerState; 
+
 
 		const float m_speed; // 速度
 
@@ -60,9 +63,13 @@ namespace basecross
 		*/
 		Player(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr, Vec3(0.0f, 3.0f, 0.0f), Vec3(0.0f), Vec3(1.0f, 1.5f, 1.0f)),
-			m_speed(5.0f)
+			m_speed(5.0f) // 今後CSVから速度等のステータスを取得予定
 		{
-			m_status = 0;
+			m_status = 0; // 状態フラグは0で初期化
+
+			// 採掘オブジェクトのタグと採掘時に加算するアイテムのタイプ
+			m_minings.insert(make_pair(L"Tree", eItemType::Wood));	// タグか木ならアイテムタイプは木材
+			m_minings.insert(make_pair(L"Rock", eItemType::Stone)); // タグが岩ならアイテムタイプは石材
 		}
 
 		/*!
@@ -103,11 +110,6 @@ namespace basecross
 		void AddRailed(const Vec3& railPosition);
 
 		/*!
-		@brief 採掘状態中の更新関数
-		*/
-		void MiningWaiting();
-
-		/*!
 		@brief クラフトQTEが終わっているかの確認関数
 		*/
 		void CheckedCraftQTE();
@@ -138,7 +140,7 @@ namespace basecross
 		*/
 		void SetState(const shared_ptr<PlayerState>& newState)
 		{
-			m_stateMachine->SetState(newState);
+			m_playerState->SetState(newState);
 		}
 			
 		/*!
