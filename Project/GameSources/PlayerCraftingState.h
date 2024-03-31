@@ -5,14 +5,14 @@
 */
 
 #pragma once
-#include "Player.h"
+#include "PlayerState.h"
 
 namespace basecross
 {
 	/*!
 	@brief クラフト状態のプレイヤーステート
 	*/
-	class PlayerCraftingState : public ObjState<Player>
+	class PlayerCraftingState : public PlayerState
 	{
 		/*!
 		@brief コンストラクタ
@@ -55,5 +55,17 @@ namespace basecross
 		@param ステートマシン参照オブジェクトのポインタ
 		*/
 		void Exit(const shared_ptr<Player>& player) override;
+
+		/*!
+		@brief Aボタン入力がされた時に実行される
+		@param プレイヤーのポインタ
+		*/
+		void OnPushA(const shared_ptr<Player>& player) override;
+
+		/*!
+		@brief Xボタン入力がされた時に実行される
+		@param プレイヤーのポインタ
+		*/
+		void OnPushX(const shared_ptr<Player>& player) override;
 	};
 }

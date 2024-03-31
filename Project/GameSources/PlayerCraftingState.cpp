@@ -19,7 +19,6 @@ namespace basecross
 		return instance;
 	}
 
-
 	// ステート名取得
 	wstring PlayerCraftingState::GetStateName() const
 	{
@@ -38,7 +37,7 @@ namespace basecross
 		// クラフト状態が解除されたので移動ステートに遷移
 		if (!player->GetStatus(ePlayerStatus::IsCrafting))
 		{
-			player->ChangeState(PlayerMovingState::Instance());
+			player->SetState(PlayerMovingState::Instance());
 		}
 
 		// クラフトQTE状態ならQTEが終わったかどうかの確認処理を送る
@@ -47,16 +46,51 @@ namespace basecross
 			player->CheckedCraftQTE();
 		}
 
-		// Aボタン入力があればクラフト時のAボタン入力処理を送る
-		if (Input::GetPushA()) player->CraftingPushA();
+		//// Aボタン入力があればクラフト時のAボタン入力処理を送る
+		//if (Input::GetPushA()) player->CraftingPushA();
 
-		// Xボタン入力があればクラフト時のXボタン入力処理を送る
-		if (Input::GetPushX()) player->CraftingPushX();
+		//// Xボタン入力があればクラフト時のXボタン入力処理を送る
+		//if (Input::GetPushX()) player->SwitchCraftWindow();
 	}
 
 	// ステート終了時の処理
 	void PlayerCraftingState::Exit(const shared_ptr<Player>& player)
 	{
 		// 今のところ何もしない
+	}
+
+	// Aボタン入力時
+	void PlayerCraftingState::OnPushA(const shared_ptr<Player>& player)
+	{
+		// クラフトウィンドウが表示済みで、QTE中じゃなければ
+		if (player->m_craft->GetShowCraftWindow() && !player->m_status(ePlayerStatus::IsCraftQTE))
+		{
+			// クラフト命令を送り、クラフト可能であればtrue
+			if (player->m_craft->CraftOrder())
+			{
+				// QTE状態をオンにし、QTEを開始させる
+				player->m_status.Set(ePlayerStatus::IsCraftQTE) = true;
+				player->m_craft->StartQTE();
+			}
+			return;
+		}
+
+		// クラフトQTE
+		if (player->m_status(ePlayerStatus::IsCraftQTE))
+		{
+			// クラフトマネージャにQTEのバーの停止を送る
+			player->m_craft->StopQTE();
+			player->m_status.Set(ePlayerStatus::IsCraftQTE) = false;
+		}
+	}
+
+	// Xボタン入力時
+	void PlayerCraftingState::OnPushX(const shared_ptr<Player>& player)
+	{
+		// QTE状態じゃなければクラフト画面を切り替える
+		if (!player->m_status(ePlayerStatus::IsCraftQTE))
+		{
+			player->SwitchCraftWindow();
+		}
 	}
 }

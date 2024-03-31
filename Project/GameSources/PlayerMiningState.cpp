@@ -34,18 +34,33 @@ namespace basecross
 	// ステート更新時の処理
 	void PlayerMiningState::Execute(const shared_ptr<Player>& player)
 	{
-		// 採掘状態が解除されたので移動ステートに遷移
-		if (!player->GetStatus(ePlayerStatus::IsMining)) 
-		{
-			player->ChangeState(PlayerMovingState::Instance());
-		}
+		// 採掘時のアニメーション更新
+		// UpdateAnimation(ePlayerStatus::IsMining);
 
-		// 採掘状態の待機時間を送る
-		player->MiningWaiting();
+		// 採掘中の待機時間
+		// 本来ならアニメーション終了時間で状態遷移させるが
+		// 現状はタイマーで待機時間を再現する
+		if (player->SetTimer(0.1f))
+		{
+			player->m_status.Set(ePlayerStatus::IsMining) = false;
+			player->SetState(PlayerMovingState::Instance());
+		}
 	}
 
 	// ステート終了時の処理
 	void PlayerMiningState::Exit(const shared_ptr<Player>& player)
+	{
+		// 今のところ何もしない
+	}
+
+	// Aボタン入力時
+	void PlayerMiningState::OnPushA(const shared_ptr<Player>& player)
+	{
+		// 今のところ何もしない
+	}
+
+	// Xボタン入力時
+	void PlayerMiningState::OnPushX(const shared_ptr<Player>& player)
 	{
 		// 今のところ何もしない
 	}
