@@ -2,7 +2,7 @@
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
     <ClInclude Include="$(MSBuildThisFileDirectory)GameStage.h">
-      <Filter>GameStage</Filter>
+      <Filter>Stage\GameStage</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h">
       <Filter>Player</Filter>
@@ -89,7 +89,7 @@
       <Filter>Player\Craft\CraftUI\CraftingQTE</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h">
-      <Filter>TitleStage</Filter>
+      <Filter>Stage\TitleStage</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Tarminal.h">
       <Filter>StageObject\Tarminal</Filter>
@@ -115,7 +115,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
-      <Filter>GameStage</Filter>
+      <Filter>Stage\GameStage</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
       <Filter>Player</Filter>
@@ -187,7 +187,7 @@
       <Filter>Player\Craft\CraftUI\CraftingQTE</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp">
-      <Filter>TitleStage</Filter>
+      <Filter>Stage\TitleStage</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Tarminal.cpp">
       <Filter>StageObject\Tarminal</Filter>
@@ -209,9 +209,6 @@
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <Filter Include="GameStage">
-      <UniqueIdentifier>{ffe53c14-a81d-4fac-964f-c63700dfa06b}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Player">
       <UniqueIdentifier>{ad3bd4ee-87cd-4886-99f6-5294a18d0d84}</UniqueIdentifier>
     </Filter>
@@ -275,9 +272,6 @@
     <Filter Include="Player\Craft">
       <UniqueIdentifier>{eea4401e-a506-4257-af28-d7b93e6a3204}</UniqueIdentifier>
     </Filter>
-    <Filter Include="TitleStage">
-      <UniqueIdentifier>{6c23563c-dd73-4b49-a99e-db3417271d14}</UniqueIdentifier>
-    </Filter>
     <Filter Include="StageObject\Tarminal">
       <UniqueIdentifier>{a3d9a28f-d5b1-4470-80ac-19d3da80f63d}</UniqueIdentifier>
     </Filter>
@@ -310,6 +304,15 @@
     </Filter>
     <Filter Include="StageObject\Rail\Goal">
       <UniqueIdentifier>{4007fc3e-1d7d-4d3e-a06f-5c09b8211644}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage">
+      <UniqueIdentifier>{f59477d1-a22a-4d03-a941-7aa000b91626}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage\GameStage">
+      <UniqueIdentifier>{ffe53c14-a81d-4fac-964f-c63700dfa06b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage\TitleStage">
+      <UniqueIdentifier>{6c23563c-dd73-4b49-a99e-db3417271d14}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
