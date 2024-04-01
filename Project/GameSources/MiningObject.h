@@ -84,7 +84,7 @@ namespace basecross {
 
 		// コンストラクタ
 		Tree::Tree(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
-			const Vec3 position, // 初期座標
+			const Vec3 position // 初期座標
 		) :
 			MiningObject(stagePtr, position), // ステージのポインタ
 			m_miningCountLimit(2) // 採掘回数上限
