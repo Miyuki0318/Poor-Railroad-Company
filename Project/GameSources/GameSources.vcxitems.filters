@@ -112,6 +112,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GoalRail.h">
       <Filter>StageObject\Rail\Goal</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerIdleState.h">
+      <Filter>Player\State\Idle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -206,6 +209,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)GoalRail.cpp">
       <Filter>StageObject\Rail\Goal</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerIdleState.cpp">
+      <Filter>Player\State\Idle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -313,6 +319,9 @@
     </Filter>
     <Filter Include="Stage\TitleStage">
       <UniqueIdentifier>{6c23563c-dd73-4b49-a99e-db3417271d14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\State\Idle">
+      <UniqueIdentifier>{f34c0152-ae2e-4e2d-802e-ac09c2b67bb7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

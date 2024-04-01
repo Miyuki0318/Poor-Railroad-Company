@@ -47,7 +47,6 @@ namespace basecross
 		// ステートマシン
 		unique_ptr<PlayerStateMachine> m_playerState; 
 
-
 		const float m_speed; // 速度
 
 		// フレンド化(ステートマシンからメンバ関数を呼び出すため)
