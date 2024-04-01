@@ -22,7 +22,7 @@ namespace basecross
 	// ステート名取得
 	wstring PlayerMovingState::GetStateName() const
 	{
-		return L"Moving";
+		return L"移動状態ステート";
 	}
 
 	// ステート開始時の処理
@@ -34,6 +34,9 @@ namespace basecross
 	// ステート更新時の処理
 	void PlayerMovingState::Execute(const shared_ptr<Player>& player)
 	{
+		// 移動状態なら移動ステートに遷移
+		if (player->GetStatus(ePlayerStatus::IsIdle)) player->SetState(PlayerIdleState::Instance());
+
 		// 採掘状態なら採掘ステートに遷移
 		if (player->GetStatus(ePlayerStatus::IsMining)) player->SetState(PlayerMiningState::Instance());
 
@@ -53,33 +56,8 @@ namespace basecross
 	// Aボタン入力時
 	void PlayerMovingState::OnPushA(const shared_ptr<Player>& player)
 	{
-		// エラーチェック
-		if (!player->m_indicator.lock()) return;
-
-		// 採掘可能か、可能なら採掘可能オブジェクトのポインタを返す
-		const auto& miningObj = player->m_indicator.lock()->GetMiningPossible();
-
-		// 採掘可能オブジェクトのポインタがあれば
-		if (miningObj)
-		{
-			// 採掘関数を返す
-			player->MiningProcces(miningObj);
-			return;
-		}
-
-		// レール設置用の座標を設定
-		Vec3 railPos = player->m_indicator.lock()->GetPosition();
-		railPos.y = 1.0f;
-
-		// レールを設置可能かをインディケーターから取得
-		if (player->m_indicator.lock()->GetRailedPossible(railPos))
-		{
-			// レールを所持してたら設置処理を送る
-			if (player->GetItemCount(eItemType::Rail))
-			{
-				player->AddRailed(railPos);
-			}
-		}
+		// インディケーターに応じた処理を実行
+		player->IndicatorOrder();
 	}
 
 	// Xボタン入力時

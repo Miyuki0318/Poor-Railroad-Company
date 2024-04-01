@@ -26,6 +26,7 @@ namespace basecross
 	};
 
 	// プレイヤーの状態ステートクラス(名前のみ宣言)
+	class PlayerIdleState;
 	class PlayerMovingState;	// 移動状態
 	class PlayerMiningState;	// 採掘状態
 	class PlayerCraftingState;	// クラフト状態
@@ -50,6 +51,7 @@ namespace basecross
 		const float m_speed; // 速度
 
 		// フレンド化(ステートマシンからメンバ関数を呼び出すため)
+		friend PlayerIdleState;
 		friend PlayerMovingState;
 		friend PlayerMiningState;
 		friend PlayerCraftingState;
@@ -92,9 +94,9 @@ namespace basecross
 	private:
 
 		/*!
-		@brief クラフト画面切り替え関数
+		@brief インディケーターへの取得と呼び出し関数
 		*/
-		void SwitchCraftWindow();
+		void IndicatorOrder();
 
 		/*!
 		@brief 採掘時に呼び出される関数
@@ -107,6 +109,11 @@ namespace basecross
 		@param レールを設置する座標
 		*/
 		void AddRailed(const Vec3& railPosition);
+
+		/*!
+		@brief クラフト画面切り替え関数
+		*/
+		void SwitchCraftWindow();
 
 		/*!
 		@brief クラフトQTEが終わっているかの確認関数
