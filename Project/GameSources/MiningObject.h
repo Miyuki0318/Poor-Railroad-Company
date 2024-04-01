@@ -71,7 +71,23 @@ namespace basecross {
 			const int miningCountLimit 	// 採掘回数上限
 		) :
 			MiningObject(stagePtr, position), // ステージのポインタ
-			m_miningCountLimit(miningCountLimit) 	// 採掘回数上限
+			m_miningCountLimit(miningCountLimit) // 採掘回数上限
+		{
+			// トランスフォームとモデルの差分行列を代入
+			m_modelMat.affineTransformation(
+				Vec3(1.0f, 1.0f, 1.0f),
+				Vec3(0.0f),
+				Vec3(0.0f),
+				Vec3(0.0f)
+			);
+		}
+
+		// コンストラクタ
+		Tree::Tree(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
+			const Vec3 position, // 初期座標
+		) :
+			MiningObject(stagePtr, position), // ステージのポインタ
+			m_miningCountLimit(2) // 採掘回数上限
 		{
 			// トランスフォームとモデルの差分行列を代入
 			m_modelMat.affineTransformation(
@@ -124,6 +140,22 @@ namespace basecross {
 		) :
 			MiningObject(stagePtr, position), // ステージのポインタ
 			m_miningCountLimit(miningCountLimit) 	// 採掘回数上限
+		{
+			// トランスフォームとモデルの差分行列を代入
+			m_modelMat.affineTransformation(
+				Vec3(1.0f, 1.0f, 1.0f),
+				Vec3(0.0f),
+				Vec3(0.0f),
+				Vec3(0.0f)
+			);
+		}
+
+		// コンストラクタ
+		Rock::Rock(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
+			const Vec3 position // 初期座標
+		) :
+			MiningObject(stagePtr, position), // ステージのポインタ
+			m_miningCountLimit(2) // 採掘回数上限
 		{
 			// トランスフォームとモデルの差分行列を代入
 			m_modelMat.affineTransformation(
