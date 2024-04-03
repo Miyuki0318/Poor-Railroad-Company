@@ -34,7 +34,7 @@ namespace basecross
 	// ステート更新時の処理
 	void PlayerMovingState::Execute(const shared_ptr<Player>& player)
 	{
-		// 移動状態なら移動ステートに遷移
+		// 待機状態なら移動ステートに遷移
 		if (player->GetStatus(ePlayerStatus::IsIdle)) player->SetState(PlayerIdleState::Instance());
 
 		// 採掘状態なら採掘ステートに遷移
@@ -45,6 +45,7 @@ namespace basecross
 
 		// 移動更新を送る
 		player->UpdateMove();
+		player->UpdateRotation();
 	}
 
 	// ステート終了時の処理
