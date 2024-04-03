@@ -72,8 +72,8 @@ namespace basecross
 			bool succes = qte->StopQTE();
 
 			// ‘fŞÁ”ï
-			AddItemCount(eItemType::Wood, -GetRacipeValue(item, eCraftParam::WoodValue));
-			AddItemCount(eItemType::Stone, -GetRacipeValue(item, eCraftParam::StoneValue));
+			UseItem(eItemType::Wood, GetRacipeValue(item, eCraftParam::WoodValue));
+			UseItem(eItemType::Stone, GetRacipeValue(item, eCraftParam::StoneValue));
 
 			// QTEŒ‹‰Ê‚É‰‚¶‚Äì¬—Ê‚ğİ’è
 			AddItemCount(eItemType::Rail, GetRacipeValue(item, succes ? eCraftParam::SuccesValue : eCraftParam::FailedValue));

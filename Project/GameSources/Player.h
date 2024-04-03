@@ -26,7 +26,7 @@ namespace basecross
 	};
 
 	// プレイヤーの状態ステートクラス(名前のみ宣言)
-	class PlayerIdleState;
+	class PlayerIdleState;		// 待機状態
 	class PlayerMovingState;	// 移動状態
 	class PlayerMiningState;	// 採掘状態
 	class PlayerCraftingState;	// クラフト状態
@@ -43,7 +43,7 @@ namespace basecross
 		shared_ptr<CollisionObb> m_ptrColl;    // コリジョンOBBコンポーネント
 		Bool8_t<ePlayerStatus> m_status;	   // フラグ管理クラス
 		
-		map<wstring, eItemType> m_minings;     // 採掘対象と取得アイテムタイプ
+		map<wstring, eItemType> m_miningMap;     // 採掘対象と取得アイテムタイプ
 
 		// ステートマシン
 		unique_ptr<PlayerStateMachine> m_playerState; 
@@ -69,8 +69,8 @@ namespace basecross
 			m_status = 0; // 状態フラグは0で初期化
 
 			// 採掘オブジェクトのタグと採掘時に加算するアイテムのタイプ
-			m_minings.insert(make_pair(L"Tree", eItemType::Wood));	// タグか木ならアイテムタイプは木材
-			m_minings.insert(make_pair(L"Rock", eItemType::Stone)); // タグが岩ならアイテムタイプは石材
+			m_miningMap.insert(make_pair(L"Tree", eItemType::Wood));	// タグか木ならアイテムタイプは木材
+			m_miningMap.insert(make_pair(L"Rock", eItemType::Stone)); // タグが岩ならアイテムタイプは石材
 		}
 
 		/*!

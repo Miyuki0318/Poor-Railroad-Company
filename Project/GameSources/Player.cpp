@@ -144,7 +144,7 @@ namespace basecross
 		stagePtr->GetSharedObjectGroup(L"Rails")->IntoGroup(rail);
 
 		// レールの所持数を減らす
-		AddItemCount(eItemType::Rail, -1);
+		m_craft->UseItem(eItemType::Rail);
 	}
 
 	// クラフト状態でのXボタン入力
@@ -181,7 +181,7 @@ namespace basecross
 	// 移動更新
 	void Player::UpdateMove()
 	{
-		// LStickの入力があり、クラフト中じゃなければ
+		// LStickの入力があるなら
 		bool isMoving = IsInputLStick();
 		if (isMoving)
 		{

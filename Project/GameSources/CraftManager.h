@@ -133,6 +133,16 @@ namespace basecross
 			m_itemCount.at(static_cast<size_t>(type)) += addNum;
 		}
 
+		/*!
+		@brief アイテム数追加関数
+		@param アイテムタイプenum
+		@param 追加数(デフォ1)
+		*/
+		void UseItem(eItemType type, int useNum = 1)
+		{
+			m_itemCount.at(static_cast<size_t>(type)) -= useNum;
+		}
+
 	private:
 
 		/*!
