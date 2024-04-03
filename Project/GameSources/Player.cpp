@@ -121,7 +121,7 @@ namespace basecross
 		int addNum = 1; // ƒc[ƒ‹ƒŒƒxƒ‹ŠT”O‚ª–³‚¢ˆ×ˆê’U1‚ÅŒÅ’è
 
 		// ÌŒ@‘ÎÛƒ}ƒbƒv‚ğ—p‚¢‚ÄÌŒ@”‚ğ’Ç‰Á
-		for (const auto& miningMap : m_minings)
+		for (const auto& miningMap : m_miningMap)
 		{
 			if (mining->FindTag(miningMap.first))
 			{
