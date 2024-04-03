@@ -15,7 +15,7 @@ namespace basecross
 	void Sprite::OnCreate()
 	{
 		// 継承元の生成時の関数を実行
-		TemplateObject::OnCreate();
+		DrawObject::OnCreate();
 
 		// 描画コンポーネントの設定
 		m_ptrDraw = AddComponent<PCTSpriteDraw>(m_vertex);

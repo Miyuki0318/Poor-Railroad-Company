@@ -22,7 +22,7 @@ namespace basecross
 	// ステート名取得
 	wstring PlayerCraftingState::GetStateName() const
 	{
-		return L"Crafting";
+		return L"クラフト状態ステート";
 	}
 
 	// ステート開始時の処理
@@ -37,7 +37,7 @@ namespace basecross
 		// クラフト状態が解除されたので移動ステートに遷移
 		if (!player->GetStatus(ePlayerStatus::IsCrafting))
 		{
-			player->SetState(PlayerMovingState::Instance());
+			player->SetState(PlayerIdleState::Instance());
 		}
 
 		// クラフトQTE状態ならQTEが終わったかどうかの確認処理を送る

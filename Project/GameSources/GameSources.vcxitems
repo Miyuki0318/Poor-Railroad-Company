@@ -37,6 +37,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OzawaUtility.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerCraftingState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerIdleState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerMiningState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerMovingState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerState.h" />
@@ -71,6 +72,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)OzawaUtility.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerCraftingState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerIdleState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMiningState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMovingState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Rail.cpp" />

@@ -22,7 +22,7 @@ namespace basecross
 	// ステート名取得
 	wstring PlayerMiningState::GetStateName() const
 	{
-		return L"Mining";
+		return L"採掘状態ステート";
 	}
 
 	// ステート開始時の処理
@@ -43,7 +43,8 @@ namespace basecross
 		if (player->SetTimer(0.1f))
 		{
 			player->m_status.Set(ePlayerStatus::IsMining) = false;
-			player->SetState(PlayerMovingState::Instance());
+
+			player->SetState(PlayerIdleState::Instance());
 		}
 	}
 

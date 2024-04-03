@@ -33,7 +33,7 @@ namespace basecross
 
 		// ステートマシンの初期化
 		m_playerState.reset(new PlayerStateMachine(GetThis<Player>()));
-		m_playerState->SetState(PlayerMovingState::Instance());
+		m_playerState->SetState(PlayerIdleState::Instance());
 
 		// ステージの取得(shared_ptrをconstで取得)
 		const auto& stagePtr = GetStage();
@@ -74,6 +74,38 @@ namespace basecross
 		Debug::Log(L"レールの所持状態は", m_status(ePlayerStatus::IsHaveRail) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Rail), L"個");
 	}
 
+	// インディケーターの取得に応じて処理
+	void Player::IndicatorOrder()
+	{
+		// エラーチェック
+		if (!m_indicator.lock()) return;
+
+		// 採掘可能か、可能なら採掘可能オブジェクトのポインタを返す
+		const auto& miningObj = m_indicator.lock()->GetMiningPossible();
+
+		// 採掘可能オブジェクトのポインタがあれば
+		if (miningObj)
+		{
+			// 採掘関数を返す
+			MiningProcces(miningObj);
+			return;
+		}
+
+		// レール設置用の座標を設定
+		Vec3 railPos = m_indicator.lock()->GetPosition();
+		railPos.y = 1.0f;
+
+		// レールを設置可能かをインディケーターから取得
+		if (m_indicator.lock()->GetRailedPossible(railPos))
+		{
+			// レールを所持してたら設置処理を送る
+			if (GetItemCount(eItemType::Rail))
+			{
+				AddRailed(railPos);
+			}
+		}
+	}
+		
 	// 採掘処理
 	void Player::MiningProcces(const shared_ptr<TemplateObject>& miningObj)
 	{
@@ -89,7 +121,7 @@ namespace basecross
 		int addNum = 1; // ツールレベル概念が無い為一旦1で固定
 
 		// 採掘対象マップを用いて採掘数を追加
-		for (const auto& miningMap : m_minings)
+		for (const auto& miningMap : m_miningMap)
 		{
 			if (mining->FindTag(miningMap.first))
 			{
@@ -112,7 +144,7 @@ namespace basecross
 		stagePtr->GetSharedObjectGroup(L"Rails")->IntoGroup(rail);
 
 		// レールの所持数を減らす
-		AddItemCount(eItemType::Rail, -1);
+		m_craft->UseItem(eItemType::Rail);
 	}
 
 	// クラフト状態でのXボタン入力
@@ -149,7 +181,7 @@ namespace basecross
 	// 移動更新
 	void Player::UpdateMove()
 	{
-		// LStickの入力があり、クラフト中じゃなければ
+		// LStickの入力があるなら
 		bool isMoving = IsInputLStick();
 		if (isMoving)
 		{

@@ -10,6 +10,7 @@
 #include "GameStage.h"
 #include "Player.h"
 #include "PlayerState.h"
+#include "PlayerIdleState.h"
 #include "PlayerMovingState.h"
 #include "PlayerMiningState.h"
 #include "PlayerCraftingState.h"
