@@ -50,7 +50,7 @@ namespace basecross {
 		}
 		else if (state == State::Derail && m_state != m_beforeState)
 		{
-			MessageBeep(0xFFFFFFFF);
+			GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::GameOver);
 		}
 	}
 }
