@@ -8,6 +8,7 @@
 
 #include "Scene.h"
 #include "GameStage.h"
+#include "MainCamera.h"
 #include "Player.h"
 #include "PlayerState.h"
 #include "PlayerIdleState.h"
