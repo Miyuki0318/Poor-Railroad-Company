@@ -16,8 +16,8 @@ namespace basecross
 		// ビューを作成
 		const auto& ptrView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
 		const auto& camera = ptrView->GetTargetCamera();
-		camera->SetEye(Vec3(46.0f, 6.6f, -60.0f));
-		camera->SetAt(Vec3(49.0f, 6.3f, -61.0f));
+		camera->SetEye(m_cameraEye);
+		camera->SetAt(m_cameraAt);
 		SetView(ptrView);
 
 		//マルチライトの作成
@@ -47,6 +47,12 @@ namespace basecross
 		m_fadeSprite = AddGameObject<Sprite>(L"FADE_TX", Vec2(width, height), Vec3(0.0f));
 		
 		m_fadeSprite->SetDiffuseColor(COL_WHITE);
+	}
+
+	void TitleStage::CreateGround()
+	{		
+		// 床ボックスオブジェクトの追加
+		AddGameObject<GroundBox>(Vec3(50.0f, 2.0f, 50.0f));
 	}
 
 	// スタートボタンを押した時の処理
@@ -89,6 +95,8 @@ namespace basecross
 			CreateResourses();
 
 			CreateSpriteObject();
+
+			CreateGround();
 		}
 		catch (...)
 		{
