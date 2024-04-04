@@ -11,8 +11,8 @@
 namespace basecross {
 	class Train : public TemplateObject
 	{
-		const Vec3 m_DefaultPosition = Vec3(-4.0f, 1.0f, 0.0f);
-		const Vec3 m_DefaultScale = Vec3(2.0f, 1.0f, 1.0f);
+		const Vec3 m_DefaultPosition;
+		const Vec3 m_DefaultScale;
 
 		/*!
 		@brief óÒé‘ÇÃèÛë‘
@@ -33,7 +33,9 @@ namespace basecross {
 
 	public:
 		Train(const shared_ptr<Stage>& stagePtr) :
-			TemplateObject(stagePtr, m_DefaultPosition, Vec3(0.0f), m_DefaultScale),
+			TemplateObject(stagePtr),
+			m_DefaultPosition(Vec3(-4.0f, 1.5f, 0.0f)),
+			m_DefaultScale(Vec3(2.0f, 1.0f, 1.0f)),
 			m_MoveSpeed(3.0f)
 		{
 		}

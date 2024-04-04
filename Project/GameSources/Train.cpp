@@ -12,7 +12,8 @@ namespace basecross {
 	void Train::OnCreate()
 	{
 		TemplateObject::OnCreate();
-		SetTransParam();
+		SetPosition(m_DefaultPosition);
+		SetScale(m_DefaultScale);
 
 		// 描画コンポーネントの設定
 		m_ptrDraw = AddComponent<PNTStaticDraw>();
@@ -31,6 +32,13 @@ namespace basecross {
 	{
 		Move(m_state);
 		m_beforeState = m_state;
+
+		//Vec3 pos = GetPosition();
+		//pos.y = m_DefaultPosition.y;
+
+		//SetPosition(pos);
+
+		Debug::Log(L"トレインの座標 : ", GetPosition());
 	}
 
 	void Train::OnCollisionEnter(shared_ptr<GameObject>& gameObject)
