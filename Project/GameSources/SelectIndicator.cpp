@@ -114,33 +114,31 @@ namespace basecross
 	{
 		bool achiev = false; // 設置できるかの真偽
 
-		// 採掘可能オブジェクト配列の取得
-		const auto& railsVec = GetStage()->GetSharedObjectGroup(L"Rails")->GetGroupVector();
+		// ステージマップ配列の取得
+		const int deRailID = static_cast<int>(eStageID::DeRail);
+		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
 
-		// 配列の数ループ
-		for (const auto& weakObj : railsVec)
+		// 上下左右
+		vector<Vec3> vec = { FRONT_VEC, BACK_VEC, LEFT_VEC, RIGHT_VEC };
+
+		if (stageMap.at(size_t(checkPos.z + 7.0f)).at(size_t(checkPos.x + 7.0f)) != 0) return false;
+
+		for (size_t i = 0; i < stageMap.size(); i++)
 		{
-			// エラーチェック
-			if (!weakObj.lock()) continue;
-			//if (!weakObj.lock()->IsUpdateActive()) continue;
-
-			// 型キャスト
-			const auto& railObj = dynamic_pointer_cast<TemplateObject>(weakObj.lock());
-			if (!railObj) continue;
-		
-			// 座標の取得
-			Vec3 railPos = railObj->GetPosition();
-
-			// 同じ座標にレールがあるなら設置不可
-			if (railPos == checkPos) return false;
-
-			// レールの左右前後の座標と一致してたら設置可能
-			vector<Vec3> vec = { FRONT_VEC, BACK_VEC, LEFT_VEC, RIGHT_VEC };
-			for (const auto& v : vec)
+			for (size_t j = 0; j < stageMap.at(i).size(); j++)
 			{
-				if (checkPos == railPos + v)
+				int id = stageMap.at(i).at(j);
+				if (id != deRailID) continue;
+
+				Vec3 deRailPos;
+				for (const auto& v : vec)
 				{
-					achiev = true;
+					deRailPos = checkPos + v;
+
+					if (stageMap.at(size_t(deRailPos.z + 7.0f)).at(size_t(deRailPos.x + 7.0f)) == deRailID)
+					{
+						achiev = true;
+					}
 				}
 			}
 		}

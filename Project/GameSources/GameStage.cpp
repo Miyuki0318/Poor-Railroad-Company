@@ -94,7 +94,7 @@ namespace basecross
 				switch (static_cast<eStageID>(num))
 				{
 				case eStageID::Rail: // レールなら
-					rail = AddGameObject<Rail>(position);
+					//rail = AddGameObject<Rail>(position);
 					break;
 
 				case eStageID::GoalRail: // ゴールレールなら
@@ -152,17 +152,8 @@ namespace basecross
 	}
 	void GameStage::CreateRails()
 	{
-		// シェアオブジェクトグループ
-		const auto& railGroup = GetSharedObjectGroup(L"Rails");
-
-		for (int i = 0; i < 5; i++)
-		{
-			// 線路オブジェクトの追加
-			const auto& rail = AddGameObject<Rail>(Vec3((float)-i, 1.0f, 0.0f));
-			// シェアオブジェクトに登録
-			SetSharedGameObject(L"Rails" + i, rail);
-			railGroup->IntoGroup(rail);
-		}
+		const auto& railManager = AddGameObject<RailManager>();
+		SetSharedGameObject(L"RailManager", railManager);
 	}
 
 	void GameStage::CreateGoalRail()
@@ -242,14 +233,14 @@ namespace basecross
 			//// MiningObjectの生成
 			//CreateStageObject();
 
-			//// 線路の生成
-			//CreateRails();
-
 			//// ゴール地点の生成
 			//CreateGoalRail();
 
 			// CSVでステージを生成
 			CreateStageCSV();
+
+			// 線路の生成
+			CreateRails();
 
 			// 列車の生成
 			CreateTrain();

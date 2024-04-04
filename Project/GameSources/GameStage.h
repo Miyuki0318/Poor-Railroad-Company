@@ -143,6 +143,15 @@ namespace basecross
 		virtual void OnDraw() override;
 
 		/*!
+		@brief ステージマップの取得
+		@return m_stageMap
+		*/
+		vector<vector<int>>& GetStageMap()
+		{
+			return m_stageMap;
+		}
+
+		/*!
 		@brief タイマークラス取得関数
 		@return const shared_ptr<Timer>
 		*/
@@ -154,7 +163,7 @@ namespace basecross
 		/*!
 		@brief ゲームの進行状態をゲットする関数
 		*/
-		eGameProgress GetGameProgress()
+		eGameProgress GetGameProgress() const
 		{
 			return m_gameProgress;
 		}

@@ -115,6 +115,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerIdleState.h">
       <Filter>Player\State\Idle</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RailManager.h">
+      <Filter>StageObject\Rail</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -212,6 +215,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerIdleState.cpp">
       <Filter>Player\State\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)RailManager.cpp">
+      <Filter>StageObject\Rail</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

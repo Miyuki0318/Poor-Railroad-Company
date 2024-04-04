@@ -43,6 +43,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Project.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Rail.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RailManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectIndicator.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h" />
@@ -76,6 +77,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMiningState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMovingState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Rail.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RailManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectIndicator.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp" />

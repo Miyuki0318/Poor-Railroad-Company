@@ -20,6 +20,7 @@
 #include "SelectIndicator.h"
 #include "CraftManager.h"
 #include "Ground.h"
+#include "RailManager.h"
 #include "Rail.h"
 #include "GoalRail.h"
 #include "Train.h"

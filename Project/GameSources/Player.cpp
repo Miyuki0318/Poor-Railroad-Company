@@ -101,7 +101,7 @@ namespace basecross
 			// ƒŒ[ƒ‹‚ðŠŽ‚µ‚Ä‚½‚çÝ’uˆ—‚ð‘—‚é
 			if (GetItemCount(eItemType::Rail))
 			{
-				AddRailed(railPos);
+				GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->AddRail(railPos);
 			}
 		}
 	}
