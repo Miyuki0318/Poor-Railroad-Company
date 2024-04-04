@@ -32,14 +32,10 @@ namespace basecross
 	//ビューとライトの生成
 	void GameStage::CreateViewLight()
 	{
-		const Vec3 eye(-1.0f, 20.0f, -15.0f);
-		const Vec3 at(0.0f);
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
 		auto PtrCamera = ObjectFactory::Create<MainCamera>();
 		PtrView->SetCamera(PtrCamera);
-		PtrCamera->SetEye(eye);
-		PtrCamera->SetAt(at);
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
 		//デフォルトのライティングを指定
@@ -217,6 +213,7 @@ namespace basecross
 		{
 			// スプライトの表示
 			LogoActive();
+
 		}
 		catch (...)
 		{

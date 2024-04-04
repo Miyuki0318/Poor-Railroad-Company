@@ -12,9 +12,12 @@ namespace basecross {
 		weak_ptr<GameObject> m_targetObject;	// 目標となるオブジェクト
 		shared_ptr<Transform> m_targetTrans;	// 目標のトランスフォーム
 
+		Vec3 m_cameraArm;
+
 	public:
 		// コンストラクタとデストラクタ
-		MainCamera() : Camera()
+		MainCamera() : Camera(),
+			m_cameraArm(Vec3(0.0f, 20.0f, -15.0f))
 		{
 		}
 		~MainCamera() {}

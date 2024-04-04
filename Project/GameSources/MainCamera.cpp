@@ -13,12 +13,12 @@ namespace basecross {
 	}
 
 	void MainCamera::OnUpdate() {
-		auto ptrTarget = GetTargetObject();
+		auto ptrTargetPosition = GetTargetObject()->GetComponent<Transform>()->GetPosition();
 
 		if (GetTargetObject() == nullptr) return;
 
-		Vec3 newEye = GetEye();
-		Vec3 newAt = ptrTarget->GetComponent<Transform>()->GetPosition();
+		Vec3 newEye = Vec3(ptrTargetPosition.x, m_cameraArm.y, m_cameraArm.z);
+		Vec3 newAt = ptrTargetPosition;
 
 		SetAt(newAt);
 		SetEye(newEye);

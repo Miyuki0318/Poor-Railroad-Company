@@ -32,13 +32,6 @@ namespace basecross {
 	{
 		Move(m_state);
 		m_beforeState = m_state;
-
-		//Vec3 pos = GetPosition();
-		//pos.y = m_DefaultPosition.y;
-
-		//SetPosition(pos);
-
-		Debug::Log(L"ƒgƒŒƒCƒ“‚ÌÀ•W : ", GetPosition());
 	}
 
 	void Train::OnCollisionEnter(shared_ptr<GameObject>& gameObject)
