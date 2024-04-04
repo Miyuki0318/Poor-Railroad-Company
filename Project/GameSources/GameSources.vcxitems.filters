@@ -115,6 +115,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerIdleState.h">
       <Filter>Player\State\Idle</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h">
+      <Filter>Camera</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -212,6 +215,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerIdleState.cpp">
       <Filter>Player\State\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp">
+      <Filter>Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -322,6 +328,9 @@
     </Filter>
     <Filter Include="Player\State\Idle">
       <UniqueIdentifier>{f34c0152-ae2e-4e2d-802e-ac09c2b67bb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{f30f9633-9775-486b-983b-eb32cadf7119}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
