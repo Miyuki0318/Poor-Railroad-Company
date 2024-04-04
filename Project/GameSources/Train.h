@@ -11,6 +11,9 @@
 namespace basecross {
 	class Train : public TemplateObject
 	{
+		const Vec3 m_DefaultPosition = Vec3(-4.0f, 1.0f, 0.0f);
+		const Vec3 m_DefaultScale = Vec3(2.0f, 1.0f, 1.0f);
+
 		/*!
 		@brief óÒé‘ÇÃèÛë‘
 		*/
@@ -30,7 +33,7 @@ namespace basecross {
 
 	public:
 		Train(const shared_ptr<Stage>& stagePtr) :
-			TemplateObject(stagePtr, Vec3(-4.0f, 1.0f, 0.0f), Vec3(0.0f), Vec3(2.0f, 2.0f, 1.0f)),
+			TemplateObject(stagePtr, m_DefaultPosition, Vec3(0.0f), m_DefaultScale),
 			m_MoveSpeed(3.0f)
 		{
 		}
@@ -53,5 +56,10 @@ namespace basecross {
 		void OnCollisionEnter(shared_ptr<GameObject>& gameObject) override;
 
 		void Move(State state);
+
+		Vec3 GetDefaultPosition()
+		{
+			return m_DefaultPosition;
+		}
 	};
 }
