@@ -19,7 +19,8 @@ namespace basecross {
 		*/
 		enum class State {
 			Onrail, // レールに乗っている
-			Derail // 脱線
+			Derail, // 脱線
+			Arrival // 駅到着
 		};
 
 		// ステート変数
@@ -57,7 +58,7 @@ namespace basecross {
 		*/
 		void OnCollisionEnter(shared_ptr<GameObject>& gameObject) override;
 
-		void Move(State state);
+		void StateProcess(State state);
 
 		Vec3 GetDefaultPosition()
 		{
