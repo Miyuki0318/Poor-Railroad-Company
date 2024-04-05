@@ -43,6 +43,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Project.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Rail.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RailGuide.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RailManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectIndicator.h" />

@@ -118,6 +118,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RailManager.h">
       <Filter>StageObject\Rail</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RailGuide.h">
+      <Filter>Guide\RailGuide</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -328,6 +331,12 @@
     </Filter>
     <Filter Include="Player\State\Idle">
       <UniqueIdentifier>{f34c0152-ae2e-4e2d-802e-ac09c2b67bb7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Guide">
+      <UniqueIdentifier>{deec4a4e-7420-44b3-abfe-9464db24cf2c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Guide\RailGuide">
+      <UniqueIdentifier>{1db75497-19dd-4dab-994e-9f2f9bf9a2f3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

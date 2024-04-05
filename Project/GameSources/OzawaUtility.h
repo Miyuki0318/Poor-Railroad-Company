@@ -203,7 +203,28 @@ namespace Utility
 	@return 範囲内かの真偽
 	*/
 	bool GetBetween(int value, int a, int b);
+
+	/*!
+	@brief 値が範囲内かを返す
+	@param (value)　確認する値
+	@param (a)　範囲の値１
+	@param (b)　範囲の値２
+	@return 範囲内かの真偽
+	*/
 	bool GetBetween(float value, float a, float b);
+
+	/*!
+	@brief 値が範囲内かを返す
+	@param (value)　確認する値
+	@param (a)　範囲の値１
+	@param (b)　範囲の値２
+	@return 範囲内かの真偽
+	*/
+	template<class Ty1, class Ty2, class Ty3>
+	bool GetBetween(Ty1 value, Ty2 a, Ty3 b)
+	{
+		return GetBetween(static_cast<int>(value), static_cast<int>(a), static_cast<int>(b));
+	}
 
 	/*!
 	@brief 列挙型の値が範囲内かを返す

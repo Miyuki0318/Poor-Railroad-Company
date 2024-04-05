@@ -23,6 +23,7 @@ namespace basecross
 	{
 		Rail = 1,	// レール
 		DeRail,		// 脱線部分
+		GuideRail,	// ガイドレール
 		GoalRail,	// ゴールレール
 		Rock = 10,	// 岩
 		Tree,		// 木

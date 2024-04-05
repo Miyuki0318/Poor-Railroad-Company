@@ -112,38 +112,13 @@ namespace basecross
 	// レール設置できるか、できない場合は置かれているレールを取得
 	bool SelectIndicator::GetRailedPossible(const Vec3& checkPos) const
 	{
-		bool achiev = false; // 設置できるかの真偽
-
 		// ステージマップ配列の取得
-		const int deRailID = static_cast<int>(eStageID::DeRail);
-		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
-
-		// 上下左右
-		vector<Vec3> vec = { FRONT_VEC, BACK_VEC, LEFT_VEC, RIGHT_VEC };
-
-		if (stageMap.at(size_t(checkPos.z + 7.0f)).at(size_t(checkPos.x + 7.0f)) != 0) return false;
-
-		for (size_t i = 0; i < stageMap.size(); i++)
-		{
-			for (size_t j = 0; j < stageMap.at(i).size(); j++)
-			{
-				int id = stageMap.at(i).at(j);
-				if (id != deRailID) continue;
-
-				Vec3 deRailPos;
-				for (const auto& v : vec)
-				{
-					deRailPos = checkPos + v;
-
-					if (stageMap.at(size_t(deRailPos.z + 7.0f)).at(size_t(deRailPos.x + 7.0f)) == deRailID)
-					{
-						achiev = true;
-					}
-				}
-			}
-		}
+		const int guideRailID = static_cast<int>(eStageID::GuideRail);
+		const auto& guideMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetGuideMap();
 
 		// 一致しなかったら設置不可
-		return achiev;
+		const auto& checkNum = guideMap.at(size_t(checkPos.z + 7.0f)).at(size_t(checkPos.x + 7.0f));
+
+		return checkNum == guideRailID;
 	}
 }

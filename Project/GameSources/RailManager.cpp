@@ -1,37 +1,49 @@
 #include "stdafx.h"
 #include "Project.h"
 
-#define STAGE_DIFF 7.0f
+#define RAIL_ID static_cast<size_t>(basecross::eStageID::Rail)
+#define DERAIL_ID static_cast<size_t>(basecross::eStageID::DeRail)
+#define GUIDE_ID static_cast<size_t>(basecross::eStageID::GuideRail)
+
+const float stageDiff = 7.0f;
+const Vec3 scale = Vec3(1.0f, 0.2f, 1.0f);
 
 namespace basecross
 {
+	// ネームスペースの省略
+	using namespace Utility;
+
+	// 生成時の処理
 	void RailManager::OnCreate()
 	{
+		// 描画コンポーネントの設定
 		m_ptrDraw = AddComponent<PNTStaticInstanceDraw>();
 		m_ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
 		m_ptrDraw->SetDiffuse(COL_GRAY);
 
+		// csvの取得とスケール
 		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
-		const int railID = static_cast<int>(eStageID::Rail);
-		const int deRailID = static_cast<int>(eStageID::DeRail);
-		const Vec3 scale = Vec3(1.0f, 0.2f, 1.0f);
+		m_guideMap = stageMap;
 
-		float x, z;
-
+		// ローテーション用のクォータニオン
 		Quat quat;
-		quat.rotationRollPitchYawFromVector(Vec3(0.0f, 0.0f, 0.0f));
+		quat.rotationRollPitchYawFromVector(Vec3(0.0f));
 
+		// 二重ループ
 		for (int i = 0; i < stageMap.size(); i++)
 		{
 			for (int j = 0; j < stageMap.at(i).size(); j++)
 			{
-				if (!Utility::GetBetween(stageMap.at(i).at(j), railID, deRailID)) continue;
-				
-				x = j - STAGE_DIFF;
-				z = -i + STAGE_DIFF;
+				// レールIDと先端レールID以外は無視
+				if (!Utility::GetBetween(stageMap.at(i).at(j), RAIL_ID, DERAIL_ID)) continue;
+
+				// xとz座標
+				float x, z;
+				x = j - stageDiff;
+				z = -i + stageDiff;
 
 				// 行列の宣言
-				Mat4x4 matrix, mtxT, mtxR, mtxS; 
+				Mat4x4 matrix, mtxT, mtxR, mtxS;
 
 				// クォータニオンからローテーションを設定
 				mtxR.rotation(quat);
@@ -41,23 +53,30 @@ namespace basecross
 				// 行列の設定と追加
 				matrix = mtxS * mtxR * mtxT;
 				m_ptrDraw->AddMatrix(matrix);
+
+				// 先端レールならガイドIDを設定
+				if (stageMap.at(i).at(j) == DERAIL_ID)
+				{
+					SetGuideID(i, j);
+				}
 			}
 		}
 	}
 
+	// レールの追加
 	void RailManager::AddRail(const Vec3& addPos)
 	{
+		// ステージcsvの取得
 		auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
-		const int railID = static_cast<int>(eStageID::Rail);
-		const int deRailID = static_cast<int>(eStageID::DeRail);
-		const Vec3 scale = Vec3(1.0f, 0.2f, 1.0f);
 
-		int i, j;
-		j = int(addPos.x + STAGE_DIFF);
-		i = int(addPos.z + STAGE_DIFF);
+		// 列と行を座標から求める
+		size_t i, j;
+		j = size_t(addPos.x + stageDiff);
+		i = size_t(addPos.z + stageDiff);
 
+		// ローテーション用
 		Quat quat;
-		quat.rotationRollPitchYawFromVector(Vec3(0.0f, 0.0f, 0.0f));
+		quat.rotationRollPitchYawFromVector(Vec3(0.0f));
 
 		// 行列の宣言
 		Mat4x4 matrix, mtxT, mtxR, mtxS;
@@ -71,11 +90,60 @@ namespace basecross
 		matrix = mtxS * mtxR * mtxT;
 		m_ptrDraw->AddMatrix(matrix);
 
-		stageMap.at(i).at(j) = deRailID;
+		// csvの書き換え
+		stageMap.at(i).at(j) = DERAIL_ID;
+		m_guideMap = stageMap;
+		SetGuideID(i, j);
+		SetRailID(i, j);
+	}
 
-		if (stageMap.at(i).at(j - 1) == deRailID) stageMap.at(i).at(j - 1) = railID;
-		if (stageMap.at(i).at(j + 1) == deRailID) stageMap.at(i).at(j + 1) = railID;
-		if (stageMap.at(i - 1).at(j) == deRailID) stageMap.at(i - 1).at(j) = railID;
-		if (stageMap.at(i + 1).at(j) == deRailID) stageMap.at(i + 1).at(j) = railID;
+	// csvの書き換え
+	void RailManager::SetRailID(size_t i, size_t j) const
+	{
+		// csvの取得
+		auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
+
+		// 設置位置の前後左右をレールIDかガイドIDに書き換え
+		vector<CSVElementCheck> elems = {
+			{i - 1, j, GetBetween(i - 1, 0, stageMap.size())},
+			{i + 1, j, GetBetween(i + 1, 0, stageMap.size())},
+			{i, j - 1, GetBetween(j - 1, 0, stageMap.at(i).size())},
+			{i, j + 1, GetBetween(i + 1, 0, stageMap.at(i).size())},
+		};
+
+		// 要素数分ループ
+		for (const auto& elem : elems)
+		{
+			// 要素数が範囲内なら
+			if (elem.isRange)
+			{
+				// 先端レールなら通常のレールに、何も無いならガイドに、ガイドなら何も無しに、それ以外ならそのまま
+				int& num = stageMap.at(elem.row).at(elem.col);
+				num = num == DERAIL_ID ? RAIL_ID : num;
+			}
+		}
+	}
+
+	void RailManager::SetGuideID(size_t i, size_t j)
+	{
+		// 設置位置の前後左右をレールIDかガイドIDに書き換え
+		vector<CSVElementCheck> elems = {
+			{i - 1, j, GetBetween(i - 1, 0, m_guideMap.size())},
+			{i + 1, j, GetBetween(i + 1, 0, m_guideMap.size())},
+			{i, j - 1, GetBetween(j - 1, 0, m_guideMap.at(i).size())},
+			{i, j + 1, GetBetween(i + 1, 0, m_guideMap.at(i).size())},
+		};
+
+		// 要素数分ループ
+		for (const auto& elem : elems)
+		{
+			// 要素数が範囲内なら
+			if (elem.isRange)
+			{
+				// 先端レールなら通常のレールに、何も無いならガイドに、ガイドなら何も無しに、それ以外ならそのまま
+				int& num = m_guideMap.at(elem.row).at(elem.col);
+				num = num == 0 ? GUIDE_ID : num;
+			}
+		}
 	}
 }
