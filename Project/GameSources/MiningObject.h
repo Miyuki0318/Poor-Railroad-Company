@@ -59,6 +59,7 @@ namespace basecross {
 		virtual void OnReset() = 0;
 	};
 
+
 	class Tree : public MiningObject {
 		// ÌŒ@‰ñ”‚ÌãŒÀ
 		const int m_miningCountLimit;
