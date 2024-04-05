@@ -1,6 +1,7 @@
 /*!
-@file GameStage.cpp
-@brief ゲームステージ実体
+@file TitleStage.cpp
+@brief タイトルステージの実体
+@author 新妻葵
 */
 
 #include "stdafx.h"

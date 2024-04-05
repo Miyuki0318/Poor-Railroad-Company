@@ -1,6 +1,7 @@
 /*!
-@file GameStage.h
-@brief ゲームステージ
+@file TitleStage.h
+@brief タイトルステージ
+@author 新妻葵
 */
 
 #pragma once
