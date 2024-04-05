@@ -119,8 +119,8 @@
       <Filter>StageObject\Rail</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RailGuide.h">
-    </ClInclude>
       <Filter>Guide\RailGuide</Filter>
+	</ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h">
       <Filter>Camera</Filter>
     </ClInclude>
@@ -223,8 +223,8 @@
       <Filter>Player\State\Idle</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)RailManager.cpp">
-    </ClCompile>
       <Filter>StageObject\Rail</Filter>
+	</ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
