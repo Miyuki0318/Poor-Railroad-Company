@@ -9,4 +9,13 @@
 #include "Project.h"
 
 namespace basecross {
+	void Company::OnCreate()
+	{
+
+	}
+
+	void Company::OnUpdate()
+	{
+
+	}
 }
