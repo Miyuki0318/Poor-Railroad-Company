@@ -110,15 +110,26 @@ namespace basecross
 	}
 
 	// レール設置できるか、できない場合は置かれているレールを取得
-	bool SelectIndicator::GetRailedPossible(const Vec3& checkPos) const
+	bool SelectIndicator::GetRailedPossible() const
 	{
-		// ステージマップ配列の取得
+		// 確認座標
+		Vec3 checkPos = GetPosition();
+
+		// ガイド付きステージマップ配列の取得
 		const int guideRailID = static_cast<int>(eStageID::GuideRail);
-		const auto& guideMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetGuideMap();
+		const auto& railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager");
+		const auto& guideMap = railManager->GetGuideMap();
 
 		// 一致しなかったら設置不可
-		const auto& checkNum = guideMap.at(size_t(checkPos.z + 7.0f)).at(size_t(checkPos.x + 7.0f));
+		const auto& checkNum = guideMap.at(guideMap.size() - size_t(checkPos.z) - 1).at(size_t(checkPos.x));
+		bool posshible = (checkNum == guideRailID);
 
-		return checkNum == guideRailID;
+		// 設置可能ならマネージャーにレール追加処理を送る
+		if (posshible)
+		{
+			railManager->AddRail(checkPos);
+		}
+
+		return posshible;
 	}
 }

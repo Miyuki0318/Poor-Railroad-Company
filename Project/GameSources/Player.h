@@ -68,7 +68,7 @@ namespace basecross
 		@param ステージポインタ
 		*/
 		Player(const shared_ptr<Stage>& stagePtr) :
-			TemplateObject(stagePtr, Vec3(0.0f, 3.0f, 0.0f), Vec3(0.0f), Vec3(1.0f, 1.5f, 1.0f)),
+			TemplateObject(stagePtr, Vec3(7.0f, 3.0f, 6.0f), Vec3(0.0f), Vec3(1.0f, 1.5f, 1.0f)),
 			m_moveSpeed(5.0f), // 今後CSVから速度等のステータスを取得予定
 			m_rotSpeed(0.5f)  // 今後CSVから速度等のステータスを取得予定
 		{
@@ -111,12 +111,6 @@ namespace basecross
 		@param 採掘されるオブジェクトのポインタ
 		*/
 		void MiningProcces(const shared_ptr<TemplateObject>& miningObj);
-
-		/*!
-		@brief レール設置時に呼び出される関数
-		@param レールを設置する座標
-		*/
-		void AddRailed(const Vec3& railPosition);
 
 		/*!
 		@brief クラフト画面切り替え関数

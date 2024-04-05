@@ -81,8 +81,7 @@ namespace basecross
 		/*!
 		@brief ü˜H¶¬
 		*/
-		void CreateRail();
-		void CreateRails();
+		void CreateRailManager();
 
 		/*!
 		@briefƒS[ƒ‹’n“_‚Ì¶¬

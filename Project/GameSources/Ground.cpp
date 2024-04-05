@@ -14,7 +14,7 @@ namespace basecross
 	{
 		// Œp³Œ³‚Ì¶¬‚Ìˆ—‚ğÀs
 		TemplateObject::OnCreate();
-		SetScale(m_scale);
+		SetTransParam();
 
 		// ƒƒbƒVƒ…‚Ìİ’è
 		m_ptrDraw = AddComponent<PNTStaticDraw>();

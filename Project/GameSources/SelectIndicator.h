@@ -57,9 +57,8 @@ namespace basecross
 
 		/*!
 		@brief セレクターの位置にレールを設置可能かを取得する関数
-		@param 設置する座標
 		@return 設置可能ならtrue、不可能ならfalseを返す
 		*/
-		bool GetRailedPossible(const Vec3& checkPos) const;
+		bool GetRailedPossible() const;
 	};
 }

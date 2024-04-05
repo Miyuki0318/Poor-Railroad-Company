@@ -62,15 +62,10 @@ namespace basecross
 	// csvでのステージ生成
 	void GameStage::CreateStageCSV(string csvPath)
 	{
-		// 左と下の端
-		const float leftX = -7.0f;
-		const float upperZ = 7.0f;
-
 		// CSVデータ(int型の二次元配列)
 		m_stageMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath));
 
 		// オブジェクトグループ
-		const auto& railGroup = GetSharedObjectGroup(L"Rails");
 		const auto& miningGroup = GetSharedObjectGroup(L"MiningObject");
 
 		// 二重ループ
@@ -79,20 +74,15 @@ namespace basecross
 			for (int j = 0; j < m_stageMap.at(i).size(); j++)
 			{
 				// 仮オブジェクト
-				shared_ptr<Rail> rail = nullptr;
 				shared_ptr<MiningObject> mining = nullptr;
 
 				// 座標(左限+列番号×スケール,下限+行数-行番号×スケール)
-				Vec3 position = Vec3(leftX + j, 1.5f, upperZ + -i);
+				Vec3 position = Vec3(float(j), 1.5f, float(m_stageMap.size() - i));
 
 				// 数値の別名
 				const int& num = m_stageMap.at(i).at(j);
 				switch (static_cast<eStageID>(num))
 				{
-				case eStageID::Rail: // レールなら
-					//rail = AddGameObject<Rail>(position);
-					break;
-
 				case eStageID::GoalRail: // ゴールレールなら
 					AddGameObject<GoalRail>(position);
 					break;
@@ -110,10 +100,6 @@ namespace basecross
 				}
 
 				// オブジェクトグループへの追加
-				if (rail)
-				{
-					railGroup->IntoGroup(rail);
-				}
 				if (mining)
 				{
 					miningGroup->IntoGroup(mining);
@@ -137,16 +123,7 @@ namespace basecross
 		}
 	}
 
-	// 線路の生成
-	void GameStage::CreateRail()
-	{
-		// 線路オブジェクトの追加
-		const auto& rail = AddGameObject<Rail>();
-
-		// シェアオブジェクトに登録
-		SetSharedGameObject(L"Rail", rail);
-	}
-	void GameStage::CreateRails()
+	void GameStage::CreateRailManager()
 	{
 		const auto& railManager = AddGameObject<RailManager>();
 		SetSharedGameObject(L"RailManager", railManager);
@@ -212,7 +189,6 @@ namespace basecross
 		{
 			// オブジェクトグループの作成
 			CreateSharedObjectGroup(L"MiningObject"); // 採掘可能オブジェクト
-			CreateSharedObjectGroup(L"Rails"); // レールオブジェクト
 
 			// リソースの読み込み
 			CreateResourses();
@@ -226,22 +202,14 @@ namespace basecross
 			// プレイヤーの生成
 			CreatePlayer();
 
-			//// MiningObjectの生成
-			//CreateStageObject();
-
-			//// ゴール地点の生成
-			//CreateGoalRail();
-
 			// CSVでステージを生成
 			CreateStageCSV();
 
 			// 線路の生成
-			CreateRails();
+			CreateRailManager();
 
 			// 列車の生成
 			CreateTrain();
-
-			CreateTarminal();
 
 			// スプライトの生成
 			CreateSpriteObject();

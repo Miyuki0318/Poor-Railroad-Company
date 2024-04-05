@@ -67,9 +67,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectIndicator.h">
       <Filter>Player\SelectIndicator</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Rail.h">
-      <Filter>StageObject\Rail</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Train.h">
       <Filter>StageObject\Train</Filter>
     </ClInclude>
@@ -120,7 +117,7 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RailGuide.h">
       <Filter>Guide\RailGuide</Filter>
-	</ClInclude>
+    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h">
       <Filter>Camera</Filter>
     </ClInclude>
@@ -177,9 +174,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectIndicator.cpp">
       <Filter>Player\SelectIndicator</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Rail.cpp">
-      <Filter>StageObject\Rail</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Train.cpp">
       <Filter>StageObject\Train</Filter>
     </ClCompile>
@@ -224,7 +218,7 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)RailManager.cpp">
       <Filter>StageObject\Rail</Filter>
-	</ClCompile>
+    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp">
       <Filter>Camera</Filter>
     </ClCompile>

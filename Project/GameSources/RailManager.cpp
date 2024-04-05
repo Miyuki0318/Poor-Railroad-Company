@@ -5,7 +5,7 @@
 #define DERAIL_ID static_cast<size_t>(basecross::eStageID::DeRail)
 #define GUIDE_ID static_cast<size_t>(basecross::eStageID::GuideRail)
 
-const float stageDiff = 7.0f;
+const float stageDiff = 0.0f;
 const Vec3 scale = Vec3(1.0f, 0.2f, 1.0f);
 
 namespace basecross
@@ -37,18 +37,13 @@ namespace basecross
 				// レールIDと先端レールID以外は無視
 				if (!Utility::GetBetween(stageMap.at(i).at(j), RAIL_ID, DERAIL_ID)) continue;
 
-				// xとz座標
-				float x, z;
-				x = j - stageDiff;
-				z = -i + stageDiff;
-
 				// 行列の宣言
 				Mat4x4 matrix, mtxT, mtxR, mtxS;
 
 				// クォータニオンからローテーションを設定
 				mtxR.rotation(quat);
 				mtxS.scale(scale); // スケールの設定
-				mtxT.translation(Vec3(x, 1.0f, z)); // 座標の設定
+				mtxT.translation(Vec3(float(j), 1.0f, float(i))); // 座標の設定
 
 				// 行列の設定と追加
 				matrix = mtxS * mtxR * mtxT;
@@ -71,8 +66,8 @@ namespace basecross
 
 		// 列と行を座標から求める
 		size_t i, j;
-		j = size_t(addPos.x + stageDiff);
-		i = size_t(addPos.z + stageDiff);
+		j = size_t(addPos.x);
+		i = stageMap.size() - size_t(addPos.z) - 1;
 
 		// ローテーション用
 		Quat quat;
@@ -97,50 +92,35 @@ namespace basecross
 		SetRailID(i, j);
 	}
 
-	// csvの書き換え
+	// 先端レールの書き換え
 	void RailManager::SetRailID(size_t i, size_t j) const
 	{
 		// csvの取得
 		auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
-
-		// 設置位置の前後左右をレールIDかガイドIDに書き換え
-		vector<CSVElementCheck> elems = {
-			{i - 1, j, GetBetween(i - 1, 0, stageMap.size())},
-			{i + 1, j, GetBetween(i + 1, 0, stageMap.size())},
-			{i, j - 1, GetBetween(j - 1, 0, stageMap.at(i).size())},
-			{i, j + 1, GetBetween(i + 1, 0, stageMap.at(i).size())},
-		};
-
+		
 		// 要素数分ループ
-		for (const auto& elem : elems)
+		for (const auto& elem : GetMapElems(i, j, stageMap))
 		{
 			// 要素数が範囲内なら
 			if (elem.isRange)
 			{
-				// 先端レールなら通常のレールに、何も無いならガイドに、ガイドなら何も無しに、それ以外ならそのまま
+				// 先端レールなら通常のレールに、それ以外ならそのまま
 				int& num = stageMap.at(elem.row).at(elem.col);
 				num = num == DERAIL_ID ? RAIL_ID : num;
 			}
 		}
 	}
 
+	// ガイドの追加
 	void RailManager::SetGuideID(size_t i, size_t j)
 	{
-		// 設置位置の前後左右をレールIDかガイドIDに書き換え
-		vector<CSVElementCheck> elems = {
-			{i - 1, j, GetBetween(i - 1, 0, m_guideMap.size())},
-			{i + 1, j, GetBetween(i + 1, 0, m_guideMap.size())},
-			{i, j - 1, GetBetween(j - 1, 0, m_guideMap.at(i).size())},
-			{i, j + 1, GetBetween(i + 1, 0, m_guideMap.at(i).size())},
-		};
-
 		// 要素数分ループ
-		for (const auto& elem : elems)
+		for (const auto& elem : GetMapElems(i, j, m_guideMap))
 		{
 			// 要素数が範囲内なら
 			if (elem.isRange)
 			{
-				// 先端レールなら通常のレールに、何も無いならガイドに、ガイドなら何も無しに、それ以外ならそのまま
+				// 何も無いならガイドにする、それ以外ならそのまま
 				int& num = m_guideMap.at(elem.row).at(elem.col);
 				num = num == 0 ? GUIDE_ID : num;
 			}

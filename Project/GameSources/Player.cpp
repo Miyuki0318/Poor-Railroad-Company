@@ -82,10 +82,11 @@ namespace basecross
 	void Player::IndicatorOrder()
 	{
 		// エラーチェック
-		if (!m_indicator.lock()) return;
+		const auto& indicator = m_indicator.lock();
+		if (!indicator) return;
 
 		// 採掘可能か、可能なら採掘可能オブジェクトのポインタを返す
-		const auto& miningObj = m_indicator.lock()->GetMiningPossible();
+		const auto& miningObj = indicator->GetMiningPossible();
 
 		// 採掘可能オブジェクトのポインタがあれば
 		if (miningObj)
@@ -95,17 +96,14 @@ namespace basecross
 			return;
 		}
 
-		// レール設置用の座標を設定
-		Vec3 railPos = m_indicator.lock()->GetPosition();
-		railPos.y = 1.0f;
-
-		// レールを設置可能かをインディケーターから取得
-		if (m_indicator.lock()->GetRailedPossible(railPos))
+		// レールを所持してたら設置処理を送る
+		if (GetItemCount(eItemType::Rail))
 		{
-			// レールを所持してたら設置処理を送る
-			if (GetItemCount(eItemType::Rail))
+			// レールを設置可能かをインディケーターから取得
+			if (indicator->GetRailedPossible())
 			{
-				GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->AddRail(railPos);
+				// レールの所持数を減らす
+				m_craft->UseItem(eItemType::Rail);
 			}
 		}
 	}
@@ -135,20 +133,6 @@ namespace basecross
 
 		// 採掘状態にする
 		m_status.Set(ePlayerStatus::IsMining) = true;
-	}
-
-	// レールの設置
-	void Player::AddRailed(const Vec3& railPosition)
-	{
-		// 所属ステージの取得
-		const auto& stagePtr = GetStage();
-
-		// レールオブジェクトを生成してグループに追加
-		const auto& rail = stagePtr->AddGameObject<Rail>(railPosition);
-		stagePtr->GetSharedObjectGroup(L"Rails")->IntoGroup(rail);
-
-		// レールの所持数を減らす
-		m_craft->UseItem(eItemType::Rail);
 	}
 
 	// クラフト状態でのXボタン入力
