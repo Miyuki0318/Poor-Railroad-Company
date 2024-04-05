@@ -52,6 +52,7 @@ namespace basecross
 
 	void TitleStage::CreateGround()
 	{		
+		AddGameObject<Company>(Vec3(-10.0f, 2.5f,10.0f));
 		// 床ボックスオブジェクトの追加
 		AddGameObject<GroundBox>(m_grountScale);
 	}
