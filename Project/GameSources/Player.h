@@ -13,10 +13,11 @@
 namespace basecross
 {
 	// プレイヤーの状態
-	enum class ePlayerStatus : uint8_t
+	enum class ePlayerStatus : uint16_t
 	{
 		IsIdle,		// 待機状態
 		IsMove,		// 移動状態
+		IsRotate,	// 回転状態
 		IsMining,	// 採掘状態
 		IsHaveWood,	// 木を所持中
 		IsHaveStone,// 石を所持中
@@ -41,14 +42,18 @@ namespace basecross
 
 		shared_ptr<PNTStaticDraw> m_ptrDraw;   // 描画コンポーネント
 		shared_ptr<CollisionObb> m_ptrColl;    // コリジョンOBBコンポーネント
-		Bool8_t<ePlayerStatus> m_status;	   // フラグ管理クラス
+		Bool16_t<ePlayerStatus> m_status;	   // フラグ管理クラス
 		
 		map<wstring, eItemType> m_miningMap;     // 採掘対象と取得アイテムタイプ
 
 		// ステートマシン
 		unique_ptr<PlayerStateMachine> m_playerState; 
 
-		const float m_speed; // 速度
+		const float m_moveSpeed; // 移動速度
+		const float m_rotSpeed;  // 回転速度
+
+		Vec3 m_rotTarget; // 回転先
+		Vec3 m_currentRot;  // 前回の回転軸
 
 		// フレンド化(ステートマシンからメンバ関数を呼び出すため)
 		friend PlayerIdleState;
@@ -64,9 +69,12 @@ namespace basecross
 		*/
 		Player(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr, Vec3(0.0f, 3.0f, 0.0f), Vec3(0.0f), Vec3(1.0f, 1.5f, 1.0f)),
-			m_speed(5.0f) // 今後CSVから速度等のステータスを取得予定
+			m_moveSpeed(5.0f), // 今後CSVから速度等のステータスを取得予定
+			m_rotSpeed(0.5f)  // 今後CSVから速度等のステータスを取得予定
 		{
 			m_status = 0; // 状態フラグは0で初期化
+			m_rotTarget.zero(); // 回転先は0.0fで初期化
+			m_currentRot.zero(); // 回転先は0.0fで初期化
 
 			// 採掘オブジェクトのタグと採掘時に加算するアイテムのタイプ
 			m_miningMap.insert(make_pair(L"Tree", eItemType::Wood));	// タグか木ならアイテムタイプは木材
@@ -121,22 +129,29 @@ namespace basecross
 		void CheckedCraftQTE();
 
 		/*!
+		@brief アイテム状態の更新関数
+		*/
+		void UpdateStatus();
+
+		/*!
 		@brief 移動更新関数
 		*/
 		void UpdateMove();
 
 		/*!
-		@brief アイテム状態の更新関数
+		@brief 回転更新関数
 		*/
-		void UpdateItemStatus();
+		void UpdateRotation();
 
 		/*!
-		@brief コントローラー回転関数
+		@brief 回転先設定関数
+		@param Lスティック入力量
 		*/
-		void ControllerRotation(const Vec3& stickValue);
+		void SetRotateTarget(const Vec3& stickValue);
 
 		/*!
 		@brief コントローラー移動関数
+		@param Lスティック入力量
 		*/
 		void ControllerMovement(const Vec3& stickValue);
 

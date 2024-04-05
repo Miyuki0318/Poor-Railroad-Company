@@ -11,12 +11,16 @@
 namespace basecross {
 	class Train : public TemplateObject
 	{
+		const Vec3 m_DefaultPosition;
+		const Vec3 m_DefaultScale;
+
 		/*!
 		@brief 列車の状態
 		*/
 		enum class State {
 			Onrail, // レールに乗っている
-			Derail // 脱線
+			Derail, // 脱線
+			Arrival // 駅到着
 		};
 
 		// ステート変数
@@ -30,7 +34,9 @@ namespace basecross {
 
 	public:
 		Train(const shared_ptr<Stage>& stagePtr) :
-			TemplateObject(stagePtr, Vec3(-4.0f, 1.0f, 0.0f), Vec3(0.0f), Vec3(2.0f, 2.0f, 1.0f)),
+			TemplateObject(stagePtr),
+			m_DefaultPosition(Vec3(-4.0f, 1.5f, 0.0f)),
+			m_DefaultScale(Vec3(2.0f, 1.0f, 1.0f)),
 			m_MoveSpeed(3.0f)
 		{
 		}
@@ -52,6 +58,11 @@ namespace basecross {
 		*/
 		void OnCollisionEnter(shared_ptr<GameObject>& gameObject) override;
 
-		void Move(State state);
+		void StateProcess(State state);
+
+		Vec3 GetDefaultPosition()
+		{
+			return m_DefaultPosition;
+		}
 	};
 }

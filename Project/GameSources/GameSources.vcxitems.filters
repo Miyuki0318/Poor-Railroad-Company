@@ -119,7 +119,10 @@
       <Filter>StageObject\Rail</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RailGuide.h">
+    </ClInclude>
       <Filter>Guide\RailGuide</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h">
+      <Filter>Camera</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -220,7 +223,10 @@
       <Filter>Player\State\Idle</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)RailManager.cpp">
+    </ClCompile>
       <Filter>StageObject\Rail</Filter>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp">
+      <Filter>Camera</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -337,6 +343,9 @@
     </Filter>
     <Filter Include="Guide\RailGuide">
       <UniqueIdentifier>{1db75497-19dd-4dab-994e-9f2f9bf9a2f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Camera">
+      <UniqueIdentifier>{f30f9633-9775-486b-983b-eb32cadf7119}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

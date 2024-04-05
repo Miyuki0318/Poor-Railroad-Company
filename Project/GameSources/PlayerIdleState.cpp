@@ -36,7 +36,7 @@ namespace basecross
 	void PlayerIdleState::Execute(const shared_ptr<Player>& player)
 	{
 		// Lスティック入力があれば移動ステートに遷移
-		if (Input::IsInputLStick()) player->SetState(PlayerMovingState::Instance());
+		if (Input::IsInputLStick() || !player->GetStatus(ePlayerStatus::IsIdle)) player->SetState(PlayerMovingState::Instance());
 
 		// 採掘状態なら採掘ステートに遷移
 		if (player->GetStatus(ePlayerStatus::IsMining)) player->SetState(PlayerMiningState::Instance());

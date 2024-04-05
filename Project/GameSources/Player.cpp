@@ -5,6 +5,7 @@
 */
 
 #include "stdafx.h"
+#include <cmath>
 #include "Project.h"
 
 namespace basecross
@@ -63,11 +64,14 @@ namespace basecross
 		if (GetPushX()) m_playerState->PushX();
 
 		// アイテム状態の更新
-		UpdateItemStatus();
+		UpdateStatus();
 
 		// デバック用文字列
 		Debug::Log(L"プレイヤーのステート : ", m_playerState->GetCurrentState()->GetStateName());
 		Debug::Log(L"プレイヤーの座標 : ", GetPosition());
+		Debug::Log(L"移動中か : ", m_status(ePlayerStatus::IsMove));
+		Debug::Log(L"待機中か : ", m_status(ePlayerStatus::IsIdle));
+		Debug::Log(L"ローテーション中か : ", m_status(ePlayerStatus::IsRotate));
 		Debug::Log(L"クラフトQTE中か : ", m_status(ePlayerStatus::IsCraftQTE));
 		Debug::Log(L"木の所持状態は", m_status(ePlayerStatus::IsHaveWood) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Wood), L"個");
 		Debug::Log(L"石の所持状態は", m_status(ePlayerStatus::IsHaveStone) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Stone), L"個");
@@ -170,8 +174,12 @@ namespace basecross
 	}
 
 	// アイテム状態の更新
-	void Player::UpdateItemStatus()
+	void Player::UpdateStatus()
 	{
+		// 移動状態の更新
+		m_status.Set(ePlayerStatus::IsRotate) = ((m_currentRot - m_rotTarget).length() > XM_1DIV2PI);
+		m_status.Set(ePlayerStatus::IsIdle) = !m_status(ePlayerStatus::IsMove) && !m_status(ePlayerStatus::IsRotate);
+
 		// アイテム状態の更新(今後アイテムの追加があれば適宜追加)
 		m_status.Set(ePlayerStatus::IsHaveRail) = GetItemCount(eItemType::Rail);
 		m_status.Set(ePlayerStatus::IsHaveWood) = GetItemCount(eItemType::Wood);
@@ -182,26 +190,38 @@ namespace basecross
 	void Player::UpdateMove()
 	{
 		// LStickの入力があるなら
-		bool isMoving = IsInputLStick();
-		if (isMoving)
+		bool isLStick = IsInputLStick();
+		if (isLStick)
 		{
 			// LStick入力量の取得
 			Vec3 stickValue = Vec3(GetLStickValue().x, 0.0f, GetLStickValue().y);
 
-			ControllerRotation(stickValue); // 回転関数
+			SetRotateTarget(stickValue); // 回転関数
 			ControllerMovement(stickValue);	// 移動関数
 		}
 
 		// 移動状態を設定
-		m_status.Set(ePlayerStatus::IsMove) = isMoving;
-		m_status.Set(ePlayerStatus::IsIdle) = !isMoving;
+		m_status.Set(ePlayerStatus::IsMove) = isLStick;
 	}
 
-	// コントローラーによる回転
-	void Player::ControllerRotation(const Vec3& stickValue)
+	// 回転先設定
+	void Player::SetRotateTarget(const Vec3& stickValue)
 	{
-		// スティックの傾きに合わせてオブジェクトを回転させる
+		// コントローラーの入力から回転方向ベクトルを設定
 		float rotY = atan2f(-stickValue.z, stickValue.x);
+		m_rotTarget = Vec3(cos(rotY), 0.0f, sin(rotY));
+	}
+
+	// 回転更新処理
+	void Player::UpdateRotation()
+	{
+		// 回転方向ベクトルと現在の回転ベクトルの差分から回転量を設定
+		Vec3 rot = m_rotTarget - m_currentRot;
+		float rotate = rot.length() * (DELTA_TIME / m_rotSpeed);
+		m_currentRot += Vec3(rot.normalize() * rotate);
+
+		// 回転量を加算された現在の回転ベクトルのラジアンをY軸として設定
+		float rotY = atan2f(m_currentRot.z, m_currentRot.x);
 		SetRotation(Vec3(0.0f, rotY, 0.0f));
 	}
 	
@@ -210,7 +230,7 @@ namespace basecross
 	{
 		// 現在の座標に入力量×速度×デルタタイムで加算
 		Vec3 pos = GetPosition();
-		pos += stickValue * m_speed * DELTA_TIME;
+		pos += stickValue * m_moveSpeed * DELTA_TIME;
 		
 		// 座標の更新
 		SetPosition(pos);

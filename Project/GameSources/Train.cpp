@@ -12,7 +12,8 @@ namespace basecross {
 	void Train::OnCreate()
 	{
 		TemplateObject::OnCreate();
-		SetTransParam();
+		SetPosition(m_DefaultPosition);
+		SetScale(m_DefaultScale);
 
 		// 描画コンポーネントの設定
 		m_ptrDraw = AddComponent<PNTStaticDraw>();
@@ -21,7 +22,6 @@ namespace basecross {
 
 		// コリジョンOBBの追加
 		m_ptrColl = AddComponent<CollisionObb>();
-		//m_ptrColl->SetFixed(true);
 
 		// タグの設定
 		AddTag(L"Train");
@@ -29,7 +29,7 @@ namespace basecross {
 
 	void Train::OnUpdate()
 	{
-		Move(m_state);
+		StateProcess(m_state);
 		m_beforeState = m_state;
 	}
 
@@ -39,18 +39,26 @@ namespace basecross {
 		{
 			m_state = State::Derail;
 		}
+		else if (gameObject->FindTag(L"GoalRail"))
+		{
+			m_state = State::Arrival;
+		}
 	}
 
-	void Train::Move(State state)
+	void Train::StateProcess(State state)
 	{
+		if (state == State::Arrival) return;
+
+		if (state == State::Derail && m_state != m_beforeState)
+		{
+			GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::GameOver);
+			return;
+		}
+
 		if (state == State::Onrail)
 		{
 			m_position.x += DELTA_TIME * m_MoveSpeed;
 			SetPosition(m_position);
-		}
-		else if (state == State::Derail && m_state != m_beforeState)
-		{
-			GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::GameOver);
 		}
 	}
 }
