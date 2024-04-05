@@ -24,5 +24,5 @@
 #include "GoalRail.h"
 #include "Train.h"
 #include "Tarminal.h"
-
 #include "TitleStage.h"
+#include "Building.h"
