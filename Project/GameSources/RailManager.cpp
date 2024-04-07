@@ -1,12 +1,16 @@
+/*!
+@file RailManager.cpp
+@brief レール管理クラス
+@author 小澤博貴
+*/
+
 #include "stdafx.h"
 #include "Project.h"
 
+// レールに関するID
 #define RAIL_ID static_cast<size_t>(basecross::eStageID::Rail)
 #define DERAIL_ID static_cast<size_t>(basecross::eStageID::DeRail)
 #define GUIDE_ID static_cast<size_t>(basecross::eStageID::GuideRail)
-
-const float stageDiff = 0.0f;
-const Vec3 scale = Vec3(1.0f, 0.2f, 1.0f);
 
 namespace basecross
 {
@@ -25,86 +29,53 @@ namespace basecross
 		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
 		m_guideMap = stageMap;
 
-		// ローテーション用のクォータニオン
-		Quat quat;
-		quat.rotationRollPitchYawFromVector(Vec3(0.0f));
-
 		// 二重ループ
-		for (int i = 0; i < stageMap.size(); i++)
+		for (size_t row = 0; row < stageMap.size(); row++)
 		{
-			for (int j = 0; j < stageMap.at(i).size(); j++)
+			for (size_t col = 0; col < stageMap.at(row).size(); col++)
 			{
 				// レールIDと先端レールID以外は無視
-				if (!Utility::GetBetween(stageMap.at(i).at(j), RAIL_ID, DERAIL_ID)) continue;
+				if (!Utility::GetBetween(stageMap.at(row).at(col), RAIL_ID, DERAIL_ID)) continue;
 
-				// 行列の宣言
-				Mat4x4 matrix, mtxT, mtxR, mtxS;
-
-				// クォータニオンからローテーションを設定
-				mtxR.rotation(quat);
-				mtxS.scale(scale); // スケールの設定
-				mtxT.translation(Vec3(float(j), 1.0f, float(i))); // 座標の設定
-
-				// 行列の設定と追加
-				matrix = mtxS * mtxR * mtxT;
-				m_ptrDraw->AddMatrix(matrix);
+				// インスタンス描画を追加
+				AddInstanceRail(row, col);
 
 				// 先端レールならガイドIDを設定
-				if (stageMap.at(i).at(j) == DERAIL_ID)
+				if (stageMap.at(row).at(col) == DERAIL_ID)
 				{
-					SetGuideID(i, j);
+					SetGuideID(row, col);
 				}
 			}
 		}
 	}
 
 	// レールの追加
-	void RailManager::AddRail(const Vec3& addPos)
+	void RailManager::AddRail(const Point2D<size_t>& point)
 	{
 		// ステージcsvの取得
 		auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
 
-		// 列と行を座標から求める
-		size_t i, j;
-		j = size_t(addPos.x);
-		i = stageMap.size() - size_t(addPos.z) - 1;
-
-		// ローテーション用
-		Quat quat;
-		quat.rotationRollPitchYawFromVector(Vec3(0.0f));
-
-		// 行列の宣言
-		Mat4x4 matrix, mtxT, mtxR, mtxS;
-
-		// クォータニオンからローテーションを設定
-		mtxR.rotation(quat);
-		mtxS.scale(scale); // スケールの設定
-		mtxT.translation(Vec3(addPos.x, 1.0f, addPos.z)); // 座標の設定
-
-		// 行列の設定と追加
-		matrix = mtxS * mtxR * mtxT;
-		m_ptrDraw->AddMatrix(matrix);
+		// インスタンス描画を追加
+		AddInstanceRail(point.x, point.y);
 
 		// csvの書き換え
-		stageMap.at(i).at(j) = DERAIL_ID;
+		stageMap.at(point.x).at(point.y) = DERAIL_ID;
 		m_guideMap = stageMap;
-		SetGuideID(i, j);
-		SetRailID(i, j);
+		SetGuideID(point.x, point.y);
+		SetRailID(point.x, point.y);
 	}
 
 	// 先端レールの書き換え
-	void RailManager::SetRailID(size_t i, size_t j) const
+	void RailManager::SetRailID(size_t row, size_t col) const
 	{
 		// csvの取得
 		auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
 		
-		// 要素数分ループ
-		for (const auto& elem : GetMapElems(i, j, stageMap))
+		// 要素数が範囲内で、先端レールなら通常のレールにする
+		for (const auto& elem : GetElemsCheck(row, col, stageMap))
 		{
-			// 要素数が範囲内なら
 			if (elem.isRange)
 			{
-				// 先端レールなら通常のレールに、それ以外ならそのまま
 				int& num = stageMap.at(elem.row).at(elem.col);
 				num = num == DERAIL_ID ? RAIL_ID : num;
 			}
@@ -112,18 +83,54 @@ namespace basecross
 	}
 
 	// ガイドの追加
-	void RailManager::SetGuideID(size_t i, size_t j)
+	void RailManager::SetGuideID(size_t row, size_t col)
 	{
-		// 要素数分ループ
-		for (const auto& elem : GetMapElems(i, j, m_guideMap))
+		m_guidePoints.clear(); // 初期化
+
+		// 要素数が範囲内で、何も無いならガイドにする
+		for (auto& elem : GetElemsCheck(row, col, m_guideMap))
 		{
-			// 要素数が範囲内なら
 			if (elem.isRange)
 			{
-				// 何も無いならガイドにする、それ以外ならそのまま
 				int& num = m_guideMap.at(elem.row).at(elem.col);
-				num = num == 0 ? GUIDE_ID : num;
+				if (num == 0)
+				{
+					num = GUIDE_ID; // ガイドに書き換え
+
+					// ガイドの列と行の番号を保持
+					m_guidePoints.push_back(Point2D<size_t>(elem.row, elem.col));
+				}
 			}
 		}
+	}
+
+	// 前後左右の配列チェッカー取得
+	vector<CSVElementCheck> RailManager::GetElemsCheck(size_t row, size_t col, const vector<vector<int>>& csvMap) const
+	{
+		vector<CSVElementCheck> elems; // 前後左右の結果保存用配列
+		if (csvMap.empty()) return elems; // 参照する配列が空なら空を返す
+
+		elems = {
+			{row - 1, col, WithInElemRange(row - 1, csvMap.size())},		// 前
+			{row + 1, col, WithInElemRange(row + 1, csvMap.size())},		// 後
+			{row, col - 1, WithInElemRange(col - 1, csvMap.at(row).size())},// 左
+			{row, col + 1, WithInElemRange(col + 1, csvMap.at(row).size())},// 右
+		};
+
+		return elems;
+	}
+
+	// 指定の座標にガイドがあるか
+	bool RailManager::GetIsGuidePoint(const Point2D<size_t>& point) const
+	{
+		// 配列の範囲内かのエラーチェック
+		if (!WithInElemRange(point.y, point.y, m_guideMap))
+		{
+			return false;
+		}
+
+		// ガイドIDかどうか
+		int num = m_guideMap.at(point.y).at(point.y);
+		return num == GUIDE_ID;
 	}
 }

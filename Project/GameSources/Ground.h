@@ -26,7 +26,7 @@ namespace basecross
 		GroundBox(const shared_ptr<Stage>& stagePtr,
 			const Vec3& scale
 		) :
-			TemplateObject(stagePtr, Vec3(49.5f, 0.0f, 7.0f), Vec3(0.0f), scale)
+			TemplateObject(stagePtr, Vec3(49.5f, 0.0f, -7.0f), Vec3(0.0f), scale)
 		{
 		}
 

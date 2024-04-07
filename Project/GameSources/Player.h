@@ -41,7 +41,7 @@ namespace basecross
 		unique_ptr<CraftManager> m_craft;      // クラフトマネージャー
 
 		shared_ptr<PNTStaticDraw> m_ptrDraw;   // 描画コンポーネント
-		shared_ptr<CollisionObb> m_ptrColl;    // コリジョンOBBコンポーネント
+		shared_ptr<CollisionCapsule> m_ptrColl;    // コリジョンOBBコンポーネント
 		Bool16_t<ePlayerStatus> m_status;	   // フラグ管理クラス
 		
 		map<wstring, eItemType> m_miningMap;     // 採掘対象と取得アイテムタイプ
@@ -52,8 +52,9 @@ namespace basecross
 		const float m_moveSpeed; // 移動速度
 		const float m_rotSpeed;  // 回転速度
 
-		Vec3 m_rotTarget; // 回転先
+		Vec3 m_rotTarget;	// 回転先
 		Vec3 m_currentRot;  // 前回の回転軸
+		Mat4x4 m_modelMat;	// モデルとトランスフォーム差分行列
 
 		// フレンド化(ステートマシンからメンバ関数を呼び出すため)
 		friend PlayerIdleState;
@@ -68,13 +69,21 @@ namespace basecross
 		@param ステージポインタ
 		*/
 		Player(const shared_ptr<Stage>& stagePtr) :
-			TemplateObject(stagePtr, Vec3(7.0f, 3.0f, 6.0f), Vec3(0.0f), Vec3(1.0f, 1.5f, 1.0f)),
+			TemplateObject(stagePtr, Vec3(0.0f, 3.0f, 0.0f), Vec3(0.0f), Vec3(1.0f)),
 			m_moveSpeed(5.0f), // 今後CSVから速度等のステータスを取得予定
 			m_rotSpeed(0.5f)  // 今後CSVから速度等のステータスを取得予定
 		{
 			m_status = 0; // 状態フラグは0で初期化
 			m_rotTarget.zero(); // 回転先は0.0fで初期化
 			m_currentRot.zero(); // 回転先は0.0fで初期化
+
+			// スケールだけ、Y軸方向に2倍にする
+			m_modelMat.affineTransformation(
+				Vec3(1.0f, 2.0f, 1.0f),
+				Vec3(0.0f),
+				Vec3(0.0f),
+				Vec3(0.0f)
+			);
 
 			// 採掘オブジェクトのタグと採掘時に加算するアイテムのタイプ
 			m_miningMap.insert(make_pair(L"Tree", eItemType::Wood));	// タグか木ならアイテムタイプは木材

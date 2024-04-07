@@ -17,7 +17,7 @@ namespace basecross {
 	public:
 		// コンストラクタとデストラクタ
 		MainCamera() : Camera(),
-			m_cameraArm(Vec3(0.0f, 20.0f, -15.0f))
+			m_cameraArm(Vec3(0.0f, 20.0f, -22.0f))
 		{
 		}
 		~MainCamera() {}

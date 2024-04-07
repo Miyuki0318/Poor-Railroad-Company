@@ -53,28 +53,85 @@ namespace basecross
 	// 毎フレーム更新処理
 	void SelectIndicator::OnUpdate()
 	{
-		// プレイヤーのポインタがあるか
-		if (m_player.lock())
+		// プレイヤーのポインタがあれば、座標の更新を行う
+		if (m_player.lock()) UpdatePosition();
+
+		// 選択しているポイント(csv上での)を更新
+		UpdateSelectPoint();
+
+		// デバック用文字列
+		wstring str;
+		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
+		eStageID id = static_cast<eStageID>(stageMap.at(m_selectPoint.x).at(m_selectPoint.y));
+		switch (id)
 		{
-			const auto& player = m_player.lock();
+		case eStageID::Rail:
+		case eStageID::DeRail:
+			str += L"レール";
+			break;
 
-			// プレイヤーの回転角Y軸の中から90の倍数に一番近いのに設定
-			float rotY = GetClosest(player->GetRotation().y, 0.0f, XM_PIDIV2, XM_PI, -XM_PIDIV2, -XM_PI);
-			
-			// 方向ベクトルを定義
-			Vec3 velo = Vec3(cosf(rotY), 0.0f, -sinf(rotY));
-			velo.x = round(velo.x);
-			velo.z = round(velo.z);
+		case eStageID::GoalRail:
+			str += L"ゴール";
+			break;
 
-			// プレイヤーの座標を四捨五入する
-			Vec3 pos = player->GetPosition();
-			pos.x = round(pos.x);
-			pos.z = round(pos.z);
-			pos.y = 1.5f;
+		case eStageID::Rock:
+			str += L"岩";
+			break;
 
-			// プレイヤーの座標+方向ベクトルで座標更新
-			SetPosition(pos + velo);
+		case eStageID::Tree:
+			str += L"木";
+			break;
+
+		default:
+			str += L"無";
+			break;
 		}
+
+		Debug::Log(str + L"を選択中");
+	}
+
+	// 座標の更新処理
+	void SelectIndicator::UpdatePosition()
+	{
+		// プレイヤーの回転角Y軸の中から90の倍数に一番近いのに設定
+		const auto& player = m_player.lock();
+		float rotY = GetClosest(player->GetRotation().y, 0.0f, XM_PIDIV2, XM_PI, -XM_PIDIV2, -XM_PI);
+
+		// 方向ベクトルを定義(小数点以下四捨五入)
+		Vec3 velo = Vec3(cosf(rotY), 0.0f, -sinf(rotY));
+		velo.x = round(velo.x);
+		velo.z = round(velo.z);
+
+		// プレイヤーの座標を四捨五入する
+		Vec3 pos = player->GetPosition();
+		pos.x = round(pos.x);
+		pos.z = round(pos.z);
+		pos.y = m_position.y;
+
+		// プレイヤーの座標+方向ベクトルで座標更新
+		SetPosition(pos + velo);
+	}
+
+	// 選択しているポイントの更新
+	void SelectIndicator::UpdateSelectPoint()
+	{
+		// ステージcsv配列の取得
+		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
+
+		// サイズと列と行
+		Vec3 pos = GetPosition();
+		size_t row, col;
+		row = ROW(pos.z);
+		col = COL(pos.x);
+
+		// 配列の範囲内かのエラーチェック
+		if (!WithInElemRange(row, col, stageMap))
+		{
+			return;
+		}
+
+		// 更新
+		m_selectPoint = Point2D<size_t>(row, col);
 	}
 
 	// 採掘可能オブジェクトか、採掘可能オブジェクトポインタの取得
@@ -112,22 +169,14 @@ namespace basecross
 	// レール設置できるか、できない場合は置かれているレールを取得
 	bool SelectIndicator::GetRailedPossible() const
 	{
-		// 確認座標
-		Vec3 checkPos = GetPosition();
-
-		// ガイド付きステージマップ配列の取得
-		const int guideRailID = static_cast<int>(eStageID::GuideRail);
+		// 選択ポイントがガイドの位置と一致しているか
 		const auto& railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager");
-		const auto& guideMap = railManager->GetGuideMap();
+		bool posshible = railManager->GetIsGuidePoint(m_selectPoint);
 
-		// 一致しなかったら設置不可
-		const auto& checkNum = guideMap.at(guideMap.size() - size_t(checkPos.z) - 1).at(size_t(checkPos.x));
-		bool posshible = (checkNum == guideRailID);
-
-		// 設置可能ならマネージャーにレール追加処理を送る
+		// 一致してたらマネージャーにレール追加処理を送る
 		if (posshible)
 		{
-			railManager->AddRail(checkPos);
+			railManager->AddRail(m_selectPoint);
 		}
 
 		return posshible;

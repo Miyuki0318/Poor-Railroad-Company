@@ -17,6 +17,7 @@ namespace basecross
 		VertexData m_vertex; // 頂点データ
 		shared_ptr<PCTStaticDraw> m_ptrDraw; // 描画コンポーネント
 		weak_ptr<TemplateObject> m_player; // プレイヤー
+		Point2D<size_t> m_selectPoint; // 選択しているポイント
 
 	public:
 
@@ -28,7 +29,7 @@ namespace basecross
 		SelectIndicator(const shared_ptr<Stage>& stagePtr,
 			const shared_ptr<TemplateObject>& playerPtr
 		) :
-			TemplateObject(stagePtr),
+			TemplateObject(stagePtr, Vec3(0.0f, 1.5f, 0.0f), Vec3(0.0f), Vec3(1.0f)),
 			m_player(playerPtr)
 		{
 		}
@@ -60,5 +61,17 @@ namespace basecross
 		@return 設置可能ならtrue、不可能ならfalseを返す
 		*/
 		bool GetRailedPossible() const;
+
+	private:
+
+		/*!
+		@brief 座標の更新処理関数
+		*/
+		void UpdatePosition();
+
+		/*!
+		@brief 選択ポイントの更新処理関数
+		*/
+		void UpdateSelectPoint();
 	};
 }

@@ -5,7 +5,6 @@
 */
 
 #include "stdafx.h"
-#include <cmath>
 #include "Project.h"
 
 namespace basecross
@@ -23,11 +22,12 @@ namespace basecross
 
 		// 描画コンポーネントの設定
 		m_ptrDraw = AddComponent<PNTStaticDraw>();
-		m_ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		m_ptrDraw->SetMeshToTransformMatrix(m_modelMat);
+		m_ptrDraw->SetMeshResource(L"DEFAULT_CYLINDER");
 		m_ptrDraw->SetDiffuse(COL_RED);
 
 		// コリジョンOBBの追加
-		m_ptrColl = AddComponent<CollisionObb>();
+		m_ptrColl = AddComponent<CollisionCapsule>();
 
 		// 重力の追加
 		AddComponent<Gravity>();

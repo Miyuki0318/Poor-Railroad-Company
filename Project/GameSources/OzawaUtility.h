@@ -263,6 +263,30 @@ namespace Utility
 		}
 	}
 
+	/*!
+	@brief インデックスが配列の範囲内かを返す
+	@param (index)　確認する値
+	@param (size)　配列の.size()
+	@return 範囲内かの真偽
+	*/
+	template<class T>
+	bool WithInElemRange(T index, size_t size)
+	{
+		return (0 <= static_cast<size_t>(index) && static_cast<size_t>(index) < size);
+	}
+
+	/*!
+	@brief 指定した列と行が配列の範囲内かを返す
+	@param (row)　確認する列
+	@param (col)　確認する行
+	@param (elem)　確認する配列
+	@return 範囲内かの真偽
+	*/
+	template<class Ty1, class Ty2, class Ty3>
+	bool WithInElemRange(Ty1 row, Ty2 col, Ty3 elem)
+	{
+		return WithInElemRange(row, elem.size()) && WithInElemRange(col, elem.at(row).size());
+	}
 
 	/*!
 	@brief enum列挙子をsize_tにキャスト
