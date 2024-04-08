@@ -37,6 +37,7 @@ namespace basecross
 		wstring texturePath = mediaPath + L"Textures/";
 
 		app->RegisterTexture(L"FADE_TX", texturePath + L"Blue.png");
+		app->RegisterTexture(L"MENU_TX", texturePath + L"Menu.png");
 	}
 
 	// スプライトの生成
@@ -45,46 +46,24 @@ namespace basecross
 		const float width = static_cast<float>(App::GetApp()->GetGameWidth());
 		const float height = static_cast<float>(App::GetApp()->GetGameHeight());
 
-		m_fadeSprite = AddGameObject<Sprite>(L"FADE_TX", Vec2(width, height), Vec3(0.0f));
-		
-		m_fadeSprite->SetDiffuseColor(COL_WHITE);
+		//m_fadeSprite = AddGameObject<Sprite>(L"FADE_TX", Vec2(width, height), Vec3(0.0f));
+		//
+		//m_fadeSprite->SetDiffuseColor(COL_WHITE);
 	}
 
+	// 地面の生成
 	void TitleStage::CreateGround()
 	{		
-		AddGameObject<Company>(Vec3(-10.0f, 2.5f,10.0f));
 		// 床ボックスオブジェクトの追加
-		AddGameObject<GroundBox>(m_grountScale);
+		AddGameObject<GroundBox>(m_groundScale);
 	}
 
-	// スタートボタンを押した時の処理
-	void TitleStage::PushStartButton()
+	// 建物の生成
+	void TitleStage::CreateBuilding()
 	{
-		if (GetPushA())
-		{
-			m_startPush = true;
-		}
-	}
+		AddGameObject<Company>(Vec3(35.0f,3.0f,10.0f));
 
-	// フェードイン処理
-	void TitleStage::FadeInSprite()
-	{
-		// ステージ変更のため、シーンを取得
-		auto& scene = App::GetApp()->GetScene<Scene>();
-
-		if (m_startPush && m_fadeSprite->FadeInColor(m_fadeInTime))
-		{
-			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"GameStage");
-		}
-	}
-
-	// フェードアウト処理
-	void TitleStage::FadeOutSprite()
-	{
-		if (!m_fadeStop && m_fadeSprite->FadeOutColor(m_fadeOutTime))
-		{
-			m_fadeStop = true;
-		}
+		AddGameObject<Construction>(Vec3(70.0f, 3.0f, 0.0f));
 	}
 
 	// 実行時、一度だけ処理される関数
@@ -99,6 +78,8 @@ namespace basecross
 			CreateSpriteObject();
 
 			CreateGround();
+
+			CreateBuilding();
 		}
 		catch (...)
 		{
@@ -109,11 +90,6 @@ namespace basecross
 	// 毎フレーム実行される関数
 	void TitleStage::OnUpdate()
 	{
-		FadeOutSprite();
-
-		PushStartButton();
-
-		FadeInSprite();
 	}
 
 	// オブジェクト破棄時に呼び出される処理
