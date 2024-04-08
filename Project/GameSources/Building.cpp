@@ -27,4 +27,14 @@ namespace basecross {
 	{
 
 	}
+
+	void Company::ButtonPush()
+	{
+
+	}
+
+	void Company::OptionMenu()
+	{
+
+	}
 }

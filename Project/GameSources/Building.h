@@ -30,6 +30,15 @@ namespace basecross {
 
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
+
+		/*
+		* ボタンを押した時の処理
+		*/
+		void ButtonPush();
+		/*
+		* オプション画面の処理
+		*/
+		void OptionMenu();
 	};
 
 	class Construction :public TemplateObject
@@ -54,5 +63,14 @@ namespace basecross {
 
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
+
+		/*
+		* スタートボタンを押した時の処理
+		*/
+		void StartButtonPush();
+		/*
+		* ゲームスタート
+		*/
+		void Start();
 	};
 }
