@@ -124,13 +124,13 @@ namespace basecross
 	bool RailManager::GetIsGuidePoint(const Point2D<size_t>& point) const
 	{
 		// 配列の範囲内かのエラーチェック
-		if (!WithInElemRange(point.y, point.y, m_guideMap))
+		if (!WithInElemRange(point.x, point.y, m_guideMap))
 		{
 			return false;
 		}
 
 		// ガイドIDかどうか
-		int num = m_guideMap.at(point.y).at(point.y);
+		int num = m_guideMap.at(point.x).at(point.y);
 		return num == GUIDE_ID;
 	}
 }
