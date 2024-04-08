@@ -29,6 +29,9 @@ namespace basecross {
 
 	void Train::OnUpdate()
 	{
+		auto railPositions = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailPositions();
+
+
 		StateProcess(m_state);
 		m_beforeState = m_state;
 	}
