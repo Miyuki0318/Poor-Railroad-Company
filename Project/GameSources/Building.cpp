@@ -28,11 +28,13 @@ namespace basecross {
 
 	}
 
+	// ボタンを押した時の処理
 	void Company::ButtonPush()
 	{
 
 	}
 
+	// オプション画面の処理
 	void Company::OptionMenu()
 	{
 
