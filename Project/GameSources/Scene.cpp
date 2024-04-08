@@ -72,7 +72,7 @@ namespace basecross {
 		RegisterMultiMesh(L"TREE", modelPath + L"Tree/", L"treeAnimation", true);
 
 		// プレイヤーモデルの生成
-		RegisterMultiMesh(L"PLAYER", modelPath + L"Player/", L"PlayerPick", true);
+		RegisterMultiMesh(L"PLAYER", modelPath + L"Player/", L"Player", true);
 	}
 
 	void Scene::RegisterSingleMesh(const wstring& registerKey, const wstring& path, const wstring& fileName, bool boneUse)

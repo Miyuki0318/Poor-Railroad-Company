@@ -79,10 +79,10 @@ namespace basecross
 
 			// スケールだけ、Y軸方向に2倍にする
 			m_modelMat.affineTransformation(
-				Vec3(1.0f, 2.0f, 1.0f),
+				Vec3(0.6f),
 				Vec3(0.0f),
-				Vec3(0.0f),
-				Vec3(0.0f)
+				Vec3(0.0f, -XM_PIDIV2, 0.0f),
+				Vec3(0.0f, -1.25f, 0.0f)
 			);
 
 			// 採掘オブジェクトのタグと採掘時に加算するアイテムのタイプ

@@ -23,8 +23,10 @@ namespace basecross
 		// 描画コンポーネントの設定
 		m_ptrDraw = AddComponent<BcPNTBoneModelDraw>();
 		m_ptrDraw->SetMeshToTransformMatrix(m_modelMat);
-		m_ptrDraw->SetMeshResource(L"DEFAULT_CYLINDER");
-		m_ptrDraw->SetDiffuse(COL_RED);
+		m_ptrDraw->SetMultiMeshResource(L"PLAYER");
+		m_ptrDraw->SetSpecularColor(COL_BLACK);
+		m_ptrDraw->SetOwnShadowActive(true);
+		m_ptrDraw->SetLightingEnabled(false);
 
 		// コリジョンOBBの追加
 		m_ptrColl = AddComponent<CollisionCapsule>();
