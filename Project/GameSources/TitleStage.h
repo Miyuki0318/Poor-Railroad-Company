@@ -55,21 +55,6 @@ namespace basecross
 		@brief 建物の生成
 		*/
 		void CreateBuilding();
-		
-		/*
-		@brief スタートボタンを押した時の処理
-		*/
-		void PushStartButton();
-
-		/*
-		@brief フェードイン処理
-		*/
-		void FadeInSprite();
-
-		/*
-		@brief フェードアウト処理
-		*/
-		void FadeOutSprite();
 
 	public:
 		/*
