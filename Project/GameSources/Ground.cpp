@@ -20,6 +20,7 @@ namespace basecross
 		m_ptrDraw = AddComponent<PNTStaticDraw>();
 		m_ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
 		m_ptrDraw->SetDiffuse(COL_GREAN);
+		m_ptrDraw->SetOwnShadowActive(true);
 
 		// コリジョンコンポーネントを追加
 		auto ptrColl = AddComponent<CollisionObb>();

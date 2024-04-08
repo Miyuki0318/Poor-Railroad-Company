@@ -38,13 +38,11 @@ namespace basecross
 	class Player : public TemplateObject
 	{
 		weak_ptr<SelectIndicator> m_indicator; // セレクトインディケーター
-		unique_ptr<CraftManager> m_craft;      // クラフトマネージャー
+		unique_ptr<CraftManager> m_craft; // クラフトマネージャー
 
-		shared_ptr<BcPNTBoneModelDraw> m_ptrDraw;   // 描画コンポーネント
-		shared_ptr<CollisionCapsule> m_ptrColl;    // コリジョンOBBコンポーネント
-		Bool16_t<ePlayerStatus> m_status;	   // フラグ管理クラス
-		
-		map<wstring, eItemType> m_miningMap;     // 採掘対象と取得アイテムタイプ
+		shared_ptr<BcPNTBoneModelDraw> m_ptrDraw; // 描画コンポーネント
+		map<wstring, eItemType> m_miningMap; // 採掘対象と取得アイテムタイプ
+		Bool16_t<ePlayerStatus> m_status; // フラグ管理クラス
 
 		// ステートマシン
 		unique_ptr<PlayerStateMachine> m_playerState; 
@@ -109,6 +107,16 @@ namespace basecross
 		void OnUpdate() override;
 
 	private:
+
+		/*!
+		@brief コンポーネントの生成関数
+		*/
+		void CreateComponent();
+
+		/*!
+		@brief プレイヤーに付加する機能生成関数
+		*/
+		void CreatePlayerFeatures();
 
 		/*!
 		@brief インディケーターへの取得と呼び出し関数

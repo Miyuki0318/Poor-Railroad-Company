@@ -20,38 +20,15 @@ namespace basecross
 		TemplateObject::OnCreate();
 		SetTransParam();
 
-		// 描画コンポーネントの設定
-		m_ptrDraw = AddComponent<BcPNTBoneModelDraw>();
-		m_ptrDraw->SetMeshToTransformMatrix(m_modelMat);
-		m_ptrDraw->SetMultiMeshResource(L"PLAYER");
-		m_ptrDraw->SetSpecularColor(COL_BLACK);
-		m_ptrDraw->SetOwnShadowActive(true);
-		m_ptrDraw->SetLightingEnabled(false);
+		// コンポーネントの設定
+		CreateComponent();
 
-		// アニメーションの設定
-		m_ptrDraw->AddAnimation(L"WALK", 0, 60, true);
-		m_ptrDraw->AddAnimation(L"MINING", 180, 60, false);
-
-		// コリジョンOBBの追加
-		m_ptrColl = AddComponent<CollisionCapsule>();
-
-		// 重力の追加
-		AddComponent<Gravity>();
+		// プレイヤーに付加する機能の生成
+		CreatePlayerFeatures();
 
 		// ステートマシンの初期化
 		m_playerState.reset(new PlayerStateMachine(GetThis<Player>()));
 		m_playerState->SetState(PlayerIdleState::Instance());
-
-		// ステージの取得(shared_ptrをconstで取得)
-		const auto& stagePtr = GetStage();
-
-		// セレクトインディケーターの生成
-		m_indicator = stagePtr->AddGameObject<SelectIndicator>(GetThis<Player>());
-
-		// クラフトマネージャの生成
-		const auto& cWindow = stagePtr->AddGameObject<CraftWindow>();
-		const auto& cQTE = stagePtr->AddGameObject<CraftingQTE>();
-		m_craft.reset(new CraftManager(cWindow, cQTE));
 
 		// タグの設定
 		AddTag(L"Player");
@@ -82,6 +59,47 @@ namespace basecross
 		Debug::Log(L"木の所持状態は", m_status(ePlayerStatus::IsHaveWood) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Wood), L"個");
 		Debug::Log(L"石の所持状態は", m_status(ePlayerStatus::IsHaveStone) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Stone), L"個");
 		Debug::Log(L"レールの所持状態は", m_status(ePlayerStatus::IsHaveRail) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Rail), L"個");
+	}
+
+	// コンポーネント設定
+	void Player::CreateComponent()
+	{
+		// 描画コンポーネントの設定
+		m_ptrDraw = AddComponent<BcPNTBoneModelDraw>();
+		m_ptrDraw->SetMeshToTransformMatrix(m_modelMat);
+		m_ptrDraw->SetMultiMeshResource(L"PLAYER");
+		m_ptrDraw->SetSpecularColor(COL_BLACK);
+		m_ptrDraw->SetOwnShadowActive(true);
+		m_ptrDraw->SetLightingEnabled(false);
+
+		// アニメーションの設定
+		m_ptrDraw->AddAnimation(L"WALK", 0, 60, true);
+		m_ptrDraw->AddAnimation(L"MINING", 180, 60, false);
+
+		auto shadowMap = AddComponent<Shadowmap>();
+		shadowMap->SetMultiMeshResource(L"PLAYER");
+		shadowMap->SetMeshToTransformMatrix(m_modelMat);
+
+		// コリジョンOBBの追加
+		AddComponent<CollisionCapsule>();
+
+		// 重力の追加
+		AddComponent<Gravity>();
+	}
+
+	// プレイヤーに付加する機能の生成
+	void Player::CreatePlayerFeatures()
+	{
+		// ステージの取得(shared_ptrをconstで取得)
+		const auto& stagePtr = GetStage();
+
+		// セレクトインディケーターの生成
+		m_indicator = stagePtr->AddGameObject<SelectIndicator>(GetThis<Player>());
+
+		// クラフトマネージャの生成
+		const auto& cWindow = stagePtr->AddGameObject<CraftWindow>();
+		const auto& cQTE = stagePtr->AddGameObject<CraftingQTE>();
+		m_craft.reset(new CraftManager(cWindow, cQTE));
 	}
 
 	// インディケーターの取得に応じて処理
