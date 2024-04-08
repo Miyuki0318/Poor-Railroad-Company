@@ -57,7 +57,7 @@ namespace basecross {
 
 		if (state == State::Onrail)
 		{
-			m_position.x += DELTA_TIME * m_MoveSpeed;
+			m_position += m_moveDirection * DELTA_TIME * m_MoveSpeed;
 			SetPosition(m_position);
 		}
 	}

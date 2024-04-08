@@ -13,6 +13,7 @@ namespace basecross {
 	{
 		const Vec3 m_DefaultPosition;
 		const Vec3 m_DefaultScale;
+		const float m_MoveSpeed;
 
 		/*!
 		@brief óÒé‘ÇÃèÛë‘
@@ -27,7 +28,7 @@ namespace basecross {
 		State m_state = State::Onrail;
 		State m_beforeState = State::Onrail;
 
-		const float m_MoveSpeed;
+		Vec3 m_moveDirection;
 
 		shared_ptr<PNTStaticDraw> m_ptrDraw;
 		shared_ptr<CollisionObb> m_ptrColl;
@@ -37,7 +38,8 @@ namespace basecross {
 			TemplateObject(stagePtr),
 			m_DefaultPosition(Vec3(3.0f, 1.5f, -7.0f)),
 			m_DefaultScale(Vec3(2.0f, 1.0f, 1.0f)),
-			m_MoveSpeed(3.0f)
+			m_MoveSpeed(1.0f),
+			m_moveDirection(Vec3(0.0f))
 		{
 		}
 
