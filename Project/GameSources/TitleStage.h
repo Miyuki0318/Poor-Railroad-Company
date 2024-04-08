@@ -1,6 +1,7 @@
 /*!
-@file GameStage.h
-@brief ゲームステージ
+@file TitleStage.h
+@brief タイトルステージ
+@author 新妻葵
 */
 
 #pragma once
@@ -11,6 +12,9 @@ namespace basecross
 	class TitleStage : public Stage
 	{
 	private:
+		const Vec3 m_cameraEye = Vec3(0.0f, 30.0f, -15.0f);
+		const Vec3 m_cameraAt = Vec3(0.0f, 0.0f, 0.0f);
+
 		// スタートボタンが押されたか
 		bool m_startPush;
 
@@ -19,6 +23,8 @@ namespace basecross
 
 		const float m_fadeOutTime = 1.0f;
 		const float m_fadeInTime = 3.0f;
+
+		const Vec3 m_grountScale = Vec3(30.0f, 2.0f, 30.0f);
 
 		shared_ptr<Sprite> m_fadeSprite;
 
@@ -36,6 +42,11 @@ namespace basecross
 		@brief スプライトの生成
 		*/
 		void CreateSpriteObject();
+
+		/*
+		@brief 地面の生成
+		*/
+		void CreateGround();
 		
 		/*
 		@brief スタートボタンを押した時の処理

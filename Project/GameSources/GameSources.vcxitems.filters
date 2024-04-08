@@ -121,6 +121,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h">
       <Filter>Camera</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Building.h">
+      <Filter>StageObject\Building</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -221,6 +224,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp">
       <Filter>Camera</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Building.cpp">
+      <Filter>StageObject\Building</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -340,6 +346,9 @@
     </Filter>
     <Filter Include="Camera">
       <UniqueIdentifier>{f30f9633-9775-486b-983b-eb32cadf7119}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Building">
+      <UniqueIdentifier>{5d07433b-b3ef-411d-ae58-43d570fa75ff}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

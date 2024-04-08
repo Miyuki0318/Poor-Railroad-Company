@@ -19,6 +19,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BitFlag.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Bool_t.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Building.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftingIcon.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftingQTE.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftItemIcon.h" />
@@ -59,6 +60,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Billboard.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BillboardNumber.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Building.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftingIcon.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftingQTE.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftItemIcon.cpp" />
