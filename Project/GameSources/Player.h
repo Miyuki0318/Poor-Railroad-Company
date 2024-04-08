@@ -40,7 +40,7 @@ namespace basecross
 		weak_ptr<SelectIndicator> m_indicator; // セレクトインディケーター
 		unique_ptr<CraftManager> m_craft;      // クラフトマネージャー
 
-		shared_ptr<PNTStaticDraw> m_ptrDraw;   // 描画コンポーネント
+		shared_ptr<BcPNTBoneModelDraw> m_ptrDraw;   // 描画コンポーネント
 		shared_ptr<CollisionCapsule> m_ptrColl;    // コリジョンOBBコンポーネント
 		Bool16_t<ePlayerStatus> m_status;	   // フラグ管理クラス
 		

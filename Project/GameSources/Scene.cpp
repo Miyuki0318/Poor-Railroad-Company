@@ -61,5 +61,47 @@ namespace basecross {
 
 		// 白塗りテクスチャ
 		app->RegisterTexture(L"WHITE_TX", texturePath + L"White.png");
+
+
+
+		// ソードクリエイターモデル
+		// 壊れる岩モデルの生成
+		RegisterMultiMesh(L"ROCK_BREAK", modelPath + L"Rock/", L"rockBreakModel", true);
+
+		// 木のモデリング
+		RegisterMultiMesh(L"TREE", modelPath + L"Tree/", L"treeAnimation", true);
+
+		// プレイヤーモデルの生成
+		RegisterMultiMesh(L"PLAYER_PICK", modelPath + L"Player/", L"PlayerPick", true);
+	}
+
+	void Scene::RegisterSingleMesh(const wstring& registerKey, const wstring& path, const wstring& fileName, bool boneUse)
+	{
+		shared_ptr<MeshResource> modelMesh;
+		if (boneUse)
+		{
+			modelMesh = MeshResource::CreateBoneModelMesh(path, fileName + L".bmf");
+		}
+		else
+		{
+			modelMesh = MeshResource::CreateStaticModelMesh(path, fileName + L".bmf");
+		}
+		const auto& app = App::GetApp();
+		app->RegisterResource(registerKey, modelMesh);
+	}
+
+	void Scene::RegisterMultiMesh(const wstring& registerKey, const wstring& path, const wstring& fileName, bool boneUse)
+	{
+		shared_ptr<MultiMeshResource> modelMesh;
+		if (boneUse)
+		{
+			modelMesh = MultiMeshResource::CreateBoneModelMultiMesh(path, fileName + L".bmf");
+		}
+		else
+		{
+			modelMesh = MultiMeshResource::CreateStaticModelMultiMesh(path, fileName + L".bmf");
+		}
+		const auto& app = App::GetApp();
+		app->RegisterResource(registerKey, modelMesh);
 	}
 }
