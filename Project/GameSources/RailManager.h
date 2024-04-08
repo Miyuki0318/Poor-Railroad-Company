@@ -41,6 +41,7 @@ namespace basecross
 		shared_ptr<PNTStaticInstanceDraw> m_ptrDraw; // 描画コンポーネント
 		vector<Point2D<size_t>> m_guidePoints; // ガイドがあるポイント
 		vector<vector<int>> m_guideMap; // ガイド付きのステージcsv
+		vector<Vec3> m_railPositions; // レールの座標配列
 		Mat4x4 m_mtxScale;		// インスタンス描画用のスケール
 		Mat4x4 m_mtxRotation;	// インスタンス描画用のローテーション
 		
@@ -88,6 +89,15 @@ namespace basecross
 			return m_guidePoints;
 		}
 
+		/*!
+		@brief レールの座標配列取得関数
+		@return m_railPositions
+		*/
+		vector<Vec3> GetRailPositions() const
+		{
+			return m_railPositions;
+		}
+
 	private:
 
 		/*!
@@ -97,13 +107,17 @@ namespace basecross
 		*/
 		void AddInstanceRail(size_t row, size_t col)
 		{
+			// 座標の設定
+			Vec3 addPos = Vec3(float(col), 1.0f, -float(row));
+
 			// トランスフォーム行列の設定
 			Mat4x4 matrix, mtxPosition;
-			mtxPosition.translation(Vec3(float(col), 1.0f, -float(row)));
+			mtxPosition.translation(addPos);
 
 			// 行列の設定と追加
 			matrix = m_mtxScale * m_mtxRotation * mtxPosition;
 			m_ptrDraw->AddMatrix(matrix);
+			m_railPositions.push_back(addPos);
 		}
 
 		/*!
