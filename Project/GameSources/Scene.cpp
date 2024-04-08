@@ -66,13 +66,13 @@ namespace basecross {
 
 		// ソードクリエイターモデル
 		// 壊れる岩モデルの生成
-		RegisterMultiMesh(L"ROCK_BREAK", modelPath + L"Rock/", L"rockBreakModel", true);
+		RegisterMultiMesh(L"ROCK", modelPath + L"Rock/", L"rockBreakModel", true);
 
 		// 木のモデリング
 		RegisterMultiMesh(L"TREE", modelPath + L"Tree/", L"treeAnimation", true);
 
 		// プレイヤーモデルの生成
-		RegisterMultiMesh(L"PLAYER_PICK", modelPath + L"Player/", L"PlayerPick", true);
+		RegisterMultiMesh(L"PLAYER", modelPath + L"Player/", L"PlayerPick", true);
 	}
 
 	void Scene::RegisterSingleMesh(const wstring& registerKey, const wstring& path, const wstring& fileName, bool boneUse)
