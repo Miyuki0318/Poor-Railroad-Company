@@ -12,8 +12,12 @@ namespace basecross
 	class TitleStage : public Stage
 	{
 	private:
-		const Vec3 m_cameraEye = Vec3(0.0f, 30.0f, -15.0f);
-		const Vec3 m_cameraAt = Vec3(0.0f, 0.0f, 0.0f);
+		// 地面のスケール
+		const Vec3 m_groundScale = Vec3(+50.0f, +2.0f, +50.0f);
+
+		// カメラの位置・視点
+		const Vec3 m_cameraEye = Vec3(m_groundScale.x, 30.0f, -15.0f);
+		const Vec3 m_cameraAt = Vec3(m_groundScale.x, 0.0f, 0.0f);
 
 		// スタートボタンが押されたか
 		bool m_startPush;
@@ -21,10 +25,9 @@ namespace basecross
 		// フェードが終わったか
 		bool m_fadeStop;
 
+		// フェードの時間
 		const float m_fadeOutTime = 1.0f;
 		const float m_fadeInTime = 3.0f;
-
-		const Vec3 m_grountScale = Vec3(30.0f, 2.0f, 30.0f);
 
 		shared_ptr<Sprite> m_fadeSprite;
 
@@ -47,6 +50,11 @@ namespace basecross
 		@brief 地面の生成
 		*/
 		void CreateGround();
+
+		/*
+		@brief 建物の生成
+		*/
+		void CreateBuilding();
 		
 		/*
 		@brief スタートボタンを押した時の処理

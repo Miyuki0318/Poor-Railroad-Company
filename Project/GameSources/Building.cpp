@@ -13,7 +13,7 @@ namespace basecross {
 	{
 		TemplateObject::OnCreate();
 
-		SetScale(Vec3(5.0f));
+		SetScale(Vec3(10.0f));
 		SetRotation(Vec3(0.0f));
 		SetPosition(m_position);
 
@@ -25,7 +25,6 @@ namespace basecross {
 
 	void Company::OnUpdate()
 	{
-
 	}
 
 	// ボタンを押した時の処理
@@ -36,6 +35,36 @@ namespace basecross {
 
 	// オプション画面の処理
 	void Company::OptionMenu()
+	{
+
+	}
+
+
+	void Construction::OnCreate()
+	{
+		TemplateObject::OnCreate();
+
+		SetScale(Vec3(5.0f, 5.0f, 10.0f));
+		SetRotation(Vec3(0.0f));
+		SetPosition(m_position);
+
+		auto drawComp = AddComponent<PNTStaticDraw>();
+		//drawComp->SetMeshToTransformMatrix(spanMat);
+		drawComp->SetMeshResource(L"DEFAULT_CUBE");
+		drawComp->SetDiffuse(COL_WHITE);
+	}
+
+	void Construction::OnUpdate()
+	{
+
+	}
+
+	void Construction::StartButtonPush()
+	{
+
+	}
+
+	void Construction::Start()
 	{
 
 	}

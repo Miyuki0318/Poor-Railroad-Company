@@ -50,11 +50,19 @@ namespace basecross
 		m_fadeSprite->SetDiffuseColor(COL_WHITE);
 	}
 
+	// 地面の生成
 	void TitleStage::CreateGround()
 	{		
-		AddGameObject<Company>(Vec3(-10.0f, 2.5f,10.0f));
 		// 床ボックスオブジェクトの追加
-		AddGameObject<GroundBox>(m_grountScale);
+		AddGameObject<GroundBox>(m_groundScale);
+	}
+
+	// 建物の生成
+	void TitleStage::CreateBuilding()
+	{
+		AddGameObject<Company>(Vec3(35.0f,3.0f,10.0f));
+
+		AddGameObject<Construction>(Vec3(70.0f, 3.0f, 0.0f));
 	}
 
 	// スタートボタンを押した時の処理
@@ -99,6 +107,8 @@ namespace basecross
 			CreateSpriteObject();
 
 			CreateGround();
+
+			CreateBuilding();
 		}
 		catch (...)
 		{
