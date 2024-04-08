@@ -29,6 +29,9 @@ namespace basecross {
 
 	void Train::OnUpdate()
 	{
+		auto railPositions = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailPositions();
+
+
 		StateProcess(m_state);
 		m_beforeState = m_state;
 	}
@@ -57,7 +60,7 @@ namespace basecross {
 
 		if (state == State::Onrail)
 		{
-			m_position.x += DELTA_TIME * m_MoveSpeed;
+			m_position += m_moveDirection * DELTA_TIME * m_MoveSpeed;
 			SetPosition(m_position);
 		}
 	}
