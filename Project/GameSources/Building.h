@@ -13,6 +13,10 @@ namespace basecross {
 		const Vec3 m_position;
 		Mat4x4 m_spanMat;
 
+		shared_ptr<Sprite> m_menuSprite;
+
+		bool m_spriteActive;
+
 	public:
 		Company(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
 			const Vec3 position
@@ -26,6 +30,7 @@ namespace basecross {
 				Vec3(0.0f),
 				Vec3(0.0f)
 			);
+			m_spriteActive = false;
 		}
 
 		virtual void OnCreate() override;
