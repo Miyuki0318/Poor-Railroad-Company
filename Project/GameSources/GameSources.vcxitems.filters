@@ -129,9 +129,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
       <Filter>Stage\GameStage</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)WinMain.cpp">
       <Filter>Project</Filter>
     </ClCompile>
@@ -227,6 +224,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Building.cpp">
       <Filter>StageObject\Building</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
+      <Filter>Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

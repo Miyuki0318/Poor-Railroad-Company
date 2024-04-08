@@ -28,7 +28,11 @@ namespace basecross
 	// ステート開始時の処理
 	void PlayerMovingState::Enter(const shared_ptr<Player>& player)
 	{
-		// 今のところ何もしない
+		// アニメーションの変更
+		if (player->m_ptrDraw->GetCurrentAnimation() != L"WALK")
+		{
+			player->m_ptrDraw->ChangeCurrentAnimation(L"WALK");
+		}
 	}
 
 	// ステート更新時の処理
@@ -42,6 +46,9 @@ namespace basecross
 
 		// クラフト状態ならクラフトステートに遷移
 		if (player->GetStatus(ePlayerStatus::IsCrafting)) player->SetState(PlayerCraftingState::Instance());
+
+		// アニメーション更新
+		player->m_ptrDraw->UpdateAnimation(DELTA_TIME * 2.0f);
 
 		// 移動更新を送る
 		player->UpdateMove();

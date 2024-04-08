@@ -28,19 +28,18 @@ namespace basecross
 	// ステート開始時の処理
 	void PlayerMiningState::Enter(const shared_ptr<Player>& player)
 	{
-		// 今のところ何もしない
+		// アニメーションの変更
+		player->m_ptrDraw->ChangeCurrentAnimation(L"MINING");
 	}
 
 	// ステート更新時の処理
 	void PlayerMiningState::Execute(const shared_ptr<Player>& player)
 	{
-		// 採掘時のアニメーション更新
-		// UpdateAnimation(ePlayerStatus::IsMining);
+		// アニメーション更新
+		player->m_ptrDraw->UpdateAnimation(DELTA_TIME * 5.0f);
 
 		// 採掘中の待機時間
-		// 本来ならアニメーション終了時間で状態遷移させるが
-		// 現状はタイマーで待機時間を再現する
-		if (player->SetTimer(0.1f))
+		if (player->m_ptrDraw->IsTargetAnimeEnd())
 		{
 			player->m_status.Set(ePlayerStatus::IsMining) = false;
 

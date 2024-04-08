@@ -28,6 +28,10 @@ namespace basecross
 		m_ptrDraw->SetOwnShadowActive(true);
 		m_ptrDraw->SetLightingEnabled(false);
 
+		// アニメーションの設定
+		m_ptrDraw->AddAnimation(L"WALK", 0, 60, true);
+		m_ptrDraw->AddAnimation(L"MINING", 180, 60, false);
+
 		// コリジョンOBBの追加
 		m_ptrColl = AddComponent<CollisionCapsule>();
 
