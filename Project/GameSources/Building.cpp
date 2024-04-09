@@ -13,13 +13,13 @@ namespace basecross {
 	{
 		TemplateObject::OnCreate();
 
-		SetScale(Vec3(10.0f));
+		SetScale(Vec3(1.0f));
 		SetRotation(Vec3(0.0f));
 		SetPosition(m_position);
 
 		auto drawComp = AddComponent<PNTStaticDraw>();
-		//drawComp->SetMeshToTransformMatrix(spanMat);
-		drawComp->SetMeshResource(L"DEFAULT_CUBE");
+		drawComp->SetMeshToTransformMatrix(m_spanMat);
+		drawComp->SetMeshResource(L"COMPANY");
 		drawComp->SetDiffuse(COL_GRAY);
 
 		m_menuSprite = GetStage()->AddGameObject<Sprite>(L"MENU_TX", Vec2(500.0f), Vec3(0.0f));
@@ -28,7 +28,10 @@ namespace basecross {
 
 	void Company::OnUpdate()
 	{
-		ButtonPush();
+		if (m_pushButton)
+		{
+			ButtonPush();
+		}
 	}
 
 	// É{É^ÉìÇâüÇµÇΩéûÇÃèàóù
@@ -55,18 +58,29 @@ namespace basecross {
 
 	}
 
+	void Company::OnCollisionEnter(shared_ptr<GameObject>& object)
+	{
+		if (object->FindTag(L"Player"))
+		{
+			m_pushButton = true;
+		}
+		else
+		{
+			m_pushButton = false;
+		}
+	}
 
 	void Construction::OnCreate()
 	{
 		TemplateObject::OnCreate();
 
-		SetScale(Vec3(5.0f, 5.0f, 10.0f));
+		SetScale(Vec3(1.0f));
 		SetRotation(Vec3(0.0f));
 		SetPosition(m_position);
 
 		auto drawComp = AddComponent<PNTStaticDraw>();
-		//drawComp->SetMeshToTransformMatrix(spanMat);
-		drawComp->SetMeshResource(L"DEFAULT_CUBE");
+		drawComp->SetMeshToTransformMatrix(m_spanMat);
+		drawComp->SetMeshResource(L"CONSTRUCTION");
 		drawComp->SetDiffuse(COL_YELOW);
 	}
 

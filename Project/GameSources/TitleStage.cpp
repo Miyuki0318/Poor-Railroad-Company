@@ -35,6 +35,7 @@ namespace basecross
 
 		wstring mediaPath = app->GetDataDirWString();
 		wstring texturePath = mediaPath + L"Textures/";
+		wstring modelPath = mediaPath + L"Models/" + L"Bilding";
 
 		app->RegisterTexture(L"FADE_TX", texturePath + L"Blue.png");
 		app->RegisterTexture(L"MENU_TX", texturePath + L"Menu.png");
@@ -63,7 +64,7 @@ namespace basecross
 	{
 		AddGameObject<Company>(Vec3(35.0f,3.0f,10.0f));
 
-		AddGameObject<Construction>(Vec3(70.0f, 3.0f, 0.0f));
+		AddGameObject<Construction>(Vec3(65.0f, 3.0f, 0.0f));
 	}
 
 	// ÀsAˆê“x‚¾‚¯ˆ—‚³‚ê‚éŠÖ”
