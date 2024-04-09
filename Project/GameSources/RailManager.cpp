@@ -22,8 +22,9 @@ namespace basecross
 	{
 		// 描画コンポーネントの設定
 		m_ptrDraw = AddComponent<PNTStaticInstanceDraw>();
-		m_ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
-		m_ptrDraw->SetDiffuse(COL_GRAY);
+		m_ptrDraw->SetMeshResource(L"RAIL");
+		m_ptrDraw->SetTextureResource(L"RAIL_TX");
+		m_ptrDraw->SetSpecular(COL_WHITE);
 
 		// csvの取得とスケール
 		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();

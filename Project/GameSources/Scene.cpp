@@ -63,6 +63,9 @@ namespace basecross {
 		app->RegisterTexture(L"WHITE_TX", texturePath + L"White.png");
 
 
+		// レールの仮モデル
+		RegisterSingleMesh(L"RAIL", modelPath + L"Rail/", L"Rail", false);
+		app->RegisterTexture(L"RAIL_TX", modelPath + L"Rail/TX_Rail.tga");
 
 		// ソードクリエイターモデル
 		// 壊れる岩モデルの生成

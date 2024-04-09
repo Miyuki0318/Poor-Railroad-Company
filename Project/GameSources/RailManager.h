@@ -54,8 +54,10 @@ namespace basecross
 		RailManager(const shared_ptr<Stage>& stagePtr) :
 			GameObject(stagePtr)
 		{
-			m_mtxScale.scale(Vec3(1.0f, 0.2f, 1.0f));
-			m_mtxRotation.rotation(Quat(0.0f, 0.0f, 0.0f, 1.0f));
+			Quat quatRot;
+			quatRot.rotationRollPitchYawFromVector(Vec3(0.0f, XM_PIDIV2, 0.0f));
+			m_mtxRotation.rotation(quatRot);
+			m_mtxScale.scale(Vec3(0.675f));
 		}
 
 		/*!

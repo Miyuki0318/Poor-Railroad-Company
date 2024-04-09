@@ -5,6 +5,8 @@ namespace basecross
 {
 	class RailGuide : public TemplateObject
 	{
+		shared_ptr<PNTStaticInstanceDraw> m_ptrDraw;
+
 	public:
 
 		RailGuide(const shared_ptr<Stage>& stagePtr) :

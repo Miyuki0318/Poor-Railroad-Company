@@ -80,6 +80,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerIdleState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMiningState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMovingState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RailGuide.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RailManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectIndicator.cpp" />

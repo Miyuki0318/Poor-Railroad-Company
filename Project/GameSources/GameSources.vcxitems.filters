@@ -228,6 +228,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
       <Filter>Player</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)RailGuide.cpp">
+      <Filter>Guide\RailGuide</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Player">
