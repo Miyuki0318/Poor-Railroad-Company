@@ -15,6 +15,7 @@ namespace basecross {
 
 		shared_ptr<Sprite> m_menuSprite;
 
+		bool m_pushButton;
 		bool m_spriteActive;
 
 	public:
@@ -30,6 +31,7 @@ namespace basecross {
 				Vec3(0.0f),
 				Vec3(0.0f)
 			);
+			m_pushButton = false;
 			m_spriteActive = false;
 		}
 
@@ -44,6 +46,10 @@ namespace basecross {
 		* オプション画面の処理
 		*/
 		void OptionMenu();
+		/*
+		* オブジェクトと接触している時の処理
+		*/
+		void OnCollisionEnter(shared_ptr<GameObject>& object);
 	};
 
 	class Construction :public TemplateObject
