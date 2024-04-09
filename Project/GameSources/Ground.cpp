@@ -19,7 +19,7 @@ namespace basecross
 		// メッシュの設定
 		m_ptrDraw = AddComponent<PNTStaticDraw>();
 		m_ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
-		m_ptrDraw->SetDiffuse(COL_GREAN);
+		m_ptrDraw->SetTextureResource(L"GROUND_TX");
 		m_ptrDraw->SetOwnShadowActive(true);
 
 		// コリジョンコンポーネントを追加

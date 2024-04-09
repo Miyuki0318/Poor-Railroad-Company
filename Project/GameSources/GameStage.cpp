@@ -27,6 +27,9 @@ namespace basecross
 
 		// QTEバーのフレームのテクスチャ
 		app->RegisterTexture(L"C_QTE_FLAME_TX", texturePath + L"BarFlame.png");
+
+		// 地面の仮テクスチャ
+		app->RegisterTexture(L"GROUND_TX", texturePath + L"ForestGround.png");
 	}
 
 	//ビューとライトの生成
