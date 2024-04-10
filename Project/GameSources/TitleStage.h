@@ -85,5 +85,10 @@ namespace basecross
 		@brief オブジェクト破棄時に呼び出される関数
 		*/
 		virtual void OnDestroy() override;
+
+		/*!
+		@brief 描画更新関数
+		*/
+		virtual void OnDraw() override;
 	};
 }
