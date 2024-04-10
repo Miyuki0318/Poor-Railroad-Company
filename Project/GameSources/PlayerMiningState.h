@@ -42,30 +42,30 @@ namespace basecross
 		@brief ステート開始時に呼び出される関数
 		@param ステートマシン参照オブジェクトのポインタ
 		*/
-		void Enter(const shared_ptr<Player>& player) override;
+		void Enter(const shared_ptr<GamePlayer>& player) override;
 
 		/*!
 		@brief ステート実行中に呼び出される関数
 		@param ステートマシン参照オブジェクトのポインタ
 		*/
-		void Execute(const shared_ptr<Player>& player) override;
+		void Execute(const shared_ptr<GamePlayer>& player) override;
 
 		/*!
 		@brief ステート終了時に呼び出される関数
 		@param ステートマシン参照オブジェクトのポインタ
 		*/
-		void Exit(const shared_ptr<Player>& player) override;
+		void Exit(const shared_ptr<GamePlayer>& player) override;
 
 		/*!
 		@brief Aボタン入力がされた時に実行される
 		@param プレイヤーのポインタ
 		*/
-		void OnPushA(const shared_ptr<Player>& player) override;
+		void OnPushA(const shared_ptr<GamePlayer>& player) override;
 
 		/*!
 		@brief Xボタン入力がされた時に実行される
 		@param プレイヤーのポインタ
 		*/
-		void OnPushX(const shared_ptr<Player>& player) override;
+		void OnPushX(const shared_ptr<GamePlayer>& player) override;
 	};
 }

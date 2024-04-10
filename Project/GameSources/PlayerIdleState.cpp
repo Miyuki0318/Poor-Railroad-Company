@@ -26,14 +26,14 @@ namespace basecross
 	}
 
 	// ステート開始時の処理
-	void PlayerIdleState::Enter(const shared_ptr<Player>& player)
+	void PlayerIdleState::Enter(const shared_ptr<GamePlayer>& player)
 	{
 		// 移動状態なら移動ステートに遷移
 		if (player->GetStatus(ePlayerStatus::IsMove)) player->SetState(PlayerMovingState::Instance());
 	}
 
 	// ステート更新時の処理
-	void PlayerIdleState::Execute(const shared_ptr<Player>& player)
+	void PlayerIdleState::Execute(const shared_ptr<GamePlayer>& player)
 	{
 		// Lスティック入力があれば移動ステートに遷移
 		if (Input::IsInputLStick() || !player->GetStatus(ePlayerStatus::IsIdle)) player->SetState(PlayerMovingState::Instance());
@@ -46,20 +46,20 @@ namespace basecross
 	}
 
 	// ステート終了時の処理
-	void PlayerIdleState::Exit(const shared_ptr<Player>& player)
+	void PlayerIdleState::Exit(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// Aボタン入力時
-	void PlayerIdleState::OnPushA(const shared_ptr<Player>& player)
+	void PlayerIdleState::OnPushA(const shared_ptr<GamePlayer>& player)
 	{
 		// インディケーターに応じた処理を実行
 		player->IndicatorOrder();
 	}
 
 	// Xボタン入力時
-	void PlayerIdleState::OnPushX(const shared_ptr<Player>& player)
+	void PlayerIdleState::OnPushX(const shared_ptr<GamePlayer>& player)
 	{
 		// クラフト画面を切り替える
 		player->SwitchCraftWindow();

@@ -26,13 +26,13 @@ namespace basecross
 	}
 
 	// ステート開始時の処理
-	void PlayerCraftingState::Enter(const shared_ptr<Player>& player)
+	void PlayerCraftingState::Enter(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// ステート更新時の処理
-	void PlayerCraftingState::Execute(const shared_ptr<Player>& player)
+	void PlayerCraftingState::Execute(const shared_ptr<GamePlayer>& player)
 	{
 		// クラフト状態が解除されたので移動ステートに遷移
 		if (!player->GetStatus(ePlayerStatus::IsCrafting))
@@ -54,13 +54,13 @@ namespace basecross
 	}
 
 	// ステート終了時の処理
-	void PlayerCraftingState::Exit(const shared_ptr<Player>& player)
+	void PlayerCraftingState::Exit(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// Aボタン入力時
-	void PlayerCraftingState::OnPushA(const shared_ptr<Player>& player)
+	void PlayerCraftingState::OnPushA(const shared_ptr<GamePlayer>& player)
 	{
 		// クラフトウィンドウが表示済みで、QTE中じゃなければ
 		if (player->m_craft->GetShowCraftWindow() && !player->m_status(ePlayerStatus::IsCraftQTE))
@@ -85,7 +85,7 @@ namespace basecross
 	}
 
 	// Xボタン入力時
-	void PlayerCraftingState::OnPushX(const shared_ptr<Player>& player)
+	void PlayerCraftingState::OnPushX(const shared_ptr<GamePlayer>& player)
 	{
 		// QTE状態じゃなければクラフト画面を切り替える
 		if (!player->m_status(ePlayerStatus::IsCraftQTE))

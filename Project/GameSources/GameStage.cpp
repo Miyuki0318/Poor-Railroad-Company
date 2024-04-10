@@ -56,7 +56,7 @@ namespace basecross
 	void GameStage::CreatePlayer()
 	{
 		// プレイヤーオブジェクトの追加
-		const auto& player = AddGameObject<Player>();
+		const auto& player = AddGameObject<GamePlayer>();
 
 		// シェアオブジェクトに登録
 		SetSharedGameObject(L"Player", player);

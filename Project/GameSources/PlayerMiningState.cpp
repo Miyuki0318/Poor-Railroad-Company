@@ -26,14 +26,14 @@ namespace basecross
 	}
 
 	// ステート開始時の処理
-	void PlayerMiningState::Enter(const shared_ptr<Player>& player)
+	void PlayerMiningState::Enter(const shared_ptr<GamePlayer>& player)
 	{
 		// アニメーションの変更
 		player->m_ptrDraw->ChangeCurrentAnimation(L"MINING");
 	}
 
 	// ステート更新時の処理
-	void PlayerMiningState::Execute(const shared_ptr<Player>& player)
+	void PlayerMiningState::Execute(const shared_ptr<GamePlayer>& player)
 	{
 		// アニメーション更新
 		player->m_ptrDraw->UpdateAnimation(DELTA_TIME * 5.0f);
@@ -48,19 +48,19 @@ namespace basecross
 	}
 
 	// ステート終了時の処理
-	void PlayerMiningState::Exit(const shared_ptr<Player>& player)
+	void PlayerMiningState::Exit(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// Aボタン入力時
-	void PlayerMiningState::OnPushA(const shared_ptr<Player>& player)
+	void PlayerMiningState::OnPushA(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// Xボタン入力時
-	void PlayerMiningState::OnPushX(const shared_ptr<Player>& player)
+	void PlayerMiningState::OnPushX(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}

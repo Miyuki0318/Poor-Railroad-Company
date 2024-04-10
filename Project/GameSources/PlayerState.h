@@ -10,12 +10,12 @@
 namespace basecross
 {
 	// 名前用
-	class Player;
+	class GamePlayer;
 
 	/*!
 	@brief プレイヤー用のステート
 	*/
-	class PlayerState : public ObjState<Player>
+	class PlayerState : public ObjState<GamePlayer>
 	{
 	public:
 
@@ -33,31 +33,31 @@ namespace basecross
 		@brief ステートに入った時に実行される
 		@param プレイヤーのポインタ
 		*/
-		virtual void Enter(const shared_ptr<Player>& player) = 0;
+		virtual void Enter(const shared_ptr<GamePlayer>& player) = 0;
 
 		/*!
 		@brief Updateの時に実行される
 		@param プレイヤーのポインタ
 		*/
-		virtual void Execute(const shared_ptr<Player>& player) = 0;
+		virtual void Execute(const shared_ptr<GamePlayer>& player) = 0;
 
 		/*!
 		@brief ステートを出る時に実行される
 		@param プレイヤーのポインタ
 		*/
-		virtual void Exit(const shared_ptr<Player>& player) = 0;
+		virtual void Exit(const shared_ptr<GamePlayer>& player) = 0;
 
 		/*!
 		@brief Aボタン入力がされた時に実行される
 		@param プレイヤーのポインタ
 		*/
-		virtual void OnPushA(const shared_ptr<Player>& player) = 0;
+		virtual void OnPushA(const shared_ptr<GamePlayer>& player) = 0;
 
 		/*!
 		@brief Xボタン入力がされた時に実行される
 		@param プレイヤーのポインタ
 		*/
-		virtual void OnPushX(const shared_ptr<Player>& player) = 0;
+		virtual void OnPushX(const shared_ptr<GamePlayer>& player) = 0;
 
 		/*!
 		@brief	ステート名を得る
@@ -70,7 +70,7 @@ namespace basecross
 	/*!
 	@brief プレイヤー用のステートマシン
 	*/
-	class PlayerStateMachine : public StateMachine<Player>
+	class PlayerStateMachine : public StateMachine<GamePlayer>
 	{
 	public:
 
@@ -78,7 +78,7 @@ namespace basecross
 		@brief コンストラクタ
 		@param プレイヤーのポインタ
 		*/
-		explicit PlayerStateMachine(const shared_ptr<Player>& owner) :
+		explicit PlayerStateMachine(const shared_ptr<GamePlayer>& owner) :
 			StateMachine(owner)
 		{
 		}
@@ -94,7 +94,7 @@ namespace basecross
 		*/
 		void SetState(const shared_ptr<PlayerState>& newState)
 		{
-			StateMachine::ChangeState(dynamic_pointer_cast<ObjState<Player>>(newState));
+			StateMachine::ChangeState(dynamic_pointer_cast<ObjState<GamePlayer>>(newState));
 		}
 
 		/*!
