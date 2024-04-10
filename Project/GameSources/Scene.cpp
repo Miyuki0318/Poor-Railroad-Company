@@ -76,6 +76,11 @@ namespace basecross {
 
 		// プレイヤーモデルの生成
 		RegisterMultiMesh(L"PLAYER", modelPath + L"Player/", L"Player", true);
+
+		// 建物の仮モデル
+		RegisterSingleMesh(L"COMPANY", modelPath + L"Bilding/", L"TestCompany", false);
+		RegisterSingleMesh(L"CONSTRUCTION", modelPath + L"Bilding/", L"TestConstruction", false);
+
 	}
 
 	void Scene::RegisterSingleMesh(const wstring& registerKey, const wstring& path, const wstring& fileName, bool boneUse)

@@ -39,6 +39,8 @@ namespace basecross
 
 		app->RegisterTexture(L"FADE_TX", texturePath + L"Blue.png");
 		app->RegisterTexture(L"MENU_TX", texturePath + L"Menu.png");
+
+		app->RegisterTexture(L"GROUND_TX", texturePath + L"ForestGround.png");
 	}
 
 	// スプライトの生成
