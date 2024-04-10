@@ -46,9 +46,25 @@ namespace basecross {
 		* オプション画面の処理
 		*/
 		void OptionMenu();
-		/*
-		* オブジェクトと接触している時の処理
-		*/
+	};
+
+	class CompanyCollision : public TemplateObject
+	{
+		const Vec3 m_scale = Vec3(15.0f, 2.0f, 8.0f);
+		const Vec3 m_position;
+
+		bool isPushButton;
+
+	public:
+		CompanyCollision(const shared_ptr<Stage>& stagePtr,
+			const Vec3 pos) :
+			TemplateObject(stagePtr),
+			m_position(pos)
+		{
+			isPushButton = false;
+		}
+
+		virtual void OnCreate() override;
 		void OnCollisionEnter(shared_ptr<GameObject>& object);
 	};
 

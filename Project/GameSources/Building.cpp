@@ -58,15 +58,31 @@ namespace basecross {
 
 	}
 
-	void Company::OnCollisionEnter(shared_ptr<GameObject>& object)
+	void CompanyCollision::OnCreate()
+	{
+		TemplateObject::OnCreate();
+
+		SetScale(m_scale);
+		SetRotation(Vec3(0.0f));
+		SetPosition(m_position);
+
+		auto drawComp = AddComponent<PNTStaticDraw>();
+		drawComp->SetMeshResource(L"DEFAULT_CUBE");
+		drawComp->SetDrawActive(false);
+
+		auto CollComp = AddComponent<CollisionObb>();
+		CollComp->SetDrawActive(true);
+	}
+
+	void CompanyCollision::OnCollisionEnter(shared_ptr<GameObject>& object)
 	{
 		if (object->FindTag(L"Player"))
 		{
-			m_pushButton = true;
+			isPushButton = true;
 		}
 		else
 		{
-			m_pushButton = false;
+			isPushButton = false;
 		}
 	}
 
