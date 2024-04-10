@@ -10,6 +10,7 @@
 #include "GameStage.h"
 #include "MainCamera.h"
 #include "Player.h"
+#include "TitlePlayer.h"
 #include "PlayerState.h"
 #include "PlayerIdleState.h"
 #include "PlayerMovingState.h"
