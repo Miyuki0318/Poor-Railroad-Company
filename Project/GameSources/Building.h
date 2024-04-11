@@ -65,7 +65,12 @@ namespace basecross {
 		}
 
 		virtual void OnCreate() override;
-		void OnCollisionEnter(shared_ptr<GameObject>& object);
+		virtual void OnCollisionEnter(shared_ptr<GameObject>& object);
+
+		bool GetPlayerHitFlag()
+		{
+			return isPushButton;
+		}
 	};
 
 	class Construction :public TemplateObject
@@ -99,5 +104,32 @@ namespace basecross {
 		* ゲームスタート
 		*/
 		void Start();
+	};
+
+	class ConstructionCollision : public TemplateObject
+	{
+		const Vec3 m_scale = Vec3(5.0f, 2.0f, 5.0f);
+		const Vec3 m_position;
+
+		bool m_playerHit;
+
+	public:
+		ConstructionCollision(shared_ptr<Stage>& stagePtr,
+			const Vec3 pos
+		) :
+			TemplateObject(stagePtr),
+			m_position(pos)
+		{
+			m_playerHit = false;
+		}
+
+		virtual void OnCreate() override;
+		virtual void OnUpdate() override;
+		virtual void OnCollisionEnter(shared_ptr<GameObject>& object);
+
+		bool GetPlayerHitFlag()
+		{
+			return m_playerHit;
+		}
 	};
 }
