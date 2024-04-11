@@ -61,6 +61,12 @@ namespace basecross
 		AddGameObject<GroundBox>(m_groundScale);
 	}
 
+	// ƒvƒŒƒCƒ„[‚Ì¶¬
+	void TitleStage::CreatePlayer()
+	{
+		AddGameObject<TitlePlayer>();
+	}
+
 	// Œš•¨‚Ì¶¬
 	void TitleStage::CreateBuilding()
 	{
@@ -82,6 +88,8 @@ namespace basecross
 			CreateSpriteObject();
 
 			CreateGround();
+
+			CreatePlayer();
 
 			CreateBuilding();
 		}

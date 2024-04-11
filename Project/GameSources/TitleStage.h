@@ -52,6 +52,11 @@ namespace basecross
 		void CreateGround();
 
 		/*
+		@brief ’n–Ê‚Ì¶¬
+		*/
+		void CreatePlayer();
+
+		/*
 		@brief Œš•¨‚Ì¶¬
 		*/
 		void CreateBuilding();
