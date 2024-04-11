@@ -71,7 +71,7 @@ namespace basecross
 	void TitleStage::CreateBuilding()
 	{
 		AddGameObject<Company>(Vec3(35.0f,2.0f,10.0f));
-		AddGameObject<CompanyCollision>(Vec3(35.0f,3.0f,10.0f));
+		//AddGameObject<CompanyCollision>(Vec3(35.0f,3.0f,10.0f));
 
 		AddGameObject<Construction>(Vec3(65.0f, 3.0f, 0.0f));
 	}
