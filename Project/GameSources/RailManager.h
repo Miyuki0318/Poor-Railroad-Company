@@ -83,6 +83,11 @@ namespace basecross
 		bool GetIsGuidePoint(const Point2D<size_t>& point) const;
 
 		/*!
+		@brief ガイドを再計算する関数
+		*/
+		void GuideRecalculation();
+
+		/*!
 		@brief ガイドのポイント取得関数
 		@return m_guidePoints
 		*/
