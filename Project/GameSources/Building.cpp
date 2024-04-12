@@ -73,9 +73,29 @@ namespace basecross {
 
 		auto CollComp = AddComponent<CollisionObb>();
 		CollComp->SetDrawActive(true);
-		CollComp->SetFixed(true);
 	}
 
+	void CompanyCollision::OnUpdate()
+	{
+		auto transComp = GetComponent<Transform>();
+		transComp->SetPosition(m_position);
+	}
+
+	void CompanyCollision::OnCollisionEnter(shared_ptr<GameObject>& object)
+	{
+		if (object->FindTag(L"Player"))
+		{
+			m_playerHit = true;
+		}
+	}
+
+	void CompanyCollision::OnCollisionExit(shared_ptr<GameObject>& object)
+	{
+		if (object->FindTag(L"Player"))
+		{
+			m_playerHit = false;
+		}
+	}
 
 	/*
 	* çHéñåªèÍÇÃé¿ëï
