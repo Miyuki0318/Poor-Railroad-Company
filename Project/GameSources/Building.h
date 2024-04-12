@@ -115,9 +115,9 @@ namespace basecross {
 		const Vec3 m_scale = Vec3(5.0f, 2.0f, 5.0f);
 		const Vec3 m_position;
 
+	public:	
 		bool m_playerHit;
 
-	public:
 		ConstructionCollision(shared_ptr<Stage>& stagePtr,
 			const Vec3 pos
 		) :
@@ -130,6 +130,7 @@ namespace basecross {
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
 		virtual void OnCollisionEnter(shared_ptr<GameObject>& object);
+		virtual void OnCollisionExit(shared_ptr<GameObject>& object);
 
 		bool GetPlayerHitFlag()
 		{
