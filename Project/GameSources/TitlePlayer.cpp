@@ -37,6 +37,7 @@ namespace basecross
 
 		// アニメーションの設定
 		m_ptrDraw->AddAnimation(L"WALK", 0, 60, true);
+		m_ptrDraw->ChangeCurrentAnimation(L"WALK");
 
 		auto shadowMap = AddComponent<Shadowmap>();
 		shadowMap->SetMultiMeshResource(L"PLAYER");
@@ -60,6 +61,9 @@ namespace basecross
 
 			SetRotateTarget(stickValue); // 回転関数
 			ControllerMovement(stickValue);	// 移動関数
+
+			// アニメーションの更新
+			m_ptrDraw->UpdateAnimation(DELTA_TIME * 2.0f);
 		}
 	}
 }
