@@ -54,6 +54,10 @@ namespace basecross
 
 	public:
 
+		/*!
+		@brief コンストラクタ
+		@param ステージポインタ
+		*/
 		GamePlayer(const shared_ptr<Stage>& stagePtr) :
 			Player(stagePtr)
 		{
@@ -64,6 +68,9 @@ namespace basecross
 			m_miningMap.insert(make_pair(L"Rock", eItemType::Stone)); // タグが岩ならアイテムタイプは石材
 		}
 
+		/*!
+		@brief デストラクタ
+		*/
 		virtual ~GamePlayer()
 		{
 			m_craft.release();
