@@ -45,7 +45,7 @@ namespace basecross
 
 		// ステートマシン
 		unique_ptr<PlayerStateMachine> m_playerState;
-		
+
 		// フレンド化(ステートマシンからメンバ関数を呼び出すため)
 		friend PlayerIdleState;
 		friend PlayerMovingState;
@@ -170,6 +170,11 @@ namespace basecross
 		bool GetStatus(ePlayerStatus status) const
 		{
 			return m_status(status);
+		}
+
+		float GetPastRotTarget() const
+		{
+			return atan2f(m_rotTarget.z, m_rotTarget.x);
 		}
 	};
 }
