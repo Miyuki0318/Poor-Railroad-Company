@@ -57,6 +57,11 @@ namespace basecross {
 		@brief	 オブジェクトをリセットする関数
 		*/
 		virtual void OnReset() = 0;
+
+		/*
+		@brief	 オブジェクトの情報をステージマップから消去する関数
+		*/
+		virtual void OnDelete();
 	};
 
 
@@ -66,7 +71,12 @@ namespace basecross {
 		// トランスフォームとモデルの差分行列
 		Mat4x4 m_modelMat;
 	public:
-		// コンストラクタ
+		/*!
+		@brief コンストラクタ
+		@param ステージポインタ
+		@param 初期座標
+		@param 採掘回数上限
+		*/
 		Tree::Tree(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
 			const Vec3 position, // 初期座標
 			const int miningCountLimit 	// 採掘回数上限
@@ -83,7 +93,11 @@ namespace basecross {
 			);
 		}
 
-		// コンストラクタ
+		/*!
+		@brief コンストラクタ
+		@param ステージポインタ
+		@param 初期座標
+		*/
 		Tree::Tree(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
 			const Vec3 position // 初期座標
 		) :
@@ -134,7 +148,12 @@ namespace basecross {
 		// トランスフォームとモデルの差分行列
 		Mat4x4 m_modelMat;
 	public:
-		// コンストラクタ
+		/*!
+		@brief コンストラクタ
+		@param ステージポインタ
+		@param 初期座標
+		@param 採掘回数上限
+		*/
 		Rock::Rock(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
 			const Vec3 position, // 初期座標
 			const int miningCountLimit 	// 採掘回数上限
@@ -151,7 +170,11 @@ namespace basecross {
 			);
 		}
 
-		// コンストラクタ
+		/*!
+		@brief コンストラクタ
+		@param ステージポインタ
+		@param 初期座標
+		*/
 		Rock::Rock(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
 			const Vec3 position // 初期座標
 		) :
@@ -186,6 +209,11 @@ namespace basecross {
 		@brief	 オブジェクトをリセットする関数
 		*/
 		void OnReset() override;
+
+		/*
+		@brief	 ステートに応じて処理を行う関数
+		*/
+		void AccordingState();
 
 	};
 }

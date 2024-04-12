@@ -30,6 +30,19 @@ namespace basecross {
 		AddTag(L"MiningObject");
 	}
 
+	void MiningObject::OnDelete() {
+		Vec3 pos = GetPosition();
+		auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
+
+		size_t row, col;
+		row = ROW(pos.z);
+		col = COL(pos.x);
+
+		if (Utility::WithInElemRange(row, col, stageMap))
+		{
+			stageMap.at(row).at(col) = 0;
+		}
+	}
 
 
 	void Tree::OnCreate() {
@@ -63,6 +76,7 @@ namespace basecross {
 			m_state = eState::Broken;
 			SetUpdateActive(false);
 			SetDrawActive(false);
+			MiningObject::OnDelete();
 		}
 	}
 
@@ -99,6 +113,7 @@ namespace basecross {
 			// 更新を停止し、不可視にする
 			SetUpdateActive(false);
 			SetDrawActive(false);
+			MiningObject::OnDelete();
 
 			break;
 		default:
@@ -138,6 +153,7 @@ namespace basecross {
 			// 現状、破壊されるアニメーションがないので更新止めるだけ
 			SetUpdateActive(false);
 			SetDrawActive(false);
+			MiningObject::OnDelete();
 		}
 	}
 
@@ -157,5 +173,29 @@ namespace basecross {
 		SetUpdateActive(true);
 	}
 
+	void Rock::AccordingState() {
+		switch (m_state)
+		{
+		case eState::Damage:
+			// 損傷時の見た目に変更する処理を入れる
+
+			break;
+		case eState::Broken:
+			// 破壊されたアニメーションを再生する処理を入れる
+
+			// 破壊時のパーティクルを再生する処理を入れる
+
+			break;
+		case eState::None:
+			// 更新を停止し、不可視にする
+			SetUpdateActive(false);
+			SetDrawActive(false);
+			MiningObject::OnDelete();
+
+			break;
+		default:
+			break;
+		}
+	}
 
 }
