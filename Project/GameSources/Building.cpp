@@ -17,7 +17,9 @@ namespace basecross {
 		SetRotation(Vec3(0.0f));
 		SetPosition(m_position);
 
-		auto drawComp = AddComponent<PNTStaticDraw>();
+		transComp = GetComponent<Transform>();
+
+		drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshToTransformMatrix(m_spanMat);
 		drawComp->SetMeshResource(L"COMPANY");
 		drawComp->SetDiffuse(COL_GRAY);
@@ -31,7 +33,12 @@ namespace basecross {
 		auto& a = GetStage()->GetSharedGameObject<CompanyCollision>(L"COMPANYCOLL");
 		if (a->GetPlayerHitFlag())
 		{
+			transComp->SetScale(Vec3(1.2f));
 			ButtonPush();
+		}
+		else
+		{
+			transComp->SetScale(Vec3(1.0f));
 		}
 	}
 
@@ -108,7 +115,9 @@ namespace basecross {
 		SetRotation(Vec3(0.0f));
 		SetPosition(m_position);
 
-		auto drawComp = AddComponent<PNTStaticDraw>();
+		transComp = GetComponent<Transform>();
+
+		drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshToTransformMatrix(m_spanMat);
 		drawComp->SetMeshResource(L"CONSTRUCTION");
 		drawComp->SetDiffuse(COL_YELOW);
@@ -126,6 +135,11 @@ namespace basecross {
 		if (coll->GetPlayerHitFlag())
 		{
 			StartButtonPush();
+			transComp->SetScale(Vec3(1.2f));
+		}
+		else
+		{
+			transComp->SetScale(Vec3(1.0f));
 		}
 		StartCountDown();
 	}

@@ -13,6 +13,9 @@ namespace basecross {
 		const Vec3 m_position;
 		Mat4x4 m_spanMat;
 
+		shared_ptr<Transform> transComp;
+		shared_ptr<PNTStaticDraw> drawComp;
+
 		shared_ptr<Sprite> m_menuSprite;
 
 		bool m_pushButton;
@@ -80,6 +83,9 @@ namespace basecross {
 	{
 		const Vec3 m_position;
 		Mat4x4 m_spanMat;
+
+		shared_ptr<Transform> transComp;
+		shared_ptr<PNTStaticDraw> drawComp;
 
 		shared_ptr<Sprite> m_fadeSprite;
 		bool isPushButton;
