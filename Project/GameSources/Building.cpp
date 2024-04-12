@@ -73,9 +73,33 @@ namespace basecross {
 
 		auto CollComp = AddComponent<CollisionObb>();
 		CollComp->SetDrawActive(true);
-		CollComp->SetFixed(true);
 	}
 
+	void CompanyCollision::OnUpdate()
+	{
+		auto transComp = GetComponent<Transform>();
+		transComp->SetPosition(m_position);
+	}
+
+	void CompanyCollision::OnCollisionEnter(shared_ptr<GameObject>& object)
+	{
+		if (object->FindTag(L"Player"))
+		{
+			m_playerHit = true;
+		}
+	}
+
+	void CompanyCollision::OnCollisionExit(shared_ptr<GameObject>& object)
+	{
+		if (object->FindTag(L"Player"))
+		{
+			m_playerHit = false;
+		}
+	}
+
+	/*
+	* HŽ–Œ»ê‚ÌŽÀ‘•
+	*/
 	void Construction::OnCreate()
 	{
 		TemplateObject::OnCreate();
@@ -98,7 +122,11 @@ namespace basecross {
 
 	void Construction::OnUpdate()
 	{
-		StartButtonPush();
+		auto coll = GetStage()->GetSharedGameObject<ConstructionCollision>(L"CONSTRUCTCOLL");
+		if (coll->GetPlayerHitFlag())
+		{
+			StartButtonPush();
+		}
 		StartCountDown();
 	}
 
@@ -118,6 +146,44 @@ namespace basecross {
 			auto& scene = App::GetApp()->GetScene<Scene>();
 
 			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"GameStage");
+		}
+	}
+
+	void ConstructionCollision::OnCreate()
+	{
+		TemplateObject::OnCreate();
+
+		SetScale(m_scale);
+		SetRotation(Vec3(0.0f));
+		SetPosition(m_position);
+
+		auto drawComp = AddComponent<PNTStaticDraw>();
+		drawComp->SetMeshResource(L"DEFAULT_CUBE");
+		drawComp->SetDrawActive(false);
+
+		auto CollComp = AddComponent<CollisionObb>();
+		CollComp->SetDrawActive(true);
+	}
+
+	void ConstructionCollision::OnUpdate()
+	{
+		auto transComp = GetComponent<Transform>();
+		transComp->SetPosition(m_position);
+	}
+
+	void ConstructionCollision::OnCollisionEnter(shared_ptr<GameObject>& object)
+	{
+		if (object->FindTag(L"Player"))
+		{
+			m_playerHit = true;
+		}
+	}
+
+	void ConstructionCollision::OnCollisionExit(shared_ptr<GameObject>& object)
+	{
+		if (object->FindTag(L"Player"))
+		{
+			m_playerHit = false;
 		}
 	}
 }
