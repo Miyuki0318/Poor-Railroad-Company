@@ -86,7 +86,7 @@ namespace basecross {
 		{
 			// トランスフォームとモデルの差分行列を代入
 			m_modelMat.affineTransformation(
-				Vec3(1.0f, 1.0f, 1.0f),
+				Vec3(0.15f, 0.15f, 0.15f),
 				Vec3(0.0f),
 				Vec3(0.0f),
 				Vec3(0.0f)
@@ -106,7 +106,7 @@ namespace basecross {
 		{
 			// トランスフォームとモデルの差分行列を代入
 			m_modelMat.affineTransformation(
-				Vec3(1.0f, 1.0f, 1.0f),
+				Vec3(0.15f, 0.15f, 0.15f),
 				Vec3(0.0f),
 				Vec3(0.0f),
 				Vec3(0.0f)
@@ -163,7 +163,7 @@ namespace basecross {
 		{
 			// トランスフォームとモデルの差分行列を代入
 			m_modelMat.affineTransformation(
-				Vec3(1.0f, 1.0f, 1.0f),
+				Vec3(0.3f, 0.3f, 0.3f),
 				Vec3(0.0f),
 				Vec3(0.0f),
 				Vec3(0.0f)
@@ -183,7 +183,7 @@ namespace basecross {
 		{
 			// トランスフォームとモデルの差分行列を代入
 			m_modelMat.affineTransformation(
-				Vec3(1.0f, 1.0f, 1.0f),
+				Vec3(0.3f, 0.3f, 0.3f),
 				Vec3(0.0f),
 				Vec3(0.0f),
 				Vec3(0.0f)

@@ -49,10 +49,10 @@ namespace basecross {
 		MiningObject::OnCreate();
 
 		// 新規ドローコンポーネントの設定
-		auto ptrDraw = AddComponent<PNTStaticDraw>();
-		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		auto ptrDraw = AddComponent<PNTBoneModelDraw>();
+		ptrDraw->SetMultiMeshResource(L"TREE");
 		ptrDraw->SetMeshToTransformMatrix(m_modelMat);
-		ptrDraw->SetDiffuse(Col4(0.0f, 0.4f, 0.1f, 1.0f));
+		ptrDraw->SetOwnShadowActive(true);
 
 		// タグの設定
 		AddTag(L"Tree");
@@ -125,11 +125,10 @@ namespace basecross {
 	void Rock::OnCreate() {
 		MiningObject::OnCreate();
 
-		// 新規ドローコンポーネントの設定
-		auto ptrDraw = AddComponent<PNTStaticDraw>();
-		ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		auto ptrDraw = AddComponent<PNTBoneModelDraw>();
+		ptrDraw->SetMultiMeshResource(L"ROCK");
 		ptrDraw->SetMeshToTransformMatrix(m_modelMat);
-		ptrDraw->SetDiffuse(Col4(0.3f, 0.3f, 0.3f, 1.0f));
+		ptrDraw->SetOwnShadowActive(true);
 
 		// タグの設定
 		AddTag(L"Rock");
