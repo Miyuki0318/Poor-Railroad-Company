@@ -73,8 +73,9 @@ namespace basecross
 		*/
 		virtual ~GamePlayer()
 		{
-			m_craft.release();
-			m_playerState.release();
+			// ‹@”\‚Ì‰ð•ú
+			m_craft.reset();
+			m_playerState.reset();
 		}
 
 		/*!

@@ -21,7 +21,6 @@ namespace basecross
 		app->RegisterTexture(L"GAMECLEAR_TX", texturePath + L"Win.png");
 		app->RegisterTexture(L"GAMEOVER_TX", texturePath + L"Lose.png");
 
-
 		// クラフトウィンドウのテクスチャ
 		app->RegisterTexture(L"C_WINDOW_TX", texturePath + L"CraftWindow.png");
 
@@ -30,6 +29,9 @@ namespace basecross
 
 		// 地面の仮テクスチャ
 		app->RegisterTexture(L"GROUND_TX", texturePath + L"ForestGround.png");
+
+		// レールアイコンテクスチャ
+		app->RegisterTexture(L"ICON_RAIL_TX", texturePath + L"RailIcon.png");
 	}
 
 	//ビューとライトの生成
@@ -130,6 +132,8 @@ namespace basecross
 	{
 		const auto& railManager = AddGameObject<RailManager>();
 		SetSharedGameObject(L"RailManager", railManager);
+
+		AddGameObject<RailGuide>();
 	}
 
 	void GameStage::CreateGoalRail()
