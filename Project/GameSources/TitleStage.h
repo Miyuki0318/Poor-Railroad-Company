@@ -61,6 +61,11 @@ namespace basecross
 		*/
 		void CreateBuilding();
 
+		/*
+		@brief 建物の当たり判定の生成
+		*/
+		void CreateCollision();
+
 	public:
 		/*
 		@brief コンストラクタ

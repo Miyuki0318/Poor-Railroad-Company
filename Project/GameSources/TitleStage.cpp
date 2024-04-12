@@ -46,12 +46,6 @@ namespace basecross
 	// スプライトの生成
 	void TitleStage::CreateSpriteObject()
 	{
-		const float width = static_cast<float>(App::GetApp()->GetGameWidth());
-		const float height = static_cast<float>(App::GetApp()->GetGameHeight());
-
-		//m_fadeSprite = AddGameObject<Sprite>(L"FADE_TX", Vec2(width, height), Vec3(0.0f));
-		//
-		//m_fadeSprite->SetDiffuseColor(COL_WHITE);
 	}
 
 	// 地面の生成
@@ -70,10 +64,15 @@ namespace basecross
 	// 建物の生成
 	void TitleStage::CreateBuilding()
 	{
-		AddGameObject<Company>(Vec3(35.0f,2.0f,10.0f));
-		//AddGameObject<CompanyCollision>(Vec3(35.0f,3.0f,10.0f));
+		const auto& company = AddGameObject<Company>(Vec3(35.0f,2.0f,10.0f));
 
-		AddGameObject<Construction>(Vec3(65.0f, 3.0f, 0.0f));
+		const auto& construction = AddGameObject<Construction>(Vec3(65.0f, 3.0f, 0.0f));
+	}
+
+	void TitleStage::CreateCollision()
+	{
+		const auto& companyColl = AddGameObject<CompanyCollision>(Vec3(35.0f, 4.0f, 10.0f));
+		SetSharedGameObject(L"COMPANYCOLL", companyColl);
 	}
 
 	// 実行時、一度だけ処理される関数
@@ -92,6 +91,8 @@ namespace basecross
 			CreatePlayer();
 
 			CreateBuilding();
+
+			CreateCollision();
 		}
 		catch (...)
 		{

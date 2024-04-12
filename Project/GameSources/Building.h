@@ -50,12 +50,13 @@ namespace basecross {
 
 	class CompanyCollision : public TemplateObject
 	{
-		const Vec3 m_scale = Vec3(15.0f, 2.0f, 8.0f);
+		const Vec3 m_scale = Vec3(15.0f, 3.0f, 8.0f);
 		const Vec3 m_position;
 
+
+	public:	
 		bool isPushButton;
 
-	public:
 		CompanyCollision(const shared_ptr<Stage>& stagePtr,
 			const Vec3 pos) :
 			TemplateObject(stagePtr),
@@ -65,7 +66,6 @@ namespace basecross {
 		}
 
 		virtual void OnCreate() override;
-		virtual void OnCollisionEnter(shared_ptr<GameObject>& object);
 
 		bool GetPlayerHitFlag()
 		{
@@ -77,6 +77,9 @@ namespace basecross {
 	{
 		const Vec3 m_position;
 		Mat4x4 m_spanMat;
+
+		shared_ptr<Sprite> m_fadeSprite;
+		bool isPushButton;
 
 	public:
 		Construction(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
@@ -91,6 +94,7 @@ namespace basecross {
 				Vec3(0.0f),
 				Vec3(0.0f)
 			);
+			isPushButton = false;
 		}
 
 		virtual void OnCreate() override;
@@ -103,7 +107,7 @@ namespace basecross {
 		/*
 		* ゲームスタート
 		*/
-		void Start();
+		void StartCountDown();
 	};
 
 	class ConstructionCollision : public TemplateObject
