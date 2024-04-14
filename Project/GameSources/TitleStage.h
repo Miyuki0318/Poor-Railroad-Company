@@ -42,11 +42,6 @@ namespace basecross
 		void CreateResourses();
 
 		/*
-		@brief スプライトの生成
-		*/
-		void CreateSpriteObject();
-
-		/*
 		@brief 地面の生成
 		*/
 		void CreateGround();

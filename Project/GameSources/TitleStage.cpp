@@ -43,11 +43,6 @@ namespace basecross
 		app->RegisterTexture(L"GROUND_TX", texturePath + L"ForestGround.png");
 	}
 
-	// スプライトの生成
-	void TitleStage::CreateSpriteObject()
-	{
-	}
-
 	// 地面の生成
 	void TitleStage::CreateGround()
 	{		
@@ -71,8 +66,11 @@ namespace basecross
 
 	void TitleStage::CreateCollision()
 	{
-		const auto& companyColl = AddGameObject<CompanyCollision>(Vec3(35.0f, 4.0f, 10.0f));
+		const auto& companyColl = AddGameObject<CompanyCollision>(Vec3(35.0f, 2.0f, 10.0f));
 		SetSharedGameObject(L"COMPANYCOLL", companyColl);
+
+		const auto& constructionColl = AddGameObject<ConstructionCollision>(Vec3(65.0f, 2.0f, 0.0f));
+		SetSharedGameObject(L"CONSTRUCTCOLL", constructionColl);
 	}
 
 	// 実行時、一度だけ処理される関数
@@ -83,8 +81,6 @@ namespace basecross
 			CreateViewLight();
 
 			CreateResourses();
-
-			CreateSpriteObject();
 
 			CreateGround();
 
