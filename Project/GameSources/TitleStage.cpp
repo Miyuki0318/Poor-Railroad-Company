@@ -53,7 +53,8 @@ namespace basecross
 	// ƒvƒŒƒCƒ„[‚Ì¶¬
 	void TitleStage::CreatePlayer()
 	{
-		AddGameObject<TitlePlayer>();
+		auto& player = AddGameObject<TitlePlayer>();
+		player->SetPosition(Vec3(m_cameraAt.x, 5.0f, m_cameraAt.z));
 	}
 
 	// Œš•¨‚Ì¶¬

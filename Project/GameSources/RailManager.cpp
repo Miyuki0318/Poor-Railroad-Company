@@ -94,7 +94,7 @@ namespace basecross
 			if (elem.isRange)
 			{
 				int& num = m_guideMap.at(elem.row).at(elem.col);
-				if (num == 0)
+				if (num == 0 || num == GUIDE_ID)
 				{
 					num = GUIDE_ID; // ガイドに書き換え
 
@@ -133,5 +133,22 @@ namespace basecross
 		// ガイドIDかどうか
 		int num = m_guideMap.at(point.x).at(point.y);
 		return num == GUIDE_ID;
+	}
+
+	// ガイドの再計算処理
+	void RailManager::GuideRecalculation()
+	{
+		// ステージcsvの取得
+		auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
+		m_guideMap = stageMap;
+
+		// サイズと列と行
+		Vec3 pos = m_railPositions.back();
+		size_t row, col;
+		row = ROW(pos.z);
+		col = COL(pos.x);
+
+		// ガイドの再設定
+		SetGuideID(row, col);
 	}
 }

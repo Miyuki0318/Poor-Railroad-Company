@@ -172,6 +172,10 @@ namespace basecross
 			return m_status(status);
 		}
 
+		/*!
+		@brief コントローラーで向けた方向取得関数
+		@return atan2f(m_rotTarget.z, m_rotTarget.x)
+		*/
 		float GetPastRotTarget() const
 		{
 			return atan2f(m_rotTarget.z, m_rotTarget.x);

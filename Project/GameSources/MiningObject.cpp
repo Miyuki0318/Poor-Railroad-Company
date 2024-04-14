@@ -32,7 +32,8 @@ namespace basecross {
 
 	void MiningObject::OnDelete() {
 		Vec3 pos = GetPosition();
-		auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
+		const auto& stage = GetTypeStage<GameStage>();
+		auto& stageMap = stage->GetStageMap();
 
 		size_t row, col;
 		row = ROW(pos.z);
@@ -42,6 +43,8 @@ namespace basecross {
 		{
 			stageMap.at(row).at(col) = 0;
 		}
+
+		stage->GetSharedGameObject<RailManager>(L"RailManager")->GuideRecalculation();
 	}
 
 
