@@ -104,7 +104,7 @@ namespace basecross
 		@brief ƒŒ[ƒ‹‚ÌÀ•W”z—ñæ“¾ŠÖ”
 		@return m_railPositions
 		*/
-		map<size_t, Vec3>& GetRailPositions()
+		const map<size_t, Vec3>& GetRailPositions() const
 		{
 			return m_railMap;
 		}

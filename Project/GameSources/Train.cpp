@@ -24,9 +24,9 @@ namespace basecross {
 		m_ptrColl = AddComponent<CollisionObb>();
 
 		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailPositions();
+		m_isRailNum = railMap.begin()->first;
 		m_movePos.first = m_DefaultPosition;
 		m_movePos.second = railMap.begin()->second;
-		m_isRailNum = railMap.begin()->first;
 
 		// タグの設定
 		AddTag(L"Train");
@@ -65,8 +65,6 @@ namespace basecross {
 
 		if (state == State::Onrail)
 		{
-			//m_position += m_moveDirection * DELTA_TIME * m_MoveSpeed;
-			//SetPosition(m_position);
 			OnRailState();
 		}
 	}
@@ -82,23 +80,28 @@ namespace basecross {
 		{
 			m_moveRatio = 0.0f;
 
-			// レールマップの先頭をコピーして削除し、新しい先頭を次のポイントに割り当てる
-			auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailPositions();
-			if (railMap.empty()) return;
-			m_movePos.first = railMap.at(m_isRailNum);
-			railMap.erase(railMap.begin());
-
-			// 次のレールが無ければ脱線判定
-			if (railMap.empty())
-			{
-				m_state = State::Derail;
-				return;
-			}
-
-			m_movePos.second = railMap.at(++m_isRailNum);
+			// 次のレールを設定する、設定不可なら脱線ステート
+			if (!SetNextRail()) m_state = State::Derail;
 		}
 
 		// 座標の更新
 		SetPosition(pos);
+	}
+
+	bool Train::SetNextRail()
+	{
+		// レールマップの取得
+		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailPositions();
+		if (railMap.empty()) return false;
+
+		// 始点と終点の設定、終点が無い場合はfalseを返す
+		m_movePos.first = railMap.at(m_isRailNum++);
+		if (railMap.find(m_isRailNum) != railMap.end())
+		{
+			m_movePos.second = railMap.at(m_isRailNum);
+			return true;
+		}
+
+		return false;
 	}
 }

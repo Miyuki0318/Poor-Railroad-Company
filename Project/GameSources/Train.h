@@ -72,6 +72,8 @@ namespace basecross {
 
 		void OnRailState();
 
+		bool SetNextRail();
+
 		Vec3 GetDefaultPosition()
 		{
 			return m_DefaultPosition;
