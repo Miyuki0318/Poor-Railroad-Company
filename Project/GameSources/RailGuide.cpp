@@ -13,10 +13,11 @@ namespace basecross
 	void RailGuide::OnCreate()
 	{
 		// 描画コンポーネントの設定
-		m_ptrDraw = AddComponent<PCTStaticInstanceDraw>();
-		m_ptrDraw->SetOriginalMeshUse(true);
-		m_ptrDraw->CreateOriginalMesh(m_vertex);
-		m_ptrDraw->SetTextureResource(L"ICON_RAIL_TX");
+		m_ptrDraw = AddComponent<PNTStaticInstanceDraw>();
+		m_ptrDraw->SetMeshResource(L"RAIL");
+		m_ptrDraw->SetTextureResource(L"RAIL_TX");
+		m_ptrDraw->SetSpecular(COL_WHITE);
+		m_ptrDraw->SetDiffuse(m_defColor);
 
 		// 描画設定
 		SetAlphaActive(true);
@@ -26,23 +27,31 @@ namespace basecross
 	// 毎フレーム更新処理
 	void RailGuide::OnUpdate()
 	{
-		// 各種更新処理
-		UpdateBillboard();
-		UpdateGuide();
-
 		// プレイヤーがレールを持ってるかで表示非表示
 		const auto& player = GetStage()->GetSharedGameObject<GamePlayer>(L"Player");
-		SetDrawActive(player->GetStatus(ePlayerStatus::IsHaveRail));
+		bool isHaveRail = player->GetStatus(ePlayerStatus::IsHaveRail);
+		if (isHaveRail)
+		{
+			// 各種更新処理
+			UpdateBlinking();
+			UpdateGuide();
+		}
+
+		Debug::Log(L"ガイドの透明度", m_ptrDraw->GetDiffuse().w);
+
+		SetDrawActive(isHaveRail);
 	}
 
-	// ビルボードの更新
-	void RailGuide::UpdateBillboard()
+	// 点滅の更新
+	void RailGuide::UpdateBlinking()
 	{
-		// カメラを元にビルボード関数でクォータニオンを設定
-		const auto& stage = GetStage();
-		const auto& ptrCamera = stage->GetView()->GetTargetCamera();
-		Quat qt = Utility::GetBillboardQuat(ptrCamera->GetAt() - ptrCamera->GetEye());
-		m_mtxRotation.rotation(qt);
+		// 割合を加算
+		m_blinkRatio += DELTA_TIME / m_blinkTime;
+		if (m_blinkRatio >= XM_2PI) m_blinkRatio = 0.0f;
+
+		// サインカーブを割合で求め、透明色から通常色の範囲で点滅させる
+		Col4 blinkColor = Utility::SinCurve(m_blinkRatio, COL_ALPHA, m_defColor);
+		m_ptrDraw->SetDiffuse(blinkColor);
 	}
 
 	// ガイドの更新

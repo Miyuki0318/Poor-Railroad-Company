@@ -15,13 +15,16 @@ namespace basecross
 	class RailGuide : public TemplateObject
 	{
 		// 描画コンポーネント
-		shared_ptr<PCTStaticInstanceDraw> m_ptrDraw;
+		shared_ptr<PNTStaticInstanceDraw> m_ptrDraw;
 
-		VertexData m_vertex;  // 頂点データ
-		Mat4x4 m_mtxScale;	  // インスタンス描画用のスケール
-		Mat4x4 m_mtxRotation; // インスタンス描画用のローテーション
+		Mat4x4 m_mtxScale;	   // インスタンス描画用のスケール
+		Mat4x4 m_mtxRotation;  // インスタンス描画用のローテーション
+		const Col4 m_defColor; // デフォルトの色
 
-		float m_posY; // ポジションY軸
+		float m_posY;		// ポジションY軸
+		float m_blinkRatio;	// 点滅割合
+		
+		const float m_blinkTime; // 点滅する時間
 
 	public:
 
@@ -31,13 +34,15 @@ namespace basecross
 		*/
 		RailGuide(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr),
-			m_posY(1.5f)
+			m_defColor(1.0f, 1.0f, 1.0f, 0.5f),
+			m_posY(1.0f),
+			m_blinkRatio(0.0f),
+			m_blinkTime(0.5f)
 		{
 			Quat quatRot;
-			quatRot.rotationRollPitchYawFromVector(Vec3(0.0f));
+			quatRot.rotationRollPitchYawFromVector(Vec3(0.0f, XM_PIDIV2, 0.0f));
 			m_mtxRotation.rotation(quatRot);
-			m_mtxScale.scale(Vec3(1.0f));
-			Utility::SimpleVerticesIndices(m_vertex);
+			m_mtxScale.scale(Vec3(0.675f));
 		}
 
 		/*!
@@ -56,9 +61,9 @@ namespace basecross
 		void OnUpdate() override;
 
 		/*!
-		@brief ビルボードの更新処理関数
+		@brief 点滅の更新処理関数
 		*/
-		void UpdateBillboard();
+		void UpdateBlinking();
 
 		/*!
 		@brief ガイドの配置更新処理関数
