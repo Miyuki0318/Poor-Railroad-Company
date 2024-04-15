@@ -23,14 +23,19 @@ namespace basecross {
 		// コリジョンOBBの追加
 		m_ptrColl = AddComponent<CollisionObb>();
 
+		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailPositions();
+		m_movePos.first = m_DefaultPosition;
+		m_movePos.second = railMap.begin()->second;
+		m_isRailNum = railMap.begin()->first;
+
 		// タグの設定
 		AddTag(L"Train");
 	}
 
 	void Train::OnUpdate()
 	{
-		auto railPositions = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailPositions();
-
+		Debug::Log(L"Start", m_movePos.first);
+		Debug::Log(L"End", m_movePos.second);
 
 		StateProcess(m_state);
 		m_beforeState = m_state;
@@ -52,7 +57,7 @@ namespace basecross {
 	{
 		if (state == State::Arrival) return;
 
-		if (state == State::Derail && m_state != m_beforeState)
+		if (state == State::Derail)
 		{
 			GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::GameOver);
 			return;
@@ -60,8 +65,40 @@ namespace basecross {
 
 		if (state == State::Onrail)
 		{
-			m_position += m_moveDirection * DELTA_TIME * m_MoveSpeed;
-			SetPosition(m_position);
+			//m_position += m_moveDirection * DELTA_TIME * m_MoveSpeed;
+			//SetPosition(m_position);
+			OnRailState();
 		}
+	}
+
+	void Train::OnRailState()
+	{
+		// 線形補間で移動
+		Vec3 pos = Utility::Lerp(m_movePos.first, m_movePos.second, m_moveRatio);
+		m_moveRatio += DELTA_TIME / m_MoveSpeed;
+
+		// 割合が1以上になったら0で初期化
+		if (m_moveRatio >= 1.0f)
+		{
+			m_moveRatio = 0.0f;
+
+			// レールマップの先頭をコピーして削除し、新しい先頭を次のポイントに割り当てる
+			auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailPositions();
+			if (railMap.empty()) return;
+			m_movePos.first = railMap.at(m_isRailNum);
+			railMap.erase(railMap.begin());
+
+			// 次のレールが無ければ脱線判定
+			if (railMap.empty())
+			{
+				m_state = State::Derail;
+				return;
+			}
+
+			m_movePos.second = railMap.at(++m_isRailNum);
+		}
+
+		// 座標の更新
+		SetPosition(pos);
 	}
 }

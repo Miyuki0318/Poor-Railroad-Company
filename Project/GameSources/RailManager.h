@@ -44,6 +44,8 @@ namespace basecross
 		vector<Vec3> m_railPositions; // レールの座標配列
 		Mat4x4 m_mtxScale;		// インスタンス描画用のスケール
 		Mat4x4 m_mtxRotation;	// インスタンス描画用のローテーション
+		size_t m_railNum;
+		map<size_t, Vec3> m_railMap;
 		
 	public:
 
@@ -54,6 +56,8 @@ namespace basecross
 		RailManager(const shared_ptr<Stage>& stagePtr) :
 			GameObject(stagePtr)
 		{
+			m_railNum = 0;
+
 			Quat quatRot;
 			quatRot.rotationRollPitchYawFromVector(Vec3(0.0f, XM_PIDIV2, 0.0f));
 			m_mtxRotation.rotation(quatRot);
@@ -100,9 +104,9 @@ namespace basecross
 		@brief レールの座標配列取得関数
 		@return m_railPositions
 		*/
-		vector<Vec3> GetRailPositions() const
+		map<size_t, Vec3>& GetRailPositions()
 		{
-			return m_railPositions;
+			return m_railMap;
 		}
 
 	private:
@@ -125,6 +129,7 @@ namespace basecross
 			matrix = m_mtxScale * m_mtxRotation * mtxPosition;
 			m_ptrDraw->AddMatrix(matrix);
 			m_railPositions.push_back(addPos);
+			m_railMap.insert(make_pair(++m_railNum, addPos));
 		}
 
 		/*!

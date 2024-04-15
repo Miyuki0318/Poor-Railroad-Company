@@ -24,6 +24,10 @@ namespace basecross {
 			Arrival // 駅到着
 		};
 
+		pair<Vec3, Vec3> m_movePos;
+		size_t m_isRailNum;
+		float m_moveRatio;
+
 		// ステート変数
 		State m_state = State::Onrail;
 		State m_beforeState = State::Onrail;
@@ -38,9 +42,13 @@ namespace basecross {
 			TemplateObject(stagePtr),
 			m_DefaultPosition(Vec3(3.0f, 1.5f, -7.0f)),
 			m_DefaultScale(Vec3(2.0f, 1.0f, 1.0f)),
-			m_MoveSpeed(1.0f),
+			m_MoveSpeed(2.0f),
 			m_moveDirection(Vec3(0.0f))
 		{
+			m_moveRatio = 0.0f;
+			m_isRailNum = 0;
+			m_movePos.first.zero();
+			m_movePos.second.zero();
 		}
 
 		~Train() {}
@@ -61,6 +69,8 @@ namespace basecross {
 		void OnCollisionEnter(shared_ptr<GameObject>& gameObject) override;
 
 		void StateProcess(State state);
+
+		void OnRailState();
 
 		Vec3 GetDefaultPosition()
 		{
