@@ -34,7 +34,7 @@ namespace basecross
 		*/
 		RailGuide(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr),
-			m_defColor(1.0f, 1.0f, 1.0f, 0.5f),
+			m_defColor(1.0f, 1.0f, 1.0f, 0.25f),
 			m_posY(1.0f),
 			m_blinkRatio(0.0f),
 			m_blinkTime(0.5f)
