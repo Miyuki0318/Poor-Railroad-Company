@@ -25,6 +25,7 @@ namespace basecross
 		m_ptrDraw->SetMeshResource(L"RAIL");
 		m_ptrDraw->SetTextureResource(L"RAIL_TX");
 		m_ptrDraw->SetSpecular(COL_WHITE);
+		m_ptrDraw->SetDiffuse(COL_WHITE);
 
 		// csv‚Ìæ“¾‚ÆƒXƒP[ƒ‹
 		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
