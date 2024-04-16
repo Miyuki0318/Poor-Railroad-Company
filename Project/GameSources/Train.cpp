@@ -24,7 +24,7 @@ namespace basecross {
 		m_ptrColl = AddComponent<CollisionObb>();
 
 		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailMap();
-		m_isRailNum = railMap.begin()->first;
+		m_railPos = railMap.begin()->first;
 		m_movePos.first = m_DefaultPosition;
 		m_movePos.second = railMap.begin()->second;
 
@@ -34,9 +34,6 @@ namespace basecross {
 
 	void Train::OnUpdate()
 	{
-		Debug::Log(L"Start", m_movePos.first);
-		Debug::Log(L"End", m_movePos.second);
-
 		StateProcess(m_state);
 		m_beforeState = m_state;
 	}
@@ -82,6 +79,8 @@ namespace basecross {
 
 			// 次のレールを設定する、設定不可なら脱線ステート
 			if (!SetNextRail()) m_state = State::Derail;
+
+			SetDirection();
 		}
 
 		// 座標の更新
@@ -93,15 +92,40 @@ namespace basecross {
 		// レールマップの取得
 		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailMap();
 		if (railMap.empty()) return false;
-
+		
 		// 始点と終点の設定、終点が無い場合はfalseを返す
-		m_movePos.first = railMap.at(m_isRailNum++);
-		if (railMap.find(m_isRailNum) != railMap.end())
+		const auto& drs = m_drMap.at(m_direction);
+		for (const auto& dr : drs)
 		{
-			m_movePos.second = railMap.at(m_isRailNum);
-			return true;
+			// 行と列
+			size_t row, col;
+			row = ROW(m_movePos.second.z + dr.y);
+			col = COL(m_movePos.second.x + dr.x);
+
+			// 行列でキーを設定
+			string line = LINE(row, col);
+			if (railMap.find(line) != railMap.end())
+			{
+				// レールを設定
+				m_movePos.first = railMap.at(m_railPos);
+				m_movePos.second = railMap.at(line);
+				m_railPos = line;
+
+				return true;
+			}
 		}
 
 		return false;
+	}
+
+	void Train::SetDirection()
+	{
+		// 始点と終点のレールからラジアン角を求める
+		float rad = atan2f(m_movePos.first.z - m_movePos.second.z, m_movePos.first.x - m_movePos.second.x);
+		if (m_radMap.find(rad) != m_radMap.end())
+		{
+			// ラジアン角から方向enumを設定
+			m_direction = m_radMap.at(rad);
+		}
 	}
 }

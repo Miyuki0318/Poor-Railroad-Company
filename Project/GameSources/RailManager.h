@@ -9,6 +9,7 @@
 
 #define ROW(posZ) size_t(-posZ)	// 行
 #define COL(posX) size_t(posX) // 列
+#define LINE(row, col) to_string(row) + "-" + to_string(col)
 
 namespace basecross
 {
@@ -45,7 +46,7 @@ namespace basecross
 		Mat4x4 m_mtxScale;		// インスタンス描画用のスケール
 		Mat4x4 m_mtxRotation;	// インスタンス描画用のローテーション
 		size_t m_railNum;
-		map<size_t, Vec3> m_railMap;
+		map<string, Vec3> m_railMap;
 		
 	public:
 
@@ -104,7 +105,7 @@ namespace basecross
 		@brief レールの座標配列取得関数
 		@return m_railPositions
 		*/
-		const map<size_t, Vec3>& GetRailMap() const
+		const map<string, Vec3>& GetRailMap() const
 		{
 			return m_railMap;
 		}
@@ -138,7 +139,7 @@ namespace basecross
 			matrix = m_mtxScale * m_mtxRotation * mtxPosition;
 			m_ptrDraw->AddMatrix(matrix);
 			m_railPositions.push_back(addPos);
-			m_railMap.insert(make_pair(++m_railNum, addPos));
+			m_railMap.insert(make_pair(LINE(row, col), addPos));
 		}
 
 		/*!
