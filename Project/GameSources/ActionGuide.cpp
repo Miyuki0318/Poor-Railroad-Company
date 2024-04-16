@@ -15,9 +15,6 @@ namespace basecross
 		// 継承元の生成時の処理を実行
 		Billboard::OnCreate();
 
-		// テクスチャを変更
-		SetTexture(m_texMap.at(m_iconType));
-
 		// 非表示に
 		SetDrawActive(false);
 	}
@@ -68,8 +65,9 @@ namespace basecross
 		const auto& selectPoint = indicator->GetSelectPoint();
 		if (Utility::WithInElemRange(selectPoint.x, selectPoint.y, stageMap))
 		{
+			// IDに応じてアイコンタイプを設定
 			eStageID id = static_cast<eStageID>(stageMap.at(selectPoint.x).at(selectPoint.y));
-			m_iconType = m_iconMap.at(id);
+			if (m_iconMap.find(id) != m_iconMap.end()) m_iconType = m_iconMap.at(id);
 
 			// レールを未所持ならNoneに
 			if (m_iconType == eActionIcon::Rail && !player->GetStatus(ePlayerStatus::IsHaveRail))
