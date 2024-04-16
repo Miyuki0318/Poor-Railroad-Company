@@ -23,7 +23,7 @@ namespace basecross {
 		// コリジョンOBBの追加
 		m_ptrColl = AddComponent<CollisionObb>();
 
-		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailPositions();
+		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailMap();
 		m_isRailNum = railMap.begin()->first;
 		m_movePos.first = m_DefaultPosition;
 		m_movePos.second = railMap.begin()->second;
@@ -91,7 +91,7 @@ namespace basecross {
 	bool Train::SetNextRail()
 	{
 		// レールマップの取得
-		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailPositions();
+		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailMap();
 		if (railMap.empty()) return false;
 
 		// 始点と終点の設定、終点が無い場合はfalseを返す
