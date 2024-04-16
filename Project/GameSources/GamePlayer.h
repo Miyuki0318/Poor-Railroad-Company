@@ -173,6 +173,16 @@ namespace basecross
 		}
 
 		/*!
+		@brief クラフトできるの取得関数
+		@param クラフトアイテムenum
+		@return クラフトできるかの真偽
+		*/
+		bool GetCraftPosshible(eCraftItem item = eCraftItem::Rail) const
+		{
+			return m_craft->CraftOrder();
+		}
+
+		/*!
 		@brief コントローラーで向けた方向取得関数
 		@return atan2f(m_rotTarget.z, m_rotTarget.x)
 		*/

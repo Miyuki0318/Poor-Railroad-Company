@@ -30,3 +30,4 @@
 #include "Tarminal.h"
 #include "TitleStage.h"
 #include "Building.h"
+#include "ActionGuide.h"

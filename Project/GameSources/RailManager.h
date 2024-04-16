@@ -9,6 +9,7 @@
 
 #define ROW(posZ) size_t(-posZ)	// 行
 #define COL(posX) size_t(posX) // 列
+#define LINE(row, col) to_string(row) + "-" + to_string(col)
 
 namespace basecross
 {
@@ -44,6 +45,8 @@ namespace basecross
 		vector<Vec3> m_railPositions; // レールの座標配列
 		Mat4x4 m_mtxScale;		// インスタンス描画用のスケール
 		Mat4x4 m_mtxRotation;	// インスタンス描画用のローテーション
+		size_t m_railNum;
+		map<string, Vec3> m_railMap;
 		
 	public:
 
@@ -54,6 +57,8 @@ namespace basecross
 		RailManager(const shared_ptr<Stage>& stagePtr) :
 			GameObject(stagePtr)
 		{
+			m_railNum = 0;
+
 			Quat quatRot;
 			quatRot.rotationRollPitchYawFromVector(Vec3(0.0f, XM_PIDIV2, 0.0f));
 			m_mtxRotation.rotation(quatRot);
@@ -91,7 +96,7 @@ namespace basecross
 		@brief ガイドのポイント取得関数
 		@return m_guidePoints
 		*/
-		vector<Point2D<size_t>> GetGuidePoints() const
+		const vector<Point2D<size_t>>& GetGuidePoints() const
 		{
 			return m_guidePoints;
 		}
@@ -100,9 +105,18 @@ namespace basecross
 		@brief レールの座標配列取得関数
 		@return m_railPositions
 		*/
-		vector<Vec3> GetRailPositions() const
+		const map<string, Vec3>& GetRailMap() const
 		{
-			return m_railPositions;
+			return m_railMap;
+		}
+
+		/*!
+		@brief ガイドつきcsv取得関数
+		@return m_guideMap
+		*/
+		const vector<vector<int>>& GetGuideMap() const
+		{
+			return m_guideMap;
 		}
 
 	private:
@@ -125,6 +139,7 @@ namespace basecross
 			matrix = m_mtxScale * m_mtxRotation * mtxPosition;
 			m_ptrDraw->AddMatrix(matrix);
 			m_railPositions.push_back(addPos);
+			m_railMap.insert(make_pair(LINE(row, col), addPos));
 		}
 
 		/*!
