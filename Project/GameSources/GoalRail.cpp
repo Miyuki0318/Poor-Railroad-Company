@@ -16,8 +16,11 @@ namespace basecross {
 
 		// 描画コンポーネントの設定
 		m_ptrDraw = AddComponent<PNTStaticDraw>();
-		m_ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
-		m_ptrDraw->SetDiffuse(COL_BLACK);
+		m_ptrDraw->SetMeshResource(L"RAIL");
+		m_ptrDraw->SetTextureResource(L"RAIL_TX");
+		m_ptrDraw->SetSpecular(COL_WHITE);
+		m_ptrDraw->SetDiffuse(COL_WHITE);
+		m_ptrDraw->SetMeshToTransformMatrix(m_modelMat);
 
 		// コリジョンOBBの追加
 		m_ptrColl = AddComponent<CollisionObb>();
