@@ -17,14 +17,23 @@ namespace basecross {
 		shared_ptr<CollisionObb> m_ptrColl;
 		// 開始時だけ処理させたい関数用のbool
 		bool m_setFlg;
+		// トランスフォームとモデルの差分行列
+		Mat4x4 m_modelMat;
+
 
 	public:
 
 		GoalRail(const shared_ptr<Stage>& stagePtr, const Vec3& position) :
-			TemplateObject(stagePtr, position, Vec3(0.0f), Vec3(1.0f, 0.2f, 1.0f))
+			TemplateObject(stagePtr, Vec3(position.x, 1.0f, position.z), Vec3(0.0f), Vec3(0.8f, 0.2f, 0.8f))
 		{
 			// 変数の初期化
 			m_setFlg = true;
+			m_modelMat.affineTransformation(
+				Vec3(0.85f, 3.375f, 0.85f),
+				Vec3(0.0f),
+				Vec3(0.0f, XM_PIDIV2, 0.0f),
+				Vec3(0.0f)
+			);
 		}
 
 		~GoalRail() {}
