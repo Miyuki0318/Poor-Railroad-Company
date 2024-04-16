@@ -28,6 +28,8 @@ namespace basecross {
 		bool m_setFlg;
 		// 状態を保持する変数
 		eState m_state;
+		// CSV上の位置
+		Point2D<size_t> m_csvPos;
 
 	public:
 		// コンストラクタ
@@ -35,7 +37,7 @@ namespace basecross {
 			const Vec3 position // 初期座標
 		) :
 			TemplateObject(stagePtr), // ステージのポインタ
-			m_spawnPos(position) // 初期座標
+			m_spawnPos(Vec3(position.x, 1.0f, position.z)) // 初期座標
 		{
 			// 変数の初期化
 			m_miningCount = 0;
@@ -62,6 +64,15 @@ namespace basecross {
 		@brief	 オブジェクトの情報をステージマップから消去する関数
 		*/
 		virtual void OnDelete();
+		
+		/*
+		@brief	 CSV上のRowとColを返す関数
+		@return　 m_csvPos
+		*/
+		virtual Point2D<size_t> GetCSVPos() const
+		{
+			return m_csvPos;
+		}
 	};
 
 

@@ -26,22 +26,25 @@ namespace basecross {
 		SetDrawActive(true);
 		SetAlphaActive(false);
 
+		const auto& stage = GetTypeStage<GameStage>();
+		auto& stageMap = stage->GetStageMap();
+
+		size_t row, col;
+		row = ROW(m_spawnPos.z);
+		col = COL(m_spawnPos.x);
+		m_csvPos = Point2D<size_t>(row, col);
+
 		// É^ÉOÇÃê›íË
 		AddTag(L"MiningObject");
 	}
 
 	void MiningObject::OnDelete() {
-		Vec3 pos = GetPosition();
 		const auto& stage = GetTypeStage<GameStage>();
 		auto& stageMap = stage->GetStageMap();
 
-		size_t row, col;
-		row = ROW(pos.z);
-		col = COL(pos.x);
-
-		if (Utility::WithInElemRange(row, col, stageMap))
+		if (Utility::WithInElemRange(m_csvPos.x, m_csvPos.y, stageMap))
 		{
-			stageMap.at(row).at(col) = 0;
+			stageMap.at(m_csvPos.x).at(m_csvPos.y) = 0;
 		}
 
 		stage->GetSharedGameObject<RailManager>(L"RailManager")->GuideRecalculation();

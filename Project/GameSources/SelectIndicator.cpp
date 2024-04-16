@@ -137,10 +137,6 @@ namespace basecross
 	// 採掘可能オブジェクトか、採掘可能オブジェクトポインタの取得
 	const shared_ptr<TemplateObject> SelectIndicator::GetMiningPossible() const
 	{
-		// 自身の座標を取得
-		Vec3 indiPos = GetPosition();
-		indiPos.y = 1.5f;
-
 		// 採掘可能オブジェクト配列の取得
 		const auto& miningVec = GetStage()->GetSharedObjectGroup(L"MiningObject")->GetGroupVector();
 
@@ -152,11 +148,11 @@ namespace basecross
 			if (!weakObj.lock()->IsUpdateActive()) continue;
 
 			// 型キャスト
-			const auto& miningObj = dynamic_pointer_cast<TemplateObject>(weakObj.lock());
+			const auto& miningObj = dynamic_pointer_cast<MiningObject>(weakObj.lock());
 			if (!miningObj) continue;
 
-			// 座標が一致したらポインタを返す
-			if (indiPos == miningObj->GetPosition())
+			// CSV上の座標が一致したらポインタを返す
+			if (m_selectPoint == miningObj->GetCSVPos())
 			{
 				return miningObj;
 			}
