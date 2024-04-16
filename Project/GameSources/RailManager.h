@@ -95,7 +95,7 @@ namespace basecross
 		@brief ガイドのポイント取得関数
 		@return m_guidePoints
 		*/
-		vector<Point2D<size_t>> GetGuidePoints() const
+		const vector<Point2D<size_t>>& GetGuidePoints() const
 		{
 			return m_guidePoints;
 		}
@@ -104,7 +104,7 @@ namespace basecross
 		@brief レールの座標配列取得関数
 		@return m_railPositions
 		*/
-		const map<size_t, Vec3>& GetRailPositions() const
+		const map<size_t, Vec3>& GetRailMap() const
 		{
 			return m_railMap;
 		}

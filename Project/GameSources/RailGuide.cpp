@@ -63,7 +63,7 @@ namespace basecross
 		matrixVec.clear();
 		
 		// ガイドのcsv上のポイント配列
-		const auto guidePoints = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetGuidePoints();
+		const auto& guidePoints = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetGuidePoints();
 		
 		// 配列の数ループ
 		for (const auto& guide : guidePoints)
