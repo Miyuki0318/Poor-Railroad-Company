@@ -89,6 +89,9 @@ namespace basecross
 		// セレクトインディケーターの生成
 		m_indicator = stagePtr->AddGameObject<SelectIndicator>(GetThis<Player>());
 
+		// アクションガイドの生成
+		stagePtr->AddGameObject<ActionGuide>(GetThis<GamePlayer>(), m_indicator.lock());
+
 		// クラフトマネージャの生成
 		const auto& cWindow = stagePtr->AddGameObject<CraftWindow>();
 		const auto& cQTE = stagePtr->AddGameObject<CraftingQTE>();

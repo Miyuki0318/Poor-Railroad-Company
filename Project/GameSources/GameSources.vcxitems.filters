@@ -130,6 +130,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayer.h">
       <Filter>Player\Game</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ActionGuide.h">
+      <Filter>Guide\ActionGuide</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -242,6 +245,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayer.cpp">
       <Filter>Player\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ActionGuide.cpp">
+      <Filter>Guide\ActionGuide</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -370,6 +376,9 @@
     </Filter>
     <Filter Include="Player\Game\Craft\CraftUI\CraftWindow">
       <UniqueIdentifier>{e7f02516-575c-4118-bda2-19ef8539b878}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Guide\ActionGuide">
+      <UniqueIdentifier>{398b7ea4-8bf4-4edf-bdaa-dbfab36cf36d}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

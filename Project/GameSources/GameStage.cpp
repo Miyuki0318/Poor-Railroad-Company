@@ -30,8 +30,11 @@ namespace basecross
 		// 地面の仮テクスチャ
 		app->RegisterTexture(L"GROUND_TX", texturePath + L"ForestGround.png");
 
-		// レールアイコンテクスチャ
+		// アイコンテクスチャ
 		app->RegisterTexture(L"ICON_RAIL_TX", texturePath + L"RailIcon.png");
+		app->RegisterTexture(L"ICON_PICK_TX", texturePath + L"PickIcon.png");
+		app->RegisterTexture(L"ICON_AXE_TX", texturePath + L"AxeIcon.png");
+		app->RegisterTexture(L"ICON_CRAFT_TX", texturePath + L"CraftIcon.png");
 	}
 
 	//ビューとライトの生成

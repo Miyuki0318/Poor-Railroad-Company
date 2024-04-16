@@ -143,8 +143,6 @@ namespace basecross
 			m_itemCount.at(static_cast<size_t>(type)) -= useNum;
 		}
 
-	private:
-
 		/*!
 		@brief クラフト要求素材数取得関数
 		@param クラフトアイテム

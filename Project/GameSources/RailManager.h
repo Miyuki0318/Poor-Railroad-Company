@@ -109,6 +109,15 @@ namespace basecross
 			return m_railMap;
 		}
 
+		/*!
+		@brief ƒKƒCƒh‚Â‚«csvæ“¾ŠÖ”
+		@return m_guideMap
+		*/
+		const vector<vector<int>>& GetGuideMap() const
+		{
+			return m_guideMap;
+		}
+
 	private:
 
 		/*!
