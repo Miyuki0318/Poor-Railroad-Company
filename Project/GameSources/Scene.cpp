@@ -45,6 +45,11 @@ namespace basecross {
 			//最初のアクティブステージの設定
 			ResetActiveStage<GameStage>();
 		}
+		//if (event->m_MsgStr == L"StageSet")
+		//{
+		//	//最初のアクティブステージの設定
+		//	ResetActiveStage<StageSet>();
+		//}
 	}
 
 	void Scene::CreateResourses()

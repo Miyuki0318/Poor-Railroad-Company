@@ -20,3 +20,4 @@
 #include "Tarminal.h"
 
 #include "TitleStage.h"
+#include "StageSet.h"

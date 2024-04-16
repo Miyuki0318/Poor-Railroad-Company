@@ -58,12 +58,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Input.h">
       <Filter>OzawaFuncs</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MiningObject.h">
-      <Filter>StageObject\MiningObject</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Station.h">
-      <Filter>StageObject\Station</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectIndicator.h">
       <Filter>Player\SelectIndicator</Filter>
     </ClInclude>
@@ -94,6 +88,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Tarminal.h">
       <Filter>StageObject\Tarminal</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MiningObject.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Station.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -138,12 +134,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp">
       <Filter>StageObject\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)MiningObject.cpp">
-      <Filter>StageObject\MiningObject</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Station.cpp">
-      <Filter>StageObject\Station</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectIndicator.cpp">
       <Filter>Player\SelectIndicator</Filter>
     </ClCompile>
@@ -174,6 +164,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Tarminal.cpp">
       <Filter>StageObject\Tarminal</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MiningObject.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Station.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GameStage">
@@ -259,6 +251,9 @@
     </Filter>
     <Filter Include="StageObject\Tarminal">
       <UniqueIdentifier>{a3d9a28f-d5b1-4470-80ac-19d3da80f63d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageSet">
+      <UniqueIdentifier>{17119173-9a5e-4592-a8d2-0ed66b64798e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
