@@ -63,7 +63,7 @@ namespace basecross
 			m_craftQTE(qtePtr),
 			m_racipe(CSVLoader::LoadFile("CraftRacipe"))
 		{
-			m_itemCount = {10, 10, 0};
+			m_itemCount = {0, 0, 0};
 		}
 
 		/*!

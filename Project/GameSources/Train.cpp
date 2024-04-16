@@ -73,7 +73,7 @@ namespace basecross {
 	{
 		// üŒ`•âŠÔ‚ÅˆÚ“®
 		Vec3 pos = Utility::Lerp(m_movePos.first, m_movePos.second, m_moveRatio);
-		m_moveRatio += DELTA_TIME / m_MoveSpeed;
+		m_moveRatio += DELTA_TIME / m_MoveInSeconds;
 
 		// Š„‡‚ª1ˆÈã‚É‚È‚Á‚½‚ç0‚Å‰Šú‰»
 		if (m_moveRatio >= 1.0f)
