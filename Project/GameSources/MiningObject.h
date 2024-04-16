@@ -35,7 +35,7 @@ namespace basecross {
 			const Vec3 position // 初期座標
 		) :
 			TemplateObject(stagePtr), // ステージのポインタ
-			m_spawnPos(position) // 初期座標
+			m_spawnPos(Vec3(position.x, 1.0f, position.z)) // 初期座標
 		{
 			// 変数の初期化
 			m_miningCount = 0;
