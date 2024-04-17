@@ -207,4 +207,29 @@ namespace basecross
 		// 移動状態を設定
 		m_status.Set(ePlayerStatus::IsMove) = isLStick;
 	}
+
+	// コントローラーによる移動
+	void GamePlayer::ControllerMovement(const Vec3& stickValue)
+	{
+		// 列と行
+		Vec3 pos = GetPosition();
+		size_t row, col;
+		row = ROW(int(pos.z));
+		col = COL(int(pos.x));
+
+		// ステージcsv配列の取得
+		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
+
+		// 現在の座標に入力量×速度×デルタタイムで加算
+		pos += stickValue * m_moveSpeed * DELTA_TIME;
+
+		// 配列の範囲内かのエラーチェック
+		if (!WithInElemRange(row, col, stageMap)) return;
+
+		// csvグリッドとの衝突判定を実行
+		GridHitResponse(pos);
+
+		// 座標の更新
+		SetPosition(pos);
+	}
 }

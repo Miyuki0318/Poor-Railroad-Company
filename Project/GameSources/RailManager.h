@@ -13,6 +13,14 @@
 
 namespace basecross
 {
+	enum class eNextRailDir
+	{
+		DirFlont,	// 前
+		DirBack,	// 後
+		DirLeft,	// 左
+		DirRight,	// 右
+	};
+
 	// CSVのチェック用構造体
 	struct CSVElementCheck
 	{
@@ -31,6 +39,27 @@ namespace basecross
 			col(elemCol),
 			isRange(range)
 		{
+		}
+
+		/*!
+		@brief ポイントの前後左右が配列の範囲内かを取得する関数
+		@param row
+		@param col
+		@param csv配列
+		*/
+		static vector<CSVElementCheck> GetElemsCheck(size_t row, size_t col, const vector<vector<int>>& csvMap)
+		{
+			vector<CSVElementCheck> elems; // 前後左右の結果保存用配列
+			if (csvMap.empty()) return elems; // 参照する配列が空なら空を返す
+
+			elems = {
+				{row - 1, col, Utility::WithInElemRange(row - 1, csvMap.size())},
+				{row + 1, col, Utility::WithInElemRange(row + 1, csvMap.size())},
+				{row, col - 1, Utility::WithInElemRange(col - 1, csvMap.at(row).size())},
+				{row, col + 1, Utility::WithInElemRange(col - 1, csvMap.at(row).size())},
+			};
+
+			return elems;
 		}
 	};
 
@@ -155,13 +184,5 @@ namespace basecross
 		@param col
 		*/
 		void SetGuideID(size_t row, size_t col);
-
-		/*!
-		@brief ポイントの前後左右が配列の範囲内かを取得する関数
-		@param row
-		@param col
-		@param csv配列
-		*/
-		vector<CSVElementCheck> GetElemsCheck(size_t row, size_t col, const vector<vector<int>>& csvMap) const;
 	};
 }

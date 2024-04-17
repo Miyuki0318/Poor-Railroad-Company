@@ -58,4 +58,113 @@ namespace basecross
 		// 座標の更新
 		SetPosition(pos);
 	}
+
+	// グリッドに衝突してないかの応答処理
+	void Player::GridHitResponse(Vec3& pos)
+	{
+
+		// ステージcsv配列の取得
+		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
+
+		// 各方向への応答処理
+		GridHitFlontResponse(pos, stageMap);
+		GridHitBackResponse(pos, stageMap);
+		GridHitLeftResponse(pos, stageMap);
+		GridHitRightResponse(pos, stageMap);
+
+		// 座標の更新
+		SetPosition(pos);
+	}
+
+	// 前方向への衝突
+	void Player::GridHitFlontResponse(Vec3& pos, const vector<vector<int>>& stageMap)
+	{
+		// 列と行
+		size_t row, col;
+		row = ROW(round(pos.z + 0.5f));
+		col = COL(round(pos.x));
+
+		// 配列の範囲外じゃないかのチェック
+		if (!WithInElemRange(row + 1, stageMap.size())) return;
+		
+		// 通れないマスIDと一致するか
+		eStageID id = static_cast<eStageID>(stageMap.at(row + 1).at(col));
+		if (m_impassableSet.find(id) == m_impassableSet.end()) return;
+
+		// 応答処理
+		float gridZ = -float(row + 1) - m_margin;
+		if (pos.z - m_radius < gridZ)
+		{
+			pos.z = gridZ + m_radius;
+		}
+	}
+
+	// 後方向への衝突
+	void Player::GridHitBackResponse(Vec3& pos, const vector<vector<int>>& stageMap)
+	{
+		// 列と行
+		size_t row, col;
+		row = ROW(round(pos.z));
+		col = COL(round(pos.x));
+
+		// 配列の範囲外じゃないかのチェック
+		if (!WithInElemRange(row - 1, stageMap.size())) return;
+
+		// 通れないマスIDと一致するか
+		eStageID id = static_cast<eStageID>(stageMap.at(row - 1).at(col));
+		if (m_impassableSet.find(id) == m_impassableSet.end()) return;
+
+		// 応答処理
+		float gridZ = -float(row - 1) - m_margin;
+		if (pos.z + m_radius > gridZ)
+		{
+			pos.z = gridZ - m_radius;
+		}
+	}
+
+	// 左方向への衝突
+	void Player::GridHitLeftResponse(Vec3& pos, const vector<vector<int>>& stageMap)
+	{
+		// 列と行
+		size_t row, col;
+		row = ROW(round(pos.z));
+		col = COL(round(pos.x + 0.5f));
+
+		// 配列の範囲外じゃないかのチェック
+		if (!WithInElemRange(row, col - 1, stageMap)) return;
+
+		// 通れないマスIDと一致するか
+		eStageID id = static_cast<eStageID>(stageMap.at(row).at(col - 1));
+		if (m_impassableSet.find(id) == m_impassableSet.end()) return;
+
+		// グリッドからの応答処理
+		float gridX = float(col - 1) + m_margin;
+		if (pos.x - m_radius < gridX)
+		{
+			pos.x = gridX + m_radius;
+		}
+	}
+
+	// 右方向への衝突
+	void Player::GridHitRightResponse(Vec3& pos, const vector<vector<int>>& stageMap)
+	{
+		// 列と行
+		size_t row, col;
+		row = ROW(round(pos.z));
+		col = COL(round(pos.x));
+
+		// 配列の範囲外じゃないかのチェック
+		if (!WithInElemRange(row, col + 1, stageMap)) return;
+		
+		// 通れないマスIDと一致するか
+		eStageID id = static_cast<eStageID>(stageMap.at(row).at(col + 1));
+		if (m_impassableSet.find(id) == m_impassableSet.end()) return;
+		
+		// グリッドからの応答処理
+		float gridX = float(col + 1) - m_margin;
+		if (pos.x + m_radius > gridX)
+		{
+			pos.x = gridX - m_radius;
+		}
+	}
 }

@@ -21,12 +21,14 @@ namespace basecross
 	// ステージオブジェクトID
 	enum class eStageID
 	{
-		Rail = 1,	// レール
+		None,		// 何もなし
+		Rail,		// レール
 		DeRail,		// 脱線部分
 		GuideRail,	// ガイドレール
 		GoalRail,	// ゴールレール
 		Rock = 10,	// 岩
 		Tree,		// 木
+		Water = -1,	// 水
 	};
 
 	/*!
