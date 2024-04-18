@@ -74,7 +74,7 @@ namespace basecross
 		auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
 		
 		// 要素数が範囲内で、先端レールなら通常のレールにする
-		for (const auto& elem : GetElemsCheck(row, col, stageMap))
+		for (const auto& elem : CSVElementCheck::GetElemsCheck(row, col, stageMap))
 		{
 			if (elem.isRange)
 			{
@@ -90,7 +90,7 @@ namespace basecross
 		m_guidePoints.clear(); // 初期化
 
 		// 要素数が範囲内で、何も無いならガイドにする
-		for (auto& elem : GetElemsCheck(row, col, m_guideMap))
+		for (auto& elem : CSVElementCheck::GetElemsCheck(row, col, m_guideMap))
 		{
 			if (elem.isRange)
 			{
@@ -104,22 +104,6 @@ namespace basecross
 				}
 			}
 		}
-	}
-
-	// 前後左右の配列チェッカー取得
-	vector<CSVElementCheck> RailManager::GetElemsCheck(size_t row, size_t col, const vector<vector<int>>& csvMap) const
-	{
-		vector<CSVElementCheck> elems; // 前後左右の結果保存用配列
-		if (csvMap.empty()) return elems; // 参照する配列が空なら空を返す
-
-		elems = {
-			{row - 1, col, WithInElemRange(row - 1, csvMap.size())},		// 前
-			{row + 1, col, WithInElemRange(row + 1, csvMap.size())},		// 後
-			{row, col - 1, WithInElemRange(col - 1, csvMap.at(row).size())},// 左
-			{row, col + 1, WithInElemRange(col + 1, csvMap.at(row).size())},// 右
-		};
-
-		return elems;
 	}
 
 	// 指定の座標にガイドがあるか
