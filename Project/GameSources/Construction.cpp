@@ -1,6 +1,6 @@
 /*!
-@file Building.cpp
-@brief 建物の実装
+@file Construction.cpp
+@brief 工事現場の実装(ゲームスタート)
 @author 新妻葵
 */
 

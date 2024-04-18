@@ -1,6 +1,6 @@
 /*!
-@file Building.h
-@brief 建物の設定
+@file Construction.h
+@brief 工事現場の設定(ゲームスタート)
 @author 新妻葵
 */
 
