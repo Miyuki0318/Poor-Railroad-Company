@@ -64,6 +64,14 @@ namespace basecross
 	};
 
 	/*!
+	@brief LINEマクロで保持されたRowCol文字列をsize_tに代入する関数
+	@param row格納変数
+	@param col格納変数
+	@param line文字列
+	*/
+	void GetLineStringToRowCol(size_t& row, size_t& col, string line);
+
+	/*!
 	@brief レール管理用クラス
 	*/
 	class RailManager : public GameObject

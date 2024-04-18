@@ -6,6 +6,8 @@
 #pragma once
 #include "stdafx.h"
 
+#define STAGE_ID(id) static_cast<eStageID>(id)
+
 namespace basecross 
 {
 	/*!

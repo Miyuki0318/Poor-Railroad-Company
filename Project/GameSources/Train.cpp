@@ -24,9 +24,9 @@ namespace basecross {
 		m_ptrColl = AddComponent<CollisionObb>();
 
 		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailMap();
-		m_railPos = railMap.begin()->first;
+		m_railPos = LINE(ROW(m_DefaultPosition.z), COL(m_DefaultPosition.x));
 		m_movePos.first = m_DefaultPosition;
-		m_movePos.second = railMap.begin()->second;
+		m_movePos.second = m_DefaultPosition;
 
 		// タグの設定
 		AddTag(L"Train");
@@ -52,7 +52,11 @@ namespace basecross {
 
 	void Train::StateProcess(State state)
 	{
-		if (state == State::Arrival) return;
+		if (state == State::Arrival)
+		{
+			GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::GameClear);
+			return;
+		}
 
 		if (state == State::Derail)
 		{
@@ -115,6 +119,33 @@ namespace basecross {
 			}
 		}
 
+		return CheckGoalRail();
+	}
+
+	// ゴールにたどり着いたかのチェック
+	bool Train::CheckGoalRail()
+	{
+		// レールマップの取得
+		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailMap();
+		if (railMap.empty()) return false;
+
+		// Line文字列からrowとcolを抽出
+		size_t row, col;
+		GetLineStringToRowCol(row, col, m_railPos);
+
+		// ゴール用レールと一致してたらtrue、それ以外ならfalse
+		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
+		if (Utility::WithInElemRange(row, row, stageMap))
+		{
+			if (STAGE_ID(stageMap.at(row).at(col)) == eStageID::GoalRail)
+			{
+				m_movePos.first = railMap.at(m_railPos);
+				m_movePos.second = railMap.at(m_railPos);
+				m_state = State::Arrival;
+				return true;
+			}
+		}
+		
 		return false;
 	}
 

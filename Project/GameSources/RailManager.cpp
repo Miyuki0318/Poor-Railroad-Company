@@ -10,12 +10,29 @@
 // レールに関するID
 #define RAIL_ID static_cast<size_t>(basecross::eStageID::Rail)
 #define DERAIL_ID static_cast<size_t>(basecross::eStageID::DeRail)
+#define GOALRAIL_ID static_cast<size_t>(basecross::eStageID::GoalRail)
 #define GUIDE_ID static_cast<size_t>(basecross::eStageID::GuideRail)
 
 namespace basecross
 {
 	// ネームスペースの省略
 	using namespace Utility;
+
+	// lineからrowとcolを抽出
+	void GetLineStringToRowCol(size_t& row, size_t& col, string line)
+	{
+		// 文字列を '-' を境に分割
+		istringstream iss(line);
+		string token;
+
+		// tokenを数値に変換してrowに格納
+		getline(iss, token, '-');
+		row = stoul(token);
+
+		// tokenを数値に変換してcolに格納
+		getline(iss, token);
+		col = stoul(token);
+	}
 
 	// 生成時の処理
 	void RailManager::OnCreate()
@@ -37,7 +54,7 @@ namespace basecross
 			for (size_t col = 0; col < stageMap.at(row).size(); col++)
 			{
 				// レールIDと先端レールID以外は無視
-				if (!Utility::GetBetween(stageMap.at(row).at(col), RAIL_ID, DERAIL_ID)) continue;
+				if (!Utility::GetBetween(stageMap.at(row).at(col), RAIL_ID, GOALRAIL_ID)) continue;
 
 				// インスタンス描画を追加
 				AddInstanceRail(row, col);
