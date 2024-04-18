@@ -32,3 +32,5 @@
 #include "ActionGuide.h"
 #include "Company.h"
 #include "Construction.h"
+#include "RouteMap.h"
+#include "Signboard.h"
