@@ -10,8 +10,8 @@
 // レールに関するID
 #define RAIL_ID static_cast<size_t>(basecross::eStageID::Rail)
 #define DERAIL_ID static_cast<size_t>(basecross::eStageID::DeRail)
-#define GOALRAIL_ID static_cast<size_t>(basecross::eStageID::GoalRail)
 #define GUIDE_ID static_cast<size_t>(basecross::eStageID::GuideRail)
+#define GOALRAIL_ID static_cast<size_t>(basecross::eStageID::GoalRail)
 
 namespace basecross
 {
@@ -60,7 +60,7 @@ namespace basecross
 				AddInstanceRail(row, col);
 
 				// 先端レールならガイドIDを設定
-				if (stageMap.at(row).at(col) == DERAIL_ID)
+				if (STAGE_ID(stageMap.at(row).at(col)) == eStageID::DeRail)
 				{
 					SetGuideID(row, col);
 				}
@@ -105,9 +105,11 @@ namespace basecross
 	void RailManager::SetGuideID(size_t row, size_t col)
 	{
 		m_guidePoints.clear(); // 初期化
+		m_pastDeRailPos = Vec3(float(col), 1.0f, -float(row));
 
 		// 要素数が範囲内で、何も無いならガイドにする
-		for (auto& elem : CSVElementCheck::GetElemsCheck(row, col, m_guideMap))
+		auto& elems = CSVElementCheck::GetElemsCheck(row, col, m_guideMap);
+		for (auto& elem : elems)
 		{
 			if (elem.isRange)
 			{
@@ -145,7 +147,7 @@ namespace basecross
 		m_guideMap = stageMap;
 
 		// サイズと列と行
-		Vec3 pos = m_railPositions.back();
+		Vec3 pos = m_pastDeRailPos;
 		size_t row, col;
 		row = ROW(pos.z);
 		col = COL(pos.x);
