@@ -29,5 +29,6 @@
 #include "Train.h"
 #include "Tarminal.h"
 #include "TitleStage.h"
-#include "Building.h"
 #include "ActionGuide.h"
+#include "Company.h"
+#include "Construction.h"
