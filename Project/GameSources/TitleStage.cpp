@@ -55,6 +55,7 @@ namespace basecross
 	{
 		auto& player = AddGameObject<TitlePlayer>();
 		player->SetPosition(Vec3(m_cameraAt.x, 5.0f, m_cameraAt.z));
+		SetSharedGameObject(L"TitlePlayer", player);
 	}
 
 	// Œš•¨‚Ì¶¬
@@ -65,6 +66,21 @@ namespace basecross
 		const auto& construction = AddGameObject<Construction>(Vec3(65.0f, 1.0f, 0.0f));
 	}
 
+	// ŠÅ”Â‚Ì¶¬
+	void TitleStage::CreateSignBoard()
+	{
+		const auto& board = AddGameObject<SignBoard>();
+		SetSharedGameObject(L"BOARD", board);
+	}
+
+	// ˜Hü}‚Ì¶¬
+	void TitleStage::CreateRouteMap()
+	{
+		const auto& routeMap = AddGameObject<RouteMap>();
+		SetSharedGameObject(L"ROUTEMAP", routeMap);
+	}
+
+	// “–‚½‚è”»’è‚Ì¶¬
 	void TitleStage::CreateCollision()
 	{
 		const auto& companyColl = AddGameObject<CompanyCollision>(Vec3(35.0f, 2.0f, 10.0f));
@@ -88,6 +104,10 @@ namespace basecross
 			CreatePlayer();
 
 			CreateBuilding();
+
+			CreateSignBoard();
+
+			CreateRouteMap();
 
 			CreateCollision();
 		}

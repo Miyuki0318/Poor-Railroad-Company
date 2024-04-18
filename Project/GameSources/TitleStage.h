@@ -47,7 +47,7 @@ namespace basecross
 		void CreateGround();
 
 		/*
-		@brief 地面の生成
+		@brief タイトル用のプレイヤー生成
 		*/
 		void CreatePlayer();
 
@@ -57,9 +57,20 @@ namespace basecross
 		void CreateBuilding();
 
 		/*
-		@brief 建物の当たり判定の生成
+		@brief 看板の生成
+		*/
+		void CreateSignBoard();
+
+		/*
+		@brief 路線図の生成
+		*/
+		void CreateRouteMap();
+
+		/*
+		@brief 当たり判定の生成
 		*/
 		void CreateCollision();
+
 
 	public:
 		/*
