@@ -18,7 +18,7 @@ namespace basecross {
 	{
 		const Vec3 m_DefaultPosition;
 		const Vec3 m_DefaultScale;
-		const float m_MoveSpeed;
+		const float m_MoveInSeconds;
 
 		/*!
 		@brief óÒé‘ÇÃèÛë‘
@@ -58,7 +58,7 @@ namespace basecross {
 			TemplateObject(stagePtr),
 			m_DefaultPosition(Vec3(3.0f, 1.5f, -7.0f)),
 			m_DefaultScale(Vec3(2.0f, 1.0f, 1.0f)),
-			m_MoveSpeed(2.0f),
+			m_MoveInSeconds(4.0f),
 			m_moveDirection(Vec3(0.0f))
 		{
 			m_moveRatio = 0.0f;
