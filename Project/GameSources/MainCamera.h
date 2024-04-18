@@ -25,6 +25,8 @@ namespace basecross {
 		void OnCreate() override;
 		void OnUpdate() override;
 
+		void ZoomIn();
+
 		// カメラが追尾するオブジェクトを取得する関数
 		shared_ptr<GameObject> GetTargetObject() const {
 			if (!m_targetObject.expired()) {

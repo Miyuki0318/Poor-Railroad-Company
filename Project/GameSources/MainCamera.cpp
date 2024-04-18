@@ -9,7 +9,7 @@
 
 namespace basecross {
 	void MainCamera::OnCreate() {
-
+		
 	}
 
 	void MainCamera::OnUpdate() {
@@ -23,5 +23,9 @@ namespace basecross {
 		SetAt(newAt);
 		SetEye(newEye);
 		Camera::OnUpdate();
+	}
+
+	void ZoomIn()
+	{
 	}
 }
