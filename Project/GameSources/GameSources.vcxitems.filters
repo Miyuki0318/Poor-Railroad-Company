@@ -136,6 +136,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Construction.h">
       <Filter>StageObject\Building\Construction</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RouteMap.h">
+      <Filter>StageObject\RouteMap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Signboard.h">
+      <Filter>StageObject\Signboard</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -254,6 +260,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Construction.cpp">
       <Filter>StageObject\Building\Construction</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)RouteMap.cpp">
+      <Filter>StageObject\RouteMap</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Signboard.cpp">
+      <Filter>StageObject\Signboard</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -391,6 +403,12 @@
     </Filter>
     <Filter Include="StageObject\Building\Construction">
       <UniqueIdentifier>{6a3d1b17-e896-4d8c-bbd8-5e2a2e36755a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Signboard">
+      <UniqueIdentifier>{1ef41b47-a1a8-4ce7-9b1d-c9c5d85e54fd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\RouteMap">
+      <UniqueIdentifier>{4913c0dd-f707-4de5-bda6-ec759d7fba53}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
