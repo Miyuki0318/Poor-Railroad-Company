@@ -13,32 +13,47 @@ namespace basecross {
 	}
 
 	void MainCamera::OnUpdate() {
+		// ターゲットがオブジェクトがなければ処理を行わない
 		if (GetTargetObject() == nullptr) return;
 
-		m_targetPos = GetTargetObject()->GetComponent<Transform>()->GetPosition();
+		m_targetPos = GetTargetObject()->GetComponent<Transform>()->GetPosition(); // ターゲットの位置を取得
 
+		// 状態ごとの処理
+		if (m_cameraState == Fixed)
+		{
+		}
+		else if (m_cameraState == Follow)
+		{
+			FollowTarget();
+		}
+		else if (m_cameraState == Zoom)
+		{
+			ZoomInProcess(); 
+		}
+		Camera::OnUpdate();
+	}
+
+	void MainCamera::FollowTarget()
+	{
 		Vec3 newEye = Vec3(m_targetPos.x, m_cameraArm.y, m_cameraArm.z);
 		Vec3 newAt = m_targetPos;
 
 		SetAt(newAt);
 		SetEye(newEye);
-		Camera::OnUpdate();
 	}
 
-	void MainCamera::ZoomIn(bool zoomFlag, Vec3 currentEye)
+	void MainCamera::ZoomInProcess()
 	{
-		if (!zoomFlag) return; // ズームフラグがfalseなら何もしない
-
 		// 線形補間でズームさせる
-		Utility::Lerp(currentEye, m_targetPos, m_zoomRatio);
+		SetEye(Utility::Lerp(m_currentEye, m_targetPos, m_zoomRatio));
 		m_zoomRatio += DELTA_TIME * m_zoomSpeed;
 
 		// ズーム処理が終わったら
 		if (m_zoomRatio >= 1.0f)
 		{
-			// 値を初期化してフラグをfalseに
+			// 値を初期化してカメラの状態をもとに戻す
 			m_zoomRatio = 0.0f;
-			zoomFlag = false; 
+			m_cameraState = m_defaultState;
 		}
 	}
 }

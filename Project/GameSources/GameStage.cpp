@@ -42,7 +42,7 @@ namespace basecross
 	{
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
-		auto PtrCamera = ObjectFactory::Create<MainCamera>();
+		auto PtrCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow);
 		PtrView->SetCamera(PtrCamera);
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
