@@ -60,9 +60,9 @@ namespace basecross
 	// åöï®ÇÃê∂ê¨
 	void TitleStage::CreateBuilding()
 	{
-		const auto& company = AddGameObject<Company>(Vec3(35.0f,2.0f,10.0f));
+		const auto& company = AddGameObject<Company>(Vec3(35.0f,1.0f,10.0f));
 
-		const auto& construction = AddGameObject<Construction>(Vec3(65.0f, 3.0f, 0.0f));
+		const auto& construction = AddGameObject<Construction>(Vec3(65.0f, 1.0f, 0.0f));
 	}
 
 	void TitleStage::CreateCollision()

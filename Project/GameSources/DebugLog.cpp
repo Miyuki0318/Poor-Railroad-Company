@@ -152,6 +152,18 @@ wstring Debug::GetWss(const bool str)
 
 /*!
 @brief ’l‚ğwstringŒ^‚É•ÏŠ·‚µ•Ô‚·ŠÖ”
+@param stringŒ^‚Ì•ÏŠ·‚·‚é’l
+@return wstringŒ^‚É•ÏŠ·‚³‚ê‚½’l
+*/
+wstring Debug::GetWss(const string& str)
+{
+	wstring wstr;
+	basecross::Util::ConvertUtf8toWstring(str, wstr);
+	return wstr;
+}
+
+/*!
+@brief ’l‚ğwstringŒ^‚É•ÏŠ·‚µ•Ô‚·ŠÖ”
 @param wstringŒ^‚Ì•ÏŠ·‚·‚é’l
 @return wstringŒ^‚É•ÏŠ·‚³‚ê‚½’l
 */

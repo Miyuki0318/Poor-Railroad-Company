@@ -8,6 +8,11 @@
 #include "stdafx.h"
 #include "TemplateObject.h"
 
+#define FLONT_CSV Vec2(0.0f, 1.0f)
+#define BACK_CSV Vec2(0.0f, -1.0f)
+#define RIGHT_CSV Vec2(1.0f, 0.0f)
+#define LEFT_CSV Vec2(-1.0f, 0.0f)
+
 namespace basecross {
 	class Train : public TemplateObject
 	{
@@ -24,9 +29,20 @@ namespace basecross {
 			Arrival // 駅到着
 		};
 
+		enum class eDirection
+		{
+			Right,
+			Left,
+			Flont,
+			Back,
+		};
+
 		pair<Vec3, Vec3> m_movePos;
-		size_t m_isRailNum;
+		string m_railPos;
 		float m_moveRatio;
+		eDirection m_direction;
+		map<float, eDirection> m_radMap;
+		map<eDirection, vector<Vec2>> m_drMap;
 
 		// ステート変数
 		State m_state = State::Onrail;
@@ -46,9 +62,20 @@ namespace basecross {
 			m_moveDirection(Vec3(0.0f))
 		{
 			m_moveRatio = 0.0f;
-			m_isRailNum = 0;
+			m_railPos = { 0, 0 };
+			m_direction = eDirection::Right;
 			m_movePos.first.zero();
 			m_movePos.second.zero();
+
+			m_radMap.insert(make_pair(XM_PI, eDirection::Right));
+			m_radMap.insert(make_pair(0.0f, eDirection::Left));
+			m_radMap.insert(make_pair(XM_PIDIV2, eDirection::Flont));
+			m_radMap.insert(make_pair(-XM_PIDIV2, eDirection::Back));
+
+			m_drMap.insert(make_pair(eDirection::Right, vector<Vec2>{RIGHT_CSV, FLONT_CSV, BACK_CSV}));
+			m_drMap.insert(make_pair(eDirection::Left, vector<Vec2>{LEFT_CSV, FLONT_CSV, BACK_CSV}));
+			m_drMap.insert(make_pair(eDirection::Flont, vector<Vec2>{RIGHT_CSV, LEFT_CSV, FLONT_CSV}));
+			m_drMap.insert(make_pair(eDirection::Back, vector<Vec2>{RIGHT_CSV, LEFT_CSV, BACK_CSV}));
 		}
 
 		~Train() {}
@@ -73,6 +100,8 @@ namespace basecross {
 		void OnRailState();
 
 		bool SetNextRail();
+
+		void SetDirection();
 
 		Vec3 GetDefaultPosition()
 		{

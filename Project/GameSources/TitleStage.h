@@ -16,8 +16,8 @@ namespace basecross
 		const Vec3 m_groundScale = Vec3(+50.0f, +2.0f, +50.0f);
 
 		// カメラの位置・視点
-		const Vec3 m_cameraEye = Vec3(m_groundScale.x, 30.0f, -15.0f);
-		const Vec3 m_cameraAt = Vec3(m_groundScale.x, 0.0f, 0.0f);
+		const Vec3 m_cameraEye = Vec3(+50.0f, 20.0f, -22.0f);
+		const Vec3 m_cameraAt = Vec3(50.0f, 2.0f, 0.0f);
 
 		// スタートボタンが押されたか
 		bool m_startPush;

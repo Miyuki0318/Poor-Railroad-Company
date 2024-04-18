@@ -39,6 +39,7 @@ private:
 	static wstring GetWss(const char str[]);
 	static wstring GetWss(const wchar_t str);
 	static wstring GetWss(const wchar_t str[]);
+	static wstring GetWss(const string& str);
 	static wstring GetWss(const wstring& str);
 	static wstring GetWss(const size_t& str);
 	static wstring GetWss(const uint16_t& str);

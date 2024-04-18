@@ -62,6 +62,15 @@ namespace basecross
 		*/
 		bool GetRailedPossible() const;
 
+		/*!
+		@brief セレクターの位置を取得する関数
+		@return m_selectPoint
+		*/
+		const Point2D<size_t>& GetSelectPoint() const
+		{
+			return m_selectPoint;
+		}
+
 	private:
 
 		/*!
