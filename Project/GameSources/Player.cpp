@@ -62,7 +62,6 @@ namespace basecross
 	// グリッドに衝突してないかの応答処理
 	void Player::GridHitResponse(Vec3& pos)
 	{
-
 		// ステージcsv配列の取得
 		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
 
