@@ -121,9 +121,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h">
       <Filter>Camera</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Building.h">
-      <Filter>StageObject\Building</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayer.h">
       <Filter>Player\Title</Filter>
     </ClInclude>
@@ -132,6 +129,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ActionGuide.h">
       <Filter>Guide\ActionGuide</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Company.h">
+      <Filter>StageObject\Building\Company</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Construction.h">
+      <Filter>StageObject\Building\Construction</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -231,9 +234,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Building.cpp">
-      <Filter>StageObject\Building</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
       <Filter>Player</Filter>
     </ClCompile>
@@ -248,6 +248,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionGuide.cpp">
       <Filter>Guide\ActionGuide</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Company.cpp">
+      <Filter>StageObject\Building\Company</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Construction.cpp">
+      <Filter>StageObject\Building\Construction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -379,6 +385,12 @@
     </Filter>
     <Filter Include="Guide\ActionGuide">
       <UniqueIdentifier>{398b7ea4-8bf4-4edf-bdaa-dbfab36cf36d}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Building\Company">
+      <UniqueIdentifier>{d690f63b-e233-4a56-81e5-5f4197b5736f}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Building\Construction">
+      <UniqueIdentifier>{6a3d1b17-e896-4d8c-bbd8-5e2a2e36755a}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
