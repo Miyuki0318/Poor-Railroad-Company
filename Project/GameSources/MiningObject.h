@@ -24,8 +24,6 @@ namespace basecross {
 		const Vec3 m_spawnPos;
 		// 採掘した回数
 		int m_miningCount;
-		// 開始時だけ処理させたい関数用のbool
-		bool m_setFlg;
 		// 状態を保持する変数
 		eState m_state;
 		// CSV上の位置
@@ -41,7 +39,6 @@ namespace basecross {
 		{
 			// 変数の初期化
 			m_miningCount = 0;
-			m_setFlg = false;
 			m_state = eState::Normal;
 		}
 

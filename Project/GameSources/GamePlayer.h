@@ -66,6 +66,14 @@ namespace basecross
 			// 採掘オブジェクトのタグと採掘時に加算するアイテムのタイプ
 			m_miningMap.insert(make_pair(L"Tree", eItemType::Wood));	// タグか木ならアイテムタイプは木材
 			m_miningMap.insert(make_pair(L"Rock", eItemType::Stone)); // タグが岩ならアイテムタイプは石材
+
+			// 移動不可なIDの登録
+			m_impassableSet.insert(eStageID::Rail);
+			m_impassableSet.insert(eStageID::DeRail);
+			m_impassableSet.insert(eStageID::GoalRail);
+			m_impassableSet.insert(eStageID::Water);
+			m_impassableSet.insert(eStageID::Tree);
+			m_impassableSet.insert(eStageID::Rock);
 		}
 
 		/*!
@@ -130,6 +138,12 @@ namespace basecross
 		@brief 移動更新関数
 		*/
 		void UpdateMove() override;
+
+		/*!
+		@brief コントローラー移動関数
+		@param Lスティック入力量
+		*/
+		void ControllerMovement(const Vec3& stickValue) override;
 
 		/*!
 		@brief State変更関数

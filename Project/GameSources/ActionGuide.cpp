@@ -70,9 +70,19 @@ namespace basecross
 			if (m_iconMap.find(id) != m_iconMap.end()) m_iconType = m_iconMap.at(id);
 
 			// ƒŒ[ƒ‹‚ð–¢ŠŽ‚È‚çNone‚É
-			if (m_iconType == eActionIcon::Rail && !player->GetStatus(ePlayerStatus::IsHaveRail))
+			if (m_iconType == eActionIcon::Rail)
 			{
-				m_iconType = eActionIcon::None;
+				if (!player->GetStatus(ePlayerStatus::IsHaveRail))
+				{
+					if (player->GetCraftPosshible())
+					{
+						m_iconType = eActionIcon::Craft;
+					}
+					else
+					{
+						m_iconType = eActionIcon::None;
+					}
+				}
 			}
 		}
 	}

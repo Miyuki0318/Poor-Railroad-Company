@@ -14,6 +14,15 @@
 #define LEFT_CSV Vec2(-1.0f, 0.0f)
 
 namespace basecross {
+
+	enum class eDirection
+	{
+		Right,	// ‰E
+		Left,	// ¶
+		Flont,	// ‘O
+		Back,	// ‰œ
+	};
+
 	class Train : public TemplateObject
 	{
 		const Vec3 m_DefaultPosition;
@@ -27,14 +36,6 @@ namespace basecross {
 			Onrail, // ƒŒ[ƒ‹‚Éæ‚Á‚Ä‚¢‚é
 			Derail, // ’Eü
 			Arrival // ‰w“’…
-		};
-
-		enum class eDirection
-		{
-			Right,
-			Left,
-			Flont,
-			Back,
 		};
 
 		pair<Vec3, Vec3> m_movePos;
@@ -100,6 +101,8 @@ namespace basecross {
 		void OnRailState();
 
 		bool SetNextRail();
+
+		bool CheckGoalRail();
 
 		void SetDirection();
 
