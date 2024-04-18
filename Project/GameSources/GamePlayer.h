@@ -67,6 +67,7 @@ namespace basecross
 			m_miningMap.insert(make_pair(L"Tree", eItemType::Wood));	// タグか木ならアイテムタイプは木材
 			m_miningMap.insert(make_pair(L"Rock", eItemType::Stone)); // タグが岩ならアイテムタイプは石材
 
+			// 移動不可なIDの登録
 			m_impassableSet.insert(eStageID::Rail);
 			m_impassableSet.insert(eStageID::DeRail);
 			m_impassableSet.insert(eStageID::GoalRail);
