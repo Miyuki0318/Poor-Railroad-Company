@@ -12,12 +12,19 @@ namespace basecross {
 		weak_ptr<GameObject> m_targetObject;	// 目標となるオブジェクト
 		shared_ptr<Transform> m_targetTrans;	// 目標のトランスフォーム
 
+		Vec3 m_targetPos;
 		Vec3 m_cameraArm;
+
+		float m_zoomRatio;
+		float m_zoomSpeed;
 
 	public:
 		// コンストラクタとデストラクタ
 		MainCamera() : Camera(),
-			m_cameraArm(Vec3(0.0f, 20.0f, -22.0f))
+			m_targetPos(Vec3(0.0f)),
+			m_cameraArm(Vec3(0.0f, 20.0f, -22.0f)),
+			m_zoomRatio(0.0f),
+			m_zoomSpeed(1.0f)
 		{
 		}
 		~MainCamera() {}
@@ -25,7 +32,7 @@ namespace basecross {
 		void OnCreate() override;
 		void OnUpdate() override;
 
-		void ZoomIn();
+		void ZoomIn(bool zoomFlag, Vec3 currentEye);
 
 		// カメラが追尾するオブジェクトを取得する関数
 		shared_ptr<GameObject> GetTargetObject() const {
