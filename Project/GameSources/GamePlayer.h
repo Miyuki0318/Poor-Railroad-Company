@@ -72,6 +72,8 @@ namespace basecross
 			m_impassableSet.insert(eStageID::DeRail);
 			m_impassableSet.insert(eStageID::GoalRail);
 			m_impassableSet.insert(eStageID::Water);
+			m_impassableSet.insert(eStageID::Tree);
+			m_impassableSet.insert(eStageID::Rock);
 		}
 
 		/*!

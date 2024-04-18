@@ -17,10 +17,6 @@ namespace basecross {
 		SetRotation(Vec3(0.0f));
 		SetPosition(m_spawnPos);
 
-		//CollisionObb衝突判定を付ける
-		auto ptrColl = AddComponent<CollisionObb>();
-		ptrColl->SetFixed(true);
-
 		//描画コンポーネントの設定
 		SetAlphaActive(true);
 		SetDrawActive(true);
@@ -65,17 +61,6 @@ namespace basecross {
 	}
 
 	void Tree::OnUpdate() {
-		if (!m_setFlg) {
-			// 自身のコリジョンを取得
-			auto ptrColl = GetComponent<CollisionObb>();
-			// MiningObjectGroupを取得
-			auto group = GetStage()->GetSharedObjectGroup(L"MiningObject");
-			// MiningObjectGroup同士の衝突判定をオフ
-			ptrColl->SetExcludeCollisionGroup(group);
-
-			// フラグをfalseに変更
-			m_setFlg = true;
-		}
 
 		// 採掘回数が上限に達した場合、オブジェクトを破壊
 		if (m_miningCount == m_miningCountLimit) {
@@ -141,17 +126,6 @@ namespace basecross {
 	}
 
 	void Rock::OnUpdate() {
-		if (m_setFlg) {
-			// 自身のコリジョンを取得
-			auto ptrColl = GetComponent<CollisionObb>();
-			// MiningObjectGroupを取得
-			auto group = GetStage()->GetSharedObjectGroup(L"MiningObject");
-			// MiningObjectGroup同士の衝突判定をオフ
-			ptrColl->SetExcludeCollisionGroup(group);
-
-			// フラグをfalseに変更
-			m_setFlg = false;
-		}
 
 		// 採掘回数が上限に達した場合、オブジェクトを破壊
 		if (m_miningCount == m_miningCountLimit) {
