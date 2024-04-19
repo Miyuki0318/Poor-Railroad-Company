@@ -12,6 +12,8 @@ namespace basecross
 	class TitleStage : public Stage
 	{
 	private:
+		int a;
+
 		// 地面のスケール
 		const Vec3 m_groundScale = Vec3(+50.0f, +2.0f, +50.0f);
 
@@ -47,7 +49,7 @@ namespace basecross
 		void CreateGround();
 
 		/*
-		@brief 地面の生成
+		@brief タイトル用のプレイヤー生成
 		*/
 		void CreatePlayer();
 
@@ -57,9 +59,24 @@ namespace basecross
 		void CreateBuilding();
 
 		/*
-		@brief 建物の当たり判定の生成
+		@brief 看板の生成
+		*/
+		void CreateSignBoard();
+
+		/*
+		@brief 路線図の生成
+		*/
+		void CreateRouteMap();
+
+		/*
+		@brief 当たり判定の生成
 		*/
 		void CreateCollision();
+
+		/*
+		@brief カメラのズーム処理
+		*/
+		void TitleCameraZoom();
 
 	public:
 		/*
@@ -69,6 +86,8 @@ namespace basecross
 		{
 			m_startPush = false;
 			m_fadeStop = false;
+
+			a = 0;
 		}
 
 		/*

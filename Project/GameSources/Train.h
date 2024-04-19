@@ -102,6 +102,8 @@ namespace basecross {
 
 		bool SetNextRail();
 
+		bool CheckGoalRail();
+
 		void SetDirection();
 
 		Vec3 GetDefaultPosition()

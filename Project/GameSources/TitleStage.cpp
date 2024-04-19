@@ -14,18 +14,16 @@ namespace basecross
 	// ビューとライトの作成
 	void TitleStage::CreateViewLight()
 	{
-		// ビューを作成
-		const auto& ptrView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
-		const auto& camera = ptrView->GetTargetCamera();
-		camera->SetEye(m_cameraEye);
+		auto ptrView = CreateView<SingleView>();
+		//ビューのカメラの設定
+		auto& camera = ObjectFactory::Create<MainCamera>(MainCamera::State::Fixed);
+		ptrView->SetCamera(camera);
 		camera->SetAt(m_cameraAt);
-		SetView(ptrView);
-
+		camera->SetEye(m_cameraEye);
 		//マルチライトの作成
-		auto PtrMultiLight = CreateLight<MultiLight>();
-
+		auto ptrMultiLight = CreateLight<MultiLight>();
 		//デフォルトのライティングを指定
-		PtrMultiLight->SetDefaultLighting();
+		ptrMultiLight->SetDefaultLighting();
 	}
 
 	// リソースの読込
@@ -47,7 +45,8 @@ namespace basecross
 	void TitleStage::CreateGround()
 	{		
 		// 床ボックスオブジェクトの追加
-		AddGameObject<GroundBox>(m_groundScale);
+		auto& ground = AddGameObject<GroundBox>(m_groundScale);
+		SetSharedGameObject(L"TITLEGROUND", ground);
 	}
 
 	// プレイヤーの生成
@@ -55,6 +54,7 @@ namespace basecross
 	{
 		auto& player = AddGameObject<TitlePlayer>();
 		player->SetPosition(Vec3(m_cameraAt.x, 5.0f, m_cameraAt.z));
+		SetSharedGameObject(L"TitlePlayer", player);
 	}
 
 	// 建物の生成
@@ -65,6 +65,21 @@ namespace basecross
 		const auto& construction = AddGameObject<Construction>(Vec3(65.0f, 1.0f, 0.0f));
 	}
 
+	// 看板の生成
+	void TitleStage::CreateSignBoard()
+	{
+		const auto& board = AddGameObject<SignBoard>();
+		SetSharedGameObject(L"BOARD", board);
+	}
+
+	// 路線図の生成
+	void TitleStage::CreateRouteMap()
+	{
+		const auto& routeMap = AddGameObject<RouteMap>();
+		SetSharedGameObject(L"ROUTEMAP", routeMap);
+	}
+
+	// 当たり判定の生成
 	void TitleStage::CreateCollision()
 	{
 		const auto& companyColl = AddGameObject<CompanyCollision>(Vec3(35.0f, 2.0f, 10.0f));
@@ -72,6 +87,30 @@ namespace basecross
 
 		const auto& constructionColl = AddGameObject<ConstructionCollision>(Vec3(65.0f, 2.0f, 0.0f));
 		SetSharedGameObject(L"CONSTRUCTCOLL", constructionColl);
+	}
+
+	void TitleStage::TitleCameraZoom()
+	{
+		auto& camera = GetView()->GetTargetCamera();
+		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+
+		if (GetSharedGameObject<SignBoard>(L"BOARD", true)->GetPushButton() && a == 0)
+		{
+			auto player = GetSharedGameObject<TitlePlayer>(L"TitlePlayer");
+
+			titleCamera->SetTargetObject(player);
+			titleCamera->ZoomStart(titleCamera->GetEye());
+			a++;
+		}
+		else if(GetSharedGameObject<SignBoard>(L"BOARD", true)->GetPushButton())
+		{
+			auto ground = GetSharedGameObject<GroundBox>(L"TITLEGROUND",true);
+
+			titleCamera->SetEye(m_cameraEye);
+			titleCamera->SetAt(m_cameraAt);
+		}
+
+		Debug::Log(titleCamera->GetEye());
 	}
 
 	// 実行時、一度だけ処理される関数
@@ -89,6 +128,10 @@ namespace basecross
 
 			CreateBuilding();
 
+			CreateSignBoard();
+
+			CreateRouteMap();
+
 			CreateCollision();
 		}
 		catch (...)
@@ -100,6 +143,14 @@ namespace basecross
 	// 毎フレーム実行される関数
 	void TitleStage::OnUpdate()
 	{
+		try 
+		{
+			TitleCameraZoom();
+		}
+		catch (...)
+		{
+			throw;
+		}
 	}
 
 	// オブジェクト破棄時に呼び出される処理

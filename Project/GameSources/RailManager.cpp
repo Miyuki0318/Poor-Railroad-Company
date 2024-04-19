@@ -11,11 +11,28 @@
 #define RAIL_ID static_cast<size_t>(basecross::eStageID::Rail)
 #define DERAIL_ID static_cast<size_t>(basecross::eStageID::DeRail)
 #define GUIDE_ID static_cast<size_t>(basecross::eStageID::GuideRail)
+#define GOALRAIL_ID static_cast<size_t>(basecross::eStageID::GoalRail)
 
 namespace basecross
 {
 	// ネームスペースの省略
 	using namespace Utility;
+
+	// lineからrowとcolを抽出
+	void GetLineStringToRowCol(size_t& row, size_t& col, string line)
+	{
+		// 文字列を '-' を境に分割
+		istringstream iss(line);
+		string token;
+
+		// tokenを数値に変換してrowに格納
+		getline(iss, token, '-');
+		row = stoul(token);
+
+		// tokenを数値に変換してcolに格納
+		getline(iss, token);
+		col = stoul(token);
+	}
 
 	// 生成時の処理
 	void RailManager::OnCreate()
@@ -37,13 +54,13 @@ namespace basecross
 			for (size_t col = 0; col < stageMap.at(row).size(); col++)
 			{
 				// レールIDと先端レールID以外は無視
-				if (!Utility::GetBetween(stageMap.at(row).at(col), RAIL_ID, DERAIL_ID)) continue;
+				if (!Utility::GetBetween(stageMap.at(row).at(col), RAIL_ID, GOALRAIL_ID)) continue;
 
 				// インスタンス描画を追加
 				AddInstanceRail(row, col);
 
 				// 先端レールならガイドIDを設定
-				if (stageMap.at(row).at(col) == DERAIL_ID)
+				if (STAGE_ID(stageMap.at(row).at(col)) == eStageID::DeRail)
 				{
 					SetGuideID(row, col);
 				}
@@ -88,9 +105,11 @@ namespace basecross
 	void RailManager::SetGuideID(size_t row, size_t col)
 	{
 		m_guidePoints.clear(); // 初期化
+		m_pastDeRailPos = Vec3(float(col), 1.0f, -float(row));
 
 		// 要素数が範囲内で、何も無いならガイドにする
-		for (auto& elem : CSVElementCheck::GetElemsCheck(row, col, m_guideMap))
+		auto& elems = CSVElementCheck::GetElemsCheck(row, col, m_guideMap);
+		for (auto& elem : elems)
 		{
 			if (elem.isRange)
 			{
@@ -128,7 +147,7 @@ namespace basecross
 		m_guideMap = stageMap;
 
 		// サイズと列と行
-		Vec3 pos = m_railPositions.back();
+		Vec3 pos = m_pastDeRailPos;
 		size_t row, col;
 		row = ROW(pos.z);
 		col = COL(pos.x);

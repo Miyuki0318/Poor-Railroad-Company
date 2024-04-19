@@ -64,6 +64,14 @@ namespace basecross
 	};
 
 	/*!
+	@brief LINEマクロで保持されたRowCol文字列をsize_tに代入する関数
+	@param row格納変数
+	@param col格納変数
+	@param line文字列
+	*/
+	void GetLineStringToRowCol(size_t& row, size_t& col, string line);
+
+	/*!
 	@brief レール管理用クラス
 	*/
 	class RailManager : public GameObject
@@ -71,11 +79,11 @@ namespace basecross
 		shared_ptr<PNTStaticInstanceDraw> m_ptrDraw; // 描画コンポーネント
 		vector<Point2D<size_t>> m_guidePoints; // ガイドがあるポイント
 		vector<vector<int>> m_guideMap; // ガイド付きのステージcsv
-		vector<Vec3> m_railPositions; // レールの座標配列
 		Mat4x4 m_mtxScale;		// インスタンス描画用のスケール
 		Mat4x4 m_mtxRotation;	// インスタンス描画用のローテーション
 		size_t m_railNum;
 		map<string, Vec3> m_railMap;
+		Vec3 m_pastDeRailPos;
 		
 	public:
 
@@ -167,7 +175,6 @@ namespace basecross
 			// 行列の設定と追加
 			matrix = m_mtxScale * m_mtxRotation * mtxPosition;
 			m_ptrDraw->AddMatrix(matrix);
-			m_railPositions.push_back(addPos);
 			m_railMap.insert(make_pair(LINE(row, col), addPos));
 		}
 

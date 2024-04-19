@@ -92,7 +92,7 @@ namespace basecross
 				switch (static_cast<eStageID>(num))
 				{
 				case eStageID::GoalRail: // ƒS[ƒ‹ƒŒ[ƒ‹‚È‚ç
-					AddGameObject<GoalRail>(position);
+					//AddGameObject<GoalRail>(position);
 					break;
 					
 				case eStageID::Rock: // Šâ‚È‚ç

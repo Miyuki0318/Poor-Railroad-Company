@@ -19,9 +19,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BillboardNumber.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BitFlag.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Bool_t.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Company.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Construction.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Building.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftingIcon.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftingQTE.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftItemIcon.h" />
@@ -48,8 +49,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Project.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RailGuide.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RailManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)RouteMap.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectIndicator.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Signboard.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Station.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Tarminal.h" />
@@ -63,9 +66,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ActionGuide.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Billboard.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BillboardNumber.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Company.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Construction.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Building.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftingIcon.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftingQTE.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftItemIcon.cpp" />
@@ -87,8 +91,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMovingState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RailGuide.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RailManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)RouteMap.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectIndicator.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Signboard.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Station.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Tarminal.cpp" />
