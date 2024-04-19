@@ -12,6 +12,8 @@ namespace basecross
 	class TitleStage : public Stage
 	{
 	private:
+		int a;
+
 		// 地面のスケール
 		const Vec3 m_groundScale = Vec3(+50.0f, +2.0f, +50.0f);
 
@@ -84,6 +86,8 @@ namespace basecross
 		{
 			m_startPush = false;
 			m_fadeStop = false;
+
+			a = 0;
 		}
 
 		/*

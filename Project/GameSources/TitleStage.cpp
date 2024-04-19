@@ -94,14 +94,15 @@ namespace basecross
 		auto& camera = GetView()->GetTargetCamera();
 		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 
-		if (GetSharedGameObject<SignBoard>(L"BOARD", true)->GetPushButton())
+		if (GetSharedGameObject<SignBoard>(L"BOARD", true)->GetPushButton() && a == 0)
 		{
-			auto board = GetSharedGameObject<TitlePlayer>(L"TitlePlayer");
+			auto player = GetSharedGameObject<TitlePlayer>(L"TitlePlayer");
 
-			titleCamera->SetTargetObject(board);
+			titleCamera->SetTargetObject(player);
 			titleCamera->ZoomStart(titleCamera->GetEye());
+			a++;
 		}
-		else
+		else if(GetSharedGameObject<SignBoard>(L"BOARD", true)->GetPushButton())
 		{
 			auto ground = GetSharedGameObject<GroundBox>(L"TITLEGROUND",true);
 
