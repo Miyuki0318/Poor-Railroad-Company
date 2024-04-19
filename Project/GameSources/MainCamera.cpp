@@ -21,6 +21,7 @@ namespace basecross {
 		// ó‘Ô‚²‚Æ‚Ìˆ—
 		if (m_cameraState == Fixed)
 		{
+			SetEye(m_DefaultPos);
 		}
 		else if (m_cameraState == Follow)
 		{
@@ -35,7 +36,7 @@ namespace basecross {
 
 	void MainCamera::FollowTarget()
 	{
-		Vec3 newEye = Vec3(m_targetPos.x, m_cameraArm.y, m_cameraArm.z);
+		Vec3 newEye = Vec3(m_targetPos.x, m_DefaultPos.y, m_DefaultPos.z);
 		Vec3 newAt = m_targetPos;
 
 		SetAt(newAt);
