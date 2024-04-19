@@ -41,6 +41,14 @@ namespace basecross
 		app->RegisterTexture(L"GROUND_TX", texturePath + L"ForestGround.png");
 	}
 
+	// スプライトの生成
+	void TitleStage::CreateSprite()
+	{
+		auto& sprite = AddGameObject<Sprite>(L"FADE_TX", Vec2(m_width, m_height));
+		sprite->SetDiffuseColor(COL_ALPHA);
+		SetSharedGameObject(L"FadeSprite", sprite);
+	}
+
 	// 地面の生成
 	void TitleStage::CreateGround()
 	{		
@@ -89,6 +97,7 @@ namespace basecross
 		SetSharedGameObject(L"CONSTRUCTCOLL", constructionColl);
 	}
 
+	// カメラのズーム処理
 	void TitleStage::TitleCameraZoom()
 	{
 		auto& camera = GetView()->GetTargetCamera();
@@ -113,6 +122,21 @@ namespace basecross
 		Debug::Log(titleCamera->GetEye());
 	}
 
+	// スプライトのフェード処理
+	void TitleStage::FadeSprite()
+	{
+		auto sprite = GetSharedGameObject<Sprite>(L"FadeSprite", true);
+		
+		if (GetSharedGameObject<SignBoard>(L"BOARD", true)->GetPushButton())
+		{
+			sprite->FadeInColor(2.0f);
+		}
+		else
+		{
+			sprite->SetDiffuseColor(COL_ALPHA);
+		}
+	}
+
 	// 実行時、一度だけ処理される関数
 	void TitleStage::OnCreate()
 	{
@@ -121,6 +145,8 @@ namespace basecross
 			CreateViewLight();
 
 			CreateResourses();
+
+			CreateSprite();
 
 			CreateGround();
 
@@ -146,6 +172,8 @@ namespace basecross
 		try 
 		{
 			TitleCameraZoom();
+
+			FadeSprite();
 		}
 		catch (...)
 		{

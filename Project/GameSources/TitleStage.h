@@ -23,6 +23,9 @@ namespace basecross
 		const float m_fadeOutTime = 1.0f;
 		const float m_fadeInTime = 3.0f;
 		
+		const float m_width = static_cast<float>(App::GetApp()->GetGameWidth());
+		const float m_height = static_cast<float>(App::GetApp()->GetGameHeight());
+
 		// スタートボタンが押されたか
 		bool m_startPush;
 
@@ -42,6 +45,11 @@ namespace basecross
 		@brief リソースの読込
 		*/
 		void CreateResourses();
+
+		/*
+		@brief スプライトの生成
+		*/
+		void CreateSprite();
 
 		/*
 		@brief 地面の生成
@@ -77,6 +85,11 @@ namespace basecross
 		@brief カメラのズーム処理
 		*/
 		void TitleCameraZoom();
+
+		/*
+		@brief スプライトのフェード処理
+		*/
+		void FadeSprite();
 
 	public:
 		/*
