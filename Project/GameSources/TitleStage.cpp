@@ -91,12 +91,12 @@ namespace basecross
 
 	void TitleStage::TitleCameraZoom()
 	{
+		auto& camera = GetView()->GetTargetCamera();
+		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+
 		if (GetSharedGameObject<SignBoard>(L"BOARD", true)->GetPushButton())
 		{
-			Debug::Log("Yesssssssssssssssssssssssssss!!!!!!!!!!!!!!!!!!!");
-			auto board = GetSharedGameObject<SignBoard>(L"BOARD");
-			auto& camera = GetView()->GetTargetCamera();
-			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+			auto board = GetSharedGameObject<TitlePlayer>(L"TitlePlayer");
 
 			titleCamera->SetTargetObject(board);
 			titleCamera->ZoomStart(titleCamera->GetEye());
@@ -104,12 +104,12 @@ namespace basecross
 		else
 		{
 			auto ground = GetSharedGameObject<GroundBox>(L"TITLEGROUND",true);
-			auto& camera = GetView()->GetTargetCamera();
-			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 
 			titleCamera->SetEye(m_cameraEye);
 			titleCamera->SetAt(m_cameraAt);
 		}
+
+		Debug::Log(titleCamera->GetEye());
 	}
 
 	// ÀsAˆê“x‚¾‚¯ˆ—‚³‚ê‚éŠÖ”
