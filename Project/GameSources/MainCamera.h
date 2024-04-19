@@ -50,7 +50,7 @@ namespace basecross {
 			m_targetPos(Vec3(0.0f)),
 			m_DefaultPos(Vec3(50.0f, 20.0f, -22.0f)),
 			m_zoomRatio(0.0f),
-			m_zoomSpeed(1.0f)
+			m_zoomSpeed(0.5f)
 		{
 		}
 		~MainCamera() {}
