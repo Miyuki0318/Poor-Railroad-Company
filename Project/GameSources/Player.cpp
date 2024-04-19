@@ -65,6 +65,14 @@ namespace basecross
 		// ステージcsv配列の取得
 		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
 
+		// 列と行
+		size_t row, col;
+		row = ROW(round(pos.z + 0.5f));
+		col = COL(round(pos.x));
+
+		// 配列の範囲外じゃないかのチェック
+		if (!WithInElemRange(row, col, stageMap)) return;
+
 		// 各方向への応答処理
 		GridHitFlontResponse(pos, stageMap);
 		GridHitBackResponse(pos, stageMap);

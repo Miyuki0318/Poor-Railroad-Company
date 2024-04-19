@@ -54,15 +54,22 @@ namespace basecross
 			for (size_t col = 0; col < stageMap.at(row).size(); col++)
 			{
 				// レールIDと先端レールID以外は無視
-				if (!Utility::GetBetween(stageMap.at(row).at(col), RAIL_ID, GOALRAIL_ID)) continue;
+				int id = stageMap.at(row).at(col);
+				if (!Utility::GetBetween(id, RAIL_ID, GOALRAIL_ID)) continue;
 
 				// インスタンス描画を追加
 				AddInstanceRail(row, col);
 
 				// 先端レールならガイドIDを設定
-				if (STAGE_ID(stageMap.at(row).at(col)) == eStageID::DeRail)
+				if (STAGE_ID(id) == eStageID::DeRail)
 				{
 					SetGuideID(row, col);
+				}
+
+				// ゴールレールなら
+				if (STAGE_ID(id) == eStageID::GoalRail)
+				{
+					GetStage()->AddGameObject<Station>(Vec3(float(col), 1.0f, -float(row - 1)));
 				}
 			}
 		}

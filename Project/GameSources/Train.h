@@ -44,6 +44,7 @@ namespace basecross {
 		eDirection m_direction;
 		map<float, eDirection> m_radMap;
 		map<eDirection, vector<Vec2>> m_drMap;
+		Mat4x4 m_modelMat;
 
 		// ステート変数
 		State m_state = State::Onrail;
@@ -77,6 +78,13 @@ namespace basecross {
 			m_drMap.insert(make_pair(eDirection::Left, vector<Vec2>{LEFT_CSV, FLONT_CSV, BACK_CSV}));
 			m_drMap.insert(make_pair(eDirection::Flont, vector<Vec2>{RIGHT_CSV, LEFT_CSV, FLONT_CSV}));
 			m_drMap.insert(make_pair(eDirection::Back, vector<Vec2>{RIGHT_CSV, LEFT_CSV, BACK_CSV}));
+
+			m_modelMat.affineTransformation(
+				Vec3(1.0f),
+				Vec3(0.0f),
+				Vec3(0.0f),
+				Vec3(-0.25, 0.0f, 0.0f)
+			);
 		}
 
 		~Train() {}
