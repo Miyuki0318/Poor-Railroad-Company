@@ -30,7 +30,7 @@ namespace basecross {
 
 	void Company::OnUpdate()
 	{
-		auto& a = GetStage()->GetSharedGameObject<CompanyCollision>(L"COMPANYCOLL");
+		auto& a = GetStage()->GetSharedGameObject<CompanyCollision>(L"CompanyColl");
 		if (a->GetPlayerHitFlag())
 		{
 			transComp->SetScale(Vec3(1.2f));

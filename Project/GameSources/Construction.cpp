@@ -33,7 +33,7 @@ namespace basecross {
 
 	void Construction::OnUpdate()
 	{
-		auto coll = GetStage()->GetSharedGameObject<ConstructionCollision>(L"CONSTRUCTCOLL");
+		auto coll = GetStage()->GetSharedGameObject<ConstructionCollision>(L"ConstrucrtionColl");
 		if (coll->GetPlayerHitFlag())
 		{
 			StartButtonPush();
