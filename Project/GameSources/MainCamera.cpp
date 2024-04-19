@@ -47,6 +47,7 @@ namespace basecross {
 	{
 		// 線形補間でズームさせる
 		SetEye(Utility::Lerp(m_currentEye, m_targetPos, m_zoomRatio));
+		SetAt(m_targetPos);
 		m_zoomRatio += DELTA_TIME * m_zoomSpeed;
 
 		// ズーム処理が終わったら
