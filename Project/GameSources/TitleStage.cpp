@@ -14,16 +14,16 @@ namespace basecross
 	// ビューとライトの作成
 	void TitleStage::CreateViewLight()
 	{
-		auto PtrView = CreateView<SingleView>();
+		auto ptrView = CreateView<SingleView>();
 		//ビューのカメラの設定
-		auto PtrCamera = ObjectFactory::Create<MainCamera>();
-		PtrView->SetCamera(PtrCamera);
-		PtrCamera->SetAt(m_cameraAt);
-		PtrCamera->SetEye(m_cameraEye);
+		auto& camera = ObjectFactory::Create<MainCamera>(MainCamera::State::Fixed);
+		ptrView->SetCamera(camera);
+		camera->SetAt(m_cameraAt);
+		camera->SetEye(m_cameraEye);
 		//マルチライトの作成
-		auto PtrMultiLight = CreateLight<MultiLight>();
+		auto ptrMultiLight = CreateLight<MultiLight>();
 		//デフォルトのライティングを指定
-		PtrMultiLight->SetDefaultLighting();
+		ptrMultiLight->SetDefaultLighting();
 	}
 
 	// リソースの読込
@@ -45,7 +45,8 @@ namespace basecross
 	void TitleStage::CreateGround()
 	{		
 		// 床ボックスオブジェクトの追加
-		AddGameObject<GroundBox>(m_groundScale);
+		auto& ground = AddGameObject<GroundBox>(m_groundScale);
+		SetSharedGameObject(L"TITLEGROUND", ground);
 	}
 
 	// プレイヤーの生成
@@ -88,6 +89,29 @@ namespace basecross
 		SetSharedGameObject(L"CONSTRUCTCOLL", constructionColl);
 	}
 
+	void TitleStage::TitleCameraZoom()
+	{
+		if (GetSharedGameObject<SignBoard>(L"BOARD", true)->GetPushButton())
+		{
+			Debug::Log("Yesssssssssssssssssssssssssss!!!!!!!!!!!!!!!!!!!");
+			auto board = GetSharedGameObject<SignBoard>(L"BOARD");
+			auto& camera = GetView()->GetTargetCamera();
+			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+
+			titleCamera->SetTargetObject(board);
+			titleCamera->ZoomStart(titleCamera->GetEye());
+		}
+		else
+		{
+			auto ground = GetSharedGameObject<GroundBox>(L"TITLEGROUND",true);
+			auto& camera = GetView()->GetTargetCamera();
+			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+
+			titleCamera->SetEye(m_cameraEye);
+			titleCamera->SetAt(m_cameraAt);
+		}
+	}
+
 	// 実行時、一度だけ処理される関数
 	void TitleStage::OnCreate()
 	{
@@ -118,6 +142,14 @@ namespace basecross
 	// 毎フレーム実行される関数
 	void TitleStage::OnUpdate()
 	{
+		try 
+		{
+			TitleCameraZoom();
+		}
+		catch (...)
+		{
+			throw;
+		}
 	}
 
 	// オブジェクト破棄時に呼び出される処理

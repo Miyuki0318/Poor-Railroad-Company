@@ -71,6 +71,10 @@ namespace basecross
 		*/
 		void CreateCollision();
 
+		/*
+		@brief ƒJƒƒ‰‚ÌƒY[ƒ€ˆ—
+		*/
+		void TitleCameraZoom();
 
 	public:
 		/*
