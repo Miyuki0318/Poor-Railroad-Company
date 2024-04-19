@@ -36,6 +36,8 @@ namespace basecross
 
 		shared_ptr<Sprite> m_fadeSprite;
 
+		shared_ptr<GameObjectGroup> m_settings;
+
 		/*
 		@brief ビューとライトの生成
 		*/
@@ -91,6 +93,8 @@ namespace basecross
 		*/
 		void FadeSprite();
 
+		void SetGameObjectGroup();
+
 	public:
 		/*
 		@brief コンストラクタ
@@ -100,6 +104,8 @@ namespace basecross
 			m_startPush = false;
 			m_fadeStop = false;
 			m_zooming = false;
+
+			m_settings = CreateSharedObjectGroup(L"Settings");
 		}
 
 		/*

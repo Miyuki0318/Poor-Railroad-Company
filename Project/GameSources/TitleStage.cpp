@@ -54,7 +54,7 @@ namespace basecross
 	{		
 		// 床ボックスオブジェクトの追加
 		auto& ground = AddGameObject<GroundBox>(m_groundScale);
-		SetSharedGameObject(L"TITLEGROUND", ground);
+		SetSharedGameObject(L"TitleGround", ground);
 	}
 
 	// プレイヤーの生成
@@ -68,33 +68,39 @@ namespace basecross
 	// 建物の生成
 	void TitleStage::CreateBuilding()
 	{
+		// 会社の生成
 		const auto& company = AddGameObject<Company>(Vec3(35.0f,1.0f,10.0f));
+		SetSharedGameObject(L"Company", company);
+		m_settings->IntoGroup(company);
 
+		// 工事現場の生成
 		const auto& construction = AddGameObject<Construction>(Vec3(65.0f, 1.0f, 0.0f));
+		SetSharedGameObject(L"Construction", construction);
+		m_settings->IntoGroup(construction);
 	}
 
 	// 看板の生成
 	void TitleStage::CreateSignBoard()
 	{
 		const auto& board = AddGameObject<SignBoard>();
-		SetSharedGameObject(L"BOARD", board);
+		SetSharedGameObject(L"Board", board);
 	}
 
 	// 路線図の生成
 	void TitleStage::CreateRouteMap()
 	{
 		const auto& routeMap = AddGameObject<RouteMap>();
-		SetSharedGameObject(L"ROUTEMAP", routeMap);
+		SetSharedGameObject(L"RouteMap", routeMap);
 	}
 
 	// 当たり判定の生成
 	void TitleStage::CreateCollision()
 	{
 		const auto& companyColl = AddGameObject<CompanyCollision>(Vec3(35.0f, 2.0f, 10.0f));
-		SetSharedGameObject(L"COMPANYCOLL", companyColl);
+		SetSharedGameObject(L"CompanyColl", companyColl);
 
 		const auto& constructionColl = AddGameObject<ConstructionCollision>(Vec3(65.0f, 2.0f, 0.0f));
-		SetSharedGameObject(L"CONSTRUCTCOLL", constructionColl);
+		SetSharedGameObject(L"ConstrucrtionColl", constructionColl);
 	}
 
 	// カメラのズーム処理
@@ -103,15 +109,15 @@ namespace basecross
 		auto& camera = GetView()->GetTargetCamera();
 		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 
-		if (GetSharedGameObject<SignBoard>(L"BOARD", true)->GetPushButton() && !m_zooming)
+		if (GetSharedGameObject<SignBoard>(L"Board", true)->GetPushButton() && !m_zooming)
 		{
-			auto player = GetSharedGameObject<SignBoard>(L"BOARD");
+			auto player = GetSharedGameObject<SignBoard>(L"Board");
 
 			titleCamera->SetTargetObject(player);
 			titleCamera->ZoomStart(titleCamera->GetEye());
 			m_zooming = true;
 		}
-		else if(!GetSharedGameObject<SignBoard>(L"BOARD", true)->GetPushButton() && m_zooming)
+		else if(!GetSharedGameObject<SignBoard>(L"Board", true)->GetPushButton() && m_zooming)
 		{
 			titleCamera->SetEye(m_cameraEye);
 			titleCamera->SetAt(m_cameraAt);
@@ -127,7 +133,7 @@ namespace basecross
 	{
 		auto sprite = GetSharedGameObject<Sprite>(L"FadeSprite", true);
 		
-		if (GetSharedGameObject<SignBoard>(L"BOARD", true)->GetPushButton())
+		if (GetSharedGameObject<SignBoard>(L"Board", true)->GetPushButton())
 		{
 			sprite->FadeInColor(2.0f);
 		}
@@ -174,6 +180,8 @@ namespace basecross
 			TitleCameraZoom();
 
 			FadeSprite();
+
+			Debug::Log(m_settings->size());
 		}
 		catch (...)
 		{
