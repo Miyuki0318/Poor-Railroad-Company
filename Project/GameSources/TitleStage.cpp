@@ -94,20 +94,20 @@ namespace basecross
 		auto& camera = GetView()->GetTargetCamera();
 		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 
-		if (GetSharedGameObject<SignBoard>(L"BOARD", true)->GetPushButton() && a == 0)
+		if (GetSharedGameObject<SignBoard>(L"BOARD", true)->GetPushButton() && !m_zooming)
 		{
-			auto player = GetSharedGameObject<TitlePlayer>(L"TitlePlayer");
+			auto player = GetSharedGameObject<SignBoard>(L"BOARD");
 
 			titleCamera->SetTargetObject(player);
 			titleCamera->ZoomStart(titleCamera->GetEye());
-			a++;
+			m_zooming = true;
 		}
-		else if(GetSharedGameObject<SignBoard>(L"BOARD", true)->GetPushButton())
+		else if(!GetSharedGameObject<SignBoard>(L"BOARD", true)->GetPushButton() && m_zooming)
 		{
-			auto ground = GetSharedGameObject<GroundBox>(L"TITLEGROUND",true);
-
 			titleCamera->SetEye(m_cameraEye);
 			titleCamera->SetAt(m_cameraAt);
+
+			m_zooming = false;
 		}
 
 		Debug::Log(titleCamera->GetEye());
