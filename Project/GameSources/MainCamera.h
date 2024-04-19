@@ -9,15 +9,15 @@
 
 namespace basecross {
 	class MainCamera : public Camera {
-		weak_ptr<GameObject> m_targetObject;	// 目標となるオブジェクト
-		shared_ptr<Transform> m_targetTrans;	// 目標のトランスフォーム
+		weak_ptr<GameObject> m_targetObject; // 目標となるオブジェクト
+		shared_ptr<Transform> m_targetTrans; // 目標のトランスフォーム
 
-		Vec3 m_targetPos;
-		Vec3 m_cameraArm;
-		Vec3 m_currentEye;
+		Vec3 m_targetPos;  // ターゲットの位置
+		Vec3 m_cameraArm;  // カメラアーム(自撮り棒のイメージ)
+		Vec3 m_currentEye; // カメラの現在位置
 
-		float m_zoomRatio;
-		float m_zoomSpeed;
+		float m_zoomRatio; // ズームの割合
+		float m_zoomSpeed; // ズーム速度
 
 	public:
 		enum State {
