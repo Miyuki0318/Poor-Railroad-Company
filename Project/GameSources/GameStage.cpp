@@ -42,7 +42,7 @@ namespace basecross
 	{
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
-		auto PtrCamera = ObjectFactory::Create<MainCamera>();
+		auto PtrCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow);
 		PtrView->SetCamera(PtrCamera);
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
@@ -227,7 +227,7 @@ namespace basecross
 			// タイマーオブジェクトの生成
 			m_timer = AddGameObject<Timer>();
 
-			// プレイヤーとカメラを取得
+			// 列車とカメラを取得
 			auto train = GetSharedGameObject<Train>(L"Train");
 			auto& camera = GetView()->GetTargetCamera();
 			auto mainCamera = dynamic_pointer_cast<MainCamera>(camera);
