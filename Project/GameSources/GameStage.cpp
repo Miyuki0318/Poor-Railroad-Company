@@ -31,10 +31,13 @@ namespace basecross
 		app->RegisterTexture(L"GROUND_TX", texturePath + L"ForestGround.png");
 
 		// アイコンテクスチャ
-		app->RegisterTexture(L"ICON_RAIL_TX", texturePath + L"RailIcon.png");
-		app->RegisterTexture(L"ICON_PICK_TX", texturePath + L"PickIcon.png");
-		app->RegisterTexture(L"ICON_AXE_TX", texturePath + L"AxeIcon.png");
-		app->RegisterTexture(L"ICON_CRAFT_TX", texturePath + L"CraftIcon.png");
+		app->RegisterTexture(L"I_AXE_TX", texturePath + L"AxeIcon.png");
+		app->RegisterTexture(L"I_PICK_TX", texturePath + L"PickIcon.png");
+		app->RegisterTexture(L"I_RAIL_TX", texturePath + L"RailIcon.png");
+		app->RegisterTexture(L"I_CRAFT_TX", texturePath + L"CraftIcon.png");
+		app->RegisterTexture(L"I_BALOON_CENTER_TX", texturePath + L"BalloonCenter.png");
+		app->RegisterTexture(L"I_BALOON_RIGHT_TX", texturePath + L"BalloonRight.png");
+		app->RegisterTexture(L"I_BALOON_LEFT_TX", texturePath + L"BalloonLeft.png");
 	}
 
 	//ビューとライトの生成

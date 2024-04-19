@@ -33,9 +33,33 @@ namespace basecross
 		@brief コンストラクタ
 		@param ステージポインタ
 		@param テクスチャキー
-		@param 透明色の描画
+		*/
+		Sprite(const shared_ptr<Stage>& stagePtr,
+			const wstring& texWstr
+		) :
+			DrawObject(stagePtr, texWstr, Vec3(0.0f), Vec3(0.0f), Vec2(0.0f))
+		{
+		}
+		
+		/*!
+		@brief コンストラクタ
+		@param ステージポインタ
+		@param テクスチャキー
 		@param スケール
 		@param ポジション
+		*/
+		Sprite(const shared_ptr<Stage>& stagePtr,
+			const wstring& texWstr, const Vec2& scale
+		) :
+			DrawObject(stagePtr, texWstr, Vec3(0.0f), Vec3(0.0f), scale)
+		{
+		}
+
+		/*!
+		@brief コンストラクタ
+		@param ステージポインタ
+		@param テクスチャキー
+		@param スケール
 		*/
 		Sprite(const shared_ptr<Stage>& stagePtr,
 			const wstring& texWstr, const Vec2& scale, 
@@ -49,7 +73,6 @@ namespace basecross
 		@brief コンストラクタ
 		@param ステージポインタ
 		@param テクスチャキー
-		@param 透明色の描画
 		@param スケール
 		@param ポジション
 		@param ローテーションZ
