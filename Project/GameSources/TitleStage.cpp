@@ -14,16 +14,14 @@ namespace basecross
 	// ビューとライトの作成
 	void TitleStage::CreateViewLight()
 	{
-		// ビューを作成
-		const auto& ptrView = ObjectFactory::Create<SingleView>(GetThis<Stage>());
-		const auto& camera = ptrView->GetTargetCamera();
-		camera->SetEye(m_cameraEye);
-		camera->SetAt(m_cameraAt);
-		SetView(ptrView);
-
+		auto PtrView = CreateView<SingleView>();
+		//ビューのカメラの設定
+		auto PtrCamera = ObjectFactory::Create<MainCamera>();
+		PtrView->SetCamera(PtrCamera);
+		PtrCamera->SetAt(m_cameraAt);
+		PtrCamera->SetEye(m_cameraEye);
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
-
 		//デフォルトのライティングを指定
 		PtrMultiLight->SetDefaultLighting();
 	}
