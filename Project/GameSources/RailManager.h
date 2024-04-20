@@ -10,6 +10,7 @@
 #define ROW(posZ) size_t(-posZ)	// 行
 #define COL(posX) size_t(posX) // 列
 #define LINE(row, col) to_string(row) + "-" + to_string(col)
+#define LINE2POS(row, col) Vec3(float(col), 1.0f, -float(row))
 
 namespace basecross
 {
@@ -166,7 +167,7 @@ namespace basecross
 		void AddInstanceRail(size_t row, size_t col)
 		{
 			// 座標の設定
-			Vec3 addPos = Vec3(float(col), 1.0f, -float(row));
+			Vec3 addPos = LINE2POS(row, col);
 
 			// トランスフォーム行列の設定
 			Mat4x4 matrix, mtxPosition;
