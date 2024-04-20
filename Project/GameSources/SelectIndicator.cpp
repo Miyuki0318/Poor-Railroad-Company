@@ -134,8 +134,8 @@ namespace basecross
 		m_selectPoint = Point2D<size_t>(row, col);
 	}
 
-	// 採掘可能オブジェクトか、採掘可能オブジェクトポインタの取得
-	const set<wstring>& SelectIndicator::GetMiningPossible() const
+	// 採掘命令
+	set<wstring> SelectIndicator::MiningOrder() const
 	{
 		// 採掘可能オブジェクト配列の取得
 		const auto& miningVec = GetStage()->GetSharedObjectGroup(L"MiningObject")->GetGroupVector();
@@ -151,7 +151,7 @@ namespace basecross
 			const auto& miningObj = dynamic_pointer_cast<MiningObject>(weakObj.lock());
 			if (!miningObj) continue;
 
-			// CSV上の座標が一致したらポインタを返す
+			// CSV上の座標が一致したら採掘処理を送り、タグセットを返す
 			if (m_selectPoint == miningObj->GetCSVPos())
 			{
 				miningObj->OnMining();
@@ -159,13 +159,13 @@ namespace basecross
 			}
 		}
 
-		// 可能オブジェクトが無かったのでnullを返す
+		// 対象のオブジェクトが無かったのでnullのタグセットを返す
 		set<wstring> null;
 		return null;
 	}
 
-	// レール設置できるか、できない場合は置かれているレールを取得
-	bool SelectIndicator::GetRailedPossible() const
+	// レール設置命令
+	bool SelectIndicator::RailedOrder() const
 	{
 		// 選択ポイントがガイドの位置と一致しているか
 		const auto& railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager");

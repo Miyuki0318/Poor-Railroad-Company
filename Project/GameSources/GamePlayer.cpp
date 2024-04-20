@@ -105,24 +105,22 @@ namespace basecross
 		const auto& indicator = m_indicator.lock();
 		if (!indicator) return;
 
-		// 採掘可能か、可能なら採掘可能オブジェクトのポインタを返す
-		const auto& miningTag = indicator->GetMiningPossible();
+		// 採掘命令を送り、採掘できたらタグセットを受け取る
+		const auto& miningTag = indicator->MiningOrder();
 
-		// 採掘可能オブジェクトのポインタがあれば
+		// 採掘オブジェクトのタグセットが空じゃなければ採掘処理を送る
 		if (!miningTag.empty())
 		{
-			// 採掘関数を返す
 			MiningProcces(miningTag);
 			return;
 		}
 
-		// レールを所持してたら設置処理を送る
+		// レールを所持してたら
 		if (GetItemCount(eItemType::Rail))
 		{
-			// レールを設置可能かをインディケーターから取得
-			if (indicator->GetRailedPossible())
+			// 設置命令を送り、設置できたら所持数を減らす
+			if (indicator->RailedOrder())
 			{
-				// レールの所持数を減らす
 				m_craft->UseItem(eItemType::Rail);
 			}
 		}
