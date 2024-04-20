@@ -106,13 +106,13 @@ namespace basecross
 		if (!indicator) return;
 
 		// 採掘可能か、可能なら採掘可能オブジェクトのポインタを返す
-		const auto& miningObj = indicator->GetMiningPossible();
+		const auto& miningTag = indicator->GetMiningPossible();
 
 		// 採掘可能オブジェクトのポインタがあれば
-		if (miningObj)
+		if (!miningTag.empty())
 		{
 			// 採掘関数を返す
-			MiningProcces(miningObj);
+			MiningProcces(miningTag);
 			return;
 		}
 
@@ -129,15 +129,8 @@ namespace basecross
 	}
 
 	// 採掘処理
-	void GamePlayer::MiningProcces(const shared_ptr<TemplateObject>& miningObj)
+	void GamePlayer::MiningProcces(const set<wstring>& tagSet)
 	{
-		// 採掘可能オブジェクトに型キャスト
-		const auto& mining = dynamic_pointer_cast<MiningObject>(miningObj);
-		if (!mining) return;
-
-		// 採掘オブジェクトに採掘処理を送る
-		mining->OnMining();
-
 		// ツールの採掘力に応じた取得数を設定
 		//int addNum = GetToolsMiningValue();
 		int addNum = 1; // ツールレベル概念が無い為一旦1で固定
@@ -145,7 +138,7 @@ namespace basecross
 		// 採掘対象マップを用いて採掘数を追加
 		for (const auto& miningMap : m_miningMap)
 		{
-			if (mining->FindTag(miningMap.first))
+			if (tagSet.find(miningMap.first) != tagSet.end())
 			{
 				AddItemCount(miningMap.second, addNum);
 			}
@@ -206,30 +199,5 @@ namespace basecross
 
 		// 移動状態を設定
 		m_status.Set(ePlayerStatus::IsMove) = isLStick;
-	}
-
-	// コントローラーによる移動
-	void GamePlayer::ControllerMovement(const Vec3& stickValue)
-	{
-		// 列と行
-		Vec3 pos = GetPosition();
-		size_t row, col;
-		row = ROW(int(pos.z));
-		col = COL(int(pos.x));
-
-		// ステージcsv配列の取得
-		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
-
-		// 現在の座標に入力量×速度×デルタタイムで加算
-		pos += stickValue * m_moveSpeed * DELTA_TIME;
-
-		// 配列の範囲内かのエラーチェック
-		if (!WithInElemRange(row, col, stageMap)) return;
-
-		// csvグリッドとの衝突判定を実行
-		GridHitResponse(pos);
-
-		// 座標の更新
-		SetPosition(pos);
 	}
 }

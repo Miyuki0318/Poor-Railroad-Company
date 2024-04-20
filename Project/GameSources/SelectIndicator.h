@@ -54,7 +54,7 @@ namespace basecross
 		@param 採掘可能オブジェクトグループ配列
 		@return 採掘可能オブジェクトのポインタを返す、不可能ならnullptr
 		*/
-		const shared_ptr<TemplateObject> GetMiningPossible() const;
+		const set<wstring>& GetMiningPossible() const;
 
 		/*!
 		@brief セレクターの位置にレールを設置可能かを取得する関数

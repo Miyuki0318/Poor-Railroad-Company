@@ -135,7 +135,7 @@ namespace basecross
 	}
 
 	// 採掘可能オブジェクトか、採掘可能オブジェクトポインタの取得
-	const shared_ptr<TemplateObject> SelectIndicator::GetMiningPossible() const
+	const set<wstring>& SelectIndicator::GetMiningPossible() const
 	{
 		// 採掘可能オブジェクト配列の取得
 		const auto& miningVec = GetStage()->GetSharedObjectGroup(L"MiningObject")->GetGroupVector();
@@ -154,12 +154,14 @@ namespace basecross
 			// CSV上の座標が一致したらポインタを返す
 			if (m_selectPoint == miningObj->GetCSVPos())
 			{
-				return miningObj;
+				miningObj->OnMining();
+				return miningObj->GetTagSet();
 			}
 		}
 
-		// 可能オブジェクトが無かったのでnullptrを返す
-		return nullptr;
+		// 可能オブジェクトが無かったのでnullを返す
+		set<wstring> null;
+		return null;
 	}
 
 	// レール設置できるか、できない場合は置かれているレールを取得

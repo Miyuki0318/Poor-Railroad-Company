@@ -55,8 +55,8 @@ namespace basecross
 		Vec3 pos = GetPosition();
 		pos += stickValue * m_moveSpeed * DELTA_TIME;
 		
-		// 座標の更新
-		SetPosition(pos);
+		// csvグリッドとの衝突判定を実行
+		GridHitResponse(pos);
 	}
 
 	// グリッドに衝突してないかの応答処理
@@ -78,6 +78,9 @@ namespace basecross
 		GridHitBackResponse(pos);
 		GridHitLeftResponse(pos);
 		GridHitRightResponse(pos);
+
+		// 座標の更新
+		SetPosition(pos);
 	}
 
 	// 指定したグリッドが衝突判定を取るグリッドかを取得

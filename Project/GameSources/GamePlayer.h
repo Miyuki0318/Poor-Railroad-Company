@@ -117,7 +117,7 @@ namespace basecross
 		@brief 採掘時に呼び出される関数
 		@param 採掘されるオブジェクトのポインタ
 		*/
-		void MiningProcces(const shared_ptr<TemplateObject>& miningObj);
+		void MiningProcces(const set<wstring>& tagSet);
 
 		/*!
 		@brief クラフト画面切り替え関数
@@ -138,12 +138,6 @@ namespace basecross
 		@brief 移動更新関数
 		*/
 		void UpdateMove() override;
-
-		/*!
-		@brief コントローラー移動関数
-		@param Lスティック入力量
-		*/
-		void ControllerMovement(const Vec3& stickValue) override;
 
 		/*!
 		@brief State変更関数
