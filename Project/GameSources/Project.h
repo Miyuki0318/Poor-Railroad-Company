@@ -34,3 +34,4 @@
 #include "Construction.h"
 #include "RouteMap.h"
 #include "Signboard.h"
+#include "OriginalCollision.h"
