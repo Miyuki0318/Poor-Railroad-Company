@@ -96,11 +96,11 @@ namespace basecross
 	// “–‚½‚è”»’è‚Ì¶¬
 	void TitleStage::CreateCollision()
 	{
-		const auto& companyColl = AddGameObject<CompanyCollision>(Vec3(35.0f, 2.0f, 10.0f));
-		SetSharedGameObject(L"CompanyColl", companyColl);
+		//const auto& companyColl = AddGameObject<CompanyCollision>(Vec3(35.0f, 2.0f, 10.0f));
+		//SetSharedGameObject(L"CompanyColl", companyColl);
 
-		const auto& constructionColl = AddGameObject<ConstructionCollision>(Vec3(65.0f, 2.0f, 0.0f));
-		SetSharedGameObject(L"ConstrucrtionColl", constructionColl);
+		//const auto& constructionColl = AddGameObject<ConstructionCollision>(Vec3(65.0f, 2.0f, 0.0f));
+		//SetSharedGameObject(L"ConstrucrtionColl", constructionColl);
 	}
 
 	// ƒJƒƒ‰‚ÌƒY[ƒ€ˆ—
