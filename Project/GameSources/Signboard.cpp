@@ -19,11 +19,8 @@ namespace basecross {
 
 		auto drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshToTransformMatrix(m_spanMat);
-		drawComp->SetMeshResource(L"DEFAULT_CUBE");
-
-		auto collComp = AddComponent<CollisionObb>();
-		collComp->SetDrawActive(true);
-		collComp->SetFixed(true);
+		drawComp->SetMeshResource(L"BOARD");
+		drawComp->SetTextureResource(L"BOARD_TX");
 	}
 
 	void SignBoard::OnUpdate()

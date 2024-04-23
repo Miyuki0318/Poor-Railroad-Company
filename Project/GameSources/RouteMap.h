@@ -13,7 +13,7 @@ namespace basecross {
 		const float m_hitLength = 2.5f;
 
 		const Vec3 m_scale = Vec3(3.0f);
-		const Vec3 m_position = Vec3(55.0f, 2.5f, 10.0f);
+		const Vec3 m_position = Vec3(55.0f, 1.0f, 10.0f);
 
 		Mat4x4 m_spanMat;
 
