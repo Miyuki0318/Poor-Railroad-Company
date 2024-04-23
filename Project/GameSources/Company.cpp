@@ -26,20 +26,22 @@ namespace basecross {
 
 		m_menuSprite = GetStage()->AddGameObject<Sprite>(L"MENU_TX", Vec2(500.0f), Vec3(0.0f));
 		m_menuSprite->SetDrawActive(m_spriteActive);
+
+		GetStage()->AddGameObject<OriginalColl>(Vec3(15.0f,1.0f,7.5f), m_position);
 	}
 
 	void Company::OnUpdate()
 	{
-		auto& a = GetStage()->GetSharedGameObject<CompanyCollision>(L"CompanyColl");
-		if (a->GetPlayerHitFlag())
-		{
-			transComp->SetScale(Vec3(1.2f));
-			ButtonPush();
-		}
-		else
-		{
-			transComp->SetScale(Vec3(1.0f));
-		}
+		//auto& a = GetStage()->GetSharedGameObject<CompanyCollision>(L"CompanyColl");
+		//if (a->GetPlayerHitFlag())
+		//{
+		//	transComp->SetScale(Vec3(1.2f));
+		//	ButtonPush();
+		//}
+		//else
+		//{
+		//	transComp->SetScale(Vec3(1.0f));
+		//}
 	}
 
 	// ƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚Ìˆ—

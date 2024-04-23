@@ -29,21 +29,23 @@ namespace basecross {
 
 		m_fadeSprite = GetStage()->AddGameObject<Sprite>(L"FADE_TX", Vec2(width, height), Vec3(0.0f));
 		m_fadeSprite->SetDiffuseColor(COL_ALPHA);
+	
+		GetStage()->AddGameObject<OriginalColl>(Vec3(3.0f, 1.0f, 5.0f), m_position);
 	}
 
 	void Construction::OnUpdate()
 	{
-		auto coll = GetStage()->GetSharedGameObject<ConstructionCollision>(L"ConstrucrtionColl");
-		if (coll->GetPlayerHitFlag())
-		{
-			StartButtonPush();
-			transComp->SetScale(Vec3(1.2f));
-		}
-		else
-		{
-			transComp->SetScale(Vec3(1.0f));
-		}
-		StartCountDown();
+		//auto coll = GetStage()->GetSharedGameObject<ConstructionCollision>(L"ConstrucrtionColl");
+		//if (coll->GetPlayerHitFlag())
+		//{
+		//	StartButtonPush();
+		//	transComp->SetScale(Vec3(1.2f));
+		//}
+		//else
+		//{
+		//	transComp->SetScale(Vec3(1.0f));
+		//}
+		//StartCountDown();
 	}
 
 	void Construction::StartButtonPush()
