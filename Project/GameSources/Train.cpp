@@ -21,8 +21,8 @@ namespace basecross {
 		m_ptrDraw->SetMeshToTransformMatrix(m_modelMat);
 		m_ptrDraw->SetDiffuse(COL_BLUE);
 
-		// コリジョンOBBの追加
-		m_ptrColl = AddComponent<CollisionObb>();
+		//// コリジョンOBBの追加
+		//m_ptrColl = AddComponent<CollisionObb>();
 
 		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailMap();
 		m_railPos = LINE(ROW(m_DefaultPosition.z), COL(m_DefaultPosition.x));

@@ -58,7 +58,7 @@ namespace basecross {
 	public:
 		Train(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr),
-			m_DefaultPosition(Vec3(3.0f, 1.5f, -7.0f)),
+			m_DefaultPosition(Vec3(3.0f, 1.0f, -7.0f)),
 			m_DefaultScale(Vec3(2.0f, 1.0f, 1.0f)),
 			m_MoveInSeconds(4.0f),
 			m_moveDirection(Vec3(0.0f))
@@ -83,7 +83,7 @@ namespace basecross {
 				Vec3(1.0f),
 				Vec3(0.0f),
 				Vec3(0.0f),
-				Vec3(-0.25, 0.0f, 0.0f)
+				Vec3(-0.25, 0.5f, 0.0f)
 			);
 		}
 
