@@ -26,6 +26,9 @@ namespace basecross
 		const float m_width = static_cast<float>(App::GetApp()->GetGameWidth());
 		const float m_height = static_cast<float>(App::GetApp()->GetGameHeight());
 
+		Vec3 m_diff;
+		float m_distance;
+
 		// ボタンが押されたか
 		bool m_buttonPush;
 
@@ -40,7 +43,7 @@ namespace basecross
 
 		shared_ptr<GameObject> m_selectObj;
 
-		shared_ptr<GameObjectGroup> m_titleObjects;
+		shared_ptr<GameObjectGroup> m_objectGroup;
 
 		/*
 		@brief ビューとライトの生成
@@ -105,7 +108,7 @@ namespace basecross
 		/*
 		@brief オブジェクトとプレイヤーの距離
 		*/
-		//void FadeSprite();
+		void DistanceToPlayer();
 
 
 	public:
@@ -118,7 +121,7 @@ namespace basecross
 			m_fadeStop = false;
 			m_zooming = false;
 
-			m_titleObjects = CreateSharedObjectGroup(L"Settings");
+			m_objectGroup = CreateSharedObjectGroup(L"Settings");
 		}
 
 		/*
