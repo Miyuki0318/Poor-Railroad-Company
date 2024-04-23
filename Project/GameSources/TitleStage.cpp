@@ -71,12 +71,12 @@ namespace basecross
 		// ‰ïĞ‚Ì¶¬
 		const auto& company = AddGameObject<Company>();
 		SetSharedGameObject(L"Company", company);
-		m_settings->IntoGroup(company);
+		m_titleObjects->IntoGroup(company);
 
 		// H–Œ»ê‚Ì¶¬
 		const auto& construction = AddGameObject<Construction>();
 		SetSharedGameObject(L"Construction", construction);
-		m_settings->IntoGroup(construction);
+		m_titleObjects->IntoGroup(construction);
 	}
 
 	// ŠÅ”Â‚Ì¶¬
@@ -181,7 +181,7 @@ namespace basecross
 
 			FadeSprite();
 
-			Debug::Log(m_settings->size());
+			Debug::Log(m_titleObjects->size());
 		}
 		catch (...)
 		{

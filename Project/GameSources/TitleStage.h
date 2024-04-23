@@ -26,17 +26,21 @@ namespace basecross
 		const float m_width = static_cast<float>(App::GetApp()->GetGameWidth());
 		const float m_height = static_cast<float>(App::GetApp()->GetGameHeight());
 
-		// スタートボタンが押されたか
-		bool m_startPush;
+		// ボタンが押されたか
+		bool m_buttonPush;
 
 		// フェードが終わったか
 		bool m_fadeStop;
+
+		bool m_setting;
 
 		bool m_zooming;
 
 		shared_ptr<Sprite> m_fadeSprite;
 
-		shared_ptr<GameObjectGroup> m_settings;
+		shared_ptr<GameObject> m_selectObj;
+
+		shared_ptr<GameObjectGroup> m_titleObjects;
 
 		/*
 		@brief ビューとライトの生成
@@ -93,7 +97,16 @@ namespace basecross
 		*/
 		void FadeSprite();
 
-		void SetGameObjectGroup();
+		/*
+		@brief ボタンを押した時の処理
+		*/
+		void PushButtonX();
+
+		/*
+		@brief オブジェクトとプレイヤーの距離
+		*/
+		//void FadeSprite();
+
 
 	public:
 		/*
@@ -101,11 +114,11 @@ namespace basecross
 		*/
 		TitleStage() : Stage()
 		{
-			m_startPush = false;
+			m_buttonPush = false;
 			m_fadeStop = false;
 			m_zooming = false;
 
-			m_settings = CreateSharedObjectGroup(L"Settings");
+			m_titleObjects = CreateSharedObjectGroup(L"Settings");
 		}
 
 		/*
