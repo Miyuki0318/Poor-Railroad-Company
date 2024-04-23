@@ -39,12 +39,12 @@ namespace basecross {
 
 	void Construction::StartCountDown()
 	{
-		if (isPushButton && m_fadeSprite->FadeInColor(3.0f))
-		{
-			// ステージ変更のため、シーンを取得
-			auto& scene = App::GetApp()->GetScene<Scene>();
+		//if (m_fadeSprite->FadeInColor(3.0f))
+		//{
+		//	// ステージ変更のため、シーンを取得
+		//	auto& scene = App::GetApp()->GetScene<Scene>();
 
-			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"GameStage");
-		}
+		//	PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"GameStage");
+		//}
 	}
 }

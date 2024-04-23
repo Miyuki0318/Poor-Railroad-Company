@@ -17,7 +17,8 @@ namespace basecross {
 		shared_ptr<PNTStaticDraw> drawComp;
 
 		shared_ptr<Sprite> m_fadeSprite;
-		bool isPushButton;
+
+		bool m_isSelect;
 
 	public:
 		Construction(const shared_ptr<Stage>& stagePtr // ステージのポインタ
@@ -30,7 +31,6 @@ namespace basecross {
 				Vec3(0.0f),
 				Vec3(0.0f)
 			);
-			isPushButton = false;
 		}
 
 		virtual void OnCreate() override;
@@ -40,5 +40,10 @@ namespace basecross {
 		* ゲームスタート
 		*/
 		void StartCountDown();
+
+		void SetSelectFlag(bool flag)
+		{
+			m_isSelect = flag;
+		}
 	};
 }

@@ -18,8 +18,7 @@ namespace basecross {
 
 		shared_ptr<Sprite> m_menuSprite;
 
-		bool m_pushButton;
-		bool m_spriteActive;
+		bool m_isSelect;
 
 	public:
 		Company(const shared_ptr<Stage>& stagePtr // ステージのポインタ
@@ -32,8 +31,6 @@ namespace basecross {
 				Vec3(0.0f),
 				Vec3(0.0f)
 			);
-			m_pushButton = false;
-			m_spriteActive = false;
 		}
 
 		virtual void OnCreate() override;
@@ -43,5 +40,10 @@ namespace basecross {
 		* オプション画面の処理
 		*/
 		void OptionMenu();
+
+		void SetSelectFlag(bool flag)
+		{
+			m_isSelect = flag;
+		}
 	};
 }

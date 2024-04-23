@@ -21,9 +21,9 @@ namespace basecross {
 		Vec3 m_cameraPosition;
 		Vec3 m_cameraAt;
 
-	public:
-		bool pushSelectButton;
+		bool m_isSelect;
 
+	public:
 		RouteMap(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr)
 		{
@@ -33,18 +33,14 @@ namespace basecross {
 				Vec3(0.0f),
 				Vec3(0.0f)
 			);
-			pushSelectButton = false;
 		}
 
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
 
-		void PushButton();
-		bool DistanceToPlayer();
-
-		bool GetPushSelectButton()
+		void SetSelectFlag(bool flag)
 		{
-			return pushSelectButton;
+			m_isSelect = flag;
 		}
 	};
 }
