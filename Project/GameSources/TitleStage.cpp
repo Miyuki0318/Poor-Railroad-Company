@@ -179,6 +179,11 @@ namespace basecross
 				m_selectObj = target;
 			}
 		}
+
+		if (m_selectObj == NULL)
+		{
+			m_buttonPush = false;
+		}
 	}
 
 	// ŽÀsŽžAˆê“x‚¾‚¯ˆ—‚³‚ê‚éŠÖ”
@@ -230,7 +235,7 @@ namespace basecross
 
 			FadeSprite();
 
-			Debug::Log(m_objectGroup->size());
+			Debug::Log(m_buttonPush);
 		}
 		catch (...)
 		{
