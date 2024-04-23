@@ -9,11 +9,13 @@
 
 namespace basecross {
 	class MainCamera : public Camera {
+		const Vec3 m_DefaultPos;	// カメラの初期位置
+		const Vec3 m_DefaultAt;		// カメラの初期注視点
+
 		weak_ptr<GameObject> m_targetObject; // 目標となるオブジェクト
 		shared_ptr<Transform> m_targetTrans; // 目標のトランスフォーム
 
 		Vec3 m_targetPos;  // ターゲットの位置
-		Vec3 m_DefaultPos;  // カメラアーム(自撮り棒のイメージ)
 		Vec3 m_currentEye; // カメラの現在位置
 
 		float m_zoomRatio; // ズームの割合
@@ -36,6 +38,7 @@ namespace basecross {
 			m_defaultState(Fixed),
 			m_targetPos(Vec3(0.0f)),
 			m_DefaultPos(Vec3(50.0f, 20.0f, -22.0f)),
+			m_DefaultAt(Vec3(0.0f)),
 			m_zoomRatio(0.0f),
 			m_zoomSpeed(1.0f)
 		{
@@ -49,6 +52,7 @@ namespace basecross {
 			m_defaultState(cameraState),
 			m_targetPos(Vec3(0.0f)),
 			m_DefaultPos(Vec3(50.0f, 20.0f, -22.0f)),
+			m_DefaultAt(Vec3(0.0f)),
 			m_zoomRatio(0.0f),
 			m_zoomSpeed(1.0f)
 		{
