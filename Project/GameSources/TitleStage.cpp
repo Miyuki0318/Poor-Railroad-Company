@@ -69,12 +69,12 @@ namespace basecross
 	void TitleStage::CreateBuilding()
 	{
 		// ‰ïĞ‚Ì¶¬
-		const auto& company = AddGameObject<Company>(Vec3(35.0f,1.0f,10.0f));
+		const auto& company = AddGameObject<Company>();
 		SetSharedGameObject(L"Company", company);
 		m_settings->IntoGroup(company);
 
 		// H–Œ»ê‚Ì¶¬
-		const auto& construction = AddGameObject<Construction>(Vec3(65.0f, 1.0f, 0.0f));
+		const auto& construction = AddGameObject<Construction>();
 		SetSharedGameObject(L"Construction", construction);
 		m_settings->IntoGroup(construction);
 	}
