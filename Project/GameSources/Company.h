@@ -40,40 +40,8 @@ namespace basecross {
 		virtual void OnUpdate() override;
 
 		/*
-		* ボタンを押した時の処理
-		*/
-		void ButtonPush();
-		/*
 		* オプション画面の処理
 		*/
 		void OptionMenu();
-	};
-
-	class CompanyCollision : public TemplateObject
-	{
-		const Vec3 m_scale = Vec3(15.0f, 3.0f, 8.0f);
-		const Vec3 m_position;
-
-
-	public:
-		bool m_playerHit;
-
-		CompanyCollision(const shared_ptr<Stage>& stagePtr,
-			const Vec3 pos) :
-			TemplateObject(stagePtr),
-			m_position(pos)
-		{
-			m_playerHit = false;
-		}
-
-		virtual void OnCreate() override;
-		virtual void OnUpdate() override;
-		virtual void OnCollisionEnter(shared_ptr<GameObject>& object);
-		virtual void OnCollisionExit(shared_ptr<GameObject>& object);
-
-		bool GetPlayerHitFlag()
-		{
-			return m_playerHit;
-		}
 	};
 }
