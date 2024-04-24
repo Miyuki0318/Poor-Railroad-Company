@@ -21,8 +21,6 @@ namespace basecross {
 		Vec3 m_cameraPosition;
 		Vec3 m_cameraAt;
 
-		bool m_isSelect;
-
 	public:
 		RouteMap(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr)
@@ -37,10 +35,5 @@ namespace basecross {
 
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
-
-		void SetSelectFlag(bool flag)
-		{
-			m_isSelect = flag;
-		}
 	};
 }

@@ -18,8 +18,6 @@ namespace basecross {
 
 		shared_ptr<Sprite> m_menuSprite;
 
-		bool m_isSelect;
-
 	public:
 		Company(const shared_ptr<Stage>& stagePtr // ステージのポインタ
 		) :
@@ -40,10 +38,5 @@ namespace basecross {
 		* オプション画面の処理
 		*/
 		void OptionMenu();
-
-		void SetSelectFlag(bool flag)
-		{
-			m_isSelect = flag;
-		}
 	};
 }

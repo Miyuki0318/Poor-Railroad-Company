@@ -18,8 +18,6 @@ namespace basecross {
 
 		shared_ptr<Sprite> m_fadeSprite;
 
-		bool m_isSelect;
-
 	public:
 		Construction(const shared_ptr<Stage>& stagePtr // ステージのポインタ
 		) :
@@ -40,10 +38,5 @@ namespace basecross {
 		* ゲームスタート
 		*/
 		void StartCountDown();
-
-		void SetSelectFlag(bool flag)
-		{
-			m_isSelect = flag;
-		}
 	};
 }
