@@ -27,5 +27,13 @@ namespace basecross {
 
 	void SignBoard::OnUpdate()
 	{
+		if (FindTag(tagName))
+		{
+			Debug::Log(L"SIGNBOARD");
+		}
+	}
+
+	void SignBoard::BoardSelect()
+	{
 	}
 }

@@ -15,6 +15,8 @@ namespace basecross {
 		const Vec3 m_scale = Vec3(3.0f);
 		const Vec3 m_position = Vec3(47.0f,1.0f, 10.0f);
 
+		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
+
 		Mat4x4 m_spanMat;
 
 		Vec3 m_playerPosition;
@@ -35,5 +37,7 @@ namespace basecross {
 
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
+
+		void BoardSelect();
 	};
 }

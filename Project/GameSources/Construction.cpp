@@ -35,6 +35,10 @@ namespace basecross {
 
 	void Construction::OnUpdate()
 	{
+		if (FindTag(tagName))
+		{
+			Debug::Log(L"CONSTRUCTION");
+		}
 	}
 
 	void Construction::StartCountDown()

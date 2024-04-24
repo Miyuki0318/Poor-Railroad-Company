@@ -32,6 +32,10 @@ namespace basecross {
 
 	void Company::OnUpdate()
 	{
+		if (FindTag(tagName))
+		{
+			Debug::Log(L"COMPANY");
+		}
 	}
 
 	// ƒIƒvƒVƒ‡ƒ“‰æ–Ê‚Ìˆ—

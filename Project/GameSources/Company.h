@@ -11,6 +11,9 @@ namespace basecross {
 	class Company : public TemplateObject
 	{
 		const Vec3 m_position = Vec3(35.0f, 1.0f, 10.0f);
+		
+		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
+		
 		Mat4x4 m_spanMat;
 
 		shared_ptr<Transform> transComp;

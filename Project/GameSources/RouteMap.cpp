@@ -27,5 +27,9 @@ namespace basecross {
 
 	void RouteMap::OnUpdate()
 	{
+		if (FindTag(tagName))
+		{
+			Debug::Log(L"ROUTEMAP");
+		}
 	}
 }
