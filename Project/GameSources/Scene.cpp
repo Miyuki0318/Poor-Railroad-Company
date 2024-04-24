@@ -65,6 +65,11 @@ namespace basecross {
 		// 看板のテクスチャ
 		app->RegisterTexture(L"BOARD_TX", modelPath + L"Bilding/RouteMapTexture.tga");
 
+		// マップのテクスチャ
+		app->RegisterTexture(L"EASYMAP_TX", modelPath + L"MapEasy.png");
+		app->RegisterTexture(L"NORMALMAP_TX", modelPath + L"MapNormal.png");
+		app->RegisterTexture(L"HARDMAP_TX", modelPath + L"MapHard.png");
+
 		// レールの仮モデル
 		RegisterSingleMesh(L"RAIL", modelPath + L"Rail/", L"Rail", false);
 		app->RegisterTexture(L"RAIL_TX", modelPath + L"Rail/TX_Rail.tga");
