@@ -12,6 +12,8 @@ namespace basecross
 	class TitleStage : public Stage
 	{
 	private:
+		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
+
 		// 地面のスケール
 		const Vec3 m_groundScale = Vec3(+50.0f, +2.0f, +50.0f);
 
@@ -76,21 +78,6 @@ namespace basecross
 		void CreateBuilding();
 
 		/*
-		@brief 看板の生成
-		*/
-		void CreateSignBoard();
-
-		/*
-		@brief 路線図の生成
-		*/
-		void CreateRouteMap();
-
-		/*
-		@brief 当たり判定の生成
-		*/
-		void CreateCollision();
-
-		/*
 		@brief カメラのズーム処理
 		*/
 		void TitleCameraZoom();
@@ -148,5 +135,10 @@ namespace basecross
 		@brief 描画更新関数
 		*/
 		virtual void OnDraw() override;
+
+		wstring GetTagName()
+		{
+			return tagName;
+		}
 	};
 }

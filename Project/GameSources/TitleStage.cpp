@@ -77,32 +77,16 @@ namespace basecross
 		const auto& construction = AddGameObject<Construction>();
 		SetSharedGameObject(L"Construction", construction);
 		m_objectGroup->IntoGroup(construction);
-	}
-
-	// ŠÅ”Â‚Ì¶¬
-	void TitleStage::CreateSignBoard()
-	{
+		
+		// ŠÅ”Â‚Ì¶¬
 		const auto& board = AddGameObject<SignBoard>();
 		SetSharedGameObject(L"Board", board);
 		m_objectGroup->IntoGroup(board);
-	}
-
-	// ˜Hü}‚Ì¶¬
-	void TitleStage::CreateRouteMap()
-	{
+		
+		// ˜Hü}‚Ì¶¬
 		const auto& routeMap = AddGameObject<RouteMap>();
 		SetSharedGameObject(L"RouteMap", routeMap);
 		m_objectGroup->IntoGroup(routeMap);
-	}
-
-	// “–‚½‚è”»’è‚Ì¶¬
-	void TitleStage::CreateCollision()
-	{
-		//const auto& companyColl = AddGameObject<CompanyCollision>(Vec3(35.0f, 2.0f, 10.0f));
-		//SetSharedGameObject(L"CompanyColl", companyColl);
-
-		//const auto& constructionColl = AddGameObject<ConstructionCollision>(Vec3(65.0f, 2.0f, 0.0f));
-		//SetSharedGameObject(L"ConstrucrtionColl", constructionColl);
 	}
 
 	// ƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚Ìˆ—
@@ -177,6 +161,10 @@ namespace basecross
 			if (m_distance < 2.5f)
 			{
 				m_selectObj = target;
+				if (!m_selectObj->FindTag(tagName))
+				{
+					m_selectObj->AddTag(tagName);
+				}
 			}
 		}
 
@@ -202,12 +190,6 @@ namespace basecross
 			CreatePlayer();
 
 			CreateBuilding();
-
-			CreateSignBoard();
-
-			CreateRouteMap();
-
-			CreateCollision();
 		}
 		catch (...)
 		{
@@ -228,6 +210,10 @@ namespace basecross
 			}
 			else
 			{
+				if (m_selectObj != NULL && m_selectObj->FindTag(tagName))
+				{
+					m_selectObj->RemoveTag(tagName);
+				}
 				m_selectObj = NULL;
 			}
 
