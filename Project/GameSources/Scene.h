@@ -13,6 +13,7 @@ namespace basecross{
 	//--------------------------------------------------------------------------------------
 	class Scene : public SceneBase{
 	public:
+		const wstring objTagName = L"SELECT";
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief コンストラクタ
@@ -64,5 +65,10 @@ namespace basecross{
 		@param[in]  ボーンがあるかの真偽
 		*/
 		virtual void RegisterMultiMesh(const wstring& registerKey, const wstring& path, const wstring& fileName, bool boneUse);
+
+		wstring GetTagName()
+		{
+			return objTagName;
+		}
 	};
 }
