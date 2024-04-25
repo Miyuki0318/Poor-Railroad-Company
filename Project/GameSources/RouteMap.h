@@ -10,7 +10,18 @@
 namespace basecross {
 	class RouteMap : public TemplateObject
 	{
-		const float m_hitLength = 2.5f;
+		enum eMapLevel
+		{
+			easyMap,
+			normalMap,
+			hardMap
+		};
+
+		wstring m_mapLevel[3] = {
+			L"EASYMAP_TX",
+			L"NORMALMAP_TX",
+			L"HARDMAP_TX"
+		};
 
 		const Vec3 m_scale = Vec3(3.0f);
 		const Vec3 m_position = Vec3(55.0f, 1.0f, 10.0f);
@@ -23,6 +34,7 @@ namespace basecross {
 		Vec3 m_cameraPosition;
 		Vec3 m_cameraAt;
 
+		shared_ptr<Sprite> m_mapSprite;
 	public:
 		RouteMap(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr)

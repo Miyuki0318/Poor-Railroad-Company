@@ -21,8 +21,7 @@ namespace basecross {
 
 		Vec3 m_playerPosition;
 		Vec3 m_cameraPosition;
-		Vec3 m_cameraAt;
-
+	
 	public :
 		SignBoard(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr)

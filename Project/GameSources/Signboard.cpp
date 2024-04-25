@@ -1,4 +1,5 @@
 /*!
+* 
 @file Signboard.cpp
 @brief ŠÅ”Â(l”‘I‘ð)‚ÌŽÀ‘•
 @author VÈˆ¨
@@ -23,6 +24,8 @@ namespace basecross {
 		drawComp->SetTextureResource(L"BOARD_TX");
 	
 		GetStage()->AddGameObject<OriginalColl>(Vec3(5.5f, 1.0f, 1.0f), m_position);
+
+		//m_mapSprite->GetStage()->AddGameObject<Sprite>()
 	}
 
 	void SignBoard::OnUpdate()
