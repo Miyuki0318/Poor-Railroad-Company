@@ -69,7 +69,7 @@ namespace basecross
 		for (const auto& guide : guidePoints)
 		{
 			// çsóÒÇÃê›íËÇ∆í«â¡
-			Vec3 addPos = Vec3(float(guide.y), m_posY, -float(guide.x));
+			Vec3 addPos = LINE2POS(guide.x, guide.y);
 			mtxPosition.translation(addPos);
 			matrix = m_mtxScale * m_mtxRotation * mtxPosition;
 			matrixVec.push_back(matrix);

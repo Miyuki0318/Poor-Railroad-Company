@@ -50,17 +50,16 @@ namespace basecross
 		void OnUpdate() override;
 
 		/*!
-		@brief セレクターの位置が採掘可能かを取得する関数
-		@param 採掘可能オブジェクトグループ配列
-		@return 採掘可能オブジェクトのポインタを返す、不可能ならnullptr
+		@brief セレクターの位置に採掘オブジェクトがあれば採掘処理を行う関数
+		@return 採掘可能オブジェクトタグセットを返す
 		*/
-		const shared_ptr<TemplateObject> GetMiningPossible() const;
+		set<wstring> MiningOrder() const;
 
 		/*!
-		@brief セレクターの位置にレールを設置可能かを取得する関数
-		@return 設置可能ならtrue、不可能ならfalseを返す
+		@brief セレクターの位置にレールを設置可能なら設置処理を行う関数
+		@return 設置できていたらtrue
 		*/
-		bool GetRailedPossible() const;
+		bool RailedOrder() const;
 
 		/*!
 		@brief セレクターの位置を取得する関数

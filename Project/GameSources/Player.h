@@ -27,8 +27,6 @@ namespace basecross
 		Vec3 m_rotTarget;	// 回転先
 		Vec3 m_currentRot;  // 前回の回転軸
 		Mat4x4 m_modelMat;	// モデルとトランスフォーム差分行列
-		size_t m_row;		// csv上の列
-		size_t m_col;		// csv上の行
 
 	public:
 
@@ -103,31 +101,39 @@ namespace basecross
 	private:
 
 		/*!
+		@brief 指定した行列が衝突判定を取るグリッドかの真偽取得関数
+		@param row
+		@param col
+		@return bool 衝突判定を取るグリッドならtrue,取らないグリッドならfalse
+		*/
+		virtual bool GetIsImpassable(size_t row, size_t col);
+
+		/*!
 		@brief 移動出来ないグリッド(上)埋まり解除関数
 		@param ポジション
 		@param ステージマップ
 		*/
-		virtual void GridHitFlontResponse(Vec3& pos, const vector<vector<int>>& stageMap);
+		virtual void GridHitFlontResponse(Vec3& pos);
 
 		/*!
 		@brief 移動出来ないグリッド(下)埋まり解除関数
 		@param ポジション
 		@param ステージマップ
 		*/
-		virtual void GridHitBackResponse(Vec3& pos, const vector<vector<int>>& stageMap);
+		virtual void GridHitBackResponse(Vec3& pos);
 
 		/*!
 		@brief 移動出来ないグリッド(左)埋まり解除関数
 		@param ポジション
 		@param ステージマップ
 		*/
-		virtual void GridHitLeftResponse(Vec3& pos, const vector<vector<int>>& stageMap);
+		virtual void GridHitLeftResponse(Vec3& pos);
 
 		/*!
 		@brief 移動出来ないグリッド(右)埋まり解除関数
 		@param ポジション
 		@param ステージマップ
 		*/
-		virtual void GridHitRightResponse(Vec3& pos, const vector<vector<int>>& stageMap);
+		virtual void GridHitRightResponse(Vec3& pos);
 	};
 }

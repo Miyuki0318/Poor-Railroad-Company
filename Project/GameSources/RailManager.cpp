@@ -45,7 +45,8 @@ namespace basecross
 		m_ptrDraw->SetDiffuse(COL_WHITE);
 
 		// csvの取得とスケール
-		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
+		const auto& stagePtr = GetTypeStage<GameStage>();
+		const auto& stageMap = stagePtr->GetStageMap();
 		m_guideMap = stageMap;
 
 		// 二重ループ
@@ -69,7 +70,7 @@ namespace basecross
 				// ゴールレールなら
 				if (STAGE_ID(id) == eStageID::GoalRail)
 				{
-					GetStage()->AddGameObject<Station>(Vec3(float(col), 1.0f, -float(row - 1)));
+					stagePtr->AddGameObject<Station>(LINE2POS(row - 1, col));
 				}
 			}
 		}
@@ -112,7 +113,7 @@ namespace basecross
 	void RailManager::SetGuideID(size_t row, size_t col)
 	{
 		m_guidePoints.clear(); // 初期化
-		m_pastDeRailPos = Vec3(float(col), 1.0f, -float(row));
+		m_pastDeRailPos = LINE2POS(row, col);
 
 		// 要素数が範囲内で、何も無いならガイドにする
 		auto& elems = CSVElementCheck::GetElemsCheck(row, col, m_guideMap);
