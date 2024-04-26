@@ -29,77 +29,26 @@ namespace basecross {
 
 		m_fadeSprite = GetStage()->AddGameObject<Sprite>(L"FADE_TX", Vec2(width, height), Vec3(0.0f));
 		m_fadeSprite->SetDiffuseColor(COL_ALPHA);
+	
+		GetStage()->AddGameObject<OriginalColl>(Vec3(3.0f, 1.0f, 5.0f), m_position);
 	}
 
 	void Construction::OnUpdate()
 	{
-		auto coll = GetStage()->GetSharedGameObject<ConstructionCollision>(L"CONSTRUCTCOLL");
-		if (coll->GetPlayerHitFlag())
+		if (FindTag(tagName))
 		{
-			StartButtonPush();
-			transComp->SetScale(Vec3(1.2f));
-		}
-		else
-		{
-			transComp->SetScale(Vec3(1.0f));
-		}
-		StartCountDown();
-	}
-
-	void Construction::StartButtonPush()
-	{
-		if (Input::GetPushA() && !isPushButton)
-		{
-			isPushButton = true;
+			Debug::Log(L"CONSTRUCTION");
 		}
 	}
 
 	void Construction::StartCountDown()
 	{
-		if (isPushButton && m_fadeSprite->FadeInColor(3.0f))
-		{
-			// ステージ変更のため、シーンを取得
-			auto& scene = App::GetApp()->GetScene<Scene>();
+		//if (m_fadeSprite->FadeInColor(3.0f))
+		//{
+		//	// ステージ変更のため、シーンを取得
+		//	auto& scene = App::GetApp()->GetScene<Scene>();
 
-			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"GameStage");
-		}
-	}
-
-	void ConstructionCollision::OnCreate()
-	{
-		TemplateObject::OnCreate();
-
-		SetScale(m_scale);
-		SetRotation(Vec3(0.0f));
-		SetPosition(m_position);
-
-		auto drawComp = AddComponent<PNTStaticDraw>();
-		drawComp->SetMeshResource(L"DEFAULT_CUBE");
-		drawComp->SetDrawActive(false);
-
-		auto CollComp = AddComponent<CollisionObb>();
-		CollComp->SetDrawActive(true);
-	}
-
-	void ConstructionCollision::OnUpdate()
-	{
-		auto transComp = GetComponent<Transform>();
-		transComp->SetPosition(m_position);
-	}
-
-	void ConstructionCollision::OnCollisionEnter(shared_ptr<GameObject>& object)
-	{
-		if (object->FindTag(L"Player"))
-		{
-			m_playerHit = true;
-		}
-	}
-
-	void ConstructionCollision::OnCollisionExit(shared_ptr<GameObject>& object)
-	{
-		if (object->FindTag(L"Player"))
-		{
-			m_playerHit = false;
-		}
+		//	PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"GameStage");
+		//}
 	}
 }

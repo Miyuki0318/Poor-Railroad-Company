@@ -62,6 +62,13 @@ namespace basecross {
 		// 白塗りテクスチャ
 		app->RegisterTexture(L"WHITE_TX", texturePath + L"White.png");
 
+		// 看板のテクスチャ
+		app->RegisterTexture(L"BOARD_TX", modelPath + L"Bilding/RouteMapTexture.tga");
+
+		// マップのテクスチャ
+		app->RegisterTexture(L"EASYMAP_TX", texturePath + L"MapEasy.png");
+		app->RegisterTexture(L"NORMALMAP_TX", texturePath + L"MapNormal.png");
+		app->RegisterTexture(L"HARDMAP_TX", texturePath + L"MapHard.png");
 
 		// レールの仮モデル
 		RegisterSingleMesh(L"RAIL", modelPath + L"Rail/", L"Rail", false);
@@ -81,6 +88,8 @@ namespace basecross {
 		RegisterSingleMesh(L"COMPANY", modelPath + L"Bilding/", L"TestCompany", false);
 		RegisterSingleMesh(L"CONSTRUCTION", modelPath + L"Bilding/", L"TestConstruction", false);
 
+		// 看板のモデル
+		RegisterSingleMesh(L"BOARD", modelPath + L"Bilding/", L"RouteMap", false);
 	}
 
 	void Scene::RegisterSingleMesh(const wstring& registerKey, const wstring& path, const wstring& fileName, bool boneUse)

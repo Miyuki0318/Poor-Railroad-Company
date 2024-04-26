@@ -142,6 +142,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Signboard.h">
       <Filter>StageObject\Signboard</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OriginalCollision.h">
+      <Filter>StageObject\Collision</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -266,6 +269,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Signboard.cpp">
       <Filter>StageObject\Signboard</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)OriginalCollision.cpp">
+      <Filter>StageObject\Collision</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -409,6 +415,9 @@
     </Filter>
     <Filter Include="StageObject\RouteMap">
       <UniqueIdentifier>{4913c0dd-f707-4de5-bda6-ec759d7fba53}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Collision">
+      <UniqueIdentifier>{3577e2dd-0a44-42a2-851e-e3f961892f27}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

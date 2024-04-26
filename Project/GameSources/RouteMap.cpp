@@ -13,58 +13,29 @@ namespace basecross {
 	{
 		TemplateObject::OnCreate();
 
+		// 大きさ・回転・位置の設定
 		SetScale(m_scale);
 		SetRotation(Vec3(0.0f));
 		SetPosition(m_position);
 
+		// オブジェクト描画
 		auto drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshToTransformMatrix(m_spanMat);
-		drawComp->SetMeshResource(L"DEFAULT_CUBE");
+		drawComp->SetMeshResource(L"BOARD");
+		drawComp->SetTextureResource(L"BOARD_TX");
 
-		auto collComp = AddComponent<CollisionObb>();
-		collComp->SetDrawActive(true);
-		collComp->SetFixed(true);
+		// コリジョン追加
+		GetStage()->AddGameObject<OriginalColl>(Vec3(5.5f, 1.0f, 1.0f), m_position);
+
+		// スプライトの追加
+		GetStage()->AddGameObject<Sprite>(m_mapLevel[eMapLevel::easyMap], Vec2(500.0f));
 	}
 
 	void RouteMap::OnUpdate()
 	{
-		if (DistanceToPlayer())
+		if (FindTag(tagName))
 		{
-			PushButton();
-		}
-
-		Debug::Log(pushSelectButton);
-	}
-
-	void RouteMap::PushButton()
-	{
-		if (Input::GetPushX())
-		{
-			if (!pushSelectButton)
-			{
-				pushSelectButton = true;
-			}
-			else
-			{
-				pushSelectButton = false;
-			}
-		}
-	}
-
-	bool RouteMap::DistanceToPlayer()
-	{
-		m_playerPosition = GetStage()->GetSharedGameObject<TitlePlayer>(L"TitlePlayer", true)->GetPosition();
-
-		Vec3 diff = m_position - m_playerPosition;
-		float distance = diff.length();
-
-		if (distance < m_hitLength)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
+			Debug::Log(L"ROUTEMAP");
 		}
 	}
 }

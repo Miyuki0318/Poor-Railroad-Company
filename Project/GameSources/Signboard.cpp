@@ -1,4 +1,5 @@
 /*!
+* 
 @file Signboard.cpp
 @brief ŠÅ”Â(l”‘I‘ğ)‚ÌÀ‘•
 @author VÈˆ¨
@@ -19,52 +20,23 @@ namespace basecross {
 
 		auto drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshToTransformMatrix(m_spanMat);
-		drawComp->SetMeshResource(L"DEFAULT_CUBE");
+		drawComp->SetMeshResource(L"BOARD");
+		drawComp->SetTextureResource(L"BOARD_TX");
+	
+		GetStage()->AddGameObject<OriginalColl>(Vec3(5.5f, 1.0f, 1.0f), m_position);
 
-		auto collComp = AddComponent<CollisionObb>();
-		collComp->SetDrawActive(true);
-		collComp->SetFixed(true);
+		//m_mapSprite->GetStage()->AddGameObject<Sprite>()
 	}
 
 	void SignBoard::OnUpdate()
 	{
-		if (DistanceToPlayer())
+		if (FindTag(tagName))
 		{
-			PushButton();
-		}
-
-		Debug::Log(pushButton);
-	}
-
-	void SignBoard::PushButton()
-	{
-		if (Input::GetPushX())
-		{
-			if (!pushButton)
-			{
-				pushButton = true;
-			}
-			else
-			{
-				pushButton = false;
-			}
+			Debug::Log(L"SIGNBOARD");
 		}
 	}
 
-	bool SignBoard::DistanceToPlayer()
+	void SignBoard::BoardSelect()
 	{
-		m_playerPosition = GetStage()->GetSharedGameObject<TitlePlayer>(L"TitlePlayer",true)->GetPosition();
-
-		Vec3 diff = m_position - m_playerPosition;
-		float distance = diff.length();
-
-		if (distance < m_hitLength)
-		{
-			return true;
-		}
-		else
-		{
-			return false;
-		}
 	}
 }

@@ -25,82 +25,22 @@ namespace basecross {
 		drawComp->SetDiffuse(COL_GRAY);
 
 		m_menuSprite = GetStage()->AddGameObject<Sprite>(L"MENU_TX", Vec2(500.0f), Vec3(0.0f));
-		m_menuSprite->SetDrawActive(m_spriteActive);
+		m_menuSprite->SetDrawActive(false);
+
+		GetStage()->AddGameObject<OriginalColl>(Vec3(15.0f,1.0f,7.5f), m_position);
 	}
 
 	void Company::OnUpdate()
 	{
-		auto& a = GetStage()->GetSharedGameObject<CompanyCollision>(L"COMPANYCOLL");
-		if (a->GetPlayerHitFlag())
+		if (FindTag(tagName))
 		{
-			transComp->SetScale(Vec3(1.2f));
-			ButtonPush();
+			Debug::Log(L"COMPANY");
 		}
-		else
-		{
-			transComp->SetScale(Vec3(1.0f));
-		}
-	}
-
-	// ボタンを押した時の処理
-	void Company::ButtonPush()
-	{
-		if (Input::GetPushX())
-		{
-			if (!m_spriteActive)
-			{
-				m_spriteActive = true;
-			}
-			else
-			{
-				m_spriteActive = false;
-			}
-		}
-
-		m_menuSprite->SetDrawActive(m_spriteActive);
 	}
 
 	// オプション画面の処理
 	void Company::OptionMenu()
 	{
 
-	}
-
-	void CompanyCollision::OnCreate()
-	{
-		TemplateObject::OnCreate();
-
-		SetScale(m_scale);
-		SetRotation(Vec3(0.0f));
-		SetPosition(m_position);
-
-		auto drawComp = AddComponent<PNTStaticDraw>();
-		drawComp->SetMeshResource(L"DEFAULT_CUBE");
-		drawComp->SetDrawActive(false);
-
-		auto CollComp = AddComponent<CollisionObb>();
-		CollComp->SetDrawActive(true);
-	}
-
-	void CompanyCollision::OnUpdate()
-	{
-		auto transComp = GetComponent<Transform>();
-		transComp->SetPosition(m_position);
-	}
-
-	void CompanyCollision::OnCollisionEnter(shared_ptr<GameObject>& object)
-	{
-		if (object->FindTag(L"Player"))
-		{
-			m_playerHit = true;
-		}
-	}
-
-	void CompanyCollision::OnCollisionExit(shared_ptr<GameObject>& object)
-	{
-		if (object->FindTag(L"Player"))
-		{
-			m_playerHit = false;
-		}
 	}
 }
