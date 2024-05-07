@@ -33,19 +33,6 @@ namespace basecross {
 		/// <summary>
 		/// カメラのコンストラクタ
 		/// </summary>
-		MainCamera() : Camera(),
-			m_cameraState(Fixed),
-			m_defaultState(Fixed),
-			m_targetPos(Vec3(0.0f)),
-			m_DefaultPos(Vec3(50.0f, 20.0f, -22.0f)),
-			m_DefaultAt(Vec3(0.0f)),
-			m_zoomRatio(0.0f),
-			m_zoomSpeed(1.0f)
-		{
-		}
-		/// <summary>
-		/// カメラのコンストラクタ
-		/// </summary>
 		/// <param name="cameraState">カメラの初期状態</param>
 		MainCamera(State cameraState) : Camera(),
 			m_cameraState(cameraState),

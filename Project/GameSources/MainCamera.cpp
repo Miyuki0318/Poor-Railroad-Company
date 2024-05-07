@@ -46,7 +46,7 @@ namespace basecross {
 	void MainCamera::ZoomInProcess()
 	{
 		// ê¸å`ï‚ä‘Ç≈ÉYÅ[ÉÄÇ≥ÇπÇÈ
-		SetEye(Utility::Lerp(m_currentEye, Vec3(m_targetPos.x, m_targetPos.y, m_targetPos.z + 1.0f), m_zoomRatio));
+		SetEye(Utility::Lerp(m_currentEye, Vec3(m_targetPos.x, m_targetPos.y, m_targetPos.z - 1.0f), m_zoomRatio));
 		SetAt(Utility::Lerp(m_DefaultAt, m_targetPos, m_zoomRatio));
 		m_zoomRatio += DELTA_TIME * m_zoomSpeed;
 
