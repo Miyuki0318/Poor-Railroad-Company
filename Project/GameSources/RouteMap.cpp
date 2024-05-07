@@ -28,7 +28,7 @@ namespace basecross {
 		GetStage()->AddGameObject<OriginalColl>(Vec3(5.5f, 1.0f, 1.0f), m_position);
 
 		// スプライトの追加
-		GetStage()->AddGameObject<Sprite>(m_mapLevel[eMapLevel::easyMap], Vec2(500.0f));
+		//GetStage()->AddGameObject<Sprite>(m_mapLevel[eMapLevel::easyMap], Vec2(500.0f));
 	}
 
 	void RouteMap::OnUpdate()
