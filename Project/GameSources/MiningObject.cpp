@@ -10,11 +10,14 @@
 
 
 namespace basecross {
+
+	using namespace Utility;
+
 	void MiningObject::OnCreate() {
 		//初期位置などの設定
 		TemplateObject::OnCreate();
-		SetScale(Vec3(0.45f));
-		SetRotation(Vec3(0.0f));
+		float rot = RangeRand(2, -1) * XM_PIDIV2;
+		SetRotation(Vec3(0.0f, rot, 0.0f));
 		SetPosition(m_spawnPos);
 
 		//描画コンポーネントの設定
@@ -49,19 +52,20 @@ namespace basecross {
 
 	void Tree::OnCreate() {
 		MiningObject::OnCreate();
+		SetScale(Vec3(0.6f));
 
 		// 新規ドローコンポーネントの設定
-		auto ptrDraw = AddComponent<PNTBoneModelDraw>();
-		ptrDraw->SetMultiMeshResource(L"TREE");
+		auto ptrDraw = AddComponent<PNTStaticModelDraw>();
+		int random = RangeRand(2, 1);
+		ptrDraw->SetMultiMeshResource(L"TREE" + to_wstring(random));
 		ptrDraw->SetMeshToTransformMatrix(m_modelMat);
-		ptrDraw->SetOwnShadowActive(true);
+		//ptrDraw->SetOwnShadowActive(true);
 
 		// タグの設定
 		AddTag(L"Tree");
 	}
 
 	void Tree::OnUpdate() {
-
 		// 採掘回数が上限に達した場合、オブジェクトを破壊
 		if (m_miningCount == m_miningCountLimit) {
 			m_state = eState::Broken;
@@ -115,11 +119,14 @@ namespace basecross {
 
 	void Rock::OnCreate() {
 		MiningObject::OnCreate();
+		SetScale(Vec3(0.45f) * 1.1);
 
 		auto ptrDraw = AddComponent<PNTStaticModelDraw>();
+		//int random = RangeRand(3, 1);
+		//ptrDraw->SetMeshResource(L"ROCK" + to_wstring(random));
 		ptrDraw->SetMeshResource(L"ROCK4");
 		ptrDraw->SetMeshToTransformMatrix(m_modelMat);
-		ptrDraw->SetOwnShadowActive(true);
+		//ptrDraw->SetOwnShadowActive(true);
 
 		// タグの設定
 		AddTag(L"Rock");
