@@ -17,7 +17,7 @@ namespace basecross {
 			hardMap
 		};
 
-		wstring m_mapLevel[3] = {
+		wstring m_mapTextures[3] = {
 			L"EASYMAP_TX",
 			L"NORMALMAP_TX",
 			L"HARDMAP_TX"
@@ -28,6 +28,8 @@ namespace basecross {
 
 		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
 
+		float m_currentX;
+
 		Mat4x4 m_spanMat;
 
 		Vec3 m_playerPosition;
@@ -35,6 +37,8 @@ namespace basecross {
 		Vec3 m_cameraAt;
 
 		shared_ptr<Sprite> m_mapSprite;
+		eMapLevel m_mapLevel;
+
 	public:
 		RouteMap(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr)
@@ -45,9 +49,17 @@ namespace basecross {
 				Vec3(0.0f),
 				Vec3(0.0f)
 			);
+
+			m_currentX = 0.0f;
+			m_mapLevel = eMapLevel::easyMap;
 		}
 
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
+
+		/*
+		@brief マップの難易度選択
+		*/
+		virtual void MapSelect();
 	};
 }
