@@ -35,11 +35,14 @@ namespace basecross
 		app->RegisterTexture(L"I_PICK_TX", texturePath + L"PickIcon.png");
 		app->RegisterTexture(L"I_RAIL_TX", texturePath + L"RailIcon.png");
 		app->RegisterTexture(L"I_CRAFT_TX", texturePath + L"CraftIcon.png");
-		app->RegisterTexture(L"I_WOOD_TX", texturePath + L"Wood.png");
-		app->RegisterTexture(L"I_STONE_TX", texturePath + L"Stone.png");
 		app->RegisterTexture(L"I_BALOON_CENTER_TX", texturePath + L"BalloonCenter.png");
 		app->RegisterTexture(L"I_BALOON_RIGHT_TX", texturePath + L"BalloonRight.png");
 		app->RegisterTexture(L"I_BALOON_LEFT_TX", texturePath + L"BalloonLeft.png");
+
+		// UIテクスチャ
+		app->RegisterTexture(L"UI_WOOD_TX", texturePath + L"Wood.png");
+		app->RegisterTexture(L"UI_STONE_TX", texturePath + L"Stone.png");
+		app->RegisterTexture(L"UI_RAIL_TX", texturePath + L"Rail.png");
 	}
 
 	//ビューとライトの生成
@@ -178,8 +181,15 @@ namespace basecross
 	// UIの生成
 	void GameStage::CreateUIObject()
 	{
+		// パラメータ
+		const float scale = 40.0f;
+		const Vec3 startPos = Vec3(-910.0f, 500.0f, 0.0f);
+		const Vec3 distance = Vec3(0.0f, -scale * 2.0f, 0.0f);
+
 		// アイテム数UI
-		AddGameObject<ItemCountUI>(Vec3(-580.0f, 350.0f, 0.0f));
+		AddGameObject<ItemCountUI>(scale, startPos, L"UI_WOOD_TX", eItemType::Wood);
+		AddGameObject<ItemCountUI>(scale, startPos + distance, L"UI_STONE_TX", eItemType::Stone);
+		AddGameObject<ItemCountUI>(scale, startPos + (distance * 2.0), L"UI_RAIL_TX", eItemType::Rail);
 	}
 
 	// スプライトの表示
