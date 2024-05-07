@@ -24,7 +24,7 @@ namespace basecross {
 
 			//自分自身にイベントを送る
 			//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる
-			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"TitleStage");
+			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"GameStage");
 		}
 		catch (...)
 		{
@@ -75,10 +75,13 @@ namespace basecross {
 		app->RegisterTexture(L"RAIL_TX", modelPath + L"Rail/TX_Rail.tga");
 
 		// ソードクリエイターモデル
-		// 壊れる岩モデルの生成
-		RegisterMultiMesh(L"ROCK", modelPath + L"Rock/", L"rockBreakModel", true);
+		// 岩モデルの生成
+		RegisterSingleMesh(L"ROCK1", modelPath + L"Rock/", L"Rock1", false);
+		RegisterSingleMesh(L"ROCK2", modelPath + L"Rock/", L"Rock2", false);
+		RegisterSingleMesh(L"ROCK3", modelPath + L"Rock/", L"Rock3", false);
+		RegisterSingleMesh(L"ROCK4", modelPath + L"Rock/", L"Rock4", false);
 
-		// 木のモデリング
+		// 木のモデルの生成
 		RegisterMultiMesh(L"TREE", modelPath + L"Tree/", L"treeAnimation", true);
 
 		// プレイヤーモデルの生成

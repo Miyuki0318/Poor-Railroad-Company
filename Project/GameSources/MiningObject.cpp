@@ -13,7 +13,7 @@ namespace basecross {
 	void MiningObject::OnCreate() {
 		//èâä˙à íuÇ»Ç«ÇÃê›íË
 		TemplateObject::OnCreate();
-		SetScale(Vec3(1.0f));
+		SetScale(Vec3(0.45f));
 		SetRotation(Vec3(0.0f));
 		SetPosition(m_spawnPos);
 
@@ -116,8 +116,8 @@ namespace basecross {
 	void Rock::OnCreate() {
 		MiningObject::OnCreate();
 
-		auto ptrDraw = AddComponent<PNTBoneModelDraw>();
-		ptrDraw->SetMultiMeshResource(L"ROCK");
+		auto ptrDraw = AddComponent<PNTStaticModelDraw>();
+		ptrDraw->SetMeshResource(L"ROCK4");
 		ptrDraw->SetMeshToTransformMatrix(m_modelMat);
 		ptrDraw->SetOwnShadowActive(true);
 
