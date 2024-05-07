@@ -152,7 +152,7 @@ namespace Utility
 	template <class T>
 	T RangeRand(const T& min, const T& max, int digit)
 	{
-		T r = min + static_cast<T>(rand()) * static_cast<T>(max - min) / RAND_MAX;
+		T r = min + static_cast<T>(rand()) * static_cast<T>(max) / RAND_MAX;
 		return static_cast<T>(basecross::bsm::floor(static_cast<float>(r), digit));
 	}
 
