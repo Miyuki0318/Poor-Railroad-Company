@@ -149,16 +149,6 @@ namespace basecross
 		}
 
 		/*!
-		@brief アイテム数取得関数
-		@param アイテムタイプenum
-		@return アイテム数
-		*/
-		int GetItemCount(eItemType type)
-		{
-			return m_craft->GetItemCount(type);
-		}
-
-		/*!
 		@brief アイテム数追加関数
 		@param アイテムタイプenum
 		@param 追加数(デフォ1)
@@ -169,6 +159,16 @@ namespace basecross
 		}
 
 	public:
+
+		/*!
+		@brief アイテム数取得関数
+		@param アイテムタイプenum
+		@return アイテム数
+		*/
+		int GetItemCount(eItemType type)
+		{
+			return m_craft->GetItemCount(type);
+		}
 
 		/*!
 		@brief 状態取得関数

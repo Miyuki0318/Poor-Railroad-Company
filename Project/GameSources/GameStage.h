@@ -106,6 +106,11 @@ namespace basecross
 		void CreateSpriteObject();
 
 		/*!
+		@brief UIの生成
+		*/
+		void CreateUIObject();
+
+		/*!
 		@brief スプライトの表示
 		*/
 		void LogoActive();

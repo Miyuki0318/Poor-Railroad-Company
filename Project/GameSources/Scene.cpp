@@ -24,7 +24,7 @@ namespace basecross {
 
 			//自分自身にイベントを送る
 			//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる
-			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"TitleStage");
+			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"GameStage");
 		}
 		catch (...)
 		{
@@ -64,6 +64,9 @@ namespace basecross {
 
 		// 数字テクスチャ
 		app->RegisterTexture(L"NUMBER_TX", texturePath + L"Number.png");
+
+		// メニューテクスチャ
+		app->RegisterTexture(L"MENU_TX", texturePath + L"Menu.png");
 
 		// 看板のテクスチャ
 		app->RegisterTexture(L"BOARD_TX", modelPath + L"Bilding/RouteMapTexture.tga");
