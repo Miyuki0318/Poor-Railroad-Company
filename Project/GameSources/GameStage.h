@@ -5,8 +5,9 @@
 
 #pragma once
 #include "stdafx.h"
+#include "StageCSV.h"
 
-#define STAGE_ID(id) static_cast<eStageID>(id)
+//#define STAGE_ID(id) static_cast<eStageID>(id)
 
 namespace basecross 
 {
@@ -36,7 +37,7 @@ namespace basecross
 	/*!
 	@brief ゲーム中のステージ
 	*/
-	class GameStage : public Stage
+	class GameStage : public StageCSV
 	{
 		// ゲームクリア・ゲームオーバーのスプライト
 		shared_ptr<Sprite> m_gameClearLogo;
@@ -47,9 +48,6 @@ namespace basecross
 
 		// タイマーオブジェクト
 		weak_ptr<Timer> m_timer;
-
-		// ステージマップ
-		vector<vector<int>> m_stageMap;
 
 		/*!
 		@brief リソースの読込
@@ -75,7 +73,7 @@ namespace basecross
 		@brief ステージをcsvで生成
 		@param csvのファイル名
 		*/
-		void CreateStageCSV(string csvPath = "TestStage");
+		void CreateStageCSV(string csvPath = "TestStage") override;
 
 		/*!
 		@brief 採掘系オブジェクトの生成生成
@@ -117,7 +115,7 @@ namespace basecross
 		/*!
 		@brief コンストラクタ
 		*/
-		GameStage() :Stage() {
+		GameStage() :StageCSV() {
 			m_gameProgress = eGameProgress::Playing;
 		}
 
@@ -145,15 +143,6 @@ namespace basecross
 		@brief 描画更新関数
 		*/
 		virtual void OnDraw() override;
-
-		/*!
-		@brief ステージマップの取得
-		@return m_stageMap
-		*/
-		vector<vector<int>>& GetStageMap()
-		{
-			return m_stageMap;
-		}
 
 		/*!
 		@brief タイマークラス取得関数

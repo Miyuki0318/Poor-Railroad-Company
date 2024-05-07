@@ -6,10 +6,11 @@
 
 #pragma once
 #include "stdafx.h"
+#include "StageCSV.h"
 
 namespace basecross
 {
-	class TitleStage : public Stage
+	class TitleStage : public StageCSV
 	{
 	private:
 		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
@@ -18,8 +19,8 @@ namespace basecross
 		const Vec3 m_groundScale = Vec3(+50.0f, +2.0f, +50.0f);
 
 		// カメラの位置・視点
-		const Vec3 m_cameraEye = Vec3(+50.0f, 20.0f, -22.0f);
-		const Vec3 m_cameraAt = Vec3(50.0f, 2.0f, 0.0f);
+		const Vec3 m_cameraEye = Vec3(25.0f, 20.0f, -47.0f);
+		const Vec3 m_cameraAt = Vec3(25.0f, 2.0f, -25.0f);
 
 		// フェードの時間
 		const float m_fadeOutTime = 1.0f;
@@ -97,12 +98,19 @@ namespace basecross
 		*/
 		void DistanceToPlayer();
 
+		/*!
+		@brief ステージをcsvで生成
+		@param csvのファイル名
+		*/
+		void CreateStageCSV(string csvPath = "TestStage") override
+		{
+		}
 
 	public:
 		/*
 		@brief コンストラクタ
 		*/
-		TitleStage() : Stage()
+		TitleStage() : StageCSV()
 		{
 			m_buttonPush = false;
 			m_fadeStop = false;

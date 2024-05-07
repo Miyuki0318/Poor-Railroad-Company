@@ -55,6 +55,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectIndicator.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Signboard.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StageCSV.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Station.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Tarminal.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TemplateObject.h" />

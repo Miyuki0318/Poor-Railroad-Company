@@ -63,7 +63,7 @@ namespace basecross
 	void Player::GridHitResponse(Vec3& pos)
 	{
 		// ステージcsv配列の取得
-		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
+		const auto& stageMap = GetTypeStage<StageCSV>()->GetStageMap();
 
 		// 列と行
 		size_t row, col;
@@ -87,7 +87,7 @@ namespace basecross
 	bool Player::GetIsImpassable(size_t row, size_t col)
 	{
 		// ステージcsv配列の取得
-		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
+		const auto& stageMap = GetTypeStage<StageCSV>()->GetStageMap();
 
 		// 配列の範囲外じゃないかのチェック
 		if (!WithInElemRange(row, col, stageMap)) return false;

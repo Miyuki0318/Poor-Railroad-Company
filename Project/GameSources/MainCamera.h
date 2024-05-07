@@ -57,6 +57,20 @@ namespace basecross {
 			m_zoomSpeed(0.5f)
 		{
 		}
+		/// <summary>
+		/// カメラのコンストラクタ
+		/// </summary>
+		/// <param name="cameraState">カメラの初期状態</param>
+		MainCamera(State cameraState, const Vec3& eyePos, const Vec3& atPos) : Camera(),
+			m_cameraState(cameraState),
+			m_defaultState(cameraState),
+			m_targetPos(Vec3(0.0f)),
+			m_DefaultPos(eyePos),
+			m_DefaultAt(atPos),
+			m_zoomRatio(0.0f),
+			m_zoomSpeed(0.5f)
+		{
+		}
 		~MainCamera() {}
 
 		void OnCreate() override;
