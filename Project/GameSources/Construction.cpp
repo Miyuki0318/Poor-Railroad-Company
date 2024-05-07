@@ -23,12 +23,6 @@ namespace basecross {
 		drawComp->SetMeshToTransformMatrix(m_spanMat);
 		drawComp->SetMeshResource(L"CONSTRUCTION");
 		drawComp->SetDiffuse(COL_YELOW);
-
-		const float width = static_cast<float>(App::GetApp()->GetGameWidth());
-		const float height = static_cast<float>(App::GetApp()->GetGameHeight());
-
-		m_fadeSprite = GetStage()->AddGameObject<Sprite>(L"FADE_TX", Vec2(width, height), Vec3(0.0f));
-		m_fadeSprite->SetDiffuseColor(COL_ALPHA);
 	
 		GetStage()->AddGameObject<OriginalColl>(Vec3(3.0f, 1.0f, 5.0f), m_position);
 	}
@@ -37,18 +31,20 @@ namespace basecross {
 	{
 		if (FindTag(tagName))
 		{
-			Debug::Log(L"CONSTRUCTION");
+			GameStart();
 		}
 	}
 
-	void Construction::StartCountDown()
+	void Construction::GameStart()
 	{
-		//if (m_fadeSprite->FadeInColor(3.0f))
-		//{
-		//	// ステージ変更のため、シーンを取得
-		//	auto& scene = App::GetApp()->GetScene<Scene>();
+		auto sprite = GetStage()->GetSharedGameObject<Sprite>(L"FadeSprite");
 
-		//	PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"GameStage");
-		//}
+		if (sprite->GetDiffuseColor().getW() >= 1.0f)
+		{
+			// ステージ変更のため、シーンを取得
+			auto& scene = App::GetApp()->GetScene<Scene>();
+
+			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"GameStage");
+		}
 	}
 }
