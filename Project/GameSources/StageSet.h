@@ -1,32 +1,35 @@
-/*!
-@file StageSet.cpp
-@brief ステージの配置実体
-*/
-
 #pragma once
 #include "stdafx.h"
-namespace basecross {
-	class StageSet :public Stage
+
+namespace basecross
+{
+	enum eGameMenber
 	{
-		enum eGameProgress
-		{
-			Playing,
-			GameClear,
-			GameOver
-		};
+		Play,
+		Clear,
+		Over
+	};
+	class StageSet : public Stage
+	{
+		shared_ptr<SoundItem> m_BGM;
+
+		// ゲームクリア・ゲームオーバーのスプライト
+		shared_ptr<Sprite> m_gameClearLogo;
+		shared_ptr<Sprite> m_gameOverLogo;
 
 		// ゲームの状況
-		eGameProgress m_gameProgress;
+		eGameMenber m_gameProgress;
+
+		// タイマーオブジェクト
+		weak_ptr<Timer> m_timer;
 		/*!
 		@brief リソースの読込
 		*/
 		void CreateResourses();
-
 		/*!
 		@brief ビューとライトの生成
 		*/
 		void CreateViewLight();
-
 		/*!
 		@brief ステージボックスの生成
 		*/
@@ -68,36 +71,36 @@ namespace basecross {
 		*/
 		void LogoActive();
 
-	public:
+		//BGMの生成
+		//void PlayBGM();
 
-		/*!
-		@brief コンストラクタ
-		*/
+	public:
 		StageSet() :Stage() {
-			m_gameProgress = eGameProgress::Playing;
+			m_gameProgress = eGameMenber::Play;
 		}
-		/*!
-		@brief デストラクタ
-		*/
+			
+
 		virtual ~StageSet() {}
 
-		/*!
-		@brief 生成時に一度だけ呼び出される関数
-		*/
 		virtual void OnCreate() override;
-
-		/*!
-		@brief 毎フレーム度に呼び出される関数
-		*/
 		virtual void OnUpdate() override;
-
-		/*!
-		@brief 描画更新関数
-		*/
 		virtual void OnDraw() override;
-
-
-
+		virtual void OnDestroy()override;
+		//タイマークラス取得関数
+		const shared_ptr<Timer> GetTimer() const
+		{
+			return m_timer.lock();
+		}
+		//ゲームの進行状態をゲットする関数
+		eGameMenber GetGameProgress()
+		{
+			return m_gameProgress;
+		}
+		//ゲームの進行状態をセットする関数
+		void SetGameProgress(eGameMenber progress)
+		{
+			m_gameProgress = progress;
+		}
 	};
 
 }

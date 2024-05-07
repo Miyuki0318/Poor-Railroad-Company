@@ -149,6 +149,20 @@ namespace basecross
 			break;
 		}
 	}
+	//BGMの再生
+	void GameStage::PlayBGM() {
+		auto XAPtr = App::GetApp()->GetXAudio2Manager();
+		m_BGM = XAPtr->Start(L"Stage_BGM", XAUDIO2_LOOP_INFINITE, 0.0f);
+	}
+
+	void StageSet::OnDestroy()
+	{
+		//BGMのストップ
+		auto XAPtr = App::GetApp()->GetXAudio2Manager();
+		XAPtr->Stop(m_BGM);
+	}
+
+
 
 	// 生成時の処理
 	void GameStage::OnCreate() 
@@ -183,6 +197,9 @@ namespace basecross
 
 			// スプライトの生成
 			CreateSpriteObject();
+
+			//BGMの生成
+			PlayBGM();
 
 			// タイマーオブジェクトの生成
 			m_timer = AddGameObject<Timer>();

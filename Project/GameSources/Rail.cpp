@@ -23,6 +23,8 @@ namespace basecross {
 		m_ptrColl = AddComponent<CollisionObb>();
 		m_ptrColl->SetAfterCollision(AfterCollision::None);
 
+
+
 		// ƒ^ƒO‚Ìİ’è
 		AddTag(L"Rail");
 	}

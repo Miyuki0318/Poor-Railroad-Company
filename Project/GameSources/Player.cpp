@@ -64,6 +64,7 @@ namespace basecross
 			{
 				// Aボタン入力時の処理をクラフト状態で分岐させる
 				m_status(ePlayerStatus::IsCrafting) ? OnCraft() : OnPushA();
+
 			}
 
 			// Xボタンが入力されたら
@@ -101,6 +102,9 @@ namespace basecross
 	// Aボタン入力時
 	void Player::OnPushA()
 	{
+		// デルタタイムを取得
+		float deltaTime = App::GetApp()->GetElapsedTime();
+
 		// エラーチェック
 		if (!m_indicator.lock()) return;
 
@@ -127,7 +131,9 @@ namespace basecross
 			{
 				OnRailed(railPos);
 			}
+
 		}
+
 	}
 
 	// クラフト呼び出し
@@ -146,6 +152,7 @@ namespace basecross
 				// QTE状態をオンにし、QTEを開始させる
 				m_status.Set(ePlayerStatus::IsCraftQTE) = true;
 				m_craft->StartQTE();
+
 			}
 			return;
 		}
@@ -195,11 +202,16 @@ namespace basecross
 
 		// レールの所持数を減らす
 		AddItemCount(eItemType::Rail, -1);
+
+		//auto ptrXA = App::GetApp()->GetXAudio2Manager();
+		//ptrXA->Start(L"Rail_SE", 1, 0.5f);
+
 	}
 	
 	// 採掘中の更新
 	void Player::UpdateMining()
-	{
+	{		//サウンドの再生
+
 		// 採掘時のアニメーション更新
 		// UpdateAnimation(ePlayerStatus::IsMining);
 
@@ -215,6 +227,7 @@ namespace basecross
 	// 移動更新
 	void Player::UpdateMove()
 	{
+
 		// LStickの入力があり、クラフト中じゃなければ
 		bool isMoving = IsInputLStick();
 		if (isMoving)
@@ -229,6 +242,7 @@ namespace basecross
 		// 移動状態を設定
 		m_status.Set(ePlayerStatus::IsMove) = isMoving;
 		m_status.Set(ePlayerStatus::IsIdle) = !isMoving;
+
 	}
 
 	// アイテム状態の更新

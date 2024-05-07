@@ -61,9 +61,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectIndicator.h">
       <Filter>Player\SelectIndicator</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Rail.h">
-      <Filter>StageObject\Rail</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Train.h">
       <Filter>StageObject\Train</Filter>
     </ClInclude>
@@ -88,8 +85,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Tarminal.h">
       <Filter>StageObject\Tarminal</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MiningObject.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Station.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)StageSet.h">
+      <Filter>StageSet</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Station.h">
+      <Filter>StageObject\Station</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MiningObject.h">
+      <Filter>StageObject\MiningObject</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Rail.h">
+      <Filter>StageObject\Rail</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -137,9 +144,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectIndicator.cpp">
       <Filter>Player\SelectIndicator</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Rail.cpp">
-      <Filter>StageObject\Rail</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Train.cpp">
       <Filter>StageObject\Train</Filter>
     </ClCompile>
@@ -164,8 +168,18 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Tarminal.cpp">
       <Filter>StageObject\Tarminal</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)MiningObject.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Station.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)StageSet.cpp">
+      <Filter>StageSet</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Station.cpp">
+      <Filter>StageObject\Station</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MiningObject.cpp">
+      <Filter>StageObject\MiningObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Rail.cpp">
+      <Filter>StageObject\Rail</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="GameStage">

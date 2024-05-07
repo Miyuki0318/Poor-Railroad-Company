@@ -23,6 +23,8 @@ namespace basecross
 	*/
 	class GameStage : public Stage
 	{
+		shared_ptr<SoundItem> m_BGM;
+
 		// ゲームクリア・ゲームオーバーのスプライト
 		shared_ptr<Sprite> m_gameClearLogo;
 		shared_ptr<Sprite> m_gameOverLogo;
@@ -83,6 +85,9 @@ namespace basecross
 		@brief スプライトの生成
 		*/
 		void LogoActive();
+
+		//BGMの生成
+		void PlayBGM();
 
 	public:
 

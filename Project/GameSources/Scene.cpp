@@ -45,26 +45,39 @@ namespace basecross {
 			//最初のアクティブステージの設定
 			ResetActiveStage<GameStage>();
 		}
-		//if (event->m_MsgStr == L"StageSet")
-		//{
-		//	//最初のアクティブステージの設定
-		//	ResetActiveStage<StageSet>();
-		//}
-	}
+		if (event->m_MsgStr == L"StageSet")
+		{
+			ResetActiveStage<StageSet>();
+		}
+	} 
 
 	void Scene::CreateResourses()
 	{
 		// アプリケーションの取得
 		const auto& app = App::GetApp();
-
+		
 		// ディレクトリパスの設定
 		const wstring mediaPath = app->GetDataDirWString();
 
 		// 各種ディレクトリパス
 		const wstring modelPath = mediaPath + L"Models/";
 		const wstring texturePath = mediaPath + L"Textures/";
+		const wstring soundPath = mediaPath + L"Sounds/";
+
 
 		// 白塗りテクスチャ
 		app->RegisterTexture(L"WHITE_TX", texturePath + L"White.png");
+
+
+		//サウンド
+		app->RegisterWav(L"Rail_SE", soundPath + L"Rail");
+		app->RegisterWav(L"Excavation_SE", soundPath + L"Excavation");
+		app->RegisterWav(L"Cuttree_SE", soundPath + L"Cuttree");
+
+		//BGM
+		app->RegisterWav(L"Stage_BGM", soundPath + L"Stage01");
+		
+
+
 	}
 }
