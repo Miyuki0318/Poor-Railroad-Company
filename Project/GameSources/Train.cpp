@@ -71,6 +71,7 @@ namespace basecross {
 	{
 		// 線形補間で移動
 		Vec3 pos = Utility::Lerp(m_movePos.first, m_movePos.second, m_moveRatio);
+		float rad = -atan2f(m_movePos.second.z - m_movePos.first.z, m_movePos.second.x - m_movePos.first.x);
 		m_moveRatio += DELTA_TIME / m_MoveInSeconds;
 
 		// 割合が1以上になったら0で初期化
@@ -86,6 +87,7 @@ namespace basecross {
 
 		// 座標の更新
 		SetPosition(pos);
+		SetRotation(Vec3(0.0f, rad, 0.0f));
 	}
 
 	bool Train::SetNextRail()
