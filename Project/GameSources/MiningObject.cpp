@@ -122,9 +122,8 @@ namespace basecross {
 		SetScale(Vec3(0.45f) * 1.1);
 
 		auto ptrDraw = AddComponent<PNTStaticModelDraw>();
-		//int random = RangeRand(3, 1);
-		//ptrDraw->SetMeshResource(L"ROCK" + to_wstring(random));
-		ptrDraw->SetMeshResource(L"ROCK4");
+		int random = RangeRand(3, 1);
+		ptrDraw->SetMeshResource(L"ROCK" + to_wstring(random));
 		ptrDraw->SetMeshToTransformMatrix(m_modelMat);
 		//ptrDraw->SetOwnShadowActive(true);
 

@@ -82,7 +82,6 @@ namespace basecross {
 		RegisterSingleMesh(L"ROCK1", modelPath + L"Rock/", L"Rock1", false);
 		RegisterSingleMesh(L"ROCK2", modelPath + L"Rock/", L"Rock2", false);
 		RegisterSingleMesh(L"ROCK3", modelPath + L"Rock/", L"Rock3", false);
-		RegisterSingleMesh(L"ROCK4", modelPath + L"Rock/", L"Rock4", false);
 
 		// –Ø‚Ìƒ‚ƒfƒ‹‚Ì¶¬
 		RegisterMultiMesh(L"TREE1", modelPath + L"Tree/", L"tree1", false);
