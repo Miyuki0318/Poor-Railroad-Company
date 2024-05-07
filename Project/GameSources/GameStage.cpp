@@ -35,6 +35,8 @@ namespace basecross
 		app->RegisterTexture(L"I_PICK_TX", texturePath + L"PickIcon.png");
 		app->RegisterTexture(L"I_RAIL_TX", texturePath + L"RailIcon.png");
 		app->RegisterTexture(L"I_CRAFT_TX", texturePath + L"CraftIcon.png");
+		app->RegisterTexture(L"I_WOOD_TX", texturePath + L"Wood.png");
+		app->RegisterTexture(L"I_STONE_TX", texturePath + L"Stone.png");
 		app->RegisterTexture(L"I_BALOON_CENTER_TX", texturePath + L"BalloonCenter.png");
 		app->RegisterTexture(L"I_BALOON_RIGHT_TX", texturePath + L"BalloonRight.png");
 		app->RegisterTexture(L"I_BALOON_LEFT_TX", texturePath + L"BalloonLeft.png");
@@ -173,6 +175,13 @@ namespace basecross
 		m_gameOverLogo = AddGameObject<Sprite>(L"GAMEOVER_TX", Vec2(100.0f), Vec3(0.0f));
 	}
 
+	// UIの生成
+	void GameStage::CreateUIObject()
+	{
+		// アイテム数UI
+		AddGameObject<ItemCountUI>(Vec3(-580.0f, 350.0f, 0.0f));
+	}
+
 	// スプライトの表示
 	void GameStage::LogoActive()
 	{
@@ -227,6 +236,9 @@ namespace basecross
 			// スプライトの生成
 			CreateSpriteObject();
 
+			// UIの生成
+			CreateUIObject();
+
 			// タイマーオブジェクトの生成
 			m_timer = AddGameObject<Timer>();
 
@@ -278,6 +290,6 @@ namespace basecross
 		// デバック用文字列の表示非表示切り替え
 		const auto& debugStr = GetSharedObject(L"DebugString");
 		debugStr->SetDrawLayer(10);
-		debugStr->SetDrawActive(true);
+		debugStr->SetDrawActive(false);
 	}
 }
