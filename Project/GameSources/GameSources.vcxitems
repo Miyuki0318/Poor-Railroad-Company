@@ -22,6 +22,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Company.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Construction.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ItemCountUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftingIcon.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftingQTE.h" />
@@ -71,6 +72,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Company.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Construction.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ItemCountUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftingIcon.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftingQTE.cpp" />

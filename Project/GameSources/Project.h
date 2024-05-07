@@ -35,3 +35,4 @@
 #include "RouteMap.h"
 #include "Signboard.h"
 #include "OriginalCollision.h"
+#include "ItemCountUI.h"

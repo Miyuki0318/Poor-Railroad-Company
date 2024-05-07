@@ -148,6 +148,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)StageCSV.h">
       <Filter>Stage\StageCSV</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ItemCountUI.h">
+      <Filter>UI\ItemCount</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -275,6 +278,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)OriginalCollision.cpp">
       <Filter>StageObject\Collision</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ItemCountUI.cpp">
+      <Filter>UI\ItemCount</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -424,6 +430,12 @@
     </Filter>
     <Filter Include="Stage\StageCSV">
       <UniqueIdentifier>{ce874613-cafd-42bf-9a48-7d0357c2a0d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI">
+      <UniqueIdentifier>{d805575e-119e-4aea-b518-0e42fd4e6db2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\ItemCount">
+      <UniqueIdentifier>{a47b6e4a-de6d-4d65-9f41-1f82e25f2cfa}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -28,7 +28,7 @@ namespace basecross
 		Number(const shared_ptr<Stage>& stagePtr,
 			const Vec2& scale, const Vec3& position
 		) :
-			Sprite(stagePtr, L"NUMBER", scale, position)
+			Sprite(stagePtr, L"NUMBER_TX", scale, position)
 		{
 			m_number = 0;
 		}
