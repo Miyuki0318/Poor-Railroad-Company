@@ -57,7 +57,7 @@ namespace basecross
 	void GameStage::CreateGroundBox()
 	{
 		// 床ボックスオブジェクトの追加
-		AddGameObject<GroundBox>(Vec3(100.0f, 2.0f, 15.0f));
+		AddGameObject<GroundBox>(Vec3(49.5f, 0.0f, -7.0f) ,Vec3(100.0f, 2.0f, 15.0f));
 	}
 
 	// プレイヤーの生成

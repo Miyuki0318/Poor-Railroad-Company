@@ -10,7 +10,7 @@
 namespace basecross {
 	class Company : public TemplateObject
 	{
-		const Vec3 m_position = Vec3(35.0f, 1.0f, 10.0f);
+		const Vec3 m_position = Vec3(10.0f, 1.0f, -15.0f);
 		
 		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
 		

@@ -16,7 +16,7 @@ namespace basecross
 	{
 		auto ptrView = CreateView<SingleView>();
 		//ビューのカメラの設定
-		auto& camera = ObjectFactory::Create<MainCamera>(MainCamera::State::Fixed);
+		auto& camera = ObjectFactory::Create<MainCamera>(MainCamera::State::Fixed, m_cameraEye, m_cameraAt);
 		ptrView->SetCamera(camera);
 		camera->SetAt(m_cameraAt);
 		camera->SetEye(m_cameraEye);
@@ -53,7 +53,7 @@ namespace basecross
 	void TitleStage::CreateGround()
 	{		
 		// 床ボックスオブジェクトの追加
-		auto& ground = AddGameObject<GroundBox>(m_groundScale);
+		auto& ground = AddGameObject<GroundBox>(Vec3(m_cameraAt.x, 0.0f, m_cameraAt.z), m_groundScale);
 		SetSharedGameObject(L"TitleGround", ground);
 	}
 
@@ -190,6 +190,8 @@ namespace basecross
 			CreatePlayer();
 
 			CreateBuilding();
+
+			WriteCSVMap("TitleStage");
 		}
 		catch (...)
 		{
@@ -203,6 +205,8 @@ namespace basecross
 		try 
 		{
 			PushButtonX();
+
+			Debug::Log(L"カメラのAt : ", GetView()->GetTargetCamera()->GetAt());
 
 			if (m_buttonPush)
 			{

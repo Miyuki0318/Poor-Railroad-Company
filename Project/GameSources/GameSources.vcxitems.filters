@@ -145,6 +145,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OriginalCollision.h">
       <Filter>StageObject\Collision</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)StageCSV.h">
+      <Filter>Stage\StageCSV</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -418,6 +421,9 @@
     </Filter>
     <Filter Include="StageObject\Collision">
       <UniqueIdentifier>{3577e2dd-0a44-42a2-851e-e3f961892f27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage\StageCSV">
+      <UniqueIdentifier>{ce874613-cafd-42bf-9a48-7d0357c2a0d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
