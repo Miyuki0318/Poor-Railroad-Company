@@ -40,6 +40,6 @@ namespace basecross {
 		/*
 		* ゲームスタート
 		*/
-		void StartCountDown();
+		void GameStart();
 	};
 }

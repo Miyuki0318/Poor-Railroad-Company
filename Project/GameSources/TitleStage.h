@@ -10,6 +10,12 @@
 
 namespace basecross
 {
+	enum Switching
+	{
+		off,
+		on
+	};
+
 	class TitleStage : public StageCSV
 	{
 	private:
@@ -34,11 +40,6 @@ namespace basecross
 
 		// ボタンが押されたか
 		bool m_buttonPush;
-
-		// フェードが終わったか
-		bool m_fadeStop;
-
-		bool m_setting;
 
 		bool m_zooming;
 
@@ -113,7 +114,6 @@ namespace basecross
 		TitleStage() : StageCSV()
 		{
 			m_buttonPush = false;
-			m_fadeStop = false;
 			m_zooming = false;
 
 			m_objectGroup = CreateSharedObjectGroup(L"Settings");

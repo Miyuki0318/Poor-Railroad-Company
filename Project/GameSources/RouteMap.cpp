@@ -28,14 +28,72 @@ namespace basecross {
 		GetStage()->AddGameObject<OriginalColl>(Vec3(5.5f, 1.0f, 1.0f), m_position);
 
 		// スプライトの追加
-		//GetStage()->AddGameObject<Sprite>(m_mapLevel[eMapLevel::easyMap], Vec2(500.0f));
+		m_mapSprite = GetStage()->AddGameObject<Sprite>(m_mapTextures[m_mapLevel], Vec2(500.0f));
+		m_mapSprite->SetDrawActive(false);
 	}
 
 	void RouteMap::OnUpdate()
 	{
 		if (FindTag(tagName))
 		{
-			Debug::Log(L"ROUTEMAP");
+			m_mapSprite->SetDrawActive(true);
+			MapSelect();
 		}
+		else
+		{
+			m_mapSprite->SetDrawActive(false);
+		}
+	}
+
+	void RouteMap::MapSelect()
+	{
+		// スティックの入力量を取得
+		Vec2 move = Input::GetLStickValue();
+
+		float stickX = move.getX();
+
+		if (stickX < 0.0f && m_currentX >= 0.0f)
+		{
+			switch (m_mapLevel)
+			{
+			case RouteMap::easyMap:
+				m_mapLevel = RouteMap::hardMap;
+				break;
+
+			case RouteMap::normalMap:
+				m_mapLevel = RouteMap::easyMap;
+				break;
+
+			case RouteMap::hardMap:
+				m_mapLevel = RouteMap::normalMap;
+				break;
+
+			default:
+				break;
+			}
+		}
+		else if (stickX > 0.0f && m_currentX <= 0.0f)
+		{
+			switch (m_mapLevel)
+			{
+			case RouteMap::easyMap:
+				m_mapLevel = RouteMap::normalMap;
+				break;
+
+			case RouteMap::normalMap:
+				m_mapLevel = RouteMap::hardMap;
+				break;
+
+			case RouteMap::hardMap:
+				m_mapLevel = RouteMap::easyMap;
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		m_currentX = stickX;
+		m_mapSprite->SetTexture(m_mapTextures[m_mapLevel]);
 	}
 }
