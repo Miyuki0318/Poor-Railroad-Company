@@ -122,7 +122,7 @@ namespace basecross
 		@brief 描画更新関数
 		*/
 		virtual void OnDraw() override;
-
+		virtual void OnDestroy()override;
 		/*!
 		@brief タイマークラス取得関数
 		@return const shared_ptr<Timer>

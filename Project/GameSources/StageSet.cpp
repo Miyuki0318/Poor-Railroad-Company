@@ -147,18 +147,18 @@ namespace basecross
 			break;
 		}
 	}
-	////BGMの再生
-	//void StageSet::PlayBGM() {
-	//	auto XAPtr = App::GetApp()->GetXAudio2Manager();
-	//	 m_BGM= XAPtr->Start(L"Stage_BGM", XAUDIO2_LOOP_INFINITE, 0.0f);
-	//}
+	//BGMの再生
+	void StageSet::CreateBGM() {
+		auto XAPtr = App::GetApp()->GetXAudio2Manager();
+		 m_BGM= XAPtr->Start(L"Stage_BGM", XAUDIO2_LOOP_INFINITE, 0.0f);
+	}
 
-	//void StageSet::OnDestroy()
-	//{
-	//	//BGMのストップ
-	//	auto XAPtr = App::GetApp()->GetXAudio2Manager();
-	//	XAPtr->Stop(m_BGM);
-	//}
+	void StageSet::OnDestroy()
+	{
+		//BGMのストップ
+		auto XAPtr = App::GetApp()->GetXAudio2Manager();
+		XAPtr->Stop(m_BGM);
+	}
 
 	// 生成時の処理
 	void StageSet::OnCreate()
@@ -195,7 +195,7 @@ namespace basecross
 			CreateSpriteObject();
 
 			//BGMの生成
-			//PlayBGM();
+			CreateBGM();
 
 			// タイマーオブジェクトの生成
 			m_timer = AddGameObject<Timer>();

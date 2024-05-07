@@ -72,7 +72,7 @@ namespace basecross
 		void LogoActive();
 
 		//BGMÇÃê∂ê¨
-		//void PlayBGM();
+		void CreateBGM();
 
 	public:
 		StageSet() :Stage() {

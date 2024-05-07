@@ -152,10 +152,10 @@ namespace basecross
 	//BGMの再生
 	void GameStage::PlayBGM() {
 		auto XAPtr = App::GetApp()->GetXAudio2Manager();
-		m_BGM = XAPtr->Start(L"Stage_BGM", XAUDIO2_LOOP_INFINITE, 0.0f);
+		m_BGM = XAPtr->Start(L"Stage_BGM", XAUDIO2_LOOP_INFINITE, 1.0f);
 	}
 
-	void StageSet::OnDestroy()
+	void GameStage::OnDestroy()
 	{
 		//BGMのストップ
 		auto XAPtr = App::GetApp()->GetXAudio2Manager();
