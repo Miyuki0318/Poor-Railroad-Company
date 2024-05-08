@@ -8,7 +8,7 @@
 #include "CraftUI.h"
 
 namespace basecross
-{
+{	
 	/*!
 	@brief クラフトウィンドウ
 	*/
@@ -39,5 +39,21 @@ namespace basecross
 		@brief 毎フレーム度に呼び出される関数
 		*/
 		void OnUpdate() override;
+
+		/*!
+		@brief 描画変更設定関数
+		@param eVerticesRect
+		*/
+		void SetRectType(eRectType rect) override
+		{
+			CraftUI::SetRectType(rect);
+
+			for (size_t i = 0; i < m_vertex.vertices.size(); i++)
+			{
+				m_vertex.vertices.at(i).textureCoordinate = m_rectUVMap.at(rect).at(i);
+			}
+
+			m_ptrDraw->UpdateVertices(m_vertex.vertices);
+		}
 	};
 }

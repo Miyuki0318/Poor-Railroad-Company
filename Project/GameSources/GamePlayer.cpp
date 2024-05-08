@@ -86,8 +86,11 @@ namespace basecross
 		// ステージの取得(shared_ptrをconstで取得)
 		const auto& stagePtr = GetStage();
 
+		// thisスマートポインタ
+		const auto& thisPtr = GetThis<TemplateObject>();
+
 		// セレクトインディケーターの生成
-		m_indicator = stagePtr->AddGameObject<SelectIndicator>(GetThis<Player>());
+		m_indicator = stagePtr->AddGameObject<SelectIndicator>(thisPtr);
 
 		// アクションガイドの生成
 		stagePtr->AddGameObject<ActionGuide>(GetThis<GamePlayer>(), m_indicator.lock());
@@ -95,7 +98,7 @@ namespace basecross
 		// クラフトマネージャの生成
 		const auto& cWindow = stagePtr->AddGameObject<CraftWindow>();
 		const auto& cQTE = stagePtr->AddGameObject<CraftingQTE>();
-		m_craft.reset(new CraftManager(cWindow, cQTE));
+		m_craft.reset(new CraftManager(thisPtr, cWindow, cQTE));
 	}
 
 	// インディケーターの取得に応じて処理

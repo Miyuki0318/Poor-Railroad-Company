@@ -93,7 +93,7 @@ namespace basecross
 	@brief 描画変更設定関数
 	@param eVerticesRect
 	*/
-	void Sprite::SetVerticesRect(eVerticesRect rect)
+	void Sprite::SetVerticesRect(eRectType rect)
 	{
 		// 頂点座標の初期化
 		Utility::SimpleVertices(m_vertex.vertices);
@@ -105,35 +105,19 @@ namespace basecross
 		// 向きに応じて設定
 		switch (rect)
 		{
-		case eVerticesRect::Upper: // 左上なら
-			addPos = Vec2(0.0f, HELF);
-			break;
-
-		case eVerticesRect::Under: // 右下なら
-			addPos = Vec2(0.0f, -HELF);
-			break;
-
-		case eVerticesRect::Right: // 左下なら
-			addPos = Vec2(HELF, 0.0f);
-			break;
-
-		case eVerticesRect::Left: // 右上なら
-			addPos = Vec2(-HELF, 0.0f);
-			break;
-
-		case eVerticesRect::UpperRight: // 右上なら
+		case eRectType::UpRight: // 右上なら
 			addPos = Vec2(HELF, HELF);
 			break;
 
-		case eVerticesRect::UpperLeft: // 左上なら
+		case eRectType::UpLeft: // 左上なら
 			addPos = Vec2(-HELF, HELF);
 			break;
 
-		case eVerticesRect::UnderRight: // 右下なら
+		case eRectType::DownRight: // 右下なら
 			addPos = Vec2(HELF, -HELF);
 			break;
 
-		case eVerticesRect::UnderLeft: // 左下なら
+		case eRectType::DownLeft: // 左下なら
 			addPos = Vec2(-HELF, -HELF);
 			break;
 

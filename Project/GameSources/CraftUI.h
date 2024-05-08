@@ -26,6 +26,12 @@ namespace basecross
 		// 表示中か
 		Bool8_t<eWindowEnable> m_drawEnable;
 
+		// UV座標マップ
+		map<eRectType, vector<Vec2>> m_rectUVMap;
+
+		// 描画方向
+		eRectType m_rectType;
+
 		const Vec2 m_drawScale;	 // 展開時のスケール
 		const float m_drawSpeed; // 展開速度
 		float m_drawRatio;		 // 展開割合
@@ -50,6 +56,13 @@ namespace basecross
 		{
 			m_drawRatio = 0.0f;
 			m_drawEnable = 0;
+
+			m_rectType = eRectType::UpLeft;
+
+			m_rectUVMap.emplace(eRectType::UpRight, vector<Vec2>({ Vec2(0.0f, 0.0f), Vec2(0.5f, 0.0f), Vec2(0.0f, 0.5f), Vec2(0.5f, 0.5f) }));
+			m_rectUVMap.emplace(eRectType::UpLeft, vector<Vec2>({ Vec2(0.5f, 0.0f), Vec2(1.0f, 0.0f), Vec2(0.5f, 0.5f), Vec2(1.0f, 0.5f) }));
+			m_rectUVMap.emplace(eRectType::DownRight, vector<Vec2>({ Vec2(0.0f, 0.5f), Vec2(0.5f, 0.5f), Vec2(0.0f, 1.0f), Vec2(0.5f, 1.0f) }));
+			m_rectUVMap.emplace(eRectType::DownLeft, vector<Vec2>({ Vec2(0.5f, 0.5f), Vec2(1.0f, 0.5f), Vec2(0.5f, 1.0f), Vec2(1.0f, 1.0f) }));
 		}
 
 		/*!
@@ -71,6 +84,12 @@ namespace basecross
 		@brief 表示非表示設定関数
 		@param bool
 		*/
+		virtual void SetEnable(bool enable);
+
+		/*!
+		@brief 表示非表示設定関数
+		@param bool
+		*/
 		virtual void SetDrawEnable(bool enable);
 
 		/*!
@@ -80,6 +99,15 @@ namespace basecross
 		virtual bool GetShowWindow() const
 		{
 			return m_drawEnable(eWindowEnable::IsEnable, eWindowEnable::IsPastEnable);
+		}
+
+		/*!
+		@brief 描画変更設定関数
+		@param eVerticesRect
+		*/
+		virtual void SetRectType(eRectType rect)
+		{
+			m_rectType = rect;
 		}
 	};
 }

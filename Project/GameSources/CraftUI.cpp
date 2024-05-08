@@ -41,12 +41,18 @@ namespace basecross
 		}
 	}
 
-	// 表示切り替え
-	void CraftUI::SetDrawEnable(bool enable)
+	// 状態切り替え
+	void CraftUI::SetEnable(bool enable)
 	{
 		// 表示状態を設定
 		m_drawEnable.Set(eWindowEnable::IsEnable) = enable;
 		m_drawEnable.Set(eWindowEnable::IsPastEnable) = !enable;
+	}
+
+	// 表示切り替え
+	void CraftUI::SetDrawEnable(bool enable)
+	{
+		SetEnable(enable);
 
 		// プレイヤーの頭上の座標の位置に移動
 		const auto& stagePtr = GetStage();

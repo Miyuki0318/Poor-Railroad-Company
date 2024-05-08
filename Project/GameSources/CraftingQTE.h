@@ -17,6 +17,8 @@ namespace basecross
 		weak_ptr<CraftUI> m_barFlame; // バーのフレーム
 		weak_ptr<CraftUI> m_qtePoint; // QTEのタイミング範囲
 
+		map<eRectType, Vec3> m_rectDiff;
+
 		const float m_posDiff;  // ウィンドウとの座標差分
 		const float m_qteRatio; // QTEの成功位置の割合
 		const float m_barSpeed; // QTEバーの速度
@@ -36,6 +38,11 @@ namespace basecross
 		{
 			m_barRatio = 0.0f;
 			m_qteEnable = false;
+
+			m_rectDiff.emplace(eRectType::UpRight, Vec3(1.0f, 1.0f, 1.0f));
+			m_rectDiff.emplace(eRectType::UpLeft, Vec3(-1.0f, 1.0f, 1.0f));
+			m_rectDiff.emplace(eRectType::DownRight, Vec3(1.0f, -1.0f, 1.0f));
+			m_rectDiff.emplace(eRectType::DownLeft, Vec3(-1.0f, -1.0f, 1.0f));
 		}
 
 		/*!
@@ -68,7 +75,7 @@ namespace basecross
 		@brief 描画変更設定関数
 		@param eVerticesRect
 		*/
-		void SetVerticesRect(eVerticesRect rect) override;
+		void SetVerticesRect(eRectType rect) override;
 
 		/*!
 		@brief QTEの更新関数

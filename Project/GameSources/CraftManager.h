@@ -43,6 +43,7 @@ namespace basecross
 	*/
 	class CraftManager
 	{
+		const weak_ptr<TemplateObject> m_player;
 		const weak_ptr<CraftingQTE> m_craftQTE; // クラフトQTE
 		const weak_ptr<CraftWindow> m_window;	// クラフトウィンドウ
 
@@ -57,8 +58,10 @@ namespace basecross
 		@param ウィンドウオブジェクトのポインタ
 		@param クラフトQTEオブジェクトのポインタ
 		*/
-		CraftManager(const shared_ptr<CraftWindow>& windowPtr,
+		CraftManager(const shared_ptr<TemplateObject>& playerPtr,
+			const shared_ptr<CraftWindow>& windowPtr,
 			const shared_ptr<CraftingQTE>& qtePtr) :
+			m_player(playerPtr),
 			m_window(windowPtr),
 			m_craftQTE(qtePtr),
 			m_racipe(CSVLoader::LoadFile("CraftRacipe"))
