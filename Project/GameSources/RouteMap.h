@@ -27,6 +27,9 @@ namespace basecross {
 		const Vec3 m_position = Vec3(30.0f, 1.0f, -15.0f);
 
 		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
+		
+		const float m_width = 500.0f;
+		const float m_height = 500.0f;
 
 		float m_currentX;
 

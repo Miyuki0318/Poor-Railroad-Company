@@ -28,7 +28,7 @@ namespace basecross {
 		GetStage()->AddGameObject<OriginalColl>(Vec3(5.5f, 1.0f, 1.0f), m_position);
 
 		// スプライトの追加
-		m_mapSprite = GetStage()->AddGameObject<Sprite>(m_mapTextures[m_mapLevel], Vec2(500.0f));
+		m_mapSprite = GetStage()->AddGameObject<Sprite>(m_mapTextures[m_mapLevel], Vec2(m_width,m_height));
 		m_mapSprite->SetDrawActive(false);
 	}
 
