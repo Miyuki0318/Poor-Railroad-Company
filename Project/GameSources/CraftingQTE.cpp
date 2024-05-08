@@ -51,24 +51,25 @@ namespace basecross
 	void CraftingQTE::SetDrawEnable(bool enable, Vec3 windowPos)
 	{
 		// 継承元の表示切替え処理を実行
-		CraftUI::SetDrawEnable(enable);
+		CraftUI::SetEnable(enable);
 
 		// フレームとQTEポイントにも表示切替えの処理を送る
-		m_barFlame.lock()->SetDrawEnable(enable);
-		m_qtePoint.lock()->SetDrawEnable(enable);
+		m_barFlame.lock()->SetEnable(enable);
+		m_qtePoint.lock()->SetEnable(enable);
 
 		// 座標を設定
-		Vec3 pos = GetPosition() + Vec3(0.0f, m_posDiff + m_drawScale.y, 0.0f);
+		Vec3 diff = m_rectDiff.at(m_rectType);
+		Vec3 pos = windowPos + Vec3(0.0f, (m_posDiff + m_drawScale.y) * diff.y, 0.0f);
 		SetPosition(Vec3(pos.x, pos.y, 0.2f));
 		m_barFlame.lock()->SetPosition(Vec3(pos.x, pos.y, 0.0f));
-		m_qtePoint.lock()->SetPosition(Vec3(pos.x + (m_drawScale.x * (m_qteRatio - 0.1f)), pos.y, 0.1f));
+		m_qtePoint.lock()->SetPosition(Vec3(pos.x + (m_drawScale.x * (m_qteRatio - 0.1f)) * diff.x, pos.y, 0.1f));
 	}
 	
 	// 描画変更設定
-	void CraftingQTE::SetVerticesRect(eVerticesRect rect)
+	void CraftingQTE::SetVerticesRect(eRectType rect)
 	{
 		// 継承元の描画変更設定処理を送る
-		Sprite::SetVerticesRect(rect);
+		CraftUI::SetVerticesRect(rect);
 
 		// フレームとQTEポイントにも描画変更設定の処理を送る
 		m_barFlame.lock()->SetVerticesRect(rect);

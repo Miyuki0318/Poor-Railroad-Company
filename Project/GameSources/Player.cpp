@@ -109,7 +109,7 @@ namespace basecross
 		if (!GetIsImpassable(row, col)) return;
 
 		// ‰“šˆ—
-		float gridZ = -float(row) - m_margin;
+		float gridZ = -float(row);
 		if (pos.z - m_radius < gridZ)
 		{
 			pos.z = gridZ + m_radius;
@@ -128,7 +128,7 @@ namespace basecross
 		if (!GetIsImpassable(row, col)) return;
 
 		// ‰“šˆ—
-		float gridZ = -float(row) - m_margin;
+		float gridZ = -float(row);
 		if (pos.z + m_radius > gridZ)
 		{
 			pos.z = gridZ - m_radius;
@@ -147,7 +147,7 @@ namespace basecross
 		if (!GetIsImpassable(row, col)) return;
 
 		// ‰“šˆ—
-		float gridX = float(col) + m_margin;
+		float gridX = float(col);
 		if (pos.x - m_radius < gridX)
 		{
 			pos.x = gridX + m_radius;
@@ -166,7 +166,7 @@ namespace basecross
 		if (!GetIsImpassable(row, col)) return;
 
 		// ‰“šˆ—
-		float gridX = float(col) - m_margin;
+		float gridX = float(col);
 		if (pos.x + m_radius > gridX)
 		{
 			pos.x = gridX - m_radius;

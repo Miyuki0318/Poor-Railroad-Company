@@ -6,6 +6,7 @@
 #pragma once
 #include "stdafx.h"
 #include "StageCSV.h"
+#include "ResourcesManager.h"
 
 //#define STAGE_ID(id) static_cast<eStageID>(id)
 
@@ -37,7 +38,7 @@ namespace basecross
 	/*!
 	@brief ゲーム中のステージ
 	*/
-	class GameStage : public StageCSV
+	class GameStage : public StageCSV, public ResourcesManager
 	{
 		// ゲームクリア・ゲームオーバーのスプライト
 		shared_ptr<Sprite> m_gameClearLogo;
@@ -53,6 +54,11 @@ namespace basecross
 		@brief リソースの読込
 		*/
 		void CreateResourses();
+
+		/*!
+		@brief リソースの解放
+		*/
+		void ReleasedResourses();
 
 		/*!
 		@brief ビューとライトの生成
@@ -120,7 +126,7 @@ namespace basecross
 		/*!
 		@brief コンストラクタ
 		*/
-		GameStage() :StageCSV() {
+		GameStage() :StageCSV(), ResourcesManager() {
 			m_gameProgress = eGameProgress::Playing;
 		}
 
@@ -134,10 +140,10 @@ namespace basecross
 		*/
 		virtual void OnCreate() override;
 
-		///*!
-		//@brief 破棄される時に一度だけ呼び出される関数
-		//*/
-		//virtual void OnDestroy() override;
+		/*!
+		@brief 破棄される時に一度だけ呼び出される関数
+		*/
+		virtual void OnDestroy() override;
 
 		/*!
 		@brief 毎フレーム度に呼び出される関数

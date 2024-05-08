@@ -9,18 +9,13 @@
 
 namespace basecross
 {
-	// ウィンドウ描画方向enum
-	enum class eVerticesRect
+	// 画像描画方向タイプ
+	enum class eRectType
 	{
-		Center,		// 中央
-		Upper,		// 上
-		Under,		// 下
-		Right,		// 右
-		Left,		// 左
-		UpperRight,	// 右上
-		UpperLeft,	// 左上
-		UnderRight,	// 右下
-		UnderLeft,	// 左下
+		UpRight,	// 右上
+		UpLeft,		// 左上
+		DownRight,	// 右下
+		DownLeft,	// 左下
 	};
 
 	/*!
@@ -129,7 +124,7 @@ namespace basecross
 		@brief 頂点座標の中心を変更する関数
 		@param 設定タイプ
 		*/
-		virtual void SetVerticesRect(eVerticesRect rect) = 0;
+		virtual void SetVerticesRect(eRectType rect) = 0;
 
 		/*!
 		@brief ディフューズ色を返す関数

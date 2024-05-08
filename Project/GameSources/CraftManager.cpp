@@ -29,17 +29,28 @@ namespace basecross
 		// QTEとウィンドウオブジェクトの取得
 		const auto& qte = m_craftQTE.lock();
 		const auto& window = m_window.lock();
-		if (qte && window)
+		const auto& player = m_player.lock();
+		if (qte && window && player)
 		{
-			// 描画状態設定を送る
-			qte->SetDrawEnable(enable, window->GetPosition());
-			window->SetDrawEnable(enable);
+			// スプライトの中心位置設定を送る
+			Vec3 playerPos = player->GetPosition();
+			Vec3 windowPos = Utility::ConvertToWorldPosition(player->GetStage()->GetView(), playerPos);
+			eRectType rect = eRectType::DownLeft;
+			if (windowPos.x < 0.0f) rect = eRectType::DownRight;
+			if (windowPos.y < 0.0f) rect = eRectType::UpLeft;
+			if (windowPos.x < 0.0f && windowPos.y < 0.0f) rect = eRectType::UpRight;
 
-			// スプライトの中心位置設定を送る(条件未設定だから一旦右上固定)
-			//eVerticesRect rect = GetCraftWindowDrawRect();
-			eVerticesRect rect = eVerticesRect::UpperRight;
+			// 頂点座標を変更
 			qte->SetVerticesRect(rect);
 			window->SetVerticesRect(rect);
+
+			// 描画方向を設定
+			qte->SetRectType(rect);
+			window->SetRectType(rect);
+
+			// 描画状態設定を送る
+			window->SetDrawEnable(enable);
+			qte->SetDrawEnable(enable, window->GetPosition());
 		}
 	}
 

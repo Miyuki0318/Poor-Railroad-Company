@@ -103,7 +103,7 @@ namespace basecross
 		@brief 描画変更設定関数
 		@param eVerticesRect
 		*/
-		void SetVerticesRect(eVerticesRect rect) override;
+		void SetVerticesRect(eRectType rect) override;
 
 		/*!
 		@brief テクスチャをベロシティに応じて回転させる関数

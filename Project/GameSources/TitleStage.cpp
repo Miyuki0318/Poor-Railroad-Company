@@ -35,16 +35,23 @@ namespace basecross
 		wstring texturePath = mediaPath + L"Textures/";
 		wstring modelPath = mediaPath + L"Models/" + L"Bilding";
 
-		app->RegisterTexture(L"FADE_TX", texturePath + L"Blue.png");
-
-		app->RegisterTexture(L"GROUND_TX", texturePath + L"ForestGround.png");
-
-		// 看板のテクスチャ
+		AddTextureResource(L"FADE_TX", texturePath + L"Blue.png");
 
 		// マップのテクスチャ
-		app->RegisterTexture(L"EASYMAP_TX", texturePath + L"MapEasy.png");
-		app->RegisterTexture(L"NORMALMAP_TX", texturePath + L"MapNormal.png");
-		app->RegisterTexture(L"HARDMAP_TX", texturePath + L"MapHard.png");
+		AddTextureResource(L"EASYMAP_TX", texturePath + L"MapEasy.png");
+		AddTextureResource(L"NORMALMAP_TX", texturePath + L"MapNormal.png");
+		AddTextureResource(L"HARDMAP_TX", texturePath + L"MapHard.png");
+		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
+
+		AddedTextureResources();
+	}
+
+	// リソースの解放
+	void TitleStage::ReleasedResourses()
+	{
+		// 音源とテクスチャの解放
+		ReleasedAudioResources();
+		ReleasedTextureResources();
 	}
 
 	// スプライトの生成
@@ -205,6 +212,20 @@ namespace basecross
 		}
 	}
 
+	// 破棄される時の処理
+	void TitleStage::OnDestroy()
+	{
+		try
+		{
+			ReleasedResourses();
+		}
+		catch (...)
+		{
+			throw;
+		}
+	}
+
+
 	// 毎フレーム実行される関数
 	void TitleStage::OnUpdate()
 	{
@@ -237,12 +258,6 @@ namespace basecross
 		{
 			throw;
 		}
-	}
-
-	// オブジェクト破棄時に呼び出される処理
-	void TitleStage::OnDestroy()
-	{
-
 	}
 
 	// 描画処理

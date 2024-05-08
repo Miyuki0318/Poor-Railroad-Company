@@ -79,8 +79,8 @@ namespace basecross {
 		RegisterSingleMesh(L"ROCK3", modelPath + L"Rock/", L"Rock3", false);
 
 		// 木のモデルの生成
-		RegisterMultiMesh(L"TREE1", modelPath + L"Tree/", L"tree1", false);
-		RegisterMultiMesh(L"TREE2", modelPath + L"Tree/", L"tree2", false);
+		RegisterMultiMesh(L"TREE1", modelPath + L"Tree/", L"Tree1", false);
+		RegisterMultiMesh(L"TREE2", modelPath + L"Tree/", L"Tree2", false);
 
 		// プレイヤーモデルの生成
 		RegisterMultiMesh(L"PLAYER", modelPath + L"Player/", L"Player", true);
