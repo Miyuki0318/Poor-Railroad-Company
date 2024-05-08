@@ -18,31 +18,43 @@ namespace basecross
 		wstring mediaPath = app->GetDataDirWString();
 		wstring texturePath = mediaPath + L"Textures/";
 
-		app->RegisterTexture(L"GAMECLEAR_TX", texturePath + L"Win.png");
-		app->RegisterTexture(L"GAMEOVER_TX", texturePath + L"Lose.png");
+		// ゲーム結果テクスチャ
+		AddTextureResource(L"GAMECLEAR_TX", texturePath + L"Win.png");
+		AddTextureResource(L"GAMEOVER_TX", texturePath + L"Lose.png");
 
 		// クラフトウィンドウのテクスチャ
-		app->RegisterTexture(L"C_WINDOW_TX", texturePath + L"CraftWindow.png");
+		AddTextureResource(L"C_WINDOW_TX", texturePath + L"CraftWindow.png");
 
 		// QTEバーのフレームのテクスチャ
-		app->RegisterTexture(L"C_QTE_FLAME_TX", texturePath + L"BarFlame.png");
+		AddTextureResource(L"C_QTE_FLAME_TX", texturePath + L"BarFlame.png");
 
 		// 地面の仮テクスチャ
-		app->RegisterTexture(L"GROUND_TX", texturePath + L"ForestGround.png");
+		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
 
 		// アイコンテクスチャ
-		app->RegisterTexture(L"I_AXE_TX", texturePath + L"AxeIcon.png");
-		app->RegisterTexture(L"I_PICK_TX", texturePath + L"PickIcon.png");
-		app->RegisterTexture(L"I_RAIL_TX", texturePath + L"RailIcon.png");
-		app->RegisterTexture(L"I_CRAFT_TX", texturePath + L"CraftIcon.png");
-		app->RegisterTexture(L"I_BALOON_CENTER_TX", texturePath + L"BalloonCenter.png");
-		app->RegisterTexture(L"I_BALOON_RIGHT_TX", texturePath + L"BalloonRight.png");
-		app->RegisterTexture(L"I_BALOON_LEFT_TX", texturePath + L"BalloonLeft.png");
+		AddTextureResource(L"I_AXE_TX", texturePath + L"AxeIcon.png");
+		AddTextureResource(L"I_PICK_TX", texturePath + L"PickIcon.png");
+		AddTextureResource(L"I_RAIL_TX", texturePath + L"RailIcon.png");
+		AddTextureResource(L"I_CRAFT_TX", texturePath + L"CraftIcon.png");
+		AddTextureResource(L"I_BALOON_CENTER_TX", texturePath + L"BalloonCenter.png");
+		AddTextureResource(L"I_BALOON_RIGHT_TX", texturePath + L"BalloonRight.png");
+		AddTextureResource(L"I_BALOON_LEFT_TX", texturePath + L"BalloonLeft.png");
 
 		// UIテクスチャ
-		app->RegisterTexture(L"UI_WOOD_TX", texturePath + L"Wood.png");
-		app->RegisterTexture(L"UI_STONE_TX", texturePath + L"Stone.png");
-		app->RegisterTexture(L"UI_RAIL_TX", texturePath + L"Rail.png");
+		AddTextureResource(L"UI_WOOD_TX", texturePath + L"Wood.png");
+		AddTextureResource(L"UI_STONE_TX", texturePath + L"Stone.png");
+		AddTextureResource(L"UI_RAIL_TX", texturePath + L"Rail.png");
+
+		// 追加したリソースをメモリに追加
+		AddedTextureResources();
+	}
+
+	// リソースの解放
+	void GameStage::ReleasedResourses()
+	{
+		// 音源とテクスチャの解放
+		ReleasedAudioResources();
+		ReleasedTextureResources();
 	}
 
 	//ビューとライトの生成
@@ -261,6 +273,19 @@ namespace basecross
 			mainCamera->SetAt(train->GetDefaultPosition());
 		}
 		catch (...) 
+		{
+			throw;
+		}
+	}
+
+	// 破棄される時の処理
+	void GameStage::OnDestroy()
+	{
+		try
+		{
+			ReleasedResourses();
+		}
+		catch (...)
 		{
 			throw;
 		}

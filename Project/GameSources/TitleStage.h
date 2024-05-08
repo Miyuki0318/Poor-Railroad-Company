@@ -7,6 +7,7 @@
 #pragma once
 #include "stdafx.h"
 #include "StageCSV.h"
+#include "ResourcesManager.h"
 
 namespace basecross
 {
@@ -16,7 +17,7 @@ namespace basecross
 		on
 	};
 
-	class TitleStage : public StageCSV
+	class TitleStage : public StageCSV, public ResourcesManager
 	{
 	private:
 		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
@@ -58,6 +59,11 @@ namespace basecross
 		@brief リソースの読込
 		*/
 		void CreateResourses();
+
+		/*!
+		@brief リソースの解放
+		*/
+		void ReleasedResourses();
 
 		/*
 		@brief スプライトの生成
@@ -111,7 +117,7 @@ namespace basecross
 		/*
 		@brief コンストラクタ
 		*/
-		TitleStage() : StageCSV()
+		TitleStage() : StageCSV(), ResourcesManager()
 		{
 			m_buttonPush = false;
 			m_zooming = false;
@@ -128,16 +134,16 @@ namespace basecross
 		@brief 生成時に一度だけ呼び出される関数
 		*/
 		virtual void OnCreate() override;
-		
+
+		/*!
+		@brief 破棄される時に一度だけ呼び出される関数
+		*/
+		virtual void OnDestroy() override;
+
 		/*
 		@brief 毎フレーム呼び出される関数
 		*/
 		virtual void OnUpdate() override;
-		
-		/*
-		@brief オブジェクト破棄時に呼び出される関数
-		*/
-		virtual void OnDestroy() override;
 
 		/*!
 		@brief 描画更新関数
