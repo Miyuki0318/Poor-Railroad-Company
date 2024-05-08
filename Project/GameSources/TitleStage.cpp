@@ -38,6 +38,16 @@ namespace basecross
 		app->RegisterTexture(L"FADE_TX", texturePath + L"Blue.png");
 
 		app->RegisterTexture(L"GROUND_TX", texturePath + L"ForestGround.png");
+
+		// メニューテクスチャ
+		app->RegisterTexture(L"MENU_TX", texturePath + L"Menu.png");
+
+		// 看板のテクスチャ
+
+		// マップのテクスチャ
+		app->RegisterTexture(L"EASYMAP_TX", texturePath + L"MapEasy.png");
+		app->RegisterTexture(L"NORMALMAP_TX", texturePath + L"MapNormal.png");
+		app->RegisterTexture(L"HARDMAP_TX", texturePath + L"MapHard.png");
 	}
 
 	// スプライトの生成
