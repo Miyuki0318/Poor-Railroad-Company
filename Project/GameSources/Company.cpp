@@ -24,9 +24,6 @@ namespace basecross {
 		drawComp->SetMeshResource(L"COMPANY");
 		drawComp->SetDiffuse(COL_GRAY);
 
-		m_menuSprite = GetStage()->AddGameObject<Sprite>(L"MENU_TX", Vec2(500.0f), Vec3(0.0f));
-		m_menuSprite->SetDrawActive(false);
-
 		GetStage()->AddGameObject<OriginalColl>(Vec3(15.0f,1.0f,7.5f), m_position);
 	}
 
