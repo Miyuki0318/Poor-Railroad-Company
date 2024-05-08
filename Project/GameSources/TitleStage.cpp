@@ -39,9 +39,6 @@ namespace basecross
 
 		app->RegisterTexture(L"GROUND_TX", texturePath + L"ForestGround.png");
 
-		// メニューテクスチャ
-		app->RegisterTexture(L"MENU_TX", texturePath + L"Menu.png");
-
 		// 看板のテクスチャ
 
 		// マップのテクスチャ
