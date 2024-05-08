@@ -80,6 +80,11 @@ namespace basecross
 		void CreateBuilding();
 
 		/*
+		@brief —ñÔ‚Ì¶¬
+		*/
+		void CreateTrain();
+
+		/*
 		@brief ƒJƒƒ‰‚ÌƒY[ƒ€ˆ—
 		*/
 		void TitleCameraZoom();
