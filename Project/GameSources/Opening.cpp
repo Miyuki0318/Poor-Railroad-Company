@@ -20,11 +20,10 @@ namespace basecross {
 
 	void TitleLogo::OnUpdate()
 	{
-
+		LogoMove();
 	}
 
 	void TitleLogo::LogoMove()
 	{
-
 	}
 }
