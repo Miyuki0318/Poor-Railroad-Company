@@ -111,7 +111,7 @@ namespace basecross
 
 	void TitleStage::CreateTrain()
 	{
-		//const auto& train = AddGameObject<Train>();
+		const auto& train = AddGameObject<Train>();
 	}
 
 	// ƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚Ìˆ—
