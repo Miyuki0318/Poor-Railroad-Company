@@ -36,3 +36,5 @@
 #include "Signboard.h"
 #include "OriginalCollision.h"
 #include "ItemCountUI.h"
+#include "TitleTrain.h"
+#include "GameTrain.h"

@@ -1,5 +1,5 @@
 /*!
-@file Train.cpp
+@file GameTrain.cpp
 @brief —ñÔ‚ÌÀ‘•
 @author –î—I—t
 */

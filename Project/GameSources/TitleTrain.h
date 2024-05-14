@@ -1,5 +1,5 @@
 /*!
-@file Train.h
+@file TitleTrain.h
 @brief 列車オブジェクト
 @author 矢吹悠葉
 */
