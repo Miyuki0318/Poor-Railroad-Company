@@ -102,14 +102,19 @@ namespace basecross
 		m_objectGroup->IntoGroup(routeMap);
 	}
 
+	void TitleStage::CreateTrain()
+	{
+		//const auto& train = AddGameObject<Train>();
+	}
+
 	// ƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚½Žž‚Ìˆ—
 	void TitleStage::PushButtonX()
 	{
-		if (Input::GetPushX() && !m_buttonPush)
+		if (!m_buttonPush)
 		{
 			m_buttonPush = true;
 		}
-		else if (Input::GetPushX() && m_buttonPush)
+		else if (m_buttonPush)
 		{
 			m_buttonPush = false;
 		}
@@ -204,6 +209,8 @@ namespace basecross
 
 			CreateBuilding();
 
+			CreateTrain();
+			
 			WriteCSVMap("TitleStage");
 		}
 		catch (...)
@@ -231,7 +238,10 @@ namespace basecross
 	{
 		try 
 		{
-			PushButtonX();
+			if (Input::GetPushX())
+			{
+				PushButtonX();
+			}
 
 			Debug::Log(L"ƒJƒƒ‰‚ÌAt : ", GetView()->GetTargetCamera()->GetAt());
 
