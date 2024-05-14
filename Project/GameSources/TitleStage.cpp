@@ -72,7 +72,7 @@ namespace basecross
 	// オープニング画面の生成
 	void TitleStage::CreateOpningScreen()
 	{
-		const auto& opning = AddGameObject<TitleLogo>();
+		auto& opning = AddGameObject<TitleLogo>();
 	}
 
 	// 地面の生成
@@ -203,11 +203,6 @@ namespace basecross
 		}
 	}
 
-	void TitleStage::OpeningMove()
-	{
-		const auto& opening = AddGameObject<TitleLogo>();
-	}
-
 	// 実行時、一度だけ処理される関数
 	void TitleStage::OnCreate()
 	{
@@ -254,8 +249,6 @@ namespace basecross
 	{
 		try 
 		{
-			OpeningMove();
-
 			PushButtonX();
 
 			Debug::Log(L"カメラのAt : ", GetView()->GetTargetCamera()->GetAt());
