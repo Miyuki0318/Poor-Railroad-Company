@@ -22,19 +22,6 @@ namespace basecross
 		GameOver
 	};
 
-	// ステージオブジェクトID
-	enum class eStageID
-	{
-		None,		// 何もなし
-		Rail,		// レール
-		DeRail,		// 脱線部分
-		GuideRail,	// ガイドレール
-		GoalRail,	// ゴールレール
-		Rock = 10,	// 岩
-		Tree,		// 木
-		Water = -1,	// 水
-	};
-
 	/*!
 	@brief ゲーム中のステージ
 	*/

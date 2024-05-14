@@ -49,17 +49,17 @@ namespace basecross {
 
 	void Train::StateProcess(State state)
 	{
-		if (state == State::Arrival)
-		{
-			GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::GameClear);
-			return;
-		}
+		//if (state == State::Arrival)
+		//{
+		//	GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::GameClear);
+		//	return;
+		//}
 
-		if (state == State::Derail)
-		{
-			GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::GameOver);
-			return;
-		}
+		//if (state == State::Derail)
+		//{
+		//	GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::GameOver);
+		//	return;
+		//}
 
 		if (state == State::Onrail)
 		{
@@ -133,7 +133,7 @@ namespace basecross {
 		GetLineStringToRowCol(row, col, m_railPos);
 
 		// ゴール用レールと一致してたらtrue、それ以外ならfalse
-		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
+		const auto& stageMap = GetTypeStage<StageCSV>()->GetStageMap();
 		if (Utility::WithInElemRange(row, row, stageMap))
 		{
 			if (STAGE_ID(stageMap.at(row).at(col)) == eStageID::GoalRail)

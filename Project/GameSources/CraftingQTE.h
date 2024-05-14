@@ -68,12 +68,13 @@ namespace basecross
 		/*!
 		@brief 表示非表示設定関数
 		@param bool
+		@param windowの座標
 		*/
 		void SetDrawEnable(bool enable, Vec3 windowPos);
 
 		/*!
 		@brief 描画変更設定関数
-		@param eVerticesRect
+		@param eRectType
 		*/
 		void SetVerticesRect(eRectType rect) override;
 

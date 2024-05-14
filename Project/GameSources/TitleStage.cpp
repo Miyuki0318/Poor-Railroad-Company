@@ -91,6 +91,13 @@ namespace basecross
 		SetSharedGameObject(L"TitlePlayer", player);
 	}
 
+	// レール管理クラスの生成
+	void TitleStage::CreateRailManager()
+	{
+		const auto& railManager = AddGameObject<RailManager>();
+		SetSharedGameObject(L"RailManager", railManager);
+	}
+
 	// 建物の生成
 	void TitleStage::CreateBuilding()
 	{
@@ -118,14 +125,19 @@ namespace basecross
 		//const auto& train = AddGameObject<Train>();
 	}
 
+	void TitleStage::CreateTrain()
+	{
+		const auto& train = AddGameObject<Train>();
+	}
+
 	// ボタンを押した時の処理
 	void TitleStage::PushButtonX()
 	{
-		if (Input::GetPushX() && !m_buttonPush)
+		if (!m_buttonPush)
 		{
 			m_buttonPush = true;
 		}
-		else if (Input::GetPushX() && m_buttonPush)
+		else if (m_buttonPush)
 		{
 			m_buttonPush = false;
 		}
@@ -220,9 +232,13 @@ namespace basecross
 
 			CreatePlayer();
 
+			WriteCSVMap("TitleStage");
+
+			CreateRailManager();
+
 			CreateBuilding();
 
-			WriteCSVMap("TitleStage");
+			CreateTrain();
 		}
 		catch (...)
 		{
@@ -249,7 +265,10 @@ namespace basecross
 	{
 		try 
 		{
-			PushButtonX();
+			if (Input::GetPushX())
+			{
+				PushButtonX();
+			}
 
 			Debug::Log(L"カメラのAt : ", GetView()->GetTargetCamera()->GetAt());
 

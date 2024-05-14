@@ -86,9 +86,19 @@ namespace basecross
 		void CreatePlayer();
 
 		/*
+		@brief レール管理クラスの生成
+		*/
+		void CreateRailManager();
+
+		/*
 		@brief 建物の生成
 		*/
 		void CreateBuilding();
+
+		/*
+		@brief 列車の生成
+		*/
+		void CreateTrain();
 
 		/*
 		@brief カメラのズーム処理
