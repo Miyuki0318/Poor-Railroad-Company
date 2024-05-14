@@ -154,6 +154,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ResourcesManager.h">
       <Filter>Stage\ResourcesManager</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SkyBox.h">
+      <Filter>StageObject\SkyBox</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -284,6 +287,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ItemCountUI.cpp">
       <Filter>UI\ItemCount</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SkyBox.cpp">
+      <Filter>StageObject\SkyBox</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -442,6 +448,9 @@
     </Filter>
     <Filter Include="Stage\ResourcesManager">
       <UniqueIdentifier>{e7f93129-df53-4359-abf1-73c7a02c742e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\SkyBox">
+      <UniqueIdentifier>{f5887c2a-af6e-4891-a761-3ab8d1ed5e79}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
