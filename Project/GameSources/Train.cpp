@@ -36,7 +36,6 @@ namespace basecross {
 	void Train::OnUpdate()
 	{
 		StateProcess(m_state);
-		m_beforeState = m_state;
 	}
 
 	void Train::OnCollisionEnter(shared_ptr<GameObject>& gameObject)

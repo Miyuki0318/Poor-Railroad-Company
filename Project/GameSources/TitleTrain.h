@@ -16,12 +16,20 @@ namespace basecross {
 			GameStart, // ゲームスタート
 		};
 
+		State m_state = State::None;
+
 	public:
 		TitleTrain(const shared_ptr<Stage>& stagePtr) :
 			Train(stagePtr)
 		{
 		}
 		~TitleTrain() {}
+
+		void OnUpdate() override;
+
+		void StateProcess(State state);
+
+		void GameStartProcess();
 	};
 
 }

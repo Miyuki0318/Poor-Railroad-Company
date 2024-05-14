@@ -154,6 +154,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ResourcesManager.h">
       <Filter>Stage\ResourcesManager</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTrain.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleTrain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -285,6 +287,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)ItemCountUI.cpp">
       <Filter>UI\ItemCount</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameTrain.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleTrain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Player">

@@ -11,6 +11,15 @@
 namespace basecross {
 	class GameTrain : public Train
 	{
+		State m_state = State::Onrail;
 
+	public:
+		GameTrain(const shared_ptr<Stage>& stagePtr) :
+			Train(stagePtr)
+		{
+		}
+		~GameTrain() {}
+
+		void OnUpdate();
 	};
 }

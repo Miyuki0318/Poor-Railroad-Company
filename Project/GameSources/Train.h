@@ -38,6 +38,7 @@ namespace basecross {
 			Derail, // 脱線
 			Arrival // 駅到着
 		};
+		State m_state = State::Onrail;
 
 		pair<Vec3, Vec3> m_movePos;
 		string m_railPos;
@@ -46,10 +47,6 @@ namespace basecross {
 		map<float, eDirection> m_radMap;
 		map<eDirection, vector<Vec2>> m_drMap;
 		Mat4x4 m_modelMat;
-
-		// ステート変数
-		State m_state = State::Onrail;
-		State m_beforeState = State::Onrail;
 
 		Vec3 m_moveDirection;
 
