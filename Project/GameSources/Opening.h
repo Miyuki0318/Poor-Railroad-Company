@@ -8,6 +8,13 @@
 #include "TemplateObject.h"
 
 namespace basecross {
+	enum eOpeningState
+	{
+		move, // 移動
+		fade, // フェード
+		idel, // 待機
+	};
+
 	class TitleLogo : public TemplateObject
 	{
 	private:
@@ -19,6 +26,8 @@ namespace basecross {
 
 		float m_deltaTime;
 
+		eOpeningState m_openState;
+
 		shared_ptr<Sprite> m_sprite;
 
 		Vec3 m_position;
@@ -28,11 +37,16 @@ namespace basecross {
 			TemplateObject(stagePtr)
 		{
 			m_deltaTime = 0.0f;
+			m_openState = eOpeningState::move;
 		}
 
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
 
-		virtual void LogoMove();
+		void OpenStateBase(eOpeningState state);
+
+		void OpenStateMove();
+		void OpenStateFade();
+		void OpenStateIdel();
 	};
 }
