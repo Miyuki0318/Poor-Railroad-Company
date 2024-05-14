@@ -11,11 +11,11 @@
 namespace basecross {
 	class SkyBox : public TemplateObject
 	{
-		shared_ptr<PNTStaticInstanceDraw> m_ptrDraw;
+		shared_ptr<PNTStaticDraw> m_ptrDraw;
 
 	public:
 		SkyBox(const shared_ptr<Stage>& stagePtr) :
-			TemplateObject(stagePtr, Vec3(0.0f, 0.0f, 0.0f), Vec3(0.0f), Vec3(1.0f, 1.0f, 1.0f))
+			TemplateObject(stagePtr, Vec3(3.0f, -5.0f, -7.0f), Vec3(0.0f), Vec3(2.0f))
 		{
 		}
 		~SkyBox() {}

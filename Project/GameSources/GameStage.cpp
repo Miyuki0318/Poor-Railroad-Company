@@ -239,6 +239,8 @@ namespace basecross
 			// UIの生成
 			CreateUIObject();
 
+			AddGameObject<SkyBox>();
+
 			// タイマーオブジェクトの生成
 			m_timer = AddGameObject<Timer>();
 
