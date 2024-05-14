@@ -78,6 +78,13 @@ namespace basecross
 		SetSharedGameObject(L"TitlePlayer", player);
 	}
 
+	// ƒŒ[ƒ‹ŠÇ—ƒNƒ‰ƒX‚Ì¶¬
+	void TitleStage::CreateRailManager()
+	{
+		const auto& railManager = AddGameObject<RailManager>();
+		SetSharedGameObject(L"RailManager", railManager);
+	}
+
 	// Œš•¨‚Ì¶¬
 	void TitleStage::CreateBuilding()
 	{
@@ -207,11 +214,13 @@ namespace basecross
 
 			CreatePlayer();
 
+			WriteCSVMap("TitleStage");
+
+			CreateRailManager();
+
 			CreateBuilding();
 
 			CreateTrain();
-			
-			WriteCSVMap("TitleStage");
 		}
 		catch (...)
 		{

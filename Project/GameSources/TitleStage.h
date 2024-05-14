@@ -81,6 +81,11 @@ namespace basecross
 		void CreatePlayer();
 
 		/*
+		@brief ƒŒ[ƒ‹ŠÇ—ƒNƒ‰ƒX‚Ì¶¬
+		*/
+		void CreateRailManager();
+
+		/*
 		@brief Œš•¨‚Ì¶¬
 		*/
 		void CreateBuilding();
