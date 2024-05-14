@@ -11,6 +11,14 @@ namespace basecross {
 	class TitleLogo : public TemplateObject
 	{
 	private:
+		const float m_speed = 3.0f;
+		
+		const float m_height = 1000.0f;
+
+		const float m_maxPosY = 250.0f;
+
+		float m_deltaTime;
+
 		shared_ptr<Sprite> m_sprite;
 
 		Vec3 m_position;
@@ -19,6 +27,7 @@ namespace basecross {
 		TitleLogo(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr)
 		{
+			m_deltaTime = 0.0f;
 		}
 
 		virtual void OnCreate() override;
