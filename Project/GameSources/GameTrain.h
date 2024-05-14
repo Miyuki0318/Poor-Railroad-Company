@@ -20,6 +20,12 @@ namespace basecross {
 		}
 		~GameTrain() {}
 
-		void OnUpdate();
+		void OnUpdate() override;
+
+		void StateProcess(State state) override;
+
+		void OnRailProcess() override;
+
+		bool CheckGoalRail() override;
 	};
 }
