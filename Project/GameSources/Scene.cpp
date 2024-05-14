@@ -80,6 +80,9 @@ namespace basecross {
 		RegisterSingleMesh(L"RAIL", modelPath + L"Rail/", L"Rail", false);
 		app->RegisterTexture(L"RAIL_TX", modelPath + L"Rail/TX_Rail.tga");
 
+		RegisterSingleMesh(L"SKY", modelPath + L"SkyBox/", L"sky", false);
+		app->RegisterTexture(L"SKY_TX", modelPath + L"SkyBox/sky.jpg");
+
 		// ソードクリエイターモデル
 		// 岩モデルの生成
 		RegisterSingleMesh(L"ROCK1", modelPath + L"Rock/", L"Rock1", false);
