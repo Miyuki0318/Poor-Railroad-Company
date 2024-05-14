@@ -109,6 +109,9 @@ namespace basecross
 		const auto& routeMap = AddGameObject<RouteMap>();
 		SetSharedGameObject(L"RouteMap", routeMap);
 		m_objectGroup->IntoGroup(routeMap);
+
+		//const auto& ma = AddGameObject<RailManager>();
+		//const auto& train = AddGameObject<Train>();
 	}
 
 	// ƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚Ìˆ—
