@@ -56,6 +56,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectIndicator.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Signboard.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)SkyBox.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StageCSV.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Station.h" />
@@ -101,6 +102,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectIndicator.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Signboard.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)SkyBox.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Station.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Tarminal.cpp" />
