@@ -13,9 +13,10 @@ namespace basecross {
 	{
 		TemplateObject::OnCreate();
 
+		// ƒ^ƒCƒgƒ‹ƒƒS¶¬
 		m_sprite = GetStage()->AddGameObject<Sprite>(L"TITLE_LOGO", Vec2(500.0f));
 
-		m_sprite->SetPosition(Vec3(0.0f, -m_height, 0.0f));
+		m_sprite->SetPosition(Vec3(0.0f, -m_startPosY, 0.0f));
 
 		m_position = m_sprite->GetPosition();
 	}
