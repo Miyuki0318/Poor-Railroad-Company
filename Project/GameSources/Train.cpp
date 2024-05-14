@@ -63,11 +63,11 @@ namespace basecross {
 
 		if (state == State::Onrail)
 		{
-			OnRailState();
+			OnRailProcess();
 		}
 	}
 
-	void Train::OnRailState()
+	void Train::OnRailProcess()
 	{
 		// üŒ`•âŠÔ‚ÅˆÚ“®
 		Vec3 pos = Utility::Lerp(m_movePos.first, m_movePos.second, m_moveRatio);
