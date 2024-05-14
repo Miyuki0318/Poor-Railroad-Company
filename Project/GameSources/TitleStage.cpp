@@ -34,13 +34,20 @@ namespace basecross
 		wstring mediaPath = app->GetDataDirWString();
 		wstring texturePath = mediaPath + L"Textures/";
 		wstring modelPath = mediaPath + L"Models/" + L"Bilding";
+		
+		// タイトルロゴ
+		AddTextureResource(L"TITLE_LOGO", texturePath + L"TitleLogo.png");
 
+		// フェード用のテクスチャ
 		AddTextureResource(L"FADE_TX", texturePath + L"Blue.png");
+
 
 		// マップのテクスチャ
 		AddTextureResource(L"EASYMAP_TX", texturePath + L"MapEasy.png");
 		AddTextureResource(L"NORMALMAP_TX", texturePath + L"MapNormal.png");
 		AddTextureResource(L"HARDMAP_TX", texturePath + L"MapHard.png");
+
+		// 地面のテクスチャ
 		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
 
 		AddedTextureResources();
@@ -65,6 +72,8 @@ namespace basecross
 	// 地面の生成
 	void TitleStage::CreateGround()
 	{		
+		const auto& logo = AddGameObject<Sprite>(L"TITLE_LOGO", Vec2(500.0f));
+
 		// 床ボックスオブジェクトの追加
 		auto& ground = AddGameObject<GroundBox>(Vec3(m_cameraAt.x, 0.0f, m_cameraAt.z), m_groundScale);
 		SetSharedGameObject(L"TitleGround", ground);
@@ -187,6 +196,11 @@ namespace basecross
 		}
 	}
 
+	void TitleStage::OpeningMove()
+	{
+		const auto& opening = AddGameObject<TitleLogo>();
+	}
+
 	// 実行時、一度だけ処理される関数
 	void TitleStage::OnCreate()
 	{
@@ -231,6 +245,8 @@ namespace basecross
 	{
 		try 
 		{
+			OpeningMove();
+
 			PushButtonX();
 
 			Debug::Log(L"カメラのAt : ", GetView()->GetTargetCamera()->GetAt());

@@ -105,6 +105,11 @@ namespace basecross
 		*/
 		void DistanceToPlayer();
 
+		/*
+		@brief オープニング
+		*/
+		void OpeningMove();
+
 		/*!
 		@brief ステージをcsvで生成
 		@param csvのファイル名
