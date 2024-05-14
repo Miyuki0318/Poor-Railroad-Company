@@ -47,4 +47,9 @@ namespace basecross {
 			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"GameStage");
 		}
 	}
+
+	void Construction::MoveTrain()
+	{
+
+	}
 }
