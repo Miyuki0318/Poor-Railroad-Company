@@ -96,7 +96,7 @@ namespace basecross
 		@brief QTE停止とQTE結果取得関数
 		@param クラフトアイテム
 		*/
-		void StopQTE();
+		bool StopQTE();
 
 		/*!
 		@brief ウィンドウ描画が完了したかの真偽取得関数

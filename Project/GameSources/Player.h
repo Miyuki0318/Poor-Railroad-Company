@@ -9,13 +9,12 @@
 
 namespace basecross
 {
-	// プレイヤーのアニメーションタイプ
-	enum class ePlayerAnimation
+	// プレイヤーのアニメーションキータイプ
+	enum class ePAKey : char
 	{
 		Wait,			// 待機
 		Walk,			// 移動
-		Mining,			// 採掘
-		Cutting,		// 伐採
+		Harvesting,		// 採取
 		CraftStart,		// クラフト開始
 		Crafting,		// クラフト中
 		CraftFinish,	// クラフト終了
@@ -39,8 +38,8 @@ namespace basecross
 		@param 終了時のフレーム
 		@param ループするか(デフォルトはfalse)
 		*/
-		AnimationMap(wstring key, UINT frame, bool loop = false) :
-			animeKey(key),
+		AnimationMap(wstring aniKey, UINT frame, bool loop = false) :
+			animeKey(aniKey),
 			flameNum(frame),
 			loopActive(loop)
 		{
@@ -56,6 +55,7 @@ namespace basecross
 
 		// 描画コンポーネント
 		shared_ptr<BcPNTBoneModelDraw> m_ptrDraw; 
+		shared_ptr<Shadowmap> m_ptrShadow; 
 
 		const float m_radius;	 // 衝突判定用半径
 		const float m_moveSpeed; // 移動速度
@@ -65,7 +65,7 @@ namespace basecross
 		set<eStageID> m_impassableSet; 
 
 		// アニメーションマップ
-		map<ePlayerAnimation, AnimationMap> m_animationMap;
+		map<ePAKey, AnimationMap> m_animationMap;
 
 		Vec3 m_rotTarget;	// 回転先
 		Vec3 m_currentRot;  // 前回の回転軸
@@ -87,22 +87,21 @@ namespace basecross
 			m_currentRot.zero(); // 回転先は0.0fで初期化
 
 			// アニメーションキー
-			m_animationMap.emplace(ePlayerAnimation::Wait, AnimationMap(L"P_WAIT", 24, true));			// 待機
-			m_animationMap.emplace(ePlayerAnimation::Walk, AnimationMap(L"P_WALK", 24, true));			// 移動
-			m_animationMap.emplace(ePlayerAnimation::Mining, AnimationMap(L"P_MINING", 24, false));		// 採掘
-			m_animationMap.emplace(ePlayerAnimation::Cutting, AnimationMap(L"P_CUTTING", 24, false));		// 伐採
-			m_animationMap.emplace(ePlayerAnimation::CraftStart, AnimationMap(L"P_CSTART", 10, false));	// クラフト開始
-			m_animationMap.emplace(ePlayerAnimation::Crafting, AnimationMap(L"P_CNOW", 15, true));		// クラフト中
-			m_animationMap.emplace(ePlayerAnimation::CraftFinish, AnimationMap(L"P_CEND", 10, false));	// クラフト終了
-			m_animationMap.emplace(ePlayerAnimation::QTESucces, AnimationMap(L"P_SUCCES", 24, false));	// QTE成功
-			m_animationMap.emplace(ePlayerAnimation::QTEFailed, AnimationMap(L"P_FAILED", 24, false));	// QTE失敗
+			m_animationMap.emplace(ePAKey::Wait, AnimationMap(L"WAIT", 24, true));			  // 待機
+			m_animationMap.emplace(ePAKey::Walk, AnimationMap(L"WALK", 12, true));			  // 移動
+			m_animationMap.emplace(ePAKey::Harvesting, AnimationMap(L"HARVESTING", 24, false)); // 伐採
+			m_animationMap.emplace(ePAKey::CraftStart, AnimationMap(L"C_START", 10, false));	  // クラフト開始
+			m_animationMap.emplace(ePAKey::Crafting, AnimationMap(L"C_NOW", 15, true));		  // クラフト中
+			m_animationMap.emplace(ePAKey::CraftFinish, AnimationMap(L"C_END", 10, false));	  // クラフト終了
+			m_animationMap.emplace(ePAKey::QTESucces, AnimationMap(L"SUCCES", 24, false));	  // QTE成功
+			m_animationMap.emplace(ePAKey::QTEFailed, AnimationMap(L"FAILED", 24, false));	  // QTE失敗
 
 			// スケールだけ、Y軸方向に2倍にする
 			m_modelMat.affineTransformation(
-				Vec3(0.6f),
+				Vec3(0.5f),
 				Vec3(0.0f),
 				Vec3(0.0f, -XM_PIDIV2, 0.0f),
-				Vec3(0.0f, -1.0f, 0.0f)
+				Vec3(0.0f, -1.05f, 0.0f)
 			);
 		}
 
@@ -122,6 +121,26 @@ namespace basecross
 		@brief コンポーネントの生成関数
 		*/
 		virtual void CreateComponent() = 0;
+
+		/*!
+		@brief アニメーションメッシュの更新
+		@param animationKey
+		*/
+		virtual void SetAnimationMesh(ePAKey animation, float start = 0.0f);
+
+		/*!
+		@brief 指定したアニメーションかのチェック
+		@param animationKey
+		@return 一致してたらtrue
+		*/
+		virtual bool IsAnimation(ePAKey animation);
+
+		/*!
+		@brief 指定したアニメーションが終了しているかのチェック
+		@param animationKey
+		@return 終了してたらtrue
+		*/
+		virtual bool IsAnimeEnd(ePAKey animation);
 
 		/*!
 		@brief 移動更新関数
