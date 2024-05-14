@@ -239,15 +239,15 @@ namespace basecross
 			// UIの生成
 			CreateUIObject();
 
-			AddGameObject<SkyBox>();
+			// スカイボックスの生成
+			auto train = GetSharedGameObject<Train>(L"Train");
+			auto& camera = GetView()->GetTargetCamera();
+			auto mainCamera = dynamic_pointer_cast<MainCamera>(camera);
+			AddGameObject<SkyBox>(mainCamera, train);
 
 			// タイマーオブジェクトの生成
 			m_timer = AddGameObject<Timer>();
 
-			// 列車とカメラを取得
-			auto train = GetSharedGameObject<Train>(L"Train");
-			auto& camera = GetView()->GetTargetCamera();
-			auto mainCamera = dynamic_pointer_cast<MainCamera>(camera);
 			// メインカメラのターゲットに列車をセットする
 			mainCamera->SetTargetObject(train);
 			mainCamera->SetAt(train->GetDefaultPosition());

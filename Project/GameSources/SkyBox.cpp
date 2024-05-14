@@ -27,6 +27,6 @@ namespace basecross {
 
 	void SkyBox::OnUpdate()
 	{
-
+		SetPosition(m_camera->GetEye());
 	}
 }
