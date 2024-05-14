@@ -69,11 +69,15 @@ namespace basecross
 		SetSharedGameObject(L"FadeSprite", sprite);
 	}
 
+	// オープニング画面の生成
+	void TitleStage::CreateOpningScreen()
+	{
+		const auto& opning = AddGameObject<TitleLogo>();
+	}
+
 	// 地面の生成
 	void TitleStage::CreateGround()
 	{		
-		const auto& logo = AddGameObject<Sprite>(L"TITLE_LOGO", Vec2(500.0f));
-
 		// 床ボックスオブジェクトの追加
 		auto& ground = AddGameObject<GroundBox>(Vec3(m_cameraAt.x, 0.0f, m_cameraAt.z), m_groundScale);
 		SetSharedGameObject(L"TitleGround", ground);
@@ -214,6 +218,8 @@ namespace basecross
 			CreateResourses();
 
 			CreateSprite();
+
+			CreateOpningScreen();
 
 			CreateGround();
 
