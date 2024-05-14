@@ -131,19 +131,4 @@ namespace basecross {
 		const auto& app = App::GetApp();
 		app->RegisterResource(registerKey, modelMesh);
 	}
-
-	void Scene::RegisterTangentMultiMesh(const wstring& registerKey, const wstring& path, const wstring& fileName, bool boneUse)
-	{
-		shared_ptr<MultiMeshResource> modelMesh;
-		if (boneUse)
-		{
-			modelMesh = MultiMeshResource::CreateBoneModelMultiMeshWithTangent(path, fileName + L".bmf");
-		}
-		else
-		{
-			modelMesh = MultiMeshResource::CreateStaticModelMultiMeshWithTangent(path, fileName + L".bmf");
-		}
-		const auto& app = App::GetApp();
-		app->RegisterResource(registerKey, modelMesh);
-	}
 }
