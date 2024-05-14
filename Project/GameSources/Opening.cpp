@@ -23,5 +23,8 @@ namespace basecross {
 
 	}
 
+	void TitleLogo::LogoMove()
+	{
 
+	}
 }
