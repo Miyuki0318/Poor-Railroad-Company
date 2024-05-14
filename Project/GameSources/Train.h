@@ -25,6 +25,7 @@ namespace basecross {
 
 	class Train : public TemplateObject
 	{
+	protected:
 		const Vec3 m_DefaultPosition;
 		const Vec3 m_DefaultScale;
 		const float m_MoveInSeconds;
@@ -32,7 +33,7 @@ namespace basecross {
 		/*!
 		@brief 列車の状態
 		*/
-		enum class State {
+		virtual enum class State {
 			Onrail, // レールに乗っている
 			Derail, // 脱線
 			Arrival // 駅到着
@@ -92,29 +93,29 @@ namespace basecross {
 		/*!
 		@brief 生成時に一度だけ呼び出される関数
 		*/
-		void OnCreate() override;
+		virtual void OnCreate() override;
 
 		/*!
 		@brief 毎フレーム度に呼び出される関数
 		*/
-		void OnUpdate() override;
+		virtual void OnUpdate() override;
 
 		/*!
 		@brief オブジェクトと衝突中に呼ばれる関数
 		*/
-		void OnCollisionEnter(shared_ptr<GameObject>& gameObject) override;
+		virtual void OnCollisionEnter(shared_ptr<GameObject>& gameObject) override;
 
-		void StateProcess(State state);
+		virtual void StateProcess(State state);
 
-		void OnRailState();
+		virtual void OnRailProcess();
 
-		bool SetNextRail();
+		virtual bool SetNextRail();
 
-		bool CheckGoalRail();
+		virtual bool CheckGoalRail();
 
-		void SetDirection();
+		virtual void SetDirection();
 
-		Vec3 GetDefaultPosition()
+		virtual Vec3 GetDefaultPosition()
 		{
 			return m_DefaultPosition;
 		}

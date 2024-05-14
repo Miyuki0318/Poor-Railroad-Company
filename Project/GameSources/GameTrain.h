@@ -7,3 +7,10 @@
 #pragma once
 #include "stdafx.h"
 #include "TemplateObject.h"
+
+namespace basecross {
+	class GameTrain : public Train
+	{
+
+	};
+}
