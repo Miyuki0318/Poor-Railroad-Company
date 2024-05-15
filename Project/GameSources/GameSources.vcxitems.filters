@@ -158,10 +158,10 @@
       <Filter>StageObject\SkyBox</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrain.h">
-      <Filter>StageObject\Train</Filter>
+      <Filter>StageObject\Train\GameTrain</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleTrain.h">
-      <Filter>StageObject\Train</Filter>
+      <Filter>StageObject\Train\TitleTrain</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -298,10 +298,10 @@
       <Filter>StageObject\SkyBox</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrain.cpp">
-      <Filter>StageObject\Train</Filter>
+      <Filter>StageObject\Train\GameTrain</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleTrain.cpp">
-      <Filter>StageObject\Train</Filter>
+      <Filter>StageObject\Train\TitleTrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
