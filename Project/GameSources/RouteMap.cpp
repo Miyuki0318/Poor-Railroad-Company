@@ -47,9 +47,10 @@ namespace basecross {
 
 	void RouteMap::MapSelect()
 	{
-		// スティックの入力量を取得
+		// 左スティックの入力量を取得
 		Vec2 move = Input::GetLStickValue();
 
+		// 左スティックX軸の入力値
 		float stickX = move.getX();
 
 		if (stickX < 0.0f && m_currentX >= 0.0f)
