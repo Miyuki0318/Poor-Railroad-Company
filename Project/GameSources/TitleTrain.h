@@ -16,6 +16,7 @@ namespace basecross {
 			GameStart, // ゲームスタート
 		};
 
+		// 現在の状態
 		State m_state = State::None;
 
 	public:
@@ -27,8 +28,15 @@ namespace basecross {
 
 		void OnUpdate() override;
 
+		/// <summary>
+		/// 状態ごとの処理
+		/// </summary>
+		/// <param name="state">状態</param>
 		void StateProcess(State state);
 
+		/// <summary>
+		/// ゲームスタート時の処理
+		/// </summary>
 		void GameStartProcess();
 	};
 

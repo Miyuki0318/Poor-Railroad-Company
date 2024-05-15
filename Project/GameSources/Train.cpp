@@ -1,6 +1,6 @@
 /*!
 @file Train.cpp
-@brief 列車の実装
+@brief 列車の親実装
 @author 矢吹悠葉
 */
 
@@ -21,9 +21,6 @@ namespace basecross {
 		m_ptrDraw->SetMeshToTransformMatrix(m_modelMat);
 		m_ptrDraw->SetDiffuse(COL_BLUE);
 
-		//// コリジョンOBBの追加
-		//m_ptrColl = AddComponent<CollisionObb>();
-
 		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailMap();
 		m_railPos = LINE(ROW(m_DefaultPosition.z), COL(m_DefaultPosition.x));
 		m_movePos.first = m_DefaultPosition;
@@ -33,63 +30,7 @@ namespace basecross {
 		AddTag(L"Train");
 	}
 
-	void Train::OnUpdate()
-	{
-		StateProcess(m_state);
-	}
-
-	void Train::OnCollisionEnter(shared_ptr<GameObject>& gameObject)
-	{
-		if (gameObject->FindTag(L"GoalRail"))
-		{
-			m_state = State::Arrival;
-		}
-	}
-
-	void Train::StateProcess(State state)
-	{
-		if (state == State::Arrival)
-		{
-			GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::GameClear);
-			return;
-		}
-
-		if (state == State::Derail)
-		{
-			GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::GameOver);
-			return;
-		}
-
-		if (state == State::Onrail)
-		{
-			OnRailProcess();
-		}
-	}
-
-	void Train::OnRailProcess()
-	{
-		// 線形補間で移動
-		Vec3 pos = Utility::Lerp(m_movePos.first, m_movePos.second, m_moveRatio);
-		float rad = -atan2f(m_movePos.second.z - m_movePos.first.z, m_movePos.second.x - m_movePos.first.x);
-		m_moveRatio += DELTA_TIME / m_MoveInSeconds;
-
-		// 割合が1以上になったら0で初期化
-		if (m_moveRatio >= 1.0f)
-		{
-			m_moveRatio = 0.0f;
-
-			// 次のレールを設定する、設定不可なら脱線ステート
-			if (!SetNextRail()) m_state = State::Derail;
-
-			SetDirection();
-		}
-
-		// 座標の更新
-		SetPosition(pos);
-		SetRotation(Vec3(0.0f, rad, 0.0f));
-	}
-
-	bool Train::SetNextRail()
+	bool Train::SearchNextRail()
 	{
 		// レールマップの取得
 		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailMap();
@@ -117,37 +58,10 @@ namespace basecross {
 			}
 		}
 
-		return CheckGoalRail();
-	}
-
-	// ゴールにたどり着いたかのチェック
-	bool Train::CheckGoalRail()
-	{
-		// レールマップの取得
-		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailMap();
-		if (railMap.empty()) return false;
-
-		// Line文字列からrowとcolを抽出
-		size_t row, col;
-		GetLineStringToRowCol(row, col, m_railPos);
-
-		// ゴール用レールと一致してたらtrue、それ以外ならfalse
-		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
-		if (Utility::WithInElemRange(row, row, stageMap))
-		{
-			if (STAGE_ID(stageMap.at(row).at(col)) == eStageID::GoalRail)
-			{
-				m_movePos.first = railMap.at(m_railPos);
-				m_movePos.second = railMap.at(m_railPos);
-				m_state = State::Arrival;
-				return true;
-			}
-		}
-		
 		return false;
 	}
 
-	void Train::SetDirection()
+	void Train::SetNextRailDirection()
 	{
 		// 始点と終点のレールからラジアン角を求める
 		float rad = atan2f(m_movePos.first.z - m_movePos.second.z, m_movePos.first.x - m_movePos.second.x);
