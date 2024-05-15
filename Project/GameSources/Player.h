@@ -185,27 +185,62 @@ namespace basecross
 		@param ポジション
 		@param ステージマップ
 		*/
-		virtual void GridHitFlontResponse(Vec3& pos);
+		virtual void GridHitFlontResponse(Vec3& pos, const vector<vector<Vec3>>& posMap);
 
 		/*!
 		@brief 移動出来ないグリッド(下)埋まり解除関数
 		@param ポジション
 		@param ステージマップ
 		*/
-		virtual void GridHitBackResponse(Vec3& pos);
+		virtual void GridHitBackResponse(Vec3& pos, const vector<vector<Vec3>>& posMap);
 
 		/*!
 		@brief 移動出来ないグリッド(左)埋まり解除関数
 		@param ポジション
 		@param ステージマップ
 		*/
-		virtual void GridHitLeftResponse(Vec3& pos);
+		virtual void GridHitLeftResponse(Vec3& pos, const vector<vector<Vec3>>& posMap);
 
 		/*!
 		@brief 移動出来ないグリッド(右)埋まり解除関数
 		@param ポジション
 		@param ステージマップ
 		*/
-		virtual void GridHitRightResponse(Vec3& pos);
+		virtual void GridHitRightResponse(Vec3& pos, const vector<vector<Vec3>>& posMap);
+
+		/*!
+		@brief 移動出来ないグリッド(左上)埋まり解除関数
+		@param ポジション
+		@param ステージマップ
+		*/
+		virtual void GridHitLeftFlontResponse(Vec3& pos, const vector<vector<Vec3>>& posMap);
+
+		/*!
+		@brief 移動出来ないグリッド(左下)埋まり解除関数
+		@param ポジション
+		@param ステージマップ
+		*/
+		virtual void GridHitLeftBackResponse(Vec3& pos, const vector<vector<Vec3>>& posMap);
+
+		/*!
+		@brief 移動出来ないグリッド(右上)埋まり解除関数
+		@param ポジション
+		@param ステージマップ
+		*/
+		virtual void GridHitRightFlontResponse(Vec3& pos, const vector<vector<Vec3>>& posMap);
+
+		/*!
+		@brief 移動出来ないグリッド(右下)埋まり解除関数
+		@param ポジション
+		@param ステージマップ
+		*/
+		virtual void GridHitRightBackResponse(Vec3& pos, const vector<vector<Vec3>>& posMap);
+
+		/*!
+		@brief ステージの範囲外へ行かない様にする関数
+		@param ポジション
+		@param ステージマップ
+		*/
+		virtual void GridRangeResponse(Vec3& pos, const vector<vector<int>>& stageMap);
 	};
 }

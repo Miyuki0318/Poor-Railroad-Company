@@ -9,6 +9,9 @@
 
 #define MESH L"SM_PLAYER_"
 
+const float GRID_SIZE = 1.0f;
+const float GRID_HELF = 0.5f;
+
 namespace basecross
 {
 	// ネームスペースの省略
@@ -99,21 +102,30 @@ namespace basecross
 	void Player::GridHitResponse(Vec3& pos)
 	{
 		// ステージcsv配列の取得
-		const auto& stageMap = GetTypeStage<StageCSV>()->GetStageMap();
+		const auto& stagePtr = GetTypeStage<StageCSV>();
+		const auto& stageMap = stagePtr->GetStageMap();
+		const auto& positionMap = stagePtr->GetStagePosMap();
 
 		// 列と行
 		size_t row, col;
-		row = ROW(round(pos.z + 0.5f));
-		col = COL(round(pos.x));
+		row = ROW(floor(pos.z + GRID_HELF));
+		col = COL(floor(pos.x + GRID_HELF));
 
 		// 配列の範囲外じゃないかのチェック
 		if (!WithInElemRange(row, col, stageMap)) return;
 
 		// 各方向への応答処理
-		GridHitFlontResponse(pos);
-		GridHitBackResponse(pos);
-		GridHitLeftResponse(pos);
-		GridHitRightResponse(pos);
+		GridHitFlontResponse(pos, positionMap);
+		GridHitBackResponse(pos, positionMap);
+		GridHitLeftResponse(pos, positionMap);
+		GridHitRightResponse(pos, positionMap);
+		GridHitLeftFlontResponse(pos, positionMap);
+		GridHitLeftBackResponse(pos, positionMap);
+		GridHitRightFlontResponse(pos, positionMap);
+		GridHitRightBackResponse(pos, positionMap);
+
+		// ステージ配列の範囲外に行かない様に修正
+		GridRangeResponse(pos, stageMap);
 
 		// 座標の更新
 		SetPosition(pos);
@@ -134,18 +146,18 @@ namespace basecross
 	}
 
 	// 前方向への衝突
-	void Player::GridHitFlontResponse(Vec3& pos)
+	void Player::GridHitFlontResponse(Vec3& pos, const vector<vector<Vec3>>& posMap)
 	{
 		// 列と行
 		size_t row, col;
-		row = ROW(round(pos.z + 0.5f)) + 1;
-		col = COL(round(pos.x));
+		row = ROW(floor(pos.z + GRID_HELF)) + 1;
+		col = COL(floor(pos.x + GRID_HELF));
 
 		// 衝突判定を取るIDかのチェック
 		if (!GetIsImpassable(row, col)) return;
 
 		// 応答処理
-		float gridZ = -float(row);
+		float gridZ = posMap.at(row).at(col).z;
 		if (pos.z - m_radius < gridZ)
 		{
 			pos.z = gridZ + m_radius;
@@ -153,18 +165,18 @@ namespace basecross
 	}
 
 	// 後方向への衝突
-	void Player::GridHitBackResponse(Vec3& pos)
+	void Player::GridHitBackResponse(Vec3& pos, const vector<vector<Vec3>>& posMap)
 	{
 		// 列と行
 		size_t row, col;
-		row = ROW(round(pos.z)) - 1;
-		col = COL(round(pos.x));
+		row = ROW(floor(pos.z + GRID_HELF)) - 1;
+		col = COL(floor(pos.x + GRID_HELF));
 
 		// 衝突判定を取るIDかのチェック
 		if (!GetIsImpassable(row, col)) return;
 
 		// 応答処理
-		float gridZ = -float(row);
+		float gridZ = posMap.at(row).at(col).z;
 		if (pos.z + m_radius > gridZ)
 		{
 			pos.z = gridZ - m_radius;
@@ -172,18 +184,18 @@ namespace basecross
 	}
 
 	// 左方向への衝突
-	void Player::GridHitLeftResponse(Vec3& pos)
+	void Player::GridHitLeftResponse(Vec3& pos, const vector<vector<Vec3>>& posMap)
 	{
 		// 列と行
 		size_t row, col;
-		row = ROW(round(pos.z));
-		col = COL(round(pos.x + 0.5f)) - 1;
+		row = ROW(floor(pos.z + GRID_HELF));
+		col = COL(floor(pos.x + GRID_HELF)) - 1;
 
 		// 衝突判定を取るIDかのチェック
 		if (!GetIsImpassable(row, col)) return;
 
 		// 応答処理
-		float gridX = float(col);
+		float gridX = posMap.at(row).at(col).x;
 		if (pos.x - m_radius < gridX)
 		{
 			pos.x = gridX + m_radius;
@@ -191,21 +203,151 @@ namespace basecross
 	}
 
 	// 右方向への衝突
-	void Player::GridHitRightResponse(Vec3& pos)
+	void Player::GridHitRightResponse(Vec3& pos, const vector<vector<Vec3>>& posMap)
 	{
 		// 列と行
 		size_t row, col;
-		row = ROW(round(pos.z));
-		col = COL(round(pos.x)) + 1;
+		row = ROW(floor(pos.z + GRID_HELF));
+		col = COL(floor(pos.x + GRID_HELF)) + 1;
 
 		// 衝突判定を取るIDかのチェック
 		if (!GetIsImpassable(row, col)) return;
 
 		// 応答処理
-		float gridX = float(col);
+		float gridX = posMap.at(row).at(col).x;
 		if (pos.x + m_radius > gridX)
 		{
 			pos.x = gridX - m_radius;
 		}
+	}
+
+	// 左前方向への衝突
+	void Player::GridHitLeftFlontResponse(Vec3& pos, const vector<vector<Vec3>>& posMap)
+	{
+		// 列と行
+		size_t row, col;
+		row = ROW(floor(pos.z + GRID_HELF)) + 1;
+		col = COL(floor(pos.x + GRID_HELF)) - 1;
+
+		// 衝突判定を取るIDかのチェック
+		if (!GetIsImpassable(row, col)) return;
+
+		float gridX = posMap.at(row).at(col).x;
+		float gridZ = posMap.at(row).at(col).z;
+
+		// 三平方の定理で押し出し処理を求める
+		float a = pos.x - gridX;
+		float b = pos.z - gridZ;
+		float c = a * a + b * b;
+		if (c < m_radius * m_radius)
+		{
+			c = sqrtf(c);
+			float s = m_radius - c;
+			float dx = a / c;
+			float dz = b / c;
+			pos.x += dx * s;
+			pos.z += dz * s;
+		}
+	}
+
+	// 左後方向への衝突
+	void Player::GridHitLeftBackResponse(Vec3& pos, const vector<vector<Vec3>>& posMap)
+	{
+		// 列と行
+		size_t row, col;
+		row = ROW(floor(pos.z + GRID_HELF)) - 1;
+		col = COL(floor(pos.x + GRID_HELF)) - 1;
+
+		// 衝突判定を取るIDかのチェック
+		if (!GetIsImpassable(row, col)) return;
+
+		float gridX = posMap.at(row).at(col).x;
+		float gridZ = posMap.at(row).at(col).z;
+
+		// 三平方の定理で押し出し処理を求める
+		float a = pos.x - gridX;
+		float b = pos.z - gridZ;
+		float c = a * a + b * b;
+		if (c < m_radius * m_radius)
+		{
+			c = sqrtf(c);
+			float s = m_radius - c;
+			float dx = a / c;
+			float dz = b / c;
+			pos.x += dx * s;
+			pos.z += dz * s;
+		}
+	}
+
+	// 右前方向への衝突
+	void Player::GridHitRightFlontResponse(Vec3& pos, const vector<vector<Vec3>>& posMap)
+	{
+		// 列と行
+		size_t row, col;
+		row = ROW(floor(pos.z + GRID_HELF)) + 1;
+		col = COL(floor(pos.x + GRID_HELF)) + 1;
+
+		// 衝突判定を取るIDかのチェック
+		if (!GetIsImpassable(row, col)) return;
+
+		float gridX = posMap.at(row).at(col).x;
+		float gridZ = posMap.at(row).at(col).z;
+
+		// 三平方の定理で押し出し処理を求める
+		float a = pos.x - gridX;
+		float b = pos.z - gridZ;
+		float c = a * a + b * b;
+		if (c < m_radius * m_radius)
+		{
+			c = sqrtf(c);
+			float s = m_radius - c;
+			float dx = a / c;
+			float dz = b / c;
+			pos.x += dx * s;
+			pos.z += dz * s;
+		}
+	}
+
+	// 右後への衝突
+	void Player::GridHitRightBackResponse(Vec3& pos, const vector<vector<Vec3>>& posMap)
+	{
+		// 列と行
+		size_t row, col;
+		row = ROW(floor(pos.z + GRID_HELF)) - 1;
+		col = COL(floor(pos.x + GRID_HELF)) + 1;
+
+		// 衝突判定を取るIDかのチェック
+		if (!GetIsImpassable(row, col)) return;
+
+		float gridX = posMap.at(row).at(col).x;
+		float gridZ = posMap.at(row).at(col).z;
+
+		// 三平方の定理で押し出し処理を求める
+		float a = pos.x - gridX;
+		float b = pos.z - gridZ;
+		float c = a * a + b * b;
+		if (c < m_radius * m_radius)
+		{
+			c = sqrtf(c);
+			float s = m_radius - c;
+			float dx = a / c;
+			float dz = b / c;
+			pos.x += dx * s;
+			pos.z += dz * s;
+		}
+	}
+
+	// 右方向への衝突
+	void Player::GridRangeResponse(Vec3& pos, const vector<vector<int>>& stageMap)
+	{
+		// 列と行
+		size_t row, col;
+		row = ROW(floor(pos.z + GRID_HELF));
+		col = COL(floor(pos.x + GRID_HELF));
+
+		pos.x = max(0.0f, pos.x);
+		pos.x = min(float(stageMap.at(row).size()), pos.x);
+		pos.z = min(-0.1f, pos.z);
+		pos.z = max(-float(stageMap.size() - 1), pos.z);
 	}
 }

@@ -99,6 +99,7 @@ namespace basecross
 		// 二重ループ
 		for (int i = 0; i < m_stageMap.size(); i++)
 		{
+			vector<Vec3> tempVec;
 			for (int j = 0; j < m_stageMap.at(i).size(); j++)
 			{
 				// 仮オブジェクト
@@ -132,7 +133,10 @@ namespace basecross
 				{
 					miningGroup->IntoGroup(mining);
 				}
+
+				tempVec.push_back(position);
 			}
+			m_positionMap.push_back(tempVec);
 		}
 	}
 
