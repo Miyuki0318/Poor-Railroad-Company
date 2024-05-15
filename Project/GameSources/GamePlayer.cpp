@@ -60,18 +60,16 @@ namespace basecross
 		// 描画コンポーネントの設定
 		m_ptrDraw = AddComponent<BcPNTBoneModelDraw>();
 		m_ptrDraw->SetMeshToTransformMatrix(m_modelMat);
-		m_ptrDraw->SetMultiMeshResource(L"PLAYER");
 		m_ptrDraw->SetSpecularColor(COL_BLACK);
 		m_ptrDraw->SetOwnShadowActive(true);
 		m_ptrDraw->SetLightingEnabled(false);
 
-		// アニメーションの設定
-		m_ptrDraw->AddAnimation(L"WALK", 0, 60, true);
-		m_ptrDraw->AddAnimation(L"MINING", 180, 60, false);
+		// 影の設定
+		m_ptrShadow = AddComponent<Shadowmap>();
+		m_ptrShadow->SetMeshToTransformMatrix(m_modelMat);
 
-		auto shadowMap = AddComponent<Shadowmap>();
-		shadowMap->SetMultiMeshResource(L"PLAYER");
-		shadowMap->SetMeshToTransformMatrix(m_modelMat);
+		// メッシュとアニメーションの設定
+		SetAnimationMesh(ePAKey::Wait);
 
 		// コリジョンOBBの追加
 		AddComponent<CollisionCapsule>();
@@ -166,8 +164,9 @@ namespace basecross
 		if (m_craft->GetEndedQTE())
 		{
 			// QTE終了時の処理を送り、QtE状態を解除
-			m_craft->StopQTE();
 			m_status.Set(ePlayerStatus::IsCraftQTE) = false;
+			bool succes = m_craft->StopQTE();
+			SetAnimationMesh(succes ? ePAKey::QTESucces : ePAKey::QTEFailed);
 		}
 	}
 

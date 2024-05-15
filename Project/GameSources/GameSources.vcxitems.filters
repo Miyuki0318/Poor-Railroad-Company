@@ -157,6 +157,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Opening.h">
       <Filter>StageObject\Opening</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SkyBox.h">
+      <Filter>StageObject\SkyBox</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTrain.h">
+      <Filter>StageObject\Train\GameTrain</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleTrain.h">
+      <Filter>StageObject\Train\TitleTrain</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -290,6 +299,15 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Opening.cpp">
       <Filter>StageObject\Opening</Filter>
+      </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SkyBox.cpp">
+      <Filter>StageObject\SkyBox</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameTrain.cpp">
+      <Filter>StageObject\Train\GameTrain</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleTrain.cpp">
+      <Filter>StageObject\Train\TitleTrain</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -451,6 +469,15 @@
     </Filter>
     <Filter Include="StageObject\Opening">
       <UniqueIdentifier>{043fc8d5-a767-4191-92e5-d11d4b9a9fdf}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\SkyBox">
+      <UniqueIdentifier>{f5887c2a-af6e-4891-a761-3ab8d1ed5e79}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Train\GameTrain">
+      <UniqueIdentifier>{43a01377-24b2-4ce3-8fd2-e93781c8587e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Train\TitleTrain">
+      <UniqueIdentifier>{f75ec534-3702-4aea-9929-4d065deca563}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

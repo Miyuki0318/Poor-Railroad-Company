@@ -7,6 +7,8 @@
 #include "stdafx.h"
 #include "Project.h"
 
+#define MESH L"SM_PLAYER_"
+
 namespace basecross
 {
 	// ネームスペースの省略
@@ -25,6 +27,40 @@ namespace basecross
 
 		// タグの設定
 		AddTag(L"Player");
+	}
+
+	// アニメーションメッシュの切り替え
+	void Player::SetAnimationMesh(ePAKey animation, float start)
+	{
+		if (!m_ptrDraw) return;
+		if (!m_ptrShadow) return;
+
+		// アニメーション付きメッシュの変更
+		AnimationMap mesh = m_animationMap.at(animation);
+		m_ptrDraw->SetMeshResource(MESH + mesh.animeKey);
+		m_ptrDraw->AddAnimation(mesh.animeKey, 0, mesh.flameNum, mesh.loopActive);
+		m_ptrDraw->ChangeCurrentAnimation(mesh.animeKey, start);
+
+		// 影の更新
+		m_ptrShadow->SetMeshResource(MESH + mesh.animeKey);
+	}
+
+	// 指定アニメーションになっているかの確認
+	bool Player::IsAnimation(ePAKey animation)
+	{
+		if (!m_ptrDraw) return false;
+
+		// 現在のアニメーションがアニメーションキーと一致しているか
+		return m_ptrDraw->GetCurrentAnimation() == m_animationMap.at(animation).animeKey;
+	}
+
+	// 指定アニメーションになっているかの確認
+	bool Player::IsAnimeEnd(ePAKey animation)
+	{
+		if (!IsAnimation(animation)) return false;
+
+		// 現在のアニメーションがアニメーションキーと一致しているか
+		return m_ptrDraw->IsTargetAnimeEnd();
 	}
 
 	// 回転先設定
