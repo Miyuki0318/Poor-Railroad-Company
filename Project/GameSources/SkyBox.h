@@ -11,7 +11,7 @@
 namespace basecross {
 	class SkyBox : public TemplateObject
 	{
-		shared_ptr<PNTStaticDraw> m_ptrDraw;
+		shared_ptr<BcPNTStaticDraw> m_ptrDraw;
 		shared_ptr<MainCamera> m_camera;
 
 	public:

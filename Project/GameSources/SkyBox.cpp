@@ -15,11 +15,11 @@ namespace basecross {
 		SetTransParam();
 
 		// 描画コンポーネントの設定
-		m_ptrDraw = AddComponent<PNTStaticDraw>();
+		m_ptrDraw = AddComponent<BcPNTStaticDraw>();
 		m_ptrDraw->SetMeshResource(L"SKY");
 		m_ptrDraw->SetTextureResource(L"SKY_TX");
-		m_ptrDraw->SetSpecular(COL_WHITE);
 		m_ptrDraw->SetDiffuse(COL_WHITE);
+		m_ptrDraw->SetLightingEnabled(false);
 
 		// タグの設定
 		AddTag(L"SkyBox");
