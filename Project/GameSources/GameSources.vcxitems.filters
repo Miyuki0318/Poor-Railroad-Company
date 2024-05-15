@@ -88,9 +88,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h">
       <Filter>Stage\TitleStage</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Tarminal.h">
-      <Filter>StageObject\Tarminal</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftUI.h">
       <Filter>Player\Game\Craft\CraftUI</Filter>
     </ClInclude>
@@ -234,9 +231,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp">
       <Filter>Stage\TitleStage</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Tarminal.cpp">
-      <Filter>StageObject\Tarminal</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftUI.cpp">
       <Filter>Player\Game\Craft\CraftUI</Filter>
     </ClCompile>
@@ -361,9 +355,6 @@
     </Filter>
     <Filter Include="StageObject\Train">
       <UniqueIdentifier>{3a27608b-f436-4aec-90bc-c0b6421bf41e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="StageObject\Tarminal">
-      <UniqueIdentifier>{a3d9a28f-d5b1-4470-80ac-19d3da80f63d}</UniqueIdentifier>
     </Filter>
     <Filter Include="StageObject\Rail\Goal">
       <UniqueIdentifier>{4007fc3e-1d7d-4d3e-a06f-5c09b8211644}</UniqueIdentifier>

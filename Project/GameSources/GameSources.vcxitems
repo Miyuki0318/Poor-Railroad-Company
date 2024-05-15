@@ -61,7 +61,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)StageCSV.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Station.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Tarminal.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TemplateObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Timer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayer.h" />
@@ -108,7 +107,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SkyBox.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Station.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Tarminal.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TemplateObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Timer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayer.cpp" />
