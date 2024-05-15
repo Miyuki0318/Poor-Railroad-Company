@@ -17,7 +17,13 @@ namespace basecross {
 			hardMap
 		};
 
-		wstring m_mapTextures[3] = {
+		const wstring m_modelTextures[3] = {
+			L"EASY_TX",
+			L"NORMAL_TX",
+			L"HARD_TX"
+		};
+
+		const wstring m_mapTextures[3] = {
 			L"EASYMAP_TX",
 			L"NORMALMAP_TX",
 			L"HARDMAP_TX"
@@ -28,8 +34,9 @@ namespace basecross {
 
 		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
 		
-		const float m_width = 500.0f;
-		const float m_height = 500.0f;
+		const Vec2 m_spriteScale = Vec2(500.0f);
+
+		shared_ptr<PNTStaticDraw> m_drawComp;
 
 		float m_currentX;
 

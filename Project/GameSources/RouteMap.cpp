@@ -19,16 +19,16 @@ namespace basecross {
 		SetPosition(m_position);
 
 		// オブジェクト描画
-		auto drawComp = AddComponent<PNTStaticDraw>();
-		drawComp->SetMeshToTransformMatrix(m_spanMat);
-		drawComp->SetMeshResource(L"BOARD");
-		drawComp->SetTextureResource(L"BOARD_TX");
+		m_drawComp = AddComponent<PNTStaticDraw>();
+		m_drawComp->SetMeshToTransformMatrix(m_spanMat);
+		m_drawComp->SetMeshResource(L"BOARD");
+		m_drawComp->SetTextureResource(m_modelTextures[m_mapLevel]);
 
 		// コリジョン追加
 		GetStage()->AddGameObject<OriginalColl>(Vec3(5.5f, 1.0f, 1.0f), m_position);
 
 		// スプライトの追加
-		m_mapSprite = GetStage()->AddGameObject<Sprite>(m_mapTextures[m_mapLevel], Vec2(m_width,m_height));
+		m_mapSprite = GetStage()->AddGameObject<Sprite>(m_mapTextures[m_mapLevel], m_spriteScale);
 		m_mapSprite->SetDrawActive(false);
 	}
 
@@ -94,6 +94,7 @@ namespace basecross {
 		}
 
 		m_currentX = stickX;
+		m_drawComp->SetTextureResource(m_modelTextures[m_mapLevel]);
 		m_mapSprite->SetTexture(m_mapTextures[m_mapLevel]);
 	}
 }
