@@ -27,7 +27,6 @@
 #include "RailGuide.h"
 #include "GoalRail.h"
 #include "Train.h"
-#include "Tarminal.h"
 #include "TitleStage.h"
 #include "ActionGuide.h"
 #include "Company.h"
