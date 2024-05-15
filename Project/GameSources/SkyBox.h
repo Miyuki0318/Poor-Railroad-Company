@@ -16,7 +16,7 @@ namespace basecross {
 
 	public:
 		SkyBox(const shared_ptr<Stage>& stagePtr, const shared_ptr<MainCamera>& camera) :
-			TemplateObject(stagePtr, Vec3(camera->GetEye()), Vec3(0.0f), Vec3(2.0f)),
+			TemplateObject(stagePtr, Vec3(camera->GetEye()), Vec3(0.0f), Vec3(5.0f)),
 			m_camera(camera)
 		{
 		}
