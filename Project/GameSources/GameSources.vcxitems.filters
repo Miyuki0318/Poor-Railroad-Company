@@ -464,5 +464,11 @@
     <Filter Include="StageObject\SkyBox">
       <UniqueIdentifier>{f5887c2a-af6e-4891-a761-3ab8d1ed5e79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="StageObject\Train\GameTrain">
+      <UniqueIdentifier>{43a01377-24b2-4ce3-8fd2-e93781c8587e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Train\TitleTrain">
+      <UniqueIdentifier>{f75ec534-3702-4aea-9929-4d065deca563}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
 </Project>
