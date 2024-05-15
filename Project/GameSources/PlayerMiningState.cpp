@@ -29,21 +29,27 @@ namespace basecross
 	void PlayerMiningState::Enter(const shared_ptr<GamePlayer>& player)
 	{
 		// アニメーションの変更
-		player->m_ptrDraw->ChangeCurrentAnimation(L"MINING");
+		player->SetAnimationMesh(ePAKey::Harvesting);
 	}
 
 	// ステート更新時の処理
 	void PlayerMiningState::Execute(const shared_ptr<GamePlayer>& player)
 	{
 		// アニメーション更新
-		player->m_ptrDraw->UpdateAnimation(DELTA_TIME * 5.0f);
+		player->m_ptrDraw->UpdateAnimation(DELTA_TIME);
 
 		// 採掘中の待機時間
-		if (player->m_ptrDraw->IsTargetAnimeEnd())
-		{
-			player->m_status.Set(ePlayerStatus::IsMining) = false;
+		if (!player->m_ptrDraw->IsTargetAnimeEnd()) return;
 
-			player->SetState(PlayerIdleState::Instance());
+		// 採掘完了してたらステートを待機に遷移させる
+		player->m_status.Set(ePlayerStatus::IsMining) = false;
+		auto nState = PlayerIdleState::Instance();
+		player->SetState(nState);
+
+		// Aボタン入力があるなら
+		if (Input::GetButtonA())
+		{
+			nState->OnPushA(player);
 		}
 	}
 

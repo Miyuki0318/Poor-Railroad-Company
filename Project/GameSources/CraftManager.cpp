@@ -68,19 +68,22 @@ namespace basecross
 	}
 
 	// QTEの停止呼び出し
-	void CraftManager::StopQTE()
+	bool CraftManager::StopQTE()
 	{
+		bool succes = false;
+
 		// qteと選択アイコンオブジェクトを取得
 		const auto& qte = m_craftQTE.lock();
 		//const auto& selectIcon = m_selectIcon.lock();
 		//if (qte && selectIcon)
+
 		if (qte)
 		{
 			// eCraftItem item = m_selectIcon.lock()->GetSelectItem();
 			eCraftItem item = eCraftItem::Rail;
 
 			// QTE停止呼び出しとQTE結果の真偽を取得
-			bool succes = qte->StopQTE();
+			succes = qte->StopQTE();
 
 			// 素材消費
 			UseItem(eItemType::Wood, GetRacipeValue(item, eCraftParam::WoodValue));
@@ -89,5 +92,7 @@ namespace basecross
 			// QTE結果に応じて作成量を設定
 			AddItemCount(eItemType::Rail, GetRacipeValue(item, succes ? eCraftParam::SuccesValue : eCraftParam::FailedValue));
 		}
+
+		return succes;
 	}
 }

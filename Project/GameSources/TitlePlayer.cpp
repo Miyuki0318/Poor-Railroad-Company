@@ -30,18 +30,16 @@ namespace basecross
 		// 描画コンポーネントの設定
 		m_ptrDraw = AddComponent<BcPNTBoneModelDraw>();
 		m_ptrDraw->SetMeshToTransformMatrix(m_modelMat);
-		m_ptrDraw->SetMultiMeshResource(L"PLAYER");
 		m_ptrDraw->SetSpecularColor(COL_BLACK);
 		m_ptrDraw->SetOwnShadowActive(true);
 		m_ptrDraw->SetLightingEnabled(false);
 
-		// アニメーションの設定
-		m_ptrDraw->AddAnimation(L"WALK", 0, 60, true);
-		m_ptrDraw->ChangeCurrentAnimation(L"WALK");
+		// 影の設定
+		m_ptrShadow = AddComponent<Shadowmap>();
+		m_ptrShadow->SetMeshToTransformMatrix(m_modelMat);
 
-		auto shadowMap = AddComponent<Shadowmap>();
-		shadowMap->SetMultiMeshResource(L"PLAYER");
-		shadowMap->SetMeshToTransformMatrix(m_modelMat);
+		// メッシュとアニメーションの設定
+		SetAnimationMesh(ePAKey::Walk);
 
 		// コリジョンOBBの追加
 		AddComponent<CollisionCapsule>();
@@ -63,7 +61,7 @@ namespace basecross
 			ControllerMovement(stickValue);	// 移動関数
 
 			// アニメーションの更新
-			m_ptrDraw->UpdateAnimation(DELTA_TIME * 2.0f);
+			m_ptrDraw->UpdateAnimation(DELTA_TIME * 0.75f);
 		}
 	}
 }

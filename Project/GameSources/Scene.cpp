@@ -72,6 +72,9 @@ namespace basecross {
 		RegisterSingleMesh(L"RAIL", modelPath + L"Rail/", L"Rail", false);
 		app->RegisterTexture(L"RAIL_TX", modelPath + L"Rail/TX_Rail.tga");
 
+		RegisterSingleMesh(L"SKY", modelPath + L"SkyBox/", L"sky", false);
+		app->RegisterTexture(L"SKY_TX", modelPath + L"SkyBox/sky.jpg");
+
 		// ソードクリエイターモデル
 		// 岩モデルの生成
 		RegisterSingleMesh(L"ROCK1", modelPath + L"Rock/", L"Rock1", false);
@@ -83,7 +86,15 @@ namespace basecross {
 		RegisterMultiMesh(L"TREE2", modelPath + L"Tree/", L"Tree2", false);
 
 		// プレイヤーモデルの生成
-		RegisterMultiMesh(L"PLAYER", modelPath + L"Player/", L"Player", true);
+		wstring playerTag = L"SM_PLAYER_";
+		RegisterSingleMesh(playerTag + L"WAIT", modelPath + L"Player/", L"wait", true);
+		RegisterSingleMesh(playerTag + L"WALK", modelPath + L"Player/", L"walk", true);
+		RegisterSingleMesh(playerTag + L"HARVESTING", modelPath + L"Player/", L"harvesting", true);
+		RegisterSingleMesh(playerTag + L"C_START", modelPath + L"Player/", L"craftStart", true);
+		RegisterSingleMesh(playerTag + L"C_NOW", modelPath + L"Player/", L"crafting", true);
+		RegisterSingleMesh(playerTag + L"C_END", modelPath + L"Player/", L"craftFinish", true);
+		RegisterSingleMesh(playerTag + L"SUCCES", modelPath + L"Player/", L"succces", true);
+		RegisterSingleMesh(playerTag + L"FAILED", modelPath + L"Player/", L"failed", true);
 
 		// 建物の仮モデル
 		RegisterSingleMesh(L"COMPANY", modelPath + L"Bilding/", L"TestCompany", false);

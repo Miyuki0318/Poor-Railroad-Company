@@ -30,6 +30,12 @@ namespace basecross
 	{
 		// 移動状態なら移動ステートに遷移
 		if (player->GetStatus(ePlayerStatus::IsMove)) player->SetState(PlayerMovingState::Instance());
+
+		// アニメーションの変更
+		if (!player->IsAnimation(ePAKey::Wait))
+		{
+			player->SetAnimationMesh(ePAKey::Wait);
+		}
 	}
 
 	// ステート更新時の処理
@@ -43,6 +49,8 @@ namespace basecross
 
 		// クラフト状態ならクラフトステートに遷移
 		if (player->GetStatus(ePlayerStatus::IsCrafting)) player->SetState(PlayerCraftingState::Instance());
+
+		player->m_ptrDraw->UpdateAnimation(DELTA_TIME * 0.75f);
 
 		Vec3 pos = player->GetPosition();
 		player->GridHitResponse(pos);

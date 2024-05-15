@@ -29,9 +29,9 @@ namespace basecross
 	void PlayerMovingState::Enter(const shared_ptr<GamePlayer>& player)
 	{
 		// アニメーションの変更
-		if (player->m_ptrDraw->GetCurrentAnimation() != L"WALK")
+		if (!player->IsAnimation(ePAKey::Walk))
 		{
-			player->m_ptrDraw->ChangeCurrentAnimation(L"WALK");
+			player->SetAnimationMesh(ePAKey::Walk);
 		}
 	}
 
@@ -48,7 +48,7 @@ namespace basecross
 		if (player->GetStatus(ePlayerStatus::IsCrafting)) player->SetState(PlayerCraftingState::Instance());
 
 		// アニメーション更新
-		player->m_ptrDraw->UpdateAnimation(DELTA_TIME * 2.0f);
+		player->m_ptrDraw->UpdateAnimation(DELTA_TIME * 0.75f);
 
 		// 移動更新を送る
 		player->UpdateMove();
