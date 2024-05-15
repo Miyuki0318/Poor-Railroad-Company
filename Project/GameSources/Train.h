@@ -1,6 +1,6 @@
 /*!
 @file Train.h
-@brief 列車オブジェクト
+@brief 列車の親
 @author 矢吹悠葉
 */
 
@@ -25,18 +25,10 @@ namespace basecross {
 
 	class Train : public TemplateObject
 	{
+	protected:
 		const Vec3 m_DefaultPosition;
 		const Vec3 m_DefaultScale;
 		const float m_MoveInSeconds;
-
-		/*!
-		@brief 列車の状態
-		*/
-		enum class State {
-			Onrail, // レールに乗っている
-			Derail, // 脱線
-			Arrival // 駅到着
-		};
 
 		pair<Vec3, Vec3> m_movePos;
 		string m_railPos;
@@ -45,10 +37,6 @@ namespace basecross {
 		map<float, eDirection> m_radMap;
 		map<eDirection, vector<Vec2>> m_drMap;
 		Mat4x4 m_modelMat;
-
-		// ステート変数
-		State m_state = State::Onrail;
-		State m_beforeState = State::Onrail;
 
 		Vec3 m_moveDirection;
 
@@ -89,32 +77,24 @@ namespace basecross {
 
 		~Train() {}
 
-		/*!
-		@brief 生成時に一度だけ呼び出される関数
-		*/
-		void OnCreate() override;
+		virtual void OnCreate() override;
 
-		/*!
-		@brief 毎フレーム度に呼び出される関数
-		*/
-		void OnUpdate() override;
+		/// <summary>
+		/// 次のレールを検索する処理
+		/// </summary>
+		/// <returns>見つかったかどうか</returns>
+		virtual bool SearchNextRail();
 
-		/*!
-		@brief オブジェクトと衝突中に呼ばれる関数
-		*/
-		void OnCollisionEnter(shared_ptr<GameObject>& gameObject) override;
+		/// <summary>
+		/// 次のレールへの方向を設定する処理
+		/// </summary>
+		virtual void SetNextRailDirection();
 
-		void StateProcess(State state);
-
-		void OnRailState();
-
-		bool SetNextRail();
-
-		bool CheckGoalRail();
-
-		void SetDirection();
-
-		Vec3 GetDefaultPosition()
+		/// <summary>
+		/// 初期位置の取得
+		/// </summary>
+		/// <returns>初期位置</returns>
+		virtual Vec3 GetDefaultPosition()
 		{
 			return m_DefaultPosition;
 		}

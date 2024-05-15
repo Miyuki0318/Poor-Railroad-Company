@@ -168,7 +168,7 @@ namespace basecross
 	void GameStage::CreateTrain()
 	{
 		// 列車オブジェクトの追加
-		const auto& train = AddGameObject<Train>();
+		const auto& train = AddGameObject<GameTrain>();
 
 		// シェアオブジェクトに登録
 		SetSharedGameObject(L"Train", train);
@@ -269,7 +269,8 @@ namespace basecross
 			auto mainCamera = dynamic_pointer_cast<MainCamera>(camera);
 			AddGameObject<SkyBox>(mainCamera);
 
-			auto train = GetSharedGameObject<Train>(L"Train");
+			// 列車とカメラを取得
+			auto train = GetSharedGameObject<GameTrain>(L"Train");
 			// メインカメラのターゲットに列車をセットする
 			mainCamera->SetTargetObject(train);
 			mainCamera->SetAt(train->GetDefaultPosition());

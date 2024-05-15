@@ -37,3 +37,5 @@
 #include "OriginalCollision.h"
 #include "ItemCountUI.h"
 #include "SkyBox.h"
+#include "TitleTrain.h"
+#include "GameTrain.h"

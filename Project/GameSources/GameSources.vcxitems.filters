@@ -157,6 +157,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SkyBox.h">
       <Filter>StageObject\SkyBox</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTrain.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleTrain.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -291,6 +293,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SkyBox.cpp">
       <Filter>StageObject\SkyBox</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameTrain.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleTrain.cpp" />
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Player">
