@@ -35,16 +35,25 @@ namespace basecross
 	{
 		const auto& app = App::GetApp();
 
-		wstring mediaPath = app->GetDataDirWString();
-		wstring texturePath = mediaPath + L"Textures/";
-		wstring modelPath = mediaPath + L"Models/" + L"Bilding";
+		const wstring mediaPath = app->GetDataDirWString();
+		const wstring texturePath = mediaPath + L"Textures/";
+		const wstring modelPath = mediaPath + L"Models/";
 
+		// フェード用のテクスチャ
 		AddTextureResource(L"FADE_TX", texturePath + L"Blue.png");
+
+		AddTextureResource(L"BOARD_TX", modelPath + L"Bilding/RouteMapTexture.tga");
+
+		AddTextureResource(L"EASY_TX", modelPath + L"Bilding/EasyMapTexture.tga");
+		AddTextureResource(L"NORMAL_TX", modelPath + L"Bilding/NormalMapTexture.tga");
+		AddTextureResource(L"HARD_TX", modelPath + L"Bilding/HardMapTexture.tga");
 
 		// マップのテクスチャ
 		AddTextureResource(L"EASYMAP_TX", texturePath + L"MapEasy.png");
 		AddTextureResource(L"NORMALMAP_TX", texturePath + L"MapNormal.png");
 		AddTextureResource(L"HARDMAP_TX", texturePath + L"MapHard.png");
+
+		// 地面のテクスチャ
 		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
 
 		AddedTextureResources();
