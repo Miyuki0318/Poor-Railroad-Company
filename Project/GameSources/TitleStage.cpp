@@ -20,6 +20,10 @@ namespace basecross
 		ptrView->SetCamera(camera);
 		camera->SetAt(m_cameraAt);
 		camera->SetEye(m_cameraEye);
+
+		// スカイボックスの作成
+		auto& skyBox = AddGameObject<SkyBox>(camera);
+
 		//マルチライトの作成
 		auto ptrMultiLight = CreateLight<MultiLight>();
 		//デフォルトのライティングを指定
