@@ -83,7 +83,7 @@ namespace basecross
 	// オープニング画面の生成
 	void TitleStage::CreateOpningScreen()
 	{
-		auto& opning = AddGameObject<TitleLogo>();
+		//auto& opning = AddGameObject<TitleLogo>();
 	}
 
 	// 地面の生成
@@ -131,14 +131,11 @@ namespace basecross
 		const auto& routeMap = AddGameObject<RouteMap>();
 		SetSharedGameObject(L"RouteMap", routeMap);
 		m_objectGroup->IntoGroup(routeMap);
-
-		//const auto& ma = AddGameObject<RailManager>();
-		//const auto& train = AddGameObject<Train>();
 	}
 
 	void TitleStage::CreateTrain()
 	{
-		const auto& train = AddGameObject<Train>();
+		const auto& train = AddGameObject<TitleTrain>();
 		SetSharedGameObject(L"TitleTrain", train);
 	}
 
