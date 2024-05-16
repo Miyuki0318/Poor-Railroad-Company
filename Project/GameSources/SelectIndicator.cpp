@@ -95,7 +95,7 @@ namespace basecross
 	{
 		// プレイヤーの回転角Y軸の中から90の倍数に一番近いのに設定
 		const auto& player = dynamic_pointer_cast<GamePlayer>(m_player.lock());
-		float rotY = GetClosest(player->GetPastRotTarget(), 0.0f, XM_PIDIV2, XM_PI, -XM_PIDIV2, -XM_PI);
+		float rotY = DegToRad(GetClosest(RadToDeg(player->GetPastRotTarget()), m_rotArray));
 
 		// 方向ベクトルを定義(小数点以下四捨五入)
 		Vec3 velo = Vec3(cosf(rotY), 0.0f, -sinf(rotY));

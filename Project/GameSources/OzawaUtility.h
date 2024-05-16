@@ -320,6 +320,34 @@ namespace Utility
 	@param (a...) 比べる数(可変長引数)
 	@return numに一番近い数値
 	*/
+	template <class T>
+	T GetClosest(const T& num, vector<T> nums)
+	{
+		size_t size = nums.size();
+		size_t elem = 0;
+		T ret = (numeric_limits<T>::max)();
+
+		for (size_t i = 0; i < size; i++)
+		{
+			T value = num - nums.at(i);
+			if (value < 0) value *= -1;
+
+			if (ret > value)
+			{
+				ret = value;
+				elem = i;
+			}
+		}
+
+		return nums.at(elem);
+	}
+
+	/*!
+	@brief 第一引数の値に一番近い値を返す (中間値がある場合は最短で出た値が優先される)
+	@param (num) 元の数
+	@param (a...) 比べる数(可変長引数)
+	@return numに一番近い数値
+	*/
 	template <class Ty1, class... Ty2>
 	Ty1 GetClosest(const Ty1& num, Ty2... a)
 	{
