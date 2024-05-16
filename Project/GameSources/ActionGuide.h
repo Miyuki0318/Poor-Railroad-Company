@@ -107,7 +107,7 @@ namespace basecross
 			m_typePos.insert(make_pair(eSpriteType::Balloon, Vec3(0.0f, 0.0f, 0.1f)));
 
 			// ステージIDに応じたアイコンテーブル
-			m_iconMap.insert(make_pair(eStageID::Rock, eActionIcon::Pick));
+			m_iconMap.insert(make_pair(eStageID::Stone, eActionIcon::Pick));
 			m_iconMap.insert(make_pair(eStageID::Tree, eActionIcon::Axe));
 			m_iconMap.insert(make_pair(eStageID::GuideRail, eActionIcon::Rail));
 

@@ -74,7 +74,10 @@ namespace basecross
 	void GameStage::CreateGroundBox()
 	{
 		// 床ボックスオブジェクトの追加
-		AddGameObject<GroundBox>(Vec3(49.5f, 0.0f, -7.0f) ,Vec3(100.0f, 2.0f, 15.0f));
+		auto g = AddGameObject<GroundBox>(Vec3(49.5f, 0.0f, -7.0f) ,Vec3(100.0f, 2.0f, 15.0f));
+		g->SetDrawActive(false);
+
+		AddGameObject<GroundManager>();
 	}
 
 	// プレイヤーの生成
@@ -91,7 +94,8 @@ namespace basecross
 	void GameStage::CreateStageCSV(string csvPath)
 	{
 		// CSVデータ(int型の二次元配列)
-		m_stageMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath));
+		m_stageMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Stage"));
+		m_groundMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Ground"));
 
 		// オブジェクトグループ
 		const auto& miningGroup = GetSharedObjectGroup(L"MiningObject");
@@ -116,7 +120,7 @@ namespace basecross
 					//AddGameObject<GoalRail>(position);
 					break;
 					
-				case eStageID::Rock: // 岩なら
+				case eStageID::Stone: // 岩なら
 					mining = AddGameObject<Rock>(position, 2); 
 					break;
 
@@ -235,9 +239,6 @@ namespace basecross
 			//ビューとライトの作成
 			CreateViewLight();
 
-			// 床ボックスの生成
-			CreateGroundBox();
-
 			// プレイヤーの生成
 			CreatePlayer();
 
@@ -246,6 +247,9 @@ namespace basecross
 
 			// 線路の生成
 			CreateRailManager();
+
+			// 床ボックスの生成
+			CreateGroundBox();
 
 			// 列車の生成
 			CreateTrain();

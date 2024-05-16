@@ -13,9 +13,13 @@ namespace basecross
 		DeRail,		// 脱線部分
 		GuideRail,	// ガイドレール
 		GoalRail,	// ゴールレール
-		Rock = 10,	// 岩
+		Stone = 10,	// 岩
 		Tree,		// 木
-		Water = -1,	// 水
+
+		Grass = 101,	// 地面の草
+		Rock = 102,		// 地面の石
+		Air = 111,		// 空気(なんもなし)
+		Water = 112,	// 水場
 	};
 
 	class StageCSV : public Stage
@@ -24,21 +28,23 @@ namespace basecross
 
 		// ステージマップ
 		vector<vector<int>> m_stageMap;
+		vector<vector<int>> m_groundMap;
 		vector<vector<Vec3>> m_positionMap;
 
 		/*!
 		@brief ステージをcsvで生成
 		@param csvのファイル名
 		*/
-		virtual void CreateStageCSV(string csvPath = "TestStage") = 0;
+		virtual void CreateStageCSV(string csvPath = "Test") = 0;
 
 		/*!
 		@brief ステージマップをcsvで書き換え
 		@param csvのファイル名
 		*/
-		void WriteCSVMap(string csvPath = "TestStage")
+		void WriteCSVMap(string csvPath = "Test")
 		{
-			m_stageMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath));
+			m_stageMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Stage"));
+			m_groundMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Ground"));
 
 			// 二重ループ
 			for (int i = 0; i < m_stageMap.size(); i++)
@@ -71,6 +77,15 @@ namespace basecross
 		vector<vector<int>>& GetStageMap()
 		{
 			return m_stageMap;
+		}
+
+		/*!
+		@brief グラウンドマップの取得
+		@return m_groundMap
+		*/
+		vector<vector<int>>& GetGroundMap()
+		{
+			return m_groundMap;
 		}
 
 		/*!

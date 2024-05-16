@@ -66,7 +66,7 @@ namespace basecross
 		@brief ステージをcsvで生成
 		@param csvのファイル名
 		*/
-		void CreateStageCSV(string csvPath = "TestStage") override;
+		void CreateStageCSV(string csvPath = "Test") override;
 
 		/*!
 		@brief 採掘系オブジェクトの生成生成

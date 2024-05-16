@@ -74,7 +74,7 @@ namespace basecross
 			str += L"ÉSÅ[Éã";
 			break;
 
-		case eStageID::Rock:
+		case eStageID::Stone:
 			str += L"ä‚";
 			break;
 

@@ -67,6 +67,8 @@ namespace basecross
 		// アニメーションマップ
 		map<ePAKey, AnimationMap> m_animationMap;
 
+		vector<pair<int, int>> m_obliqueGridArray;
+
 		Vec3 m_rotTarget;	// 回転先
 		Vec3 m_currentRot;  // 前回の回転軸
 		Mat4x4 m_modelMat;	// モデルとトランスフォーム差分行列
@@ -95,6 +97,12 @@ namespace basecross
 			m_animationMap.emplace(ePAKey::CraftFinish, AnimationMap(L"C_END", 10, false));	  // クラフト終了
 			m_animationMap.emplace(ePAKey::QTESucces, AnimationMap(L"SUCCES", 24, false));	  // QTE成功
 			m_animationMap.emplace(ePAKey::QTEFailed, AnimationMap(L"FAILED", 24, false));	  // QTE失敗
+
+			// 隣接するグリッド
+			m_obliqueGridArray.push_back(make_pair(1, 1));		// 右前
+			m_obliqueGridArray.push_back(make_pair(1, -1));		// 左前
+			m_obliqueGridArray.push_back(make_pair(-1, 1));		// 右奥
+			m_obliqueGridArray.push_back(make_pair(-1, -1));	// 左奥
 
 			// スケールだけ、Y軸方向に2倍にする
 			m_modelMat.affineTransformation(
@@ -181,6 +189,14 @@ namespace basecross
 		virtual bool GetIsImpassable(size_t row, size_t col);
 
 		/*!
+		@brief 三平方の定理でグリッドとプレイヤーの押し出しする関数
+		@param pos
+		@param gridX
+		@param gridZ
+		*/
+		virtual void GridSquareTheorem(Vec3& pos, float gridX, float gridZ);
+
+		/*!
 		@brief 移動出来ないグリッド(上)埋まり解除関数
 		@param ポジション
 		@param ステージマップ
@@ -209,32 +225,11 @@ namespace basecross
 		virtual void GridHitRightResponse(Vec3& pos, const vector<vector<Vec3>>& posMap);
 
 		/*!
-		@brief 移動出来ないグリッド(左上)埋まり解除関数
+		@brief 移動出来ないグリッド(斜め)埋まり解除関数
 		@param ポジション
 		@param ステージマップ
 		*/
-		virtual void GridHitLeftFlontResponse(Vec3& pos, const vector<vector<Vec3>>& posMap);
-
-		/*!
-		@brief 移動出来ないグリッド(左下)埋まり解除関数
-		@param ポジション
-		@param ステージマップ
-		*/
-		virtual void GridHitLeftBackResponse(Vec3& pos, const vector<vector<Vec3>>& posMap);
-
-		/*!
-		@brief 移動出来ないグリッド(右上)埋まり解除関数
-		@param ポジション
-		@param ステージマップ
-		*/
-		virtual void GridHitRightFlontResponse(Vec3& pos, const vector<vector<Vec3>>& posMap);
-
-		/*!
-		@brief 移動出来ないグリッド(右下)埋まり解除関数
-		@param ポジション
-		@param ステージマップ
-		*/
-		virtual void GridHitRightBackResponse(Vec3& pos, const vector<vector<Vec3>>& posMap);
+		virtual void GridHitOliqueResponse(Vec3& pos, const vector<vector<Vec3>>& posMap);
 
 		/*!
 		@brief ステージの範囲外へ行かない様にする関数

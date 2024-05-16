@@ -23,6 +23,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Construction.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrain.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GroundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ItemCountUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftingIcon.h" />
@@ -77,6 +78,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Construction.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrain.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GroundManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ItemCountUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftingIcon.cpp" />
