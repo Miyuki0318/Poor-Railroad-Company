@@ -42,6 +42,14 @@ namespace basecross {
 		void GameStart();
 
 		// “dÔ‚ÌˆÚ“®ˆ—ŠÖ”
-		void MoveTrain();
+		bool MoveTrainFlag()
+		{
+			if (FindTag(tagName))
+			{
+				return true;
+			}
+
+			return false;
+		}
 	};
 }

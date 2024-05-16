@@ -31,6 +31,8 @@ namespace basecross {
 		{
 			GameStart();
 		}
+
+		MoveTrainFlag();
 	}
 
 	void Construction::GameStart()
@@ -44,10 +46,5 @@ namespace basecross {
 
 			PostEvent(0.0f, GetThis<ObjectInterface>(), scene, L"GameStage");
 		}
-	}
-
-	void Construction::MoveTrain()
-	{
-		auto& train = GetStage()->GetSharedGameObject<TitleTrain>(L"TitleTrain", true);
 	}
 }
