@@ -17,8 +17,6 @@ namespace basecross {
 		SetRotation(Vec3(0.0f));
 		SetPosition(m_position);
 
-		transComp = GetComponent<Transform>();
-
 		drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshToTransformMatrix(m_spanMat);
 		drawComp->SetMeshResource(L"CONSTRUCTION");
@@ -50,6 +48,6 @@ namespace basecross {
 
 	void Construction::MoveTrain()
 	{
-
+		auto& train = GetStage()->GetSharedGameObject<TitleTrain>(L"TitleTrain", true);
 	}
 }
