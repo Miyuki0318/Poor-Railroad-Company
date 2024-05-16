@@ -29,7 +29,7 @@ namespace basecross
 	void PlayerIdleState::Enter(const shared_ptr<GamePlayer>& player)
 	{
 		// 移動状態なら移動ステートに遷移
-		if (player->GetStatus(ePlayerStatus::IsMove)) player->SetState(PlayerMovingState::Instance());
+		if (Input::IsInputLStick()) player->m_status.Set(ePlayerStatus::IsMove);
 
 		// アニメーションの変更
 		if (!player->IsAnimation(ePAKey::Wait))
