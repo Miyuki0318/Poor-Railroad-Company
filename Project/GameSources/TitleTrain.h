@@ -20,8 +20,8 @@ namespace basecross {
 		State m_state = State::None;
 
 	public:
-		TitleTrain(const shared_ptr<Stage>& stagePtr) :
-			Train(stagePtr)
+		TitleTrain(const shared_ptr<Stage>& stagePtr, const Vec3& position) :
+			Train(stagePtr, position)
 		{
 		}
 		~TitleTrain() {}

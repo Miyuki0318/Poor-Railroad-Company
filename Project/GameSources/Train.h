@@ -74,6 +74,36 @@ namespace basecross {
 				Vec3(-0.25, 0.5f, 0.0f)
 			);
 		}
+		Train(const shared_ptr<Stage>& stagePtr, const Vec3& position) :
+			TemplateObject(stagePtr),
+			m_DefaultPosition(position),
+			m_DefaultScale(Vec3(1.0f, 1.0f, 1.0f)),
+			m_MoveInSeconds(4.0f),
+			m_moveDirection(Vec3(0.0f))
+		{
+			m_moveRatio = 0.0f;
+			m_railPos = { 0, 0 };
+			m_direction = eDirection::Right;
+			m_movePos.first.zero();
+			m_movePos.second.zero();
+
+			m_radMap.insert(make_pair(XM_PI, eDirection::Right));
+			m_radMap.insert(make_pair(0.0f, eDirection::Left));
+			m_radMap.insert(make_pair(XM_PIDIV2, eDirection::Flont));
+			m_radMap.insert(make_pair(-XM_PIDIV2, eDirection::Back));
+
+			m_drMap.insert(make_pair(eDirection::Right, vector<Vec2>{RIGHT_CSV, FLONT_CSV, BACK_CSV}));
+			m_drMap.insert(make_pair(eDirection::Left, vector<Vec2>{LEFT_CSV, FLONT_CSV, BACK_CSV}));
+			m_drMap.insert(make_pair(eDirection::Flont, vector<Vec2>{RIGHT_CSV, LEFT_CSV, FLONT_CSV}));
+			m_drMap.insert(make_pair(eDirection::Back, vector<Vec2>{RIGHT_CSV, LEFT_CSV, BACK_CSV}));
+
+			m_modelMat.affineTransformation(
+				Vec3(1.0f),
+				Vec3(0.0f),
+				Vec3(0.0f),
+				Vec3(-0.25, 0.5f, 0.0f)
+			);
+		}
 
 		~Train() {}
 
