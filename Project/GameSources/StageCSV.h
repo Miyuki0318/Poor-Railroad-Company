@@ -24,6 +24,7 @@ namespace basecross
 
 		// ステージマップ
 		vector<vector<int>> m_stageMap;
+		vector<vector<Vec3>> m_positionMap;
 
 		/*!
 		@brief ステージをcsvで生成
@@ -38,6 +39,17 @@ namespace basecross
 		void WriteCSVMap(string csvPath = "TestStage")
 		{
 			m_stageMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath));
+
+			// 二重ループ
+			for (int i = 0; i < m_stageMap.size(); i++)
+			{
+				vector<Vec3> tempVec;
+				for (int j = 0; j < m_stageMap.at(i).size(); j++)
+				{
+					tempVec.push_back(Vec3(float(j), 0.0f, -float(i)));
+				}
+				m_positionMap.push_back(tempVec);
+			}
 		}
 
 	public:
@@ -59,6 +71,15 @@ namespace basecross
 		vector<vector<int>>& GetStageMap()
 		{
 			return m_stageMap;
+		}
+
+		/*!
+		@brief ステージマップの取得
+		@return m_stageMap
+		*/
+		vector<vector<Vec3>>& GetStagePosMap()
+		{
+			return m_positionMap;
 		}
 	};
 }
