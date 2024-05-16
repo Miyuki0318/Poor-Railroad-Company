@@ -81,6 +81,7 @@ namespace basecross
 		Vec3 rot = m_rotTarget - m_currentRot;
 		float rotate = rot.length() * (DELTA_TIME / m_rotSpeed);
 		m_currentRot += Vec3(rot.normalize() * rotate);
+		m_moveValue += rotate / m_maxMove;
 
 		// 回転量を加算された現在の回転ベクトルのラジアンをY軸として設定
 		float rotY = atan2f(m_currentRot.z, m_currentRot.x);
@@ -92,10 +93,11 @@ namespace basecross
 	{
 		// 現在の座標に入力量×速度×デルタタイムで加算
 		Vec3 pos = GetPosition();
-		pos += stickValue * m_moveSpeed * DELTA_TIME;
-		
+		Vec3 newPos = pos + stickValue * m_moveSpeed * m_acsel * DELTA_TIME;
+		m_moveValue += (newPos - pos).lengthSqr();
+
 		// csvグリッドとの衝突判定を実行
-		GridHitResponse(pos);
+		GridHitResponse(newPos);
 	}
 
 	// グリッドに衝突してないかの応答処理

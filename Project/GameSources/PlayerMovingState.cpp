@@ -7,6 +7,8 @@
 #include "stdafx.h"
 #include "Project.h"
 
+const float ANIME_SPEED = 0.75f; // アニメーションの速度
+
 namespace basecross
 {
 	// インスタンス生成
@@ -47,12 +49,14 @@ namespace basecross
 		// クラフト状態ならクラフトステートに遷移
 		if (player->GetStatus(ePlayerStatus::IsCrafting)) player->SetState(PlayerCraftingState::Instance());
 
-		// アニメーション更新
-		player->m_ptrDraw->UpdateAnimation(DELTA_TIME * 0.75f);
-
 		// 移動更新を送る
+		player->m_moveValue = 0.0f;
 		player->UpdateMove();
 		player->UpdateRotation();
+
+		// アニメーションの更新
+		player->m_moveValue = min(floor(Utility::RadToDeg(player->m_moveValue), 1), player->m_maxMove);
+		player->m_ptrDraw->UpdateAnimation(DELTA_TIME * player->m_moveValue * ANIME_SPEED);
 	}
 
 	// ステート終了時の処理

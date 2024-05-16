@@ -7,6 +7,8 @@
 #include "stdafx.h"
 #include "Project.h"
 
+const float ANIME_SPEED = 0.75f; // アニメーションの速度
+
 namespace basecross
 {
 	// ネームスペースの省略
@@ -17,11 +19,17 @@ namespace basecross
 	void TitlePlayer::OnUpdate()
 	{
 		// 移動と回転の更新処理
+		m_moveValue = 0.0f;
 		UpdateMove();
 		UpdateRotation();
 		
+		// アニメーションの更新
+		m_moveValue = min(floor(RadToDeg(m_moveValue), 1), m_maxMove);
+		m_ptrDraw->UpdateAnimation(DELTA_TIME * m_moveValue * ANIME_SPEED);
+
 		// デバック用文字列
 		Debug::Log(L"プレイヤーの座標 : ", GetPosition());
+		Debug::Log(L"動いた量 : ", m_moveValue);
 	}
 
 	// コンポーネント設定
@@ -57,11 +65,10 @@ namespace basecross
 			// LStick入力量の取得
 			Vec3 stickValue = Vec3(GetLStickValue().x, 0.0f, GetLStickValue().y);
 
+			m_acsel += DELTA_TIME;
+			m_acsel = min(m_acsel, m_maxAcsel);
 			SetRotateTarget(stickValue); // 回転関数
 			ControllerMovement(stickValue);	// 移動関数
-
-			// アニメーションの更新
-			m_ptrDraw->UpdateAnimation(DELTA_TIME * 0.75f);
 		}
 	}
 }

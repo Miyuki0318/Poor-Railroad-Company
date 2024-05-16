@@ -37,6 +37,7 @@ namespace basecross
 	{
 		// アニメーション更新
 		player->m_ptrDraw->UpdateAnimation(DELTA_TIME);
+		player->UpdateRotation();
 
 		// 採掘中の待機時間
 		if (!player->m_ptrDraw->IsTargetAnimeEnd()) return;

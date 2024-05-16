@@ -193,6 +193,8 @@ namespace basecross
 			// LStick“ü—Í—Ê‚Ìæ“¾
 			Vec3 stickValue = Vec3(GetLStickValue().x, 0.0f, GetLStickValue().y);
 
+			m_acsel += DELTA_TIME;
+			m_acsel = min(m_acsel, m_maxAcsel);
 			SetRotateTarget(stickValue); // ‰ñ“]ŠÖ”
 			ControllerMovement(stickValue);	// ˆÚ“®ŠÖ”
 		}

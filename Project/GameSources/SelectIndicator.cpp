@@ -62,12 +62,11 @@ namespace basecross
 
 	// 座標の更新処理
 	void SelectIndicator::UpdatePosition()
-	{
+	{	
 		Vec3 position;
 
 		// 隣接する場所に配置
 		PlayerAdjoinPosition(position);
-		SelectAssistPosition(position);
 
 		// プレイヤーの座標+方向ベクトルで座標更新
 		SetPosition(position);
@@ -115,12 +114,6 @@ namespace basecross
 
 		// 座標を上書き
 		position = pos + velo;
-	}
-
-	// 選択のアシスト
-	void SelectIndicator::SelectAssistPosition(Vec3& position)
-	{
-		const auto& guideMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetGuideMap();
 	}
 
 	// 採掘命令

@@ -57,6 +57,10 @@ namespace basecross
 		shared_ptr<BcPNTBoneModelDraw> m_ptrDraw; 
 		shared_ptr<Shadowmap> m_ptrShadow; 
 
+		float m_acsel;			 // 加速度
+		float m_moveValue;		 // 運動量(移動と回転)
+		const float m_maxAcsel;	 // 最大加速度
+		const float m_maxMove;	 // 最大運動量
 		const float m_radius;	 // 衝突判定用半径
 		const float m_moveSpeed; // 移動速度
 		const float m_rotSpeed;  // 回転速度
@@ -83,8 +87,12 @@ namespace basecross
 			TemplateObject(stagePtr, Vec3(0.0f, 3.0f, 0.0f), Vec3(0.0f), Vec3(1.0f)),
 			m_moveSpeed(5.0f), // 今後CSVから速度等のステータスを取得予定
 			m_rotSpeed(0.5f),  // 今後CSVから速度等のステータスを取得予定
-			m_radius(1.0f)
+			m_radius(1.0f),
+			m_maxAcsel(1.0f),
+			m_maxMove(2.0f)
 		{
+			m_acsel = 0.0f;
+			m_moveValue = 0.0f;
 			m_rotTarget.zero(); // 回転先は0.0fで初期化
 			m_currentRot.zero(); // 回転先は0.0fで初期化
 
