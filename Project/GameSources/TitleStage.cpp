@@ -135,7 +135,7 @@ namespace basecross
 
 	void TitleStage::CreateTrain()
 	{
-		const auto& train = AddGameObject<TitleTrain>();
+		const auto& train = AddGameObject<TitleTrain>(m_trainPos);
 		SetSharedGameObject(L"TitleTrain", train);
 	}
 

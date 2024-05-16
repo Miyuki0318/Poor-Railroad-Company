@@ -29,6 +29,9 @@ namespace basecross
 		const Vec3 m_cameraEye = Vec3(25.0f, 20.0f, -47.0f);
 		const Vec3 m_cameraAt = Vec3(25.0f, 2.0f, -25.0f);
 
+		// 列車の開始位置
+		const Vec3 m_trainPos = Vec3(29.0f,1.0f,-29.0f);
+
 		// フェードの時間
 		const float m_fadeOutTime = 1.0f;
 		const float m_fadeInTime = 3.0f;
