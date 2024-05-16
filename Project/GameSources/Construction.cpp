@@ -27,12 +27,10 @@ namespace basecross {
 
 	void Construction::OnUpdate()
 	{
-		if (FindTag(tagName))
+		if (MoveTrainFlag())
 		{
 			GameStart();
-		}
-
-		MoveTrainFlag();
+		}	
 	}
 
 	void Construction::GameStart()

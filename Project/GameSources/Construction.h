@@ -44,12 +44,7 @@ namespace basecross {
 		// “dÔ‚ÌˆÚ“®ˆ—ŠÖ”
 		bool MoveTrainFlag()
 		{
-			if (FindTag(tagName))
-			{
-				return true;
-			}
-
-			return false;
+			return FindTag(tagName);
 		}
 	};
 }
