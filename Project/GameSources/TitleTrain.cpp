@@ -10,6 +10,11 @@
 namespace basecross {
 	void TitleTrain::OnUpdate()
 	{
+		auto construction = GetStage()->GetSharedGameObject<Construction>(L"Construction");
+		if (construction->MoveTrainFlag())
+		{
+			m_state = State::GameStart;
+		}
 		StateProcess(m_state);
 	}
 
