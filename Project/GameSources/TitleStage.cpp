@@ -128,6 +128,7 @@ namespace basecross
 	void TitleStage::CreateTrain()
 	{
 		const auto& train = AddGameObject<Train>();
+		SetSharedGameObject(L"TitleTrain", train);
 	}
 
 	// ボタンを押した時の処理
@@ -271,6 +272,8 @@ namespace basecross
 			}
 
 			Debug::Log(L"カメラのAt : ", GetView()->GetTargetCamera()->GetAt());
+
+			Debug::Log(L"列車の位置 : ", GetSharedGameObject<Train>(L"TitleTrain", true)->GetPosition());
 
 			if (m_buttonPush)
 			{
