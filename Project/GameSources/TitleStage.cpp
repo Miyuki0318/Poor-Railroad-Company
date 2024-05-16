@@ -281,7 +281,7 @@ namespace basecross
 
 			Debug::Log(L"ƒJƒƒ‰‚ÌAt : ", GetView()->GetTargetCamera()->GetAt());
 
-			Debug::Log(L"—ñŽÔ‚ÌˆÊ’u : ", GetSharedGameObject<Train>(L"TitleTrain", true)->GetPosition());
+			Debug::Log(L"—ñŽÔ‚ÌˆÊ’u : ", GetSharedGameObject<TitleTrain>(L"TitleTrain", true)->GetPosition());
 
 			if (m_buttonPush)
 			{
