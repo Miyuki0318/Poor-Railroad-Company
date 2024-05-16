@@ -133,13 +133,23 @@ namespace basecross
 	{
 		// ステージcsv配列の取得
 		const auto& stageMap = GetTypeStage<StageCSV>()->GetStageMap();
+		const auto&	groundMap = GetTypeStage<StageCSV>()->GetGroundMap();
 
 		// 配列の範囲外じゃないかのチェック
 		if (!WithInElemRange(row, col, stageMap)) return false;
+		if (!WithInElemRange(row, col, groundMap)) return false;
 
 		// 通れないマスIDと一致するか
 		eStageID id = STAGE_ID(stageMap.at(row).at(col));
-		return m_impassableSet.find(id) != m_impassableSet.end();
+		if (m_impassableSet.find(id) != m_impassableSet.end())
+		{
+			return true;
+		}
+		else
+		{
+			id = STAGE_ID(groundMap.at(row).at(col));
+			return m_impassableSet.find(id) != m_impassableSet.end();
+		}
 	}
 
 	// 三平方の定理で押し出し処理

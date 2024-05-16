@@ -214,7 +214,7 @@ namespace basecross
 
 			CreatePlayer();
 
-			WriteCSVMap("TitleStage");
+			WriteCSVMap("Title");
 
 			CreateRailManager();
 
