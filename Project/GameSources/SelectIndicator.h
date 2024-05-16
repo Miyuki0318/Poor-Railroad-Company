@@ -80,6 +80,18 @@ namespace basecross
 		void UpdatePosition();
 
 		/*!
+		@brief プレイヤーに隣接する場所に座標を設定する関数
+		@param 現在の座標
+		*/
+		void PlayerAdjoinPosition(Vec3& position);
+
+		/*!
+		@brief 選択をアシストし、オブジェクトの位置に座標を設定する関数
+		@param 現在の座標
+		*/
+		void SelectAssistPosition(Vec3& position);
+
+		/*!
 		@brief 選択ポイントの更新処理関数
 		*/
 		void UpdateSelectPoint();

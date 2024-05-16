@@ -58,58 +58,19 @@ namespace basecross
 
 		// 選択しているポイント(csv上での)を更新
 		UpdateSelectPoint();
-
-		// デバック用文字列
-		wstring str;
-		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
-		eStageID id = static_cast<eStageID>(stageMap.at(m_selectPoint.x).at(m_selectPoint.y));
-		switch (id)
-		{
-		case eStageID::Rail:
-		case eStageID::DeRail:
-			str += L"レール";
-			break;
-
-		case eStageID::GoalRail:
-			str += L"ゴール";
-			break;
-
-		case eStageID::Stone:
-			str += L"岩";
-			break;
-
-		case eStageID::Tree:
-			str += L"木";
-			break;
-
-		default:
-			str += L"無";
-			break;
-		}
-
-		Debug::Log(str + L"を選択中");
 	}
 
 	// 座標の更新処理
 	void SelectIndicator::UpdatePosition()
 	{
-		// プレイヤーの回転角Y軸の中から90の倍数に一番近いのに設定
-		const auto& player = dynamic_pointer_cast<GamePlayer>(m_player.lock());
-		float rotY = DegToRad(GetClosest(RadToDeg(player->GetPastRotTarget()), m_rotArray));
+		Vec3 position;
 
-		// 方向ベクトルを定義(小数点以下四捨五入)
-		Vec3 velo = Vec3(cosf(rotY), 0.0f, -sinf(rotY));
-		velo.x = round(velo.x);
-		velo.z = round(velo.z);
-
-		// プレイヤーの座標を四捨五入する
-		Vec3 pos = player->GetPosition();
-		pos.x = round(pos.x);
-		pos.z = round(pos.z);
-		pos.y = m_position.y;
+		// 隣接する場所に配置
+		PlayerAdjoinPosition(position);
+		SelectAssistPosition(position);
 
 		// プレイヤーの座標+方向ベクトルで座標更新
-		SetPosition(pos + velo);
+		SetPosition(position);
 	}
 
 	// 選択しているポイントの更新
@@ -132,6 +93,34 @@ namespace basecross
 
 		// 更新
 		m_selectPoint = Point2D<size_t>(row, col);
+	}
+
+	// 隣接点にインディケーターを移動
+	void SelectIndicator::PlayerAdjoinPosition(Vec3& position)
+	{
+		// プレイヤーの回転角Y軸の中から90の倍数に一番近いのに設定
+		const auto& player = dynamic_pointer_cast<GamePlayer>(m_player.lock());
+		float rotY = DegToRad(GetClosest(RadToDeg(player->GetPastRotTarget()), m_rotArray));
+
+		// 方向ベクトルを定義(小数点以下四捨五入)
+		Vec3 velo = Vec3(cosf(rotY), 0.0f, -sinf(rotY));
+		velo.x = round(velo.x);
+		velo.z = round(velo.z);
+
+		// プレイヤーの座標を四捨五入する
+		Vec3 pos = player->GetPosition();
+		pos.x = round(pos.x);
+		pos.z = round(pos.z);
+		pos.y = m_position.y;
+
+		// 座標を上書き
+		position = pos + velo;
+	}
+
+	// 選択のアシスト
+	void SelectIndicator::SelectAssistPosition(Vec3& position)
+	{
+		const auto& guideMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetGuideMap();
 	}
 
 	// 採掘命令
