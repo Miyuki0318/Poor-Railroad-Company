@@ -298,7 +298,7 @@ namespace basecross
 
 			TitleCameraZoom();
 
-			//FadeSprite();
+			FadeSprite();
 
 			Debug::Log(m_buttonPush);
 		}
