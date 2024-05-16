@@ -34,13 +34,20 @@ namespace basecross
 		wstring mediaPath = app->GetDataDirWString();
 		wstring texturePath = mediaPath + L"Textures/";
 		wstring modelPath = mediaPath + L"Models/" + L"Bilding";
+		
+		// タイトルロゴ
+		AddTextureResource(L"TITLE_LOGO", texturePath + L"TitleLogo.png");
 
+		// フェード用のテクスチャ
 		AddTextureResource(L"FADE_TX", texturePath + L"Blue.png");
+
 
 		// マップのテクスチャ
 		AddTextureResource(L"EASYMAP_TX", texturePath + L"MapEasy.png");
 		AddTextureResource(L"NORMALMAP_TX", texturePath + L"MapNormal.png");
 		AddTextureResource(L"HARDMAP_TX", texturePath + L"MapHard.png");
+
+		// 地面のテクスチャ
 		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
 
 		AddedTextureResources();
@@ -60,6 +67,12 @@ namespace basecross
 		auto& sprite = AddGameObject<Sprite>(L"FADE_TX", Vec2(m_width, m_height));
 		sprite->SetDiffuseColor(COL_ALPHA);
 		SetSharedGameObject(L"FadeSprite", sprite);
+	}
+
+	// オープニング画面の生成
+	void TitleStage::CreateOpningScreen()
+	{
+		auto& opning = AddGameObject<TitleLogo>();
 	}
 
 	// 地面の生成
@@ -107,6 +120,9 @@ namespace basecross
 		const auto& routeMap = AddGameObject<RouteMap>();
 		SetSharedGameObject(L"RouteMap", routeMap);
 		m_objectGroup->IntoGroup(routeMap);
+
+		//const auto& ma = AddGameObject<RailManager>();
+		//const auto& train = AddGameObject<Train>();
 	}
 
 	void TitleStage::CreateTrain()
@@ -209,6 +225,8 @@ namespace basecross
 			CreateResourses();
 
 			CreateSprite();
+
+			CreateOpningScreen();
 
 			CreateGround();
 

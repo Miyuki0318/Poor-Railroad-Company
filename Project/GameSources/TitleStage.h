@@ -69,6 +69,11 @@ namespace basecross
 		@brief スプライトの生成
 		*/
 		void CreateSprite();
+		
+		/*
+		@brief オープニング画面の生成
+		*/
+		void CreateOpningScreen();
 
 		/*
 		@brief 地面の生成
