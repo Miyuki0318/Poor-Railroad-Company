@@ -16,10 +16,11 @@ namespace basecross {
 		
 		Mat4x4 m_spanMat;
 
-		shared_ptr<Transform> transComp;
 		shared_ptr<PNTStaticDraw> drawComp;
 
 		shared_ptr<Sprite> m_fadeSprite;
+
+		shared_ptr<GameObject> m_obj;
 
 	public:
 		Construction(const shared_ptr<Stage>& stagePtr // ステージのポインタ
@@ -37,9 +38,18 @@ namespace basecross {
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;
 
-		/*
-		* ゲームスタート
-		*/
+		// ゲームスタートさせる関数
 		void GameStart();
+
+		// 電車の移動処理関数
+		bool MoveTrainFlag()
+		{
+			if (FindTag(tagName))
+			{
+				return true;
+			}
+
+			return false;
+		}
 	};
 }

@@ -20,6 +20,10 @@ namespace basecross
 		ptrView->SetCamera(camera);
 		camera->SetAt(m_cameraAt);
 		camera->SetEye(m_cameraEye);
+
+		// スカイボックスの作成
+		auto& skyBox = AddGameObject<SkyBox>(camera);
+
 		//マルチライトの作成
 		auto ptrMultiLight = CreateLight<MultiLight>();
 		//デフォルトのライティングを指定
@@ -33,14 +37,28 @@ namespace basecross
 
 		wstring mediaPath = app->GetDataDirWString();
 		wstring texturePath = mediaPath + L"Textures/";
-		wstring modelPath = mediaPath + L"Models/" + L"Bilding";
+		wstring modelPath = mediaPath + L"Models/" + L"Bilding/";
+		
+		// タイトルロゴ
+		AddTextureResource(L"TITLE_LOGO", texturePath + L"TitleLogo.png");
 
+		// フェード用のテクスチャ
 		AddTextureResource(L"FADE_TX", texturePath + L"Blue.png");
+
+		// ボードのテクスチャ
+		AddTextureResource(L"BOARD_TX", modelPath + L"RouteMapTexture.tga");
+
+		// マップ選択モデルのテクスチャ
+		AddTextureResource(L"EASY_TX", modelPath + L"EasyMapTexture.tga");
+		AddTextureResource(L"NORMAL_TX", modelPath + L"NormalMapTexture.tga");
+		AddTextureResource(L"HARD_TX", modelPath + L"HardMapTexture.tga");
 
 		// マップのテクスチャ
 		AddTextureResource(L"EASYMAP_TX", texturePath + L"MapEasy.png");
 		AddTextureResource(L"NORMALMAP_TX", texturePath + L"MapNormal.png");
 		AddTextureResource(L"HARDMAP_TX", texturePath + L"MapHard.png");
+
+		// 地面のテクスチャ
 		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
 
 		AddedTextureResources();
@@ -60,6 +78,12 @@ namespace basecross
 		auto& sprite = AddGameObject<Sprite>(L"FADE_TX", Vec2(m_width, m_height));
 		sprite->SetDiffuseColor(COL_ALPHA);
 		SetSharedGameObject(L"FadeSprite", sprite);
+	}
+
+	// オープニング画面の生成
+	void TitleStage::CreateOpningScreen()
+	{
+		//auto& opning = AddGameObject<TitleLogo>();
 	}
 
 	// 地面の生成
@@ -111,7 +135,8 @@ namespace basecross
 
 	void TitleStage::CreateTrain()
 	{
-		const auto& train = AddGameObject<Train>();
+		const auto& train = AddGameObject<TitleTrain>();
+		SetSharedGameObject(L"TitleTrain", train);
 	}
 
 	// ボタンを押した時の処理
@@ -210,6 +235,8 @@ namespace basecross
 
 			CreateSprite();
 
+			CreateOpningScreen();
+
 			CreateGround();
 
 			CreatePlayer();
@@ -253,6 +280,8 @@ namespace basecross
 			}
 
 			Debug::Log(L"カメラのAt : ", GetView()->GetTargetCamera()->GetAt());
+
+			Debug::Log(L"列車の位置 : ", GetSharedGameObject<TitleTrain>(L"TitleTrain", true)->GetPosition());
 
 			if (m_buttonPush)
 			{
