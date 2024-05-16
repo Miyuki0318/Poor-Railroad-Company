@@ -9,7 +9,7 @@
 
 #define MESH L"SM_PLAYER_"
 
-const float GRID_SIZE = 1.0f;
+const int GRID_SIZE = 1;
 const float GRID_HELF = 0.5f;
 
 namespace basecross
@@ -165,7 +165,7 @@ namespace basecross
 	{
 		// 列と行
 		size_t row, col;
-		row = ROW(floor(pos.z + GRID_HELF)) + 1;
+		row = ROW(floor(pos.z + GRID_HELF)) + GRID_SIZE;
 		col = COL(floor(pos.x + GRID_HELF));
 
 		// 衝突判定を取るIDかのチェック
@@ -184,7 +184,7 @@ namespace basecross
 	{
 		// 列と行
 		size_t row, col;
-		row = ROW(floor(pos.z + GRID_HELF)) - 1;
+		row = ROW(floor(pos.z + GRID_HELF)) - GRID_SIZE;
 		col = COL(floor(pos.x + GRID_HELF));
 
 		// 衝突判定を取るIDかのチェック
@@ -204,7 +204,7 @@ namespace basecross
 		// 列と行
 		size_t row, col;
 		row = ROW(floor(pos.z + GRID_HELF));
-		col = COL(floor(pos.x + GRID_HELF)) - 1;
+		col = COL(floor(pos.x + GRID_HELF)) - GRID_SIZE;
 
 		// 衝突判定を取るIDかのチェック
 		if (!GetIsImpassable(row, col)) return;
@@ -223,7 +223,7 @@ namespace basecross
 		// 列と行
 		size_t row, col;
 		row = ROW(floor(pos.z + GRID_HELF));
-		col = COL(floor(pos.x + GRID_HELF)) + 1;
+		col = COL(floor(pos.x + GRID_HELF)) + GRID_SIZE;
 
 		// 衝突判定を取るIDかのチェック
 		if (!GetIsImpassable(row, col)) return;
@@ -268,6 +268,6 @@ namespace basecross
 		pos.x = max(0.0f, pos.x);
 		pos.x = min(float(stageMap.at(row).size()), pos.x);
 		pos.z = min(-0.1f, pos.z);
-		pos.z = max(-float(stageMap.size() - 1), pos.z);
+		pos.z = max(-float(stageMap.size() - GRID_SIZE), pos.z);
 	}
 }
