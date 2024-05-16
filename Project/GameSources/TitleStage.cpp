@@ -20,6 +20,10 @@ namespace basecross
 		ptrView->SetCamera(camera);
 		camera->SetAt(m_cameraAt);
 		camera->SetEye(m_cameraEye);
+
+		// スカイボックスの作成
+		auto& skyBox = AddGameObject<SkyBox>(camera);
+
 		//マルチライトの作成
 		auto ptrMultiLight = CreateLight<MultiLight>();
 		//デフォルトのライティングを指定
@@ -41,6 +45,13 @@ namespace basecross
 		// フェード用のテクスチャ
 		AddTextureResource(L"FADE_TX", texturePath + L"Blue.png");
 
+		// ボードのテクスチャ
+		AddTextureResource(L"BOARD_TX", modelPath + L"Bilding/RouteMapTexture.tga");
+
+		// マップ選択モデルのテクスチャ
+		AddTextureResource(L"EASY_TX", modelPath + L"Bilding/EasyMapTexture.tga");
+		AddTextureResource(L"NORMAL_TX", modelPath + L"Bilding/NormalMapTexture.tga");
+		AddTextureResource(L"HARD_TX", modelPath + L"Bilding/HardMapTexture.tga");
 
 		// マップのテクスチャ
 		AddTextureResource(L"EASYMAP_TX", texturePath + L"MapEasy.png");

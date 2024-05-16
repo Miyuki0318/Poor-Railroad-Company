@@ -10,6 +10,7 @@
 namespace basecross {
 	class RouteMap : public TemplateObject
 	{
+		// 難易度
 		enum eMapLevel
 		{
 			easyMap,
@@ -17,27 +18,34 @@ namespace basecross {
 			hardMap
 		};
 
-		wstring m_mapTextures[3] = {
+		// モデルのテクスチャキー
+		const wstring m_modelTextures[3] = {
+			L"EASY_TX",
+			L"NORMAL_TX",
+			L"HARD_TX"
+		};
+
+		// スプライトのテクスチャキー
+		const wstring m_mapTextures[3] = {
 			L"EASYMAP_TX",
 			L"NORMALMAP_TX",
 			L"HARDMAP_TX"
 		};
 
+		// タグ名取得
+		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
+
 		const Vec3 m_scale = Vec3(3.0f);
 		const Vec3 m_position = Vec3(30.0f, 1.0f, -15.0f);
 
-		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
-		
-		const float m_width = 500.0f;
-		const float m_height = 500.0f;
+		const Vec2 m_spriteScale = Vec2(500.0f);
 
+		shared_ptr<PNTStaticDraw> m_drawComp;
+
+		// 現在の入力値
 		float m_currentX;
 
 		Mat4x4 m_spanMat;
-
-		Vec3 m_playerPosition;
-		Vec3 m_cameraPosition;
-		Vec3 m_cameraAt;
 
 		shared_ptr<Sprite> m_mapSprite;
 		eMapLevel m_mapLevel;
