@@ -77,5 +77,10 @@ namespace basecross
 		@brief SEの再生関数
 		*/
 		virtual void StopSE(const wstring& seKey, const void* objPtr);
+
+		/*!
+		@brief SEが再生されてるかのチェック(主にStageのOnUpdateで呼び出す)
+		*/
+		virtual void CheckSEList();
 	};
 }

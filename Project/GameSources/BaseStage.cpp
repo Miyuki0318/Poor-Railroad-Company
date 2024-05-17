@@ -95,4 +95,32 @@ namespace basecross
 
 		}
 	}
+
+	// ”jŠüŽž‚Ìˆ—
+	void BaseStage::OnDestroy()
+	{
+		try
+		{
+			// ‰ð•ú
+			m_seManager.reset();
+		}
+		catch (...)
+		{
+
+		}
+	}
+
+	// ”jŠüŽž‚Ìˆ—
+	void BaseStage::OnUpdate()
+	{
+		try
+		{
+			// SEƒŠƒXƒg‚ÌŠm”F
+			m_seManager->CheckSEList();
+		}
+		catch (...)
+		{
+
+		}
+	}
 }
