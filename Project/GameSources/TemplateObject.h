@@ -233,15 +233,15 @@ namespace basecross
 		//	return GetTypeStage<T>(exceptionActive)->GetStageState();
 		//}
 
-		///*!
-		//@brief SE再生関数(途中で終了できる版)
-		//*/
-		//virtual void StartSE(const wstring& seKey, float volume);
+		/*!
+		@brief SE再生関数(途中で終了できる版)
+		*/
+		virtual void StartSE(const wstring& seKey, float volume);
 
-		///*!
-		//@brief SE終了関数
-		//*/
-		//virtual void StopSE(const wstring& seKey);
+		/*!
+		@brief SE終了関数
+		*/
+		virtual void StopSE(const wstring& seKey);
 
 		/*!
 		@brief タイマー関数

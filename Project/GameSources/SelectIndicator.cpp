@@ -76,7 +76,7 @@ namespace basecross
 	void SelectIndicator::UpdateSelectPoint()
 	{
 		// ステージcsv配列の取得
-		const auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
+		const auto& stageMap = GetTypeStage<BaseStage>()->GetStageMap();
 
 		// サイズと列と行
 		Vec3 pos = GetPosition();

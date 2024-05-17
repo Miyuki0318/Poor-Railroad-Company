@@ -5,6 +5,7 @@
 #include "DebugLog.h"
 #include "Input.h"
 #include "Timer.h"
+#include "SEManager.h"
 #include "TemplateObject.h"
 #include "DrawObject.h"
 #include "Sprite.h"

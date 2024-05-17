@@ -45,7 +45,7 @@ namespace basecross
 		m_ptrDraw->SetDiffuse(COL_WHITE);
 
 		// csvの取得とスケール
-		const auto& stagePtr = GetTypeStage<StageCSV>();
+		const auto& stagePtr = GetTypeStage<BaseStage>();
 		const auto& stageMap = stagePtr->GetStageMap();
 		m_guideMap = stageMap;
 
@@ -80,7 +80,7 @@ namespace basecross
 	void RailManager::AddRail(const Point2D<size_t>& point)
 	{
 		// ステージcsvの取得
-		auto& stageMap = GetTypeStage<StageCSV>()->GetStageMap();
+		auto& stageMap = GetTypeStage<BaseStage>()->GetStageMap();
 
 		// インスタンス描画を追加
 		AddInstanceRail(point.x, point.y);
@@ -96,7 +96,7 @@ namespace basecross
 	void RailManager::SetRailID(size_t row, size_t col) const
 	{
 		// csvの取得
-		auto& stageMap = GetTypeStage<StageCSV>()->GetStageMap();
+		auto& stageMap = GetTypeStage<BaseStage>()->GetStageMap();
 		
 		// 要素数が範囲内で、先端レールなら通常のレールにする
 		for (const auto& elem : CSVElementCheck::GetElemsCheck(row, col, stageMap))
@@ -151,7 +151,7 @@ namespace basecross
 	void RailManager::GuideRecalculation()
 	{
 		// ステージcsvの取得
-		auto& stageMap = GetTypeStage<GameStage>()->GetStageMap();
+		auto& stageMap = GetTypeStage<BaseStage>()->GetStageMap();
 		m_guideMap = stageMap;
 
 		// サイズと列と行

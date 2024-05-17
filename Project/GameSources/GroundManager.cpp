@@ -28,7 +28,7 @@ namespace basecross
 		m_groundMap.emplace(eStageID::Water, stagePtr->AddGameObject<InstanceGround>(COL_BG));
 
 		// 地面マップ
-		auto& groundMap = GetTypeStage<StageCSV>()->GetGroundMap();
+		auto& groundMap = GetTypeStage<BaseStage>()->GetGroundMap();
 
 		// 二重ループ
 		for (size_t row = 0; row < groundMap.size(); row++)

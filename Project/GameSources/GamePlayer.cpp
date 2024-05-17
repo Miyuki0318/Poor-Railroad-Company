@@ -123,6 +123,7 @@ namespace basecross
 			if (indicator->RailedOrder())
 			{
 				m_craft->UseItem(eItemType::Rail);
+				StartSE(L"ADDRAIL_SE", 1.0f);
 			}
 		}
 	}
@@ -140,6 +141,7 @@ namespace basecross
 			if (tagSet.find(miningMap.first) != tagSet.end())
 			{
 				AddItemCount(miningMap.second, addNum);
+				StartSE(miningMap.first + L"_SE", 1.0f);
 			}
 		}
 

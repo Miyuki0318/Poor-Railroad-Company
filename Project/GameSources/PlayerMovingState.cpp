@@ -35,6 +35,8 @@ namespace basecross
 		{
 			player->SetAnimationMesh(ePAKey::Walk);
 		}
+
+
 	}
 
 	// ステート更新時の処理

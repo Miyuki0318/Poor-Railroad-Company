@@ -61,7 +61,7 @@ namespace basecross {
 		ptrDraw->SetMeshToTransformMatrix(m_modelMat);
 
 		// タグの設定
-		AddTag(L"Tree");
+		AddTag(L"TREE");
 	}
 
 	void Tree::OnUpdate() {
@@ -126,7 +126,7 @@ namespace basecross {
 		ptrDraw->SetMeshToTransformMatrix(m_modelMat);
 
 		// タグの設定
-		AddTag(L"Rock");
+		AddTag(L"ROCK");
 	}
 
 	void Rock::OnUpdate() {

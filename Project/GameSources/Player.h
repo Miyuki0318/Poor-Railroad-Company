@@ -97,14 +97,14 @@ namespace basecross
 			m_currentRot.zero(); // 回転先は0.0fで初期化
 
 			// アニメーションキー
-			m_animationMap.emplace(ePAKey::Wait, AnimationMap(L"WAIT", 24, true));			  // 待機
-			m_animationMap.emplace(ePAKey::Walk, AnimationMap(L"WALK", 12, true));			  // 移動
+			m_animationMap.emplace(ePAKey::Wait, AnimationMap(L"WAIT", 24, true));				// 待機
+			m_animationMap.emplace(ePAKey::Walk, AnimationMap(L"WALK", 12, true));				// 移動
 			m_animationMap.emplace(ePAKey::Harvesting, AnimationMap(L"HARVESTING", 24, false)); // 伐採
-			m_animationMap.emplace(ePAKey::CraftStart, AnimationMap(L"C_START", 10, false));	  // クラフト開始
-			m_animationMap.emplace(ePAKey::Crafting, AnimationMap(L"C_NOW", 15, true));		  // クラフト中
-			m_animationMap.emplace(ePAKey::CraftFinish, AnimationMap(L"C_END", 10, false));	  // クラフト終了
-			m_animationMap.emplace(ePAKey::QTESucces, AnimationMap(L"SUCCES", 24, false));	  // QTE成功
-			m_animationMap.emplace(ePAKey::QTEFailed, AnimationMap(L"FAILED", 24, false));	  // QTE失敗
+			m_animationMap.emplace(ePAKey::CraftStart, AnimationMap(L"C_START", 10, false));	// クラフト開始
+			m_animationMap.emplace(ePAKey::Crafting, AnimationMap(L"C_NOW", 15, true));			// クラフト中
+			m_animationMap.emplace(ePAKey::CraftFinish, AnimationMap(L"C_END", 10, false));		// クラフト終了
+			m_animationMap.emplace(ePAKey::QTESucces, AnimationMap(L"SUCCES", 24, false));		// QTE成功
+			m_animationMap.emplace(ePAKey::QTEFailed, AnimationMap(L"FAILED", 24, false));		// QTE失敗
 
 			// 隣接するグリッド
 			m_obliqueGridArray.push_back(make_pair(1, 1));		// 右前

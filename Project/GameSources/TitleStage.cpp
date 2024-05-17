@@ -37,6 +37,7 @@ namespace basecross
 
 		wstring mediaPath = app->GetDataDirWString();
 		wstring texturePath = mediaPath + L"Textures/";
+		wstring soundPath = mediaPath + L"Sounds/";
 		wstring modelPath = mediaPath + L"Models/" + L"Bilding/";
 		
 		// タイトルロゴ
@@ -62,6 +63,7 @@ namespace basecross
 		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
 
 		AddedTextureResources();
+		AddedAudioResources();
 	}
 
 	// リソースの解放
@@ -229,6 +231,8 @@ namespace basecross
 	{
 		try
 		{
+			BaseStage::OnCreate();
+
 			CreateViewLight();
 
 			CreateResourses();

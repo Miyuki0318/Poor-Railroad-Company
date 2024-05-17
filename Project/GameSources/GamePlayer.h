@@ -43,6 +43,8 @@ namespace basecross
 		map<wstring, eItemType> m_miningMap; // 採掘対象と取得アイテムタイプ
 		Bool16_t<ePlayerStatus> m_status; // フラグ管理クラス
 
+		shared_ptr<SoundItem> m_soundItem;
+
 		// ステートマシン
 		unique_ptr<PlayerStateMachine> m_playerState;
 
@@ -64,8 +66,8 @@ namespace basecross
 			m_status = 0; // 状態フラグは0で初期化
 
 			// 採掘オブジェクトのタグと採掘時に加算するアイテムのタイプ
-			m_miningMap.insert(make_pair(L"Tree", eItemType::Wood));	// タグか木ならアイテムタイプは木材
-			m_miningMap.insert(make_pair(L"Rock", eItemType::Stone)); // タグが岩ならアイテムタイプは石材
+			m_miningMap.insert(make_pair(L"TREE", eItemType::Wood));	// タグか木ならアイテムタイプは木材
+			m_miningMap.insert(make_pair(L"ROCK", eItemType::Stone)); // タグが岩ならアイテムタイプは石材
 
 			// 移動不可なIDの登録
 			m_impassableSet.insert(eStageID::Rail);

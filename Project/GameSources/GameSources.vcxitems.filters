@@ -142,8 +142,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OriginalCollision.h">
       <Filter>StageObject\Collision</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)StageCSV.h">
-      <Filter>Stage\StageCSV</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BaseStage.h">
+      <Filter>Stage\BaseStage</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)ItemCountUI.h">
       <Filter>UI\ItemCount</Filter>
@@ -165,6 +165,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)GroundManager.h">
       <Filter>StageObject\Ground</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SEManager.h">
+      <Filter>OzawaFuncs\SEManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -309,6 +312,12 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GroundManager.cpp">
       <Filter>StageObject\Ground</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SEManager.cpp">
+      <Filter>OzawaFuncs\SEManager</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BaseStage.cpp">
+      <Filter>Stage\BaseStage</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Player">
@@ -452,9 +461,6 @@
     <Filter Include="StageObject\Collision">
       <UniqueIdentifier>{3577e2dd-0a44-42a2-851e-e3f961892f27}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Stage\StageCSV">
-      <UniqueIdentifier>{ce874613-cafd-42bf-9a48-7d0357c2a0d7}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{d805575e-119e-4aea-b518-0e42fd4e6db2}</UniqueIdentifier>
     </Filter>
@@ -475,6 +481,12 @@
     </Filter>
     <Filter Include="StageObject\Train\TitleTrain">
       <UniqueIdentifier>{f75ec534-3702-4aea-9929-4d065deca563}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage\BaseStage">
+      <UniqueIdentifier>{ce874613-cafd-42bf-9a48-7d0357c2a0d7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OzawaFuncs\SEManager">
+      <UniqueIdentifier>{50c74e25-6bcc-4821-a669-c06796f985df}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

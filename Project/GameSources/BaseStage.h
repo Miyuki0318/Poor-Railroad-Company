@@ -15,14 +15,13 @@ namespace basecross
 		GoalRail,	// ゴールレール
 		Stone = 10,	// 岩
 		Tree,		// 木
-
 		Grass = 101,	// 地面の草
 		Rock = 102,		// 地面の石
 		Air = 111,		// 空気(なんもなし)
 		Water = 112,	// 水場
 	};
 
-	class StageCSV : public Stage
+	class BaseStage : public Stage
 	{
 	protected:
 
@@ -30,6 +29,12 @@ namespace basecross
 		vector<vector<int>> m_stageMap;
 		vector<vector<int>> m_groundMap;
 		vector<vector<Vec3>> m_positionMap;
+
+		// SEマネージャー
+		unique_ptr<SEManager> m_seManager;
+
+		// タイマーオブジェクト
+		weak_ptr<Timer> m_timer;
 
 		/*!
 		@brief ステージをcsvで生成
@@ -41,34 +46,63 @@ namespace basecross
 		@brief ステージマップをcsvで書き換え
 		@param csvのファイル名
 		*/
-		void WriteCSVMap(string csvPath = "Test")
-		{
-			m_stageMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Stage"));
-			m_groundMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Ground"));
-
-			// 二重ループ
-			for (int i = 0; i < m_stageMap.size(); i++)
-			{
-				vector<Vec3> tempVec;
-				for (int j = 0; j < m_stageMap.at(i).size(); j++)
-				{
-					tempVec.push_back(Vec3(float(j), 0.0f, -float(i)));
-				}
-				m_positionMap.push_back(tempVec);
-			}
-		}
+		void WriteCSVMap(string csvPath = "Test");
 
 	public:
 
 		/*!
 		@brief コンストラクタ
 		*/
-		StageCSV() : Stage() {}
+		BaseStage() : Stage() {}
 
 		/*!
 		@brief デストラクタ
 		*/
-		virtual ~StageCSV() {}
+		virtual ~BaseStage() {}
+
+		virtual void OnCreate() override;
+
+		/*!
+		@brief SEマネージャーの生成関数
+		*/
+		virtual void CreateSEManager();
+
+		/*!
+		@brief SEの再生関数
+		@param SEキー
+		@param 音量
+		*/
+		virtual void CreateSE(const wstring& seKey, float volume);
+
+		/*!
+		@brief SEの再生関数
+		@param SEキー
+		@param 音量
+		@param オブジェクトのポインタ
+		*/
+		virtual void CreateSE(const wstring& seKey, float volume, const void* objPtr);
+
+		/*!
+		@brief SEの停止関数
+		@param SEキー
+		*/
+		virtual void StopSE(const wstring& seKey);
+
+		/*!
+		@brief SEの停止関数
+		@param SEキー
+		@param オブジェクトのポインタ
+		*/
+		virtual void StopSE(const wstring& seKey, const void* objPtr);
+
+		/*!
+		@brief タイマークラス取得関数
+		@return const shared_ptr<Timer>
+		*/
+		const shared_ptr<Timer> GetTimer() const
+		{
+			return m_timer.lock();
+		}
 
 		/*!
 		@brief ステージマップの取得

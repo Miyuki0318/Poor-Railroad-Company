@@ -17,6 +17,7 @@ namespace basecross
 		// ディレクトリパスの定義
 		wstring mediaPath = app->GetDataDirWString();
 		wstring texturePath = mediaPath + L"Textures/";
+		wstring soundPath = mediaPath + L"Sounds/";
 
 		// ゲーム結果テクスチャ
 		AddTextureResource(L"GAMECLEAR_TX", texturePath + L"Win.png");
@@ -45,8 +46,13 @@ namespace basecross
 		AddTextureResource(L"UI_STONE_TX", texturePath + L"Stone.png");
 		AddTextureResource(L"UI_RAIL_TX", texturePath + L"Rail.png");
 
+		AddAudioResource(L"ADDRAIL_SE", soundPath + L"Rail");
+		AddAudioResource(L"ROCK_SE", soundPath + L"Mining");
+		AddAudioResource(L"TREE_SE", soundPath + L"CutTree");
+
 		// 追加したリソースをメモリに追加
 		AddedTextureResources();
+		AddedAudioResources();
 	}
 
 	// リソースの解放
@@ -230,6 +236,8 @@ namespace basecross
 	{
 		try 
 		{
+			BaseStage::OnCreate();
+
 			// オブジェクトグループの作成
 			CreateSharedObjectGroup(L"MiningObject"); // 採掘可能オブジェクト
 
@@ -259,9 +267,6 @@ namespace basecross
 
 			// UIの生成
 			CreateUIObject();
-
-			// タイマーオブジェクトの生成
-			m_timer = AddGameObject<Timer>();
 
 			// スカイボックスの生成
 			auto& camera = GetView()->GetTargetCamera();

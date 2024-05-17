@@ -6,7 +6,7 @@
 
 #pragma once
 #include "stdafx.h"
-#include "StageCSV.h"
+#include "BaseStage.h"
 #include "ResourcesManager.h"
 
 namespace basecross
@@ -17,7 +17,7 @@ namespace basecross
 		on
 	};
 
-	class TitleStage : public StageCSV, public ResourcesManager
+	class TitleStage : public BaseStage, public ResourcesManager
 	{
 	private:
 		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
@@ -135,7 +135,7 @@ namespace basecross
 		/*
 		@brief コンストラクタ
 		*/
-		TitleStage() : StageCSV(), ResourcesManager()
+		TitleStage() : BaseStage(), ResourcesManager()
 		{
 			m_buttonPush = false;
 			m_zooming = false;

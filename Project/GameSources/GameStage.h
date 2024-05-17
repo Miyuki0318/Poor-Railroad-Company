@@ -5,7 +5,7 @@
 
 #pragma once
 #include "stdafx.h"
-#include "StageCSV.h"
+#include "BaseStage.h"
 #include "ResourcesManager.h"
 
 //#define STAGE_ID(id) static_cast<eStageID>(id)
@@ -25,7 +25,7 @@ namespace basecross
 	/*!
 	@brief ゲーム中のステージ
 	*/
-	class GameStage : public StageCSV, public ResourcesManager
+	class GameStage : public BaseStage, public ResourcesManager
 	{
 		// ゲームクリア・ゲームオーバーのスプライト
 		shared_ptr<Sprite> m_gameClearLogo;
@@ -33,9 +33,6 @@ namespace basecross
 
 		// ゲームの状況
 		eGameProgress m_gameProgress;
-
-		// タイマーオブジェクト
-		weak_ptr<Timer> m_timer;
 
 		/*!
 		@brief リソースの読込
@@ -108,7 +105,7 @@ namespace basecross
 		/*!
 		@brief コンストラクタ
 		*/
-		GameStage() :StageCSV(), ResourcesManager() {
+		GameStage() :BaseStage(), ResourcesManager() {
 			m_gameProgress = eGameProgress::Playing;
 		}
 
@@ -136,15 +133,6 @@ namespace basecross
 		@brief 描画更新関数
 		*/
 		virtual void OnDraw() override;
-
-		/*!
-		@brief タイマークラス取得関数
-		@return const shared_ptr<Timer>
-		*/
-		const shared_ptr<Timer> GetTimer() const
-		{
-			return m_timer.lock();
-		}
 
 		/*!
 		@brief ゲームの進行状態をゲットする関数
