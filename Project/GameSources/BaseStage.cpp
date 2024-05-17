@@ -1,3 +1,9 @@
+/*!
+@file BaseStage.cpp
+@brief 継承元のステージオブジェクト
+@author 小澤博貴
+*/
+
 #include "stdafx.h"
 #include "Project.h"
 
@@ -92,7 +98,6 @@ namespace basecross
 		}
 		catch (...)
 		{
-
 		}
 	}
 
@@ -106,7 +111,6 @@ namespace basecross
 		}
 		catch (...)
 		{
-
 		}
 	}
 
@@ -120,7 +124,6 @@ namespace basecross
 		}
 		catch (...)
 		{
-
 		}
 	}
 }

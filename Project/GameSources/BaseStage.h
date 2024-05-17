@@ -1,6 +1,13 @@
+/*!
+@file BaseStage.h
+@brief 継承元のステージオブジェクト
+@author 小澤博貴
+*/
+
 #pragma once
 #include "stdafx.h"
 
+// ステージIDキャストマクロ
 #define STAGE_ID(id) static_cast<eStageID>(id)
 
 namespace basecross
@@ -8,19 +15,22 @@ namespace basecross
 	// ステージオブジェクトID
 	enum class eStageID
 	{
-		None,		// 何もなし
-		Rail,		// レール
-		DeRail,		// 脱線部分
-		GuideRail,	// ガイドレール
-		GoalRail,	// ゴールレール
-		Stone = 10,	// 岩
-		Tree,		// 木
+		None,			// 何もなし
+		Rail,			// レール
+		DeRail,			// 脱線部分
+		GuideRail,		// ガイドレール
+		GoalRail,		// ゴールレール
+		Stone = 10,		// 岩
+		Tree,			// 木
 		Grass = 101,	// 地面の草
 		Rock = 102,		// 地面の石
 		Air = 111,		// 空気(なんもなし)
 		Water = 112,	// 水場
 	};
 
+	/*!
+	@brief ステージの継承元
+	*/
 	class BaseStage : public Stage
 	{
 	protected:

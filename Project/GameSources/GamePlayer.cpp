@@ -140,6 +140,7 @@ namespace basecross
 		{
 			if (tagSet.find(miningMap.first) != tagSet.end())
 			{
+				// アイテムカウンタの追加とSEの再生
 				AddItemCount(miningMap.second, addNum);
 				StartSE(miningMap.first + L"_SE", 1.0f);
 			}
@@ -165,10 +166,11 @@ namespace basecross
 		// QTEが終わったら
 		if (m_craft->GetEndedQTE())
 		{
-			// QTE終了時の処理を送り、QtE状態を解除
+			// QtE状態を解除
 			m_status.Set(ePlayerStatus::IsCraftQTE) = false;
-			bool succes = m_craft->StopQTE();
-			SetAnimationMesh(succes ? ePAKey::QTESucces : ePAKey::QTEFailed);
+
+			// QTE終了時の処理を送り、結果に応じてアニメーションを変更
+			SetAnimationMesh(m_craft->StopQTE() ? ePAKey::QTESucces : ePAKey::QTEFailed);
 		}
 	}
 

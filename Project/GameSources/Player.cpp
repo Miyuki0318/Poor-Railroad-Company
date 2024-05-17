@@ -148,16 +148,12 @@ namespace basecross
 		if (!WithInElemRange(row, col, groundMap)) return false;
 
 		// 通れないマスIDと一致するか
-		eStageID id = STAGE_ID(stageMap.at(row).at(col));
-		if (m_impassableSet.find(id) != m_impassableSet.end())
-		{
-			return true;
-		}
-		else
-		{
-			id = STAGE_ID(groundMap.at(row).at(col));
-			return m_impassableSet.find(id) != m_impassableSet.end();
-		}
+		eStageID stageID = STAGE_ID(stageMap.at(row).at(col));
+		eStageID groundID = STAGE_ID(groundMap.at(row).at(col));
+
+		// IDが通れないマスIDリストに登録されてないかのチェック
+		return (m_impassableSet.find(stageID) != m_impassableSet.end()
+			|| m_impassableSet.find(groundID) != m_impassableSet.end());
 	}
 
 	// 三平方の定理で押し出し処理
