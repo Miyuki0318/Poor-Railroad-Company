@@ -119,13 +119,9 @@ namespace basecross
 				Vec3 position = LINE2POS(i, j);
 
 				// 数値の別名
-				const int& num = m_stageMap.at(i).at(j);
-				switch (static_cast<eStageID>(num))
+				eStageID num = STAGE_ID(m_stageMap.at(i).at(j));
+				switch (num)
 				{
-				case eStageID::GoalRail: // ゴールレールなら
-					//AddGameObject<GoalRail>(position);
-					break;
-					
 				case eStageID::Stone: // 岩なら
 					mining = AddGameObject<Rock>(position, 2); 
 					break;
@@ -305,7 +301,6 @@ namespace basecross
 		{
 			// スプライトの表示
 			LogoActive();
-
 		}
 		catch (...)
 		{

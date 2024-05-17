@@ -67,5 +67,11 @@ namespace basecross
 		@param プレイヤーのポインタ
 		*/
 		void OnPushX(const shared_ptr<GamePlayer>& player) override;
+
+		/*!
+		@brief 移動更新
+		@param プレイヤーのポインタ
+		*/
+		void UpdateMoving(const shared_ptr<GamePlayer>& player);
 	};
 }

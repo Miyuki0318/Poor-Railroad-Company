@@ -32,9 +32,9 @@ namespace basecross
 		if (Input::IsInputLStick()) player->m_status.Set(ePlayerStatus::IsMove);
 
 		// アニメーションの変更
-		if (!player->IsAnimation(ePAKey::Wait))
+		if (!player->IsAnimation(ePAKey::Waiting))
 		{
-			player->SetAnimationMesh(ePAKey::Wait);
+			player->SetAnimationMesh(ePAKey::Waiting);
 		}
 	}
 

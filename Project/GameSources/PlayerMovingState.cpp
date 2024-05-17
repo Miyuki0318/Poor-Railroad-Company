@@ -31,12 +31,10 @@ namespace basecross
 	void PlayerMovingState::Enter(const shared_ptr<GamePlayer>& player)
 	{
 		// アニメーションの変更
-		if (!player->IsAnimation(ePAKey::Walk))
+		if (!player->IsAnimation(ePAKey::Walking))
 		{
-			player->SetAnimationMesh(ePAKey::Walk);
+			player->SetAnimationMesh(ePAKey::Walking);
 		}
-
-
 	}
 
 	// ステート更新時の処理
@@ -51,14 +49,8 @@ namespace basecross
 		// クラフト状態ならクラフトステートに遷移
 		if (player->GetStatus(ePlayerStatus::IsCrafting)) player->SetState(PlayerCraftingState::Instance());
 
-		// 移動更新を送る
-		player->m_moveValue = 0.0f;
-		player->UpdateMove();
-		player->UpdateRotation();
-
-		// アニメーションの更新
-		player->m_moveValue = min(floor(Utility::RadToDeg(player->m_moveValue), 1), player->m_maxMove);
-		player->m_ptrDraw->UpdateAnimation(DELTA_TIME * player->m_moveValue * ANIME_SPEED);
+		// 移動更新
+		UpdateMoving(player);
 	}
 
 	// ステート終了時の処理
@@ -79,5 +71,18 @@ namespace basecross
 	{
 		// クラフト画面を切り替える
 		player->SwitchCraftWindow();
+	}
+
+	// 移動更新
+	void PlayerMovingState::UpdateMoving(const shared_ptr<GamePlayer>& player)
+	{
+		// 移動更新を送る
+		player->m_moveValue = 0.0f;
+		player->UpdateMove();
+		player->UpdateRotation();
+
+		// アニメーションの更新
+		player->m_moveValue = min(floor(Utility::RadToDeg(player->m_moveValue), 1), player->m_maxMove);
+		player->UpdateAnimation(player->m_moveValue * ANIME_SPEED);
 	}
 }

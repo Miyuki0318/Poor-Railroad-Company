@@ -69,7 +69,7 @@ namespace basecross
 		m_ptrShadow->SetMeshToTransformMatrix(m_modelMat);
 
 		// メッシュとアニメーションの設定
-		SetAnimationMesh(ePAKey::Wait);
+		SetAnimationMesh(ePAKey::Waiting);
 
 		// コリジョンOBBの追加
 		AddComponent<CollisionCapsule>();

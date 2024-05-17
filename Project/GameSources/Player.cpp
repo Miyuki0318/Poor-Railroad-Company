@@ -48,6 +48,12 @@ namespace basecross
 		m_ptrShadow->SetMeshResource(MESH + mesh.animeKey);
 	}
 
+	// アニメーションの更新
+	void Player::UpdateAnimation(float speedValue)
+	{
+		m_ptrDraw->UpdateAnimation(DELTA_TIME * speedValue);
+	}
+
 	// 指定アニメーションになっているかの確認
 	bool Player::IsAnimation(ePAKey animation)
 	{

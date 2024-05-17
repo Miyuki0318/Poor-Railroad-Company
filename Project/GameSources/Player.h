@@ -12,8 +12,8 @@ namespace basecross
 	// プレイヤーのアニメーションキータイプ
 	enum class ePAKey : char
 	{
-		Wait,			// 待機
-		Walk,			// 移動
+		Waiting,			// 待機
+		Walking,			// 移動
 		Harvesting,		// 採取
 		CraftStart,		// クラフト開始
 		Crafting,		// クラフト中
@@ -29,6 +29,7 @@ namespace basecross
 	{
 		wstring animeKey;	// アニメーションキー
 		UINT flameNum;		// フレーム数
+		float animeSpeed;	// アニメーションの速度
 		bool loopActive;	// ループするかの真偽
 
 		/*!
@@ -38,9 +39,10 @@ namespace basecross
 		@param 終了時のフレーム
 		@param ループするか(デフォルトはfalse)
 		*/
-		AnimationMap(wstring aniKey, UINT frame, bool loop = false) :
+		AnimationMap(wstring aniKey, UINT frame, float speed, bool loop = false) :
 			animeKey(aniKey),
 			flameNum(frame),
+			animeSpeed(speed),
 			loopActive(loop)
 		{
 		}
@@ -97,14 +99,14 @@ namespace basecross
 			m_currentRot.zero(); // 回転先は0.0fで初期化
 
 			// アニメーションキー
-			m_animationMap.emplace(ePAKey::Wait, AnimationMap(L"WAIT", 24, true));				// 待機
-			m_animationMap.emplace(ePAKey::Walk, AnimationMap(L"WALK", 12, true));				// 移動
-			m_animationMap.emplace(ePAKey::Harvesting, AnimationMap(L"HARVESTING", 24, false)); // 伐採
-			m_animationMap.emplace(ePAKey::CraftStart, AnimationMap(L"C_START", 10, false));	// クラフト開始
-			m_animationMap.emplace(ePAKey::Crafting, AnimationMap(L"C_NOW", 15, true));			// クラフト中
-			m_animationMap.emplace(ePAKey::CraftFinish, AnimationMap(L"C_END", 10, false));		// クラフト終了
-			m_animationMap.emplace(ePAKey::QTESucces, AnimationMap(L"SUCCES", 24, false));		// QTE成功
-			m_animationMap.emplace(ePAKey::QTEFailed, AnimationMap(L"FAILED", 24, false));		// QTE失敗
+			m_animationMap.emplace(ePAKey::Waiting, AnimationMap(L"WAIT", 24, 0.75f, true));	// 待機
+			m_animationMap.emplace(ePAKey::Walking, AnimationMap(L"WALK", 12, 0.75f, true));	// 移動
+			m_animationMap.emplace(ePAKey::Harvesting, AnimationMap(L"HARVESTING", 24, 1.0f));	// 伐採
+			m_animationMap.emplace(ePAKey::CraftStart, AnimationMap(L"C_START", 10, 1.0f));		// クラフト開始
+			m_animationMap.emplace(ePAKey::Crafting, AnimationMap(L"C_NOW", 15, 1.0f, true));	// クラフト中
+			m_animationMap.emplace(ePAKey::CraftFinish, AnimationMap(L"C_END", 10, 1.0f));		// クラフト終了
+			m_animationMap.emplace(ePAKey::QTESucces, AnimationMap(L"SUCCES", 24, 1.0f));		// QTE成功
+			m_animationMap.emplace(ePAKey::QTEFailed, AnimationMap(L"FAILED", 24, 1.0f));		// QTE失敗
 
 			// 隣接するグリッド
 			m_obliqueGridArray.push_back(make_pair(1, 1));		// 右前
@@ -143,6 +145,12 @@ namespace basecross
 		@param animationKey
 		*/
 		virtual void SetAnimationMesh(ePAKey animation, float start = 0.0f);
+
+		/*!
+		@brief アニメーションのこうしん
+		@param DELTA_TIMEに掛ける速度
+		*/
+		virtual void UpdateAnimation(float speedValue = 1.0f);
 
 		/*!
 		@brief 指定したアニメーションかのチェック
