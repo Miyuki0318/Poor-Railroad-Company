@@ -37,6 +37,19 @@ namespace basecross {
 		AddTag(L"MiningObject");
 	}
 
+	void MiningObject::OnMining() {
+		// 採掘した回数の増加
+		m_miningCount++;
+
+		// 採掘回数が上限に達した場合、オブジェクトを破壊
+		if (m_miningCount >= m_miningLimit) {
+			m_state = eState::Broken;
+			SetUpdateActive(false);
+			SetDrawActive(false);
+			MiningObject::OnDelete();
+		}
+
+	}
 	void MiningObject::OnDelete() {
 		const auto& stage = GetTypeStage<GameStage>();
 		auto& stageMap = stage->GetStageMap();
@@ -59,24 +72,20 @@ namespace basecross {
 		int random = RangeRand(2, 1);
 		ptrDraw->SetMultiMeshResource(L"TREE" + to_wstring(random));
 		ptrDraw->SetMeshToTransformMatrix(m_modelMat);
+		//ptrDraw->SetOwnShadowActive(true);
 
 		// タグの設定
 		AddTag(L"TREE");
 	}
 
 	void Tree::OnUpdate() {
-		// 採掘回数が上限に達した場合、オブジェクトを破壊
-		if (m_miningCount == m_miningCountLimit) {
-			m_state = eState::Broken;
-			SetUpdateActive(false);
-			SetDrawActive(false);
-			MiningObject::OnDelete();
-		}
+		MiningObject::OnUpdate();
+
 	}
 
 	void Tree::OnMining() {
-		// 採掘した回数の増加
-		m_miningCount++;
+		MiningObject::OnMining();
+
 	}
 
 	void Tree::OnReset() {
@@ -122,27 +131,21 @@ namespace basecross {
 
 		auto ptrDraw = AddComponent<PNTStaticModelDraw>();
 		int random = RangeRand(3, 1);
-		ptrDraw->SetMeshResource(L"ROCK" + to_wstring(random));  
+		ptrDraw->SetMeshResource(L"ROCK" + to_wstring(random));
 		ptrDraw->SetMeshToTransformMatrix(m_modelMat);
+		//ptrDraw->SetOwnShadowActive(true);
 
 		// タグの設定
 		AddTag(L"ROCK");
 	}
 
 	void Rock::OnUpdate() {
+		MiningObject::OnUpdate();
 
-		// 採掘回数が上限に達した場合、オブジェクトを破壊
-		if (m_miningCount == m_miningCountLimit) {
-			// 現状、破壊されるアニメーションがないので更新止めるだけ
-			SetUpdateActive(false);
-			SetDrawActive(false);
-			MiningObject::OnDelete();
-		}
 	}
 
 	void Rock::OnMining() {
-		// 採掘した回数の増加
-		m_miningCount++;
+		MiningObject::OnMining();
 	}
 
 	void Rock::OnReset() {
