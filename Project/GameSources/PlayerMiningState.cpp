@@ -36,7 +36,7 @@ namespace basecross
 	void PlayerMiningState::Execute(const shared_ptr<GamePlayer>& player)
 	{
 		// アニメーション更新
-		player->m_ptrDraw->UpdateAnimation(DELTA_TIME);
+		player->UpdateAnimation();
 		player->UpdateRotation();
 
 		// 採掘中の待機時間

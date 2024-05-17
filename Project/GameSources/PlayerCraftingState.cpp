@@ -53,7 +53,7 @@ namespace basecross
 			player->SetAnimationMesh(ePAKey::CraftStart, player->m_animationMap.at(ePAKey::CraftFinish).flameNum * DELTA_TIME);
 		}
 
-		player->m_ptrDraw->UpdateAnimation(DELTA_TIME);
+		player->UpdateAnimation();
 
 		//// Aボタン入力があればクラフト時のAボタン入力処理を送る
 		//if (Input::GetPushA()) player->CraftingPushA();
