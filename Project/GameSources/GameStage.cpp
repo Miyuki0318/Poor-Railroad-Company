@@ -50,6 +50,11 @@ namespace basecross
 		AddAudioResource(L"ROCK_SE", soundPath + L"Mining");
 		AddAudioResource(L"TREE_SE", soundPath + L"CutTree");
 
+		AddAudioResource(L"WALK_GRASS_SE", soundPath + L"walk_sand");
+
+
+		AddAudioResource(L"GAME_BGM", soundPath + L"GameBGM");
+
 		// 追加したリソースをメモリに追加
 		AddedTextureResources();
 		AddedAudioResources();
@@ -232,6 +237,7 @@ namespace basecross
 	{
 		try 
 		{
+			// 継承元の生成時の処理
 			BaseStage::OnCreate();
 
 			// オブジェクトグループの作成
@@ -264,6 +270,8 @@ namespace basecross
 			// UIの生成
 			CreateUIObject();
 
+			CreateSE(L"GAME_BGM", 1.0f);
+
 			// スカイボックスの生成
 			auto& camera = GetView()->GetTargetCamera();
 			auto mainCamera = dynamic_pointer_cast<MainCamera>(camera);
@@ -286,6 +294,8 @@ namespace basecross
 	{
 		try
 		{
+			// 継承元の破棄時の処理
+			BaseStage::OnDestroy();
 			ReleasedResourses();
 		}
 		catch (...)
@@ -299,6 +309,9 @@ namespace basecross
 	{
 		try
 		{
+			// 継承元の更新処理
+			BaseStage::OnUpdate();
+
 			// スプライトの表示
 			LogoActive();
 		}

@@ -84,5 +84,10 @@ namespace basecross
 		// アニメーションの更新
 		player->m_moveValue = min(floor(Utility::RadToDeg(player->m_moveValue), 1), player->m_maxMove);
 		player->UpdateAnimation(player->m_moveValue * ANIME_SPEED);
+
+		if (player->SetTimer(0.5f))
+		{
+			player->StartSE(L"WALK_GRASS_SE", 1.0f);
+		}
 	}
 }

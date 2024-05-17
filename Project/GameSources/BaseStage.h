@@ -60,7 +60,20 @@ namespace basecross
 		*/
 		virtual ~BaseStage() {}
 
+		/*!
+		@brief 生成時に一度だけ呼び出される関数
+		*/
 		virtual void OnCreate() override;
+
+		/*!
+		@brief 破棄される時に一度だけ呼び出される関数
+		*/
+		virtual void OnDestroy() override;
+
+		/*!
+		@brief 毎フレーム度に呼び出される関数
+		*/
+		virtual void OnUpdate() override;
 
 		/*!
 		@brief SEマネージャーの生成関数

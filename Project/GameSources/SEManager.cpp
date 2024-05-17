@@ -16,6 +16,18 @@ namespace basecross
 		{
 			// オーディオマネージャーからSEを再生させて保存する
 			const auto& audioPtr = App::GetApp()->GetXAudio2Manager();
+			
+			// リストに空きがあるなら挿入
+			for (auto& se : m_seList)
+			{
+				if (!se.item.lock())
+				{
+					se = SE(audioPtr->Start(seKey, 0, volume), seKey, objPtr);
+					return;
+				}
+			}
+
+			// 空きが無いなら追加
 			m_seList.push_back(SE(audioPtr->Start(seKey, 0, volume), seKey, objPtr));
 		}
 	}
@@ -44,6 +56,23 @@ namespace basecross
 						break;
 					}
 				}
+			}
+		}
+	}
+
+	// SEリストのチェック
+	void SEManager::CheckSEList()
+	{
+		for (auto& SE : m_seList)
+		{
+			// 空なら無視
+			auto& item = SE.item.lock();
+			if (!item) continue;
+
+			// 音声が停止しているならリセット
+			if (!item->m_AudioResource.lock())
+			{
+				SE.Reset();
 			}
 		}
 	}
