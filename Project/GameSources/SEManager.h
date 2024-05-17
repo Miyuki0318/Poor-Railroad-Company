@@ -71,7 +71,7 @@ namespace basecross
 		/*!
 		@brief SE‚ÌÄ¶ŠÖ”
 		*/
-		virtual void StartSE(const wstring& seKey, float volume, const void* objPtr);
+		virtual shared_ptr<SoundItem> StartSE(const wstring& seKey, float volume, const void* objPtr);
 
 		/*!
 		@brief SE‚ÌÄ¶ŠÖ”

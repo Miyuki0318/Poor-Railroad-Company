@@ -24,7 +24,7 @@ namespace basecross
 		// オブジェクトの生成
 		const shared_ptr<Stage>& stagePtr = GetStage();
 		m_groundMap.emplace(eStageID::Grass, stagePtr->AddGameObject<InstanceGround>(COL_GREAN));
-		m_groundMap.emplace(eStageID::Rock, stagePtr->AddGameObject<InstanceGround>(COL_YELOW));
+		m_groundMap.emplace(eStageID::Sand, stagePtr->AddGameObject<InstanceGround>(COL_YELOW));
 		m_groundMap.emplace(eStageID::Water, stagePtr->AddGameObject<InstanceGround>(COL_BG));
 
 		// 地面マップ

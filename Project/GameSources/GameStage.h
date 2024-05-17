@@ -8,8 +8,6 @@
 #include "BaseStage.h"
 #include "ResourcesManager.h"
 
-//#define STAGE_ID(id) static_cast<eStageID>(id)
-
 namespace basecross 
 {
 	/*!

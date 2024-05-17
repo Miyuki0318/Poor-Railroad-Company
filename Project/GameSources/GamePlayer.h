@@ -43,8 +43,6 @@ namespace basecross
 		map<wstring, eItemType> m_miningMap; // 採掘対象と取得アイテムタイプ
 		Bool16_t<ePlayerStatus> m_status; // フラグ管理クラス
 
-		shared_ptr<SoundItem> m_soundItem;
-
 		// ステートマシン
 		unique_ptr<PlayerStateMachine> m_playerState;
 

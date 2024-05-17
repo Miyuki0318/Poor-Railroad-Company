@@ -23,7 +23,8 @@ namespace basecross
 		Stone = 10,		// 岩
 		Tree,			// 木
 		Grass = 101,	// 地面の草
-		Rock = 102,		// 地面の石
+		Sand = 102,		// 地面の砂
+		Rock = 103,		// 地面の石
 		Air = 111,		// 空気(なんもなし)
 		Water = 112,	// 水場
 	};
@@ -95,7 +96,7 @@ namespace basecross
 		@param SEキー
 		@param 音量
 		*/
-		virtual void CreateSE(const wstring& seKey, float volume);
+		virtual shared_ptr<SoundItem> CreateSE(const wstring& seKey, float volume);
 
 		/*!
 		@brief SEの再生関数
@@ -103,7 +104,7 @@ namespace basecross
 		@param 音量
 		@param オブジェクトのポインタ
 		*/
-		virtual void CreateSE(const wstring& seKey, float volume, const void* objPtr);
+		virtual shared_ptr<SoundItem> CreateSE(const wstring& seKey, float volume, const void* objPtr);
 
 		/*!
 		@brief SEの停止関数

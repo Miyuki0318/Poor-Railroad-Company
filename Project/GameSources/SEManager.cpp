@@ -9,26 +9,33 @@
 namespace basecross
 {
 	// SEの再生
-	void SEManager::StartSE(const wstring& seKey, float volume, const void* objPtr)
+	shared_ptr<SoundItem> SEManager::StartSE(const wstring& seKey, float volume, const void* objPtr)
 	{
 		// キーとポインタが空じゃなければ
 		if (seKey != L"" && objPtr != nullptr)
 		{
 			// オーディオマネージャーからSEを再生させて保存する
 			const auto& audioPtr = App::GetApp()->GetXAudio2Manager();
-			
+			auto item = audioPtr->Start(seKey, 0, volume);
+
 			// リストに空きがあるなら挿入
+			bool empty = false;
 			for (auto& se : m_seList)
 			{
 				if (!se.item.lock())
 				{
-					se = SE(audioPtr->Start(seKey, 0, volume), seKey, objPtr);
-					return;
+					se = SE(item, seKey, objPtr);
+					empty = true;
 				}
 			}
 
 			// 空きが無いなら追加
-			m_seList.push_back(SE(audioPtr->Start(seKey, 0, volume), seKey, objPtr));
+			if (empty)
+			{
+				m_seList.push_back(SE(item, seKey, objPtr));
+			}
+
+			return item;
 		}
 	}
 

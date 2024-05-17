@@ -46,13 +46,18 @@ namespace basecross
 		AddTextureResource(L"UI_STONE_TX", texturePath + L"Stone.png");
 		AddTextureResource(L"UI_RAIL_TX", texturePath + L"Rail.png");
 
+		// レール設置時のSE
 		AddAudioResource(L"ADDRAIL_SE", soundPath + L"Rail");
+
+		// 採掘、伐採時のSE
 		AddAudioResource(L"ROCK_SE", soundPath + L"Mining");
 		AddAudioResource(L"TREE_SE", soundPath + L"CutTree");
 
+		// 歩いた時のSE
 		AddAudioResource(L"WALK_GRASS_SE", soundPath + L"walk_sand");
+		AddAudioResource(L"WALK_SAND_SE", soundPath + L"walk_sand");
 
-
+		// ゲーム中のBGM
 		AddAudioResource(L"GAME_BGM", soundPath + L"GameBGM");
 
 		// 追加したリソースをメモリに追加

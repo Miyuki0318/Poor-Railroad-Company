@@ -39,7 +39,7 @@ namespace basecross
 	}
 
 	// SEの再生
-	void BaseStage::CreateSE(const wstring& seKey, float volume)
+	shared_ptr<SoundItem> BaseStage::CreateSE(const wstring& seKey, float volume)
 	{
 		// SEマネージャーがNULLなら
 		if (!m_seManager)
@@ -49,11 +49,11 @@ namespace basecross
 		}
 
 		// SEマネージャーからSEの再生を送る
-		m_seManager->StartSE(seKey, volume, ThisPtr);
+		return m_seManager->StartSE(seKey, volume, ThisPtr);
 	}
 
 	// SEの再生
-	void BaseStage::CreateSE(const wstring& seKey, float volume, const void* objPtr)
+	shared_ptr<SoundItem> BaseStage::CreateSE(const wstring& seKey, float volume, const void* objPtr)
 	{
 		// SEマネージャーがNULL
 		if (!m_seManager)
@@ -63,7 +63,7 @@ namespace basecross
 		}
 
 		// SEマネージャーからSEの再生を送る
-		m_seManager->StartSE(seKey, volume, objPtr);
+		return m_seManager->StartSE(seKey, volume, objPtr);
 	}
 
 	// SEの停止

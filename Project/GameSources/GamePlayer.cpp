@@ -190,6 +190,9 @@ namespace basecross
 	// 移動更新
 	void GamePlayer::UpdateMove()
 	{
+		// 継承元の移動更新処理
+		Player::UpdateMove();
+
 		// LStickの入力があるなら
 		bool isLStick = IsInputLStick();
 		if (isLStick)

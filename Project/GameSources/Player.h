@@ -5,6 +5,7 @@
 */
 
 #pragma once
+#include "BaseStage.h"
 #include "TemplateObject.h"
 
 namespace basecross
@@ -73,7 +74,14 @@ namespace basecross
 		// アニメーションマップ
 		map<ePAKey, AnimationMap> m_animationMap;
 
+		// 歩くSEキーマップ
+		map<eStageID, wstring> m_walkSEKeyMap;
+
+		// 斜めのグリッドリスト
 		vector<pair<int, int>> m_obliqueGridArray;
+
+		// 歩くSEのポインタ
+		weak_ptr<SoundItem> m_walkSoundItem;
 
 		Vec3 m_rotTarget;	// 回転先
 		Vec3 m_currentRot;  // 前回の回転軸
@@ -107,6 +115,11 @@ namespace basecross
 			m_animationMap.emplace(ePAKey::CraftFinish, AnimationMap(L"C_END", 10, 1.0f));		// クラフト終了
 			m_animationMap.emplace(ePAKey::QTESucces, AnimationMap(L"SUCCES", 24, 1.0f));		// QTE成功
 			m_animationMap.emplace(ePAKey::QTEFailed, AnimationMap(L"FAILED", 24, 1.0f));		// QTE失敗
+
+			// 歩くSEのキー
+			m_walkSEKeyMap.emplace(eStageID::Grass, L"WALK_GRASS_SE");	// 草地の時のSE
+			m_walkSEKeyMap.emplace(eStageID::Sand, L"WALK_SAND_SE");	// 砂地の時のSE
+			m_walkSEKeyMap.emplace(eStageID::Rock, L"WALK_ROCK_SE");	// 石地の時のSE
 
 			// 隣接するグリッド
 			m_obliqueGridArray.push_back(make_pair(1, 1));		// 右前
@@ -169,7 +182,7 @@ namespace basecross
 		/*!
 		@brief 移動更新関数
 		*/
-		virtual void UpdateMove() = 0;
+		virtual void UpdateMove();
 
 		/*!
 		@brief 回転更新関数
@@ -193,6 +206,8 @@ namespace basecross
 		@param ポジション
 		*/
 		virtual void GridHitResponse(Vec3& pos);
+
+		virtual void StartWalkSoundEffect();
 
 	private:
 
