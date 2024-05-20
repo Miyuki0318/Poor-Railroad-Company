@@ -42,7 +42,7 @@ namespace basecross
 		vector<vector<Vec3>> m_positionMap;
 
 		// SEマネージャー
-		unique_ptr<SEManager> m_seManager;
+		unique_ptr<SoundManager> m_soundManager;
 
 		// タイマーオブジェクト
 		weak_ptr<Timer> m_timer;
@@ -89,7 +89,7 @@ namespace basecross
 		/*!
 		@brief SEマネージャーの生成関数
 		*/
-		virtual void CreateSEManager();
+		virtual void CreateSoundManager();
 
 		/*!
 		@brief SEの再生関数

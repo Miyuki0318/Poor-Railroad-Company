@@ -275,7 +275,8 @@ namespace basecross
 			// UIの生成
 			CreateUIObject();
 
-			CreateSE(L"GAME_BGM", 1.0f);
+			// BGMの再生
+			m_soundManager->StartBGM(L"GAME_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);
 
 			// スカイボックスの生成
 			auto& camera = GetView()->GetTargetCamera();

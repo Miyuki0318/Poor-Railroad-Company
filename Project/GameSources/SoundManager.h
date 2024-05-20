@@ -11,15 +11,15 @@ namespace basecross
 	/*!
 	@brief SEマネージャー
 	*/
-	class SEManager
+	class SoundManager
 	{
 	public:
 
 		// SE管理構造体
-		struct SE
+		struct SoundData
 		{
 			weak_ptr<SoundItem> item; // サウンドアイテム
-			wstring seKey = L"";	  // ファイルキー
+			wstring soundKey = L"";	  // ファイルキー
 			const void* objectPtr = nullptr; // オブジェクトのポインタ
 
 			/*!
@@ -28,10 +28,10 @@ namespace basecross
 			@param サウンドキー
 			@param 呼び出し元ポインタ
 			*/
-			SE(const weak_ptr<SoundItem>& ptr, const wstring& key, const void* objPtr
+			SoundData(const weak_ptr<SoundItem>& ptr, const wstring& key, const void* objPtr
 			) :
 				item(ptr),
-				seKey(key),
+				soundKey(key),
 				objectPtr(objPtr)
 			{
 			}
@@ -44,28 +44,28 @@ namespace basecross
 			void Reset()
 			{
 				item.reset();
-				seKey = L"";
+				soundKey = L"";
 				objectPtr = nullptr;
 			}
 		};
 
 	private:
 
-		vector<SE> m_seList; // SE管理配列
+		vector<SoundData> m_soundList; // SE管理配列
 
 	public:
 
 		/*!
 		@brief コンストラクタ
 		*/
-		SEManager() {}
+		SoundManager() {}
 
 		/*!
 		@brief デストラクタ
 		*/
-		~SEManager()
+		~SoundManager()
 		{
-			m_seList.clear();
+			m_soundList.clear();
 		}
 
 		/*!
@@ -79,8 +79,18 @@ namespace basecross
 		virtual void StopSE(const wstring& seKey, const void* objPtr);
 
 		/*!
+		@brief SEの再生関数
+		*/
+		virtual shared_ptr<SoundItem> StartBGM(const wstring& bgmKey, UINT loopNum, float volume, const void* objPtr);
+
+		/*!
+		@brief SEの再生関数
+		*/
+		virtual void StopBGM(const wstring& bgmKey, const void* objPtr);
+
+		/*!
 		@brief SEが再生されてるかのチェック(主にStageのOnUpdateで呼び出す)
 		*/
-		virtual void CheckSEList();
+		virtual void CheckSoundList();
 	};
 }

@@ -28,13 +28,13 @@ namespace basecross
 	}
 
 	// SEマネージャーの生成
-	void BaseStage::CreateSEManager()
+	void BaseStage::CreateSoundManager()
 	{
 		// SEマネージャーがNULLなら
-		if (!m_seManager)
+		if (!m_soundManager)
 		{
 			// SEマネージャーをmake_sharedで生成
-			m_seManager.reset(new SEManager);
+			m_soundManager.reset(new SoundManager);
 		}
 	}
 
@@ -42,38 +42,38 @@ namespace basecross
 	shared_ptr<SoundItem> BaseStage::CreateSE(const wstring& seKey, float volume)
 	{
 		// SEマネージャーがNULLなら
-		if (!m_seManager)
+		if (!m_soundManager)
 		{
 			// SEマネージャーの生成を行う
-			CreateSEManager();
+			CreateSoundManager();
 		}
 
 		// SEマネージャーからSEの再生を送る
-		return m_seManager->StartSE(seKey, volume, ThisPtr);
+		return m_soundManager->StartSE(seKey, volume, ThisPtr);
 	}
 
 	// SEの再生
 	shared_ptr<SoundItem> BaseStage::CreateSE(const wstring& seKey, float volume, const void* objPtr)
 	{
 		// SEマネージャーがNULL
-		if (!m_seManager)
+		if (!m_soundManager)
 		{
 			// SEマネージャーの生成を行う
-			CreateSEManager();
+			CreateSoundManager();
 		}
 
 		// SEマネージャーからSEの再生を送る
-		return m_seManager->StartSE(seKey, volume, objPtr);
+		return m_soundManager->StartSE(seKey, volume, objPtr);
 	}
 
 	// SEの停止
 	void BaseStage::StopSE(const wstring& seKey)
 	{
 		// SEマネージャーがあるなら
-		if (m_seManager)
+		if (m_soundManager)
 		{
 			// SEマネージャーからSEの停止を送る
-			m_seManager->StopSE(seKey, ThisPtr);
+			m_soundManager->StopSE(seKey, ThisPtr);
 		}
 	}
 
@@ -81,10 +81,10 @@ namespace basecross
 	void BaseStage::StopSE(const wstring& seKey, const void* objPtr)
 	{
 		// SEマネージャーがあるなら
-		if (m_seManager)
+		if (m_soundManager)
 		{
 			// SEマネージャーからSEの停止を送る
-			m_seManager->StopSE(seKey, objPtr);
+			m_soundManager->StopSE(seKey, objPtr);
 		}
 	}
 
@@ -95,6 +95,9 @@ namespace basecross
 		{
 			// タイマーオブジェクトの生成
 			m_timer = AddGameObject<Timer>();
+
+			// サウンドマネージャーの生成
+			CreateSoundManager();
 		}
 		catch (...)
 		{
@@ -107,7 +110,7 @@ namespace basecross
 		try
 		{
 			// 解放
-			m_seManager.reset();
+			m_soundManager.reset();
 		}
 		catch (...)
 		{
@@ -120,7 +123,7 @@ namespace basecross
 		try
 		{
 			// SEリストの確認
-			m_seManager->CheckSEList();
+			m_soundManager->CheckSoundList();
 		}
 		catch (...)
 		{

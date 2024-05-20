@@ -166,8 +166,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GroundManager.h">
       <Filter>StageObject\Ground</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)SEManager.h">
-      <Filter>OzawaFuncs\SEManager</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h">
+      <Filter>OzawaFuncs\SoundManager</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -312,8 +312,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GroundManager.cpp">
       <Filter>StageObject\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)SEManager.cpp">
-      <Filter>OzawaFuncs\SEManager</Filter>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SoundManager.cpp">
+      <Filter>OzawaFuncs\SoundManager</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)BaseStage.cpp">
       <Filter>Stage\BaseStage</Filter>
@@ -485,7 +485,7 @@
     <Filter Include="Stage\BaseStage">
       <UniqueIdentifier>{ce874613-cafd-42bf-9a48-7d0357c2a0d7}</UniqueIdentifier>
     </Filter>
-    <Filter Include="OzawaFuncs\SEManager">
+    <Filter Include="OzawaFuncs\SoundManager">
       <UniqueIdentifier>{50c74e25-6bcc-4821-a669-c06796f985df}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
