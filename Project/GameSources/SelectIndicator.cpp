@@ -120,24 +120,27 @@ namespace basecross
 	set<wstring> SelectIndicator::MiningOrder() const
 	{
 		// 採掘可能オブジェクト配列の取得
-		const auto& miningVec = GetStage()->GetSharedObjectGroup(L"MiningObject")->GetGroupVector();
-
-		// 配列の数ループ
-		for (const auto& weakObj : miningVec)
+		if (const auto& group = GetStage()->GetSharedObjectGroup(L"MiningObject", false))
 		{
-			// エラーチェック
-			if (!weakObj.lock()) continue;
-			if (!weakObj.lock()->IsUpdateActive()) continue;
+			const auto& miningVec = group->GetGroupVector();
 
-			// 型キャスト
-			const auto& miningObj = dynamic_pointer_cast<MiningObject>(weakObj.lock());
-			if (!miningObj) continue;
-
-			// CSV上の座標が一致したら採掘処理を送り、タグセットを返す
-			if (m_selectPoint == miningObj->GetCSVPos())
+			// 配列の数ループ
+			for (const auto& weakObj : miningVec)
 			{
-				miningObj->OnMining();
-				return miningObj->GetTagSet();
+				// エラーチェック
+				if (!weakObj.lock()) continue;
+				if (!weakObj.lock()->IsUpdateActive()) continue;
+
+				// 型キャスト
+				const auto& miningObj = dynamic_pointer_cast<MiningObject>(weakObj.lock());
+				if (!miningObj) continue;
+
+				// CSV上の座標が一致したら採掘処理を送り、タグセットを返す
+				if (m_selectPoint == miningObj->GetCSVPos())
+				{
+					miningObj->OnMining();
+					return miningObj->GetTagSet();
+				}
 			}
 		}
 

@@ -37,6 +37,7 @@ namespace basecross
 
 			return item;
 		}
+		return nullptr;
 	}
 
 	// SE‚Ì’â~
@@ -96,6 +97,7 @@ namespace basecross
 
 			return item;
 		}
+		return nullptr;
 	}
 
 	// SE‚Ì’â~

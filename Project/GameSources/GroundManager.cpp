@@ -7,14 +7,21 @@
 #include "stdafx.h"
 #include "Project.h"
 
+#define END_INDEX 10 // 区切るまでの数
+#define WIN_RANGE 30 // カメラから画面外までのゲーム上での距離
+
 namespace basecross
 {
+	// ネームスペースの省略
+	using namespace Utility;
+
 	// 生成時の処理
 	void InstanceGround::OnCreate()
 	{
 		// 描画コンポーネントの設定
 		m_ptrDraw = AddComponent<PNTStaticInstanceDraw>();
 		m_ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		m_ptrDraw->SetOwnShadowActive(true);
 		m_ptrDraw->SetDiffuse(m_groundColor);
 	}
 
@@ -23,17 +30,30 @@ namespace basecross
 	{
 		// オブジェクトの生成
 		const shared_ptr<Stage>& stagePtr = GetStage();
-		m_groundMap.emplace(eStageID::Grass, stagePtr->AddGameObject<InstanceGround>(COL_GREAN));
-		m_groundMap.emplace(eStageID::Sand, stagePtr->AddGameObject<InstanceGround>(COL_YELOW));
-		m_groundMap.emplace(eStageID::Water, stagePtr->AddGameObject<InstanceGround>(COL_BG));
 
 		// 地面マップ
 		auto& groundMap = GetTypeStage<BaseStage>()->GetGroundMap();
+		map<int, weak_ptr<InstanceGround>> grass, unGrass, sand, water;
+		for (int i = 0; i < groundMap.front().size(); i += END_INDEX)
+		{
+			// 区切り数ずつ追加
+			grass.emplace(i, stagePtr->AddGameObject<InstanceGround>(COL_GREAN));
+			unGrass.emplace(i, stagePtr->AddGameObject<InstanceGround>(COL_GREAN));
+			sand.emplace(i, stagePtr->AddGameObject<InstanceGround>(COL_YELOW));
+			water.emplace(i, stagePtr->AddGameObject<InstanceGround>(COL_BG));
+		}
+
+		// 各タイプで生成したマップをStageIDをキーに二次元マップ化
+		m_groundMap.emplace(eStageID::Grass, grass);		// 草地
+		m_groundMap.emplace(eStageID::UnGrass, unGrass);	// 通過不可の草地
+		m_groundMap.emplace(eStageID::Sand, sand);			// 砂地
+		m_groundMap.emplace(eStageID::Water, water);		// 水場
+
 
 		// 二重ループ
-		for (size_t row = 0; row < groundMap.size(); row++)
+		for (int row = 0; row < groundMap.size(); row++)
 		{
-			for (size_t col = 0; col < groundMap.at(row).size(); col++)
+			for (int col = 0; col < groundMap.at(row).size(); col++)
 			{
 				// 座標の設定
 				Vec3 addPos = Vec3(float(col), m_defPosY, -float(row));
@@ -49,11 +69,36 @@ namespace basecross
 				eStageID id = STAGE_ID(groundMap.at(row).at(col));
 				for (auto& groud : m_groundMap)
 				{
-					if (groud.first == id)
+					// eStageIDが一致しないなら無視
+					if (groud.first != id) continue;
+
+					// タイプ事にループ
+					for (auto& type : groud.second)
 					{
-						groud.second.lock()->AddMatrix(matrix);
+						// colがインデックスからインデックス+区切る数の範囲内か
+						if (type.first <= col && type.first + END_INDEX > col)
+						{
+							type.second.lock()->AddMatrix(matrix);
+						}
 					}
 				}
+			}
+		}
+	}
+
+	// 毎フレーム更新処理
+	void GroundManager::OnUpdate()
+	{
+		// カメラの注視点座標X軸
+		int atX = int(GetStage()->GetView()->GetTargetCamera()->GetAt().x);
+
+		// カメラの注視点X軸から計測して、大まかに画面内であれば表示する
+		for (auto& groud : m_groundMap)
+		{
+			for (auto& type : groud.second)
+			{
+				// 開始インデックスが画面内であるか
+				type.second.lock()->SetDrawActive(GetBetween(type.first, atX + WIN_RANGE, atX - WIN_RANGE));
 			}
 		}
 	}

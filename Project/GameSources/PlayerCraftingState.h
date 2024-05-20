@@ -67,5 +67,15 @@ namespace basecross
 		@param プレイヤーのポインタ
 		*/
 		void OnPushX(const shared_ptr<GamePlayer>& player) override;
+
+		/*!
+		@brief クラフトQTEが終わっているかの確認関数
+		*/
+		void CheckedCraftQTE(const shared_ptr<GamePlayer>& player);
+
+		/*!
+		@brief クラフトQTE停止時に実行する関数
+		*/
+		void StopedCraftQTE(const shared_ptr<GamePlayer>& player);
 	};
 }

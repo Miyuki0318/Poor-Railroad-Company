@@ -37,6 +37,18 @@ namespace basecross
 		*/
 		void AddAudioResource(wstring key, wstring filePath)
 		{
+			// 重複キーのチェック
+			if (m_audioResoucesKeys.find(key) != m_audioResoucesKeys.end())
+			{
+				throw BaseException(
+					L"指定したキーは既に存在します",
+					L"オーディオリソースの読み込みを確認してください",
+					L"重複キー「" + key + L"」"
+				);
+
+				return;
+			}
+
 			m_audioResoucesKeys.emplace(key, filePath);
 		}
 
@@ -47,6 +59,18 @@ namespace basecross
 		*/
 		void AddTextureResource(wstring key, wstring filePath)
 		{
+			// 重複キーのチェック
+			if (m_textureResoucesKeys.find(key) != m_textureResoucesKeys.end())
+			{
+				throw BaseException(
+					L"指定したキーは既に存在します",
+					L"テクスチャリソースの読み込みを確認してください",
+					L"重複キー「" + key + L"」"
+				);
+
+				return;
+			}
+
 			m_textureResoucesKeys.emplace(key, filePath);
 		}
 

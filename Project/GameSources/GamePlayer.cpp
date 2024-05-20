@@ -43,15 +43,8 @@ namespace basecross
 		UpdateStatus();
 
 		// デバック用文字列
-		Debug::Log(L"プレイヤーのステート : ", m_playerState->GetCurrentState()->GetStateName());
 		Debug::Log(L"プレイヤーの座標 : ", GetPosition());
-		Debug::Log(L"移動中か : ", m_status(ePlayerStatus::IsMove));
-		Debug::Log(L"待機中か : ", m_status(ePlayerStatus::IsIdle));
-		Debug::Log(L"ローテーション中か : ", m_status(ePlayerStatus::IsRotate));
-		Debug::Log(L"クラフトQTE中か : ", m_status(ePlayerStatus::IsCraftQTE));
-		Debug::Log(L"木の所持状態は", m_status(ePlayerStatus::IsHaveWood) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Wood), L"個");
-		Debug::Log(L"石の所持状態は", m_status(ePlayerStatus::IsHaveStone) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Stone), L"個");
-		Debug::Log(L"レールの所持状態は", m_status(ePlayerStatus::IsHaveRail) ? L"所持中 : " : L"未所持 : ", GetItemCount(eItemType::Rail), L"個");
+		Debug::Log(L"プレイヤーのステート : ", m_playerState->GetCurrentState()->GetStateName());
 	}
 
 	// コンポーネント設定
@@ -153,25 +146,14 @@ namespace basecross
 	// クラフト状態でのXボタン入力
 	void GamePlayer::SwitchCraftWindow()
 	{
+		// クラフト中じゃない時に、クラフト不可なら
+		if (!m_status(ePlayerStatus::IsCrafting) && !m_craft->CraftOrder()) return;
+
 		// クラフト状態を切り替える
 		m_status.Set(ePlayerStatus::IsCrafting) = !m_status(ePlayerStatus::IsCrafting);
 
 		// クラフトマネージャーにクラフト状態を送る
 		m_craft->CraftingEnabled(m_status(ePlayerStatus::IsCrafting));
-	}
-
-	// クラフトQTEが終わっているかの確認
-	void GamePlayer::CheckedCraftQTE()
-	{
-		// QTEが終わったら
-		if (m_craft->GetEndedQTE())
-		{
-			// QtE状態を解除
-			m_status.Set(ePlayerStatus::IsCraftQTE) = false;
-
-			// QTE終了時の処理を送り、結果に応じてアニメーションを変更
-			SetAnimationMesh(m_craft->StopQTE() ? ePAKey::QTESucces : ePAKey::QTEFailed);
-		}
 	}
 
 	// アイテム状態の更新

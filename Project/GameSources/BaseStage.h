@@ -6,6 +6,7 @@
 
 #pragma once
 #include "stdafx.h"
+#include "ResourcesManager.h"
 
 // ステージIDキャストマクロ
 #define STAGE_ID(id) static_cast<eStageID>(id)
@@ -27,12 +28,13 @@ namespace basecross
 		Rock = 103,		// 地面の石
 		Air = 111,		// 空気(なんもなし)
 		Water = 112,	// 水場
+		UnGrass = 121,	// 描画のみ通過不可
 	};
 
 	/*!
 	@brief ステージの継承元
 	*/
-	class BaseStage : public Stage
+	class BaseStage : public Stage, public ResourcesManager
 	{
 	protected:
 
@@ -46,6 +48,16 @@ namespace basecross
 
 		// タイマーオブジェクト
 		weak_ptr<Timer> m_timer;
+
+		/*!
+		@brief リソースの読込
+		*/
+		virtual void CreateResourses();
+
+		/*!
+		@brief リソースの解放
+		*/
+		virtual void ReleasedResourses();
 
 		/*!
 		@brief ステージをcsvで生成

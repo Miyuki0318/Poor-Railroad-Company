@@ -44,7 +44,7 @@ namespace basecross
 		// クラフトQTE状態ならQTEが終わったかどうかの確認処理を送る
 		if (player->GetStatus(ePlayerStatus::IsCraftQTE))
 		{
-			player->CheckedCraftQTE();
+			CheckedCraftQTE(player);
 		}
 
 		// QTEのアニメーションが終了していたら
@@ -88,10 +88,8 @@ namespace basecross
 		// クラフトQTE
 		if (player->m_status(ePlayerStatus::IsCraftQTE))
 		{
-			// クラフトマネージャにQTEのバーの停止を送る
-			bool succes = player->m_craft->StopQTE();
-			player->SetAnimationMesh(succes ? ePAKey::QTESucces : ePAKey::QTEFailed);
-			player->m_status.Set(ePlayerStatus::IsCraftQTE) = false;
+			// QTE停止時の処理を送る
+			StopedCraftQTE(player);
 		}
 	}
 
@@ -104,5 +102,28 @@ namespace basecross
 			player->SwitchCraftWindow();
 			player->SetAnimationMesh(ePAKey::CraftFinish);
 		}
+	}
+
+	// クラフトQTEが終わっているかの確認
+	void PlayerCraftingState::CheckedCraftQTE(const shared_ptr<GamePlayer>& player)
+	{
+		// QTEが終わったら
+		if (player->m_craft->GetEndedQTE())
+		{
+			// QTE停止時の処理を送る
+			StopedCraftQTE(player);
+		}
+	}
+
+	// QTE停止時の処理
+	void PlayerCraftingState::StopedCraftQTE(const shared_ptr<GamePlayer>& player)
+	{
+		// QtE状態を解除
+		player->m_status.Set(ePlayerStatus::IsCraftQTE) = false;
+
+		// QTE終了時の処理を送り、結果に応じてアニメーションを変更
+		bool isSucces = player->m_craft->StopQTE();
+		player->SetAnimationMesh(isSucces ? ePAKey::QTESucces : ePAKey::QTEFailed);
+		player->StartSE(isSucces ? L"C_SUCCES_SE" : L"C_FAILURE_SE", 1.0f);
 	}
 }

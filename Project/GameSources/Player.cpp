@@ -84,8 +84,7 @@ namespace basecross
 	void Player::UpdateMove()
 	{
 		// サウンドアイテムが存在しない、またはリソースが空なら
-		const auto& item = m_walkSoundItem.lock();
-		if (item) if (item->m_AudioResource.lock()) return;
+		if (auto& item = m_walkSoundItem.lock()) if (item->m_AudioResource.lock()) return;
 
 		// 歩いた時のSEを再生
 		StartWalkSoundEffect();
@@ -310,7 +309,7 @@ namespace basecross
 		col = COL(floor(pos.x + GRID_HELF));
 
 		pos.x = max(0.0f, pos.x);
-		pos.x = min(float(stageMap.at(row).size()), pos.x);
+		pos.x = min(float(stageMap.at(row).size() - GRID_SIZE), pos.x);
 		pos.z = min(-0.1f, pos.z);
 		pos.z = max(-float(stageMap.size() - GRID_SIZE), pos.z);
 	}

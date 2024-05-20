@@ -33,6 +33,8 @@ namespace basecross
 	// リソースの読込
 	void TitleStage::CreateResourses()
 	{
+		BaseStage::CreateResourses();
+
 		const auto& app = App::GetApp();
 
 		wstring mediaPath = app->GetDataDirWString();
@@ -66,14 +68,6 @@ namespace basecross
 		AddedAudioResources();
 	}
 
-	// リソースの解放
-	void TitleStage::ReleasedResourses()
-	{
-		// 音源とテクスチャの解放
-		ReleasedAudioResources();
-		ReleasedTextureResources();
-	}
-
 	// スプライトの生成
 	void TitleStage::CreateSprite()
 	{
@@ -93,15 +87,18 @@ namespace basecross
 	{		
 		// 床ボックスオブジェクトの追加
 		auto& ground = AddGameObject<GroundBox>(Vec3(m_cameraAt.x, 0.0f, m_cameraAt.z), m_groundScale);
+		ground->SetDrawActive(false);
 		SetSharedGameObject(L"TitleGround", ground);
+
+		AddGameObject<GroundManager>();
 	}
 
 	// プレイヤーの生成
 	void TitleStage::CreatePlayer()
 	{
-		auto& player = AddGameObject<TitlePlayer>();
+		auto& player = AddGameObject<GamePlayer>();
 		player->SetPosition(Vec3(m_cameraAt.x, 5.0f, m_cameraAt.z));
-		SetSharedGameObject(L"TitlePlayer", player);
+		SetSharedGameObject(L"Player", player);
 	}
 
 	// レール管理クラスの生成
@@ -157,7 +154,7 @@ namespace basecross
 	// カメラのズーム処理
 	void TitleStage::TitleCameraZoom()
 	{
-		auto& player = GetSharedGameObject<TitlePlayer>(L"TitlePlayer", true);
+		auto& player = GetSharedGameObject<GamePlayer>(L"Player", true);
 
 		auto& camera = GetView()->GetTargetCamera();
 		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
@@ -195,7 +192,7 @@ namespace basecross
 	// オブジェクトとプレイヤーの距離
 	void TitleStage::DistanceToPlayer()
 	{
-		auto& player = GetSharedGameObject<TitlePlayer>(L"TitlePlayer", true);
+		auto& player = GetSharedGameObject<GamePlayer>(L"Player", true);
 
 		Vec3 playerPos = player->GetComponent<Transform>()->GetPosition();
 
@@ -241,13 +238,13 @@ namespace basecross
 
 			CreateOpningScreen();
 
-			CreateGround();
-
 			CreatePlayer();
 
 			WriteCSVMap("Title");
 
 			CreateRailManager();
+
+			CreateGround();
 
 			CreateBuilding();
 

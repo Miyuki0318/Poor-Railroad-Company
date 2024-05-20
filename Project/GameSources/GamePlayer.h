@@ -71,10 +71,12 @@ namespace basecross
 			m_impassableSet.insert(eStageID::Rail);
 			m_impassableSet.insert(eStageID::DeRail);
 			m_impassableSet.insert(eStageID::GoalRail);
-			m_impassableSet.insert(eStageID::Air);
-			m_impassableSet.insert(eStageID::Water);
 			m_impassableSet.insert(eStageID::Tree);
 			m_impassableSet.insert(eStageID::Stone);
+
+			m_impassableSet.insert(eStageID::Air);
+			m_impassableSet.insert(eStageID::Water);
+			m_impassableSet.insert(eStageID::UnGrass);
 		}
 
 		/*!
@@ -124,11 +126,6 @@ namespace basecross
 		@brief クラフト画面切り替え関数
 		*/
 		void SwitchCraftWindow();
-
-		/*!
-		@brief クラフトQTEが終わっているかの確認関数
-		*/
-		void CheckedCraftQTE();
 
 		/*!
 		@brief アイテム状態の更新関数

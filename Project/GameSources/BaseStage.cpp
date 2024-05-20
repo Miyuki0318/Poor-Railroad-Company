@@ -9,6 +9,66 @@
 
 namespace basecross
 {
+	// リソースの読み込み
+	void BaseStage::CreateResourses()
+	{
+		// アプリケーションオブジェクトの取得
+		const auto& app = App::GetApp();
+
+		// ディレクトリパスの定義
+		wstring mediaPath = app->GetDataDirWString();
+		wstring texturePath = mediaPath + L"Textures/";
+		wstring soundPath = mediaPath + L"Sounds/";
+
+		// クラフトウィンドウのテクスチャ
+		AddTextureResource(L"C_WINDOW_TX", texturePath + L"CraftWindow.png");
+
+		// QTEバーのフレームのテクスチャ
+		AddTextureResource(L"C_QTE_FLAME_TX", texturePath + L"BarFlame.png");
+
+		// アイコンテクスチャ
+		AddTextureResource(L"I_AXE_TX", texturePath + L"AxeIcon.png");
+		AddTextureResource(L"I_PICK_TX", texturePath + L"PickIcon.png");
+		AddTextureResource(L"I_RAIL_TX", texturePath + L"RailIcon.png");
+		AddTextureResource(L"I_CRAFT_TX", texturePath + L"CraftIcon.png");
+		AddTextureResource(L"I_BALOON_CENTER_TX", texturePath + L"BalloonCenter.png");
+		AddTextureResource(L"I_BALOON_RIGHT_TX", texturePath + L"BalloonRight.png");
+		AddTextureResource(L"I_BALOON_LEFT_TX", texturePath + L"BalloonLeft.png");
+
+		// UIテクスチャ
+		AddTextureResource(L"UI_WOOD_TX", texturePath + L"Wood.png");
+		AddTextureResource(L"UI_STONE_TX", texturePath + L"Stone.png");
+		AddTextureResource(L"UI_RAIL_TX", texturePath + L"Rail.png");
+
+		// レール設置時のSE
+		AddAudioResource(L"ADDRAIL_SE", soundPath + L"Rail");
+
+		// 採掘、伐採時のSE
+		AddAudioResource(L"ROCK_SE", soundPath + L"Mining");
+		AddAudioResource(L"TREE_SE", soundPath + L"CutTree");
+
+		// クラフト結果のSE
+		AddAudioResource(L"C_SUCCES_SE", soundPath + L"CraftSucces");
+		AddAudioResource(L"C_FAILURE_SE", soundPath + L"CraftFailure");
+
+		// 歩いた時のSE
+		AddAudioResource(L"WALK_GRASS_SE", soundPath + L"walk_sand");
+		AddAudioResource(L"WALK_SAND_SE", soundPath + L"walk_sand");
+		AddAudioResource(L"WALK_ROCK_SE", soundPath + L"walk_sand");
+
+		// 追加したリソースをメモリに追加
+		AddedTextureResources();
+		AddedAudioResources();
+	}
+
+	// リソースの解放
+	void BaseStage::ReleasedResourses()
+	{
+		// 音源とテクスチャの解放
+		ReleasedAudioResources();
+		ReleasedTextureResources();
+	}
+
 	// CSVの読み込み用
 	void BaseStage::WriteCSVMap(string csvPath)
 	{
@@ -111,6 +171,7 @@ namespace basecross
 		{
 			// 解放
 			m_soundManager.reset();
+			ReleasedResourses();
 		}
 		catch (...)
 		{
