@@ -7,8 +7,6 @@
 #include "stdafx.h"
 #include "Project.h"
 
-const float ANIME_SPEED = 0.75f; // アニメーションの速度
-
 namespace basecross
 {
 	// インスタンス生成
@@ -83,11 +81,6 @@ namespace basecross
 
 		// アニメーションの更新
 		player->m_moveValue = min(floor(Utility::RadToDeg(player->m_moveValue), 1), player->m_maxMove);
-		player->UpdateAnimation(player->m_moveValue * ANIME_SPEED);
-
-		if (player->SetTimer(0.5f))
-		{
-			player->StartSE(L"WALK_GRASS_SE", 1.0f);
-		}
+		player->UpdateAnimation(player->m_moveValue * player->m_animationMap.at(ePAKey::Walking).animeSpeed);
 	}
 }

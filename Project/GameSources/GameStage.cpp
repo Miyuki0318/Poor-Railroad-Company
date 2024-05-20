@@ -11,6 +11,8 @@ namespace basecross
 	// リソースの読み込み
 	void GameStage::CreateResourses()
 	{
+		BaseStage::CreateResourses();
+
 		// アプリケーションオブジェクトの取得
 		const auto& app = App::GetApp();
 
@@ -23,49 +25,15 @@ namespace basecross
 		AddTextureResource(L"GAMECLEAR_TX", texturePath + L"Win.png");
 		AddTextureResource(L"GAMEOVER_TX", texturePath + L"Lose.png");
 
-		// クラフトウィンドウのテクスチャ
-		AddTextureResource(L"C_WINDOW_TX", texturePath + L"CraftWindow.png");
-
-		// QTEバーのフレームのテクスチャ
-		AddTextureResource(L"C_QTE_FLAME_TX", texturePath + L"BarFlame.png");
-
 		// 地面の仮テクスチャ
 		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
 
-		// アイコンテクスチャ
-		AddTextureResource(L"I_AXE_TX", texturePath + L"AxeIcon.png");
-		AddTextureResource(L"I_PICK_TX", texturePath + L"PickIcon.png");
-		AddTextureResource(L"I_RAIL_TX", texturePath + L"RailIcon.png");
-		AddTextureResource(L"I_CRAFT_TX", texturePath + L"CraftIcon.png");
-		AddTextureResource(L"I_BALOON_CENTER_TX", texturePath + L"BalloonCenter.png");
-		AddTextureResource(L"I_BALOON_RIGHT_TX", texturePath + L"BalloonRight.png");
-		AddTextureResource(L"I_BALOON_LEFT_TX", texturePath + L"BalloonLeft.png");
-
-		// UIテクスチャ
-		AddTextureResource(L"UI_WOOD_TX", texturePath + L"Wood.png");
-		AddTextureResource(L"UI_STONE_TX", texturePath + L"Stone.png");
-		AddTextureResource(L"UI_RAIL_TX", texturePath + L"Rail.png");
-
-		AddAudioResource(L"ADDRAIL_SE", soundPath + L"Rail");
-		AddAudioResource(L"ROCK_SE", soundPath + L"Mining");
-		AddAudioResource(L"TREE_SE", soundPath + L"CutTree");
-
-		AddAudioResource(L"WALK_GRASS_SE", soundPath + L"walk_sand");
-
-
+		// ゲーム中のBGM
 		AddAudioResource(L"GAME_BGM", soundPath + L"GameBGM");
 
 		// 追加したリソースをメモリに追加
 		AddedTextureResources();
 		AddedAudioResources();
-	}
-
-	// リソースの解放
-	void GameStage::ReleasedResourses()
-	{
-		// 音源とテクスチャの解放
-		ReleasedAudioResources();
-		ReleasedTextureResources();
 	}
 
 	//ビューとライトの生成
@@ -106,7 +74,7 @@ namespace basecross
 	{
 		// CSVデータ(int型の二次元配列)
 		m_stageMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Stage"));
-		m_groundMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Ground"));
+		m_groundMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "2Ground"));
 
 		// オブジェクトグループ
 		const auto& miningGroup = GetSharedObjectGroup(L"MiningObject");
@@ -268,9 +236,10 @@ namespace basecross
 			CreateSpriteObject();
 
 			// UIの生成
-			CreateUIObject();
+			//CreateUIObject();
 
-			CreateSE(L"GAME_BGM", 1.0f);
+			// BGMの再生
+			m_soundManager->StartBGM(L"GAME_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);
 
 			// スカイボックスの生成
 			auto& camera = GetView()->GetTargetCamera();
@@ -340,6 +309,6 @@ namespace basecross
 		// デバック用文字列の表示非表示切り替え
 		const auto& debugStr = GetSharedObject(L"DebugString");
 		debugStr->SetDrawLayer(10);
-		debugStr->SetDrawActive(false);
+		debugStr->SetDrawActive(true);
 	}
 }

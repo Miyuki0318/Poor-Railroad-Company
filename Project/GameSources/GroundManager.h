@@ -65,7 +65,8 @@ namespace basecross
 		Mat4x4 m_mtxScale;		// インスタンス描画用のスケール
 		Mat4x4 m_mtxRotation;	// インスタンス描画用のローテーション
 
-		map<eStageID, weak_ptr<InstanceGround>> m_groundMap;
+		// インスタンス描画オブジェクトマップ
+		map<eStageID, map<int, weak_ptr<InstanceGround>>> m_groundMap;
 
 	public:
 
@@ -92,5 +93,10 @@ namespace basecross
 		@brief 生成時に一度だけ呼び出される関数
 		*/
 		void OnCreate() override;
+
+		/*!
+		@brief 毎フレーム度に呼び出される関数
+		*/
+		void OnUpdate() override;
 	};
 }

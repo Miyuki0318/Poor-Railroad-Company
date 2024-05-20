@@ -1,8 +1,74 @@
+/*!
+@file BaseStage.cpp
+@brief 継承元のステージオブジェクト
+@author 小澤博貴
+*/
+
 #include "stdafx.h"
 #include "Project.h"
 
 namespace basecross
 {
+	// リソースの読み込み
+	void BaseStage::CreateResourses()
+	{
+		// アプリケーションオブジェクトの取得
+		const auto& app = App::GetApp();
+
+		// ディレクトリパスの定義
+		wstring mediaPath = app->GetDataDirWString();
+		wstring texturePath = mediaPath + L"Textures/";
+		wstring soundPath = mediaPath + L"Sounds/";
+
+		// クラフトウィンドウのテクスチャ
+		AddTextureResource(L"C_WINDOW_TX", texturePath + L"CraftWindow.png");
+
+		// QTEバーのフレームのテクスチャ
+		AddTextureResource(L"C_QTE_FLAME_TX", texturePath + L"BarFlame.png");
+
+		// アイコンテクスチャ
+		AddTextureResource(L"I_AXE_TX", texturePath + L"AxeIcon.png");
+		AddTextureResource(L"I_PICK_TX", texturePath + L"PickIcon.png");
+		AddTextureResource(L"I_RAIL_TX", texturePath + L"RailIcon.png");
+		AddTextureResource(L"I_CRAFT_TX", texturePath + L"CraftIcon.png");
+		AddTextureResource(L"I_BALOON_CENTER_TX", texturePath + L"BalloonCenter.png");
+		AddTextureResource(L"I_BALOON_RIGHT_TX", texturePath + L"BalloonRight.png");
+		AddTextureResource(L"I_BALOON_LEFT_TX", texturePath + L"BalloonLeft.png");
+
+		// UIテクスチャ
+		AddTextureResource(L"UI_WOOD_TX", texturePath + L"Wood.png");
+		AddTextureResource(L"UI_STONE_TX", texturePath + L"Stone.png");
+		AddTextureResource(L"UI_RAIL_TX", texturePath + L"Rail.png");
+
+		// レール設置時のSE
+		AddAudioResource(L"ADDRAIL_SE", soundPath + L"Rail");
+
+		// 採掘、伐採時のSE
+		AddAudioResource(L"ROCK_SE", soundPath + L"Mining");
+		AddAudioResource(L"TREE_SE", soundPath + L"CutTree");
+
+		// クラフト結果のSE
+		AddAudioResource(L"C_SUCCES_SE", soundPath + L"CraftSucces");
+		AddAudioResource(L"C_FAILURE_SE", soundPath + L"CraftFailure");
+
+		// 歩いた時のSE
+		AddAudioResource(L"WALK_GRASS_SE", soundPath + L"walk_sand");
+		AddAudioResource(L"WALK_SAND_SE", soundPath + L"walk_sand");
+		AddAudioResource(L"WALK_ROCK_SE", soundPath + L"walk_sand");
+
+		// 追加したリソースをメモリに追加
+		AddedTextureResources();
+		AddedAudioResources();
+	}
+
+	// リソースの解放
+	void BaseStage::ReleasedResourses()
+	{
+		// 音源とテクスチャの解放
+		ReleasedAudioResources();
+		ReleasedTextureResources();
+	}
+
 	// CSVの読み込み用
 	void BaseStage::WriteCSVMap(string csvPath)
 	{
@@ -22,52 +88,52 @@ namespace basecross
 	}
 
 	// SEマネージャーの生成
-	void BaseStage::CreateSEManager()
+	void BaseStage::CreateSoundManager()
 	{
 		// SEマネージャーがNULLなら
-		if (!m_seManager)
+		if (!m_soundManager)
 		{
 			// SEマネージャーをmake_sharedで生成
-			m_seManager.reset(new SEManager);
+			m_soundManager.reset(new SoundManager);
 		}
 	}
 
 	// SEの再生
-	void BaseStage::CreateSE(const wstring& seKey, float volume)
+	shared_ptr<SoundItem> BaseStage::CreateSE(const wstring& seKey, float volume)
 	{
 		// SEマネージャーがNULLなら
-		if (!m_seManager)
+		if (!m_soundManager)
 		{
 			// SEマネージャーの生成を行う
-			CreateSEManager();
+			CreateSoundManager();
 		}
 
 		// SEマネージャーからSEの再生を送る
-		m_seManager->StartSE(seKey, volume, ThisPtr);
+		return m_soundManager->StartSE(seKey, volume, ThisPtr);
 	}
 
 	// SEの再生
-	void BaseStage::CreateSE(const wstring& seKey, float volume, const void* objPtr)
+	shared_ptr<SoundItem> BaseStage::CreateSE(const wstring& seKey, float volume, const void* objPtr)
 	{
 		// SEマネージャーがNULL
-		if (!m_seManager)
+		if (!m_soundManager)
 		{
 			// SEマネージャーの生成を行う
-			CreateSEManager();
+			CreateSoundManager();
 		}
 
 		// SEマネージャーからSEの再生を送る
-		m_seManager->StartSE(seKey, volume, objPtr);
+		return m_soundManager->StartSE(seKey, volume, objPtr);
 	}
 
 	// SEの停止
 	void BaseStage::StopSE(const wstring& seKey)
 	{
 		// SEマネージャーがあるなら
-		if (m_seManager)
+		if (m_soundManager)
 		{
 			// SEマネージャーからSEの停止を送る
-			m_seManager->StopSE(seKey, ThisPtr);
+			m_soundManager->StopSE(seKey, ThisPtr);
 		}
 	}
 
@@ -75,10 +141,10 @@ namespace basecross
 	void BaseStage::StopSE(const wstring& seKey, const void* objPtr)
 	{
 		// SEマネージャーがあるなら
-		if (m_seManager)
+		if (m_soundManager)
 		{
 			// SEマネージャーからSEの停止を送る
-			m_seManager->StopSE(seKey, objPtr);
+			m_soundManager->StopSE(seKey, objPtr);
 		}
 	}
 
@@ -89,10 +155,12 @@ namespace basecross
 		{
 			// タイマーオブジェクトの生成
 			m_timer = AddGameObject<Timer>();
+
+			// サウンドマネージャーの生成
+			CreateSoundManager();
 		}
 		catch (...)
 		{
-
 		}
 	}
 
@@ -102,11 +170,11 @@ namespace basecross
 		try
 		{
 			// 解放
-			m_seManager.reset();
+			m_soundManager.reset();
+			ReleasedResourses();
 		}
 		catch (...)
 		{
-
 		}
 	}
 
@@ -116,11 +184,10 @@ namespace basecross
 		try
 		{
 			// SEリストの確認
-			m_seManager->CheckSEList();
+			m_soundManager->CheckSoundList();
 		}
 		catch (...)
 		{
-
 		}
 	}
 }

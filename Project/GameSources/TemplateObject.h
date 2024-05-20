@@ -236,7 +236,7 @@ namespace basecross
 		/*!
 		@brief SEÄ¶ŠÖ”(“r’†‚ÅI—¹‚Å‚«‚é”Å)
 		*/
-		virtual void StartSE(const wstring& seKey, float volume);
+		virtual shared_ptr<SoundItem> StartSE(const wstring& seKey, float volume);
 
 		/*!
 		@brief SEI—¹ŠÖ”

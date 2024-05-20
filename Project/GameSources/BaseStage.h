@@ -1,6 +1,14 @@
+/*!
+@file BaseStage.h
+@brief 継承元のステージオブジェクト
+@author 小澤博貴
+*/
+
 #pragma once
 #include "stdafx.h"
+#include "ResourcesManager.h"
 
+// ステージIDキャストマクロ
 #define STAGE_ID(id) static_cast<eStageID>(id)
 
 namespace basecross
@@ -8,20 +16,25 @@ namespace basecross
 	// ステージオブジェクトID
 	enum class eStageID
 	{
-		None,		// 何もなし
-		Rail,		// レール
-		DeRail,		// 脱線部分
-		GuideRail,	// ガイドレール
-		GoalRail,	// ゴールレール
-		Stone = 10,	// 岩
-		Tree,		// 木
+		None,			// 何もなし
+		Rail,			// レール
+		DeRail,			// 脱線部分
+		GuideRail,		// ガイドレール
+		GoalRail,		// ゴールレール
+		Stone = 10,		// 岩
+		Tree,			// 木
 		Grass = 101,	// 地面の草
-		Rock = 102,		// 地面の石
+		Sand = 102,		// 地面の砂
+		Rock = 103,		// 地面の石
 		Air = 111,		// 空気(なんもなし)
 		Water = 112,	// 水場
+		UnGrass = 121,	// 描画のみ通過不可
 	};
 
-	class BaseStage : public Stage
+	/*!
+	@brief ステージの継承元
+	*/
+	class BaseStage : public Stage, public ResourcesManager
 	{
 	protected:
 
@@ -31,10 +44,20 @@ namespace basecross
 		vector<vector<Vec3>> m_positionMap;
 
 		// SEマネージャー
-		unique_ptr<SEManager> m_seManager;
+		unique_ptr<SoundManager> m_soundManager;
 
 		// タイマーオブジェクト
 		weak_ptr<Timer> m_timer;
+
+		/*!
+		@brief リソースの読込
+		*/
+		virtual void CreateResourses();
+
+		/*!
+		@brief リソースの解放
+		*/
+		virtual void ReleasedResourses();
 
 		/*!
 		@brief ステージをcsvで生成
@@ -78,14 +101,14 @@ namespace basecross
 		/*!
 		@brief SEマネージャーの生成関数
 		*/
-		virtual void CreateSEManager();
+		virtual void CreateSoundManager();
 
 		/*!
 		@brief SEの再生関数
 		@param SEキー
 		@param 音量
 		*/
-		virtual void CreateSE(const wstring& seKey, float volume);
+		virtual shared_ptr<SoundItem> CreateSE(const wstring& seKey, float volume);
 
 		/*!
 		@brief SEの再生関数
@@ -93,7 +116,7 @@ namespace basecross
 		@param 音量
 		@param オブジェクトのポインタ
 		*/
-		virtual void CreateSE(const wstring& seKey, float volume, const void* objPtr);
+		virtual shared_ptr<SoundItem> CreateSE(const wstring& seKey, float volume, const void* objPtr);
 
 		/*!
 		@brief SEの停止関数

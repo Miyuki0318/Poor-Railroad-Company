@@ -21,7 +21,7 @@ namespace basecross
 		// フレームとQTEポイントを生成
 		m_barFlame = stagePtr->AddGameObject<CraftUI>(L"C_QTE_FLAME_TX", m_drawScale, m_drawSpeed);
 		m_qtePoint = stagePtr->AddGameObject<CraftUI>(L"WHITE_TX", Vec2(40.0f, 10.0f), m_drawSpeed);
-		m_qtePoint.lock()->SetDiffuseColor(Col4(1.0f, 1.0f, 0.0f, 0.75f));
+		m_qtePoint.lock()->SetDiffuseColor(Col4(1.0f, 0.0f, 0.0f, 0.75f));
 	}
 
 	// 毎フレーム更新処理

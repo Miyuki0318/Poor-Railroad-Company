@@ -7,7 +7,6 @@
 #pragma once
 #include "stdafx.h"
 #include "BaseStage.h"
-#include "ResourcesManager.h"
 
 namespace basecross
 {
@@ -17,7 +16,7 @@ namespace basecross
 		on
 	};
 
-	class TitleStage : public BaseStage, public ResourcesManager
+	class TitleStage : public BaseStage
 	{
 	private:
 		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
@@ -61,12 +60,7 @@ namespace basecross
 		/*
 		@brief リソースの読込
 		*/
-		void CreateResourses();
-
-		/*!
-		@brief リソースの解放
-		*/
-		void ReleasedResourses();
+		void CreateResourses() override;
 
 		/*
 		@brief スプライトの生成
@@ -135,7 +129,7 @@ namespace basecross
 		/*
 		@brief コンストラクタ
 		*/
-		TitleStage() : BaseStage(), ResourcesManager()
+		TitleStage() : BaseStage()
 		{
 			m_buttonPush = false;
 			m_zooming = false;

@@ -16,10 +16,10 @@ namespace basecross
 	}
 
 	// SEの再生
-	void TemplateObject::StartSE(const wstring& seKey, float volume)
+	shared_ptr<SoundItem> TemplateObject::StartSE(const wstring& seKey, float volume)
 	{
 		// 所属ステージ上のSEManagerにSE再生関数を送る
-		GetTypeStage<BaseStage>()->CreateSE(seKey, volume, ThisPtr);
+		return GetTypeStage<BaseStage>()->CreateSE(seKey, volume, ThisPtr);
 	}
 
 	// SEの停止

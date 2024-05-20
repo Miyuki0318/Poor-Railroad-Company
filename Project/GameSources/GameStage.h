@@ -6,9 +6,6 @@
 #pragma once
 #include "stdafx.h"
 #include "BaseStage.h"
-#include "ResourcesManager.h"
-
-//#define STAGE_ID(id) static_cast<eStageID>(id)
 
 namespace basecross 
 {
@@ -25,7 +22,7 @@ namespace basecross
 	/*!
 	@brief ゲーム中のステージ
 	*/
-	class GameStage : public BaseStage, public ResourcesManager
+	class GameStage : public BaseStage
 	{
 		// ゲームクリア・ゲームオーバーのスプライト
 		shared_ptr<Sprite> m_gameClearLogo;
@@ -37,12 +34,7 @@ namespace basecross
 		/*!
 		@brief リソースの読込
 		*/
-		void CreateResourses();
-
-		/*!
-		@brief リソースの解放
-		*/
-		void ReleasedResourses();
+		void CreateResourses() override;
 
 		/*!
 		@brief ビューとライトの生成
@@ -105,7 +97,7 @@ namespace basecross
 		/*!
 		@brief コンストラクタ
 		*/
-		GameStage() :BaseStage(), ResourcesManager() {
+		GameStage() :BaseStage() {
 			m_gameProgress = eGameProgress::Playing;
 		}
 

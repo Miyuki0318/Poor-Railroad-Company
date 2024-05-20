@@ -80,6 +80,16 @@ namespace basecross
 		m_rotTarget = Vec3(cos(rotY), 0.0f, sin(rotY));
 	}
 
+	// 移動更新処理
+	void Player::UpdateMove()
+	{
+		// サウンドアイテムが存在しない、またはリソースが空なら
+		if (auto& item = m_walkSoundItem.lock()) if (item->m_AudioResource.lock()) return;
+
+		// 歩いた時のSEを再生
+		StartWalkSoundEffect();
+	}
+
 	// 回転更新処理
 	void Player::UpdateRotation()
 	{
@@ -94,6 +104,25 @@ namespace basecross
 		SetRotation(Vec3(0.0f, rotY, 0.0f));
 	}
 	
+	// 歩いた時のSE再生
+	void Player::StartWalkSoundEffect()
+	{
+		// 列と行
+		size_t row, col;
+		Vec3 pos = GetPosition();
+		row = ROW(floor(pos.z + GRID_HELF));
+		col = COL(floor(pos.x + GRID_HELF));
+
+		const auto& groundMap = GetTypeStage<BaseStage>()->GetGroundMap();
+		if (!WithInElemRange(row, col, groundMap)) return;
+
+		eStageID groundID = STAGE_ID(groundMap.at(row).at(col));
+		if (m_walkSEKeyMap.find(groundID) != m_walkSEKeyMap.end())
+		{
+			m_walkSoundItem = StartSE(m_walkSEKeyMap.at(groundID), 1.0f);
+		}
+	}
+
 	// コントローラーによる移動
 	void Player::ControllerMovement(const Vec3& stickValue)
 	{
@@ -148,16 +177,12 @@ namespace basecross
 		if (!WithInElemRange(row, col, groundMap)) return false;
 
 		// 通れないマスIDと一致するか
-		eStageID id = STAGE_ID(stageMap.at(row).at(col));
-		if (m_impassableSet.find(id) != m_impassableSet.end())
-		{
-			return true;
-		}
-		else
-		{
-			id = STAGE_ID(groundMap.at(row).at(col));
-			return m_impassableSet.find(id) != m_impassableSet.end();
-		}
+		eStageID stageID = STAGE_ID(stageMap.at(row).at(col));
+		eStageID groundID = STAGE_ID(groundMap.at(row).at(col));
+
+		// IDが通れないマスIDリストに登録されてないかのチェック
+		return (m_impassableSet.find(stageID) != m_impassableSet.end()
+			|| m_impassableSet.find(groundID) != m_impassableSet.end());
 	}
 
 	// 三平方の定理で押し出し処理
@@ -284,7 +309,7 @@ namespace basecross
 		col = COL(floor(pos.x + GRID_HELF));
 
 		pos.x = max(0.0f, pos.x);
-		pos.x = min(float(stageMap.at(row).size()), pos.x);
+		pos.x = min(float(stageMap.at(row).size() - GRID_SIZE), pos.x);
 		pos.z = min(-0.1f, pos.z);
 		pos.z = max(-float(stageMap.size() - GRID_SIZE), pos.z);
 	}
