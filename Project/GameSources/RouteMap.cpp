@@ -53,7 +53,7 @@ namespace basecross {
 		// 左スティックX軸の入力値
 		float stickX = move.getX();
 
-		if (stickX < 0.0f && m_currentX >= 0.0f)
+		if (stickX < -m_maxStickValue && m_currentX >= 0.0f)
 		{
 			switch (m_mapLevel)
 			{
@@ -73,7 +73,7 @@ namespace basecross {
 				break;
 			}
 		}
-		else if (stickX > 0.0f && m_currentX <= 0.0f)
+		else if (stickX > m_maxStickValue && m_currentX <= 0.0f)
 		{
 			switch (m_mapLevel)
 			{

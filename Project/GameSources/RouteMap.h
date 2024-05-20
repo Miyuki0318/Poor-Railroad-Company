@@ -40,6 +40,8 @@ namespace basecross {
 
 		const Vec2 m_spriteScale = Vec2(500.0f);
 
+		const float m_maxStickValue = 0.2f;
+
 		shared_ptr<PNTStaticDraw> m_drawComp;
 
 		// Œ»İ‚Ì“ü—Í’l
