@@ -15,9 +15,10 @@ namespace basecross {
 			None, // 待機
 			GameStart, // ゲームスタート
 		};
-
 		// 現在の状態
 		State m_state = State::None;
+
+		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
 
 	public:
 		TitleTrain(const shared_ptr<Stage>& stagePtr, const Vec3& position) :

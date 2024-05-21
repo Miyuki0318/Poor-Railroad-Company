@@ -161,8 +161,8 @@ namespace basecross
 
 		if (m_selectObj != NULL && !m_zooming)
 		{
-			//titleCamera->SetTargetObject(player);
-			//titleCamera->ZoomStart(titleCamera->GetEye());
+			titleCamera->SetTargetObject(player);
+			titleCamera->ZoomStart(titleCamera->GetEye());
 			m_zooming = true;
 		}
 
@@ -268,7 +268,6 @@ namespace basecross
 			throw;
 		}
 	}
-
 
 	// –ˆƒtƒŒ[ƒ€Às‚³‚ê‚éŠÖ”
 	void TitleStage::OnUpdate()

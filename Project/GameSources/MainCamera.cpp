@@ -6,7 +6,6 @@
 
 #include "stdafx.h"
 #include "Project.h"
-#include "MathFunc.h"
 
 namespace basecross {
 
@@ -40,8 +39,8 @@ namespace basecross {
 
 	void MainCamera::FollowTarget()
 	{
-		Vec3 newEye = Vec3(ClampF(m_targetPos.x, m_MaxEye.x, m_DefaultEye.x), m_DefaultEye.y, m_DefaultEye.z);
-		Vec3 newAt = Vec3(ClampF(m_targetPos.x, m_MaxEye.x, m_DefaultEye.x), m_targetPos.y, m_targetPos.z);
+		Vec3 newEye = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_DefaultEye.x), m_DefaultEye.y, m_DefaultEye.z);
+		Vec3 newAt = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_DefaultEye.x), m_targetPos.y, m_targetPos.z);
 
 		SetAt(newAt);
 		SetEye(newEye);

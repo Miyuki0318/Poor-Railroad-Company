@@ -40,3 +40,4 @@
 #include "TitleTrain.h"
 #include "GameTrain.h"
 #include "GroundManager.h"
+#include "MathFunc.h"
