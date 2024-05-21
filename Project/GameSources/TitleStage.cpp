@@ -326,7 +326,7 @@ namespace basecross
 	{
 		try 
 		{
-			if (Input::GetPushX())
+			if (Input::GetPad().wPressedButtons & XINPUT_GAMEPAD_B)
 			{
 				PushButtonX();
 			}
