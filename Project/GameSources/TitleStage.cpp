@@ -168,8 +168,8 @@ namespace basecross
 
 		if (!m_buttonPush)
 		{
-			//titleCamera->SetEye(m_cameraEye);
-			//titleCamera->SetAt(m_cameraAt);
+			titleCamera->SetEye(m_cameraEye);
+			titleCamera->SetAt(m_cameraAt);
 			m_zooming = false;
 		}
 	}

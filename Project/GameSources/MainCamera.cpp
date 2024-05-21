@@ -51,13 +51,13 @@ namespace basecross {
 		// 線形補間でズームさせる
 		SetEye(Utility::Lerp(m_currentEye, Vec3(m_targetPos.x, m_targetPos.y, m_targetPos.z - 1.0f), m_zoomRatio));
 		SetAt(Utility::Lerp(m_DefaultAt, m_targetPos, m_zoomRatio));
-		m_zoomRatio += DELTA_TIME * m_zoomSpeed;
+		//m_zoomRatio += DELTA_TIME * m_zoomSpeed;
+		m_zoomRatio = Repeat01(m_zoomRatio, m_zoomSpeed, false).value;
 
 		// ズーム処理が終わったら
-		if (m_zoomRatio >= 1.0f)
+		if (Repeat01(m_zoomRatio, m_zoomSpeed, false).flag)
 		{
 			// 値を初期化してカメラの状態をもとに戻す
-			m_zoomRatio = 0.0f;
 			m_cameraState = m_defaultState;
 		}
 	}
