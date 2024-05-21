@@ -186,6 +186,7 @@ namespace basecross
 	{
 		const auto& train = AddGameObject<TitleTrain>(m_trainPos);
 		SetSharedGameObject(L"TitleTrain", train);
+		//m_objectGroup->IntoGroup(train);
 	}
 
 	// ƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚Ìˆ—
