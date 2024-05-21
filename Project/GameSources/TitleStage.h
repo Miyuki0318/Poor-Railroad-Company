@@ -124,6 +124,8 @@ namespace basecross
 		void CreateStageCSV(string csvPath = "Title") override;
 
 	public:
+		bool canPlayerStop = true;
+
 		/*
 		@brief コンストラクタ
 		*/
@@ -160,9 +162,9 @@ namespace basecross
 		*/
 		virtual void OnDraw() override;
 
-		wstring GetTagName()
+		bool GetPlayerStopFlag()
 		{
-			return tagName;
+			return canPlayerStop;
 		}
 	};
 }

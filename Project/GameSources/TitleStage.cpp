@@ -80,6 +80,11 @@ namespace basecross
 	void TitleStage::CreateOpningScreen()
 	{
 		//auto& opning = AddGameObject<TitleLogo>();
+
+		//if (opning->GetOpeningState() == eOpeningState::idel)
+		//{
+		//	canPlayerStop = false;
+		//}
 	}
 
 	// ínñ ÇÃê∂ê¨
@@ -260,6 +265,7 @@ namespace basecross
 
 			if (m_distance < 2.5f)
 			{
+				canPlayerStop = true;
 				m_selectObj = target;
 				if (!m_selectObj->FindTag(tagName))
 				{
@@ -326,6 +332,8 @@ namespace basecross
 	{
 		try 
 		{
+			Debug::Log(L"FLAG : ", canPlayerStop);
+
 			if (Input::GetPad().wPressedButtons & XINPUT_GAMEPAD_B)
 			{
 				PushButtonX();
@@ -341,6 +349,8 @@ namespace basecross
 			}
 			else
 			{
+				canPlayerStop = false;
+
 				if (m_selectObj != NULL && m_selectObj->FindTag(tagName))
 				{
 					m_selectObj->RemoveTag(tagName);
