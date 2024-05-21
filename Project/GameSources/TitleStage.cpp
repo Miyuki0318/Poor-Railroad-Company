@@ -212,15 +212,15 @@ namespace basecross
 
 		if (m_selectObj != NULL && !m_zooming)
 		{
-			//titleCamera->SetTargetObject(player);
-			//titleCamera->ZoomStart(titleCamera->GetEye());
+			titleCamera->SetTargetObject(player);
+			titleCamera->ZoomStart(titleCamera->GetEye());
 			m_zooming = true;
 		}
 
 		if (!m_buttonPush)
 		{
-			//titleCamera->SetEye(m_cameraEye);
-			//titleCamera->SetAt(m_cameraAt);
+			titleCamera->SetEye(m_cameraEye);
+			titleCamera->SetAt(m_cameraAt);
 			m_zooming = false;
 		}
 	}
@@ -319,7 +319,6 @@ namespace basecross
 			throw;
 		}
 	}
-
 
 	// –ˆƒtƒŒ[ƒ€Às‚³‚ê‚éŠÖ”
 	void TitleStage::OnUpdate()

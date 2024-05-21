@@ -9,8 +9,9 @@
 
 namespace basecross {
 	class MainCamera : public Camera {
-		const Vec3 m_DefaultPos;	// カメラの初期位置
+		const Vec3 m_DefaultEye;	// カメラの初期位置
 		const Vec3 m_DefaultAt;		// カメラの初期注視点
+		const Vec3 m_MaxEye;		// カメラの最大移動距離
 
 		weak_ptr<GameObject> m_targetObject; // 目標となるオブジェクト
 		shared_ptr<Transform> m_targetTrans; // 目標のトランスフォーム
@@ -38,8 +39,9 @@ namespace basecross {
 			m_cameraState(cameraState),
 			m_defaultState(cameraState),
 			m_targetPos(Vec3(0.0f)),
-			m_DefaultPos(Vec3(50.0f, 20.0f, -22.0f)),
+			m_DefaultEye(Vec3(3.0f, 20.0f, -22.0f)),
 			m_DefaultAt(Vec3(0.0f)),
+			m_MaxEye(Vec3(400.0f, 20.0f, -22.0f)),
 			m_zoomRatio(0.0f),
 			m_zoomSpeed(0.5f)
 		{
@@ -52,8 +54,9 @@ namespace basecross {
 			m_cameraState(cameraState),
 			m_defaultState(cameraState),
 			m_targetPos(Vec3(0.0f)),
-			m_DefaultPos(eyePos),
+			m_DefaultEye(eyePos),
 			m_DefaultAt(atPos),
+			m_MaxEye(Vec3(400.0f, 20.0f, -22.0f)),
 			m_zoomRatio(0.0f),
 			m_zoomSpeed(0.5f)
 		{
