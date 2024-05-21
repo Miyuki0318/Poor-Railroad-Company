@@ -89,7 +89,7 @@ namespace basecross
 		if (player->m_status(ePlayerStatus::IsCraftQTE))
 		{
 			// QTE’â~‚Ìˆ—‚ğ‘—‚é
-			StopedCraftQTE(player);
+			StoppedCraftQTE(player);
 		}
 	}
 
@@ -111,12 +111,12 @@ namespace basecross
 		if (player->m_craft->GetEndedQTE())
 		{
 			// QTE’â~‚Ìˆ—‚ğ‘—‚é
-			StopedCraftQTE(player);
+			StoppedCraftQTE(player);
 		}
 	}
 
 	// QTE’â~‚Ìˆ—
-	void PlayerCraftingState::StopedCraftQTE(const shared_ptr<GamePlayer>& player)
+	void PlayerCraftingState::StoppedCraftQTE(const shared_ptr<GamePlayer>& player)
 	{
 		// QtEó‘Ô‚ğ‰ğœ
 		player->m_status.Set(ePlayerStatus::IsCraftQTE) = false;

@@ -76,6 +76,6 @@ namespace basecross
 		/*!
 		@brief クラフトQTE停止時に実行する関数
 		*/
-		void StopedCraftQTE(const shared_ptr<GamePlayer>& player);
+		void StoppedCraftQTE(const shared_ptr<GamePlayer>& player);
 	};
 }

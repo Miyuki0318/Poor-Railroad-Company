@@ -207,6 +207,9 @@ namespace basecross
 		*/
 		virtual void GridHitResponse(Vec3& pos);
 
+		/*!
+		@brief •à‚¢‚½‚ÌSEŠJnŠÖ”
+		*/
 		virtual void StartWalkSoundEffect();
 
 	private:
