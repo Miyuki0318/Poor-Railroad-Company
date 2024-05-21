@@ -163,11 +163,14 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleTrain.h">
       <Filter>StageObject\Train\TitleTrain</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)GroundManager.h">
-      <Filter>StageObject\Ground</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h">
       <Filter>OzawaFuncs\SoundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GroundManager.h">
+      <Filter>StageObject\Ground\GroundManager</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)UnBreakRock.h">
+      <Filter>StageObject\UnBreakRock</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -309,14 +312,17 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleTrain.cpp">
       <Filter>StageObject\Train\TitleTrain</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)GroundManager.cpp">
-      <Filter>StageObject\Ground</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SoundManager.cpp">
       <Filter>OzawaFuncs\SoundManager</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)BaseStage.cpp">
       <Filter>Stage\BaseStage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GroundManager.cpp">
+      <Filter>StageObject\Ground\GroundManager</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)UnBreakRock.cpp">
+      <Filter>StageObject\UnBreakRock</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -487,6 +493,12 @@
     </Filter>
     <Filter Include="OzawaFuncs\SoundManager">
       <UniqueIdentifier>{50c74e25-6bcc-4821-a669-c06796f985df}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Ground\GroundManager">
+      <UniqueIdentifier>{fb56feb6-4e12-44de-be45-4ced223d34e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\UnBreakRock">
+      <UniqueIdentifier>{0be8b190-6bc2-4d76-8e61-a9d56d806f7f}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

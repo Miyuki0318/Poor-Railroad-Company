@@ -16,19 +16,20 @@ namespace basecross
 	// ステージオブジェクトID
 	enum class eStageID
 	{
-		None,			// 何もなし
-		Rail,			// レール
-		DeRail,			// 脱線部分
-		GuideRail,		// ガイドレール
-		GoalRail,		// ゴールレール
-		Stone = 10,		// 岩
-		Tree,			// 木
-		Grass = 101,	// 地面の草
-		Sand = 102,		// 地面の砂
-		Rock = 103,		// 地面の石
-		Air = 111,		// 空気(なんもなし)
-		Water = 112,	// 水場
-		UnGrass = 121,	// 描画のみ通過不可
+		None,				// 何もなし
+		Rail,				// レール
+		DeRail,				// 脱線部分
+		GuideRail,			// ガイドレール
+		GoalRail,			// ゴールレール
+		Stone = 10,			// 岩
+		Tree,				// 木
+		UnBreakRock = 20,	// 壊せない岩
+		Grass = 101,		// 地面の草
+		Sand = 102,			// 地面の砂
+		Rock = 103,			// 地面の石
+		Air = 111,			// 空気(なんもなし)
+		Water = 112,		// 水場
+		UnGrass = 121,		// 描画のみ通過不可
 	};
 
 	/*!

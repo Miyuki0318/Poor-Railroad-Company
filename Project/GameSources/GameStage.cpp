@@ -56,7 +56,8 @@ namespace basecross
 		auto g = AddGameObject<GroundBox>(Vec3(49.5f, 0.0f, -7.0f) ,Vec3(100.0f, 2.0f, 15.0f));
 		g->SetDrawActive(false);
 
-		AddGameObject<GroundManager>();
+		AddGameObject<GroundManager>();	// 地面の描画生成
+		AddGameObject<UnBreakRock>();	// 壊せない岩の生成
 	}
 
 	// プレイヤーの生成
