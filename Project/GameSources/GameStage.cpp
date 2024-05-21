@@ -152,7 +152,7 @@ namespace basecross
 	void GameStage::CreateTrain()
 	{
 		// 列車オブジェクトの追加
-		const auto& train = AddGameObject<GameTrain>();
+		const auto& train = AddGameObject<GameTrain>(Vec3(0.0f, 1.0f, -7.0f));
 
 		// シェアオブジェクトに登録
 		SetSharedGameObject(L"Train", train);

@@ -78,7 +78,7 @@ namespace basecross {
 			TemplateObject(stagePtr),
 			m_DefaultPosition(position),
 			m_DefaultScale(Vec3(1.0f, 1.0f, 1.0f)),
-			m_MoveInSeconds(4.0f),
+			m_MoveInSeconds(4.5f),
 			m_moveDirection(Vec3(0.0f))
 		{
 			m_moveRatio = 0.0f;

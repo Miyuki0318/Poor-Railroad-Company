@@ -23,6 +23,14 @@ namespace basecross {
 			Train(stagePtr)
 		{
 		}
+
+		GameTrain(const shared_ptr<Stage>& stagePtr,
+			const Vec3& startPosition
+		) :
+			Train(stagePtr, startPosition)
+		{
+		}
+
 		~GameTrain() {}
 
 		void OnUpdate() override;
