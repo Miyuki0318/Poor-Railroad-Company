@@ -40,3 +40,4 @@
 #include "GameTrain.h"
 #include "GroundManager.h"
 #include "UnBreakRock.h"
+#include "MathFunc.h"

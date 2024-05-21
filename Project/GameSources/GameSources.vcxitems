@@ -39,6 +39,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GoalRail.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Ground.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Input.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MathFunc.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Number.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MiningObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Opening.h" />
@@ -94,6 +95,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GoalRail.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MathFunc.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Number.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MiningObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Opening.cpp" />

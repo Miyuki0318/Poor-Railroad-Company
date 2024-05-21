@@ -11,7 +11,7 @@ namespace basecross {
 	void TitleTrain::OnUpdate()
 	{
 		auto construction = GetStage()->GetSharedGameObject<Construction>(L"Construction");
-		if (construction->MoveTrainFlag())
+		if (FindTag(tagName))
 		{
 			m_state = State::GameStart;
 		}
@@ -47,5 +47,7 @@ namespace basecross {
 
 		// À•W‚ÌXV
 		SetPosition(pos);
+
+		PostEvent(5.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"GameStage");
 	}
 }
