@@ -15,4 +15,11 @@ namespace MathFuncs {
 		value = value < min ? min : value;
 		return value;
 	}
+
+	inline float Clamp01(float value)
+	{
+		value = value > 1.0f ? 1.0f : value;
+		value = value < 0.0f ? 0.0f : value;
+		return value;
+	}
 }
