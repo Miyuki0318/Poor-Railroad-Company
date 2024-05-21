@@ -208,9 +208,6 @@ namespace basecross
 			// 継承元の生成時の処理
 			BaseStage::OnCreate();
 
-			// オブジェクトグループの作成
-			CreateSharedObjectGroup(L"MiningObject"); // 採掘可能オブジェクト
-
 			// リソースの読み込み
 			CreateResourses();
 

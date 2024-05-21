@@ -158,6 +158,9 @@ namespace basecross
 
 			// サウンドマネージャーの生成
 			CreateSoundManager();
+
+			// オブジェクトグループの作成
+			CreateSharedObjectGroup(L"MiningObject"); // 採掘可能オブジェクト
 		}
 		catch (...)
 		{

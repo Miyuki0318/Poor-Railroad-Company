@@ -93,6 +93,56 @@ namespace basecross
 		AddGameObject<GroundManager>();
 	}
 
+	// csvでのステージ生成
+	void TitleStage::CreateStageCSV(string csvPath)
+	{
+		// CSVデータ(int型の二次元配列)
+		m_stageMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Stage"));
+		m_groundMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Ground"));
+
+		// オブジェクトグループ
+		const auto& miningGroup = GetSharedObjectGroup(L"MiningObject");
+
+		// 二重ループ
+		for (int i = 0; i < m_stageMap.size(); i++)
+		{
+			vector<Vec3> tempVec;
+			for (int j = 0; j < m_stageMap.at(i).size(); j++)
+			{
+				// 仮オブジェクト
+				shared_ptr<MiningObject> mining = nullptr;
+
+				// 座標(左限+列番号×スケール,下限+行数-行番号×スケール)
+				Vec3 position = LINE2POS(i, j);
+
+				// 数値の別名
+				eStageID num = STAGE_ID(m_stageMap.at(i).at(j));
+				switch (num)
+				{
+				case eStageID::Stone: // 岩なら
+					mining = AddGameObject<Rock>(position, 2);
+					break;
+
+				case eStageID::Tree: // 木なら
+					mining = AddGameObject<Tree>(position, 2);
+					break;
+
+				default:
+					break;
+				}
+
+				// オブジェクトグループへの追加
+				if (mining)
+				{
+					miningGroup->IntoGroup(mining);
+				}
+
+				tempVec.push_back(position);
+			}
+			m_positionMap.push_back(tempVec);
+		}
+	}
+
 	// プレイヤーの生成
 	void TitleStage::CreatePlayer()
 	{
@@ -240,7 +290,7 @@ namespace basecross
 
 			CreatePlayer();
 
-			WriteCSVMap("Title");
+			CreateStageCSV("Title");
 
 			CreateRailManager();
 

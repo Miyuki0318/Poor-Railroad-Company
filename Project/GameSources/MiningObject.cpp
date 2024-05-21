@@ -25,7 +25,7 @@ namespace basecross {
 		SetDrawActive(true);
 		SetAlphaActive(false);
 
-		const auto& stage = GetTypeStage<GameStage>();
+		const auto& stage = GetTypeStage<BaseStage>();
 		auto& stageMap = stage->GetStageMap();
 
 		size_t row, col;
@@ -51,7 +51,7 @@ namespace basecross {
 
 	}
 	void MiningObject::OnDelete() {
-		const auto& stage = GetTypeStage<GameStage>();
+		const auto& stage = GetTypeStage<BaseStage>();
 		auto& stageMap = stage->GetStageMap();
 
 		if (Utility::WithInElemRange(m_csvPos.x, m_csvPos.y, stageMap))
