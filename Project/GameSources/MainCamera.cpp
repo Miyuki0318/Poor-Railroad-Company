@@ -6,8 +6,12 @@
 
 #include "stdafx.h"
 #include "Project.h"
+#include "MathFunc.h"
 
 namespace basecross {
+
+	using namespace MathFuncs;
+
 	void MainCamera::OnCreate() {
 		
 	}
@@ -21,7 +25,7 @@ namespace basecross {
 		// èÛë‘Ç≤Ç∆ÇÃèàóù
 		if (m_cameraState == Fixed)
 		{
-			SetEye(m_DefaultPos);
+			SetEye(m_DefaultEye);
 		}
 		else if (m_cameraState == Follow)
 		{
@@ -36,8 +40,8 @@ namespace basecross {
 
 	void MainCamera::FollowTarget()
 	{
-		Vec3 newEye = Vec3(m_targetPos.x, m_DefaultPos.y, m_DefaultPos.z);
-		Vec3 newAt = m_targetPos;
+		Vec3 newEye = Vec3(ClampF(m_targetPos.x, m_MaxEye.x, m_DefaultEye.x), m_DefaultEye.y, m_DefaultEye.z);
+		Vec3 newAt = Vec3(ClampF(m_targetPos.x, m_MaxEye.x, m_DefaultEye.x), m_targetPos.y, m_targetPos.z);
 
 		SetAt(newAt);
 		SetEye(newEye);
