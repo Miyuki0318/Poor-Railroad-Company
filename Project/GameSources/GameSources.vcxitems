@@ -42,7 +42,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Number.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MiningObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Opening.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)OriginalCollision.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OzawaFuncs.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OzawaUtility.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h" />
@@ -97,7 +96,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Number.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MiningObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Opening.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)OriginalCollision.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OzawaUtility.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerCraftingState.cpp" />
