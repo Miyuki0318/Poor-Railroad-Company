@@ -21,8 +21,6 @@ namespace basecross {
 		drawComp->SetMeshToTransformMatrix(m_spanMat);
 		drawComp->SetMeshResource(L"CONSTRUCTION");
 		drawComp->SetDiffuse(COL_YELOW);
-	
-		GetStage()->AddGameObject<OriginalColl>(Vec3(3.0f, 1.0f, 5.0f), m_position);
 	}
 
 	void Construction::OnUpdate()

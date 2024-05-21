@@ -22,8 +22,6 @@ namespace basecross {
 		drawComp->SetMeshToTransformMatrix(m_spanMat);
 		drawComp->SetMeshResource(L"BOARD");
 		drawComp->SetTextureResource(L"BOARD_TX");
-	
-		GetStage()->AddGameObject<OriginalColl>(Vec3(5.5f, 1.0f, 1.0f), m_position);
 	}
 
 	void SignBoard::OnUpdate()

@@ -33,7 +33,6 @@
 #include "Construction.h"
 #include "RouteMap.h"
 #include "Signboard.h"
-#include "OriginalCollision.h"
 #include "ItemCountUI.h"
 #include "Opening.h"
 #include "SkyBox.h"

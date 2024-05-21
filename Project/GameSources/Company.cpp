@@ -23,8 +23,6 @@ namespace basecross {
 		drawComp->SetMeshToTransformMatrix(m_spanMat);
 		drawComp->SetMeshResource(L"COMPANY");
 		drawComp->SetDiffuse(COL_GRAY);
-
-		GetStage()->AddGameObject<OriginalColl>(Vec3(15.0f,1.0f,7.5f), m_position);
 	}
 
 	void Company::OnUpdate()
