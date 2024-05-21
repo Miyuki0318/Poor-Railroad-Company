@@ -57,8 +57,8 @@ namespace MathFuncs {
 	inline ValueFlag Repeat01(float value, bool invert)
 	{
 		ValueFlag vf;
-		vf.value = Clamp01(value);
-		vf.value += invert ? -App::GetApp()->GetElapsedTime() : App::GetApp()->GetElapsedTime();
+		vf.value = value;
+		vf.value += invert ? -ELAPSED_TIME : ELAPSED_TIME;
 
 		vf.flag = value > 1.0f || value < 0.0f;
 		vf.value = value > 1.0f ? 0.0f : value;
