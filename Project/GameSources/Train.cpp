@@ -30,6 +30,25 @@ namespace basecross {
 		AddTag(L"Train");
 	}
 
+	void Train::MoveProcess(State nextState)
+	{
+		// 線形補間で移動
+		Vec3 pos = Utility::Lerp(m_movePos.first, m_movePos.second, m_moveRatio);
+		m_moveRatio = MathF::Repeat01(m_moveRatio, m_MoveSpeed, false).value;
+
+		// 範囲外になったら
+		if (MathF::Repeat01(m_moveRatio, m_MoveSpeed, false).outRange)
+		{
+			// 次のレールを見つけられなかったら次のステートに
+			if (!SearchNextRail()) m_state = nextState;
+
+			SetNextRailDirection(); // 次のレールの方向を設定
+		}
+
+		// 座標の更新
+		SetPosition(pos);
+	}
+
 	bool Train::SearchNextRail()
 	{
 		// レールマップの取得

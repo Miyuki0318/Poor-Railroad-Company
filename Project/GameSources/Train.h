@@ -26,6 +26,15 @@ namespace basecross {
 	class Train : public TemplateObject
 	{
 	protected:
+		enum class State {
+			None,		// 待機
+			GameStart,	// ゲームスタート
+			OnRail,		// 線路上
+			Derail,		// 脱線
+			Arrival,	// 到着
+		};
+		State m_state;
+
 		const Vec3 m_DefaultPosition;
 		const Vec3 m_DefaultScale;
 		const float m_MoveSpeed;
@@ -51,6 +60,8 @@ namespace basecross {
 			m_MoveSpeed(0.2f),
 			m_moveDirection(Vec3(0.0f))
 		{
+			m_state = State::None;
+
 			m_moveRatio = 0.0f;
 			m_railPos = { 0, 0 };
 			m_direction = eDirection::Right;
@@ -81,6 +92,8 @@ namespace basecross {
 			m_MoveSpeed(0.2f),
 			m_moveDirection(Vec3(0.0f))
 		{
+			m_state = State::None;
+
 			m_moveRatio = 0.0f;
 			m_railPos = { 0, 0 };
 			m_direction = eDirection::Right;
@@ -108,6 +121,8 @@ namespace basecross {
 		~Train() {}
 
 		virtual void OnCreate() override;
+
+		void MoveProcess(State nextState);
 
 		/// <summary>
 		/// 次のレールを検索する処理
