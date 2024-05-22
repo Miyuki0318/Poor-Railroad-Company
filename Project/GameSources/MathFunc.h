@@ -16,13 +16,12 @@ struct ValueFlag {
 	bool outRange = false;
 };
 
-namespace MathFuncs {
+namespace MathF {
 #define ELAPSED_TIME App::GetApp()->GetElapsedTime()
 #define Infinity = 0xFFFFFFFFFFFFFFFF;
 #define Deg2Rad = (XM_PI * 2.0f) / 360.0f
 #define Rad2Deg = 360.0f / (XM_PI * 2.0f)
 
-	//static ValueFlag vf;
 	/// <summary>
 	/// —^‚¦‚ç‚ê‚½value‚ğmax‚©‚çmin‚Ì”ÍˆÍ‚É§ŒÀ‚·‚éŠÖ”(floatŒ^)
 	/// </summary>

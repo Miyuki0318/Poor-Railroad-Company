@@ -28,7 +28,7 @@ namespace basecross {
 	protected:
 		const Vec3 m_DefaultPosition;
 		const Vec3 m_DefaultScale;
-		const float m_MoveInSeconds;
+		const float m_MoveSpeed;
 
 		pair<Vec3, Vec3> m_movePos;
 		string m_railPos;
@@ -48,7 +48,7 @@ namespace basecross {
 			TemplateObject(stagePtr),
 			m_DefaultPosition(Vec3(3.0f, 1.0f, -7.0f)),
 			m_DefaultScale(Vec3(1.0f, 1.0f, 1.0f)),
-			m_MoveInSeconds(4.0f),
+			m_MoveSpeed(0.2f),
 			m_moveDirection(Vec3(0.0f))
 		{
 			m_moveRatio = 0.0f;
@@ -78,7 +78,7 @@ namespace basecross {
 			TemplateObject(stagePtr),
 			m_DefaultPosition(position),
 			m_DefaultScale(Vec3(1.0f, 1.0f, 1.0f)),
-			m_MoveInSeconds(4.5f),
+			m_MoveSpeed(0.2f),
 			m_moveDirection(Vec3(0.0f))
 		{
 			m_moveRatio = 0.0f;
