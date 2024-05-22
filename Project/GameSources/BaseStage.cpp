@@ -161,6 +161,11 @@ namespace basecross
 
 			// オブジェクトグループの作成
 			CreateSharedObjectGroup(L"MiningObject"); // 採掘可能オブジェクト
+
+			// デバック用文字列の表示非表示切り替え
+			const auto& debugStr = GetSharedObject(L"DebugString");
+			debugStr->SetDrawLayer(10);
+			debugStr->SetDrawActive(true);
 		}
 		catch (...)
 		{
@@ -192,5 +197,23 @@ namespace basecross
 		catch (...)
 		{
 		}
+	}
+
+
+	// 描画処理
+	void BaseStage::OnDraw()
+	{
+		// アプリケーションオブジェクトの取得
+		const auto& app = App::GetApp();
+
+		// デバッグ文字列を強制的に空にする
+		app->GetScene<Scene>()->SetDebugString(L"");
+
+		// FPSの描画
+		const auto& fps = app->GetStepTimer().GetFramesPerSecond();
+		Debug::Log(L"FPS : ", fps);
+
+		// 継承元の描画時の関数を実行する
+		Stage::OnDraw();
 	}
 }

@@ -155,11 +155,6 @@ namespace basecross
 		*/
 		virtual void OnUpdate() override;
 
-		/*!
-		@brief •`‰æXVŠÖ”
-		*/
-		virtual void OnDraw() override;
-
 		wstring GetTagName()
 		{
 			return tagName;

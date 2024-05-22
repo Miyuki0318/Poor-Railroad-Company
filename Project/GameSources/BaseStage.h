@@ -100,6 +100,11 @@ namespace basecross
 		virtual void OnUpdate() override;
 
 		/*!
+		@brief 描画更新関数
+		*/
+		virtual void OnDraw() override;
+
+		/*!
 		@brief SEマネージャーの生成関数
 		*/
 		virtual void CreateSoundManager();
