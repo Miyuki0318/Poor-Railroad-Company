@@ -55,7 +55,7 @@ namespace basecross {
 		m_zoomRatio = Repeat01(m_zoomRatio, m_zoomSpeed, false).value;
 
 		// ズーム処理が終わったら
-		if (Repeat01(m_zoomRatio, m_zoomSpeed, false).flag)
+		if (Repeat01(m_zoomRatio, m_zoomSpeed, false).outRange)
 		{
 			// 値を初期化してカメラの状態をもとに戻す
 			m_cameraState = m_defaultState;
