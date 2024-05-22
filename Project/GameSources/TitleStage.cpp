@@ -174,7 +174,7 @@ namespace basecross
 		// H–Œ»ê‚Ì¶¬
 		const auto& construction = AddGameObject<Construction>();
 		SetSharedGameObject(L"Construction", construction);
-		m_objectGroup->IntoGroup(construction);
+		//m_objectGroup->IntoGroup(construction);
 		
 		// ŠÅ”Â‚Ì¶¬
 		const auto& board = AddGameObject<SignBoard>();
@@ -191,7 +191,7 @@ namespace basecross
 	{
 		const auto& train = AddGameObject<TitleTrain>(m_trainPos);
 		SetSharedGameObject(L"TitleTrain", train);
-		//m_objectGroup->IntoGroup(train);
+		m_objectGroup->IntoGroup(train);
 	}
 
 	// ƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚Ìˆ—
@@ -266,6 +266,7 @@ namespace basecross
 			if (m_distance < 2.5f)
 			{
 				canPlayerStop = true;
+
 				m_selectObj = target;
 				if (!m_selectObj->FindTag(tagName))
 				{
@@ -332,8 +333,6 @@ namespace basecross
 	{
 		try 
 		{
-			Debug::Log(L"FLAG : ", canPlayerStop);
-
 			if (Input::GetPad().wPressedButtons & XINPUT_GAMEPAD_B)
 			{
 				PushButtonX();
@@ -361,8 +360,6 @@ namespace basecross
 			TitleCameraZoom();
 
 			FadeSprite();
-
-			Debug::Log(m_buttonPush);
 		}
 		catch (...)
 		{
