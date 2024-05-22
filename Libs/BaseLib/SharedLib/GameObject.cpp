@@ -1135,6 +1135,13 @@ namespace basecross {
 		for (auto& PtrChileStage : GetChileStageVec()) {
 			PtrChileStage->UpdateStage();
 		}
+		
+		// デバック用文字列を単体で更新処理をする
+		if (auto debugStr = GetSharedObject(L"DebugString"))
+		{
+			debugStr->ComponentUpdate();
+		}
+
 		if (IsUpdatePerformanceActive()) {
 			pImpl->m_UpdatePerformance.End();
 		}

@@ -7,12 +7,6 @@
 #include "stdafx.h"
 #include "Project.h"
 
-// レールに関するID
-#define RAIL_ID static_cast<size_t>(basecross::eStageID::Rail)
-#define DERAIL_ID static_cast<size_t>(basecross::eStageID::DeRail)
-#define GUIDE_ID static_cast<size_t>(basecross::eStageID::GuideRail)
-#define GOALRAIL_ID static_cast<size_t>(basecross::eStageID::GoalRail)
-
 namespace basecross
 {
 	// ネームスペースの省略
@@ -55,22 +49,29 @@ namespace basecross
 			for (size_t col = 0; col < stageMap.at(row).size(); col++)
 			{
 				// レールIDと先端レールID以外は無視
-				int id = stageMap.at(row).at(col);
-				if (!Utility::GetBetween(id, RAIL_ID, GOALRAIL_ID)) continue;
+				eStageID id = STAGE_ID(stageMap.at(row).at(col));
+				if (!Utility::GetBetween(id, eStageID::Rail, eStageID::GoalRail)) continue;
 
 				// インスタンス描画を追加
 				AddInstanceRail(row, col);
 
 				// 先端レールならガイドIDを設定
-				if (STAGE_ID(id) == eStageID::DeRail)
+				if (id == eStageID::DeRail)
 				{
 					SetGuideID(row, col);
 				}
 
 				// ゴールレールなら
-				if (STAGE_ID(id) == eStageID::GoalRail)
+				if (id == eStageID::GoalRail)
 				{
 					stagePtr->AddGameObject<Station>(LINE2POS(row - 1, col));
+				}
+
+				// レールなら
+				if (id == eStageID::Rail || id == eStageID::DeRail)
+				{
+					AddRailDataMap(row, col);
+					m_pastLine = LINE(row, col);
 				}
 			}
 		}
@@ -85,14 +86,67 @@ namespace basecross
 		// インスタンス描画を追加
 		AddInstanceRail(point.x, point.y);
 
+		// レールマップに追加
+		AddRailDataMap(point.x, point.y);
+
+		// 保持するデータを変更
+		m_railNum++;
+		m_pastLine = LINE(point.x, point.y);
+
 		// csvの書き換え
-		stageMap.at(point.x).at(point.y) = DERAIL_ID;
+		stageMap.at(point.x).at(point.y) = UnSTAGE_ID(eStageID::DeRail);
 		m_guideMap = stageMap;
 		SetGuideID(point.x, point.y);
 		SetRailID(point.x, point.y);
+	}
 
-		// カウンタを増やす
-		m_railNum++;
+	// インスタンス描画の追加
+	void RailManager::AddInstanceRail(size_t row, size_t col)
+	{
+		// 座標の設定
+		Vec3 addPos = LINE2POS(row, col);
+
+		// トランスフォーム行列の設定
+		Mat4x4 matrix, mtxPosition;
+		mtxPosition.translation(addPos);
+
+		// 行列の設定と追加
+		matrix = m_mtxScale * m_mtxRotation * mtxPosition;
+		m_ptrDraw->AddMatrix(matrix);
+	}
+
+	// マップデータに追加
+	void RailManager::AddRailDataMap(size_t row, size_t col)
+	{
+		// 座標の設定
+		Vec3 addPos = LINE2POS(row, col);
+
+		// レールデータの設定
+		RailData data = {};
+
+		// 1つ前のレールデータ(無ければ空白)
+		RailData* pastData = (m_railDataMap.find(m_pastLine) != m_railDataMap.end()) ? &m_railDataMap.at(m_pastLine) : &RailData();
+		data.thisPos = addPos;				// 自身の座標
+		data.pastPos = pastData->thisPos;	// 1つ前の座標
+		pastData->futurePos = addPos;		// 1つ前のデータに自身の座標を登録
+
+		bool isLineX = (addPos.z == pastData->thisPos.z);	// X軸で直線か
+		bool isLineZ = (addPos.x == pastData->thisPos.x);	// Z軸で直線か
+		bool isRight = (addPos.x > pastData->thisPos.x);	// 右に移動するのか
+		bool isUpper = (addPos.z > pastData->thisPos.z);	// 上に移動するのか
+
+		// 直線か、そうじゃなければ1つ前のに
+		data.type = isLineX ? eRailType::AxisXLine : isLineZ ? eRailType::AxisZLine : pastData->type;
+
+		// 1つ前のレールとタイプが違ったら向きを設定
+		if (data.type != pastData->type)
+		{
+			pastData->angle = isRight ? (isUpper ? eRailAngle::Right : eRailAngle::Left) : (isUpper ? eRailAngle::Left : eRailAngle::Right);
+			pastData->type = isRight ? (isUpper ? eRailType::Right2Under : eRailType::Right2Upper) : (isUpper ? eRailType::Left2Upper : eRailType::Left2Under);
+		}
+
+		// マップに追加
+		m_railDataMap.emplace(LINE(row, col), data);
 	}
 
 	// 先端レールの書き換え
@@ -107,7 +161,7 @@ namespace basecross
 			if (elem.isRange)
 			{
 				int& num = stageMap.at(elem.row).at(elem.col);
-				num = num == DERAIL_ID ? RAIL_ID : num;
+				num = num == UnSTAGE_ID(eStageID::DeRail) ? UnSTAGE_ID(eStageID::Rail) : num;
 			}
 		}
 	}
@@ -118,21 +172,65 @@ namespace basecross
 		m_guidePoints.clear(); // 初期化
 		m_pastDeRailPos = LINE2POS(row, col);
 
-		// 要素数が範囲内で、何も無いならガイドにする
+		// エラーチェック
+		if (m_railDataMap.find(m_pastLine) == m_railDataMap.end()) return;
+
+		// レールデータの取得
+		RailData data = m_railDataMap.at(m_pastLine);
+		RailData past = m_railDataMap.at(POS2LINE(data.pastPos));
+
+		// ガイド付きcsvマップから設置位置の上下左右を取得
 		auto& elems = CSVElementCheck::GetElemsCheck(row, col, m_guideMap);
 		for (auto& elem : elems)
 		{
-			if (elem.isRange)
-			{
-				int& num = m_guideMap.at(elem.row).at(elem.col);
-				if (num == 0 || num == GUIDE_ID)
-				{
-					num = GUIDE_ID; // ガイドに書き換え
+			// 配列の範囲外なら無視
+			if (!elem.isRange) continue;
 
-					// ガイドの列と行の番号を保持
-					m_guidePoints.push_back(Point2D<size_t>(elem.row, elem.col));
+			// 1つ前のレールが直線じゃなければ
+			if (past.angle != eRailAngle::Straight)
+			{
+				// 設置したレールが左右での直線なら
+				if (data.type == eRailType::AxisXLine)
+				{
+					// 左右方向にのみガイドを追加
+					if (elem.dir == eNextElemDir::DirLeft || elem.dir == eNextElemDir::DirRight)
+					{
+						AddGuideID(elem.row, elem.col);
+					}
 				}
+
+				// 設置したレールが上下での直線なら
+				if (data.type == eRailType::AxisZLine)
+				{
+					// 上下方向にのみガイドを追加
+					if (elem.dir == eNextElemDir::DirBack || elem.dir == eNextElemDir::DirFlont)
+					{
+						AddGuideID(elem.row, elem.col);
+					}
+				}
+
+				continue;
 			}
+
+			// 1つ前のレールが直線なら上下左右にガイドを追加
+			AddGuideID(elem.row, elem.col);
+		}
+	}
+
+	// ガイドの追加
+	void RailManager::AddGuideID(size_t row, size_t col)
+	{
+		// ガイド付きcsvから書き換え番号を取得
+		int& num = m_guideMap.at(row).at(col);
+		int guideID = UnSTAGE_ID(eStageID::GuideRail);
+
+		// 何も無し、またはガイドなら
+		if (num == 0 || num == guideID)
+		{
+			num = guideID; // ガイドに書き換え
+
+			// ガイドの列と行の番号を保持
+			m_guidePoints.push_back(Point2D<size_t>(row, col));
 		}
 	}
 
@@ -147,7 +245,7 @@ namespace basecross
 
 		// ガイドIDかどうか
 		int num = m_guideMap.at(point.x).at(point.y);
-		return num == GUIDE_ID;
+		return num == UnSTAGE_ID(eStageID::GuideRail);
 	}
 
 	// ガイドの再計算処理

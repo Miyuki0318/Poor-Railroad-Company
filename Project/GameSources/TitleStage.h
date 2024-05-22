@@ -165,11 +165,5 @@ namespace basecross
 		@brief 毎フレーム呼び出される関数
 		*/
 		virtual void OnUpdate() override;
-
-		/*!
-		@brief 描画更新関数
-		*/
-		virtual void OnDraw() override;
-
 	};
 }

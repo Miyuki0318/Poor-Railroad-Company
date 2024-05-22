@@ -243,3 +243,18 @@ wstring Debug::GetWss(const Flt4& str)
 	wstr << str.x << L", " << str.y << L", " << str.z << L", " << str.w;
 	return wstr.str();
 }
+
+/*!
+@brief DebugLog‚ð’Ç‰Á‚·‚éŠÖ”
+@param ’Ç‰Á‚·‚é•¶Žš—ñ
+*/
+void Debug::AddLog(const wstring& logStr)
+{
+	auto debugStr = basecross::App::GetApp()->GetScene<Scene>()->GetActiveStage()->GetSharedObject(L"DebugString");
+	if (!debugStr) return;
+
+	auto strComp = debugStr->GetComponent<basecross::StringSprite>();
+	if (!strComp) return;
+
+	strComp->AddText(logStr);
+}

@@ -9,12 +9,14 @@
 
 #define ROW(posZ) size_t(-posZ)	// 行
 #define COL(posX) size_t(posX) // 列
-#define LINE(row, col) to_string(row) + "-" + to_string(col)
-#define LINE2POS(row, col) Vec3(float(col), 1.0f, -float(row))
+#define LINE(row, col) to_string(row) + "-" + to_string(col)	// row-col
+#define LINE2POS(row, col) Vec3(float(col), 1.0f, -float(row))	// rowとcolから座標に変換
+#define POS2LINE(pos) LINE(ROW(pos.z), COL(pos.x))	// 座標からrow-col文字列に変換
 
 namespace basecross
 {
-	enum class eNextRailDir
+	// CSVチェック用向きenum
+	enum class eNextElemDir
 	{
 		DirFlont,	// 前
 		DirBack,	// 後
@@ -25,6 +27,7 @@ namespace basecross
 	// CSVのチェック用構造体
 	struct CSVElementCheck
 	{
+		eNextElemDir dir = eNextElemDir::DirFlont;
 		size_t row = 0;	// 行
 		size_t col = 0; // 列
 		bool isRange = false; // 配列の範囲内かの真偽
@@ -35,7 +38,8 @@ namespace basecross
 		@param col
 		@param isRange
 		*/
-		CSVElementCheck(size_t elemRow, size_t elemCol, bool range) :
+		CSVElementCheck(eNextElemDir railDir, size_t elemRow, size_t elemCol, bool range) :
+			dir(railDir),
 			row(elemRow),
 			col(elemCol),
 			isRange(range)
@@ -54,13 +58,58 @@ namespace basecross
 			if (csvMap.empty()) return elems; // 参照する配列が空なら空を返す
 
 			elems = {
-				{row - 1, col, Utility::WithInElemRange(row - 1, csvMap.size())},
-				{row + 1, col, Utility::WithInElemRange(row + 1, csvMap.size())},
-				{row, col - 1, Utility::WithInElemRange(col - 1, csvMap.at(row).size())},
-				{row, col + 1, Utility::WithInElemRange(col - 1, csvMap.at(row).size())},
+				{eNextElemDir::DirFlont ,row - 1, col, Utility::WithInElemRange(row - 1, csvMap.size())},
+				{eNextElemDir::DirBack ,row + 1, col, Utility::WithInElemRange(row + 1, csvMap.size())},
+				{eNextElemDir::DirLeft ,row, col - 1, Utility::WithInElemRange(col - 1, csvMap.at(row).size())},
+				{eNextElemDir::DirRight ,row, col + 1, Utility::WithInElemRange(col - 1, csvMap.at(row).size())},
 			};
 
 			return elems;
+		}
+	};
+
+	// レールのタイプ
+	enum class eRailType
+	{
+		AxisXLine,		// 左右の直線
+		AxisZLine,		// 上下の直線
+		Right2Under,	// 右から下へ
+		Right2Upper,	// 右から上へ
+		Left2Under,		// 左から下へ
+		Left2Upper,		// 左から上へ
+	};
+
+	// レールの行く方向
+	enum class eRailAngle
+	{
+		Straight,	// 直線
+		Right,		// 右に曲がる
+		Left,		// 左に曲がる
+	};
+
+	// レールの情報構造体
+	struct RailData
+	{
+		Vec3 thisPos;		// 自身の座標
+		Vec3 pastPos;		// 一個前の座標
+		Vec3 futurePos;		// 一個先の座標
+		eRailType type;		// レールのタイプ
+		eRailAngle angle;	// レールの行く方向
+
+		RailData() 
+		{
+			thisPos.zero();
+			pastPos.zero();
+			type = eRailType::AxisXLine;
+			angle = eRailAngle::Straight;
+		}
+
+		RailData(const Vec3& tPos, const Vec3& pPos) :
+			thisPos(tPos),
+			pastPos(pPos)
+		{
+			type = eRailType::AxisXLine;
+			angle = eRailAngle::Straight;
 		}
 	};
 
@@ -83,7 +132,8 @@ namespace basecross
 		Mat4x4 m_mtxScale;		// インスタンス描画用のスケール
 		Mat4x4 m_mtxRotation;	// インスタンス描画用のローテーション
 		size_t m_railNum;		// レールの設置数
-		map<string, Vec3> m_railMap;
+		map<string, RailData> m_railDataMap;
+		string m_pastLine;
 		Vec3 m_pastDeRailPos;
 		
 	public:
@@ -143,9 +193,9 @@ namespace basecross
 		@brief レールの座標配列取得関数
 		@return m_railPositions
 		*/
-		const map<string, Vec3>& GetRailMap() const
+		const map<string, RailData>& GetRailDataMap() const
 		{
-			return m_railMap;
+			return m_railDataMap;
 		}
 
 		/*!
@@ -173,20 +223,14 @@ namespace basecross
 		@param row
 		@param col
 		*/
-		void AddInstanceRail(size_t row, size_t col)
-		{
-			// 座標の設定
-			Vec3 addPos = LINE2POS(row, col);
+		void AddInstanceRail(size_t row, size_t col);
 
-			// トランスフォーム行列の設定
-			Mat4x4 matrix, mtxPosition;
-			mtxPosition.translation(addPos);
-
-			// 行列の設定と追加
-			matrix = m_mtxScale * m_mtxRotation * mtxPosition;
-			m_ptrDraw->AddMatrix(matrix);
-			m_railMap.insert(make_pair(LINE(row, col), addPos));
-		}
+		/*!
+		@brief レールデータ追加関数
+		@param row
+		@param col
+		*/
+		void AddRailDataMap(size_t row, size_t col);
 
 		/*!
 		@brief CSVをレールIDに書き換える関数
@@ -201,5 +245,12 @@ namespace basecross
 		@param col
 		*/
 		void SetGuideID(size_t row, size_t col);
+
+		/*!
+		@brief CSVをガイドIDに追加する関数
+		@param 追加するrow
+		@param 追加するcol
+		*/
+		void AddGuideID(size_t row, size_t col);
 	};
 }
