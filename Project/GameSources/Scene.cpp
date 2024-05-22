@@ -85,7 +85,11 @@ namespace basecross {
 		RegisterMultiMesh(L"TREE1", modelPath + L"Tree/", L"Tree1", false);
 		RegisterMultiMesh(L"TREE2", modelPath + L"Tree/", L"Tree2", false);
 
+		// 列車モデル
 		RegisterSingleMesh(L"TRAIN", modelPath + L"Train/", L"train", false);
+
+		// 駅モデル
+		RegisterSingleMesh(L"STATION", modelPath + L"Station/", L"station", false);
 
 		// プレイヤーモデルの生成
 		wstring playerTag = L"SM_PLAYER_";
