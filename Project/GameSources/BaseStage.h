@@ -10,11 +10,12 @@
 
 // ステージIDキャストマクロ
 #define STAGE_ID(id) static_cast<eStageID>(id)
+#define UnSTAGE_ID(id) static_cast<int>(id)
 
 namespace basecross
 {
 	// ステージオブジェクトID
-	enum class eStageID
+	enum class eStageID : int
 	{
 		None,				// 何もなし
 		Rail,				// レール

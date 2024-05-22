@@ -21,7 +21,7 @@ namespace basecross {
 		m_ptrDraw->SetMeshToTransformMatrix(m_modelMat);
 		m_ptrDraw->SetDiffuse(COL_BLUE);
 
-		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailMap();
+		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
 		m_railPos = LINE(ROW(m_DefaultPosition.z), COL(m_DefaultPosition.x));
 		m_movePos.first = m_DefaultPosition;
 		m_movePos.second = m_DefaultPosition;
@@ -33,7 +33,7 @@ namespace basecross {
 	bool Train::SearchNextRail()
 	{
 		// レールマップの取得
-		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailMap();
+		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
 		if (railMap.empty()) return false;
 		
 		// 始点と終点の設定、終点が無い場合はfalseを返す
@@ -50,8 +50,8 @@ namespace basecross {
 			if (railMap.find(line) != railMap.end())
 			{
 				// レールを設定
-				m_movePos.first = railMap.at(m_railPos);
-				m_movePos.second = railMap.at(line);
+				m_movePos.first = railMap.at(m_railPos).thisPos;
+				m_movePos.second = railMap.at(line).thisPos;
 				m_railPos = line;
 
 				return true;
