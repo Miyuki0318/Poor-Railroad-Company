@@ -197,6 +197,16 @@ namespace basecross
 	// ボタンを押した時の処理
 	void TitleStage::PushButtonX()
 	{
+		if (titleProgress != eTitleProgress::push)
+		{
+			titleProgress = eTitleProgress::push;
+		}
+		
+		if(titleProgress != eTitleProgress::start)
+		{
+			titleProgress = eTitleProgress::normal;
+		}
+
 		if (!m_buttonPush)
 		{
 			m_buttonPush = true;
@@ -245,6 +255,25 @@ namespace basecross
 		}
 	}
 
+	void TitleStage::Progress(shared_ptr<GameObject>& obj)
+	{
+		if (obj)
+		{
+			if (obj->FindTag(L"Train"))
+			{
+				titleProgress = eTitleProgress::start;
+				return;
+			}
+
+			titleProgress = eTitleProgress::select;
+			return;
+		}
+		else
+		{
+			titleProgress = eTitleProgress::normal;
+		}
+	}
+
 	// オブジェクトとプレイヤーの距離
 	void TitleStage::DistanceToPlayer()
 	{
@@ -265,8 +294,6 @@ namespace basecross
 
 			if (m_distance < 2.5f)
 			{
-				canPlayerStop = true;
-
 				m_selectObj = target;
 				if (!m_selectObj->FindTag(tagName))
 				{
@@ -342,14 +369,16 @@ namespace basecross
 
 			Debug::Log(L"列車の位置 : ", GetSharedGameObject<TitleTrain>(L"TitleTrain", true)->GetPosition());
 
+			Progress(m_selectObj);
+
+			Debug::Log(L"状態 : ", titleProgress);
+
 			if (m_buttonPush)
 			{
 				DistanceToPlayer();
 			}
 			else
 			{
-				canPlayerStop = false;
-
 				if (m_selectObj != NULL && m_selectObj->FindTag(tagName))
 				{
 					m_selectObj->RemoveTag(tagName);

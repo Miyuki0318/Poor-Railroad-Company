@@ -117,6 +117,11 @@ namespace basecross
 		void PushButtonX();
 
 		/*
+		@brief 状態を変化させる処理
+		*/
+		void Progress(shared_ptr<GameObject>& obj);
+
+		/*
 		@brief オブジェクトとプレイヤーの距離
 		*/
 		void DistanceToPlayer();
@@ -135,7 +140,7 @@ namespace basecross
 		{
 			titleProgress = eTitleProgress::normal;
 
-			m_buttonPush = false;
+			//m_buttonPush = false;
 			m_zooming = false;
 
 			m_objectGroup = CreateSharedObjectGroup(L"Settings");
@@ -165,5 +170,6 @@ namespace basecross
 		@brief 描画更新関数
 		*/
 		virtual void OnDraw() override;
+
 	};
 }
