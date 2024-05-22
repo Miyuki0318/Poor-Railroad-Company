@@ -40,7 +40,7 @@ namespace basecross {
 
 		Vec3 m_moveDirection;
 
-		shared_ptr<PNTStaticDraw> m_ptrDraw;
+		shared_ptr<PNTStaticModelDraw> m_ptrDraw;
 		shared_ptr<CollisionObb> m_ptrColl;
 
 	public:
@@ -68,10 +68,10 @@ namespace basecross {
 			m_drMap.insert(make_pair(eDirection::Back, vector<Vec2>{RIGHT_CSV, LEFT_CSV, BACK_CSV}));
 
 			m_modelMat.affineTransformation(
-				Vec3(1.0f),
+				Vec3(0.04f),
 				Vec3(0.0f),
-				Vec3(0.0f),
-				Vec3(-0.25, 0.5f, 0.0f)
+				Vec3(0.0f, -XM_PIDIV2, 0.0f),
+				Vec3(-0.25f, 0.0f, 0.0f)
 			);
 		}
 		Train(const shared_ptr<Stage>& stagePtr, const Vec3& position) :
@@ -98,10 +98,10 @@ namespace basecross {
 			m_drMap.insert(make_pair(eDirection::Back, vector<Vec2>{RIGHT_CSV, LEFT_CSV, BACK_CSV}));
 
 			m_modelMat.affineTransformation(
-				Vec3(1.0f),
+				Vec3(0.04f),
 				Vec3(0.0f),
-				Vec3(0.0f),
-				Vec3(-0.25, 0.5f, 0.0f)
+				Vec3(0.0f, -XM_PIDIV2, 0.0f),
+				Vec3(-0.25f, 0.0f, 0.0f)
 			);
 		}
 

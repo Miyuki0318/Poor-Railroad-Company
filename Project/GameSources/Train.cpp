@@ -16,10 +16,10 @@ namespace basecross {
 		SetScale(m_DefaultScale);
 
 		// 描画コンポーネントの設定
-		m_ptrDraw = AddComponent<PNTStaticDraw>();
-		m_ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		m_ptrDraw = AddComponent<PNTStaticModelDraw>();
+		m_ptrDraw->SetMeshResource(L"TRAIN");
 		m_ptrDraw->SetMeshToTransformMatrix(m_modelMat);
-		m_ptrDraw->SetDiffuse(COL_BLUE);
+		//m_ptrDraw->SetDiffuse(COL_BLUE);
 
 		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailMap();
 		m_railPos = LINE(ROW(m_DefaultPosition.z), COL(m_DefaultPosition.x));
