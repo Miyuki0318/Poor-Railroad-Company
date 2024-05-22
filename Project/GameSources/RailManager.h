@@ -82,7 +82,7 @@ namespace basecross
 		vector<vector<int>> m_guideMap; // ガイド付きのステージcsv
 		Mat4x4 m_mtxScale;		// インスタンス描画用のスケール
 		Mat4x4 m_mtxRotation;	// インスタンス描画用のローテーション
-		size_t m_railNum;
+		size_t m_railNum;		// レールの設置数
 		map<string, Vec3> m_railMap;
 		Vec3 m_pastDeRailPos;
 		
@@ -155,6 +155,15 @@ namespace basecross
 		const vector<vector<int>>& GetGuideMap() const
 		{
 			return m_guideMap;
+		}
+
+		/*!
+		@brief レールの設置数取得関数名
+		@return m_railNum
+		*/
+		size_t GetAddRailNum() const
+		{
+			return m_railNum;
 		}
 
 	private:

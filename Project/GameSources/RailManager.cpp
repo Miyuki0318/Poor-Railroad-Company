@@ -90,6 +90,9 @@ namespace basecross
 		m_guideMap = stageMap;
 		SetGuideID(point.x, point.y);
 		SetRailID(point.x, point.y);
+
+		// カウンタを増やす
+		m_railNum++;
 	}
 
 	// 先端レールの書き換え
