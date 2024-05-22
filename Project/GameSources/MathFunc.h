@@ -49,6 +49,32 @@ namespace MathF {
 	}
 
 	/// <summary>
+	/// 三次元線形補間
+	/// </summary>
+	/// <param name="start">開始位置</param>
+	/// <param name="end">終了位置</param>
+	/// <param name="time">時間</param>
+	/// <returns>補間後の値</returns>
+	inline Vec3 Lerp3D(Vec3 start, Vec3 end, float time)
+	{
+		time = Clamp01(time);
+		return start + (end - start) * time;
+	}
+
+	/// <summary>
+	/// 線形補間
+	/// </summary>
+	/// <param name="start">開始値</param>
+	/// <param name="end">終了値</param>
+	/// <param name="time">時間</param>
+	/// <returns>補間後の値</returns>
+	inline float Lerp(float start, float end, float time)
+	{
+		time = Clamp01(time);
+		return start + (end - start) * time;
+	}
+
+	/// <summary>
 	/// 与えられたvalueを0から1(または1から0)の範囲でループさせる関数
 	/// </summary>
 	/// <param name="value">ループさせる値</param>
