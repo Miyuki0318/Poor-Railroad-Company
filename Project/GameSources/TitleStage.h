@@ -10,15 +10,18 @@
 
 namespace basecross
 {
-	enum Switching
+	enum eTitleProgress
 	{
-		off,
-		on
+		normal, // 通常
+		push,   // ボタン押す
+		select, // オブジェクト選択
+		start   // ゲームスタート
 	};
 
 	class TitleStage : public BaseStage
 	{
 	private:
+		// タグ名取得
 		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
 
 		// 地面のスケール
@@ -38,10 +41,11 @@ namespace basecross
 		const float m_width = static_cast<float>(App::GetApp()->GetGameWidth());
 		const float m_height = static_cast<float>(App::GetApp()->GetGameHeight());
 
+		eTitleProgress titleProgress;
+
 		Vec3 m_diff;
 		float m_distance;
 
-		// ボタンが押されたか
 		bool m_buttonPush;
 
 		bool m_zooming;
@@ -124,13 +128,13 @@ namespace basecross
 		void CreateStageCSV(string csvPath = "Title") override;
 
 	public:
-		bool canPlayerStop = true;
-
 		/*
 		@brief コンストラクタ
 		*/
 		TitleStage() : BaseStage()
 		{
+			titleProgress = eTitleProgress::normal;
+
 			m_buttonPush = false;
 			m_zooming = false;
 
@@ -161,10 +165,5 @@ namespace basecross
 		@brief 描画更新関数
 		*/
 		virtual void OnDraw() override;
-
-		bool GetPlayerStopFlag()
-		{
-			return canPlayerStop;
-		}
 	};
 }
