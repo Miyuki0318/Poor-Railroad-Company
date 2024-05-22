@@ -120,11 +120,11 @@ namespace basecross
 				switch (num)
 				{
 				case eStageID::Stone: // Šâ‚È‚ç
-					mining = AddGameObject<Rock>(position, 2);
+					mining = AddGameObject<Rock>(position);
 					break;
 
 				case eStageID::Tree: // –Ø‚È‚ç
-					mining = AddGameObject<Tree>(position, 2);
+					mining = AddGameObject<Tree>(position);
 					break;
 
 				default:

@@ -34,12 +34,11 @@ namespace basecross {
 	public:
 		// コンストラクタ
 		MiningObject::MiningObject(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
-			const Vec3 position,// 初期座標
-			const int miningLimit
+			const Vec3 position// 初期座標
 		) :
 			TemplateObject(stagePtr), // ステージのポインタ
 			m_spawnPos(Vec3(position.x, 1.0f, position.z)),// 初期座標
-			m_miningLimit(miningLimit)
+			m_miningLimit(2)
 		{
 			// 変数の初期化
 			m_miningCount = 0;
@@ -85,32 +84,11 @@ namespace basecross {
 		@brief コンストラクタ
 		@param ステージポインタ
 		@param 初期座標
-		@param 採掘回数上限
-		*/
-		Tree::Tree(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
-			const Vec3 position, // 初期座標
-			const int miningLimit 	// 採掘回数上限
-		) :
-			MiningObject(stagePtr, position, miningLimit) // ステージのポインタ
-		{
-			// トランスフォームとモデルの差分行列を代入
-			m_modelMat.affineTransformation(
-				Vec3(0.08f, 0.09f, 0.08f),
-				Vec3(0.0f),
-				Vec3(0.0f),
-				Vec3(0.0f)
-			);
-		}
-
-		/*!
-		@brief コンストラクタ
-		@param ステージポインタ
-		@param 初期座標
 		*/
 		Tree::Tree(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
 			const Vec3 position // 初期座標
 		) :
-			MiningObject(stagePtr, position, 2) // ステージのポインタ
+			MiningObject(stagePtr, position) // ステージのポインタ
 		{
 			// トランスフォームとモデルの差分行列を代入
 			m_modelMat.affineTransformation(
@@ -158,32 +136,11 @@ namespace basecross {
 		@brief コンストラクタ
 		@param ステージポインタ
 		@param 初期座標
-		@param 採掘回数上限
-		*/
-		Rock::Rock(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
-			const Vec3 position, // 初期座標
-			const int miningLimit 	// 採掘回数上限
-		) :
-			MiningObject(stagePtr, position, miningLimit) // ステージのポインタ
-		{
-			// トランスフォームとモデルの差分行列を代入
-			m_modelMat.affineTransformation(
-				Vec3(0.28f),
-				Vec3(0.0f),
-				Vec3(0.0f),
-				Vec3(0.0f)
-			);
-		}
-
-		/*!
-		@brief コンストラクタ
-		@param ステージポインタ
-		@param 初期座標
 		*/
 		Rock::Rock(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
 			const Vec3 position // 初期座標
 		) :
-			MiningObject(stagePtr, position, 2) // ステージのポインタ
+			MiningObject(stagePtr, position) // ステージのポインタ
 		{
 			// トランスフォームとモデルの差分行列を代入
 			m_modelMat.affineTransformation(
