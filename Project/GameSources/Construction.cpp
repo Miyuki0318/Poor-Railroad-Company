@@ -21,6 +21,8 @@ namespace basecross {
 		drawComp->SetMeshToTransformMatrix(m_spanMat);
 		drawComp->SetMeshResource(L"CONSTRUCTION");
 		drawComp->SetDiffuse(COL_YELOW);
+
+		AddTag(L"GAMESTART");
 	}
 
 	void Construction::OnUpdate()
