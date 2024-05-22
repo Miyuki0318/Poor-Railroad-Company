@@ -13,16 +13,15 @@ using namespace basecross;
 /// </summary>
 struct ValueFlag {
 	float value = 0;
-	bool flag = false;
+	bool outRange = false;
 };
 
-namespace MathFuncs {
+namespace MathF {
 #define ELAPSED_TIME App::GetApp()->GetElapsedTime()
 #define Infinity = 0xFFFFFFFFFFFFFFFF;
 #define Deg2Rad = (XM_PI * 2.0f) / 360.0f
 #define Rad2Deg = 360.0f / (XM_PI * 2.0f)
 
-	//static ValueFlag vf;
 	/// <summary>
 	/// 与えられたvalueをmaxからminの範囲に制限する関数(float型)
 	/// </summary>
@@ -54,13 +53,13 @@ namespace MathFuncs {
 	/// </summary>
 	/// <param name="value">ループさせる値</param>
 	/// <param name="invert">false:0から1 true:1から0</param>
-	/// <returns>補正後の値と値が範囲外かどうかのフラグ</returns>
+	/// <returns>value:補正後の値 flag:0~1の範囲外になったらtrue</returns>
 	inline ValueFlag Repeat01(float value, float speed, bool invert)
 	{
 		ValueFlag vf;
 		value += (invert ? -ELAPSED_TIME : ELAPSED_TIME) * speed;
 
-		vf.flag = value > 1.0f || value < 0.0f;
+		vf.outRange = value > 1.0f || value < 0.0f;
 
 		value = value > 1.0f ? 0.0f : value;
 		value = value < 0.0f ? 1.0f : value;

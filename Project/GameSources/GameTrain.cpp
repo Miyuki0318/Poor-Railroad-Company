@@ -35,7 +35,7 @@ namespace basecross {
 			return;
 		}
 
-		if (state == State::Onrail)
+		if (state == State::OnRail)
 		{
 			OnRailProcess();
 		}
@@ -43,24 +43,9 @@ namespace basecross {
 
 	void GameTrain::OnRailProcess()
 	{
-		// 線形補間で移動
-		Vec3 pos = Utility::Lerp(m_movePos.first, m_movePos.second, m_moveRatio);
+		MoveProcess(State::Derail);
+
 		float rad = -atan2f(m_movePos.second.z - m_movePos.first.z, m_movePos.second.x - m_movePos.first.x);
-		m_moveRatio += DELTA_TIME / m_MoveInSeconds;
-
-		// 割合が1以上になったら0で初期化
-		if (m_moveRatio >= 1.0f)
-		{
-			m_moveRatio = 0.0f;
-
-			// 次のレールを設定する、設定不可なら脱線ステート
-			if (!SearchNextRail()) m_state = State::Derail;
-
-			SetNextRailDirection();
-		}
-
-		// 座標の更新
-		SetPosition(pos);
 		SetRotation(Vec3(0.0f, rad, 0.0f));
 	}
 

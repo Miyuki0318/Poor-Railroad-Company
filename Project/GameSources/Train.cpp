@@ -16,10 +16,10 @@ namespace basecross {
 		SetScale(m_DefaultScale);
 
 		// 描画コンポーネントの設定
-		m_ptrDraw = AddComponent<PNTStaticDraw>();
-		m_ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		m_ptrDraw = AddComponent<PNTStaticModelDraw>();
+		m_ptrDraw->SetMeshResource(L"TRAIN");
 		m_ptrDraw->SetMeshToTransformMatrix(m_modelMat);
-		m_ptrDraw->SetDiffuse(COL_BLUE);
+		//m_ptrDraw->SetDiffuse(COL_BLUE);
 
 		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailMap();
 		m_railPos = LINE(ROW(m_DefaultPosition.z), COL(m_DefaultPosition.x));
@@ -28,6 +28,25 @@ namespace basecross {
 
 		// タグの設定
 		AddTag(L"Train");
+	}
+
+	void Train::MoveProcess(State nextState)
+	{
+		// 線形補間で移動
+		Vec3 pos = Utility::Lerp(m_movePos.first, m_movePos.second, m_moveRatio);
+		m_moveRatio = MathF::Repeat01(m_moveRatio, m_MoveSpeed, false).value;
+
+		// 範囲外になったら
+		if (MathF::Repeat01(m_moveRatio, m_MoveSpeed, false).outRange)
+		{
+			// 次のレールを見つけられなかったら次のステートに
+			if (!SearchNextRail()) m_state = nextState;
+
+			SetNextRailDirection(); // 次のレールの方向を設定
+		}
+
+		// 座標の更新
+		SetPosition(pos);
 	}
 
 	bool Train::SearchNextRail()

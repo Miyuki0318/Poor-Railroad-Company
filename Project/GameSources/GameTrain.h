@@ -11,13 +11,6 @@
 namespace basecross {
 	class GameTrain : public Train
 	{
-		enum class State {
-			Onrail, // ƒŒ[ƒ‹‚Éæ‚Á‚Ä‚¢‚é
-			Derail, // ’Eü
-			Arrival // ‰w“’…
-		};
-		State m_state = State::Onrail;
-
 	public:
 		GameTrain(const shared_ptr<Stage>& stagePtr) :
 			Train(stagePtr)

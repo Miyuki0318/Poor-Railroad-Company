@@ -11,13 +11,6 @@
 namespace basecross {
 	class TitleTrain : public Train
 	{
-		enum class State {
-			None, // 待機
-			GameStart, // ゲームスタート
-		};
-		// 現在の状態
-		State m_state = State::None;
-
 		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
 
 	public:

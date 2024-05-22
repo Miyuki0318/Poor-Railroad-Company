@@ -26,9 +26,18 @@ namespace basecross {
 	class Train : public TemplateObject
 	{
 	protected:
+		enum class State {
+			None,		// 待機
+			GameStart,	// ゲームスタート
+			OnRail,		// 線路上
+			Derail,		// 脱線
+			Arrival,	// 到着
+		};
+		State m_state;
+
 		const Vec3 m_DefaultPosition;
 		const Vec3 m_DefaultScale;
-		const float m_MoveInSeconds;
+		const float m_MoveSpeed;
 
 		pair<Vec3, Vec3> m_movePos;
 		string m_railPos;
@@ -40,7 +49,7 @@ namespace basecross {
 
 		Vec3 m_moveDirection;
 
-		shared_ptr<PNTStaticDraw> m_ptrDraw;
+		shared_ptr<PNTStaticModelDraw> m_ptrDraw;
 		shared_ptr<CollisionObb> m_ptrColl;
 
 	public:
@@ -48,9 +57,11 @@ namespace basecross {
 			TemplateObject(stagePtr),
 			m_DefaultPosition(Vec3(3.0f, 1.0f, -7.0f)),
 			m_DefaultScale(Vec3(1.0f, 1.0f, 1.0f)),
-			m_MoveInSeconds(4.0f),
+			m_MoveSpeed(0.2f),
 			m_moveDirection(Vec3(0.0f))
 		{
+			m_state = State::None;
+
 			m_moveRatio = 0.0f;
 			m_railPos = { 0, 0 };
 			m_direction = eDirection::Right;
@@ -68,19 +79,21 @@ namespace basecross {
 			m_drMap.insert(make_pair(eDirection::Back, vector<Vec2>{RIGHT_CSV, LEFT_CSV, BACK_CSV}));
 
 			m_modelMat.affineTransformation(
-				Vec3(1.0f),
+				Vec3(0.04f),
 				Vec3(0.0f),
-				Vec3(0.0f),
-				Vec3(-0.25, 0.5f, 0.0f)
+				Vec3(0.0f, -XM_PIDIV2, 0.0f),
+				Vec3(-0.25f, 0.0f, 0.0f)
 			);
 		}
 		Train(const shared_ptr<Stage>& stagePtr, const Vec3& position) :
 			TemplateObject(stagePtr),
 			m_DefaultPosition(position),
 			m_DefaultScale(Vec3(1.0f, 1.0f, 1.0f)),
-			m_MoveInSeconds(4.5f),
+			m_MoveSpeed(0.2f),
 			m_moveDirection(Vec3(0.0f))
 		{
+			m_state = State::None;
+
 			m_moveRatio = 0.0f;
 			m_railPos = { 0, 0 };
 			m_direction = eDirection::Right;
@@ -98,16 +111,18 @@ namespace basecross {
 			m_drMap.insert(make_pair(eDirection::Back, vector<Vec2>{RIGHT_CSV, LEFT_CSV, BACK_CSV}));
 
 			m_modelMat.affineTransformation(
-				Vec3(1.0f),
+				Vec3(0.04f),
 				Vec3(0.0f),
-				Vec3(0.0f),
-				Vec3(-0.25, 0.5f, 0.0f)
+				Vec3(0.0f, -XM_PIDIV2, 0.0f),
+				Vec3(-0.25f, 0.0f, 0.0f)
 			);
 		}
 
 		~Train() {}
 
 		virtual void OnCreate() override;
+
+		void MoveProcess(State nextState);
 
 		/// <summary>
 		/// 次のレールを検索する処理
