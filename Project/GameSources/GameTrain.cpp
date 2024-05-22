@@ -35,7 +35,7 @@ namespace basecross {
 			return;
 		}
 
-		if (state == State::Onrail)
+		if (state == State::OnRail)
 		{
 			OnRailProcess();
 		}

@@ -7,6 +7,6 @@
 #include "stdafx.h"
 #include "MathFunc.h"
 
-namespace MathFuncs {
+namespace MathF {
 
 }

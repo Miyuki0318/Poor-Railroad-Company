@@ -9,7 +9,7 @@
 
 namespace basecross {
 
-	using namespace MathFuncs;
+	using namespace MathF;
 
 	void MainCamera::OnCreate() {
 		
