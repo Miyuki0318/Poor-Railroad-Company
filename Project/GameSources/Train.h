@@ -122,6 +122,10 @@ namespace basecross {
 
 		virtual void OnCreate() override;
 
+		/// <summary>
+		/// 移動処理
+		/// </summary>
+		/// <param name="nextState">移動先が見つからない場合に移行するステート</param>
 		void MoveProcess(State nextState);
 
 		/// <summary>
