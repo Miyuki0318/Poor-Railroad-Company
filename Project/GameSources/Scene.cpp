@@ -24,7 +24,7 @@ namespace basecross {
 
 			//自分自身にイベントを送る
 			//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる
-			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"GameStage");
+			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"TitleStage");
 		}
 		catch (...)
 		{
@@ -84,6 +84,8 @@ namespace basecross {
 		// 木のモデルの生成
 		RegisterMultiMesh(L"TREE1", modelPath + L"Tree/", L"Tree1", false);
 		RegisterMultiMesh(L"TREE2", modelPath + L"Tree/", L"Tree2", false);
+
+		RegisterSingleMesh(L"TRAIN", modelPath + L"Train/", L"train", false);
 
 		// プレイヤーモデルの生成
 		wstring playerTag = L"SM_PLAYER_";
