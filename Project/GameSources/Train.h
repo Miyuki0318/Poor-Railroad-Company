@@ -60,7 +60,7 @@ namespace basecross {
 			m_MoveSpeed(0.2f),
 			m_moveDirection(Vec3(0.0f))
 		{
-			m_state = State::None;
+			m_state = State::OnRail;
 
 			m_moveRatio = 0.0f;
 			m_railPos = { 0, 0 };
@@ -92,7 +92,7 @@ namespace basecross {
 			m_MoveSpeed(0.2f),
 			m_moveDirection(Vec3(0.0f))
 		{
-			m_state = State::None;
+			m_state = State::OnRail;
 
 			m_moveRatio = 0.0f;
 			m_railPos = { 0, 0 };
