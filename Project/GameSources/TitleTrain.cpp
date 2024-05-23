@@ -8,6 +8,12 @@
 #include "Project.h"
 
 namespace basecross {
+	void TitleTrain::OnCreate()
+	{
+		m_state = State::None;
+		Train::OnCreate();
+	}
+
 	void TitleTrain::OnUpdate()
 	{
 		auto construction = GetStage()->GetSharedGameObject<Construction>(L"Construction");
