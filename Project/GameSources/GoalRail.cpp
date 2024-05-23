@@ -32,7 +32,7 @@ namespace basecross {
 		// Stationオブジェクトの生成
 		const auto ptrTrans = GetComponent<Transform>();
 		Vec3 pos = ptrTrans->GetPosition();
-		GetStage()->AddGameObject<Station>(Vec3(pos.x, pos.y, pos.z + 1.0f));
+		GetStage()->AddGameObject<Station>(Vec3(pos.x, pos.y, pos.z + 2.0f));
 	}
 
 	void GoalRail::OnUpdate()
