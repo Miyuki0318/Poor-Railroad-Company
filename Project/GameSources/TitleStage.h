@@ -41,12 +41,12 @@ namespace basecross
 		const float m_width = static_cast<float>(App::GetApp()->GetGameWidth());
 		const float m_height = static_cast<float>(App::GetApp()->GetGameHeight());
 
+		const float m_searchArea = 2.5f;
+
 		eTitleProgress titleProgress;
 
 		Vec3 m_diff;
 		float m_distance;
-
-		bool m_buttonPush;
 
 		bool m_zooming;
 
@@ -140,7 +140,6 @@ namespace basecross
 		{
 			titleProgress = eTitleProgress::normal;
 
-			//m_buttonPush = false;
 			m_zooming = false;
 
 			m_objectGroup = CreateSharedObjectGroup(L"Settings");

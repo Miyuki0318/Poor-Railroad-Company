@@ -274,7 +274,7 @@ namespace basecross
 			m_diff = targetPos - playerPos;
 			m_distance = m_diff.length();
 
-			if (m_distance < 2.5f)
+			if (m_distance < m_searchArea)
 			{
 				m_selectObj = target;
 				if (!m_selectObj->FindTag(tagName))
