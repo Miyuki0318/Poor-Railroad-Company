@@ -47,6 +47,7 @@ private:
 	static wstring GetWss(const Flt2& str);
 	static wstring GetWss(const Flt3& str);
 	static wstring GetWss(const Flt4& str);
+	static void AddLog(const wstring& str);
 
 	/*!
 	@brief ’l‚ğwstringstreamŒ^‚É•ÏŠ·‚µ•Ô‚·ŠÖ”
@@ -87,7 +88,6 @@ private:
 		return wstr;
 	}
 
-
 	/*!
 	@brief ’l‚ğwstringstreamŒ^‚É•ÏŠ·‚µ•Ô‚·ŠÖ”
 	@param templateŒ^‚Ì•ÏŠ·‚·‚é’ll‚Â
@@ -112,9 +112,7 @@ public:
 	{
 		wstringstream wss = Debug::SetWss(param);
 		wss << std::endl;
-		auto scene = basecross::App::GetApp()->GetScene<basecross::Scene>();
-		auto dstr = scene->GetDebugString();
-		scene->SetDebugString(dstr + wss.str());
+		Debug::AddLog(wss.str());
 	}
 
 	/*!
@@ -126,9 +124,7 @@ public:
 	{
 		wstringstream wss = Debug::SetWss(param1, param2);
 		wss << std::endl;
-		auto scene = basecross::App::GetApp()->GetScene<basecross::Scene>();
-		auto dstr = scene->GetDebugString();
-		scene->SetDebugString(dstr + wss.str());
+		Debug::AddLog(wss.str());
 	}
 
 	/*!
@@ -140,9 +136,7 @@ public:
 	{
 		wstringstream wss = Debug::SetWss(param1, param2, param3);
 		wss << std::endl;
-		auto scene = basecross::App::GetApp()->GetScene<basecross::Scene>();
-		auto dstr = scene->GetDebugString();
-		scene->SetDebugString(dstr + wss.str());
+		Debug::AddLog(wss.str());
 	}
 
 	/*!
@@ -154,8 +148,6 @@ public:
 	{
 		wstringstream wss = Debug::SetWss(param1, param2, param3, param4);
 		wss << std::endl;
-		auto scene = basecross::App::GetApp()->GetScene<basecross::Scene>();
-		auto dstr = scene->GetDebugString();
-		scene->SetDebugString(dstr + wss.str());
+		Debug::AddLog(wss.str());
 	}
 };

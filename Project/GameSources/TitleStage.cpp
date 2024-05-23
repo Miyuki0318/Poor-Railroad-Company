@@ -192,13 +192,14 @@ namespace basecross
 	// ボタンを押した時の処理
 	void TitleStage::PushButtonX()
 	{
-		if (!m_buttonPush)
+		if (titleProgress == normal)
 		{
-			m_buttonPush = true;
+			titleProgress = push;
 		}
-		else if (m_buttonPush)
+
+		if (titleProgress == select)
 		{
-			m_buttonPush = false;
+			titleProgress = normal;
 		}
 	}
 
@@ -210,14 +211,14 @@ namespace basecross
 		auto& camera = GetView()->GetTargetCamera();
 		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 
-		if (m_selectObj != NULL && !m_zooming)
+		if (m_selectObj&& !m_zooming)
 		{
 			titleCamera->SetTargetObject(player);
 			titleCamera->ZoomStart(titleCamera->GetEye());
 			m_zooming = true;
 		}
 
-		if (!m_buttonPush)
+		if (titleProgress == normal)
 		{
 			titleCamera->SetEye(m_cameraEye);
 			titleCamera->SetAt(m_cameraAt);
@@ -230,13 +231,28 @@ namespace basecross
 	{
 		auto sprite = GetSharedGameObject<Sprite>(L"FadeSprite", true);
 		
-		if (m_zooming)
+		if (titleProgress == select || titleProgress == start)
 		{
 			sprite->FadeInColor(2.0f);
 		}
 		else
 		{
 			sprite->SetDiffuseColor(COL_ALPHA);
+		}
+	}
+
+	void TitleStage::Progress(shared_ptr<GameObject>& obj)
+	{
+		if (obj)
+		{
+			if (obj->FindTag(L"GAMESTART"))
+			{
+				titleProgress = start;
+				return;
+			}
+
+			titleProgress = select;
+			return;
 		}
 	}
 
@@ -265,12 +281,14 @@ namespace basecross
 				{
 					m_selectObj->AddTag(tagName);
 				}
-			}
-		}
 
-		if (m_selectObj == NULL)
-		{
-			m_buttonPush = false;
+				Progress(m_selectObj);
+			}
+
+			if (!m_selectObj)
+			{
+				titleProgress = normal;
+			}
 		}
 	}
 
@@ -333,14 +351,14 @@ namespace basecross
 			Debug::Log(L"カメラのAt : ", GetView()->GetTargetCamera()->GetAt());
 
 			Debug::Log(L"列車の位置 : ", GetSharedGameObject<TitleTrain>(L"TitleTrain", true)->GetPosition());
-
-			if (m_buttonPush)
+			
+			if (titleProgress == push)
 			{
 				DistanceToPlayer();
 			}
-			else
+			else if(titleProgress == normal)
 			{
-				if (m_selectObj != NULL && m_selectObj->FindTag(tagName))
+				if (m_selectObj && m_selectObj->FindTag(tagName))
 				{
 					m_selectObj->RemoveTag(tagName);
 				}
@@ -350,30 +368,10 @@ namespace basecross
 			TitleCameraZoom();
 
 			FadeSprite();
-
-			Debug::Log(m_buttonPush);
 		}
 		catch (...)
 		{
 			throw;
 		}
-	}
-
-	// 描画処理
-	void TitleStage::OnDraw()
-	{
-		// アプリケーションオブジェクトの取得
-		const auto& app = App::GetApp();
-
-		// デバッグ文字列を強制的に空にする
-		app->GetScene<Scene>()->SetDebugString(L"");
-
-		// 継承元の描画時の関数を実行する
-		Stage::OnDraw();
-
-		// デバック用文字列の表示非表示切り替え
-		const auto& debugStr = GetSharedObject(L"DebugString");
-		debugStr->SetDrawLayer(10);
-		debugStr->SetDrawActive(true);
 	}
 }

@@ -10,11 +10,12 @@
 
 // ステージIDキャストマクロ
 #define STAGE_ID(id) static_cast<eStageID>(id)
+#define UnSTAGE_ID(id) static_cast<int>(id)
 
 namespace basecross
 {
 	// ステージオブジェクトID
-	enum class eStageID
+	enum class eStageID : int
 	{
 		None,				// 何もなし
 		Rail,				// レール
@@ -98,6 +99,11 @@ namespace basecross
 		@brief 毎フレーム度に呼び出される関数
 		*/
 		virtual void OnUpdate() override;
+
+		/*!
+		@brief 描画更新関数
+		*/
+		virtual void OnDraw() override;
 
 		/*!
 		@brief SEマネージャーの生成関数

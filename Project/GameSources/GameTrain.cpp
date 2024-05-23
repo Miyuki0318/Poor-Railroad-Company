@@ -52,7 +52,7 @@ namespace basecross {
 	bool GameTrain::SearchNextRail()
 	{
 		// レールマップの取得
-		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailMap();
+		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
 		if (railMap.empty()) return false;
 
 		// 始点と終点の設定、終点が無い場合はfalseを返す
@@ -69,8 +69,8 @@ namespace basecross {
 			if (railMap.find(line) != railMap.end())
 			{
 				// レールを設定
-				m_movePos.first = railMap.at(m_railPos);
-				m_movePos.second = railMap.at(line);
+				m_movePos.first = railMap.at(m_railPos).thisPos;
+				m_movePos.second = railMap.at(line).thisPos;
 				m_railPos = line;
 
 				return true;
@@ -84,7 +84,7 @@ namespace basecross {
 	bool GameTrain::CheckGoalRail()
 	{
 		// レールマップの取得
-		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailMap();
+		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
 		if (railMap.empty()) return false;
 
 		// Line文字列からrowとcolを抽出
@@ -97,8 +97,8 @@ namespace basecross {
 		{
 			if (STAGE_ID(stageMap.at(row).at(col)) == eStageID::GoalRail)
 			{
-				m_movePos.first = railMap.at(m_railPos);
-				m_movePos.second = railMap.at(m_railPos);
+				m_movePos.first = railMap.at(m_railPos).thisPos;
+				m_movePos.second = railMap.at(m_railPos).thisPos;
 				m_state = State::Arrival;
 				return true;
 			}
