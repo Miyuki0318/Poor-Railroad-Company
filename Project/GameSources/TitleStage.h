@@ -164,5 +164,10 @@ namespace basecross
 		@brief –ˆƒtƒŒ[ƒ€ŒÄ‚Ño‚³‚ê‚éŠÖ”
 		*/
 		virtual void OnUpdate() override;
+
+		bool GetStartFlag()
+		{
+			return titleProgress == eTitleProgress::start;
+		}
 	};
 }

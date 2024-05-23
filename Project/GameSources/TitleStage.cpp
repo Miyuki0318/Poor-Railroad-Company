@@ -351,7 +351,7 @@ namespace basecross
 			Debug::Log(L"ƒJƒƒ‰‚ÌAt : ", GetView()->GetTargetCamera()->GetAt());
 
 			Debug::Log(L"—ñŽÔ‚ÌˆÊ’u : ", GetSharedGameObject<TitleTrain>(L"TitleTrain", true)->GetPosition());
-			
+
 			if (titleProgress == push)
 			{
 				DistanceToPlayer();
