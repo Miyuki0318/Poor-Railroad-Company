@@ -70,7 +70,7 @@ namespace basecross
 				// ƒS[ƒ‹ƒŒ[ƒ‹‚È‚ç
 				if (STAGE_ID(id) == eStageID::GoalRail)
 				{
-					stagePtr->AddGameObject<Station>(LINE2POS(row - 1, col));
+					stagePtr->AddGameObject<Station>(LINE2POS(row - 2, col));
 				}
 			}
 		}
