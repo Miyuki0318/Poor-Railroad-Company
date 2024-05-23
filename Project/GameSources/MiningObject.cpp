@@ -19,6 +19,7 @@ namespace basecross {
 		float rot = RangeRand(2, -1) * XM_PIDIV2;
 		SetRotation(Vec3(0.0f, rot, 0.0f));
 		SetPosition(m_spawnPos);
+		SetScale(m_startScale);
 
 		//描画コンポーネントの設定
 		SetAlphaActive(true);
@@ -41,14 +42,19 @@ namespace basecross {
 		// 採掘した回数の増加
 		m_miningCount++;
 
-		// 採掘回数が上限に達した場合、オブジェクトを破壊
-		if (m_miningCount >= m_miningLimit) {
-			m_state = eState::Broken;
-			SetUpdateActive(false);
-			SetDrawActive(false);
-			MiningObject::OnDelete();
-		}
+		switch (m_currentState)
+		{
+		case eState::Normal:
+			m_currentState = eState::Damage;
+			break;
 
+		case eState::Damage:
+			m_currentState = eState::None;
+			break;
+
+		default:
+			break;
+		}
 	}
 	void MiningObject::OnDelete() {
 		const auto& stage = GetTypeStage<BaseStage>();
@@ -65,7 +71,6 @@ namespace basecross {
 
 	void Tree::OnCreate() {
 		MiningObject::OnCreate();
-		SetScale(Vec3(1.0f));
 
 		// 新規ドローコンポーネントの設定
 		auto ptrDraw = AddComponent<PNTStaticModelDraw>();
@@ -79,55 +84,57 @@ namespace basecross {
 	}
 
 	void Tree::OnUpdate() {
-		MiningObject::OnUpdate();
-
+		AccordingState();
 	}
 
 	void Tree::OnMining() {
 		MiningObject::OnMining();
-
 	}
 
 	void Tree::OnReset() {
 		// 変数の初期化
 		m_miningCount = 0;
+		m_currentState = eState::Normal;
+		m_pastState = m_currentState;
 
-		// オブジェクトの見た目を初期状態にする処理を入れる
-		 
+		// オブジェクトスケールを初期状態にする
+		SetScale(m_startScale);
 		
 		// オブジェクトの更新を再開
 		SetUpdateActive(true);
 	}
 
 	void Tree::AccordingState() {
-		switch (m_state)
-		{
-		case eState::Damage:
-			// 損傷時の見た目に変更する処理を入れる
+		if (m_currentState != m_pastState) {
+			switch (m_currentState)
+			{
+			case eState::Damage:
+				// スケールを半分に変更
+				SetScale(m_damageScale);
+				break;
 
-			break;
-		case eState::Broken:
-			// 破壊されたアニメーションを再生する処理を入れる
+			case eState::None:
+				// スケールを0に変更
+				SetScale(0.0f);
 
-			// 破壊時のパーティクルを再生する処理を入れる
+				// 更新を停止し、不可視にする
+				SetUpdateActive(false);
+				SetDrawActive(false);
+				MiningObject::OnDelete();
 
-			break;
-		case eState::None:
-			// 更新を停止し、不可視にする
-			SetUpdateActive(false);
-			SetDrawActive(false);
-			MiningObject::OnDelete();
+				break;
+			default:
+				break;
+			}
 
-			break;
-		default:
-			break;
+			// 前フレームのステートとして保存
+			m_pastState = m_currentState;
 		}
 	}
 
 
 	void Rock::OnCreate() {
 		MiningObject::OnCreate();
-		SetScale(Vec3(1.0f));
 
 		auto ptrDraw = AddComponent<PNTStaticModelDraw>();
 		int random = RangeRand(3, 1);
@@ -140,8 +147,7 @@ namespace basecross {
 	}
 
 	void Rock::OnUpdate() {
-		MiningObject::OnUpdate();
-
+		AccordingState();
 	}
 
 	void Rock::OnMining() {
@@ -151,36 +157,41 @@ namespace basecross {
 	void Rock::OnReset() {
 		// 変数の初期化
 		m_miningCount = 0;
+		m_currentState = eState::Normal;
+		m_pastState = m_currentState;
 
-		//ドローコンポーネント
-		
+		// オブジェクトスケールを初期状態にする
+		SetScale(m_startScale);
 
 		// オブジェクトの更新を再開
 		SetUpdateActive(true);
 	}
 
 	void Rock::AccordingState() {
-		switch (m_state)
-		{
-		case eState::Damage:
-			// 損傷時の見た目に変更する処理を入れる
+		if (m_currentState != m_pastState) {
+			switch (m_currentState)
+			{
+			case eState::Damage:
+				// スケールを半分に変更
+				SetScale(m_damageScale);
+				break;
 
-			break;
-		case eState::Broken:
-			// 破壊されたアニメーションを再生する処理を入れる
+			case eState::None:
+				// スケールを0に変更
+				SetScale(0.0f);
 
-			// 破壊時のパーティクルを再生する処理を入れる
+				// 更新を停止し、不可視にする
+				SetUpdateActive(false);
+				SetDrawActive(false);
+				MiningObject::OnDelete();
 
-			break;
-		case eState::None:
-			// 更新を停止し、不可視にする
-			SetUpdateActive(false);
-			SetDrawActive(false);
-			MiningObject::OnDelete();
+				break;
+			default:
+				break;
+			}
 
-			break;
-		default:
-			break;
+			// 前フレームのステートとして保存
+			m_pastState = m_currentState;
 		}
 	}
 
