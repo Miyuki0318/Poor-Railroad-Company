@@ -41,7 +41,7 @@ namespace basecross
 		const float m_width = static_cast<float>(App::GetApp()->GetGameWidth());
 		const float m_height = static_cast<float>(App::GetApp()->GetGameHeight());
 
-		const float m_searchArea = 2.5f;
+		const float m_searchArea = 3.0f;
 
 		eTitleProgress titleProgress;
 
@@ -165,6 +165,17 @@ namespace basecross
 		*/
 		virtual void OnUpdate() override;
 
+		/*
+		@brief オブジェクト選択時にtrueを返す関数
+		*/
+		bool GetPlayerStop()
+		{
+			return titleProgress == eTitleProgress::select;
+		}
+
+		/*
+		@brief ゲームスタート時にtrueを返す関数
+		*/
 		bool GetStartFlag()
 		{
 			return titleProgress == eTitleProgress::start;
