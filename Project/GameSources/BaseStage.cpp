@@ -161,11 +161,6 @@ namespace basecross
 
 			// オブジェクトグループの作成
 			CreateSharedObjectGroup(L"MiningObject"); // 採掘可能オブジェクト
-
-			// デバック用文字列の表示非表示切り替え
-			const auto& debugStr = GetSharedObject(L"DebugString");
-			debugStr->SetDrawLayer(10);
-			debugStr->SetDrawActive(true);
 		}
 		catch (...)
 		{
@@ -215,5 +210,10 @@ namespace basecross
 
 		// 継承元の描画時の関数を実行する
 		Stage::OnDraw();
+
+		// デバック用文字列の表示非表示切り替え
+		const auto& debugStr = GetSharedObject(L"DebugString");
+		debugStr->SetDrawLayer(10);
+		debugStr->SetDrawActive(false);
 	}
 }

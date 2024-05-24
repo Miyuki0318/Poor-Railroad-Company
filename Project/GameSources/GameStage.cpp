@@ -234,7 +234,7 @@ namespace basecross
 			CreateSpriteObject();
 
 			// UI‚Ì¶¬
-			//CreateUIObject();
+			CreateUIObject();
 
 			// BGM‚ÌÄ¶
 			m_soundManager->StartBGM(L"GAME_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);

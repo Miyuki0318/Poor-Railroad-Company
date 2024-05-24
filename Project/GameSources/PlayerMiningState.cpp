@@ -48,7 +48,7 @@ namespace basecross
 		player->SetState(nState);
 
 		// Aƒ{ƒ^ƒ““ü—Í‚ª‚ ‚é‚È‚ç
-		if (Input::GetButtonA())
+		if (Input::GetButtonB())
 		{
 			nState->OnPushA(player);
 		}
