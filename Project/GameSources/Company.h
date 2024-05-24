@@ -10,8 +10,10 @@
 namespace basecross {
 	class Company : public TemplateObject
 	{
-		const Vec3 m_position = Vec3(10.0f, 1.0f, -15.0f);
-		
+		const Vec3 m_position = Vec3(10.0f, 1.0f, -14.5f);
+
+		const Vec2 m_scale = Vec2(700.0f);
+
 		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
 		
 		Mat4x4 m_spanMat;
@@ -27,7 +29,7 @@ namespace basecross {
 			TemplateObject(stagePtr)
 		{
 			m_spanMat.affineTransformation(
-				Vec3(1.0f),
+				Vec3(0.5f),
 				Vec3(0.0f),
 				Vec3(0.0f),
 				Vec3(0.0f)

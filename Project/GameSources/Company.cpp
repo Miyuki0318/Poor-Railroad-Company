@@ -23,19 +23,26 @@ namespace basecross {
 		drawComp->SetMeshToTransformMatrix(m_spanMat);
 		drawComp->SetMeshResource(L"COMPANY");
 		drawComp->SetDiffuse(COL_GRAY);
+
+		m_menuSprite = GetStage()->AddGameObject<Sprite>(L"MENU_TX", m_scale);
+		m_menuSprite->SetDrawActive(false);
 	}
 
 	void Company::OnUpdate()
 	{
 		if (FindTag(tagName))
 		{
-			Debug::Log(L"COMPANY");
+			OptionMenu();
+		}
+		else
+		{
+			m_menuSprite->SetDrawActive(false);
 		}
 	}
 
 	// ƒIƒvƒVƒ‡ƒ“‰æ–Ê‚Ìˆ—
 	void Company::OptionMenu()
 	{
-
+		m_menuSprite->SetDrawActive(true);
 	}
 }

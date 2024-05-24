@@ -41,12 +41,12 @@ namespace basecross
 		const float m_width = static_cast<float>(App::GetApp()->GetGameWidth());
 		const float m_height = static_cast<float>(App::GetApp()->GetGameHeight());
 
+		const float m_searchArea = 3.0f;
+
 		eTitleProgress titleProgress;
 
 		Vec3 m_diff;
 		float m_distance;
-
-		bool m_buttonPush;
 
 		bool m_zooming;
 
@@ -140,7 +140,6 @@ namespace basecross
 		{
 			titleProgress = eTitleProgress::normal;
 
-			//m_buttonPush = false;
 			m_zooming = false;
 
 			m_objectGroup = CreateSharedObjectGroup(L"Settings");
@@ -165,5 +164,21 @@ namespace basecross
 		@brief 毎フレーム呼び出される関数
 		*/
 		virtual void OnUpdate() override;
+
+		/*
+		@brief オブジェクト選択時にtrueを返す関数
+		*/
+		bool GetPlayerStop()
+		{
+			return titleProgress == eTitleProgress::select;
+		}
+
+		/*
+		@brief ゲームスタート時にtrueを返す関数
+		*/
+		bool GetStartFlag()
+		{
+			return titleProgress == eTitleProgress::start;
+		}
 	};
 }
