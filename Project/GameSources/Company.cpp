@@ -30,14 +30,7 @@ namespace basecross {
 
 	void Company::OnUpdate()
 	{
-		if (FindTag(tagName))
-		{
-			OptionMenu();
-		}
-		else
-		{
-			m_menuSprite->SetDrawActive(false);
-		}
+		m_menuSprite->SetDrawActive(FindTag(tagName));
 	}
 
 	// ƒIƒvƒVƒ‡ƒ“‰æ–Ê‚Ìˆ—
