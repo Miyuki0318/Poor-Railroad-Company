@@ -97,11 +97,11 @@ namespace basecross
 				switch (num)
 				{
 				case eStageID::Stone: // Šâ‚È‚ç
-					mining = AddGameObject<Rock>(position, 2); 
+					mining = AddGameObject<Rock>(position); 
 					break;
 
 				case eStageID::Tree: // –Ø‚È‚ç
-					mining = AddGameObject<Tree>(position, 2);
+					mining = AddGameObject<Tree>(position);
 					break;
 
 				default:
@@ -127,8 +127,8 @@ namespace basecross
 		const auto& group = GetSharedObjectGroup(L"MiningObject");
 
 		for (int i = 0; i < 10; i++) {
-			const auto& treeObj = AddGameObject<Tree>(Vec3(1.0f * i, 1.5f, 2.0f), 2);
-			const auto& rockObj = AddGameObject<Rock>(Vec3(1.0f * i, 1.5f, 5.0f), 2);
+			const auto& treeObj = AddGameObject<Tree>(Vec3(1.0f * i, 1.5f, 2.0f));
+			const auto& rockObj = AddGameObject<Rock>(Vec3(1.0f * i, 1.5f, 5.0f));
 
 			group->IntoGroup(treeObj);
 			group->IntoGroup(rockObj);

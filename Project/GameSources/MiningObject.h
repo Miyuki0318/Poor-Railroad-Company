@@ -15,7 +15,6 @@ namespace basecross {
 		{
 			Normal, //通常の状態
 			Damage, // 損傷した状態
-			Broken, // 破壊された状態
 			None // 消滅した状態
 		};
 
@@ -26,24 +25,32 @@ namespace basecross {
 		int m_miningCount;
 		// 採掘回数の上限
 		const int m_miningLimit;
-		// 状態を保持する変数
-		eState m_state;
+		// 現在のステートを保持する変数
+		eState m_currentState;
+		// 前フレームのステートを保持する変数
+		eState m_pastState;
 		// CSV上の位置
 		Point2D<size_t> m_csvPos;
+		// 初期スケール
+		const Vec3 m_startScale;
+		// 損傷時のスケール
+		const Vec3 m_damageScale;
 
 	public:
 		// コンストラクタ
 		MiningObject::MiningObject(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
-			const Vec3 position,// 初期座標
-			const int miningLimit
+			const Vec3 position// 初期座標
 		) :
 			TemplateObject(stagePtr), // ステージのポインタ
 			m_spawnPos(Vec3(position.x, 1.0f, position.z)),// 初期座標
-			m_miningLimit(miningLimit)
+			m_miningLimit(2), // 採掘回数の上限
+			m_startScale(Vec3(1.0f)), // 初期スケール
+			m_damageScale(Vec3(0.7f)) // 損傷時のスケール
 		{
 			// 変数の初期化
 			m_miningCount = 0;
-			m_state = eState::Normal;
+			m_currentState = eState::Normal;
+			m_pastState = m_currentState;
 		}
 
 		/*!
@@ -85,32 +92,11 @@ namespace basecross {
 		@brief コンストラクタ
 		@param ステージポインタ
 		@param 初期座標
-		@param 採掘回数上限
-		*/
-		Tree::Tree(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
-			const Vec3 position, // 初期座標
-			const int miningLimit 	// 採掘回数上限
-		) :
-			MiningObject(stagePtr, position, miningLimit) // ステージのポインタ
-		{
-			// トランスフォームとモデルの差分行列を代入
-			m_modelMat.affineTransformation(
-				Vec3(0.08f, 0.09f, 0.08f),
-				Vec3(0.0f),
-				Vec3(0.0f),
-				Vec3(0.0f)
-			);
-		}
-
-		/*!
-		@brief コンストラクタ
-		@param ステージポインタ
-		@param 初期座標
 		*/
 		Tree::Tree(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
 			const Vec3 position // 初期座標
 		) :
-			MiningObject(stagePtr, position, 2) // ステージのポインタ
+			MiningObject(stagePtr, position) // ステージのポインタ
 		{
 			// トランスフォームとモデルの差分行列を代入
 			m_modelMat.affineTransformation(
@@ -158,32 +144,11 @@ namespace basecross {
 		@brief コンストラクタ
 		@param ステージポインタ
 		@param 初期座標
-		@param 採掘回数上限
-		*/
-		Rock::Rock(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
-			const Vec3 position, // 初期座標
-			const int miningLimit 	// 採掘回数上限
-		) :
-			MiningObject(stagePtr, position, miningLimit) // ステージのポインタ
-		{
-			// トランスフォームとモデルの差分行列を代入
-			m_modelMat.affineTransformation(
-				Vec3(0.28f),
-				Vec3(0.0f),
-				Vec3(0.0f),
-				Vec3(0.0f)
-			);
-		}
-
-		/*!
-		@brief コンストラクタ
-		@param ステージポインタ
-		@param 初期座標
 		*/
 		Rock::Rock(const shared_ptr<Stage>& stagePtr, // ステージのポインタ
 			const Vec3 position // 初期座標
 		) :
-			MiningObject(stagePtr, position, 2) // ステージのポインタ
+			MiningObject(stagePtr, position) // ステージのポインタ
 		{
 			// トランスフォームとモデルの差分行列を代入
 			m_modelMat.affineTransformation(

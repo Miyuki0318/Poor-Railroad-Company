@@ -64,7 +64,7 @@ namespace basecross
 				// ƒS[ƒ‹ƒŒ[ƒ‹‚È‚ç
 				if (id == eStageID::GoalRail)
 				{
-					stagePtr->AddGameObject<Station>(LINE2POS(row - 1, col));
+					stagePtr->AddGameObject<Station>(LINE2POS(row - 2, col));
 				}
 
 				// ƒŒ[ƒ‹‚È‚ç
