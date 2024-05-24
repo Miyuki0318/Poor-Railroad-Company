@@ -89,6 +89,9 @@ namespace basecross
 		// レールマップに追加
 		AddRailDataMap(point.x, point.y);
 
+		// ゴールレールと繋がったかの確認
+		CheckConnectionGoalRail(point.x, point.y);
+
 		// 保持するデータを変更
 		m_railNum++;
 		m_pastLine = LINE(point.x, point.y);
@@ -263,5 +266,39 @@ namespace basecross
 
 		// ガイドの再設定
 		SetGuideID(row, col);
+	}
+
+	void RailManager::CheckConnectionGoalRail(size_t row, size_t col)
+	{
+		// レールデータの取得
+		RailData data = m_railDataMap.at(LINE(row, col));
+
+		// ガイド付きcsvマップから設置位置の上下左右を取得
+		auto& elems = CSVElementCheck::GetElemsCheck(row, col, m_guideMap);
+		for (auto& elem : elems)
+		{
+			if (!elem.isRange) continue;
+			if (eStageID::GoalRail != STAGE_ID(m_guideMap.at(elem.row).at(elem.col))) continue;
+
+			// 設置したレールが左右での直線なら
+			if (data.type == eRailType::AxisXLine)
+			{
+				// 左右方向にのみガイドを追加
+				if (elem.dir == eNextElemDir::DirLeft || elem.dir == eNextElemDir::DirRight)
+				{
+					AddRailDataMap(elem.row, elem.col);
+				}
+			}
+
+			// 設置したレールが上下での直線なら
+			if (data.type == eRailType::AxisZLine)
+			{
+				// 上下方向にのみガイドを追加
+				if (elem.dir == eNextElemDir::DirBack || elem.dir == eNextElemDir::DirFlont)
+				{
+					AddRailDataMap(elem.row, elem.col);
+				}
+			}
+		}
 	}
 }

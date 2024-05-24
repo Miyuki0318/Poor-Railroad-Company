@@ -252,5 +252,12 @@ namespace basecross
 		@param 追加するcol
 		*/
 		void AddGuideID(size_t row, size_t col);
+
+		/*!
+		@brief ゴールレールと繋がったかの確認関数
+		@param 設置したレールのrow
+		@param 設置したレールのcol
+		*/
+		void CheckConnectionGoalRail(size_t row, size_t col);
 	};
 }
