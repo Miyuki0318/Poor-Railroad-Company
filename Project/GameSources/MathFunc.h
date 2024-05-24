@@ -8,19 +8,14 @@
 #include "stdafx.h"
 #define BASECROSS __has_include("common.h")
 using namespace basecross;
-/// <summary>
-/// 値とフラグを保存する構造体
-/// </summary>
-struct ValueFlag {
-	float value = 0;
-	bool outRange = false;
-};
 
 namespace MathF {
 #define ELAPSED_TIME App::GetApp()->GetElapsedTime()
 #define Infinity = 0xFFFFFFFFFFFFFFFF;
 #define Deg2Rad = (XM_PI * 2.0f) / 360.0f
 #define Rad2Deg = 360.0f / (XM_PI * 2.0f)
+
+	static bool outRange = false;
 
 	/// <summary>
 	/// 与えられたvalueをmaxからminの範囲に制限する関数(float型)
@@ -80,16 +75,21 @@ namespace MathF {
 	/// <param name="value">ループさせる値</param>
 	/// <param name="invert">false:0から1 true:1から0</param>
 	/// <returns>value:補正後の値 flag:0~1の範囲外になったらtrue</returns>
-	inline ValueFlag Repeat01(float value, float speed, bool invert)
+	inline float Repeat01(float value, float speed)
 	{
-		ValueFlag vf;
-		value += (invert ? -ELAPSED_TIME : ELAPSED_TIME) * speed;
+		value += ELAPSED_TIME * speed;
+		outRange = value >= 1.0f;
+		if (outRange) value = 0.0f;
 
-		vf.outRange = value > 1.0f || value < 0.0f;
+		return value;
+	}
 
-		value = value > 1.0f ? 0.0f : value;
-		value = value < 0.0f ? 1.0f : value;
-		vf.value = value;
-		return vf;
+	/// <summary>
+	/// repeat関数で数値が範囲外になったかどうか
+	/// </summary>
+	/// <returns></returns>
+	inline bool GetOutRange()
+	{
+		return outRange;
 	}
 }

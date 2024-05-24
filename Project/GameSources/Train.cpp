@@ -34,11 +34,12 @@ namespace basecross {
 	{
 		// 線形補間で移動
 		Vec3 pos = Utility::Lerp(m_movePos.first, m_movePos.second, m_moveRatio);
-		m_moveRatio = MathF::Repeat01(m_moveRatio, m_MoveSpeed, false).value;
+		m_moveRatio = MathF::Repeat01(m_moveRatio, m_MoveSpeed);
 
 		// 範囲外になったら
-		if (MathF::Repeat01(m_moveRatio, m_MoveSpeed, false).outRange)
+		if (MathF::GetOutRange())
 		{
+			//m_moveRatio = 0.0f;
 			// 次のレールを見つけられなかったら次のステートに
 			if (!SearchNextRail()) m_state = nextState;
 

@@ -20,6 +20,7 @@ namespace basecross {
 		}
 		~TitleTrain() {}
 
+		void OnCreate() override;
 		void OnUpdate() override;
 
 		/// <summary>

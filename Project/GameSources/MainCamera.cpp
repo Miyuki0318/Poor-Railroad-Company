@@ -52,10 +52,10 @@ namespace basecross {
 		SetEye(Utility::Lerp(m_currentEye, Vec3(m_targetPos.x, m_targetPos.y, m_targetPos.z - 1.0f), m_zoomRatio));
 		SetAt(Utility::Lerp(m_DefaultAt, m_targetPos, m_zoomRatio));
 		//m_zoomRatio += DELTA_TIME * m_zoomSpeed;
-		m_zoomRatio = Repeat01(m_zoomRatio, m_zoomSpeed, false).value;
+		m_zoomRatio = Repeat01(m_zoomRatio, m_zoomSpeed);
 
 		// ズーム処理が終わったら
-		if (Repeat01(m_zoomRatio, m_zoomSpeed, false).outRange)
+		if (GetOutRange())
 		{
 			// 値を初期化してカメラの状態をもとに戻す
 			m_cameraState = m_defaultState;
