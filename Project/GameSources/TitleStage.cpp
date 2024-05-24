@@ -166,11 +166,6 @@ namespace basecross
 		SetSharedGameObject(L"Company", company);
 		m_objectGroup->IntoGroup(company);
 
-		// H–Œ»ê‚Ì¶¬
-		const auto& construction = AddGameObject<Construction>();
-		SetSharedGameObject(L"Construction", construction);
-		m_objectGroup->IntoGroup(construction);
-		
 		// ŠÅ”Â‚Ì¶¬
 		const auto& board = AddGameObject<SignBoard>();
 		SetSharedGameObject(L"Board", board);
@@ -182,11 +177,12 @@ namespace basecross
 		m_objectGroup->IntoGroup(routeMap);
 	}
 
+	// —ñÔ‚Ì¶¬
 	void TitleStage::CreateTrain()
 	{
 		const auto& train = AddGameObject<TitleTrain>(m_trainPos);
 		SetSharedGameObject(L"TitleTrain", train);
-		//m_objectGroup->IntoGroup(train);
+		m_objectGroup->IntoGroup(train);
 	}
 
 	// ƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚Ìˆ—
