@@ -25,7 +25,7 @@ namespace basecross {
 		drawComp->SetDiffuse(COL_GRAY);
 
 		m_menuSprite = GetStage()->AddGameObject<Sprite>(L"MENU_TX", m_scale);
-		m_menuSprite->SetDrawActive(false);
+		m_menuSprite->SetDrawActive(FindTag(tagName));
 	}
 
 	void Company::OnUpdate()
