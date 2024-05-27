@@ -22,7 +22,7 @@ namespace basecross {
 		//m_ptrDraw->SetDiffuse(COL_BLUE);
 
 		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
-		m_railPos = LINE(ROW(m_DefaultPosition.z), COL(m_DefaultPosition.x));
+		m_railPos = POS2LINE(m_DefaultPosition);
 		m_movePos.first = m_DefaultPosition;
 		m_movePos.second = m_DefaultPosition;
 
@@ -66,7 +66,7 @@ namespace basecross {
 			col = COL(m_movePos.second.x + dr.x);
 
 			// 行列でキーを設定
-			string line = LINE(row, col);
+			string line = ROWCOL2LINE(row, col);
 			if (railMap.find(line) != railMap.end())
 			{
 				// レールを設定

@@ -113,7 +113,7 @@ namespace basecross
 				shared_ptr<MiningObject> mining = nullptr;
 
 				// 座標(左限+列番号×スケール,下限+行数-行番号×スケール)
-				Vec3 position = LINE2POS(i, j);
+				Vec3 position = ROWCOL2POS(i, j);
 
 				// 数値の別名
 				eStageID num = STAGE_ID(m_stageMap.at(i).at(j));

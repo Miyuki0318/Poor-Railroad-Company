@@ -51,13 +51,13 @@ namespace basecross
 		@brief Aボタンを押した瞬間の取得関数
 		@return GetPad().wPressedButtons & XINPUT_GAMEPAD_A
 		*/
-		inline bool GetPushA()
+		inline bool GetPushB()
 		{
 			// コントローラーが接続されてるなら
 			if (GetPadConected())
 			{
 				// Aボタンが入力された瞬間かを返す
-				return GetPad().wPressedButtons & XINPUT_GAMEPAD_A;
+				return GetPad().wPressedButtons & XINPUT_GAMEPAD_B;
 			}
 			return false;
 		}
@@ -66,13 +66,13 @@ namespace basecross
 		@brief Aボタンを押した瞬間の取得関数
 		@return GetPad().wPressedButtons & XINPUT_GAMEPAD_A
 		*/
-		inline bool GetButtonA()
+		inline bool GetButtonB()
 		{
 			// コントローラーが接続されてるなら
 			if (GetPadConected())
 			{
 				// Aボタンが入力された瞬間かを返す
-				return GetPad().wButtons & XINPUT_GAMEPAD_A;
+				return GetPad().wButtons & XINPUT_GAMEPAD_B;
 			}
 			return false;
 		}

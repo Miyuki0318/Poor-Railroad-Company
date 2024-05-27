@@ -9,9 +9,9 @@
 
 #define ROW(posZ) size_t(-posZ)	// 行
 #define COL(posX) size_t(posX) // 列
-#define LINE(row, col) to_string(row) + "-" + to_string(col)	// row-col
-#define LINE2POS(row, col) Vec3(float(col), 1.0f, -float(row))	// rowとcolから座標に変換
-#define POS2LINE(pos) LINE(ROW(pos.z), COL(pos.x))	// 座標からrow-col文字列に変換
+#define ROWCOL2LINE(row, col) to_string(row) + "-" + to_string(col)	// row-col
+#define ROWCOL2POS(row, col) Vec3(float(col), 1.0f, -float(row))	// rowとcolから座標に変換
+#define POS2LINE(pos) ROWCOL2LINE(ROW(pos.z), COL(pos.x))	// 座標からrow-col文字列に変換
 
 namespace basecross
 {
@@ -129,12 +129,11 @@ namespace basecross
 		shared_ptr<PNTStaticInstanceDraw> m_ptrDraw; // 描画コンポーネント
 		vector<Point2D<size_t>> m_guidePoints; // ガイドがあるポイント
 		vector<vector<int>> m_guideMap; // ガイド付きのステージcsv
-		Mat4x4 m_mtxScale;		// インスタンス描画用のスケール
-		Mat4x4 m_mtxRotation;	// インスタンス描画用のローテーション
-		size_t m_railNum;		// レールの設置数
 		map<string, RailData> m_railDataMap;
 		string m_pastLine;
+		size_t m_railNum;		// レールの設置数
 		Vec3 m_pastDeRailPos;
+		bool m_isConnectionGoal;	// ゴールレールまで繋がったか
 		
 	public:
 
@@ -146,11 +145,7 @@ namespace basecross
 			GameObject(stagePtr)
 		{
 			m_railNum = 0;
-
-			Quat quatRot;
-			quatRot.rotationRollPitchYawFromVector(Vec3(0.0f, XM_PIDIV2, 0.0f));
-			m_mtxRotation.rotation(quatRot);
-			m_mtxScale.scale(Vec3(0.675f));
+			m_isConnectionGoal = false;
 		}
 
 		/*!
@@ -162,6 +157,11 @@ namespace basecross
 		@brief 生成時に一度だけ呼び出される関数
 		*/
 		void OnCreate() override;
+
+		/*!
+		@brief レール描画生成
+		*/
+		void ResetInstanceRail();
 
 		/*!
 		@brief レール追加関数
@@ -216,6 +216,15 @@ namespace basecross
 			return m_railNum;
 		}
 
+		/*!
+		@brief ゴールレールと繋がったかの確認関数
+		@return bool
+		*/
+		bool IsConnectionGoalRail(size_t row, size_t col) const
+		{
+			return m_isConnectionGoal;
+		}
+
 	private:
 
 		/*!
@@ -252,5 +261,19 @@ namespace basecross
 		@param 追加するcol
 		*/
 		void AddGuideID(size_t row, size_t col);
+
+		/*!
+		@brief レールが直線に繋がっているのかを返す関数
+		@param レールデータ
+		@param elem.dir
+		*/
+		bool CheckStraightRail(RailData data, eNextElemDir dir);
+
+		/*!
+		@brief ゴールレールと繋がったかの確認関数
+		@param 設置したレールのrow
+		@param 設置したレールのcol
+		*/
+		void CheckConnectionGoalRail(size_t row, size_t col);
 	};
 }

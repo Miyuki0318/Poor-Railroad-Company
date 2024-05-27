@@ -65,7 +65,7 @@ namespace basecross {
 			col = COL(m_movePos.second.x + dr.x);
 
 			// 行列でキーを設定
-			string line = LINE(row, col);
+			string line = ROWCOL2LINE(row, col);
 			if (railMap.find(line) != railMap.end())
 			{
 				// レールを設定

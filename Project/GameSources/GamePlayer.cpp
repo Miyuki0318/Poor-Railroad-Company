@@ -34,7 +34,7 @@ namespace basecross
 		m_playerState->Update();
 
 		// ステートマシンにAボタン入力時の処理を送る
-		if (GetPushA()) m_playerState->PushA();
+		if (GetPushB()) m_playerState->PushA();
 
 		// ステートマシンにXボタン入力時の処理を送る
 		if (GetPushX()) m_playerState->PushX();
