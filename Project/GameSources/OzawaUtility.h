@@ -371,6 +371,18 @@ namespace Utility
 		return nums.at(elem);
 	}
 
+	/*!
+	@brief or‰‰ŽZ
+	@param ”äŠrŒ³
+	@param ”ä‚×‚é’l‚P
+	@param ”ä‚×‚é’l‚Q
+	@return ‚Ç‚¿‚ç‚©‚Æˆê’v‚µ‚Ä‚¢‚é‚©
+	*/
+	template <class T>
+	bool OR(T val, T a, T b)
+	{
+		return (val == a || val == b);
+	}
 
 #if BASECROSS
 
