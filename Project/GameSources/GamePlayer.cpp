@@ -104,7 +104,20 @@ namespace basecross
 		// エラーチェック
 		const auto& indicator = m_indicator.lock();
 		if (!indicator) return;
+		
+		// 採掘命令、採掘できたら終了
+		if (MiningOrder(indicator)) return;
 
+		// レール設置命令、設置できたら終了
+		if (AddRailOrder(indicator)) return;
+
+		// 木の足場設置命令、設置できたら終了
+		if (AddBridgeOrder(indicator)) return;
+	}
+
+	// 採掘命令
+	bool GamePlayer::MiningOrder(const shared_ptr<SelectIndicator>& indicator)
+	{
 		// 採掘命令を送り、採掘できたらタグセットを受け取る
 		const auto& miningTag = indicator->MiningOrder();
 
@@ -112,9 +125,33 @@ namespace basecross
 		if (!miningTag.empty())
 		{
 			MiningProcces(miningTag);
-			return;
+			return true;
+		}
+		
+		return false;
+	}
+
+	// 採掘処理
+	void GamePlayer::MiningProcces(const set<wstring>& tagSet)
+	{
+		// 採掘対象マップを用いて採掘数を追加
+		for (const auto& miningMap : m_miningMap)
+		{
+			if (tagSet.find(miningMap.first) != tagSet.end())
+			{
+				// アイテムカウンタの追加とSEの再生
+				AddItemCount(miningMap.second);
+				StartSE(miningMap.first + L"_SE", 1.0f);
+			}
 		}
 
+		// 採掘状態にする
+		m_status.Set(ePlayerStatus::IsMining) = true;
+	}
+
+	// レール追加命令
+	bool GamePlayer::AddRailOrder(const shared_ptr<SelectIndicator>& indicator)
+	{
 		// レールを所持してたら
 		if (GetItemCount(eItemType::Rail))
 		{
@@ -123,30 +160,28 @@ namespace basecross
 			{
 				m_craft->UseItem(eItemType::Rail);
 				StartSE(L"ADDRAIL_SE", 1.0f);
+				return true;
 			}
 		}
+
+		return false;
 	}
 
-	// 採掘処理
-	void GamePlayer::MiningProcces(const set<wstring>& tagSet)
+	// 木の足場追加命令
+	bool GamePlayer::AddBridgeOrder(const shared_ptr<SelectIndicator>& indicator)
 	{
-		// ツールの採掘力に応じた取得数を設定
-		//int addNum = GetToolsMiningValue();
-		int addNum = 1; // ツールレベル概念が無い為一旦1で固定
-
-		// 採掘対象マップを用いて採掘数を追加
-		for (const auto& miningMap : m_miningMap)
+		// 木の足場を所持してたら
+		if (GetItemCount(eItemType::WoodBridge))
 		{
-			if (tagSet.find(miningMap.first) != tagSet.end())
+			if (indicator->BridgeOrder())
 			{
-				// アイテムカウンタの追加とSEの再生
-				AddItemCount(miningMap.second, addNum);
-				StartSE(miningMap.first + L"_SE", 1.0f);
+				m_craft->UseItem(eItemType::WoodBridge);
+				//StartSE(L"ADDBRIDGE_SE", 1.0f);
+				return true;
 			}
 		}
 
-		// 採掘状態にする
-		m_status.Set(ePlayerStatus::IsMining) = true;
+		return false;
 	}
 
 	// クラフト状態でのXボタン入力

@@ -64,6 +64,12 @@ namespace basecross
 		bool RailedOrder() const;
 
 		/*!
+		@brief セレクターの位置にレールを設置可能なら設置処理を行う関数
+		@return 設置できていたらtrue
+		*/
+		bool BridgeOrder() const;
+
+		/*!
 		@brief セレクターの位置を取得する関数
 		@return m_selectPoint
 		*/

@@ -164,4 +164,21 @@ namespace basecross
 
 		return posshible;
 	}
+
+	// レール設置命令
+	bool SelectIndicator::BridgeOrder() const
+	{
+		//// 選択ポイントがガイドの位置と一致しているか
+		//const auto& bridgeManager = GetStage()->GetSharedGameObject<BridgeManager>(L"BridgeManager");
+		//bool posshible = bridgeManager->GetIsGuidePoint(m_selectPoint);
+
+		//// 一致してたらマネージャーにレール追加処理を送る
+		//if (posshible)
+		//{
+		//	bridgeManager->AddBridge(m_selectPoint);
+		//}
+
+		//return posshible;
+		return true;
+	}
 }
