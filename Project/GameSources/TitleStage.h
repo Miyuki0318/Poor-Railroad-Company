@@ -12,7 +12,7 @@ namespace basecross
 {
 	enum eTitleProgress
 	{
-		normal, // 通常
+		usually, // 通常
 		push,   // ボタン押す
 		zoom,   // ズーム
 		select, // オブジェクト選択
@@ -139,7 +139,7 @@ namespace basecross
 		*/
 		TitleStage() : BaseStage()
 		{
-			titleProgress = eTitleProgress::normal;
+			titleProgress = eTitleProgress::usually;
 
 			m_zooming = false;
 

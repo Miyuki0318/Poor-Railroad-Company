@@ -188,14 +188,14 @@ namespace basecross
 	// ƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚½Žž‚Ìˆ—
 	void TitleStage::PushButtonB()
 	{
-		if (titleProgress == normal)
+		if (titleProgress == usually)
 		{
 			titleProgress = push;
 		}
 
 		if (titleProgress == select)
 		{
-			titleProgress = normal;
+			titleProgress = usually;
 		}
 	}
 
@@ -214,7 +214,7 @@ namespace basecross
 			m_zooming = true;
 		}
 
-		if (titleProgress == normal)
+		if (titleProgress == usually)
 		{
 			titleCamera->SetEye(m_cameraEye);
 			titleCamera->SetAt(m_cameraAt);
@@ -238,7 +238,7 @@ namespace basecross
 		{
 			sprite->FadeInColor(2.0f);
 		}
-		else if(titleProgress == normal || titleProgress == push)
+		else if(titleProgress == usually || titleProgress == push)
 		{
 			sprite->SetDiffuseColor(COL_ALPHA);
 		}
@@ -290,7 +290,7 @@ namespace basecross
 
 			if (!m_selectObj)
 			{
-				titleProgress = normal;
+				titleProgress = usually;
 			}
 		}
 	}
@@ -359,7 +359,7 @@ namespace basecross
 			{
 				DistanceToPlayer();
 			}
-			else if(titleProgress == normal)
+			else if(titleProgress == usually)
 			{
 				if (m_selectObj && m_selectObj->FindTag(tagName))
 				{
