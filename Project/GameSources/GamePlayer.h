@@ -184,9 +184,12 @@ namespace basecross
 		@param クラフトアイテムenum
 		@return クラフトできるかの真偽
 		*/
-		bool GetCraftPosshible(eCraftItem item = eCraftItem::Rail) const
+		bool GetCraftPosshible() const
 		{
-			return m_craft->CraftOrder();
+			bool rail = m_craft->CraftOrder(eCraftItem::Rail);
+			bool bridge = m_craft->CraftOrder(eCraftItem::WoodBridge);
+
+			return rail || bridge;
 		}
 
 		/*!

@@ -34,7 +34,13 @@ namespace basecross
 		m_playerState->Update();
 
 		// ステートマシンにAボタン入力時の処理を送る
-		if (GetPushB()) m_playerState->PushA();
+		if (GetPushA()) m_playerState->PushA();
+
+		// ステートマシンにBボタン入力時の処理を送る
+		if (GetPushB()) m_playerState->PushB();
+
+		// ステートマシンにYボタン入力時の処理を送る
+		if (GetPushY()) m_playerState->PushY();
 
 		// ステートマシンにXボタン入力時の処理を送る
 		if (GetPushX()) m_playerState->PushX();
@@ -147,7 +153,7 @@ namespace basecross
 	void GamePlayer::SwitchCraftWindow()
 	{
 		// クラフト中じゃない時に、クラフト不可なら
-		if (!m_status(ePlayerStatus::IsCrafting) && !m_craft->CraftOrder()) return;
+		if (!m_status(ePlayerStatus::IsCrafting) && !GetCraftPosshible()) return;
 
 		// クラフト状態を切り替える
 		m_status.Set(ePlayerStatus::IsCrafting) = !m_status(ePlayerStatus::IsCrafting);
