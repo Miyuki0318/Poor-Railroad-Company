@@ -7,11 +7,21 @@
 #include "stdafx.h"
 
 namespace basecross{
+	// マップの難易度
+	enum eMapLevel
+	{
+		easyMap,
+		normalMap,
+		hardMap
+	};
 
 	//--------------------------------------------------------------------------------------
 	///	ゲームシーン
 	//--------------------------------------------------------------------------------------
 	class Scene : public SceneBase{
+	private:
+		eMapLevel mapLevel = easyMap;
+
 	public:
 		const wstring objTagName = L"SELECT";
 		//--------------------------------------------------------------------------------------
@@ -66,6 +76,26 @@ namespace basecross{
 		*/
 		virtual void RegisterMultiMesh(const wstring& registerKey, const wstring& path, const wstring& fileName, bool boneUse);
 
+		/*!
+		@brief	保持されたマップの難易度取得
+		*/
+		eMapLevel GetMapLevel()
+		{
+			return mapLevel;
+		}
+
+		/*!
+		@brief	マップの難易度設定
+		*/
+		void SetMapLevel(eMapLevel level)
+		{
+			mapLevel = level;
+		}
+
+
+		/*!
+		@brief	タグ名取得
+		*/
 		wstring GetTagName()
 		{
 			return objTagName;

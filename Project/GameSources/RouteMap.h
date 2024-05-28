@@ -10,14 +10,6 @@
 namespace basecross {
 	class RouteMap : public TemplateObject
 	{
-		// 難易度
-		enum eMapLevel
-		{
-			easyMap,
-			normalMap,
-			hardMap
-		};
-
 		// モデルのテクスチャキー
 		const wstring m_modelTextures[3] = {
 			L"EASY_TX",
