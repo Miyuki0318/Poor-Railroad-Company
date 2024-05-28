@@ -77,7 +77,7 @@ namespace basecross{
 		virtual void RegisterMultiMesh(const wstring& registerKey, const wstring& path, const wstring& fileName, bool boneUse);
 
 		/*!
-		@brief	保持されたマップの難易度取得
+		@brief	マップの難易度を取得するゲット関数
 		*/
 		eMapLevel GetMapLevel()
 		{
@@ -85,7 +85,7 @@ namespace basecross{
 		}
 
 		/*!
-		@brief	マップの難易度設定
+		@brief	マップの難易度を設定するセット関数
 		*/
 		void SetMapLevel(eMapLevel level)
 		{
