@@ -50,7 +50,7 @@ namespace basecross
 		// Aボタン入力があるなら
 		if (Input::GetButtonB())
 		{
-			nState->OnPushA(player);
+			nState->OnPushB(player);
 		}
 	}
 
@@ -66,8 +66,20 @@ namespace basecross
 		// 今のところ何もしない
 	}
 
+	// Bボタン入力時
+	void PlayerMiningState::OnPushB(const shared_ptr<GamePlayer>& player)
+	{
+		// 今のところ何もしない
+	}
+
 	// Xボタン入力時
 	void PlayerMiningState::OnPushX(const shared_ptr<GamePlayer>& player)
+	{
+		// 今のところ何もしない
+	}
+
+	// Yボタン入力時
+	void PlayerMiningState::OnPushY(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}

@@ -38,7 +38,9 @@ namespace basecross
 		// UIテクスチャ
 		AddTextureResource(L"UI_WOOD_TX", texturePath + L"Wood.png");
 		AddTextureResource(L"UI_STONE_TX", texturePath + L"Stone.png");
+		AddTextureResource(L"UI_GEAR_TX", texturePath + L"Gear.png");
 		AddTextureResource(L"UI_RAIL_TX", texturePath + L"Rail.png");
+		AddTextureResource(L"UI_BRIDGE_TX", texturePath + L"Bridge.png");
 
 		// レール設置時のSE
 		AddAudioResource(L"ADDRAIL_SE", soundPath + L"Rail");

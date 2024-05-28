@@ -17,15 +17,16 @@ namespace basecross
 	// クラフトアイテムenum
 	enum class eCraftItem : size_t
 	{
-		Rail, // レール
+		Rail,		// レール
+		WoodBridge,	// 木の橋
 	};
 
 	// クラフトCSVパラメータ
 	enum class eCraftParam : size_t
 	{
 		ItemType,	 // 作るアイテムタイプ
-		StoneValue,	 // 石の要求数
 		WoodValue,	 // 木の要求数
+		StoneValue,	 // 石の要求数
 		SuccesValue, // QTE成功時の作成量
 		FailedValue, // QTE失敗時の作成量
 	};
@@ -33,9 +34,11 @@ namespace basecross
 	// アイテムカウンタ用enum
 	enum class eItemType : size_t
 	{
-		Wood,	// 木
-		Stone,	// 石
-		Rail,	// レール
+		Wood,		// 木
+		Stone,		// 石
+		Gear,		// 歯車
+		Rail,		// レール
+		WoodBridge,	// 木の橋
 	};
 
 	/*!
@@ -50,6 +53,8 @@ namespace basecross
 		const vector<vector<string>> m_racipe; // クラフトレシピ
 
 		vector<int> m_itemCount; // アイテム数
+		eCraftItem m_craftItem;	// 作成中のアイテム
+		eItemType m_craftType;	// 作成中のアイテム
 
 	public:
 
@@ -66,7 +71,9 @@ namespace basecross
 			m_craftQTE(qtePtr),
 			m_racipe(CSVLoader::LoadFile("CraftRacipe"))
 		{
-			m_itemCount = {0, 0, 0};
+			m_itemCount = {0, 0, 0, 0, 0};
+			m_craftItem = eCraftItem::Rail;
+			m_craftType = eItemType::Rail;
 		}
 
 		/*!
@@ -79,7 +86,7 @@ namespace basecross
 		@param クラフトするアイテム
 		@return クラフト可能かの真偽
 		*/
-		bool CraftOrder();
+		bool CraftOrder(eCraftItem item);
 
 		/*!
 		@brief クラフト有効化関数
@@ -90,7 +97,7 @@ namespace basecross
 		/*!
 		@brief QTE開始関数
 		*/
-		void StartQTE();
+		void StartQTE(eCraftItem item, eItemType type);
 
 		/*!
 		@brief QTE停止とQTE結果取得関数

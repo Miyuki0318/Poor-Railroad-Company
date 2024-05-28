@@ -54,10 +54,22 @@ namespace basecross
 		virtual void OnPushA(const shared_ptr<GamePlayer>& player) = 0;
 
 		/*!
+		@brief Aボタン入力がされた時に実行される
+		@param プレイヤーのポインタ
+		*/
+		virtual void OnPushB(const shared_ptr<GamePlayer>& player) = 0;
+
+		/*!
 		@brief Xボタン入力がされた時に実行される
 		@param プレイヤーのポインタ
 		*/
 		virtual void OnPushX(const shared_ptr<GamePlayer>& player) = 0;
+
+		/*!
+		@brief Xボタン入力がされた時に実行される
+		@param プレイヤーのポインタ
+		*/
+		virtual void OnPushY(const shared_ptr<GamePlayer>& player) = 0;
 
 		/*!
 		@brief	ステート名を得る
@@ -113,6 +125,21 @@ namespace basecross
 		}
 
 		/*!
+		@brief	Aボタン入力がされた時
+		*/
+		void PushB() const
+		{
+			// プレイヤーとステートの取得
+			const auto& player = m_Owner.lock();
+			const auto& state = dynamic_pointer_cast<PlayerState>(m_CurrentState.lock());
+			if (state && player)
+			{
+				// ステートにAボタン入力時の処理を送る
+				state->OnPushB(player);
+			}
+		}
+
+		/*!
 		@brief	Xボタン入力がされた時
 		*/
 		void PushX() const
@@ -124,6 +151,21 @@ namespace basecross
 			{
 				// ステートにAボタン入力時の処理を送る
 				state->OnPushX(player);
+			}
+		}
+
+		/*!
+		@brief	Xボタン入力がされた時
+		*/
+		void PushY() const
+		{
+			// プレイヤーとステートの取得
+			const auto& player = m_Owner.lock();
+			const auto& state = dynamic_pointer_cast<PlayerState>(m_CurrentState.lock());
+			if (state && player)
+			{
+				// ステートにAボタン入力時の処理を送る
+				state->OnPushY(player);
 			}
 		}
 	};

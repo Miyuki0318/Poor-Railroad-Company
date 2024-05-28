@@ -9,12 +9,12 @@
 
 namespace basecross
 {
-	// アイテムクラフト
-	bool CraftManager::CraftOrder()
-	{
-		// eCraftItem item = m_selectIcon.lock()->GetSelectItem();
-		eCraftItem item = eCraftItem::Rail;
+	// ネームスペースの省略
+	using namespace Input;
 
+	// アイテムクラフト
+	bool CraftManager::CraftOrder(eCraftItem item)
+	{
 		// 素材要求数の取得
 		const int woodValue = GetRacipeValue(item, eCraftParam::WoodValue);
 		const int stoneValue = GetRacipeValue(item, eCraftParam::StoneValue);
@@ -55,7 +55,7 @@ namespace basecross
 	}
 
 	// QTEの開始呼び出し
-	void CraftManager::StartQTE()
+	void CraftManager::StartQTE(eCraftItem item, eItemType type)
 	{
 		// QTEとウィンドウオブジェクトの取得
 		const auto& qte = m_craftQTE.lock();
@@ -64,6 +64,8 @@ namespace basecross
 		{
 			// qteオブジェクトにQTE開始呼び出しを送る
 			qte->StartQTE(window->GetPosition());
+			m_craftItem = item;
+			m_craftType = type;
 		}
 	}
 
@@ -79,18 +81,15 @@ namespace basecross
 
 		if (qte)
 		{
-			// eCraftItem item = m_selectIcon.lock()->GetSelectItem();
-			eCraftItem item = eCraftItem::Rail;
-
 			// QTE停止呼び出しとQTE結果の真偽を取得
 			succes = qte->StopQTE();
 
 			// 素材消費
-			UseItem(eItemType::Wood, GetRacipeValue(item, eCraftParam::WoodValue));
-			UseItem(eItemType::Stone, GetRacipeValue(item, eCraftParam::StoneValue));
+			UseItem(eItemType::Wood, GetRacipeValue(m_craftItem, eCraftParam::WoodValue));
+			UseItem(eItemType::Stone, GetRacipeValue(m_craftItem, eCraftParam::StoneValue));
 
 			// QTE結果に応じて作成量を設定
-			AddItemCount(eItemType::Rail, GetRacipeValue(item, succes ? eCraftParam::SuccesValue : eCraftParam::FailedValue));
+			AddItemCount(m_craftType, GetRacipeValue(m_craftItem, succes ? eCraftParam::SuccesValue : eCraftParam::FailedValue));
 		}
 
 		return succes;

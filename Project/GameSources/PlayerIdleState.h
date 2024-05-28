@@ -63,9 +63,21 @@ namespace basecross
 		void OnPushA(const shared_ptr<GamePlayer>& player) override;
 
 		/*!
+		@brief Bボタン入力がされた時に実行される
+		@param プレイヤーのポインタ
+		*/
+		void OnPushB(const shared_ptr<GamePlayer>& player) override;
+
+		/*!
 		@brief Xボタン入力がされた時に実行される
 		@param プレイヤーのポインタ
 		*/
 		void OnPushX(const shared_ptr<GamePlayer>& player) override;
+
+		/*!
+		@brief Yボタン入力がされた時に実行される
+		@param プレイヤーのポインタ
+		*/
+		void OnPushY(const shared_ptr<GamePlayer>& player) override;
 	};
 }
