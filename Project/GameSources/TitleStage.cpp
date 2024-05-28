@@ -186,7 +186,7 @@ namespace basecross
 	}
 
 	// ƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚Ìˆ—
-	void TitleStage::PushButtonX()
+	void TitleStage::PushButtonB()
 	{
 		if (titleProgress == normal)
 		{
@@ -227,11 +227,18 @@ namespace basecross
 	{
 		auto sprite = GetSharedGameObject<Sprite>(L"FadeSprite", true);
 		
-		if (titleProgress == select || titleProgress == start)
+		if (titleProgress == zoom)
+		{
+			if (sprite->FadeInColor(2.0f))
+			{
+				titleProgress = select;
+			}
+		}
+		else if (titleProgress == start)
 		{
 			sprite->FadeInColor(2.0f);
 		}
-		else
+		else if(titleProgress == normal || titleProgress == push)
 		{
 			sprite->SetDiffuseColor(COL_ALPHA);
 		}
@@ -247,7 +254,7 @@ namespace basecross
 				return;
 			}
 
-			titleProgress = select;
+			titleProgress = zoom;
 			return;
 		}
 	}
@@ -341,7 +348,7 @@ namespace basecross
 		{
 			if (Input::GetPad().wPressedButtons & XINPUT_GAMEPAD_B)
 			{
-				PushButtonX();
+				PushButtonB();
 			}
 
 			Debug::Log(L"ƒJƒƒ‰‚ÌAt : ", GetView()->GetTargetCamera()->GetAt());

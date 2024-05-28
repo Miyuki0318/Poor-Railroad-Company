@@ -14,6 +14,7 @@ namespace basecross
 	{
 		normal, // 通常
 		push,   // ボタン押す
+		zoom,   // ズーム
 		select, // オブジェクト選択
 		start   // ゲームスタート
 	};
@@ -114,7 +115,7 @@ namespace basecross
 		/*
 		@brief ボタンを押した時の処理
 		*/
-		void PushButtonX();
+		void PushButtonB();
 
 		/*
 		@brief 状態を変化させる処理
