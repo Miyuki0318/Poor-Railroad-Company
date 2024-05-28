@@ -161,8 +161,7 @@ namespace basecross
 	// スプライトの生成
 	void GameStage::CreateSpriteObject()
 	{
-		m_gameClearLogo = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(100.0f), Vec3(0.0f));
-		m_gameOverLogo = AddGameObject<Sprite>(L"GAMEOVER_TX", Vec2(100.0f), Vec3(0.0f));
+		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f), Vec3(0.0f));
 	}
 
 	// UIの生成
@@ -186,19 +185,18 @@ namespace basecross
 	{
 		switch (m_gameProgress)
 		{
-		case eGameProgress::Playing :
-			m_gameClearLogo->SetDrawActive(false);
-			m_gameOverLogo->SetDrawActive(false);
+		case Playing :
+			m_gameSprite->SetDrawActive(false);
 			break;
 
-		case eGameProgress::GameClear:
-			m_gameClearLogo->SetDrawActive(true);
-			m_gameOverLogo->SetDrawActive(false);
+		case GameClear:
+			m_gameSprite->SetTexture(L"GAMECLEAR_TX");
+			m_gameSprite->SetDrawActive(true);
 			break;
 
-		case eGameProgress::GameOver:
-			m_gameClearLogo->SetDrawActive(false);
-			m_gameOverLogo->SetDrawActive(true);
+		case GameOver:
+			m_gameSprite->SetTexture(L"GAMEOVER_TX");
+			m_gameSprite->SetDrawActive(true);
 			break;
 		}
 	}
