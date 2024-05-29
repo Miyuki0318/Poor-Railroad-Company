@@ -55,6 +55,21 @@ namespace basecross {
 		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
 		if (railMap.empty()) return false;
 
+		eRailAngle nextRailAngle = railMap.at(POS2LINE(railMap.at(m_railPos).futurePos)).angle;
+		if (nextRailAngle != eRailAngle::Straight)
+		{
+			Debug::Log(L"うんち！");
+		}
+
+		if (NextRailSettings(railMap, nextRailAngle))
+		{
+			return true;
+		}
+		return CheckGoalRail(); // レールを設定できなかったらゴールかどうか確認する
+	}
+
+	bool GameTrain::NextRailSettings(const map<string, RailData>& railMap, eRailAngle nextAngle)
+	{
 		// 始点と終点の設定、終点が無い場合はfalseを返す
 		const auto& drs = m_drMap.at(m_direction);
 		for (const auto& dr : drs)
@@ -77,7 +92,7 @@ namespace basecross {
 			}
 		}
 
-		return CheckGoalRail(); // レールを設定できなかったらゴールかどうか確認する
+		return false;
 	}
 
 	// ゴールにたどり着いたかのチェック

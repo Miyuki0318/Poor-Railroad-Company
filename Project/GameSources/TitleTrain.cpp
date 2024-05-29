@@ -16,7 +16,6 @@ namespace basecross {
 
 	void TitleTrain::OnUpdate()
 	{
-		auto construction = GetStage()->GetSharedGameObject<Construction>(L"Construction");
 		if (FindTag(tagName))
 		{
 			m_state = State::GameStart;
