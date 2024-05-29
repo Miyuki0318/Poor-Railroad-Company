@@ -34,6 +34,12 @@ namespace basecross
 		static shared_ptr<GameTrainStraightState> Instance();
 
 		/*!
+		@brief ステート名取得関数
+		@return ステートの名前
+		*/
+		wstring GetStateName() const override;
+
+		/*!
 		@brief ステート開始時に呼び出される関数
 		@param ステートマシン参照オブジェクトのポインタ
 		*/

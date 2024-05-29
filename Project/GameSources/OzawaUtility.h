@@ -620,5 +620,7 @@ namespace Utility
 
 	Vec3 CurveLerp(const Vec3& A, const Vec3& B, const Vec3& C, float totalTime);
 
+	float rotYatan2f(const Vec3& A, const Vec3& B);
+
 #endif
 }

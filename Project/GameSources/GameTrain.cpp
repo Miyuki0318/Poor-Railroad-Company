@@ -22,6 +22,8 @@ namespace basecross {
 	void GameTrain::OnUpdate()
 	{
 		StateProcess(m_state);
+
+		Debug::Log(L"現在のステート : ", m_trainState->GetCurrentState()->GetStateName());
 	}
 
 	void GameTrain::OnCollisionEnter(shared_ptr<GameObject>& gameObject)
@@ -54,7 +56,7 @@ namespace basecross {
 
 	void GameTrain::OnRailProcess()
 	{
-		MoveProcess(State::Derail);
+		//MoveProcess(State::Derail);
 
 		float rad = -atan2f(m_movePos.second.z - m_movePos.first.z, m_movePos.second.x - m_movePos.first.x);
 		SetRotation(Vec3(0.0f, rad, 0.0f));

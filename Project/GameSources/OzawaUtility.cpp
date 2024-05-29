@@ -421,18 +421,26 @@ namespace Utility
 	}
 
 
-	Vec3 SLerp(const Vec3& start, const Vec3& end, float t) {
+	Vec3 SLerp(const Vec3& start, const Vec3& end, float t) 
+	{
 		return start * (1.0f - t) + end * t;
 	}
 
-	Vec3 QuadraticBezier(const Vec3& A, const Vec3& B, const Vec3& C, float t) {
+	Vec3 QuadraticBezier(const Vec3& A, const Vec3& B, const Vec3& C, float t) 
+	{
 		Vec3 P0P1 = SLerp(A, B, t);
 		Vec3 P1P2 = SLerp(B, C, t);
 		return SLerp(P0P1, P1P2, t);
 	}
 
-	Vec3 CurveLerp(const Vec3& A, const Vec3& B, const Vec3& C, float totalTime) {
+	Vec3 CurveLerp(const Vec3& A, const Vec3& B, const Vec3& C, float totalTime) 
+	{
 		return QuadraticBezier(A, B, C, totalTime);
+	}
+
+	float rotYatan2f(const Vec3& A, const Vec3& B)
+	{
+		return atan2f(B.z - A.z, B.x - A.x);
 	}
 
 #endif

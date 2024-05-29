@@ -21,6 +21,12 @@ namespace basecross
 		return instance;
 	}
 
+	// ステート名取得
+	wstring GameTrainCurveStandbyState::GetStateName() const
+	{
+		return L"GameTrainCurveStandbyState";
+	}
+
 	// ステート開始時の処理
 	void GameTrainCurveStandbyState::Enter(const shared_ptr<GameTrain>& train)
 	{	

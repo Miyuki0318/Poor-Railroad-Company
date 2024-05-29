@@ -21,6 +21,12 @@ namespace basecross
 		return instance;
 	}
 
+	// ステート名取得
+	wstring GameTrainCurvingState::GetStateName() const
+	{
+		return L"GameTrainCurvingState";
+	}
+
 	// ステート開始時の処理
 	void GameTrainCurvingState::Enter(const shared_ptr<GameTrain>& train)
 	{
@@ -47,6 +53,13 @@ namespace basecross
 	{
 		// カーブを線形補間で処理
 		Vec3 pos = Utility::CurveLerp(train->m_curvePoints.pointA, train->m_curvePoints.pointB, train->m_curvePoints.pointC, train->m_moveRatio);
+
+		// ローテーションを線形補間で処理
+		float startRad = -Utility::rotYatan2f(train->m_curvePoints.pointA, train->m_curvePoints.pointB);
+		float endRad = -Utility::rotYatan2f(train->m_curvePoints.pointB, train->m_curvePoints.pointC);
+		float rad = Utility::Lerp(startRad, endRad, train->m_moveRatio);
+
+		// 割合の加算
 		train->m_moveRatio = MathF::Repeat01(train->m_moveRatio, train->m_MoveSpeed);
 
 		// 範囲外になったら
@@ -56,8 +69,9 @@ namespace basecross
 			train->m_trainState->ChangeState(GameTrainCurveExitState::Instance());
 		}
 
-		// 座標の更新
+		// 座標とローテーションの更新
 		train->SetPosition(pos);
+		train->SetRotation(Vec3(0.0f, rad, 0.0f));
 	}
 
 	// ステート終了時の処理

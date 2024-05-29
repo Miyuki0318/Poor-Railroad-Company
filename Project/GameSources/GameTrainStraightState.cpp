@@ -19,6 +19,12 @@ namespace basecross
 		return instance;
 	}
 
+	// ステート名取得
+	wstring GameTrainStraightState::GetStateName() const
+	{
+		return L"GameTrainStraightState";
+	}
+
 	// ステート開始時の処理
 	void GameTrainStraightState::Enter(const shared_ptr<GameTrain>& train)
 	{
@@ -34,6 +40,10 @@ namespace basecross
 
 		// 割合の初期化
 		train->m_moveRatio = 0.0f;
+
+		// ローテーションの更新
+		float rad = -atan2f(train->m_movePos.second.z - train->m_movePos.first.z, train->m_movePos.second.x - train->m_movePos.first.x);
+		train->SetRotation(Vec3(0.0f, rad, 0.0f));
 	}
 
 	// ステート更新時の処理

@@ -21,6 +21,12 @@ namespace basecross
 		return instance;
 	}
 
+	// ステート名取得
+	wstring GameTrainCurveExitState::GetStateName() const
+	{
+		return L"GameTrainCurveExitState";
+	}
+
 	// ステート開始時の処理
 	void GameTrainCurveExitState::Enter(const shared_ptr<GameTrain>& train)
 	{
@@ -50,6 +56,9 @@ namespace basecross
 		// 範囲外になったら
 		if (MathF::GetOutRange())
 		{
+			// 終了時のレールの座標をLINEとして保持
+			train->m_railPos = POS2LINE(train->m_movePos.second);
+
 			// 次のレールを見つけられなかったら次のステートに
 			if (!train->SearchNextRail()) train->m_state = Train::State::Derail;
 		}
@@ -61,7 +70,6 @@ namespace basecross
 	// ステート終了時の処理
 	void GameTrainCurveExitState::Exit(const shared_ptr<GameTrain>& train)
 	{
-		// 終了時のレールの座標をLINEとして保持
-		train->m_railPos = POS2LINE(train->m_movePos.second);
+		// 今のところ何もしない
 	}
 }
