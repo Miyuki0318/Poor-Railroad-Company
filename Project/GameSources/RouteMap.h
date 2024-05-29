@@ -11,18 +11,10 @@ namespace basecross {
 	class RouteMap : public TemplateObject
 	{
 		// モデルのテクスチャキー
-		const wstring m_modelTextures[3] = {
-			L"EASY_TX",
-			L"NORMAL_TX",
-			L"HARD_TX"
-		};
-
+		map<eMapLevel, wstring> m_modelTextures;
+		
 		// スプライトのテクスチャキー
-		const wstring m_mapTextures[3] = {
-			L"EASYMAP_TX",
-			L"NORMALMAP_TX",
-			L"HARDMAP_TX"
-		};
+		map<eMapLevel, wstring> m_mapTextures;
 
 		// タグ名取得
 		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
@@ -57,6 +49,14 @@ namespace basecross {
 
 			m_currentX = 0.0f;
 			m_mapLevel = eMapLevel::easyMap;
+
+			m_modelTextures.emplace(eMapLevel::easyMap, L"EASY_TX");
+			m_modelTextures.emplace(eMapLevel::normalMap, L"NORMAL_TX");
+			m_modelTextures.emplace(eMapLevel::hardMap, L"HARD_TX");
+
+			m_mapTextures.emplace(eMapLevel::easyMap, L"EASYMAP_TX");
+			m_mapTextures.emplace(eMapLevel::normalMap, L"NORMALMAP_TX");
+			m_mapTextures.emplace(eMapLevel::hardMap, L"HARDMAP_TX");
 		}
 
 		virtual void OnCreate() override;

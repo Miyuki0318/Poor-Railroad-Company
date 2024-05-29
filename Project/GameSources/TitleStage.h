@@ -137,7 +137,7 @@ namespace basecross
 		/*
 		@brief コンストラクタ
 		*/
-		TitleStage() : BaseStage()
+		TitleStage(const string& stagePath) : BaseStage(stagePath)
 		{
 			titleProgress = eTitleProgress::usually;
 

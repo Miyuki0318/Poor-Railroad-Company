@@ -312,7 +312,7 @@ namespace basecross
 
 			CreatePlayer();
 
-			CreateStageCSV("Title");
+			CreateStageCSV(m_stagePath);
 
 			CreateRailManager();
 

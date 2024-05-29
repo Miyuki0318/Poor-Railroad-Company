@@ -75,7 +75,7 @@ namespace basecross
 	{
 		// CSVデータ(int型の二次元配列)
 		m_stageMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Stage"));
-		m_groundMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "2Ground"));
+		m_groundMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Ground"));
 
 		// オブジェクトグループ
 		const auto& miningGroup = GetSharedObjectGroup(L"MiningObject");
@@ -225,7 +225,7 @@ namespace basecross
 			CreatePlayer();
 
 			// CSVでステージを生成
-			CreateStageCSV();
+			CreateStageCSV(m_stagePath);
 
 			// 線路の生成
 			CreateRailManager();

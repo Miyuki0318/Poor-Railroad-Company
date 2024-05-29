@@ -24,7 +24,7 @@ namespace basecross {
 
 			//自分自身にイベントを送る
 			//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる
-			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"GameStage");
+			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"TitleStage");
 		}
 		catch (...)
 		{
@@ -38,12 +38,12 @@ namespace basecross {
 	{
 		if (event->m_MsgStr == L"TitleStage")
 		{
-			ResetActiveStage<TitleStage>();
+			ResetActiveStage<TitleStage>("Title");
 		}
 		if (event->m_MsgStr == L"GameStage")
 		{
 			//最初のアクティブステージの設定
-			ResetActiveStage<GameStage>();
+			ResetActiveStage<GameStage>(m_stagePathMap.at(m_mapLevel));
 		}
 	}
 

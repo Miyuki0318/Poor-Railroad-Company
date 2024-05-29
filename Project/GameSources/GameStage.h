@@ -54,7 +54,7 @@ namespace basecross
 		@brief ステージをcsvで生成
 		@param csvのファイル名
 		*/
-		void CreateStageCSV(string csvPath = "Test") override;
+		void CreateStageCSV(string csvPath) override;
 
 		/*!
 		@brief 採掘系オブジェクトの生成生成
@@ -101,7 +101,7 @@ namespace basecross
 		/*!
 		@brief コンストラクタ
 		*/
-		GameStage() :BaseStage() {
+		GameStage(const string stagePath) :BaseStage(stagePath) {
 			m_gameProgress = eGameProgress::Playing;
 		}
 
