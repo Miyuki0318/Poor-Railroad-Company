@@ -20,6 +20,12 @@ namespace basecross
 		wstring texturePath = mediaPath + L"Textures/";
 		wstring soundPath = mediaPath + L"Sounds/";
 
+		// 地面のテクスチャ
+		AddTextureResource(L"G_GRASS_TX", texturePath + L"Grass.png");
+		AddTextureResource(L"G_WATER_TX", texturePath + L"Water.png");
+		AddTextureResource(L"G_SAND_TX", texturePath + L"Sand.png");
+		AddTextureResource(L"G_ROCK_TX", texturePath + L"Rock.png");
+
 		// クラフトウィンドウのテクスチャ
 		AddTextureResource(L"C_WINDOW_TX", texturePath + L"CraftWindow.png");
 

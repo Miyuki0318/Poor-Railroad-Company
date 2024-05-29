@@ -18,7 +18,7 @@ namespace basecross
 		shared_ptr<PNTStaticInstanceDraw> m_ptrDraw;
 		
 		// ’n–Ê‚ÌF
-		const Col4 m_groundColor;
+		const wstring m_groundTexture;
 
 	public:
 
@@ -28,10 +28,10 @@ namespace basecross
 		@param İ’è‚·‚éF
 		*/
 		InstanceGround(const shared_ptr<Stage>& stagePtr,
-			const Col4& color
+			const wstring& texture
 		) :
 			GameObject(stagePtr),
-			m_groundColor(color)
+			m_groundTexture(texture)
 		{
 		}
 
