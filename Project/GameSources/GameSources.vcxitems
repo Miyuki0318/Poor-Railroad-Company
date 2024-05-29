@@ -23,6 +23,11 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Company.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrain.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainCurveExitState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainCurveStandbyState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainStraightState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainCurvingState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GroundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ItemCountUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h" />
@@ -81,6 +86,10 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Company.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrain.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainCurveExitState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainCurveStandbyState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainStraightState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainCurvingState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GroundManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ItemCountUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp" />

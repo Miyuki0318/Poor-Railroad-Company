@@ -613,5 +613,12 @@ namespace Utility
 	*/
 	bool GetBetween(const Vec2& value, const Vec2& a, const Vec2& b);
 	bool GetBetween(const Vec3& value, const Vec3& a, const Vec3& b);
+
+	Vec3 SLerp(const Vec3& start, const Vec3& end, float t);
+
+	Vec3 QuadraticBezier(const Vec3& A, const Vec3& B, const Vec3& C, float t);
+
+	Vec3 CurveLerp(const Vec3& A, const Vec3& B, const Vec3& C, float totalTime);
+
 #endif
 }

@@ -8,6 +8,17 @@
 #include "Project.h"
 
 namespace basecross {
+
+	const float HELF_TIME = 0.5f;
+
+	void GameTrain::OnCreate()
+	{
+		Train::OnCreate();
+
+		m_trainState.reset(new StateMachine<GameTrain>(GetThis<GameTrain>()));
+		m_trainState->ChangeState(GameTrainStraightState::Instance());
+	}
+
 	void GameTrain::OnUpdate()
 	{
 		StateProcess(m_state);
@@ -37,7 +48,7 @@ namespace basecross {
 
 		if (state == State::OnRail)
 		{
-			OnRailProcess();
+			m_trainState->Update();
 		}
 	}
 
@@ -81,16 +92,11 @@ namespace basecross {
 			if (nextAngle != eRailAngle::Straight)
 			{
 				// レールを設定
-				m_movePos.first = railMap.at(m_railPos).thisPos;	// 現在のレールの座標
-				m_movePos.second = railMap.at(line).futurePos;		// 2個先のレールの座標
-				m_railPos = POS2LINE(railMap.at(line).futurePos);	// 2個先のレールのLINEを保持
+				m_trainState->ChangeState(GameTrainCurveStandbyState::Instance());
 			}
 			else
 			{
-				// レールを設定
-				m_movePos.first = railMap.at(m_railPos).thisPos;	// 現在のレールの座標
-				m_movePos.second = railMap.at(line).thisPos;		// 1個先のレールの座標
-				m_railPos = line;									// 1個先のレールのLINEを保持
+				m_trainState->ChangeState(GameTrainStraightState::Instance());
 			}
 			return true;
 		}

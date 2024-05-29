@@ -37,6 +37,7 @@
 #include "SkyBox.h"
 #include "TitleTrain.h"
 #include "GameTrain.h"
+#include "GameTrainState.h"
 #include "GroundManager.h"
 #include "BridgeManager.h"
 #include "UnBreakRock.h"

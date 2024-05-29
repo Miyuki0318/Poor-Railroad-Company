@@ -1,0 +1,54 @@
+/*!
+@file GameTrainCurvingState.h
+@brief ゲーム中の列車のカーブ中のステート
+@author 小澤博貴
+*/
+
+#pragma once
+#include "stdafx.h"
+#include "GameTrain.h"
+
+namespace basecross
+{
+	/*!
+	@brief ゲーム中のカーブレール走行中のステート
+	*/
+	class GameTrainCurvingState : public ObjState<GameTrain>
+	{
+		/*!
+		@brief コンストラクタ
+		*/
+		GameTrainCurvingState() {}
+
+	public:
+
+		/*!
+		@brief デストラクタ
+		*/
+		virtual ~GameTrainCurvingState() {}
+
+		/*!
+		@brief インスタンス関数
+		@return 新しく生成されたthisポインタ
+		*/
+		static shared_ptr<GameTrainCurvingState> Instance();
+
+		/*!
+		@brief ステート開始時に呼び出される関数
+		@param ステートマシン参照オブジェクトのポインタ
+		*/
+		void Enter(const shared_ptr<GameTrain>& train) override;
+
+		/*!
+		@brief ステート実行中に呼び出される関数
+		@param ステートマシン参照オブジェクトのポインタ
+		*/
+		void Execute(const shared_ptr<GameTrain>& train) override;
+
+		/*!
+		@brief ステート終了時に呼び出される関数
+		@param ステートマシン参照オブジェクトのポインタ
+		*/
+		void Exit(const shared_ptr<GameTrain>& train) override;
+	};
+}
