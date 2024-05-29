@@ -67,6 +67,11 @@ namespace basecross
 		void CreateRailManager();
 
 		/*!
+		@brief –Ø‚Ì‘«ê¶¬
+		*/
+		void CreateBridgeManager();
+
+		/*!
 		@briefƒS[ƒ‹’n“_‚Ì¶¬
 		*/
 		void CreateGoalRail();

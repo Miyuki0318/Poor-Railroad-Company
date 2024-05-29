@@ -38,5 +38,6 @@
 #include "TitleTrain.h"
 #include "GameTrain.h"
 #include "GroundManager.h"
+#include "BridgeManager.h"
 #include "UnBreakRock.h"
 #include "MathFunc.h"

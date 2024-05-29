@@ -7,13 +7,14 @@
 #include "stdafx.h"
 #include "Project.h"
 
-const Mat4x4 mtxRotation = Mat4x4().rotation((Quat)XMQuaternionRotationRollPitchYawFromVector(Vec3(0.0f, XM_PIDIV2, 0.0f)));
-const Mat4x4 mtxScale = Mat4x4().scale(Vec3(0.675f));
-
 namespace basecross
 {
 	// ネームスペースの省略
 	using namespace Utility;
+
+	// 行列計算に使うローテーションとスケール
+	const Mat4x4 mtxRotation = Mat4x4().rotation((Quat)XMQuaternionRotationRollPitchYawFromVector(Vec3(0.0f, XM_PIDIV2, 0.0f)));
+	const Mat4x4 mtxScale = Mat4x4().scale(Vec3(0.675f));
 
 	// lineからrowとcolを抽出
 	void GetLineStringToRowCol(size_t& row, size_t& col, string line)
