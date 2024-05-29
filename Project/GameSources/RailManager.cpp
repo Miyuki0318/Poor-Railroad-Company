@@ -12,8 +12,7 @@ namespace basecross
 	// ネームスペースの省略
 	using namespace Utility;
 
-	// 行列計算に使うローテーションとスケール
-	const Mat4x4 mtxRotation = Mat4x4().rotation((Quat)XMQuaternionRotationRollPitchYawFromVector(Vec3(0.0f, XM_PIDIV2, 0.0f)));
+	// 行列計算に使うスケール
 	const Mat4x4 mtxScale = Mat4x4().scale(Vec3(0.675f));
 
 	// lineからrowとcolを抽出
@@ -33,19 +32,46 @@ namespace basecross
 	}
 
 	// 生成時の処理
-	void RailManager::OnCreate()
+	void InstanceRail::OnCreate()
 	{
 		// 描画コンポーネントの設定
 		m_ptrDraw = AddComponent<PNTStaticInstanceDraw>();
-		m_ptrDraw->SetMeshResource(L"RAIL");
+		m_ptrDraw->SetMeshResource(m_meshKey);
 		m_ptrDraw->SetTextureResource(L"RAIL_TX");
 		m_ptrDraw->SetSpecular(COL_WHITE);
 		m_ptrDraw->SetDiffuse(COL_WHITE);
+	}
 
+	// インスタンス描画の行列を追加
+	void InstanceRail::AddRail(Mat4x4 matrix)
+	{
+		if (!m_ptrDraw) return;
+		m_ptrDraw->AddMatrix(matrix);
+	}
+
+	// インスタンス描画の行列を追加
+	void InstanceRail::ResetRail()
+	{
+		m_ptrDraw->ClearMatrixVec();
+	}
+
+	// 行列の配列を取得
+	vector<Mat4x4>& InstanceRail::GetMatrix()
+	{
+		return m_ptrDraw->GetMatrixVec();
+	}
+
+	// 生成時の処理
+	void RailManager::OnCreate()
+	{
 		// csvの取得
 		const auto& stagePtr = GetTypeStage<BaseStage>();
 		const auto& stageMap = stagePtr->GetStageMap();
 		m_guideMap = stageMap;
+
+		// インスタンス描画のレールを生成
+		m_instanceRail.emplace(eRailAngle::Left, stagePtr->AddGameObject<InstanceRail>(L"TURNRAIL"));
+		m_instanceRail.emplace(eRailAngle::Straight, stagePtr->AddGameObject<InstanceRail>(L"RAIL"));
 
 		// レール描画生成
 		ResetInstanceRail();
@@ -59,7 +85,10 @@ namespace basecross
 		const auto& stageMap = stagePtr->GetStageMap();
 
 		// 初期化
-		m_ptrDraw->ClearMatrixVec();
+		for (auto& rail : m_instanceRail)
+		{
+			rail.second.lock()->ResetRail();
+		}
 
 		// 二重ループ
 		for (size_t row = 0; row < stageMap.size(); row++)
@@ -69,9 +98,6 @@ namespace basecross
 				// レールIDと先端レールID以外は無視
 				eStageID id = STAGE_ID(stageMap.at(row).at(col));
 				if (!GetBetween(id, eStageID::Rail, eStageID::GoalRail)) continue;
-
-				// インスタンス描画を追加
-				AddInstanceRail(row, col);
 
 				// 先端レールならガイドIDを設定
 				if (id == eStageID::DeRail) SetGuideID(row, col);
@@ -94,6 +120,9 @@ namespace basecross
 					AddRailDataMap(row, col);
 					m_pastLine = ROWCOL2LINE(row, col);
 				}
+
+				// インスタンス描画を追加
+				AddInstanceRail(row, col);
 			}
 		}
 	}
@@ -104,11 +133,11 @@ namespace basecross
 		// ステージcsvの取得
 		auto& stageMap = GetTypeStage<BaseStage>()->GetStageMap();
 
-		// インスタンス描画を追加
-		AddInstanceRail(point.x, point.y);
-
 		// レールマップに追加
 		AddRailDataMap(point.x, point.y);
+
+		// インスタンス描画を追加
+		AddInstanceRail(point.x, point.y);
 
 		// ゴールレールと繋がったかの確認
 		CheckConnectionGoalRail(point.x, point.y);
@@ -125,18 +154,22 @@ namespace basecross
 	}
 
 	// インスタンス描画の追加
-	void RailManager::AddInstanceRail(size_t row, size_t col)
+	void RailManager::AddInstanceRail(size_t row, size_t col, eRailAngle angle)
 	{
 		// 座標の設定
 		Vec3 addPos = ROWCOL2POS(row, col);
 
 		// トランスフォーム行列の設定
-		Mat4x4 matrix, mtxPosition;
+		Mat4x4 matrix, mtxPosition, mtxRotation;
 		mtxPosition.translation(addPos);
+
+		auto type = m_railDataMap.empty() ? eRailType::AxisXLine : m_railDataMap.at(ROWCOL2LINE(row, col)).type;
+		float rotY = m_railAngleMap.at(type);
+		mtxRotation.rotation((Quat)XMQuaternionRotationRollPitchYawFromVector(Vec3(0.0f, rotY, 0.0f)));
 
 		// 行列の設定と追加
 		matrix = mtxScale * mtxRotation * mtxPosition;
-		m_ptrDraw->AddMatrix(matrix);
+		m_instanceRail.at(angle).lock()->AddRail(matrix);
 	}
 
 	// マップデータに追加
@@ -167,7 +200,24 @@ namespace basecross
 		if (data.type != pastData->type)
 		{
 			pastData->angle = isRight ? (isUpper ? eRailAngle::Right : eRailAngle::Left) : (isUpper ? eRailAngle::Left : eRailAngle::Right);
-			pastData->type = isRight ? (isUpper ? eRailType::Right2Under : eRailType::Right2Upper) : (isUpper ? eRailType::Left2Upper : eRailType::Left2Under);
+
+			if (pastData->pastPos.x < data.thisPos.x && pastData->pastPos.z > data.thisPos.z && data.type == eRailType::AxisZLine) pastData->type = eRailType::Left2Under;
+			if (pastData->pastPos.x < data.thisPos.x && pastData->pastPos.z > data.thisPos.z && data.type == eRailType::AxisXLine) pastData->type = eRailType::Right2Upper;
+			if (pastData->pastPos.x < data.thisPos.x && pastData->pastPos.z < data.thisPos.z && data.type == eRailType::AxisZLine) pastData->type = eRailType::Left2Upper;
+			if (pastData->pastPos.x < data.thisPos.x && pastData->pastPos.z < data.thisPos.z && data.type == eRailType::AxisXLine) pastData->type = eRailType::Right2Under;
+			if (pastData->pastPos.x > data.thisPos.x && pastData->pastPos.z > data.thisPos.z && data.type == eRailType::AxisZLine) pastData->type = eRailType::Right2Under;
+			if (pastData->pastPos.x > data.thisPos.x && pastData->pastPos.z > data.thisPos.z && data.type == eRailType::AxisXLine) pastData->type = eRailType::Left2Upper;
+			if (pastData->pastPos.x > data.thisPos.x && pastData->pastPos.z < data.thisPos.z && data.type == eRailType::AxisZLine) pastData->type = eRailType::Right2Upper;
+			if (pastData->pastPos.x > data.thisPos.x && pastData->pastPos.z < data.thisPos.z && data.type == eRailType::AxisXLine) pastData->type = eRailType::Left2Under;
+
+			vector<Mat4x4> newVec;
+			auto& matVec = m_instanceRail.at(eRailAngle::Straight).lock()->GetMatrix();
+			for (size_t i = 0; i < matVec.size(); i++)
+			{
+				if (matVec.at(i).getTranslation() != pastData->thisPos) newVec.push_back(matVec.at(i));
+			}
+			matVec.swap(newVec);
+			AddInstanceRail(ROW(pastData->thisPos.z), COL(pastData->thisPos.x), eRailAngle::Left);
 		}
 
 		// マップに追加
