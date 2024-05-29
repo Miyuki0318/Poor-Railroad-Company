@@ -21,8 +21,8 @@ namespace basecross
 		// 描画コンポーネントの設定
 		m_ptrDraw = AddComponent<PNTStaticInstanceDraw>();
 		m_ptrDraw->SetMeshResource(L"DEFAULT_CUBE");
+		m_ptrDraw->SetTextureResource(m_groundTexture);
 		m_ptrDraw->SetOwnShadowActive(true);
-		m_ptrDraw->SetDiffuse(m_groundColor);
 	}
 
 	// 生成時の処理
@@ -37,11 +37,11 @@ namespace basecross
 		for (int i = 0; i < groundMap.front().size(); i += END_INDEX)
 		{
 			// 区切り数ずつ追加
-			grass.emplace(i, stagePtr->AddGameObject<InstanceGround>(COL_GREAN));
-			unGrass.emplace(i, stagePtr->AddGameObject<InstanceGround>(COL_GREAN));
-			sand.emplace(i, stagePtr->AddGameObject<InstanceGround>(COL_YELOW));
-			water.emplace(i, stagePtr->AddGameObject<InstanceGround>(COL_BG));
-			rock.emplace(i, stagePtr->AddGameObject<InstanceGround>(Col4(0.1f, 0.1f, 0.1f, 1.0f)));
+			grass.emplace(i, stagePtr->AddGameObject<InstanceGround>(L"G_GRASS_TX"));
+			unGrass.emplace(i, stagePtr->AddGameObject<InstanceGround>(L"G_GRASS_TX"));
+			sand.emplace(i, stagePtr->AddGameObject<InstanceGround>(L"G_SAND_TX"));
+			water.emplace(i, stagePtr->AddGameObject<InstanceGround>(L"G_WATER_TX"));
+			rock.emplace(i, stagePtr->AddGameObject<InstanceGround>(L"G_ROCK_TX"));
 		}
 
 		// 各タイプで生成したマップをStageIDをキーに二次元マップ化

@@ -8,7 +8,7 @@
 
 namespace basecross{
 	// マップの難易度
-	enum eMapLevel
+	enum class eMapLevel
 	{
 		easyMap,
 		normalMap,
@@ -20,16 +20,21 @@ namespace basecross{
 	//--------------------------------------------------------------------------------------
 	class Scene : public SceneBase{
 	private:
-		eMapLevel mapLevel = easyMap;
-
+		eMapLevel m_mapLevel = eMapLevel::easyMap;
+		map<eMapLevel, string> m_stagePathMap;
 	public:
-		const wstring objTagName = L"SELECT";
+		const wstring m_objTagName = L"SELECT";
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief コンストラクタ
 		*/
 		//--------------------------------------------------------------------------------------
-		Scene() :SceneBase(){}
+		Scene() :SceneBase()
+		{
+			m_stagePathMap.emplace(eMapLevel::easyMap, "Test");
+			m_stagePathMap.emplace(eMapLevel::normalMap, "Second");
+			m_stagePathMap.emplace(eMapLevel::hardMap, "Third");
+		}
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief デストラクタ
@@ -79,9 +84,9 @@ namespace basecross{
 		/*!
 		@brief	マップの難易度を取得するゲット関数
 		*/
-		eMapLevel GetMapLevel()
+		eMapLevel GetMapLevel() const
 		{
-			return mapLevel;
+			return m_mapLevel;
 		}
 
 		/*!
@@ -89,7 +94,7 @@ namespace basecross{
 		*/
 		void SetMapLevel(eMapLevel level)
 		{
-			mapLevel = level;
+			m_mapLevel = level;
 		}
 
 
@@ -98,7 +103,7 @@ namespace basecross{
 		*/
 		wstring GetTagName()
 		{
-			return objTagName;
+			return m_objTagName;
 		}
 	};
 }

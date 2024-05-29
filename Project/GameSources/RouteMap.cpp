@@ -22,10 +22,10 @@ namespace basecross {
 		m_drawComp = AddComponent<PNTStaticDraw>();
 		m_drawComp->SetMeshToTransformMatrix(m_spanMat);
 		m_drawComp->SetMeshResource(L"BOARD");
-		m_drawComp->SetTextureResource(m_modelTextures[m_mapLevel]);
+		m_drawComp->SetTextureResource(m_modelTextures.at(m_mapLevel));
 
 		// スプライトの追加
-		m_mapSprite = GetStage()->AddGameObject<Sprite>(m_mapTextures[m_mapLevel], m_spriteScale);
+		m_mapSprite = GetStage()->AddGameObject<Sprite>(m_mapTextures.at(m_mapLevel), m_spriteScale);
 		m_mapSprite->SetDrawActive(false);
 	}
 
@@ -56,16 +56,16 @@ namespace basecross {
 		{
 			switch (m_mapLevel)
 			{
-			case easyMap:
-				m_mapLevel = hardMap;
+			case eMapLevel::easyMap:
+				m_mapLevel = eMapLevel::hardMap;
 				break;
 
-			case normalMap:
-				m_mapLevel = easyMap;
+			case eMapLevel::normalMap:
+				m_mapLevel = eMapLevel::easyMap;
 				break;
 
-			case hardMap:
-				m_mapLevel = normalMap;
+			case eMapLevel::hardMap:
+				m_mapLevel = eMapLevel::normalMap;
 				break;
 
 			default:
@@ -76,16 +76,16 @@ namespace basecross {
 		{
 			switch (m_mapLevel)
 			{
-			case easyMap:
-				m_mapLevel = normalMap;
+			case eMapLevel::easyMap:
+				m_mapLevel = eMapLevel::normalMap;
 				break;
 
-			case normalMap:
-				m_mapLevel = hardMap;
+			case eMapLevel::normalMap:
+				m_mapLevel = eMapLevel::hardMap;
 				break;
 
-			case hardMap:
-				m_mapLevel = easyMap;
+			case eMapLevel::hardMap:
+				m_mapLevel = eMapLevel::easyMap;
 				break;
 
 			default:

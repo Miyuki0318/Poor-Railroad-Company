@@ -53,6 +53,9 @@ namespace basecross
 		// タイマーオブジェクト
 		weak_ptr<Timer> m_timer;
 
+		// ステージのファイル内
+		const string m_stagePath;
+
 		/*!
 		@brief リソースの読込
 		*/
@@ -80,7 +83,7 @@ namespace basecross
 		/*!
 		@brief コンストラクタ
 		*/
-		BaseStage() : Stage() {}
+		BaseStage(const string stagePath) : Stage(), m_stagePath(stagePath) {}
 
 		/*!
 		@brief デストラクタ
