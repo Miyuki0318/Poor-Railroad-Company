@@ -60,6 +60,11 @@ namespace basecross
 	// Aボタン入力時
 	void PlayerMovingState::OnPushA(const shared_ptr<GamePlayer>& player)
 	{
+	}
+
+	// Bボタン入力時
+	void PlayerMovingState::OnPushB(const shared_ptr<GamePlayer>& player)
+	{
 		// インディケーターに応じた処理を実行
 		player->IndicatorOrder();
 	}
@@ -69,6 +74,11 @@ namespace basecross
 	{
 		// クラフト画面を切り替える
 		player->SwitchCraftWindow();
+	}
+
+	// Yボタン入力時
+	void PlayerMovingState::OnPushY(const shared_ptr<GamePlayer>& player)
+	{
 	}
 
 	// 移動更新

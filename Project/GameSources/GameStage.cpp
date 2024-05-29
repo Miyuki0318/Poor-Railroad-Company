@@ -90,7 +90,7 @@ namespace basecross
 				shared_ptr<MiningObject> mining = nullptr;
 
 				// 座標(左限+列番号×スケール,下限+行数-行番号×スケール)
-				Vec3 position = LINE2POS(i, j);
+				Vec3 position = ROWCOL2POS(i, j);
 
 				// 数値の別名
 				eStageID num = STAGE_ID(m_stageMap.at(i).at(j));
@@ -143,6 +143,12 @@ namespace basecross
 		AddGameObject<RailGuide>();
 	}
 
+	void GameStage::CreateBridgeManager()
+	{
+		const auto& bridgeManager = AddGameObject<BridgeManager>();
+		SetSharedGameObject(L"BridgeManager", bridgeManager);
+	}
+
 	void GameStage::CreateGoalRail()
 	{
 		AddGameObject<GoalRail>(Vec3(9.0f, 1.0f, 0.0f));
@@ -161,8 +167,7 @@ namespace basecross
 	// スプライトの生成
 	void GameStage::CreateSpriteObject()
 	{
-		m_gameClearLogo = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(100.0f), Vec3(0.0f));
-		m_gameOverLogo = AddGameObject<Sprite>(L"GAMEOVER_TX", Vec2(100.0f), Vec3(0.0f));
+		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f), Vec3(0.0f));
 	}
 
 	// UIの生成
@@ -176,7 +181,9 @@ namespace basecross
 		// アイテム数UI
 		AddGameObject<ItemCountUI>(scale, startPos, L"UI_WOOD_TX", eItemType::Wood);
 		AddGameObject<ItemCountUI>(scale, startPos + distance, L"UI_STONE_TX", eItemType::Stone);
-		AddGameObject<ItemCountUI>(scale, startPos + (distance * 2.0), L"UI_RAIL_TX", eItemType::Rail);
+		AddGameObject<ItemCountUI>(scale, startPos + (distance * 2.0), L"UI_GEAR_TX", eItemType::Gear);
+		AddGameObject<ItemCountUI>(scale, startPos + (distance * 4.0), L"UI_RAIL_TX", eItemType::Rail);
+		AddGameObject<ItemCountUI>(scale, startPos + (distance * 5.0), L"UI_BRIDGE_TX", eItemType::WoodBridge);
 	}
 
 	// スプライトの表示
@@ -184,19 +191,18 @@ namespace basecross
 	{
 		switch (m_gameProgress)
 		{
-		case eGameProgress::Playing :
-			m_gameClearLogo->SetDrawActive(false);
-			m_gameOverLogo->SetDrawActive(false);
+		case Playing :
+			m_gameSprite->SetDrawActive(false);
 			break;
 
-		case eGameProgress::GameClear:
-			m_gameClearLogo->SetDrawActive(true);
-			m_gameOverLogo->SetDrawActive(false);
+		case GameClear:
+			m_gameSprite->SetTexture(L"GAMECLEAR_TX");
+			m_gameSprite->SetDrawActive(true);
 			break;
 
-		case eGameProgress::GameOver:
-			m_gameClearLogo->SetDrawActive(false);
-			m_gameOverLogo->SetDrawActive(true);
+		case GameOver:
+			m_gameSprite->SetTexture(L"GAMEOVER_TX");
+			m_gameSprite->SetDrawActive(true);
 			break;
 		}
 	}
@@ -224,6 +230,9 @@ namespace basecross
 			// 線路の生成
 			CreateRailManager();
 
+			// 木の足場の生成
+			CreateBridgeManager();
+
 			// 床ボックスの生成
 			CreateGroundBox();
 
@@ -234,7 +243,7 @@ namespace basecross
 			CreateSpriteObject();
 
 			// UIの生成
-			//CreateUIObject();
+			CreateUIObject();
 
 			// BGMの再生
 			m_soundManager->StartBGM(L"GAME_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);

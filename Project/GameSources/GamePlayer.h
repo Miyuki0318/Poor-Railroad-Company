@@ -74,9 +74,9 @@ namespace basecross
 			m_impassableSet.insert(eStageID::Tree);
 			m_impassableSet.insert(eStageID::Stone);
 			m_impassableSet.insert(eStageID::UnBreakRock);
+			m_impassableSet.insert(eStageID::Water);
 
 			m_impassableSet.insert(eStageID::Air);
-			m_impassableSet.insert(eStageID::Water);
 			m_impassableSet.insert(eStageID::UnGrass);
 		}
 
@@ -118,8 +118,29 @@ namespace basecross
 		void IndicatorOrder();
 
 		/*!
+		@brief 採掘命令関数
+		@param インディケーターのポインタ
+		@return 採掘できたか
+		*/
+		bool MiningOrder(const shared_ptr<SelectIndicator>& indicator);
+
+		/*!
+		@brief レール追加命令関数
+		@param インディケーターのポインタ
+		@return 設置できたか
+		*/
+		bool AddRailOrder(const shared_ptr<SelectIndicator>& indicator);
+
+		/*!
+		@brief 木の足場追加命令関数
+		@param インディケーターのポインタ
+		@return 設置できたか
+		*/
+		bool AddBridgeOrder(const shared_ptr<SelectIndicator>& indicator);
+
+		/*!
 		@brief 採掘時に呼び出される関数
-		@param 採掘されるオブジェクトのポインタ
+		@param 採掘されるオブジェクトのタグ
 		*/
 		void MiningProcces(const set<wstring>& tagSet);
 
@@ -184,9 +205,12 @@ namespace basecross
 		@param クラフトアイテムenum
 		@return クラフトできるかの真偽
 		*/
-		bool GetCraftPosshible(eCraftItem item = eCraftItem::Rail) const
+		bool GetCraftPosshible() const
 		{
-			return m_craft->CraftOrder();
+			bool rail = m_craft->CraftOrder(eCraftItem::Rail);
+			bool bridge = m_craft->CraftOrder(eCraftItem::WoodBridge);
+
+			return rail || bridge;
 		}
 
 		/*!

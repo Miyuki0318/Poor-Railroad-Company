@@ -25,8 +25,7 @@ namespace basecross
 	class GameStage : public BaseStage
 	{
 		// ゲームクリア・ゲームオーバーのスプライト
-		shared_ptr<Sprite> m_gameClearLogo;
-		shared_ptr<Sprite> m_gameOverLogo;
+		shared_ptr<Sprite> m_gameSprite;
 
 		// ゲームの状況
 		eGameProgress m_gameProgress;
@@ -66,6 +65,11 @@ namespace basecross
 		@brief 線路生成
 		*/
 		void CreateRailManager();
+
+		/*!
+		@brief 木の足場生成
+		*/
+		void CreateBridgeManager();
 
 		/*!
 		@briefゴール地点の生成

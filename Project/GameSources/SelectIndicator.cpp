@@ -152,14 +152,34 @@ namespace basecross
 	// レール設置命令
 	bool SelectIndicator::RailedOrder() const
 	{
-		// 選択ポイントがガイドの位置と一致しているか
+		// レールマネージャーの取得
 		const auto& railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager");
+		if (!railManager) return false;
+
+		// 選択ポイントがガイドの位置と一致しているか
 		bool posshible = railManager->GetIsGuidePoint(m_selectPoint);
+		if (posshible)
+		{
+			// 一致してたらマネージャーにレール追加処理を送る
+			railManager->AddRail(m_selectPoint);
+		}
+
+		return posshible;
+	}
+
+	// レール設置命令
+	bool SelectIndicator::BridgeOrder() const
+	{
+		// 選択ポイントがガイドの位置と一致しているか
+		const auto& bridgeManager = GetStage()->GetSharedGameObject<BridgeManager>(L"BridgeManager");
+		if (!bridgeManager) return false;
+
+		bool posshible = bridgeManager->GetIsWaterPoint(m_selectPoint);
 
 		// 一致してたらマネージャーにレール追加処理を送る
 		if (posshible)
 		{
-			railManager->AddRail(m_selectPoint);
+			bridgeManager->AddBridge(m_selectPoint);
 		}
 
 		return posshible;

@@ -75,11 +75,11 @@ namespace basecross
 		if (player->m_craft->GetShowCraftWindow() && !player->m_status(ePlayerStatus::IsCraftQTE))
 		{
 			// クラフト命令を送り、クラフト可能であればtrue
-			if (player->m_craft->CraftOrder())
+			if (player->m_craft->CraftOrder(eCraftItem::WoodBridge))
 			{
 				// QTE状態をオンにし、QTEを開始させる
 				player->m_status.Set(ePlayerStatus::IsCraftQTE) = true;
-				player->m_craft->StartQTE();
+				player->m_craft->StartQTE(eCraftItem::WoodBridge, eItemType::WoodBridge);
 				player->SetAnimationMesh(ePAKey::Crafting);
 			}
 			return;
@@ -91,6 +91,56 @@ namespace basecross
 			// QTE停止時の処理を送る
 			StoppedCraftQTE(player);
 		}
+	}
+
+	// Bボタン入力時
+	void PlayerCraftingState::OnPushB(const shared_ptr<GamePlayer>& player)
+	{
+		// クラフトウィンドウが表示済みで、QTE中じゃなければ
+		if (player->m_craft->GetShowCraftWindow() && !player->m_status(ePlayerStatus::IsCraftQTE))
+		{
+			// クラフト命令を送り、クラフト可能であればtrue
+			if (player->m_craft->CraftOrder(eCraftItem::Rail))
+			{
+				// QTE状態をオンにし、QTEを開始させる
+				player->m_status.Set(ePlayerStatus::IsCraftQTE) = true;
+				player->m_craft->StartQTE(eCraftItem::Rail, eItemType::Rail);
+				player->SetAnimationMesh(ePAKey::Crafting);
+			}
+			return;
+		}
+
+		// クラフトQTE
+		if (player->m_status(ePlayerStatus::IsCraftQTE))
+		{
+			// QTE停止時の処理を送る
+			StoppedCraftQTE(player);
+		}
+	}
+
+	// Yボタン入力時
+	void PlayerCraftingState::OnPushY(const shared_ptr<GamePlayer>& player)
+	{
+		//// クラフトウィンドウが表示済みで、QTE中じゃなければ
+		//if (player->m_craft->GetShowCraftWindow() && !player->m_status(ePlayerStatus::IsCraftQTE))
+		//{
+		//	// クラフト命令を送り、クラフト可能であればtrue
+		//	if (player->m_craft->CraftOrder())
+		//	{
+		//		// QTE状態をオンにし、QTEを開始させる
+		//		player->m_status.Set(ePlayerStatus::IsCraftQTE) = true;
+		//		player->m_craft->StartQTE();
+		//		player->SetAnimationMesh(ePAKey::Crafting);
+		//	}
+		//	return;
+		//}
+
+		//// クラフトQTE
+		//if (player->m_status(ePlayerStatus::IsCraftQTE))
+		//{
+		//	// QTE停止時の処理を送る
+		//	StoppedCraftQTE(player);
+		//}
 	}
 
 	// Xボタン入力時

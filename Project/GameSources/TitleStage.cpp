@@ -113,7 +113,7 @@ namespace basecross
 				shared_ptr<MiningObject> mining = nullptr;
 
 				// 座標(左限+列番号×スケール,下限+行数-行番号×スケール)
-				Vec3 position = LINE2POS(i, j);
+				Vec3 position = ROWCOL2POS(i, j);
 
 				// 数値の別名
 				eStageID num = STAGE_ID(m_stageMap.at(i).at(j));
@@ -166,11 +166,6 @@ namespace basecross
 		SetSharedGameObject(L"Company", company);
 		m_objectGroup->IntoGroup(company);
 
-		// 工事現場の生成
-		const auto& construction = AddGameObject<Construction>();
-		SetSharedGameObject(L"Construction", construction);
-		m_objectGroup->IntoGroup(construction);
-		
 		// 看板の生成
 		const auto& board = AddGameObject<SignBoard>();
 		SetSharedGameObject(L"Board", board);
@@ -182,24 +177,25 @@ namespace basecross
 		m_objectGroup->IntoGroup(routeMap);
 	}
 
+	// 列車の生成
 	void TitleStage::CreateTrain()
 	{
 		const auto& train = AddGameObject<TitleTrain>(m_trainPos);
 		SetSharedGameObject(L"TitleTrain", train);
-		//m_objectGroup->IntoGroup(train);
+		m_objectGroup->IntoGroup(train);
 	}
 
 	// ボタンを押した時の処理
-	void TitleStage::PushButtonX()
+	void TitleStage::PushButtonB()
 	{
-		if (titleProgress == normal)
+		if (titleProgress == usually)
 		{
 			titleProgress = push;
 		}
 
 		if (titleProgress == select)
 		{
-			titleProgress = normal;
+			titleProgress = usually;
 		}
 	}
 
@@ -218,7 +214,7 @@ namespace basecross
 			m_zooming = true;
 		}
 
-		if (titleProgress == normal)
+		if (titleProgress == usually)
 		{
 			titleCamera->SetEye(m_cameraEye);
 			titleCamera->SetAt(m_cameraAt);
@@ -231,11 +227,18 @@ namespace basecross
 	{
 		auto sprite = GetSharedGameObject<Sprite>(L"FadeSprite", true);
 		
-		if (titleProgress == select || titleProgress == start)
+		if (titleProgress == zoom)
+		{
+			if (sprite->FadeInColor(2.0f))
+			{
+				titleProgress = select;
+			}
+		}
+		else if (titleProgress == start)
 		{
 			sprite->FadeInColor(2.0f);
 		}
-		else
+		else if(titleProgress == usually || titleProgress == push)
 		{
 			sprite->SetDiffuseColor(COL_ALPHA);
 		}
@@ -251,7 +254,7 @@ namespace basecross
 				return;
 			}
 
-			titleProgress = select;
+			titleProgress = zoom;
 			return;
 		}
 	}
@@ -287,7 +290,7 @@ namespace basecross
 
 			if (!m_selectObj)
 			{
-				titleProgress = normal;
+				titleProgress = usually;
 			}
 		}
 	}
@@ -345,7 +348,7 @@ namespace basecross
 		{
 			if (Input::GetPad().wPressedButtons & XINPUT_GAMEPAD_B)
 			{
-				PushButtonX();
+				PushButtonB();
 			}
 
 			Debug::Log(L"カメラのAt : ", GetView()->GetTargetCamera()->GetAt());
@@ -356,7 +359,7 @@ namespace basecross
 			{
 				DistanceToPlayer();
 			}
-			else if(titleProgress == normal)
+			else if(titleProgress == usually)
 			{
 				if (m_selectObj && m_selectObj->FindTag(tagName))
 				{

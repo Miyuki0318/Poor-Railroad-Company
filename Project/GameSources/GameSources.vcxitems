@@ -19,8 +19,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BillboardNumber.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BitFlag.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Bool_t.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)BridgeManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Company.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Construction.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrain.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GroundManager.h" />
@@ -77,8 +77,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)BaseStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Billboard.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BillboardNumber.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)BridgeManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Company.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Construction.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GroundManager.cpp" />

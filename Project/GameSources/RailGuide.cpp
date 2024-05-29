@@ -37,8 +37,6 @@ namespace basecross
 			UpdateGuide();
 		}
 
-		Debug::Log(L"ガイドの透明度", m_ptrDraw->GetDiffuse().w);
-
 		SetDrawActive(isHaveRail);
 	}
 
@@ -69,7 +67,7 @@ namespace basecross
 		for (const auto& guide : guidePoints)
 		{
 			// 行列の設定と追加
-			Vec3 addPos = LINE2POS(guide.x, guide.y);
+			Vec3 addPos = ROWCOL2POS(guide.x, guide.y);
 			mtxPosition.translation(addPos);
 			matrix = m_mtxScale * m_mtxRotation * mtxPosition;
 			matrixVec.push_back(matrix);

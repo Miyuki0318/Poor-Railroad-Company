@@ -130,9 +130,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Company.h">
       <Filter>StageObject\Building\Company</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Construction.h">
-      <Filter>StageObject\Building\Construction</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RouteMap.h">
       <Filter>StageObject\RouteMap</Filter>
     </ClInclude>
@@ -171,6 +168,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MathFunc.h">
       <Filter>Math</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)BridgeManager.h">
+      <Filter>StageObject\Bridge</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -285,9 +285,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Company.cpp">
       <Filter>StageObject\Building\Company</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Construction.cpp">
-      <Filter>StageObject\Building\Construction</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)RouteMap.cpp">
       <Filter>StageObject\RouteMap</Filter>
     </ClCompile>
@@ -323,6 +320,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)MathFunc.cpp">
       <Filter>Math</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)BridgeManager.cpp">
+      <Filter>StageObject\Bridge</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -455,9 +455,6 @@
     <Filter Include="StageObject\Building\Company">
       <UniqueIdentifier>{d690f63b-e233-4a56-81e5-5f4197b5736f}</UniqueIdentifier>
     </Filter>
-    <Filter Include="StageObject\Building\Construction">
-      <UniqueIdentifier>{6a3d1b17-e896-4d8c-bbd8-5e2a2e36755a}</UniqueIdentifier>
-    </Filter>
     <Filter Include="StageObject\Signboard">
       <UniqueIdentifier>{1ef41b47-a1a8-4ce7-9b1d-c9c5d85e54fd}</UniqueIdentifier>
     </Filter>
@@ -499,6 +496,9 @@
     </Filter>
     <Filter Include="Math">
       <UniqueIdentifier>{2494064a-aad6-4dea-a454-fbdcfa2179da}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Bridge">
+      <UniqueIdentifier>{8b8cb95b-742b-47ae-bc8b-83a73dbc1bfc}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

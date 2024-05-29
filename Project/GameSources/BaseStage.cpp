@@ -38,7 +38,9 @@ namespace basecross
 		// UIテクスチャ
 		AddTextureResource(L"UI_WOOD_TX", texturePath + L"Wood.png");
 		AddTextureResource(L"UI_STONE_TX", texturePath + L"Stone.png");
+		AddTextureResource(L"UI_GEAR_TX", texturePath + L"Gear.png");
 		AddTextureResource(L"UI_RAIL_TX", texturePath + L"Rail.png");
+		AddTextureResource(L"UI_BRIDGE_TX", texturePath + L"Bridge.png");
 
 		// レール設置時のSE
 		AddAudioResource(L"ADDRAIL_SE", soundPath + L"Rail");
@@ -161,11 +163,6 @@ namespace basecross
 
 			// オブジェクトグループの作成
 			CreateSharedObjectGroup(L"MiningObject"); // 採掘可能オブジェクト
-
-			// デバック用文字列の表示非表示切り替え
-			const auto& debugStr = GetSharedObject(L"DebugString");
-			debugStr->SetDrawLayer(10);
-			debugStr->SetDrawActive(true);
 		}
 		catch (...)
 		{
@@ -215,5 +212,10 @@ namespace basecross
 
 		// 継承元の描画時の関数を実行する
 		Stage::OnDraw();
+
+		// デバック用文字列の表示非表示切り替え
+		const auto& debugStr = GetSharedObject(L"DebugString");
+		debugStr->SetDrawLayer(10);
+		debugStr->SetDrawActive(false);
 	}
 }

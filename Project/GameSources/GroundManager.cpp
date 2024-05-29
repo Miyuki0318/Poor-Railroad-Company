@@ -48,8 +48,8 @@ namespace basecross
 		m_groundMap.emplace(eStageID::Grass, grass);		// 草地
 		m_groundMap.emplace(eStageID::UnGrass, unGrass);	// 通過不可の草地
 		m_groundMap.emplace(eStageID::Sand, sand);			// 砂地
-		m_groundMap.emplace(eStageID::Water, water);		// 水場
-		m_groundMap.emplace(eStageID::Rock, rock);		// 岩地
+		m_groundMap.emplace(eStageID::Watering, water);		// 水場
+		m_groundMap.emplace(eStageID::Rock, rock);			// 岩地
 
 
 		// 二重ループ

@@ -44,6 +44,8 @@ namespace basecross {
 
 	void RouteMap::MapSelect()
 	{
+		auto scene = App::GetApp()->GetScene<Scene>();
+
 		// 左スティックの入力量を取得
 		Vec2 move = Input::GetLStickValue();
 
@@ -54,16 +56,16 @@ namespace basecross {
 		{
 			switch (m_mapLevel)
 			{
-			case RouteMap::easyMap:
-				m_mapLevel = RouteMap::hardMap;
+			case easyMap:
+				m_mapLevel = hardMap;
 				break;
 
-			case RouteMap::normalMap:
-				m_mapLevel = RouteMap::easyMap;
+			case normalMap:
+				m_mapLevel = easyMap;
 				break;
 
-			case RouteMap::hardMap:
-				m_mapLevel = RouteMap::normalMap;
+			case hardMap:
+				m_mapLevel = normalMap;
 				break;
 
 			default:
@@ -74,16 +76,16 @@ namespace basecross {
 		{
 			switch (m_mapLevel)
 			{
-			case RouteMap::easyMap:
-				m_mapLevel = RouteMap::normalMap;
+			case easyMap:
+				m_mapLevel = normalMap;
 				break;
 
-			case RouteMap::normalMap:
-				m_mapLevel = RouteMap::hardMap;
+			case normalMap:
+				m_mapLevel = hardMap;
 				break;
 
-			case RouteMap::hardMap:
-				m_mapLevel = RouteMap::easyMap;
+			case hardMap:
+				m_mapLevel = easyMap;
 				break;
 
 			default:
@@ -94,5 +96,6 @@ namespace basecross {
 		m_currentX = stickX;
 		m_drawComp->SetTextureResource(m_modelTextures[m_mapLevel]);
 		m_mapSprite->SetTexture(m_mapTextures[m_mapLevel]);
+		scene->SetMapLevel(m_mapLevel);
 	}
 }

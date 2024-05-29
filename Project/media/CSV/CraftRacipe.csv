@@ -1,2 +1,3 @@
 CraftItem,WoodNum,StoneNum,SuccesVal,FailedVal
 Rail,2,2,2,1
+WoodBridge,2,0,4,2
