@@ -47,6 +47,8 @@ namespace basecross {
 		/// <returns>Œ©‚Â‚©‚Á‚½‚©‚Ç‚¤‚©</returns>
 		bool SearchNextRail() override;
 
+		bool NextRailSettings(const map<string, RailData>& railMap, eRailAngle nextAngle);
+
 		/// <summary>
 		/// ƒS[ƒ‹‚É’…‚¢‚½‚©Šm”F‚·‚éˆ—
 		/// </summary>
