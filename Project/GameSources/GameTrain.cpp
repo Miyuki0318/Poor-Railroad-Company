@@ -73,40 +73,26 @@ namespace basecross {
 
 	bool GameTrain::NextRailSettings(const map<string, RailData>& railMap, eRailAngle nextAngle)
 	{
-		// 始点と終点の設定、終点が無い場合はfalseを返す
-		const auto& drs = m_drMap.at(m_direction);
-		for (const auto& dr : drs)
+		// 1個先のレールデータがあるなら
+		string line = POS2LINE(railMap.at(m_railPos).futurePos);	// 1個先レールのLINE
+		if (railMap.find(line) != railMap.end())
 		{
-			// 行と列
-			size_t row, col;
-			row = ROW(m_movePos.second.z + dr.y);
-			col = COL(m_movePos.second.x + dr.x);
-
-			// 行列でキーを設定
-			string line = ROWCOL2LINE(row, col);
-			if (railMap.find(line) != railMap.end())
+			// 直線なら1個先、曲るなら2個先の座標を設定する
+			if (nextAngle != eRailAngle::Straight)
 			{
-				if (nextAngle != eRailAngle::Straight)
-				{
-					// レールを設定
-					m_movePos.first = railMap.at(m_railPos).thisPos;
-					m_movePos.second = railMap.at(line).futurePos;
-
-					row = ROW(m_movePos.second.z);
-					col = COL(m_movePos.second.x);
-					line = ROWCOL2LINE(row, col);
-
-					m_railPos = line;
-				}
-				else
-				{
-					// レールを設定
-					m_movePos.first = railMap.at(m_railPos).thisPos;
-					m_movePos.second = railMap.at(line).thisPos;
-					m_railPos = line;
-				}
-				return true;
+				// レールを設定
+				m_movePos.first = railMap.at(m_railPos).thisPos;	// 現在のレールの座標
+				m_movePos.second = railMap.at(line).futurePos;		// 2個先のレールの座標
+				m_railPos = POS2LINE(railMap.at(line).futurePos);	// 2個先のレールのLINEを保持
 			}
+			else
+			{
+				// レールを設定
+				m_movePos.first = railMap.at(m_railPos).thisPos;	// 現在のレールの座標
+				m_movePos.second = railMap.at(line).thisPos;		// 1個先のレールの座標
+				m_railPos = line;									// 1個先のレールのLINEを保持
+			}
+			return true;
 		}
 
 		return false;
