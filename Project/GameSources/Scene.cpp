@@ -70,7 +70,8 @@ namespace basecross {
 
 		// ƒŒ[ƒ‹‚Ì‰¼ƒ‚ƒfƒ‹
 		RegisterSingleMesh(L"RAIL", modelPath + L"Rail/", L"Rail", false);
-		app->RegisterTexture(L"RAIL_TX", modelPath + L"Rail/TX_Rail.tga");
+		RegisterSingleMesh(L"TURNRAIL", modelPath + L"Rail/", L"TurnRail", false);
+		app->RegisterTexture(L"RAIL_TX", modelPath + L"Rail/RailTx.tga");
 
 		RegisterSingleMesh(L"SKY", modelPath + L"SkyBox/", L"sky", false);
 		app->RegisterTexture(L"SKY_TX", modelPath + L"SkyBox/sky.jpg");
