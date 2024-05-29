@@ -55,16 +55,19 @@ namespace basecross {
 		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
 		if (railMap.empty()) return false;
 
-		eRailAngle nextRailAngle = railMap.at(POS2LINE(railMap.at(m_railPos).futurePos)).angle;
-		if (nextRailAngle != eRailAngle::Straight)
+		// 次のレールのアングルを取得
+		Vec3 checkPos = railMap.find(m_railPos) != railMap.end() ? railMap.at(m_railPos).futurePos : railMap.at(m_railPos).thisPos;
+		string toNextLine = POS2LINE(checkPos);
+		if (railMap.find(toNextLine) != railMap.end())
 		{
-			Debug::Log(L"うんち！");
+			eRailAngle nextRailAngle = railMap.at(toNextLine).angle;
+
+			if (NextRailSettings(railMap, nextRailAngle))
+			{
+				return true;
+			}
 		}
 
-		if (NextRailSettings(railMap, nextRailAngle))
-		{
-			return true;
-		}
 		return CheckGoalRail(); // レールを設定できなかったらゴールかどうか確認する
 	}
 
@@ -83,11 +86,25 @@ namespace basecross {
 			string line = ROWCOL2LINE(row, col);
 			if (railMap.find(line) != railMap.end())
 			{
-				// レールを設定
-				m_movePos.first = railMap.at(m_railPos).thisPos;
-				m_movePos.second = railMap.at(line).thisPos;
-				m_railPos = line;
+				if (nextAngle != eRailAngle::Straight)
+				{
+					// レールを設定
+					m_movePos.first = railMap.at(m_railPos).thisPos;
+					m_movePos.second = railMap.at(line).futurePos;
 
+					row = ROW(m_movePos.second.z);
+					col = COL(m_movePos.second.x);
+					line = ROWCOL2LINE(row, col);
+
+					m_railPos = line;
+				}
+				else
+				{
+					// レールを設定
+					m_movePos.first = railMap.at(m_railPos).thisPos;
+					m_movePos.second = railMap.at(line).thisPos;
+					m_railPos = line;
+				}
 				return true;
 			}
 		}
