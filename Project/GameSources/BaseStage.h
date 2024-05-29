@@ -25,11 +25,13 @@ namespace basecross
 		Stone = 10,			// 岩
 		Tree,				// 木
 		UnBreakRock = 20,	// 壊せない岩
+		Water = 31,			// 水
+		WoodBridge = 40,	// 木の足場	
 		Grass = 101,		// 地面の草
 		Sand = 102,			// 地面の砂
 		Rock = 103,			// 地面の石
 		Air = 111,			// 空気(なんもなし)
-		Water = 112,		// 水場
+		Watering = 112,		// 水場
 		UnGrass = 121,		// 描画のみ通過不可
 	};
 

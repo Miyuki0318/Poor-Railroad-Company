@@ -74,9 +74,9 @@ namespace basecross
 			m_impassableSet.insert(eStageID::Tree);
 			m_impassableSet.insert(eStageID::Stone);
 			m_impassableSet.insert(eStageID::UnBreakRock);
+			m_impassableSet.insert(eStageID::Water);
 
 			m_impassableSet.insert(eStageID::Air);
-			m_impassableSet.insert(eStageID::Water);
 			m_impassableSet.insert(eStageID::UnGrass);
 		}
 

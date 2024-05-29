@@ -143,6 +143,12 @@ namespace basecross
 		AddGameObject<RailGuide>();
 	}
 
+	void GameStage::CreateBridgeManager()
+	{
+		const auto& bridgeManager = AddGameObject<BridgeManager>();
+		SetSharedGameObject(L"BridgeManager", bridgeManager);
+	}
+
 	void GameStage::CreateGoalRail()
 	{
 		AddGameObject<GoalRail>(Vec3(9.0f, 1.0f, 0.0f));
@@ -225,6 +231,9 @@ namespace basecross
 
 			// 線路の生成
 			CreateRailManager();
+
+			// 木の足場の生成
+			CreateBridgeManager();
 
 			// 床ボックスの生成
 			CreateGroundBox();

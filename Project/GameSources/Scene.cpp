@@ -24,7 +24,7 @@ namespace basecross {
 
 			//自分自身にイベントを送る
 			//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる
-			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"TitleStage");
+			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"GameStage");
 		}
 		catch (...)
 		{
@@ -116,6 +116,7 @@ namespace basecross {
 		RegisterSingleMesh(L"UN_BREAK_ROCK3", modelPath + L"UnBreakRock/", L"Rock3", false);
 
 		// 木の足場のモデル
+		app->RegisterTexture(L"WOOD_BRIDGE_TX", modelPath + L"Bridge/TX_Bridge.tga");
 		RegisterSingleMesh(L"WOOD_BRIDGE", modelPath + L"Bridge/", L"Bridge", false);
 	}
 

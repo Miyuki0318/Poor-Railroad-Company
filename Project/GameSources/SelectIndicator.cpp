@@ -152,13 +152,15 @@ namespace basecross
 	// レール設置命令
 	bool SelectIndicator::RailedOrder() const
 	{
-		// 選択ポイントがガイドの位置と一致しているか
+		// レールマネージャーの取得
 		const auto& railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager");
-		bool posshible = railManager->GetIsGuidePoint(m_selectPoint);
+		if (!railManager) return false;
 
-		// 一致してたらマネージャーにレール追加処理を送る
+		// 選択ポイントがガイドの位置と一致しているか
+		bool posshible = railManager->GetIsGuidePoint(m_selectPoint);
 		if (posshible)
 		{
+			// 一致してたらマネージャーにレール追加処理を送る
 			railManager->AddRail(m_selectPoint);
 		}
 
@@ -168,17 +170,18 @@ namespace basecross
 	// レール設置命令
 	bool SelectIndicator::BridgeOrder() const
 	{
-		//// 選択ポイントがガイドの位置と一致しているか
-		//const auto& bridgeManager = GetStage()->GetSharedGameObject<BridgeManager>(L"BridgeManager");
-		//bool posshible = bridgeManager->GetIsGuidePoint(m_selectPoint);
+		// 選択ポイントがガイドの位置と一致しているか
+		const auto& bridgeManager = GetStage()->GetSharedGameObject<BridgeManager>(L"BridgeManager");
+		if (!bridgeManager) return false;
 
-		//// 一致してたらマネージャーにレール追加処理を送る
-		//if (posshible)
-		//{
-		//	bridgeManager->AddBridge(m_selectPoint);
-		//}
+		bool posshible = bridgeManager->GetIsWaterPoint(m_selectPoint);
 
-		//return posshible;
-		return true;
+		// 一致してたらマネージャーにレール追加処理を送る
+		if (posshible)
+		{
+			bridgeManager->AddBridge(m_selectPoint);
+		}
+
+		return posshible;
 	}
 }
