@@ -172,6 +172,27 @@ namespace basecross
 		m_instanceRail.at(angle).lock()->AddRail(matrix);
 	}
 
+	// インスタンス描画のカーブレールを追加
+	void RailManager::AddInstanceCurveRail(RailData& pastData)
+	{
+		// 新しい行列配列
+		vector<Mat4x4> newVec;
+
+		// 現在の直線レールの行列配列を取得
+		auto& matVec = m_instanceRail.at(eRailAngle::Straight).lock()->GetMatrix();
+		for (size_t i = 0; i < matVec.size(); i++)
+		{
+			// カーブしたレール以外をコピー
+			if (matVec.at(i).getTranslation() != pastData.thisPos) newVec.push_back(matVec.at(i));
+		}
+
+		// 配列を上書き
+		matVec.swap(newVec);
+
+		// カーブレール描画を追加
+		AddInstanceRail(ROW(pastData.thisPos.z), COL(pastData.thisPos.x), eRailAngle::Left);
+	}
+
 	// マップデータに追加
 	void RailManager::AddRailDataMap(size_t row, size_t col)
 	{
@@ -180,8 +201,6 @@ namespace basecross
 
 		// レールデータの設定
 		RailData data = {};
-
-		// 1つ前のレールデータ(無ければ空白)
 		RailData* pastData = (m_railDataMap.find(m_pastLine) != m_railDataMap.end()) ? &m_railDataMap.at(m_pastLine) : &RailData();
 		data.thisPos = addPos; // 自身の座標
 		if (pastData->thisPos == Vec3(0.0f)) pastData->thisPos = addPos; // 一個前のデータの座標が空なら
@@ -201,27 +220,29 @@ namespace basecross
 		{
 			pastData->angle = isRight ? (isUpper ? eRailAngle::Right : eRailAngle::Left) : (isUpper ? eRailAngle::Left : eRailAngle::Right);
 
-			if (pastData->pastPos.x < data.thisPos.x && pastData->pastPos.z > data.thisPos.z && data.type == eRailType::AxisZLine) pastData->type = eRailType::Left2Under;
-			if (pastData->pastPos.x < data.thisPos.x && pastData->pastPos.z > data.thisPos.z && data.type == eRailType::AxisXLine) pastData->type = eRailType::Right2Upper;
-			if (pastData->pastPos.x < data.thisPos.x && pastData->pastPos.z < data.thisPos.z && data.type == eRailType::AxisZLine) pastData->type = eRailType::Left2Upper;
-			if (pastData->pastPos.x < data.thisPos.x && pastData->pastPos.z < data.thisPos.z && data.type == eRailType::AxisXLine) pastData->type = eRailType::Right2Under;
-			if (pastData->pastPos.x > data.thisPos.x && pastData->pastPos.z > data.thisPos.z && data.type == eRailType::AxisZLine) pastData->type = eRailType::Right2Under;
-			if (pastData->pastPos.x > data.thisPos.x && pastData->pastPos.z > data.thisPos.z && data.type == eRailType::AxisXLine) pastData->type = eRailType::Left2Upper;
-			if (pastData->pastPos.x > data.thisPos.x && pastData->pastPos.z < data.thisPos.z && data.type == eRailType::AxisZLine) pastData->type = eRailType::Right2Upper;
-			if (pastData->pastPos.x > data.thisPos.x && pastData->pastPos.z < data.thisPos.z && data.type == eRailType::AxisXLine) pastData->type = eRailType::Left2Under;
+			// レールのタイプを設定
+			SetPastRailDataType(data, *pastData);
 
-			vector<Mat4x4> newVec;
-			auto& matVec = m_instanceRail.at(eRailAngle::Straight).lock()->GetMatrix();
-			for (size_t i = 0; i < matVec.size(); i++)
-			{
-				if (matVec.at(i).getTranslation() != pastData->thisPos) newVec.push_back(matVec.at(i));
-			}
-			matVec.swap(newVec);
-			AddInstanceRail(ROW(pastData->thisPos.z), COL(pastData->thisPos.x), eRailAngle::Left);
+			// カーブレールを追加
+			AddInstanceCurveRail(*pastData);
 		}
 
 		// マップに追加
 		m_railDataMap.emplace(ROWCOL2LINE(row, col), data);
+	}
+
+	// カーブに変わったレールのタイプを設定
+	void RailManager::SetPastRailDataType(RailData& current, RailData& past)
+	{
+		// 現在のレールと前々回のレールとの相対座標とレールを設置した向きに応じて前回のレールのタイプを変更する
+		if (past.pastPos.x < current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisZLine) past.type = eRailType::Left2Under;
+		if (past.pastPos.x < current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisXLine) past.type = eRailType::Right2Upper;
+		if (past.pastPos.x < current.thisPos.x && past.pastPos.z < current.thisPos.z && current.type == eRailType::AxisZLine) past.type = eRailType::Left2Upper;
+		if (past.pastPos.x < current.thisPos.x && past.pastPos.z < current.thisPos.z && current.type == eRailType::AxisXLine) past.type = eRailType::Right2Under;
+		if (past.pastPos.x > current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisZLine) past.type = eRailType::Right2Under;
+		if (past.pastPos.x > current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisXLine) past.type = eRailType::Left2Upper;
+		if (past.pastPos.x > current.thisPos.x && past.pastPos.z < current.thisPos.z && current.type == eRailType::AxisZLine) past.type = eRailType::Right2Upper;
+		if (past.pastPos.x > current.thisPos.x && past.pastPos.z < current.thisPos.z && current.type == eRailType::AxisXLine) past.type = eRailType::Left2Under;
 	}
 
 	// 先端レールの書き換え

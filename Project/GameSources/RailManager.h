@@ -272,6 +272,12 @@ namespace basecross
 		void AddInstanceRail(size_t row, size_t col, eRailAngle angle = eRailAngle::Straight);
 
 		/*!
+		@brief インスタンス描画のカーブレール追加関数
+		@param 前回のレールデータ
+		*/
+		void AddInstanceCurveRail(RailData& pastData);
+
+		/*!
 		@brief レールデータ追加関数
 		@param row
 		@param col
@@ -284,6 +290,8 @@ namespace basecross
 		@param col
 		*/
 		void SetRailID(size_t row, size_t col) const;
+
+		void SetPastRailDataType(RailData& current, RailData& past);
 
 		/*!
 		@brief CSVをガイドIDに書き換える関数
