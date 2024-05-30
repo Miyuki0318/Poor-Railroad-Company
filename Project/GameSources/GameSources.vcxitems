@@ -52,10 +52,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)OzawaUtility.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerCraftingState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerFailedState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerIdleState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerMiningState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerMovingState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerSuccesState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Project.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RailGuide.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RailManager.h" />
@@ -111,9 +113,11 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)OzawaUtility.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerCraftingState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerFailedState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerIdleState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMiningState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMovingState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerSuccesState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RailGuide.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RailManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RouteMap.cpp" />

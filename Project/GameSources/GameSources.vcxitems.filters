@@ -187,6 +187,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainCurveExitState.h">
       <Filter>StageObject\Train\GameTrain\GameTrainState\GameTrainCurveExitState</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerSuccesState.h">
+      <Filter>Player\Game\State\Succes</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerFailedState.h">
+      <Filter>Player\Game\State\Failed</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -350,6 +356,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainCurveExitState.cpp">
       <Filter>StageObject\Train\GameTrain\GameTrainState\GameTrainCurveExitState</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerSuccesState.cpp">
+      <Filter>Player\Game\State\Succes</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerFailedState.cpp">
+      <Filter>Player\Game\State\Failed</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -541,6 +553,12 @@
     </Filter>
     <Filter Include="StageObject\Train\GameTrain\GameTrainState\GameTrainCurvingState">
       <UniqueIdentifier>{4d92c2c3-da48-4196-a525-fbd2c4001ae3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Game\State\Succes">
+      <UniqueIdentifier>{bfbd3d28-5f84-4b1e-ae61-5a78bc7efc6b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Game\State\Failed">
+      <UniqueIdentifier>{f5a8efb2-4bea-4fbb-8376-e62cedd08e69}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
