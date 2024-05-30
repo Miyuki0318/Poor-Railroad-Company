@@ -31,7 +31,7 @@ namespace basecross
 	void GameTrainCurveStandbyState::Enter(const shared_ptr<GameTrain>& train)
 	{	
 		// レールマップの取得
-		const auto& railMap = train->GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
+		const auto& railMap = train->GetRailDataMap();
 		if (railMap.empty()) return;
 
 		// 現在のレール、カーブ中のレールの座標

@@ -7,6 +7,7 @@
 #pragma once
 #include "stdafx.h"
 #include "TemplateObject.h"
+#include "RailManager.h"
 
 namespace basecross {
 
@@ -36,6 +37,7 @@ namespace basecross {
 	class GameTrain : public Train
 	{
 		CurvePoints m_curvePoints;	// カーブに使う座標
+		const map<string, RailData>* m_railDataMap;
 
 		// ステートマシン
 		unique_ptr<StateMachine<GameTrain>> m_trainState;
@@ -71,6 +73,8 @@ namespace basecross {
 		void OnUpdate() override;
 
 		void OnCollisionEnter(shared_ptr<GameObject>& gameObject) override;
+
+		const map<string, RailData>& GetRailDataMap() const;
 
 		/// <summary>
 		/// 状態ごとの処理

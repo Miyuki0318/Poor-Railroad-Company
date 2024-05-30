@@ -29,7 +29,7 @@ namespace basecross
 	void GameTrainStraightState::Enter(const shared_ptr<GameTrain>& train)
 	{
 		// レールマップの取得
-		const auto& railMap = train->GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
+		const auto& railMap = train->GetRailDataMap();
 		if (railMap.empty()) return;
 
 		// レールを設定

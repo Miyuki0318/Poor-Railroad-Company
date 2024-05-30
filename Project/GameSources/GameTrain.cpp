@@ -15,6 +15,8 @@ namespace basecross {
 	{
 		Train::OnCreate();
 
+		m_railDataMap = &GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
+
 		m_trainState.reset(new StateMachine<GameTrain>(GetThis<GameTrain>()));
 		m_trainState->ChangeState(GameTrainStraightState::Instance());
 	}
@@ -32,6 +34,11 @@ namespace basecross {
 		{
 			m_state = State::Arrival;
 		}
+	}
+
+	const map<string, RailData>& GameTrain::GetRailDataMap() const
+	{
+		return *m_railDataMap;
 	}
 
 	void GameTrain::StateProcess(State state)
@@ -65,7 +72,7 @@ namespace basecross {
 	bool GameTrain::SearchNextRail()
 	{
 		// レールマップの取得
-		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
+		const auto& railMap = GetRailDataMap();
 		if (railMap.empty()) return false;
 
 		// 次のレールのアングルを取得
@@ -110,7 +117,7 @@ namespace basecross {
 	bool GameTrain::CheckGoalRail()
 	{
 		// レールマップの取得
-		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
+		const auto& railMap = GetRailDataMap();
 		if (railMap.empty()) return false;
 
 		// Line文字列からrowとcolを抽出

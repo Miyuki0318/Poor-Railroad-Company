@@ -31,9 +31,9 @@ namespace basecross
 	void GameTrainCurvingState::Enter(const shared_ptr<GameTrain>& train)
 	{
 		// レールマップの取得
-		const auto& railMap = train->GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
+		const auto& railMap = train->GetRailDataMap();
 		if (railMap.empty()) return;
-	
+
 		// 現在のレール、カーブするレール、終了時のレールの座標
 		Vec3 pointA = railMap.at(train->m_railPos).thisPos;
 		Vec3 pointB = railMap.at(POS2LINE(railMap.at(train->m_railPos).futurePos)).thisPos;
@@ -44,20 +44,27 @@ namespace basecross
 		Vec3 pointB2C = Utility::Lerp(pointB, pointC, HELF_TIME);
 
 		// カーブ座標の設定と割合の初期化
-		train->m_curvePoints = CurvePoints(pointA2B, pointB, pointB2C);
+		m_curvePoints = CurvePoints(pointA2B, pointB, pointB2C);
 		train->m_moveRatio = 0.0f;
+
+		// ローテーションY軸を保持
+		m_pastRotY = train->GetRotation().y;
 	}
 
 	// ステート更新時の処理
 	void GameTrainCurvingState::Execute(const shared_ptr<GameTrain>& train)
 	{
 		// カーブを線形補間で処理
-		Vec3 pos = Utility::CurveLerp(train->m_curvePoints.pointA, train->m_curvePoints.pointB, train->m_curvePoints.pointC, train->m_moveRatio);
+		Vec3 pos = Utility::CurveLerp(m_curvePoints.pointA, m_curvePoints.pointB, m_curvePoints.pointC, train->m_moveRatio);
+
+		// レールマップの取得
+		const auto& railMap = train->GetRailDataMap();
+		if (railMap.empty()) return;
 
 		// ローテーションを線形補間で処理
-		float startRad = -Utility::rotYatan2f(train->m_curvePoints.pointA, train->m_curvePoints.pointB);
-		float endRad = -Utility::rotYatan2f(train->m_curvePoints.pointB, train->m_curvePoints.pointC);
-		float rad = Utility::Lerp(startRad, endRad, train->m_moveRatio);
+		auto angle = railMap.at(POS2LINE(railMap.at(train->m_railPos).futurePos)).angle;
+		float endRad = m_pastRotY + (angle == eRailAngle::Right ? XM_PIDIV2 : -XM_PIDIV2);
+		float rad = Utility::Lerp(m_pastRotY, endRad, train->m_moveRatio);
 
 		// 割合の加算
 		train->m_moveRatio = MathF::Repeat01(train->m_moveRatio, train->m_MoveSpeed);

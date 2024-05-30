@@ -15,10 +15,17 @@ namespace basecross
 	*/
 	class GameTrainCurvingState : public ObjState<GameTrain>
 	{
+		float m_pastRotY;	// 過去の回転Y軸
+		CurvePoints m_curvePoints; // カーブに使う座標
+
 		/*!
 		@brief コンストラクタ
 		*/
-		GameTrainCurvingState() {}
+		GameTrainCurvingState() 
+		{
+			m_pastRotY = 0.0f;
+			m_curvePoints = {};
+		}
 
 	public:
 

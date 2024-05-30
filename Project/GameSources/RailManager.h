@@ -291,6 +291,8 @@ namespace basecross
 		*/
 		void SetRailID(size_t row, size_t col) const;
 
+		void SetPastRailDataAngle(RailData& current, RailData& past);
+
 		void SetPastRailDataType(RailData& current, RailData& past);
 
 		/*!
