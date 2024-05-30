@@ -60,9 +60,9 @@ namespace basecross
 		AddAudioResource(L"C_FAILURE_SE", soundPath + L"CraftFailure");
 
 		// 歩いた時のSE
-		AddAudioResource(L"WALK_GRASS_SE", soundPath + L"walk_sand");
+		AddAudioResource(L"WALK_GRASS_SE", soundPath + L"walk_grass");
 		AddAudioResource(L"WALK_SAND_SE", soundPath + L"walk_sand");
-		AddAudioResource(L"WALK_ROCK_SE", soundPath + L"walk_sand");
+		AddAudioResource(L"WALK_ROCK_SE", soundPath + L"walk_stone");
 
 		// 追加したリソースをメモリに追加
 		AddedTextureResources();
@@ -222,6 +222,6 @@ namespace basecross
 		// デバック用文字列の表示非表示切り替え
 		const auto& debugStr = GetSharedObject(L"DebugString");
 		debugStr->SetDrawLayer(10);
-		debugStr->SetDrawActive(false);
+		debugStr->SetDrawActive(true);
 	}
 }

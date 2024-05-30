@@ -8,9 +8,24 @@
 #include "Project.h"
 
 namespace basecross {
+
+	const float HELF_TIME = 0.5f;
+
+	void GameTrain::OnCreate()
+	{
+		Train::OnCreate();
+
+		m_railDataMap = &GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
+
+		m_trainState.reset(new StateMachine<GameTrain>(GetThis<GameTrain>()));
+		m_trainState->ChangeState(GameTrainStraightState::Instance());
+	}
+
 	void GameTrain::OnUpdate()
 	{
 		StateProcess(m_state);
+
+		Debug::Log(L"現在のステート : ", m_trainState->GetCurrentState()->GetStateName());
 	}
 
 	void GameTrain::OnCollisionEnter(shared_ptr<GameObject>& gameObject)
@@ -19,6 +34,11 @@ namespace basecross {
 		{
 			m_state = State::Arrival;
 		}
+	}
+
+	const map<string, RailData>& GameTrain::GetRailDataMap() const
+	{
+		return *m_railDataMap;
 	}
 
 	void GameTrain::StateProcess(State state)
@@ -37,13 +57,13 @@ namespace basecross {
 
 		if (state == State::OnRail)
 		{
-			OnRailProcess();
+			m_trainState->Update();
 		}
 	}
 
 	void GameTrain::OnRailProcess()
 	{
-		MoveProcess(State::Derail);
+		//MoveProcess(State::Derail);
 
 		float rad = -atan2f(m_movePos.second.z - m_movePos.first.z, m_movePos.second.x - m_movePos.first.x);
 		SetRotation(Vec3(0.0f, rad, 0.0f));
@@ -52,7 +72,7 @@ namespace basecross {
 	bool GameTrain::SearchNextRail()
 	{
 		// レールマップの取得
-		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
+		const auto& railMap = GetRailDataMap();
 		if (railMap.empty()) return false;
 
 		// 次のレールのアングルを取得
@@ -73,40 +93,21 @@ namespace basecross {
 
 	bool GameTrain::NextRailSettings(const map<string, RailData>& railMap, eRailAngle nextAngle)
 	{
-		// 始点と終点の設定、終点が無い場合はfalseを返す
-		const auto& drs = m_drMap.at(m_direction);
-		for (const auto& dr : drs)
+		// 1個先のレールデータがあるなら
+		string line = POS2LINE(railMap.at(m_railPos).futurePos);	// 1個先レールのLINE
+		if (railMap.find(line) != railMap.end())
 		{
-			// 行と列
-			size_t row, col;
-			row = ROW(m_movePos.second.z + dr.y);
-			col = COL(m_movePos.second.x + dr.x);
-
-			// 行列でキーを設定
-			string line = ROWCOL2LINE(row, col);
-			if (railMap.find(line) != railMap.end())
+			// 直線なら1個先、曲るなら2個先の座標を設定する
+			if (nextAngle != eRailAngle::Straight)
 			{
-				if (nextAngle != eRailAngle::Straight)
-				{
-					// レールを設定
-					m_movePos.first = railMap.at(m_railPos).thisPos;
-					m_movePos.second = railMap.at(line).futurePos;
-
-					row = ROW(m_movePos.second.z);
-					col = COL(m_movePos.second.x);
-					line = ROWCOL2LINE(row, col);
-
-					m_railPos = line;
-				}
-				else
-				{
-					// レールを設定
-					m_movePos.first = railMap.at(m_railPos).thisPos;
-					m_movePos.second = railMap.at(line).thisPos;
-					m_railPos = line;
-				}
-				return true;
+				// レールを設定
+				m_trainState->ChangeState(GameTrainCurveStandbyState::Instance());
 			}
+			else
+			{
+				m_trainState->ChangeState(GameTrainStraightState::Instance());
+			}
+			return true;
 		}
 
 		return false;
@@ -116,7 +117,7 @@ namespace basecross {
 	bool GameTrain::CheckGoalRail()
 	{
 		// レールマップの取得
-		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
+		const auto& railMap = GetRailDataMap();
 		if (railMap.empty()) return false;
 
 		// Line文字列からrowとcolを抽出

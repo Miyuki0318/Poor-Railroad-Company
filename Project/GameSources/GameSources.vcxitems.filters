@@ -172,6 +172,21 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BridgeManager.h">
       <Filter>StageObject\Bridge</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainStraightState.h">
+      <Filter>StageObject\Train\GameTrain\GameTrainState\GameTrainStraightState</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainState.h">
+      <Filter>StageObject\Train\GameTrain\GameTrainState</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainCurveStandbyState.h">
+      <Filter>StageObject\Train\GameTrain\GameTrainState\GameTrainCurveStandbyState</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainCurvingState.h">
+      <Filter>StageObject\Train\GameTrain\GameTrainState\GameTrainCurvingState</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainCurveExitState.h">
+      <Filter>StageObject\Train\GameTrain\GameTrainState\GameTrainCurveExitState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -323,6 +338,18 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)BridgeManager.cpp">
       <Filter>StageObject\Bridge</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainStraightState.cpp">
+      <Filter>StageObject\Train\GameTrain\GameTrainState\GameTrainStraightState</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainCurveStandbyState.cpp">
+      <Filter>StageObject\Train\GameTrain\GameTrainState\GameTrainCurveStandbyState</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainCurvingState.cpp">
+      <Filter>StageObject\Train\GameTrain\GameTrainState\GameTrainCurvingState</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainCurveExitState.cpp">
+      <Filter>StageObject\Train\GameTrain\GameTrainState\GameTrainCurveExitState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -499,6 +526,21 @@
     </Filter>
     <Filter Include="StageObject\Bridge">
       <UniqueIdentifier>{8b8cb95b-742b-47ae-bc8b-83a73dbc1bfc}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Train\GameTrain\GameTrainState">
+      <UniqueIdentifier>{070445d1-65dc-416e-80af-ec2551e98cb1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Train\GameTrain\GameTrainState\GameTrainStraightState">
+      <UniqueIdentifier>{0e7b945c-ba8d-4b83-9e8b-dd652f4df4ba}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Train\GameTrain\GameTrainState\GameTrainCurveStandbyState">
+      <UniqueIdentifier>{ecc2dac2-ecb2-43d5-b125-a0df06d631d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Train\GameTrain\GameTrainState\GameTrainCurveExitState">
+      <UniqueIdentifier>{12b77661-9ac3-4db8-982a-90c4f8718fc7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Train\GameTrain\GameTrainState\GameTrainCurvingState">
+      <UniqueIdentifier>{4d92c2c3-da48-4196-a525-fbd2c4001ae3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

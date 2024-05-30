@@ -121,19 +121,49 @@ namespace basecross
 	*/
 	void GetLineStringToRowCol(size_t& row, size_t& col, string line);
 
+	class InstanceRail : public GameObject
+	{
+		shared_ptr<PNTStaticInstanceDraw> m_ptrDraw; // 描画コンポーネント
+		const wstring m_meshKey;
+
+	public:
+
+		InstanceRail(const shared_ptr<Stage>& stagePtr,
+			const wstring& meshKey
+		) :
+			GameObject(stagePtr),
+			m_meshKey(meshKey)
+		{
+		}
+
+		virtual ~InstanceRail() {}
+
+		void OnCreate() override;
+
+		void AddRail(Mat4x4 matrix);
+
+		void ResetRail();
+
+		vector<Mat4x4>& GetMatrix();
+	};
+
 	/*!
 	@brief レール管理用クラス
 	*/
 	class RailManager : public GameObject
 	{
-		shared_ptr<PNTStaticInstanceDraw> m_ptrDraw; // 描画コンポーネント
-		vector<Point2D<size_t>> m_guidePoints; // ガイドがあるポイント
-		vector<vector<int>> m_guideMap; // ガイド付きのステージcsv
-		map<string, RailData> m_railDataMap;
-		string m_pastLine;
-		size_t m_railNum;		// レールの設置数
-		Vec3 m_pastDeRailPos;
-		bool m_isConnectionGoal;	// ゴールレールまで繋がったか
+		vector<Point2D<size_t>> m_guidePoints;	// ガイドがあるポイント
+		vector<vector<int>> m_guideMap;			// ガイド付きのステージcsv
+		map<string, RailData> m_railDataMap;	// レールデータマップ
+		map<eRailType, float> m_railAngleMap;	// レールのアングルマップ
+
+		// インスタンス描画のレール
+		map<eRailAngle, weak_ptr<InstanceRail>> m_instanceRail;
+
+		string m_pastLine;		 // 最後に設置したレールのLINE
+		size_t m_railNum;		 // レールの設置数
+		Vec3 m_pastDeRailPos;	 // 最後に設置した先端レール
+		bool m_isConnectionGoal; // ゴールレールまで繋がったか
 		
 	public:
 
@@ -146,6 +176,13 @@ namespace basecross
 		{
 			m_railNum = 0;
 			m_isConnectionGoal = false;
+
+			m_railAngleMap.emplace(eRailType::AxisXLine, 0.0f);
+			m_railAngleMap.emplace(eRailType::AxisZLine, XM_PIDIV2);
+			m_railAngleMap.emplace(eRailType::Left2Under, XM_PI);
+			m_railAngleMap.emplace(eRailType::Left2Upper, -XM_PIDIV2);
+			m_railAngleMap.emplace(eRailType::Right2Under, XM_PIDIV2);
+			m_railAngleMap.emplace(eRailType::Right2Upper, 0.0f);
 		}
 
 		/*!
@@ -232,7 +269,13 @@ namespace basecross
 		@param row
 		@param col
 		*/
-		void AddInstanceRail(size_t row, size_t col);
+		void AddInstanceRail(size_t row, size_t col, eRailAngle angle = eRailAngle::Straight);
+
+		/*!
+		@brief インスタンス描画のカーブレール追加関数
+		@param 前回のレールデータ
+		*/
+		void AddInstanceCurveRail(RailData& pastData);
 
 		/*!
 		@brief レールデータ追加関数
@@ -247,6 +290,10 @@ namespace basecross
 		@param col
 		*/
 		void SetRailID(size_t row, size_t col) const;
+
+		void SetPastRailDataAngle(RailData& current, RailData& past);
+
+		void SetPastRailDataType(RailData& current, RailData& past);
 
 		/*!
 		@brief CSVをガイドIDに書き換える関数

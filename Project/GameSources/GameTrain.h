@@ -7,14 +7,52 @@
 #pragma once
 #include "stdafx.h"
 #include "TemplateObject.h"
+#include "RailManager.h"
 
 namespace basecross {
+
+	// 各ステートクラス
+	class GameTrainStraightState;
+	class GameTrainCurveStandbyState;
+	class GameTrainCurvingState;
+	class GameTrainCurveExitState;
+
+	// カーブに使う座標群
+	struct CurvePoints
+	{
+		Vec3 pointA;
+		Vec3 pointB;
+		Vec3 pointC;
+
+		CurvePoints() {}
+
+		CurvePoints(const Vec3& pA, const Vec3& pB, const Vec3& pC) :
+			pointA(pA),
+			pointB(pB),
+			pointC(pC)
+		{
+		}
+	};
+
 	class GameTrain : public Train
 	{
+		CurvePoints m_curvePoints;	// カーブに使う座標
+		const map<string, RailData>* m_railDataMap;
+
+		// ステートマシン
+		unique_ptr<StateMachine<GameTrain>> m_trainState;
+
+		// ステートクラスをフレンド化
+		friend GameTrainStraightState;
+		friend GameTrainCurveStandbyState;
+		friend GameTrainCurvingState;
+		friend GameTrainCurveExitState;
+
 	public:
 		GameTrain(const shared_ptr<Stage>& stagePtr) :
 			Train(stagePtr)
 		{
+			m_curvePoints = {};
 		}
 
 		GameTrain(const shared_ptr<Stage>& stagePtr,
@@ -22,13 +60,21 @@ namespace basecross {
 		) :
 			Train(stagePtr, startPosition)
 		{
+			m_curvePoints = {};
 		}
 
-		~GameTrain() {}
+		~GameTrain() 
+		{
+			m_trainState.reset();
+		}
+
+		void OnCreate() override;
 
 		void OnUpdate() override;
 
 		void OnCollisionEnter(shared_ptr<GameObject>& gameObject) override;
+
+		const map<string, RailData>& GetRailDataMap() const;
 
 		/// <summary>
 		/// 状態ごとの処理
@@ -54,6 +100,5 @@ namespace basecross {
 		/// </summary>
 		/// <returns>着いたかどうか</returns>
 		bool CheckGoalRail();
-
 	};
 }
