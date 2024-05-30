@@ -60,6 +60,7 @@ namespace basecross
 	// Aボタン入力時
 	void PlayerMovingState::OnPushA(const shared_ptr<GamePlayer>& player)
 	{
+		// 今のところ何もしない
 	}
 
 	// Bボタン入力時
@@ -79,6 +80,7 @@ namespace basecross
 	// Yボタン入力時
 	void PlayerMovingState::OnPushY(const shared_ptr<GamePlayer>& player)
 	{
+		// 今のところ何もしない
 	}
 
 	// 移動更新

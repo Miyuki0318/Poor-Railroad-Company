@@ -17,6 +17,8 @@
 #include "PlayerMovingState.h"
 #include "PlayerMiningState.h"
 #include "PlayerCraftingState.h"
+#include "PlayerSuccesState.h"
+#include "PlayerFailedState.h"
 #include "Ground.h"
 #include "MiningObject.h"
 #include "Station.h"
