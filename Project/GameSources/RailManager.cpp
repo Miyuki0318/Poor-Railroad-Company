@@ -7,6 +7,16 @@
 #include "stdafx.h"
 #include "Project.h"
 
+// カーブレールの方向設定用真偽
+#define LEFT2UNDER(current, past)  past.pastPos.x < current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisZLine	// 左から下
+#define LEFT2UPPER(current, past)  past.pastPos.x < current.thisPos.x && past.pastPos.z < current.thisPos.z && current.type == eRailType::AxisZLine	// 左から上
+#define RIGHT2UNDER(current, past) past.pastPos.x > current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisZLine	// 右から下	
+#define RIGHT2UPPER(current, past) past.pastPos.x > current.thisPos.x && past.pastPos.z < current.thisPos.z && current.type == eRailType::AxisZLine	// 右から上
+#define UPPER2LEFT(current, past)  past.pastPos.x > current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisXLine	// 上から左
+#define UPPER2RIGHT(current, past) past.pastPos.x < current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisXLine	// 上から右
+#define UNDER2LEFT(current, past)  past.pastPos.x > current.thisPos.x && past.pastPos.z < current.thisPos.z && current.type == eRailType::AxisXLine	// 下から左
+#define UNDER2RIGHT(current, past) past.pastPos.x < current.thisPos.x && past.pastPos.z < current.thisPos.z && current.type == eRailType::AxisXLine	// 下から右
+
 namespace basecross
 {
 	// ネームスペースの省略
@@ -237,28 +247,28 @@ namespace basecross
 	void RailManager::SetPastRailDataType(RailData& current, RailData& past)
 	{
 		// 現在のレールと前々回のレールとの相対座標とレールを設置した向きに応じて前回のレールのタイプを変更する
-		if (past.pastPos.x < current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisZLine) past.type = eRailType::Left2Under;
-		if (past.pastPos.x < current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisXLine) past.type = eRailType::Right2Upper;
-		if (past.pastPos.x < current.thisPos.x && past.pastPos.z < current.thisPos.z && current.type == eRailType::AxisZLine) past.type = eRailType::Left2Upper;
-		if (past.pastPos.x < current.thisPos.x && past.pastPos.z < current.thisPos.z && current.type == eRailType::AxisXLine) past.type = eRailType::Right2Under;
-		if (past.pastPos.x > current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisZLine) past.type = eRailType::Right2Under;
-		if (past.pastPos.x > current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisXLine) past.type = eRailType::Left2Upper;
-		if (past.pastPos.x > current.thisPos.x && past.pastPos.z < current.thisPos.z && current.type == eRailType::AxisZLine) past.type = eRailType::Right2Upper;
-		if (past.pastPos.x > current.thisPos.x && past.pastPos.z < current.thisPos.z && current.type == eRailType::AxisXLine) past.type = eRailType::Left2Under;
+		if (LEFT2UNDER(current, past))  past.type = eRailType::Left2Under;
+		if (LEFT2UPPER(current, past))  past.type = eRailType::Left2Upper;
+		if (RIGHT2UNDER(current, past)) past.type = eRailType::Right2Under;
+		if (RIGHT2UPPER(current, past)) past.type = eRailType::Right2Upper;
+		if (UNDER2LEFT(current, past))  past.type = eRailType::Left2Under;
+		if (UNDER2RIGHT(current, past)) past.type = eRailType::Right2Under;
+		if (UPPER2LEFT(current, past))  past.type = eRailType::Left2Upper;
+		if (UPPER2RIGHT(current, past)) past.type = eRailType::Right2Upper;
 	}
 
 	// カーブに変わったレールのアングルを設定
 	void RailManager::SetPastRailDataAngle(RailData& current, RailData& past)
 	{
 		// 現在のレールと前々回のレールとの相対座標とレールを設置した向きに応じて前回のレールのアングルを変更する
-		if (past.pastPos.x < current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisZLine) past.angle = eRailAngle::Right;
-		if (past.pastPos.x < current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisXLine) past.angle = eRailAngle::Left;
-		if (past.pastPos.x < current.thisPos.x && past.pastPos.z < current.thisPos.z && current.type == eRailType::AxisZLine) past.angle = eRailAngle::Left;
-		if (past.pastPos.x < current.thisPos.x && past.pastPos.z < current.thisPos.z && current.type == eRailType::AxisXLine) past.angle = eRailAngle::Right;
-		if (past.pastPos.x > current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisZLine) past.angle = eRailAngle::Left;
-		if (past.pastPos.x > current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisXLine) past.angle = eRailAngle::Right;
-		if (past.pastPos.x > current.thisPos.x && past.pastPos.z < current.thisPos.z && current.type == eRailType::AxisZLine) past.angle = eRailAngle::Right;
-		if (past.pastPos.x > current.thisPos.x && past.pastPos.z < current.thisPos.z && current.type == eRailType::AxisXLine) past.angle = eRailAngle::Left;
+		if (LEFT2UNDER(current, past))  past.angle = eRailAngle::Right;
+		if (LEFT2UPPER(current, past))  past.angle = eRailAngle::Left;
+		if (RIGHT2UNDER(current, past)) past.angle = eRailAngle::Left;
+		if (RIGHT2UPPER(current, past)) past.angle = eRailAngle::Right;
+		if (UNDER2LEFT(current, past))  past.angle = eRailAngle::Left;
+		if (UNDER2RIGHT(current, past)) past.angle = eRailAngle::Right;
+		if (UPPER2LEFT(current, past))  past.angle = eRailAngle::Right;
+		if (UPPER2RIGHT(current, past)) past.angle = eRailAngle::Left;
 	}
 
 	// 先端レールの書き換え
