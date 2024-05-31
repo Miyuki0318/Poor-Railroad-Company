@@ -257,7 +257,7 @@ namespace basecross
 		@brief ゴールレールと繋がったかの確認関数
 		@return bool
 		*/
-		bool IsConnectionGoalRail(size_t row, size_t col) const
+		bool IsConnectionGoalRail() const
 		{
 			return m_isConnectionGoal;
 		}

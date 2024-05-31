@@ -98,9 +98,9 @@ namespace basecross
 			GameObject(stagePtr),
 			m_player(playerPtr),
 			m_indicator(indicatorPtr),
-			m_scale(Vec2(50.0f)),
+			m_scale(Vec2(100.0f)),
 			m_diffPosition(Vec3(0.0f, 2.0f, 0.5f)),
-			m_distanceX(30.0f)
+			m_distanceX(60.0f)
 		{
 			// アイコンタイプに応じた座標テーブル
 			m_typePos.insert(make_pair(eSpriteType::Icon, Vec3(0.0f)));
