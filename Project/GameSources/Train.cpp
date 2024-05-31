@@ -34,7 +34,7 @@ namespace basecross {
 	{
 		// üŒ`•âŠÔ‚ÅˆÚ“®
 		Vec3 pos = Utility::Lerp(m_movePos.first, m_movePos.second, m_moveRatio);
-		m_moveRatio = MathF::Repeat01(m_moveRatio, m_MoveSpeed);
+		m_moveRatio = MathF::Repeat01(m_moveRatio, m_moveSpeed);
 
 		// ”ÍˆÍŠO‚É‚È‚Á‚½‚ç
 		if (MathF::GetOutRange())

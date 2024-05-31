@@ -51,7 +51,7 @@ namespace basecross
 	{
 		// カーブを線形補間で処理
 		Vec3 pos = Utility::Lerp(train->m_movePos.first, train->m_movePos.second, train->m_moveRatio);
-		train->m_moveRatio = MathF::Repeat01(train->m_moveRatio, train->m_MoveSpeed / HELF_TIME);
+		train->m_moveRatio = MathF::Repeat01(train->m_moveRatio, train->m_moveSpeed / HELF_TIME);
 
 		// 範囲外になったら
 		if (MathF::GetOutRange())

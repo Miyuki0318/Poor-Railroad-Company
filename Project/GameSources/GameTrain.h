@@ -38,6 +38,7 @@ namespace basecross {
 	{
 		CurvePoints m_curvePoints;	// カーブに使う座標
 		const map<string, RailData>* m_railDataMap;
+		shared_ptr<RailManager> m_railManager;
 
 		// ステートマシン
 		unique_ptr<StateMachine<GameTrain>> m_trainState;
@@ -81,11 +82,6 @@ namespace basecross {
 		/// </summary>
 		/// <param name="state">状態</param>
 		void StateProcess(State state);
-
-		/// <summary>
-		/// レール上に居るときの処理
-		/// </summary>
-		void OnRailProcess();
 
 		/// <summary>
 		/// 次のレールを検索する処理
