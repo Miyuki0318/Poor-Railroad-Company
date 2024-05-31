@@ -156,16 +156,17 @@ namespace basecross
 	// インスタンス描画の追加
 	void RailManager::AddInstanceRail(size_t row, size_t col, eRailAngle angle)
 	{
-		// 座標の設定
+		// 座標とLINEの設定
 		Vec3 addPos = ROWCOL2POS(row, col);
+		string line = ROWCOL2LINE(row, col);
 
 		// トランスフォーム行列の設定
 		Mat4x4 matrix, mtxPosition, mtxRotation;
 		mtxPosition.translation(addPos);
 
-		auto type = m_railDataMap.empty() ? eRailType::AxisXLine : m_railDataMap.at(ROWCOL2LINE(row, col)).type;
-		float rotY = m_railAngleMap.at(type);
-		mtxRotation.rotation((Quat)XMQuaternionRotationRollPitchYawFromVector(Vec3(0.0f, rotY, 0.0f)));
+		// ローテーションの設定
+		eRailType type = m_railDataMap.find(line) != m_railDataMap.end() ? m_railDataMap.at(line).type : eRailType::AxisXLine;
+		mtxRotation.rotation((Quat)XMQuaternionRotationRollPitchYawFromVector(Vec3(0.0f, m_railAngleMap.at(type), 0.0f)));
 
 		// 行列の設定と追加
 		matrix = mtxScale * mtxRotation * mtxPosition;
