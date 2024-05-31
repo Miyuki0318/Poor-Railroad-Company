@@ -174,9 +174,9 @@ namespace basecross
 	void GameStage::CreateUIObject()
 	{
 		// パラメータ
-		const float scale = 40.0f;
+		const float scale = 60.0f;
 		const Vec3 startPos = Vec3(-910.0f, 500.0f, 0.0f);
-		const Vec3 distance = Vec3(0.0f, -scale * 2.0f, 0.0f);
+		const Vec3 distance = Vec3(0.0f, -scale * 1.75f, 0.0f);
 
 		// アイテム数UI
 		AddGameObject<ItemCountUI>(scale, startPos, L"UI_WOOD_TX", eItemType::Wood);
