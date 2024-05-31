@@ -16,7 +16,7 @@ namespace basecross {
 		Train::OnCreate();
 
 		m_railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager");
-		m_railDataMap = &m_railManager->GetRailDataMap();
+		m_railDataMap = &m_railManager.lock()->GetRailDataMap();
 
 		m_trainState.reset(new StateMachine<GameTrain>(GetThis<GameTrain>()));
 		m_trainState->ChangeState(GameTrainStraightState::Instance());
@@ -73,7 +73,7 @@ namespace basecross {
 		{
 			m_trainState->Update();
 
-			if (m_railManager->IsConnectionGoalRail()) // ƒS[ƒ‹‚Ü‚Åü˜H‚ª‚Â‚È‚ª‚Á‚½‚ç
+			if (m_railManager.lock()->IsConnectionGoalRail()) // ƒS[ƒ‹‚Ü‚Åü˜H‚ª‚Â‚È‚ª‚Á‚½‚ç
 			{
 				m_moveSpeed *= 1.2f; // ‘‚­i‚Ş
 			}

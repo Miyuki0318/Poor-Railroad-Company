@@ -38,7 +38,7 @@ namespace basecross {
 	{
 		CurvePoints m_curvePoints;	// カーブに使う座標
 		const map<string, RailData>* m_railDataMap;
-		shared_ptr<RailManager> m_railManager;
+		weak_ptr<RailManager> m_railManager;
 
 		// ステートマシン
 		unique_ptr<StateMachine<GameTrain>> m_trainState;
