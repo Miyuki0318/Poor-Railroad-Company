@@ -37,7 +37,7 @@ namespace basecross {
 	{
 		MoveProcess(State::None);
 
-		if (SetTimer(5.0f))
+		if (SetTimer(2.0f))
 		{
 			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"GameStage");
 		}
