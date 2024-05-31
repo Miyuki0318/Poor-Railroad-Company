@@ -574,6 +574,16 @@ namespace bsm {
 		return *this;
 	}
 
+	inline Flt3& Flt3::clamp(Flt3 Min, Flt3 Max) {
+		x = min(x, Max.x);
+		x = max(x, Min.x);
+		y = min(y, Max.y);
+		y = max(y, Min.y);
+		z = min(z, Max.z);
+		z = max(z, Min.z);
+		return *this;
+	}
+
 	inline Flt3& Flt3::normalize() {
 		*this = (Flt3)XMVector3Normalize(*this);
 		return *this;
