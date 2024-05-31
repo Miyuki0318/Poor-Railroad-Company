@@ -64,6 +64,9 @@ namespace basecross
 		AddAudioResource(L"WALK_SAND_SE", soundPath + L"walk_sand");
 		AddAudioResource(L"WALK_ROCK_SE", soundPath + L"walk_stone");
 
+		// ‹D“J‚ÌSE
+		AddAudioResource(L"WHISTLE_SE", soundPath + L"Whistle");
+
 		// ’Ç‰Á‚µ‚½ƒŠƒ\[ƒX‚ğƒƒ‚ƒŠ‚É’Ç‰Á
 		AddedTextureResources();
 		AddedAudioResources();

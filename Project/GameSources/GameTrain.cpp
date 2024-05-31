@@ -46,6 +46,14 @@ namespace basecross {
 	{
 		const auto& stagePtr = GetTypeStage<GameStage>();
 
+		if (state == State::None)
+		{
+			if (SetTimer(5.0f))
+			{
+				m_state = State::OnRail;
+				StartSE(L"WHISTLE_SE", 2.0f);
+			}
+		}
 
 		if (state == State::Arrival)
 		{
