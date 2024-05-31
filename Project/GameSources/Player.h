@@ -21,6 +21,8 @@ namespace basecross
 		CraftFinish,	// クラフト終了
 		QTESucces,		// QTE成功
 		QTEFailed,		// QTE失敗
+		GameSucces,		// ゲームクリア
+		GameFailed,		// ゲーム失敗
 	};
 
 	/*!
@@ -115,6 +117,8 @@ namespace basecross
 			m_animationMap.emplace(ePAKey::CraftFinish, AnimationMap(L"C_END", 10, 1.0f));		// クラフト終了
 			m_animationMap.emplace(ePAKey::QTESucces, AnimationMap(L"SUCCES", 24, 1.0f));		// QTE成功
 			m_animationMap.emplace(ePAKey::QTEFailed, AnimationMap(L"FAILED", 24, 1.0f));		// QTE失敗
+			m_animationMap.emplace(ePAKey::GameSucces, AnimationMap(L"SUCCES", 24, 1.0f, true));// ゲーム成功時
+			m_animationMap.emplace(ePAKey::GameFailed, AnimationMap(L"FAILED", 24, 0.5f));		// ゲーム失敗時
 
 			// 歩くSEのキー
 			m_walkSEKeyMap.emplace(eStageID::Grass, L"WALK_GRASS_SE");	// 草地の時のSE

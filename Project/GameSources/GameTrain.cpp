@@ -43,15 +43,20 @@ namespace basecross {
 
 	void GameTrain::StateProcess(State state)
 	{
+		const auto& stagePtr = GetTypeStage<GameStage>();
+
+
 		if (state == State::Arrival)
 		{
-			GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::GameClear);
+			stagePtr->SetGameProgress(eGameProgress::GameClear);
+			stagePtr->GetSharedGameObject<GamePlayer>(L"Player")->SetGameResult(eGameProgress::GameClear);
 			return;
 		}
 
 		if (state == State::Derail)
 		{
-			GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::GameOver);
+			stagePtr->SetGameProgress(eGameProgress::GameOver);
+			stagePtr->GetSharedGameObject<GamePlayer>(L"Player")->SetGameResult(eGameProgress::GameOver);
 			return;
 		}
 

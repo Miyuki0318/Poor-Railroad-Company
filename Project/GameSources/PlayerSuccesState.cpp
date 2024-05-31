@@ -28,13 +28,18 @@ namespace basecross
 	// ステート開始時の処理
 	void PlayerSuccesState::Enter(const shared_ptr<GamePlayer>& player)
 	{
-		// 今のところ何もしない
+		// アニメーションの変更
+		if (!player->IsAnimation(ePAKey::GameSucces))
+		{
+			player->SetAnimationMesh(ePAKey::GameSucces);
+		}
 	}
 
 	// ステート更新時の処理
 	void PlayerSuccesState::Execute(const shared_ptr<GamePlayer>& player)
 	{
-		// 今のところ何もしない
+		// アニメーションを更新
+		player->UpdateAnimation();
 	}
 
 	// ステート終了時の処理

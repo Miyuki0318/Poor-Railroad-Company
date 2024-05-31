@@ -31,6 +31,8 @@ namespace basecross
 	class PlayerMovingState;	// 移動状態
 	class PlayerMiningState;	// 採掘状態
 	class PlayerCraftingState;	// クラフト状態
+	class PlayerSuccesState;	// クラフト状態
+	class PlayerFailedState;	// クラフト状態
 
 	/*!
 	@brief ゲーム中のプレイヤー
@@ -51,6 +53,8 @@ namespace basecross
 		friend PlayerMovingState;
 		friend PlayerMiningState;
 		friend PlayerCraftingState;
+		friend PlayerSuccesState;
+		friend PlayerFailedState;
 
 	public:
 
@@ -179,6 +183,12 @@ namespace basecross
 		}
 
 	public:
+
+		/*!
+		@brief ゲーム結果時用のステート設定関数
+		@param eGameProgress
+		*/
+		void SetGameResult(eGameProgress result);
 
 		/*!
 		@brief アイテム数取得関数

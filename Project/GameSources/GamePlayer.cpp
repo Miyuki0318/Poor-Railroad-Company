@@ -232,4 +232,14 @@ namespace basecross
 		// 移動状態を設定
 		m_status.Set(ePlayerStatus::IsMove) = isLStick;
 	}
+
+	// ゲーム結果に応じてステートを切り替える
+	void GamePlayer::SetGameResult(eGameProgress result)
+	{
+		// プレイヤー中なら無視
+		if (result == eGameProgress::Playing) return;
+
+		// クリアならサクセスステート、失敗ならフェイルドステートに切り替える
+		result == GameClear ? SetState(PlayerSuccesState::Instance()) : SetState(PlayerFailedState::Instance());
+	}
 }

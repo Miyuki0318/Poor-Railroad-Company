@@ -28,13 +28,17 @@ namespace basecross
 	// ステート開始時の処理
 	void PlayerFailedState::Enter(const shared_ptr<GamePlayer>& player)
 	{
-		// 今のところ何もしない
+		if (!player->IsAnimation(ePAKey::GameFailed))
+		{
+			player->SetAnimationMesh(ePAKey::GameFailed);
+		}
 	}
 
 	// ステート更新時の処理
 	void PlayerFailedState::Execute(const shared_ptr<GamePlayer>& player)
 	{
-		// 今のところ何もしない
+		// アニメーションを更新
+		player->UpdateAnimation(player->m_animationMap.at(ePAKey::GameFailed).animeSpeed);
 	}
 
 	// ステート終了時の処理
