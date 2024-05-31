@@ -66,7 +66,7 @@ namespace basecross
 		Vec3 position;
 
 		// 隣接する場所に配置
-		PlayerAdjoinPosition(position);
+		UpdateCursolPosition(position);
 
 		// プレイヤーの座標+方向ベクトルで座標更新
 		SetPosition(position);
@@ -95,16 +95,10 @@ namespace basecross
 	}
 
 	// 隣接点にインディケーターを移動
-	void SelectIndicator::PlayerAdjoinPosition(Vec3& position)
+	void SelectIndicator::UpdateCursolPosition(Vec3& position)
 	{
 		// プレイヤーの回転角Y軸の中から90の倍数に一番近いのに設定
 		const auto& player = dynamic_pointer_cast<GamePlayer>(m_player.lock());
-		float rotY = DegToRad(GetClosest(RadToDeg(player->GetPastRotTarget()), m_rotArray));
-
-		// 方向ベクトルを定義(小数点以下四捨五入)
-		Vec3 velo = Vec3(cosf(rotY), 0.0f, -sinf(rotY));
-		velo.x = round(velo.x);
-		velo.z = round(velo.z);
 
 		// プレイヤーの座標を四捨五入する
 		Vec3 pos = player->GetPosition();
@@ -112,8 +106,22 @@ namespace basecross
 		pos.z = round(pos.z);
 		pos.y = m_position.y;
 
+		// コントローラー入力
+		Vec3 cntlVec = Vec3(Input::GetLStickValue().x, 0.0f, Input::GetLStickValue().y);
+		if (cntlVec.length() > 0.0f)
+		{
+			m_cursolPosition += cntlVec * DELTA_TIME * 4.0f;
+			m_cursolPosition.clamp(Vec3(-1.0f, 0.0f, -1.0f), Vec3(1.0f, 0.0f, 1.0f));
+			if (cntlVec.x <= 0.1f && cntlVec.x >= -0.1f) m_cursolPosition.x = 0.0f;
+			if (cntlVec.z <= 0.1f && cntlVec.z >= -0.1f) m_cursolPosition.z = 0.0f;
+		}
+
+		Vec3 cursol = m_cursolPosition;
+		cursol.x = round(cursol.x);
+		cursol.z = round(cursol.z);
+
 		// 座標を上書き
-		position = pos + velo;
+		position = pos + cursol;
 	}
 
 	// 採掘命令

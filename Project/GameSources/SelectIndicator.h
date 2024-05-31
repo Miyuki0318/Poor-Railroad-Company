@@ -18,7 +18,7 @@ namespace basecross
 		shared_ptr<PCTStaticDraw> m_ptrDraw; // 描画コンポーネント
 		weak_ptr<TemplateObject> m_player; // プレイヤー
 		Point2D<size_t> m_selectPoint; // 選択しているポイント
-		vector<float> m_rotArray;
+		Vec3 m_cursolPosition;
 
 	public:
 
@@ -31,8 +31,7 @@ namespace basecross
 			const shared_ptr<TemplateObject>& playerPtr
 		) :
 			TemplateObject(stagePtr, Vec3(0.0f, 1.5f, 0.0f), Vec3(0.0f), Vec3(1.0f)),
-			m_player(playerPtr),
-			m_rotArray{0.0f, 45.0f, 90.0f, 135.0f, 180.0f, -45.0f, -90.0f, -135.0f, -180.0f}
+			m_player(playerPtr)
 		{
 		}
 
@@ -89,7 +88,7 @@ namespace basecross
 		@brief プレイヤーに隣接する場所に座標を設定する関数
 		@param 現在の座標
 		*/
-		void PlayerAdjoinPosition(Vec3& position);
+		void UpdateCursolPosition(Vec3& position);
 
 		/*!
 		@brief 選択ポイントの更新処理関数
