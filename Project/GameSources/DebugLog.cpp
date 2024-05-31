@@ -250,7 +250,10 @@ wstring Debug::GetWss(const Flt4& str)
 */
 void Debug::AddLog(const wstring& logStr)
 {
-	auto debugStr = basecross::App::GetApp()->GetScene<Scene>()->GetActiveStage()->GetSharedObject(L"DebugString");
+	auto activeStage = basecross::App::GetApp()->GetScene<Scene>()->GetActiveStage(false);
+	if (!activeStage) return;
+
+	auto debugStr = activeStage->GetSharedObject(L"DebugString");
 	if (!debugStr) return;
 
 	auto strComp = debugStr->GetComponent<basecross::StringSprite>();
