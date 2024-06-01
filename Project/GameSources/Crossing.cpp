@@ -64,8 +64,14 @@ namespace basecross
 	// 生成時の処理
 	void CrossingManager::OnCreate()
 	{
+		// ステージのポインタを取得
+		const auto& stagePtr = GetStage();
+
 		// 列車のポインタを保持
-		m_trainPtr = GetStage()->GetSharedGameObject<GameTrain>(L"Train");
+		m_trainPtr = stagePtr->GetSharedGameObject<GameTrain>(L"Train");
+
+		// レールデータマップのポインタを保持
+		m_railDataMap = &stagePtr->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
 	}
 
 	// 毎フレーム更新処理
@@ -92,14 +98,25 @@ namespace basecross
 	// 指定の座標にガイドがあるか
 	bool CrossingManager::GetIsRailPoint(const Point2D<size_t>& point) const
 	{
+		// ステージの取得
+		const auto& stagePtr = GetTypeStage<BaseStage>();
+
 		// 配列の範囲内かのエラーチェック
-		const auto& stageMap = GetTypeStage<BaseStage>()->GetStageMap();
+		const auto& stageMap = stagePtr->GetStageMap();
 		if (!WithInElemRange(point.x, point.y, stageMap)) return false;
 
-		// ガイドIDかどうか
-		return eStageID::Rail == STAGE_ID(stageMap.at(point.x).at(point.y));
+		// レールIDかどうか
+		if (eStageID::Rail != STAGE_ID(stageMap.at(point.x).at(point.y))) return false;
+
+		// レールが直線レールかどうか
+		if (m_railDataMap->find(ROWCOL2LINE(point.x, point.y)) == m_railDataMap->end()) return false;
+		if (m_railDataMap->at(ROWCOL2LINE(point.x, point.y)).angle != eRailAngle::Straight) return false;
+
+		// 全ての条件を通過したらtrue
+		return true;
 	}
 
+	// 踏切の追加処理
 	void CrossingManager::AddCrossing(const Point2D<size_t>& point)
 	{
 		// ステージのcsvの取得
@@ -111,7 +128,9 @@ namespace basecross
 		string addLine = ROWCOL2LINE(point.x, point.y);
 		auto& crossing = stagePtr->AddGameObject<Crossing>(addLine);
 		m_crossingMap.emplace(addLine, crossing);
-		crossing->SetModelMatrix(m_modelMat);
+
+		// レールの向きに応じて差分行列を設定
+		crossing->SetModelMatrix(m_railDataMap->at(addLine).type == eRailType::AxisXLine ? m_xLineModelMat : m_zLineModelMat);
 
 		// csvの書き換え
 		stageMap.at(point.x).at(point.y) = UnSTAGE_ID(eStageID::CrossingCross);

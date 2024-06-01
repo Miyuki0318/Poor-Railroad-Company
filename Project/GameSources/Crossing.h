@@ -85,13 +85,17 @@ namespace basecross
 	*/
 	class CrossingManager : public GameObject
 	{
+		// レールデータマップのポインタ
+		const map<string, RailData>* m_railDataMap;
+
 		// 踏切オブジェクト配列
 		map<string, weak_ptr<Crossing>> m_crossingMap;
 
 		// 列車のポインタ
 		weak_ptr<TemplateObject> m_trainPtr;
 
-		const Mat4x4 m_modelMat;	// モデル用の行列
+		const Mat4x4 m_xLineModelMat;	// X軸直線レール用モデルの差分行列
+		const Mat4x4 m_zLineModelMat;	// Z軸直線レール用モデルの差分行列
 		const float m_updateRange;	// 更新範囲(列車からの相対距離)
 		const float m_openRange;	// 開閉範囲
 
@@ -103,12 +107,19 @@ namespace basecross
 		*/
 		CrossingManager(const shared_ptr<Stage>& stagePtr) :
 			GameObject(stagePtr),
+			m_railDataMap(nullptr),
 			m_updateRange(15.0f),
 			m_openRange(2.0f),
-			m_modelMat((Mat4x4)XMMatrixAffineTransformation(
+			m_xLineModelMat((Mat4x4)XMMatrixAffineTransformation(
 				Vec3(0.25f),
 				Vec3(0.0f),
 				(Quat)XMQuaternionRotationRollPitchYawFromVector(Vec3(0.0f, 0.0f, 0.0f)),
+				Vec3(0.0f, 0.05f, 0.0f)
+			)),
+			m_zLineModelMat((Mat4x4)XMMatrixAffineTransformation(
+				Vec3(0.25f),
+				Vec3(0.0f),
+				(Quat)XMQuaternionRotationRollPitchYawFromVector(Vec3(0.0f, XM_PIDIV2, 0.0f)),
 				Vec3(0.0f, 0.05f, 0.0f)
 			))
 		{
