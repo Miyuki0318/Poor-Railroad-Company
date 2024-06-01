@@ -149,9 +149,10 @@ namespace basecross
 		SetSharedGameObject(L"BridgeManager", bridgeManager);
 	}
 
-	void GameStage::CreateGoalRail()
+	void GameStage::CreateCrossingManager()
 	{
-		AddGameObject<GoalRail>(Vec3(9.0f, 1.0f, 0.0f));
+		const auto& crossingManager = AddGameObject<CrossingManager>();
+		SetSharedGameObject(L"CrossingManager", crossingManager);
 	}
 
 	// 列車の生成
@@ -238,6 +239,9 @@ namespace basecross
 
 			// 列車の生成
 			CreateTrain();
+
+			// 踏切の生成
+			CreateCrossingManager();
 
 			// スプライトの生成
 			CreateSpriteObject();

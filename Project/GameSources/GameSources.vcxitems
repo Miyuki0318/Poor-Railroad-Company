@@ -21,6 +21,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Bool_t.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BridgeManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Company.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Crossing.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrain.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainCurveExitState.h" />
@@ -86,6 +87,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)BillboardNumber.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BridgeManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Company.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Crossing.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainCurveExitState.cpp" />

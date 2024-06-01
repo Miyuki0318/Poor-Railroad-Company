@@ -193,6 +193,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerFailedState.h">
       <Filter>Player\Game\State\Failed</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Crossing.h">
+      <Filter>StageObject\Crossing</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -362,6 +365,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerFailedState.cpp">
       <Filter>Player\Game\State\Failed</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Crossing.cpp">
+      <Filter>StageObject\Crossing</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -559,6 +565,9 @@
     </Filter>
     <Filter Include="Player\Game\State\Failed">
       <UniqueIdentifier>{f5a8efb2-4bea-4fbb-8376-e62cedd08e69}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Crossing">
+      <UniqueIdentifier>{73d76827-580c-4fc5-b32e-be5e263b319e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

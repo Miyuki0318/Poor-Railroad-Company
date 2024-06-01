@@ -52,7 +52,7 @@ namespace basecross
 
 		const vector<vector<string>> m_racipe; // クラフトレシピ
 
-		vector<int> m_itemCount; // アイテム数
+		map<eItemType, unsigned char> m_itemCount; // アイテム数
 		eCraftItem m_craftItem;	// 作成中のアイテム
 		eItemType m_craftType;	// 作成中のアイテム
 
@@ -71,9 +71,14 @@ namespace basecross
 			m_craftQTE(qtePtr),
 			m_racipe(CSVLoader::LoadFile("CraftRacipe"))
 		{
-			m_itemCount = {0, 0, 0, 0, 0};
 			m_craftItem = eCraftItem::Rail;
 			m_craftType = eItemType::Rail;
+
+			m_itemCount.emplace(eItemType::Wood, 5);
+			m_itemCount.emplace(eItemType::Stone, 0);
+			m_itemCount.emplace(eItemType::Gear, 5);
+			m_itemCount.emplace(eItemType::Rail, 0);
+			m_itemCount.emplace(eItemType::WoodBridge, 0);
 		}
 
 		/*!
@@ -130,7 +135,9 @@ namespace basecross
 		*/
 		int GetItemCount(eItemType type) const
 		{
-			return m_itemCount.at(static_cast<size_t>(type));
+			if (m_itemCount.find(type) == m_itemCount.end()) return 0;
+
+			return m_itemCount.at(type);
 		}
 
 		/*!
@@ -140,7 +147,9 @@ namespace basecross
 		*/
 		void AddItemCount(eItemType type, int addNum = 1)
 		{
-			m_itemCount.at(static_cast<size_t>(type)) += addNum;
+			if (m_itemCount.find(type) == m_itemCount.end()) return;
+
+			m_itemCount.at(type) += addNum;
 		}
 
 		/*!
@@ -150,7 +159,9 @@ namespace basecross
 		*/
 		void UseItem(eItemType type, int useNum = 1)
 		{
-			m_itemCount.at(static_cast<size_t>(type)) -= useNum;
+			if (m_itemCount.find(type) == m_itemCount.end()) return;
+
+			m_itemCount.at(type) -= useNum;
 		}
 
 		/*!

@@ -113,6 +113,9 @@ namespace basecross
 
 		// 木の足場設置命令、設置できたら終了
 		if (AddBridgeOrder(indicator)) return;
+
+		// 踏切の設置命令、設置できたら終了
+		if (AddCrossingOrder(indicator)) return;
 	}
 
 	// 採掘命令
@@ -176,6 +179,24 @@ namespace basecross
 			if (indicator->BridgeOrder())
 			{
 				m_craft->UseItem(eItemType::WoodBridge);
+				//StartSE(L"ADDBRIDGE_SE", 1.0f);
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	// 踏切追加命令
+	bool GamePlayer::AddCrossingOrder(const shared_ptr<SelectIndicator>& indicator)
+	{
+		// 木の足場を所持してたら
+		if (GetItemCount(eItemType::Gear) && GetItemCount(eItemType::Wood))
+		{
+			if (indicator->CrossingOrder())
+			{
+				m_craft->UseItem(eItemType::Gear);
+				m_craft->UseItem(eItemType::Wood);
 				//StartSE(L"ADDBRIDGE_SE", 1.0f);
 				return true;
 			}

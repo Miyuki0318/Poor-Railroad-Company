@@ -161,7 +161,7 @@ namespace basecross
 	bool SelectIndicator::RailedOrder() const
 	{
 		// レールマネージャーの取得
-		const auto& railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager");
+		const auto& railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager", false);
 		if (!railManager) return false;
 
 		// 選択ポイントがガイドの位置と一致しているか
@@ -179,7 +179,7 @@ namespace basecross
 	bool SelectIndicator::BridgeOrder() const
 	{
 		// 選択ポイントがガイドの位置と一致しているか
-		const auto& bridgeManager = GetStage()->GetSharedGameObject<BridgeManager>(L"BridgeManager");
+		const auto& bridgeManager = GetStage()->GetSharedGameObject<BridgeManager>(L"BridgeManager", false);
 		if (!bridgeManager) return false;
 
 		bool posshible = bridgeManager->GetIsWaterPoint(m_selectPoint);
@@ -188,6 +188,24 @@ namespace basecross
 		if (posshible)
 		{
 			bridgeManager->AddBridge(m_selectPoint);
+		}
+
+		return posshible;
+	}
+
+	// 踏切設置命令
+	bool SelectIndicator::CrossingOrder() const
+	{
+		// 選択ポイントがガイドの位置と一致しているか
+		const auto& crossingManager = GetStage()->GetSharedGameObject<CrossingManager>(L"CrossingManager", false);
+		if (!crossingManager) return false;
+
+		bool posshible = crossingManager->GetIsRailPoint(m_selectPoint);
+
+		// 一致してたらマネージャーに踏切追加処理を送る
+		if (posshible)
+		{
+			crossingManager->AddCrossing(m_selectPoint);
 		}
 
 		return posshible;

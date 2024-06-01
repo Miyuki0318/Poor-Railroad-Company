@@ -75,6 +75,7 @@ namespace basecross
 			m_impassableSet.insert(eStageID::Rail);
 			m_impassableSet.insert(eStageID::DeRail);
 			m_impassableSet.insert(eStageID::GoalRail);
+			m_impassableSet.insert(eStageID::CrossingCross);
 			m_impassableSet.insert(eStageID::Tree);
 			m_impassableSet.insert(eStageID::Stone);
 			m_impassableSet.insert(eStageID::UnBreakRock);
@@ -141,6 +142,13 @@ namespace basecross
 		@return 設置できたか
 		*/
 		bool AddBridgeOrder(const shared_ptr<SelectIndicator>& indicator);
+
+		/*!
+		@brief 踏切追加命令関数
+		@param インディケーターのポインタ
+		@return 設置できたか
+		*/
+		bool AddCrossingOrder(const shared_ptr<SelectIndicator>& indicator);
 
 		/*!
 		@brief 採掘時に呼び出される関数

@@ -69,6 +69,12 @@ namespace basecross
 		bool BridgeOrder() const;
 
 		/*!
+		@brief セレクターの位置に踏切を設置可能なら設置処理を行う関数
+		@return 設置できていたらtrue
+		*/
+		bool CrossingOrder() const;
+
+		/*!
 		@brief セレクターの位置を取得する関数
 		@return m_selectPoint
 		*/
