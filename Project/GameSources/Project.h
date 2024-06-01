@@ -45,3 +45,4 @@
 #include "UnBreakRock.h"
 #include "MathFunc.h"
 #include "Crossing.h"
+#include "SmokeEffect.h"

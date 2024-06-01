@@ -48,6 +48,9 @@ namespace basecross
 		AddTextureResource(L"UI_RAIL_TX", texturePath + L"Rail.png");
 		AddTextureResource(L"UI_BRIDGE_TX", texturePath + L"Bridge.png");
 
+		// 列車の煙テクスチャ
+		AddTextureResource(L"SMOKE_TX", texturePath + L"Smoke.png");
+
 		// レール設置時のSE
 		AddAudioResource(L"ADDRAIL_SE", soundPath + L"Rail");
 
@@ -225,6 +228,6 @@ namespace basecross
 		// デバック用文字列の表示非表示切り替え
 		const auto& debugStr = GetSharedObject(L"DebugString");
 		debugStr->SetDrawLayer(10);
-		debugStr->SetDrawActive(false);
+		debugStr->SetDrawActive(true);
 	}
 }

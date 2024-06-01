@@ -8,6 +8,7 @@
 #include "stdafx.h"
 #include "TemplateObject.h"
 #include "RailManager.h"
+#include "SmokeEffect.h"
 
 namespace basecross {
 
@@ -40,6 +41,8 @@ namespace basecross {
 
 		const map<string, RailData>* m_railDataMap;
 		weak_ptr<RailManager> m_railManager;
+		weak_ptr<SmokeEffect> m_smokeEffect;
+		weak_ptr<SoundItem> m_whistleSE;
 
 		// ステートマシン
 		unique_ptr<StateMachine<GameTrain>> m_trainState;
@@ -75,6 +78,8 @@ namespace basecross {
 		void OnCollisionEnter(shared_ptr<GameObject>& gameObject) override;
 
 		const map<string, RailData>& GetRailDataMap() const;
+
+		void WhistleSmokeEffect();
 
 		/// <summary>
 		/// 状態ごとの処理

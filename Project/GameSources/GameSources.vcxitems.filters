@@ -196,6 +196,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Crossing.h">
       <Filter>StageObject\Crossing</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SmokeEffect.h">
+      <Filter>Effect\Smoke</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -368,6 +371,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Crossing.cpp">
       <Filter>StageObject\Crossing</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SmokeEffect.cpp">
+      <Filter>Effect\Smoke</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -568,6 +574,12 @@
     </Filter>
     <Filter Include="StageObject\Crossing">
       <UniqueIdentifier>{73d76827-580c-4fc5-b32e-be5e263b319e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect">
+      <UniqueIdentifier>{129f4188-a2df-46bd-97bb-f76673e0d5fb}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\Smoke">
+      <UniqueIdentifier>{a818f2f5-70d5-4978-83e3-184761d6e613}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

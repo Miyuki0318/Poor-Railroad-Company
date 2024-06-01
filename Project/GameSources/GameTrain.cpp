@@ -15,16 +15,26 @@ namespace basecross {
 	{
 		Train::OnCreate();
 
-		m_railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager");
+		const auto& stagePtr = GetStage();
+
+		m_railManager = stagePtr->GetSharedGameObject<RailManager>(L"RailManager");
 		m_railDataMap = &m_railManager.lock()->GetRailDataMap();
 
 		m_trainState.reset(new StateMachine<GameTrain>(GetThis<GameTrain>()));
 		m_trainState->ChangeState(GameTrainStraightState::Instance());
+
+		auto smokeEffect = stagePtr->AddGameObject<SmokeEffect>();
+		auto smokeTrans = smokeEffect->GetComponent<Transform>();
+		smokeTrans->SetPosition(GetPosition() + Vec3(0.5f, 1.5f, 0.0f));
+		smokeTrans->SetParent(GetThis<GameObject>());
+
+		m_smokeEffect = smokeEffect;
 	}
 
 	void GameTrain::OnUpdate()
 	{
 		StateProcess(m_state);
+		m_smokeEffect.lock()->OnUpdate();
 
 		Debug::Log(L"現在のステート : ", m_trainState->GetCurrentState()->GetStateName());
 	}
@@ -55,7 +65,7 @@ namespace basecross {
 			if (SetTimer(START_TIME))
 			{
 				m_state = State::OnRail;
-				StartSE(L"WHISTLE_SE", 2.0f);
+				m_whistleSE = StartSE(L"WHISTLE_SE", 2.0f);
 			}
 		}
 
@@ -82,6 +92,17 @@ namespace basecross {
 				m_moveSpeed *= 1.2f; // 早く進む
 			}
 		}
+
+		WhistleSmokeEffect();
+	}
+
+	void GameTrain::WhistleSmokeEffect()
+	{
+		auto soundItem = m_whistleSE.lock();
+		if (!soundItem) return;
+		if (!soundItem->m_AudioResource.lock()) return;
+
+		m_smokeEffect.lock()->AddSmokeEffect();
 	}
 
 	bool GameTrain::SearchNextRail()
