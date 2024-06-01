@@ -9,7 +9,7 @@
 
 namespace basecross {
 
-	const float HELF_TIME = 0.5f;
+	const float START_TIME = 5.0f;
 
 	void GameTrain::OnCreate()
 	{
@@ -48,7 +48,11 @@ namespace basecross {
 
 		if (state == State::None)
 		{
-			if (SetTimer(5.0f))
+			m_acsel += DELTA_TIME / START_TIME;
+			m_acsel = min(m_acsel, 1.0f);
+			m_trainState->Update();
+
+			if (SetTimer(START_TIME))
 			{
 				m_state = State::OnRail;
 				StartSE(L"WHISTLE_SE", 2.0f);

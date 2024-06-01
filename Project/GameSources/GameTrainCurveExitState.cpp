@@ -49,9 +49,12 @@ namespace basecross
 	// ステート更新時の処理
 	void GameTrainCurveExitState::Execute(const shared_ptr<GameTrain>& train)
 	{
+		// 加速度を0.5から1.0に戻す
+		train->m_acsel = Utility::Lerp(HELF_TIME, 1.0f, train->m_moveRatio);
+
 		// カーブを線形補間で処理
 		Vec3 pos = Utility::Lerp(train->m_movePos.first, train->m_movePos.second, train->m_moveRatio);
-		train->m_moveRatio = MathF::Repeat01(train->m_moveRatio, train->m_moveSpeed / HELF_TIME);
+		train->m_moveRatio = MathF::Repeat01(train->m_moveRatio, train->m_moveSpeed * train->m_acsel / HELF_TIME);
 
 		// 範囲外になったら
 		if (MathF::GetOutRange())
@@ -70,6 +73,6 @@ namespace basecross
 	// ステート終了時の処理
 	void GameTrainCurveExitState::Exit(const shared_ptr<GameTrain>& train)
 	{
-		// 今のところ何もしない
+		train->m_acsel = 1.0f;
 	}
 }

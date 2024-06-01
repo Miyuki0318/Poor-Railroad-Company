@@ -36,7 +36,8 @@ namespace basecross {
 
 	class GameTrain : public Train
 	{
-		CurvePoints m_curvePoints;	// カーブに使う座標
+		float m_acsel; // 加速度
+
 		const map<string, RailData>* m_railDataMap;
 		weak_ptr<RailManager> m_railManager;
 
@@ -53,7 +54,6 @@ namespace basecross {
 		GameTrain(const shared_ptr<Stage>& stagePtr) :
 			Train(stagePtr)
 		{
-			m_curvePoints = {};
 		}
 
 		GameTrain(const shared_ptr<Stage>& stagePtr,
@@ -61,7 +61,6 @@ namespace basecross {
 		) :
 			Train(stagePtr, startPosition)
 		{
-			m_curvePoints = {};
 		}
 
 		~GameTrain() 

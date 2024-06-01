@@ -67,7 +67,7 @@ namespace basecross
 		float rad = Utility::Lerp(m_pastRotY, endRad, train->m_moveRatio);
 
 		// Š„‡‚Ì‰ÁŽZ
-		train->m_moveRatio = MathF::Repeat01(train->m_moveRatio, train->m_moveSpeed);
+		train->m_moveRatio = MathF::Repeat01(train->m_moveRatio, train->m_moveSpeed * train->m_acsel);
 
 		// ”ÍˆÍŠO‚É‚È‚Á‚½‚ç
 		if (MathF::GetOutRange())
