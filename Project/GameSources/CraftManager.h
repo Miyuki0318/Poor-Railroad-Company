@@ -46,7 +46,7 @@ namespace basecross
 	*/
 	class CraftManager
 	{
-		const weak_ptr<TemplateObject> m_player;
+		const weak_ptr<TemplateObject> m_player;// プレイヤーのポインタ
 		const weak_ptr<CraftingQTE> m_craftQTE; // クラフトQTE
 		const weak_ptr<CraftWindow> m_window;	// クラフトウィンドウ
 
@@ -74,7 +74,8 @@ namespace basecross
 			m_craftItem = eCraftItem::Rail;
 			m_craftType = eItemType::Rail;
 
-			m_itemCount.emplace(eItemType::Wood, 5);
+			// アイテムカウンタ
+			m_itemCount.emplace(eItemType::Wood, 0);
 			m_itemCount.emplace(eItemType::Stone, 0);
 			m_itemCount.emplace(eItemType::Gear, 5);
 			m_itemCount.emplace(eItemType::Rail, 0);
