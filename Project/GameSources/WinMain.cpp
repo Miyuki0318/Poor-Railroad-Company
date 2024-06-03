@@ -10,7 +10,7 @@ LRESULT CALLBACK	WndProc(HWND, UINT, WPARAM, LPARAM);
 
 //定数
 const wchar_t* pClassName = L"BaseCrossFullClass";
-const wchar_t* pWndTitle = L"BaseCrossFullSample";
+const wchar_t* pWndTitle = L"貧鉄！";
 
 
 //--------------------------------------------------------------------------------------
@@ -239,6 +239,9 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	if (wstrcmd == L"/f" || wstrcmd == L"/F") {
 		isFullScreen = true;     // フラグをtrueに設定
 	}
+
+	// マウスカーソルを非表示にする
+	ShowCursor(false);
 
 	MyRegisterClass(hInstance);
 	// アプリケーションの初期化を実行します:
