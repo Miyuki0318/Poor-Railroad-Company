@@ -15,7 +15,7 @@ namespace basecross
 		auto& ptrTrans = GetComponent<Transform>();
 
 		// パーティクルを生成
-		auto particlePtr = InsertParticle(2);
+		auto particlePtr = InsertParticle(3);
 		particlePtr->SetEmitterPos(ptrTrans->GetWorldPosition());
 		particlePtr->SetTextureResource(L"SMOKE_TX");
 		particlePtr->SetMaxTime(m_drawTime);

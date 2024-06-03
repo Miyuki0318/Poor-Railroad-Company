@@ -34,7 +34,6 @@ namespace basecross {
 	void GameTrain::OnUpdate()
 	{
 		StateProcess(m_state);
-		m_smokeEffect.lock()->OnUpdate();
 
 		Debug::Log(L"現在のステート : ", m_trainState->GetCurrentState()->GetStateName());
 	}

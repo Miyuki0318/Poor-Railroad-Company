@@ -247,7 +247,7 @@ namespace basecross
 			CreateSpriteObject();
 
 			// UIの生成
-			//CreateUIObject();
+			CreateUIObject();
 
 			// BGMの再生
 			m_soundManager->StartBGM(L"GAME_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);
@@ -294,9 +294,6 @@ namespace basecross
 
 			// スプライトの表示
 			LogoActive();
-
-			const auto& railManager = GetSharedGameObject<RailManager>(L"RailManager");
-			Debug::Log(L"レールの設置数 : ", railManager->GetAddRailNum());
 		}
 		catch (...)
 		{
