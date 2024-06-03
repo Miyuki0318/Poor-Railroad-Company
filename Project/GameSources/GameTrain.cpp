@@ -99,6 +99,7 @@ namespace basecross {
 	{
 		auto soundItem = m_whistleSE.lock();
 		if (!soundItem) return;
+		if (soundItem->m_SoundKey != L"WHISTLE_SE") return;
 		if (!soundItem->m_AudioResource.lock()) return;
 
 		m_smokeEffect.lock()->AddSmokeEffect(m_rotation.y);

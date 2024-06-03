@@ -171,6 +171,7 @@ namespace basecross {
 		Ptr->m_SourceVoice->SetVolume(Volume);
 		Ptr->m_SourceVoice->SubmitSourceBuffer(&buffer);
 		Ptr->m_SourceVoice->Start();
+		Ptr->m_SoundKey = ResKey;
 		return Ptr;
 	}
 

@@ -18,13 +18,15 @@ namespace basecross {
 	struct SoundItem {
 		weak_ptr<AudioResource> m_AudioResource;
 		IXAudio2SourceVoice* m_SourceVoice;
+		wstring m_SoundKey;
 		//--------------------------------------------------------------------------------------
 		/*!
 		@brief	コンストラクタ
 		*/
 		//--------------------------------------------------------------------------------------
 		SoundItem() :
-			m_SourceVoice(nullptr)
+			m_SourceVoice(nullptr),
+			m_SoundKey(L"")
 		{}
 		//--------------------------------------------------------------------------------------
 		/*!
