@@ -15,6 +15,7 @@ namespace basecross
 	class Crossing : public TemplateObject
 	{
 		shared_ptr<PNTBoneModelDraw> m_ptrDraw; // 描画コンポーネント
+		shared_ptr<Shadowmap> m_ptrShadow; // 描画コンポーネント
 		const string m_csvLine;	// csvのrowとcolのLINE
 
 	public:
@@ -52,9 +53,8 @@ namespace basecross
 		*/
 		void SetModelMatrix(const Mat4x4& matrix)
 		{
-			if (!m_ptrDraw) return;
-
-			m_ptrDraw->SetMeshToTransformMatrix(matrix);
+			if (m_ptrDraw) m_ptrDraw->SetMeshToTransformMatrix(matrix);
+			if (m_ptrShadow) m_ptrShadow->SetMeshToTransformMatrix(matrix);
 		}
 
 		/*!
@@ -111,13 +111,13 @@ namespace basecross
 			m_updateRange(15.0f),
 			m_openRange(2.0f),
 			m_xLineModelMat((Mat4x4)XMMatrixAffineTransformation(
-				Vec3(0.25f),
+				Vec3(0.25f, 0.25f, 0.3f),
 				Vec3(0.0f),
 				(Quat)XMQuaternionRotationRollPitchYawFromVector(Vec3(0.0f, 0.0f, 0.0f)),
 				Vec3(0.0f, 0.05f, 0.0f)
 			)),
 			m_zLineModelMat((Mat4x4)XMMatrixAffineTransformation(
-				Vec3(0.25f),
+				Vec3(0.25f, 0.25f, 0.3f),
 				Vec3(0.0f),
 				(Quat)XMQuaternionRotationRollPitchYawFromVector(Vec3(0.0f, XM_PIDIV2, 0.0f)),
 				Vec3(0.0f, 0.05f, 0.0f)

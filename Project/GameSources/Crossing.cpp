@@ -29,6 +29,9 @@ namespace basecross
 		m_ptrDraw->SetMeshResource(L"CROSSING");
 		m_ptrDraw->AddAnimation(L"OPEN", 0, 15, false);
 		m_ptrDraw->AddAnimation(L"CROSS", 20, 15, false);
+
+		m_ptrShadow = AddComponent<Shadowmap>();
+		m_ptrShadow->SetMeshResource(L"CROSSING");
 	}
 
 	// 毎フレーム更新処理

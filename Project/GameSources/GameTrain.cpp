@@ -101,7 +101,7 @@ namespace basecross {
 		if (!soundItem) return;
 		if (!soundItem->m_AudioResource.lock()) return;
 
-		m_smokeEffect.lock()->AddSmokeEffect();
+		m_smokeEffect.lock()->AddSmokeEffect(m_rotation.y);
 	}
 
 	bool GameTrain::SearchNextRail()

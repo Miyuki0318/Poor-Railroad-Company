@@ -20,6 +20,10 @@ namespace basecross {
 		m_ptrDraw->SetMeshResource(L"TRAIN");
 		m_ptrDraw->SetMeshToTransformMatrix(m_modelMat);
 
+		auto shadowMap = AddComponent<Shadowmap>();
+		shadowMap->SetMeshResource(L"TRAIN");
+		shadowMap->SetMeshToTransformMatrix(m_modelMat);
+
 		const auto& railMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetRailDataMap();
 		m_railPos = POS2LINE(m_DefaultPosition);
 		m_movePos.first = m_DefaultPosition;
