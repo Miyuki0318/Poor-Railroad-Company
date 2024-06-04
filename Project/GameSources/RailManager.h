@@ -162,6 +162,7 @@ namespace basecross
 
 		string m_pastLine;		 // 最後に設置したレールのLINE
 		size_t m_railNum;		 // レールの設置数
+		Vec3 m_startRailPos;	 // 最初に設置した開始レール
 		Vec3 m_pastDeRailPos;	 // 最後に設置した先端レール
 		bool m_isConnectionGoal; // ゴールレールまで繋がったか
 		
@@ -251,6 +252,15 @@ namespace basecross
 		size_t GetAddRailNum() const
 		{
 			return m_railNum;
+		}
+
+		/*!
+		@brief 開始レールの座標取得関数
+		@return m_startRailPos
+		*/
+		Vec3 GetStartRailPos() const
+		{
+			return m_startRailPos;
 		}
 
 		/*!

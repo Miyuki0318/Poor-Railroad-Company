@@ -19,6 +19,7 @@ namespace basecross {
 
 		m_railManager = stagePtr->GetSharedGameObject<RailManager>(L"RailManager");
 		m_railDataMap = &m_railManager.lock()->GetRailDataMap();
+		m_railPos = POS2LINE(m_railManager.lock()->GetStartRailPos());
 
 		m_trainState.reset(new StateMachine<GameTrain>(GetThis<GameTrain>()));
 		m_trainState->ChangeState(GameTrainStraightState::Instance());
