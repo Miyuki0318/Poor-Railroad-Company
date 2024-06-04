@@ -78,11 +78,13 @@ namespace basecross {
 
 		// ソードクリエイターモデル
 		// 岩モデルの生成
+		app->RegisterTexture(L"ROCK_SM_TX", modelPath + L"Rock/Rock.png");
 		RegisterSingleMesh(L"ROCK1", modelPath + L"Rock/", L"Rock1", false);
 		RegisterSingleMesh(L"ROCK2", modelPath + L"Rock/", L"Rock2", false);
 		RegisterSingleMesh(L"ROCK3", modelPath + L"Rock/", L"Rock3", false);
 
 		// 木のモデルの生成
+		app->RegisterTexture(L"TREE_SM_TX", modelPath + L"Tree/Tree.png");
 		RegisterMultiMesh(L"TREE1", modelPath + L"Tree/", L"Tree1", false);
 		RegisterMultiMesh(L"TREE2", modelPath + L"Tree/", L"Tree2", false);
 

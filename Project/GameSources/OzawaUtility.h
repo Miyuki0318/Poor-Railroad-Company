@@ -384,6 +384,24 @@ namespace Utility
 		return (val == a || val == b);
 	}
 
+	/*!
+	@brief or‰‰Z
+	@param ”äŠrŒ³
+	@param ”ä‚×‚é’l(‰Â•Ï’·ˆø”)
+	@return ‚Ç‚ê‚©‚Æˆê’v‚µ‚Ä‚¢‚é‚©
+	*/
+	template <class T, class... V>
+	bool ORS(T val, V... nums)
+	{
+		// ‰Â•Ï’·ˆø”‚Ì”‚¾‚¯ƒ‹[ƒv‚³‚¹‚é
+		for (T num : { static_cast<T>(nums)... })
+		{
+			if (num == val) return true;
+		}
+
+		return false;
+	}
+
 #if BASECROSS
 
 	/*!

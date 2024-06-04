@@ -106,7 +106,7 @@ namespace basecross
 		if (!indicator) return;
 		
 		// 採掘命令、採掘できたら終了
-		if (MiningOrder(indicator)) return;
+		if (GatheringOrder(indicator)) return;
 
 		// レール設置命令、設置できたら終了
 		if (AddRailOrder(indicator)) return;
@@ -119,15 +119,15 @@ namespace basecross
 	}
 
 	// 採掘命令
-	bool GamePlayer::MiningOrder(const shared_ptr<SelectIndicator>& indicator)
+	bool GamePlayer::GatheringOrder(const shared_ptr<SelectIndicator>& indicator)
 	{
 		// 採掘命令を送り、採掘できたらタグセットを受け取る
-		const auto& miningTag = indicator->MiningOrder();
+		int id = indicator->GatheringOrder();
 
 		// 採掘オブジェクトのタグセットが空じゃなければ採掘処理を送る
-		if (!miningTag.empty())
+		if (id != 0)
 		{
-			MiningProcces(miningTag);
+			GatheringProcces(id);
 			return true;
 		}
 		
@@ -135,21 +135,24 @@ namespace basecross
 	}
 
 	// 採掘処理
-	void GamePlayer::MiningProcces(const set<wstring>& tagSet)
+	void GamePlayer::GatheringProcces(int stageID)
 	{
 		// 採掘対象マップを用いて採掘数を追加
-		for (const auto& miningMap : m_miningMap)
+		eStageID id = STAGE_ID(stageID);
+		
+		// アイテムカウンタの追加とSEの再生
+		if (m_gCountMap.find(id) != m_gCountMap.end())
 		{
-			if (tagSet.find(miningMap.first) != tagSet.end())
-			{
-				// アイテムカウンタの追加とSEの再生
-				AddItemCount(miningMap.second);
-				StartSE(miningMap.first + L"_SE", 1.0f);
-			}
+			AddItemCount(m_gCountMap.at(id));
+		}
+
+		if (m_gSoundMap.find(id) != m_gSoundMap.end())
+		{
+			StartSE(m_gSoundMap.at(id) + L"_SE", 1.0f);
 		}
 
 		// 採掘状態にする
-		m_status.Set(ePlayerStatus::IsMining) = true;
+		m_status.Set(ePlayerStatus::IsGathering) = true;
 	}
 
 	// レール追加命令

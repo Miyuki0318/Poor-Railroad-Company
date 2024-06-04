@@ -51,10 +51,10 @@ namespace basecross
 		void OnUpdate() override;
 
 		/*!
-		@brief セレクターの位置に採掘オブジェクトがあれば採掘処理を行う関数
-		@return 採掘可能オブジェクトタグセットを返す
+		@brief セレクターの位置に採取可能オブジェクトあるなら採取処理を行う関数
+		@return 採取できていたらtrue
 		*/
-		set<wstring> MiningOrder() const;
+		int GatheringOrder() const;
 
 		/*!
 		@brief セレクターの位置にレールを設置可能なら設置処理を行う関数

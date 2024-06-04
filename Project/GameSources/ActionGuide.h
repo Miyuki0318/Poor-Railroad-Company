@@ -103,19 +103,22 @@ namespace basecross
 			m_distanceX(60.0f)
 		{
 			// アイコンタイプに応じた座標テーブル
-			m_typePos.insert(make_pair(eSpriteType::Icon, Vec3(0.0f, 0.0f, 0.1f)));
-			m_typePos.insert(make_pair(eSpriteType::Balloon, Vec3(0.0f, 0.0f, 0.2f)));
+			m_typePos.emplace(eSpriteType::Icon, Vec3(0.0f, 0.0f, 0.1f));
+			m_typePos.emplace(eSpriteType::Balloon, Vec3(0.0f, 0.0f, 0.2f));
 
 			// ステージIDに応じたアイコンテーブル
-			m_iconMap.insert(make_pair(eStageID::Stone, eActionIcon::Pick));
-			m_iconMap.insert(make_pair(eStageID::Tree, eActionIcon::Axe));
-			m_iconMap.insert(make_pair(eStageID::GuideRail, eActionIcon::Rail));
+			m_iconMap.emplace(eStageID::Stone1, eActionIcon::Pick);
+			m_iconMap.emplace(eStageID::Stone2, eActionIcon::Pick);
+			m_iconMap.emplace(eStageID::Stone3, eActionIcon::Pick);
+			m_iconMap.emplace(eStageID::Tree1, eActionIcon::Axe);
+			m_iconMap.emplace(eStageID::Tree2, eActionIcon::Axe);
+			m_iconMap.emplace(eStageID::GuideRail, eActionIcon::Rail);
 
 			// アイコンに応じたテクスチャと優先度テーブル
-			m_texMap.insert(make_pair(eActionIcon::Rail, TextureType(L"I_RAIL_TX", 1)));
-			m_texMap.insert(make_pair(eActionIcon::Axe, TextureType(L"I_AXE_TX", 2)));
-			m_texMap.insert(make_pair(eActionIcon::Pick, TextureType(L"I_PICK_TX", 2)));
-			m_texMap.insert(make_pair(eActionIcon::Craft, TextureType(L"I_CRAFT_TX", 3)));
+			m_texMap.emplace(eActionIcon::Rail, TextureType(L"I_RAIL_TX", 1));
+			m_texMap.emplace(eActionIcon::Axe, TextureType(L"I_AXE_TX", 2));
+			m_texMap.emplace(eActionIcon::Pick, TextureType(L"I_PICK_TX", 2));
+			m_texMap.emplace(eActionIcon::Craft, TextureType(L"I_CRAFT_TX", 3));
 		}
 
 		/*!

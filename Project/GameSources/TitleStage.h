@@ -97,6 +97,11 @@ namespace basecross
 		*/
 		void CreateBuilding();
 
+		/*!
+		@brief 採集オブジェクトの生成
+		*/
+		void CreateGatheringManager();
+
 		/*
 		@brief 列車の生成
 		*/

@@ -58,9 +58,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Input.h">
       <Filter>OzawaFuncs</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)MiningObject.h">
-      <Filter>StageObject\MiningObject</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Station.h">
       <Filter>StageObject\Station</Filter>
     </ClInclude>
@@ -102,9 +99,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerCraftingState.h">
       <Filter>Player\Game\State\Crafting</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)GoalRail.h">
-      <Filter>StageObject\Rail\Goal</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerIdleState.h">
       <Filter>Player\Game\State\Idle</Filter>
@@ -199,6 +193,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SmokeEffect.h">
       <Filter>Effect\Smoke</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GatheringObject.h">
+      <Filter>StageObject\GatheringObject</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -240,9 +237,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp">
       <Filter>StageObject\Ground</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)MiningObject.cpp">
-      <Filter>StageObject\MiningObject</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Station.cpp">
       <Filter>StageObject\Station</Filter>
     </ClCompile>
@@ -281,9 +275,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerCraftingState.cpp">
       <Filter>Player\Game\State\Crafting</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)GoalRail.cpp">
-      <Filter>StageObject\Rail\Goal</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerIdleState.cpp">
       <Filter>Player\Game\State\Idle</Filter>
@@ -375,6 +366,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SmokeEffect.cpp">
       <Filter>Effect\Smoke</Filter>
     </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GatheringObject.cpp">
+      <Filter>StageObject\GatheringObject</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Player">
@@ -422,9 +416,6 @@
     <Filter Include="StageObject\Ground">
       <UniqueIdentifier>{ab7af347-7f4d-4c24-9333-d0c2e7f05321}</UniqueIdentifier>
     </Filter>
-    <Filter Include="StageObject\MiningObject">
-      <UniqueIdentifier>{d466f35e-675e-4697-b202-3d53f3e61039}</UniqueIdentifier>
-    </Filter>
     <Filter Include="StageObject\Station">
       <UniqueIdentifier>{72f7c1be-3362-4034-a892-ff59da128b08}</UniqueIdentifier>
     </Filter>
@@ -433,9 +424,6 @@
     </Filter>
     <Filter Include="StageObject\Train">
       <UniqueIdentifier>{3a27608b-f436-4aec-90bc-c0b6421bf41e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="StageObject\Rail\Goal">
-      <UniqueIdentifier>{4007fc3e-1d7d-4d3e-a06f-5c09b8211644}</UniqueIdentifier>
     </Filter>
     <Filter Include="Stage">
       <UniqueIdentifier>{f59477d1-a22a-4d03-a941-7aa000b91626}</UniqueIdentifier>
@@ -580,6 +568,9 @@
     </Filter>
     <Filter Include="Effect\Smoke">
       <UniqueIdentifier>{a818f2f5-70d5-4978-83e3-184761d6e613}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\GatheringObject">
+      <UniqueIdentifier>{4fb07700-89d2-429c-9b43-3f725ff6b29c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

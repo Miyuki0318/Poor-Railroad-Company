@@ -24,8 +24,11 @@ namespace basecross
 		GoalRail,			// ƒS[ƒ‹ƒŒ[ƒ‹
 		CrossingOpen,		// “¥Ø(’Ê‚ê‚é)
 		CrossingCross,		// “¥Ø(’Ê‚ê‚È‚¢)
-		Stone = 10,			// Šâ
-		Tree,				// –Ø
+		Stone1 = 10,		// Šâ0
+		Stone2,				// Šâ1
+		Stone3,				// Šâ2
+		Tree1,				// –Ø0
+		Tree2,				// –Ø1
 		UnBreakRock = 20,	// ‰ó‚¹‚È‚¢Šâ
 		Water = 31,			// …
 		WoodBridge = 40,	// –Ø‚Ì‘«ê	
