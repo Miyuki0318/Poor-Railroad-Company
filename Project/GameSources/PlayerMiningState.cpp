@@ -43,7 +43,7 @@ namespace basecross
 		if (!player->m_ptrDraw->IsTargetAnimeEnd()) return;
 
 		// 採掘完了してたらステートを待機に遷移させる
-		player->m_status.Set(ePlayerStatus::IsMining) = false;
+		player->m_status.Set(ePlayerStatus::IsGathering) = false;
 		auto nState = PlayerIdleState::Instance();
 		player->SetState(nState);
 

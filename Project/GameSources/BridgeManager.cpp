@@ -49,14 +49,14 @@ namespace basecross
 		stageMap.at(point.x).at(point.y) = UnSTAGE_ID(eStageID::WoodBridge);
 	}
 
-	// 指定の座標にガイドがあるか
+	// 指定の座標に水場があるか
 	bool BridgeManager::GetIsWaterPoint(const Point2D<size_t>& point) const
 	{
 		// 配列の範囲内かのエラーチェック
 		const auto& stageMap = GetTypeStage<BaseStage>()->GetStageMap();
 		if (!WithInElemRange(point.x, point.y, stageMap)) return false;
 
-		// ガイドIDかどうか
+		// 水場のIDかどうか
 		return eStageID::Water == STAGE_ID(stageMap.at(point.x).at(point.y));
 	}
 }

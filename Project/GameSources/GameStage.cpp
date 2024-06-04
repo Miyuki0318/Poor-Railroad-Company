@@ -77,61 +77,34 @@ namespace basecross
 		m_stageMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Stage"));
 		m_groundMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Ground"));
 
-		// オブジェクトグループ
-		const auto& miningGroup = GetSharedObjectGroup(L"MiningObject");
-
 		// 二重ループ
 		for (int i = 0; i < m_stageMap.size(); i++)
 		{
 			vector<Vec3> tempVec;
 			for (int j = 0; j < m_stageMap.at(i).size(); j++)
 			{
-				// 仮オブジェクト
-				shared_ptr<MiningObject> mining = nullptr;
+				// IDを取得
+				int& id = m_stageMap.at(i).at(j);
+				eStageID num = STAGE_ID(id);
 
 				// 座標(左限+列番号×スケール,下限+行数-行番号×スケール)
-				Vec3 position = ROWCOL2POS(i, j);
+				tempVec.push_back(ROWCOL2POS(i, j));
 
-				// 数値の別名
-				eStageID num = STAGE_ID(m_stageMap.at(i).at(j));
-				switch (num)
+				// 石のIDなら
+				if (num == eStageID::Stone1)
 				{
-				case eStageID::Stone: // 岩なら
-					mining = AddGameObject<Rock>(position); 
-					break;
-
-				case eStageID::Tree: // 木なら
-					mining = AddGameObject<Tree>(position);
-					break;
-
-				default:
-					break;
+					int random = Utility::RangeRand(3, 0);
+					id = id + random;
 				}
 
-				// オブジェクトグループへの追加
-				if (mining)
+				// 木のIDなら
+				if (num == eStageID::Tree1)
 				{
-					miningGroup->IntoGroup(mining);
+					int random = Utility::RangeRand(2, 0);
+					id = id + random;
 				}
-
-				tempVec.push_back(position);
 			}
 			m_positionMap.push_back(tempVec);
-		}
-	}
-
-	// 採掘物の生成
-	void GameStage::CreateStageObject()
-	{
-		// シェアドオブジェクトグループを取得
-		const auto& group = GetSharedObjectGroup(L"MiningObject");
-
-		for (int i = 0; i < 10; i++) {
-			const auto& treeObj = AddGameObject<Tree>(Vec3(1.0f * i, 1.5f, 2.0f));
-			const auto& rockObj = AddGameObject<Rock>(Vec3(1.0f * i, 1.5f, 5.0f));
-
-			group->IntoGroup(treeObj);
-			group->IntoGroup(rockObj);
 		}
 	}
 
@@ -153,6 +126,12 @@ namespace basecross
 	{
 		const auto& crossingManager = AddGameObject<CrossingManager>();
 		SetSharedGameObject(L"CrossingManager", crossingManager);
+	}
+
+	void GameStage::CreateGatheringManager()
+	{
+		const auto& gatheringManager = AddGameObject<GatheringManager>();
+		SetSharedGameObject(L"GatheringManager", gatheringManager);
 	}
 
 	// 列車の生成
@@ -243,11 +222,14 @@ namespace basecross
 			// 踏切の生成
 			CreateCrossingManager();
 
+			// 採集オブジェクトの生成
+			CreateGatheringManager();
+
 			// スプライトの生成
 			CreateSpriteObject();
 
 			// UIの生成
-			CreateUIObject();
+			//CreateUIObject();
 
 			// BGMの再生
 			m_soundManager->StartBGM(L"GAME_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);

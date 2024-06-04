@@ -39,17 +39,7 @@ namespace basecross {
 	}
 
 	void Station::OnUpdate() {
-		if (!m_setFlg) {
-			// 自身のコリジョンを取得
-			auto ptrColl = GetComponent<CollisionObb>();
-			// MiningObjectGroupを取得
-			auto group = GetStage()->GetSharedObjectGroup(L"MiningObject");
-			// MiningObjectGroup同士の衝突判定をオフ
-			ptrColl->SetExcludeCollisionGroup(group);
 
-			// フラグをfalseに変更
-			m_setFlg = true;
-		}
 	}
 
 	void Station::OnReset(){

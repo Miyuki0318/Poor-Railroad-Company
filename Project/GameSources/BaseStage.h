@@ -25,9 +25,11 @@ namespace basecross
 		StartRail,
 		CrossingOpen,		// ì•êÿ(í ÇÍÇÈ)
 		CrossingCross,		// ì•êÿ(í ÇÍÇ»Ç¢)
-		Station,
-		Stone = 10,			// ä‚
-		Tree,				// ñÿ
+		Stone1 = 10,		// ä‚0
+		Stone2,				// ä‚1
+		Stone3,				// ä‚2
+		Tree1,				// ñÿ0
+		Tree2,				// ñÿ1
 		UnBreakRock = 20,	// âÛÇπÇ»Ç¢ä‚
 		Water = 31,			// êÖ
 		WoodBridge = 40,	// ñÿÇÃë´èÍ	

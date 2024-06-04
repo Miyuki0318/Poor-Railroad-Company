@@ -124,37 +124,22 @@ namespace basecross
 		position = pos + cursol;
 	}
 
-	// 採掘命令
-	set<wstring> SelectIndicator::MiningOrder() const
+	// 採取命令
+	int SelectIndicator::GatheringOrder() const
 	{
-		// 採掘可能オブジェクト配列の取得
-		if (const auto& group = GetStage()->GetSharedObjectGroup(L"MiningObject", false))
+		// レールマネージャーの取得
+		const auto& gatheringManager = GetStage()->GetSharedGameObject<GatheringManager>(L"GatheringManager", false);
+		if (!gatheringManager) return 0;
+
+		// 選択ポイントがガイドの位置と一致しているか
+		int id = 0;
+		if (gatheringManager->GetIsGatheringPoint(m_selectPoint))
 		{
-			const auto& miningVec = group->GetGroupVector();
-
-			// 配列の数ループ
-			for (const auto& weakObj : miningVec)
-			{
-				// エラーチェック
-				if (!weakObj.lock()) continue;
-				if (!weakObj.lock()->IsUpdateActive()) continue;
-
-				// 型キャスト
-				const auto& miningObj = dynamic_pointer_cast<MiningObject>(weakObj.lock());
-				if (!miningObj) continue;
-
-				// CSV上の座標が一致したら採掘処理を送り、タグセットを返す
-				if (m_selectPoint == miningObj->GetCSVPos())
-				{
-					miningObj->OnMining();
-					return miningObj->GetTagSet();
-				}
-			}
+			// 一致してたらマネージャーにレール追加処理を送る
+			id = gatheringManager->Gathering(m_selectPoint);
 		}
 
-		// 対象のオブジェクトが無かったのでnullのタグセットを返す
-		set<wstring> null;
-		return null;
+		return id;
 	}
 
 	// レール設置命令

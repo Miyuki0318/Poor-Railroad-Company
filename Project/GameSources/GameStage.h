@@ -57,11 +57,6 @@ namespace basecross
 		void CreateStageCSV(string csvPath) override;
 
 		/*!
-		@brief 採掘系オブジェクトの生成生成
-		*/
-		void CreateStageObject();
-
-		/*!
 		@brief 線路生成
 		*/
 		void CreateRailManager();
@@ -72,9 +67,14 @@ namespace basecross
 		void CreateBridgeManager();
 
 		/*!
-		@brief 木の足場生成
+		@brief 踏切の生成
 		*/
 		void CreateCrossingManager();
+
+		/*!
+		@brief 採集オブジェクトの生成
+		*/
+		void CreateGatheringManager();
 
 		/*!
 		@brief 列車生成
