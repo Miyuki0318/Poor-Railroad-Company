@@ -85,8 +85,8 @@ namespace basecross {
 
 		// –Ø‚Ìƒ‚ƒfƒ‹‚Ì¶¬
 		app->RegisterTexture(L"TREE_SM_TX", modelPath + L"Tree/Tree.png");
-		RegisterMultiMesh(L"TREE1", modelPath + L"Tree/", L"Tree1", false);
-		RegisterMultiMesh(L"TREE2", modelPath + L"Tree/", L"Tree2", false);
+		RegisterSingleMesh(L"TREE1", modelPath + L"Tree/", L"Tree1", false);
+		RegisterSingleMesh(L"TREE2", modelPath + L"Tree/", L"Tree2", false);
 
 		// —ñŽÔƒ‚ƒfƒ‹
 		RegisterSingleMesh(L"TRAIN", modelPath + L"Train/", L"train", false);

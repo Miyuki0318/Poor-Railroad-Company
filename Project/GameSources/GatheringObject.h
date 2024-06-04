@@ -44,7 +44,7 @@ namespace basecross
 		@param テクスチャのリソースキー
 		@param マルチメッシュかの真偽
 		*/
-		void SetMeshData(const wstring& meshKey, const wstring& texKey, bool isMulti = false);
+		void SetMeshData(const wstring& meshKey, const wstring& texKey);
 
 		/*!
 		@brief インスタンス描画の行列配列に行列を追加する関数

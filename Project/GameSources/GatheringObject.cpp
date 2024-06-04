@@ -20,9 +20,9 @@ namespace basecross
 	}
 
 	// メッシュデータを登録
-	void InstanceGathers::SetMeshData(const wstring& meshKey, const wstring& texKey, bool isMulti)
+	void InstanceGathers::SetMeshData(const wstring& meshKey, const wstring& texKey)
 	{
-		isMulti ? m_ptrDraw->SetMultiMeshResource(meshKey) : m_ptrDraw->SetMeshResource(meshKey);
+		m_ptrDraw->SetMeshResource(meshKey);
 		m_ptrDraw->SetTextureResource(texKey);
 	}
 
@@ -71,8 +71,8 @@ namespace basecross
 		m_gathersMap.at(eStageID::Stone1).lock()->SetMeshData(L"ROCK1", L"ROCK_SM_TX");
 		m_gathersMap.at(eStageID::Stone2).lock()->SetMeshData(L"ROCK2", L"ROCK_SM_TX");
 		m_gathersMap.at(eStageID::Stone3).lock()->SetMeshData(L"ROCK3", L"ROCK_SM_TX");
-		m_gathersMap.at(eStageID::Tree1).lock()->SetMeshData(L"TREE1", L"TREE_SM_TX", true);
-		m_gathersMap.at(eStageID::Tree2).lock()->SetMeshData(L"TREE2", L"TREE_SM_TX", true);
+		m_gathersMap.at(eStageID::Tree1).lock()->SetMeshData(L"TREE1", L"TREE_SM_TX");
+		m_gathersMap.at(eStageID::Tree2).lock()->SetMeshData(L"TREE2", L"TREE_SM_TX");
 	}
 
 	// 初期生成
