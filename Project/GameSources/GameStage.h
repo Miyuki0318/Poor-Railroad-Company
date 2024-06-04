@@ -77,6 +77,11 @@ namespace basecross
 		void CreateGatheringManager();
 
 		/*!
+		@brief 歯車オブジェクトの生成
+		*/
+		void CreateGearManager();
+
+		/*!
 		@brief 列車生成
 		*/
 		void CreateTrain();

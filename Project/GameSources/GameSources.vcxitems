@@ -30,6 +30,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainStraightState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainCurvingState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GatheringObject.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Gear.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GroundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ItemCountUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h" />
@@ -95,6 +96,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainStraightState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainCurvingState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GatheringObject.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Gear.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GroundManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ItemCountUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp" />

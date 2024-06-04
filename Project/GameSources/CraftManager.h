@@ -77,7 +77,7 @@ namespace basecross
 			// アイテムカウンタ
 			m_itemCount.emplace(eItemType::Wood, 0);
 			m_itemCount.emplace(eItemType::Stone, 0);
-			m_itemCount.emplace(eItemType::Gear, 5);
+			m_itemCount.emplace(eItemType::Gear, 1);
 			m_itemCount.emplace(eItemType::Rail, 0);
 			m_itemCount.emplace(eItemType::WoodBridge, 0);
 		}

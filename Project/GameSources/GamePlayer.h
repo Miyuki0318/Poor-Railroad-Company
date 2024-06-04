@@ -194,6 +194,14 @@ namespace basecross
 			m_playerState->SetState(newState);
 		}
 
+	public:
+
+		/*!
+		@brief ゲーム結果時用のステート設定関数
+		@param eGameProgress
+		*/
+		void SetGameResult(eGameProgress result);
+
 		/*!
 		@brief アイテム数追加関数
 		@param アイテムタイプenum
@@ -203,14 +211,6 @@ namespace basecross
 		{
 			m_craft->AddItemCount(type, addNum);
 		}
-
-	public:
-
-		/*!
-		@brief ゲーム結果時用のステート設定関数
-		@param eGameProgress
-		*/
-		void SetGameResult(eGameProgress result);
 
 		/*!
 		@brief アイテム数取得関数

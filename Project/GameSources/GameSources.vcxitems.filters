@@ -196,6 +196,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GatheringObject.h">
       <Filter>StageObject\GatheringObject</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Gear.h">
+      <Filter>StageObject\Gear</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -368,6 +371,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)GatheringObject.cpp">
       <Filter>StageObject\GatheringObject</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Gear.cpp">
+      <Filter>StageObject\Gear</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -571,6 +577,9 @@
     </Filter>
     <Filter Include="StageObject\GatheringObject">
       <UniqueIdentifier>{4fb07700-89d2-429c-9b43-3f725ff6b29c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Gear">
+      <UniqueIdentifier>{7d3beb32-e2bf-4423-8a6d-19fb772a64ef}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

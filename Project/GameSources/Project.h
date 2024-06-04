@@ -45,3 +45,4 @@
 #include "MathFunc.h"
 #include "Crossing.h"
 #include "SmokeEffect.h"
+#include "Gear.h"
