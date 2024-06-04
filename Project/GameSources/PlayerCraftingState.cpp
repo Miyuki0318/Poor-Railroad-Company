@@ -53,13 +53,11 @@ namespace basecross
 			player->SetAnimationMesh(ePAKey::CraftStart, player->m_animationMap.at(ePAKey::CraftFinish).flameNum * DELTA_TIME);
 		}
 
+		// アニメーションの更新
 		player->UpdateAnimation();
 
-		//// Aボタン入力があればクラフト時のAボタン入力処理を送る
-		//if (Input::GetPushA()) player->CraftingPushA();
-
-		//// Xボタン入力があればクラフト時のXボタン入力処理を送る
-		//if (Input::GetPushX()) player->SwitchCraftWindow();
+		// クラフト開始できるかの真偽
+		m_isStartCraft = player->m_craft->GetShowCraftWindow() && !player->m_status(ePlayerStatus::IsCraftQTE);
 	}
 
 	// ステート終了時の処理
@@ -72,12 +70,13 @@ namespace basecross
 	void PlayerCraftingState::OnPushA(const shared_ptr<GamePlayer>& player)
 	{
 		// クラフトウィンドウが表示済みで、QTE中じゃなければ
-		if (player->m_craft->GetShowCraftWindow() && !player->m_status(ePlayerStatus::IsCraftQTE))
+		if (m_isStartCraft)
 		{
 			// クラフト命令を送り、クラフト可能であればtrue
 			if (player->m_craft->CraftOrder(eCraftItem::WoodBridge))
 			{
 				// QTE状態をオンにし、QTEを開始させる
+				m_pastInput = eCurrentCraftInput::PushStartA;
 				player->m_status.Set(ePlayerStatus::IsCraftQTE) = true;
 				player->m_craft->StartQTE(eCraftItem::WoodBridge, eItemType::WoodBridge);
 				player->SetAnimationMesh(ePAKey::Crafting);
@@ -85,24 +84,22 @@ namespace basecross
 			return;
 		}
 
-		// クラフトQTE
-		if (player->m_status(ePlayerStatus::IsCraftQTE))
-		{
-			// QTE停止時の処理を送る
-			StoppedCraftQTE(player);
-		}
+		// QTE停止処理
+		m_currentInput = eCurrentCraftInput::PushStartA;
+		PushedQTE(player);
 	}
 
 	// Bボタン入力時
 	void PlayerCraftingState::OnPushB(const shared_ptr<GamePlayer>& player)
 	{
 		// クラフトウィンドウが表示済みで、QTE中じゃなければ
-		if (player->m_craft->GetShowCraftWindow() && !player->m_status(ePlayerStatus::IsCraftQTE))
+		if (m_isStartCraft)
 		{
 			// クラフト命令を送り、クラフト可能であればtrue
 			if (player->m_craft->CraftOrder(eCraftItem::Rail))
 			{
 				// QTE状態をオンにし、QTEを開始させる
+				m_pastInput = eCurrentCraftInput::PushStartB;
 				player->m_status.Set(ePlayerStatus::IsCraftQTE) = true;
 				player->m_craft->StartQTE(eCraftItem::Rail, eItemType::Rail);
 				player->SetAnimationMesh(ePAKey::Crafting);
@@ -110,37 +107,32 @@ namespace basecross
 			return;
 		}
 
-		// クラフトQTE
-		if (player->m_status(ePlayerStatus::IsCraftQTE))
-		{
-			// QTE停止時の処理を送る
-			StoppedCraftQTE(player);
-		}
+		// QTE停止処理
+		m_currentInput = eCurrentCraftInput::PushStartB;
+		PushedQTE(player);
 	}
 
 	// Yボタン入力時
 	void PlayerCraftingState::OnPushY(const shared_ptr<GamePlayer>& player)
 	{
-		//// クラフトウィンドウが表示済みで、QTE中じゃなければ
-		//if (player->m_craft->GetShowCraftWindow() && !player->m_status(ePlayerStatus::IsCraftQTE))
-		//{
-		//	// クラフト命令を送り、クラフト可能であればtrue
-		//	if (player->m_craft->CraftOrder())
-		//	{
-		//		// QTE状態をオンにし、QTEを開始させる
-		//		player->m_status.Set(ePlayerStatus::IsCraftQTE) = true;
-		//		player->m_craft->StartQTE();
-		//		player->SetAnimationMesh(ePAKey::Crafting);
-		//	}
-		//	return;
-		//}
+		// クラフトウィンドウが表示済みで、QTE中じゃなければ
+		if (m_isStartCraft)
+		{
+			// クラフト命令を送り、クラフト可能であればtrue
+			if (player->m_craft->CraftOrder(eCraftItem::Crossing))
+			{
+				// QTE状態をオンにし、QTEを開始させる
+				m_pastInput = eCurrentCraftInput::PushStartY;
+				player->m_status.Set(ePlayerStatus::IsCraftQTE) = true;
+				player->m_craft->StartQTE(eCraftItem::Crossing, eItemType::Crossing);
+				player->SetAnimationMesh(ePAKey::Crafting);
+			}
+			return;
+		}
 
-		//// クラフトQTE
-		//if (player->m_status(ePlayerStatus::IsCraftQTE))
-		//{
-		//	// QTE停止時の処理を送る
-		//	StoppedCraftQTE(player);
-		//}
+		// QTE停止処理
+		m_currentInput = eCurrentCraftInput::PushStartY;
+		PushedQTE(player);
 	}
 
 	// Xボタン入力時
@@ -151,6 +143,20 @@ namespace basecross
 		{
 			player->SwitchCraftWindow();
 			player->SetAnimationMesh(ePAKey::CraftFinish);
+		}
+	}
+
+	// QTEの停止
+	void PlayerCraftingState::PushedQTE(const shared_ptr<GamePlayer>& player)
+	{
+		// 入力が不一致なら無視
+		if (m_currentInput != m_pastInput) return;
+
+		// クラフトQTE
+		if (player->m_status(ePlayerStatus::IsCraftQTE))
+		{
+			// QTE停止時の処理を送る
+			StoppedCraftQTE(player);
 		}
 	}
 
@@ -168,6 +174,10 @@ namespace basecross
 	// QTE停止時の処理
 	void PlayerCraftingState::StoppedCraftQTE(const shared_ptr<GamePlayer>& player)
 	{
+		// 入力保持を初期化
+		m_pastInput = eCurrentCraftInput::None;
+		m_currentInput = eCurrentCraftInput::None;
+
 		// QtE状態を解除
 		player->m_status.Set(ePlayerStatus::IsCraftQTE) = false;
 

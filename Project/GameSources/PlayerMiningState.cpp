@@ -44,14 +44,15 @@ namespace basecross
 
 		// 採掘完了してたらステートを待機に遷移させる
 		player->m_status.Set(ePlayerStatus::IsGathering) = false;
-		auto nState = PlayerIdleState::Instance();
-		player->SetState(nState);
 
 		// Aボタン入力があるなら
 		if (Input::GetButtonB())
 		{
-			nState->OnPushB(player);
+			player->IndicatorOrder();
 		}
+
+		// 採取ステータスになっていればアニメーションの切り替え、なってなければステートの切り替え
+		player->m_status(ePlayerStatus::IsGathering) ? player->SetAnimationMesh(ePAKey::Harvesting) : player->SetState(PlayerIdleState::Instance());
 	}
 
 	// ステート終了時の処理

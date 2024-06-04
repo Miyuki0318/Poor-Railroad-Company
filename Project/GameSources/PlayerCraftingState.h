@@ -14,10 +14,31 @@ namespace basecross
 	*/
 	class PlayerCraftingState : public PlayerState
 	{
+		// クラフト開始ボタン入力
+		enum class eCurrentCraftInput : unsigned char
+		{
+			None,		// 未入力
+			PushStartA,	// Aボタン入力で開始した
+			PushStartB,	// Bボタン入力で開始した
+			PushStartY,	// Yボタン入力で開始した
+		};
+
+		// クラフト開始ボタン
+		eCurrentCraftInput m_currentInput;
+		eCurrentCraftInput m_pastInput;
+
+		bool m_isStartCraft; // クラフト開始できるかの真偽
+
 		/*!
 		@brief コンストラクタ
 		*/
-		PlayerCraftingState() {}
+		PlayerCraftingState() 
+		{
+			m_isStartCraft = true;
+			m_currentInput = eCurrentCraftInput::None;
+			m_pastInput = eCurrentCraftInput::None;
+		}
+
 
 	public:
 
@@ -79,6 +100,11 @@ namespace basecross
 		@param プレイヤーのポインタ
 		*/
 		void OnPushY(const shared_ptr<GamePlayer>& player) override;
+
+		/*!
+		@brief ボタン入力を行い、QTEを停止させる関数
+		*/
+		void PushedQTE(const shared_ptr<GamePlayer>& player);
 
 		/*!
 		@brief クラフトQTEが終わっているかの確認関数

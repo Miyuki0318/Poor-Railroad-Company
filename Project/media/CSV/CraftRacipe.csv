@@ -1,3 +1,4 @@
-CraftItem,WoodNum,StoneNum,SuccesVal,FailedVal
-Rail,2,2,2,1
-WoodBridge,2,0,4,2
+CraftItem,WoodNum,StoneNum,GearNum,SuccesVal,FailedVal
+Rail,2,2,0,2,1
+WoodBridge,2,0,0,4,2
+Crossing,2,2,1,2,1

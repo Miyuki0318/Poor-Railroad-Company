@@ -241,8 +241,9 @@ namespace basecross
 		{
 			bool rail = m_craft->CraftOrder(eCraftItem::Rail);
 			bool bridge = m_craft->CraftOrder(eCraftItem::WoodBridge);
+			bool crossing = m_craft->CraftOrder(eCraftItem::Crossing);
 
-			return rail || bridge;
+			return rail || bridge || crossing;
 		}
 
 		/*!
