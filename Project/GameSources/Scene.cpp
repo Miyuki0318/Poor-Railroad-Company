@@ -124,6 +124,9 @@ namespace basecross {
 
 		// “¥Ø‚Ìƒ‚ƒfƒ‹
 		RegisterSingleMesh(L"CROSSING", modelPath + L"Crossing/", L"crossing", true);
+
+		// •Ô‚Ìƒ‚ƒfƒ‹
+		RegisterSingleMesh(L"GEAR", modelPath + L"Gear/", L"Gear", true);
 	}
 
 	void Scene::RegisterSingleMesh(const wstring& registerKey, const wstring& path, const wstring& fileName, bool boneUse)

@@ -200,7 +200,7 @@ namespace basecross
 			{
 				m_craft->UseItem(eItemType::Gear);
 				m_craft->UseItem(eItemType::Wood);
-				//StartSE(L"ADDBRIDGE_SE", 1.0f);
+				StartSE(L"ADDRAIL_SE", 1.0f);
 				return true;
 			}
 		}

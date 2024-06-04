@@ -65,7 +65,7 @@ namespace basecross {
 			if (SetTimer(START_TIME))
 			{
 				m_state = State::OnRail;
-				m_whistleSE = StartSE(L"WHISTLE_SE", 2.0f);
+				m_whistleSE = StartSE(L"WHISTLE_SE", 1.5f);
 			}
 		}
 

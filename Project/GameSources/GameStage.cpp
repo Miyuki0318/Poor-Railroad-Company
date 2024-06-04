@@ -134,6 +134,11 @@ namespace basecross
 		SetSharedGameObject(L"GatheringManager", gatheringManager);
 	}
 
+	void GameStage::CreateGearManager()
+	{
+		AddGameObject<GearManager>();
+	}
+
 	// 列車の生成
 	void GameStage::CreateTrain()
 	{
@@ -225,11 +230,14 @@ namespace basecross
 			// 採集オブジェクトの生成
 			CreateGatheringManager();
 
+			// 歯車オブジェクトの生成
+			CreateGearManager();
+
 			// スプライトの生成
 			CreateSpriteObject();
 
 			// UIの生成
-			//CreateUIObject();
+			CreateUIObject();
 
 			// BGMの再生
 			m_soundManager->StartBGM(L"GAME_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);
