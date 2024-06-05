@@ -111,13 +111,13 @@ namespace basecross
 			m_updateRange(15.0f),
 			m_openRange(2.0f),
 			m_xLineModelMat((Mat4x4)XMMatrixAffineTransformation(
-				Vec3(0.25f, 0.25f, 0.3f),
+				Vec3(0.25f, 0.25f, 0.35f),
 				Vec3(0.0f),
 				(Quat)XMQuaternionRotationRollPitchYawFromVector(Vec3(0.0f, 0.0f, 0.0f)),
 				Vec3(0.0f, 0.05f, 0.0f)
 			)),
 			m_zLineModelMat((Mat4x4)XMMatrixAffineTransformation(
-				Vec3(0.25f, 0.25f, 0.3f),
+				Vec3(0.25f, 0.25f, 0.35f),
 				Vec3(0.0f),
 				(Quat)XMQuaternionRotationRollPitchYawFromVector(Vec3(0.0f, XM_PIDIV2, 0.0f)),
 				Vec3(0.0f, 0.05f, 0.0f)

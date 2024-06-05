@@ -27,7 +27,7 @@ namespace basecross
 		AddTextureResource(L"G_ROCK_TX", texturePath + L"Rock.png");
 
 		// クラフトウィンドウのテクスチャ
-		AddTextureResource(L"C_WINDOW_TX", texturePath + L"CraftWindow.png");
+		AddTextureResource(L"C_WINDOW_TX", texturePath + L"CraftWindow2.png");
 
 		// QTEバーのフレームのテクスチャ
 		AddTextureResource(L"C_QTE_FLAME_TX", texturePath + L"BarFlame.png");
