@@ -18,9 +18,10 @@ namespace basecross
 		// 素材要求数の取得
 		const int woodValue = GetRacipeValue(item, eCraftParam::WoodValue);
 		const int stoneValue = GetRacipeValue(item, eCraftParam::StoneValue);
+		const int gearValue = GetRacipeValue(item, eCraftParam::GearValue);
 
 		// 作成可能かの真偽を返す
-		return GetCraftPossible(woodValue, stoneValue);
+		return GetCraftPossible(woodValue, stoneValue, gearValue);
 	}
 
 	// クラフトウィンドウの呼び出し
@@ -74,19 +75,19 @@ namespace basecross
 	{
 		bool succes = false;
 
-		// qteと選択アイコンオブジェクトを取得
-		const auto& qte = m_craftQTE.lock();
-		//const auto& selectIcon = m_selectIcon.lock();
-		//if (qte && selectIcon)
-
-		if (qte)
+		// qteとオブジェクトを取得
+		if (auto qte = m_craftQTE.lock())
 		{
 			// QTE停止呼び出しとQTE結果の真偽を取得
 			succes = qte->StopQTE();
+			
+			// 踏切の作成失敗なら素材を消費せず終了
+			if (m_craftItem == eCraftItem::Crossing && !succes) return false;
 
 			// 素材消費
 			UseItem(eItemType::Wood, GetRacipeValue(m_craftItem, eCraftParam::WoodValue));
 			UseItem(eItemType::Stone, GetRacipeValue(m_craftItem, eCraftParam::StoneValue));
+			UseItem(eItemType::Gear, GetRacipeValue(m_craftItem, eCraftParam::GearValue));
 
 			// QTE結果に応じて作成量を設定
 			AddItemCount(m_craftType, GetRacipeValue(m_craftItem, succes ? eCraftParam::SuccesValue : eCraftParam::FailedValue));

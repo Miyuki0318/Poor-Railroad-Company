@@ -80,12 +80,12 @@ namespace basecross
 		*/
 		GearManager(const shared_ptr<Stage>& stagePtr) :
 			GameObject(stagePtr),
-			m_getGearRange(1.5f),
+			m_getGearRange(1.25f),
 			m_gearModelMat((Mat4x4)XMMatrixAffineTransformation(
 				Vec3(0.5f),
 				Vec3(0.0f),
 				Vec3(0.0f, 0.0f, 0.0f),
-				Vec3(0.0f, 1.0f, 0.0f)
+				Vec3(0.0f, 0.5f, 0.0f)
 			))
 		{
 		}

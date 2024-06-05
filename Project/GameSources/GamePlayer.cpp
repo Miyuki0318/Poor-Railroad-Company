@@ -193,13 +193,12 @@ namespace basecross
 	// ì•êÿí«â¡ñΩóﬂ
 	bool GamePlayer::AddCrossingOrder(const shared_ptr<SelectIndicator>& indicator)
 	{
-		// ñÿÇÃë´èÍÇèäéùÇµÇƒÇΩÇÁ
-		if (GetItemCount(eItemType::Gear) && GetItemCount(eItemType::Wood))
+		// ì•êÿÇèäéùÇµÇƒÇΩÇÁ
+		if (GetItemCount(eItemType::Crossing))
 		{
 			if (indicator->CrossingOrder())
 			{
-				m_craft->UseItem(eItemType::Gear);
-				m_craft->UseItem(eItemType::Wood);
+				m_craft->UseItem(eItemType::Crossing);
 				StartSE(L"ADDRAIL_SE", 1.0f);
 				return true;
 			}

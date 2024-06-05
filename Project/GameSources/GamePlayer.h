@@ -86,6 +86,7 @@ namespace basecross
 			m_impassableSet.insert(eStageID::Rail);
 			m_impassableSet.insert(eStageID::DeRail);
 			m_impassableSet.insert(eStageID::GoalRail);
+			m_impassableSet.insert(eStageID::StartRail);
 			m_impassableSet.insert(eStageID::CrossingCross);
 			m_impassableSet.insert(eStageID::Tree1);
 			m_impassableSet.insert(eStageID::Tree2);
@@ -241,8 +242,9 @@ namespace basecross
 		{
 			bool rail = m_craft->CraftOrder(eCraftItem::Rail);
 			bool bridge = m_craft->CraftOrder(eCraftItem::WoodBridge);
+			bool crossing = m_craft->CraftOrder(eCraftItem::Crossing);
 
-			return rail || bridge;
+			return rail || bridge || crossing;
 		}
 
 		/*!

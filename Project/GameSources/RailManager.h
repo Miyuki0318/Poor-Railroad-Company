@@ -197,6 +197,11 @@ namespace basecross
 		void OnCreate() override;
 
 		/*!
+		@brief 毎フレーム度に呼び出される関数
+		*/
+		void OnUpdate() override;
+
+		/*!
 		@brief レール描画生成
 		*/
 		void ResetInstanceRail();

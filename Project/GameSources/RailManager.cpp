@@ -87,6 +87,43 @@ namespace basecross
 		ResetInstanceRail();
 	}
 
+	// 更新処理
+	void RailManager::OnUpdate()
+	{
+		// ステージと列車の取得
+		const auto& stagePtr = GetTypeStage<BaseStage>();
+		auto& train = stagePtr->GetSharedGameObject<GameTrain>(L"Train", false);
+		if (!train) return;
+
+		// 列車の移動先が先端レールじゃなければ無視
+		string moveLine = train->GetRailPosLine();
+		if (m_pastLine != moveLine) return;
+		if (m_railDataMap.find(moveLine) == m_railDataMap.end()) return;
+		
+		// レールデータを取得しガイドを初期化
+		auto& data = m_railDataMap.at(moveLine);
+		m_guidePoints.clear();
+		m_guideMap = stagePtr->GetStageMap();
+
+		// 配列の要素番号を取得
+		size_t row, col;
+		GetLineStringToRowCol(row, col, moveLine);
+
+		// ガイド付きcsvマップから設置位置の上下左右を取得
+		auto& elems = CSVElementCheck::GetElemsCheck(row, col, m_guideMap);
+		for (auto& elem : elems)
+		{
+			// 配列の範囲外なら無視
+			if (!elem.isRange) continue;
+
+			// 上下左右の内で直線ならガイドを追加
+			if (CheckStraightRail(data, elem.dir))
+			{
+				AddGuideID(elem.row, elem.col);
+			}
+		}
+	}
+
 	// インスタンス描画のレールを生成
 	void RailManager::ResetInstanceRail()
 	{

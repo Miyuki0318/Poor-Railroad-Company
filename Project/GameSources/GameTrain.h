@@ -55,15 +55,19 @@ namespace basecross {
 
 	public:
 		GameTrain(const shared_ptr<Stage>& stagePtr) :
-			Train(stagePtr)
+			Train(stagePtr),
+			m_railDataMap(nullptr)
 		{
+			m_acsel = 0.0f;
 		}
 
 		GameTrain(const shared_ptr<Stage>& stagePtr,
 			const Vec3& startPosition
 		) :
-			Train(stagePtr, startPosition)
+			Train(stagePtr, startPosition),
+			m_railDataMap(nullptr)
 		{
+			m_acsel = 0.0f;
 		}
 
 		~GameTrain() 
@@ -100,5 +104,10 @@ namespace basecross {
 		/// </summary>
 		/// <returns>’…‚¢‚½‚©‚Ç‚¤‚©</returns>
 		bool CheckGoalRail();
+
+		string GetRailPosLine() const
+		{
+			return m_railPos;
+		}
 	};
 }

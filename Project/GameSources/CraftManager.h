@@ -19,6 +19,7 @@ namespace basecross
 	{
 		Rail,		// レール
 		WoodBridge,	// 木の橋
+		Crossing,	// 踏切
 	};
 
 	// クラフトCSVパラメータ
@@ -27,6 +28,7 @@ namespace basecross
 		ItemType,	 // 作るアイテムタイプ
 		WoodValue,	 // 木の要求数
 		StoneValue,	 // 石の要求数
+		GearValue,	 // 歯車の要求数
 		SuccesValue, // QTE成功時の作成量
 		FailedValue, // QTE失敗時の作成量
 	};
@@ -39,6 +41,7 @@ namespace basecross
 		Gear,		// 歯車
 		Rail,		// レール
 		WoodBridge,	// 木の橋
+		Crossing,	// 踏切
 	};
 
 	/*!
@@ -80,6 +83,7 @@ namespace basecross
 			m_itemCount.emplace(eItemType::Gear, 1);
 			m_itemCount.emplace(eItemType::Rail, 0);
 			m_itemCount.emplace(eItemType::WoodBridge, 0);
+			m_itemCount.emplace(eItemType::Crossing, 0);
 		}
 
 		/*!
@@ -180,11 +184,14 @@ namespace basecross
 		@brief クラフト可能かの真偽取得関数
 		@param 木の要求数
 		@param 石の要求数
+		@param 歯車の要求数
 		@return 可能かの真偽
 		*/
-		bool GetCraftPossible(int woodValue, int stoneValue) const
+		bool GetCraftPossible(int woodValue, int stoneValue, int gearValue) const
 		{
-			return woodValue <= GetItemCount(eItemType::Wood) && stoneValue <= GetItemCount(eItemType::Stone);
+			return woodValue <= GetItemCount(eItemType::Wood)	// 木を要求数以上所持しているか
+				&& stoneValue <= GetItemCount(eItemType::Stone) // 石を要求数以上所持しているか
+				&& gearValue <= GetItemCount(eItemType::Gear);	// 歯車を要求数以上所持しているか
 		}
 	};
 }
