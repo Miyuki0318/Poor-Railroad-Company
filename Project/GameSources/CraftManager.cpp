@@ -80,7 +80,8 @@ namespace basecross
 		{
 			// QTE’â~ŒÄ‚Ño‚µ‚ÆQTEŒ‹‰Ê‚Ì^‹U‚ğæ“¾
 			succes = qte->StopQTE();
-
+			
+			// “¥Ø‚Ìì¬¸”s‚È‚ç‘fŞ‚ğÁ”ï‚¹‚¸I—¹
 			if (m_craftItem == eCraftItem::Crossing && !succes) return false;
 
 			// ‘fŞÁ”ï
