@@ -144,6 +144,8 @@ namespace basecross
 	// アイコン描画更新
 	void ActionGuide::UpdateIconDraw()
 	{
+		bool isCrafting = m_player.lock()->GetStatus(ePlayerStatus::IsCrafting);
+
 		for (auto& sprite : m_spriteMap)
 		{
 			// アクティブなら
@@ -162,7 +164,7 @@ namespace basecross
 			}
 
 			// 描画真偽設定
-			sprite.sprite.lock()->SetDrawActive(sprite.active);
+			sprite.sprite.lock()->SetDrawActive(sprite.active && !isCrafting);
 		}
 	}
 }

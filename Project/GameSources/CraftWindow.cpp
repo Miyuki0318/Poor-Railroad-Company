@@ -19,7 +19,7 @@ namespace basecross
 		m_ptrDraw->SetRasterizerState(RasterizerState::DoubleDraw);
 
 		// 透明度を変更
-		SetDiffuseColor(Col4(1.0f, 1.0f, 1.0f, 0.5f));
+		SetDiffuseColor(Col4(1.0f, 1.0f, 1.0f, 1.0f));
 	}
 
 	// 毎フレーム更新処理
