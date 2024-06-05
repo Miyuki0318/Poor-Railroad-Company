@@ -81,9 +81,12 @@ namespace basecross
 			// QTE’â~ŒÄ‚Ño‚µ‚ÆQTEŒ‹‰Ê‚Ì^‹U‚ğæ“¾
 			succes = qte->StopQTE();
 
+			if (m_craftItem == eCraftItem::Crossing && !succes) return false;
+
 			// ‘fŞÁ”ï
 			UseItem(eItemType::Wood, GetRacipeValue(m_craftItem, eCraftParam::WoodValue));
 			UseItem(eItemType::Stone, GetRacipeValue(m_craftItem, eCraftParam::StoneValue));
+			UseItem(eItemType::Gear, GetRacipeValue(m_craftItem, eCraftParam::GearValue));
 
 			// QTEŒ‹‰Ê‚É‰‚¶‚Äì¬—Ê‚ğİ’è
 			AddItemCount(m_craftType, GetRacipeValue(m_craftItem, succes ? eCraftParam::SuccesValue : eCraftParam::FailedValue));
