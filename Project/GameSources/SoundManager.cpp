@@ -30,7 +30,7 @@ namespace basecross
 			}
 
 			// ‹ó‚«‚ª–³‚¢‚È‚ç’Ç‰Á
-			if (empty)
+			if (!empty)
 			{
 				m_soundList.push_back(SoundData(item, seKey, objPtr));
 			}
@@ -90,7 +90,7 @@ namespace basecross
 			}
 
 			// ‹ó‚«‚ª–³‚¢‚È‚ç’Ç‰Á
-			if (empty)
+			if (!empty)
 			{
 				m_soundList.push_back(SoundData(item, bgmKey, objPtr));
 			}

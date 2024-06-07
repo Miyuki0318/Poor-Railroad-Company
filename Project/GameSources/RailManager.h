@@ -269,6 +269,15 @@ namespace basecross
 		}
 
 		/*!
+		@brief 最後に置いたレールの座標取得関数
+		@return m_pastDeRailPos
+		*/
+		Vec3 GetPastRailPos() const
+		{
+			return m_pastDeRailPos;
+		}
+
+		/*!
 		@brief ゴールレールと繋がったかの確認関数
 		@return bool
 		*/

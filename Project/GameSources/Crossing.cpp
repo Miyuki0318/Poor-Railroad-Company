@@ -98,6 +98,21 @@ namespace basecross
 		}
 	}
 
+	// リセット処理
+	void CrossingManager::ResetCrossing()
+	{
+		// 踏切を全て確認
+		for (auto& crossing : m_crossingMap)
+		{
+			// シェアドポインタの取得
+			auto& ptr = crossing.second.lock(); 
+			if (!ptr) continue;
+
+			// 休眠状態にする
+			ptr->ContinueSleap();
+		}
+	}
+
 	// 指定の座標にガイドがあるか
 	bool CrossingManager::GetIsRailPoint(const Point2D<size_t>& point) const
 	{
@@ -128,12 +143,33 @@ namespace basecross
 		if (!WithInElemRange(point.x, point.y, stageMap)) return;
 
 		// 踏切の生成
+		bool isSleepedBuff = false;
 		string addLine = ROWCOL2LINE(point.x, point.y);
-		auto& crossing = stagePtr->AddGameObject<Crossing>(addLine);
-		m_crossingMap.emplace(addLine, crossing);
+		shared_ptr<Crossing> newCrossing = nullptr;
+
+		// 休眠状態の踏切があるなら置き換え
+		for (auto& crossing : m_crossingMap)
+		{
+			if (!crossing.second.lock()->GetUpdateActive())
+			{
+				isSleepedBuff = true;
+				newCrossing = crossing.second.lock();
+				newCrossing->SleepedWakeUp(addLine);
+				m_crossingMap.erase(crossing.first);
+				m_crossingMap.emplace(addLine, newCrossing);
+				break;
+			}
+		}
+
+		// 休眠状態の踏切がなければ生成
+		if (!isSleepedBuff)
+		{
+			newCrossing = stagePtr->AddGameObject<Crossing>(addLine);
+			m_crossingMap.emplace(addLine, newCrossing);
+		}
 
 		// レールの向きに応じて差分行列を設定
-		crossing->SetModelMatrix(m_railDataMap->at(addLine).type == eRailType::AxisXLine ? m_xLineModelMat : m_zLineModelMat);
+		newCrossing->SetModelMatrix(m_railDataMap->at(addLine).type == eRailType::AxisXLine ? m_xLineModelMat : m_zLineModelMat);
 
 		// csvの書き換え
 		stageMap.at(point.x).at(point.y) = UnSTAGE_ID(eStageID::CrossingCross);

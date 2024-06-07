@@ -51,8 +51,6 @@ namespace basecross
 
 		bool m_zooming;
 
-		shared_ptr<Sprite> m_fadeSprite;
-
 		shared_ptr<GameObject> m_selectObj;
 
 		shared_ptr<GameObjectGroup> m_objectGroup;
@@ -66,11 +64,6 @@ namespace basecross
 		@brief リソースの読込
 		*/
 		void CreateResourses() override;
-
-		/*
-		@brief スプライトの生成
-		*/
-		void CreateSprite();
 		
 		/*
 		@brief オープニング画面の生成
@@ -174,7 +167,7 @@ namespace basecross
 		/*
 		@brief オブジェクト選択時にtrueを返す関数
 		*/
-		bool GetPlayerStop()
+		bool GetPlayerStop() const
 		{
 			return titleProgress == eTitleProgress::select;
 		}
@@ -182,7 +175,7 @@ namespace basecross
 		/*
 		@brief ゲームスタート時にtrueを返す関数
 		*/
-		bool GetStartFlag()
+		bool GetStartFlag() const
 		{
 			return titleProgress == eTitleProgress::start;
 		}

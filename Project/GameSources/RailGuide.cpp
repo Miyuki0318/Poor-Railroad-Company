@@ -56,20 +56,23 @@ namespace basecross
 	void RailGuide::UpdateGuide()
 	{
 		// 行列用変数と行列配列
-		Mat4x4 matrix, mtxPosition;
+		Mat4x4 matrix, mtxPosition, mtxRotation;
 		auto& matrixVec = m_ptrDraw->GetMatrixVec();
 		matrixVec.clear();
 		
 		// ガイドのcsv上のポイント配列
-		const auto& guidePoints = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetGuidePoints();
-		
+		const auto& railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager");
+		const auto& guidePoints = railManager->GetGuidePoints();
+		Vec3 pastPos = railManager->GetPastRailPos();
+
 		// 配列の数ループ
 		for (const auto& guide : guidePoints)
 		{
 			// 行列の設定と追加
 			Vec3 addPos = ROWCOL2POS(guide.x, guide.y);
 			mtxPosition.translation(addPos);
-			matrix = m_mtxScale * m_mtxRotation * mtxPosition;
+			mtxRotation = pastPos.x != addPos.x ? m_mtxRotAxisX : m_mtxRotAxisZ;
+			matrix = m_mtxScale * mtxRotation * mtxPosition;
 			matrixVec.push_back(matrix);
 		}
 	}

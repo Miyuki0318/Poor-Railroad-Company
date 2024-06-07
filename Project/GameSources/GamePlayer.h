@@ -49,6 +49,8 @@ namespace basecross
 		// ステートマシン
 		unique_ptr<PlayerStateMachine> m_playerState;
 
+		const Vec3 m_startPosition; // 開始時の座標
+
 		// フレンド化(ステートマシンからメンバ関数を呼び出すため)
 		friend PlayerIdleState;
 		friend PlayerMovingState;
@@ -64,7 +66,8 @@ namespace basecross
 		@param ステージポインタ
 		*/
 		GamePlayer(const shared_ptr<Stage>& stagePtr) :
-			Player(stagePtr)
+			Player(stagePtr),
+			m_startPosition(Vec3(0.0f, 3.0f, 0.0f))
 		{
 			m_status = 0; // 状態フラグは0で初期化
 
@@ -119,6 +122,11 @@ namespace basecross
 		@brief 毎フレーム度に呼び出される関数
 		*/
 		void OnUpdate() override;
+
+		/*!
+		@brief リセット処理関数
+		*/
+		void ResetPlayer();
 
 	private:
 

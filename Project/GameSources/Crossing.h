@@ -16,7 +16,7 @@ namespace basecross
 	{
 		shared_ptr<PNTBoneModelDraw> m_ptrDraw; // 描画コンポーネント
 		shared_ptr<Shadowmap> m_ptrShadow; // 描画コンポーネント
-		const string m_csvLine;	// csvのrowとcolのLINE
+		string m_csvLine;	// csvのrowとcolのLINE
 
 	public:
 
@@ -77,6 +77,29 @@ namespace basecross
 			if (m_ptrDraw->GetCurrentAnimation() == L"CROSS") return;
 
 			m_ptrDraw->ChangeCurrentAnimation(L"CROSS");
+		}
+
+		/*!
+		@brief コンティニュー時に停止状態にする関数
+		*/
+		void ContinueSleap()
+		{
+			SetOpen();
+			SetUpdateActive(false);
+			SetDrawActive(false);
+		}
+
+		/*!
+		@brief 停止状態を解除し、座標を更新する関数
+		*/
+		void SleepedWakeUp(string addLine)
+		{
+			size_t row, col;
+			m_csvLine = addLine;
+			GetLineStringToRowCol(row, col, m_csvLine);
+			SetPosition(ROWCOL2POS(row, col));
+			SetUpdateActive(true);
+			SetDrawActive(true);
 		}
 	};
 
@@ -139,6 +162,11 @@ namespace basecross
 		@brief 毎フレーム度に呼び出される関数
 		*/
 		void OnUpdate() override;
+
+		/*!
+		@brief 初期化関数
+		*/
+		void ResetCrossing();
 
 		/*!
 		@brief 踏切追加関数

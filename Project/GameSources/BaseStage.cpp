@@ -20,6 +20,9 @@ namespace basecross
 		wstring texturePath = mediaPath + L"Textures/";
 		wstring soundPath = mediaPath + L"Sounds/";
 
+		// フェード用のテクスチャ
+		AddTextureResource(L"FADE_TX", texturePath + L"Blue.png");
+
 		// 地面のテクスチャ
 		AddTextureResource(L"G_GRASS_TX", texturePath + L"Grass.png");
 		AddTextureResource(L"G_WATER_TX", texturePath + L"Water.png");
@@ -82,6 +85,14 @@ namespace basecross
 		// 音源とテクスチャの解放
 		ReleasedAudioResources();
 		ReleasedTextureResources();
+	}
+
+	// スプライトの生成
+	void BaseStage::CreateFadeSprite()
+	{
+		m_fadeSprite = AddGameObject<Sprite>(L"FADE_TX", WINDOW_SIZE);
+		m_fadeSprite->SetDiffuseColor(COL_ALPHA);
+		SetSharedGameObject(L"FadeSprite", m_fadeSprite);
 	}
 
 	// CSVの読み込み用
@@ -168,11 +179,17 @@ namespace basecross
 	{
 		try
 		{
+			// リソースの読み込み
+			CreateResourses();
+
 			// タイマーオブジェクトの生成
 			m_timer = AddGameObject<Timer>();
 
 			// サウンドマネージャーの生成
 			CreateSoundManager();
+
+			// フェード用スプライトの生成
+			CreateFadeSprite();
 		}
 		catch (...)
 		{

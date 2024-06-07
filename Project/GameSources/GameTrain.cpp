@@ -47,6 +47,14 @@ namespace basecross {
 		}
 	}
 
+	void GameTrain::ResetTrain()
+	{
+		m_acsel = 0.0f;
+		m_state = State::None;
+		m_railPos = POS2LINE(m_railManager.lock()->GetStartRailPos());
+		m_trainState->ChangeState(GameTrainStraightState::Instance());
+	}
+
 	const map<string, RailData>& GameTrain::GetRailDataMap() const
 	{
 		return *m_railDataMap;

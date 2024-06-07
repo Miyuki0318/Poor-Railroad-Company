@@ -81,7 +81,7 @@ namespace basecross {
 
 		void OnCollisionEnter(shared_ptr<GameObject>& gameObject) override;
 
-		const map<string, RailData>& GetRailDataMap() const;
+		void ResetTrain();
 
 		void WhistleSmokeEffect();
 
@@ -109,5 +109,9 @@ namespace basecross {
 		{
 			return m_railPos;
 		}
+
+	private:
+
+		const map<string, RailData>& GetRailDataMap() const;
 	};
 }
