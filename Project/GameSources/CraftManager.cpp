@@ -12,6 +12,21 @@ namespace basecross
 	// ネームスペースの省略
 	using namespace Input;
 
+	// リセット処理
+	void CraftManager::ResetCraftManager()
+	{
+		m_craftItem = eCraftItem::Rail;
+		m_craftType = eItemType::Rail;
+
+		// アイテムカウンタ
+		m_itemCount.at(eItemType::Wood) = 0;
+		m_itemCount.at(eItemType::Stone) = 0;
+		m_itemCount.at(eItemType::Gear) = 1;
+		m_itemCount.at(eItemType::Rail) = 0;
+		m_itemCount.at(eItemType::WoodBridge) = 0;
+		m_itemCount.at(eItemType::Crossing) = 0;
+	}
+
 	// アイテムクラフト
 	bool CraftManager::CraftOrder(eCraftItem item)
 	{

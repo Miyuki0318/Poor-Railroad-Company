@@ -53,6 +53,25 @@ namespace basecross
 		Debug::Log(L"プレイヤーのステート : ", m_playerState->GetCurrentState()->GetStateName());
 	}
 
+	// リセット処理
+	void GamePlayer::ResetPlayer()
+	{
+		// 初期化
+		m_acsel = 0.0f;
+		m_moveValue = 0.0f;
+		m_rotTarget.zero(); 
+		m_currentRot.zero();
+		SetPosition(m_startPosition);
+
+		// 待機状態ステートに変更
+		m_playerState->SetState(PlayerIdleState::Instance());
+
+		// クラフトマネージャーにリセット処理を送る
+		m_craft->StopQTE();
+		m_craft->CraftingEnabled(false);
+		m_craft->ResetCraftManager();
+	}
+
 	// コンポーネント設定
 	void GamePlayer::CreateComponent()
 	{

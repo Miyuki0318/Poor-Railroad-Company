@@ -74,6 +74,7 @@ namespace basecross
 	void GameStage::CreateStageCSV(string csvPath)
 	{
 		// CSVデータ(int型の二次元配列)
+		m_positionMap.clear();
 		m_stageMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Stage"));
 		m_groundMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Ground"));
 
@@ -136,7 +137,8 @@ namespace basecross
 
 	void GameStage::CreateGearManager()
 	{
-		AddGameObject<GearManager>();
+		const auto& gearManager = AddGameObject<GearManager>();
+		SetSharedGameObject(L"GearManager", gearManager);
 	}
 
 	// 列車の生成
@@ -160,7 +162,7 @@ namespace basecross
 	{
 		// パラメータ
 		const float scale = 60.0f;
-		const Vec3 startPos = Vec3(-910.0f, 500.0f, 0.0f);
+		const Vec3 startPos = Vec3(-910.0f, 500.0f, 0.1f);
 		const Vec3 distance = Vec3(0.0f, -scale * 1.75f, 0.0f);
 
 		// アイテム数UI
@@ -178,6 +180,7 @@ namespace basecross
 		switch (m_gameProgress)
 		{
 		case Playing :
+		case ContinueFade:
 			m_gameSprite->SetDrawActive(false);
 			break;
 
@@ -212,6 +215,73 @@ namespace basecross
 		m_countTime += DELTA_TIME;
 	}
 
+	// コンティニュー処理
+	void GameStage::ToContinueStage()
+	{
+		// フェードイン開始の条件を満たしていた場合の処理
+		if (m_countTime >= m_defermentTransition) 
+		{
+			// フェード用スプライトのエラーチェック
+			if (!m_fadeSprite) return;
+
+			// コンティニュー処理を送る
+			if (m_continueFunc.find(m_continueState) == m_continueFunc.end()) return;
+			m_continueFunc.at(m_continueState)();
+		}
+
+		m_countTime += DELTA_TIME;
+	}
+
+	// コンティニュー時のフェードイン処理
+	void GameStage::ContinueFadeInState()
+	{
+		if (m_fadeSprite->FadeInColor(2.0f))
+		{
+			m_continueState = eContinueState::Reset;
+		}
+	}
+
+	// コンティニュー時のリセット処理
+	void GameStage::ContinueResetState()
+	{
+		// CSVでステージを生成
+		CreateStageCSV(m_stagePath);
+
+		// 各種リセット処理を送る
+		const auto& railManager = GetSharedGameObject<RailManager>(L"RailManager");
+		railManager->ResetInstanceRail();
+
+		const auto& gameTrain = GetSharedGameObject<GameTrain>(L"Train");
+		gameTrain->ResetTrain();
+
+		const auto& bridgeManager = GetSharedGameObject<BridgeManager>(L"BridgeManager");
+		bridgeManager->ResetBridge();
+
+		const auto& gatheringManager = GetSharedGameObject<GatheringManager>(L"GatheringManager");
+		gatheringManager->ResetGathering();
+
+		const auto& crossingManager = GetSharedGameObject<CrossingManager>(L"CrossingManager");
+		crossingManager->ResetCrossing();
+
+		const auto& gearManager = GetSharedGameObject<GearManager>(L"GearManager");
+		gearManager->ResetGears();
+
+		const auto& player = GetSharedGameObject<GamePlayer>(L"Player");
+		player->ResetPlayer();
+
+		m_continueState = eContinueState::FadeOut;
+		m_gameProgress = eGameProgress::ContinueFade;
+	}
+
+	// コンティニュー時のフェードアウト
+	void GameStage::ContinueFadeOutState()
+	{
+		if (m_fadeSprite->FadeOutColor(2.0f))
+		{
+			m_gameProgress = eGameProgress::Playing;
+			m_continueState = eContinueState::FadeIn;
+		}
+	}
 
 	// 生成時の処理
 	void GameStage::OnCreate() 
@@ -303,11 +373,9 @@ namespace basecross
 			// スプライトの表示
 			LogoActive();
 
-			// ゲームの状況がGameClear以外の場合は処理を行わない
-			if (m_gameProgress != GameClear) return;
-
-			// タイトルステージ遷移用関数
-			ToTitleStage();
+			// ゲームの結果に応じて処理を実行
+			if (m_progressFunc.find(m_gameProgress) == m_progressFunc.end()) return;
+			m_progressFunc.at(m_gameProgress)();
 		}
 		catch (...)
 		{

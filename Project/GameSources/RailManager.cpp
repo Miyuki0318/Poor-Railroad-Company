@@ -132,6 +132,9 @@ namespace basecross
 		const auto& stageMap = stagePtr->GetStageMap();
 
 		// ‰Šú‰»
+		m_railDataMap.clear();
+
+		// ‰Šú‰»
 		for (auto& rail : m_instanceRail)
 		{
 			rail.second.lock()->ResetRail();

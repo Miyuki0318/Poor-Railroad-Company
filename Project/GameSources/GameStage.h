@@ -16,7 +16,15 @@ namespace basecross
 	{
 		Playing,
 		GameClear,
-		GameOver
+		GameOver,
+		ContinueFade,
+	};
+
+	enum class eContinueState
+	{
+		FadeIn,
+		Reset,
+		FadeOut,
 	};
 
 	/*!
@@ -35,6 +43,11 @@ namespace basecross
 
 		// ゲームクリアからの経過時間カウント用変数
 		float m_countTime;
+
+		eContinueState m_continueState;
+
+		map<eGameProgress, function<void()>> m_progressFunc;
+		map<eContinueState, function<void()>> m_continueFunc;
 
 		/*!
 		@brief リソースの読込
@@ -112,6 +125,14 @@ namespace basecross
 		*/
 		void ToTitleStage();
 
+		/*!
+		@brief コンティニュー時の処理
+		*/
+		void ToContinueStage();
+
+		void ContinueFadeInState();
+		void ContinueResetState();
+		void ContinueFadeOutState();
 
 	public:
 
@@ -124,6 +145,15 @@ namespace basecross
 		{
 			m_countTime = 0.0f;
 			m_gameProgress = eGameProgress::Playing;
+			m_continueState = eContinueState::FadeIn;
+
+			m_progressFunc.emplace(eGameProgress::GameClear, bind(&GameStage::ToTitleStage, this));
+			m_progressFunc.emplace(eGameProgress::GameOver, bind(&GameStage::ToContinueStage, this));
+			m_progressFunc.emplace(eGameProgress::ContinueFade, bind(&GameStage::ToContinueStage, this));
+
+			m_continueFunc.emplace(eContinueState::FadeIn, bind(&GameStage::ContinueFadeInState, this));
+			m_continueFunc.emplace(eContinueState::Reset, bind(&GameStage::ContinueResetState, this));
+			m_continueFunc.emplace(eContinueState::FadeOut, bind(&GameStage::ContinueFadeOutState, this));
 		}
 
 		/*!

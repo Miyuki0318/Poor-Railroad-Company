@@ -92,6 +92,11 @@ namespace basecross
 		~CraftManager() {}
 
 		/*!
+		@brief リセット処理関数
+		*/
+		void ResetCraftManager();
+
+		/*!
 		@brief アイテムクラフト関数
 		@param クラフトするアイテム
 		@return クラフト可能かの真偽

@@ -16,6 +16,9 @@ namespace basecross
 	{
 		shared_ptr<PNTStaticInstanceDraw> m_ptrDraw; // 描画コンポーネント
 
+		const Mat4x4 m_mtxScale;	// 行列計算に使うスケール
+		const Mat4x4 m_mtxRotation;	// 行列計算に使うローテーション
+
 	public:
 
 		/*!
@@ -23,7 +26,9 @@ namespace basecross
 		@param ステージポインタ
 		*/
 		BridgeManager(const shared_ptr<Stage>& stagePtr) :
-			GameObject(stagePtr)
+			GameObject(stagePtr),
+			m_mtxScale((Mat4x4)XMMatrixScalingFromVector(Vec3(0.35f))),
+			m_mtxRotation((Mat4x4)XMMatrixRotationRollPitchYawFromVector(Vec3(0.0f, XM_PIDIV2, 0.0f)))
 		{
 		}
 
@@ -36,6 +41,11 @@ namespace basecross
 		@brief 生成時に一度だけ呼び出される関数
 		*/
 		void OnCreate() override;
+
+		/*!
+		@brief 初期化関数
+		*/
+		void ResetBridge();
 
 		/*!
 		@brief レール追加関数

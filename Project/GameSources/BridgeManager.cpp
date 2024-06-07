@@ -12,10 +12,6 @@ namespace basecross
 	// ネームスペースの省略
 	using namespace Utility;
 
-	// 行列計算に使うローテーションとスケール
-	const Mat4x4 mtxRotation = Mat4x4().rotation((Quat)XMQuaternionRotationRollPitchYawFromVector(Vec3(0.0f, XM_PIDIV2, 0.0f)));
-	const Mat4x4 mtxScale = Mat4x4().scale(Vec3(0.35f));
-
 	// 生成時の処理
 	void BridgeManager::OnCreate()
 	{
@@ -25,6 +21,12 @@ namespace basecross
 		m_ptrDraw->SetTextureResource(L"WOOD_BRIDGE_TX");
 		m_ptrDraw->SetSpecular(COL_WHITE);
 		m_ptrDraw->SetDiffuse(COL_WHITE);
+	}
+
+	// 初期化処理
+	void BridgeManager::ResetBridge()
+	{
+		m_ptrDraw->ClearMatrixVec();
 	}
 
 	// 橋の追加生成
@@ -42,7 +44,7 @@ namespace basecross
 		mtxPosition.translation(addPos);
 
 		// 行列の設定と追加
-		matrix = mtxScale * mtxRotation * mtxPosition;
+		matrix = m_mtxScale * m_mtxRotation * mtxPosition;
 		m_ptrDraw->AddMatrix(matrix);
 
 		// csvの書き換え
