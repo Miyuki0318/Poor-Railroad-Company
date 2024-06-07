@@ -185,6 +185,7 @@ namespace basecross
 		try
 		{
 			// ‰ğ•ú
+			m_soundManager->ReleasedSounds();
 			m_soundManager.reset();
 			ReleasedResourses();
 		}

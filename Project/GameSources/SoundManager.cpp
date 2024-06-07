@@ -144,4 +144,25 @@ namespace basecross
 			}
 		}
 	}
+
+	// 音声の破棄
+	void SoundManager::ReleasedSounds()
+	{
+		for (auto& sound : m_soundList)
+		{
+			// 空なら無視
+			auto& item = sound.item.lock();
+			if (!item) continue;
+
+			// 音声があるなら
+			if (item->m_SourceVoice)
+			{
+				// オーディオマネージャーからSEを停止させる
+				const auto& audioPtr = App::GetApp()->GetXAudio2Manager();
+				audioPtr->Stop(item);
+			}
+
+			sound.Reset();
+		}
+	}
 }
