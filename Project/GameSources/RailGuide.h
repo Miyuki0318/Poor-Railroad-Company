@@ -17,14 +17,13 @@ namespace basecross
 		// 描画コンポーネント
 		shared_ptr<PNTStaticInstanceDraw> m_ptrDraw;
 
-		Mat4x4 m_mtxScale;	   // インスタンス描画用のスケール
-		Mat4x4 m_mtxRotation;  // インスタンス描画用のローテーション
-		const Col4 m_defColor; // デフォルトの色
+		const Mat4x4 m_mtxScale;	// インスタンス描画用のスケール
+		Mat4x4 m_mtxRotAxisX;		// インスタンス描画用のローテーションX
+		Mat4x4 m_mtxRotAxisZ;		// インスタンス描画用のローテーションX
+		const Col4 m_defColor;		// デフォルトの色
 
-		float m_posY;		// ポジションY軸
-		float m_blinkRatio;	// 点滅割合
-		
-		const float m_blinkTime; // 点滅する時間
+		float m_blinkRatio;			// 点滅割合
+		const float m_blinkTime;	// 点滅する時間
 
 	public:
 
@@ -35,14 +34,12 @@ namespace basecross
 		RailGuide(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr),
 			m_defColor(1.0f, 1.0f, 1.0f, 0.5f),
-			m_posY(1.0f),
 			m_blinkRatio(0.0f),
-			m_blinkTime(0.5f)
+			m_blinkTime(0.5f),
+			m_mtxScale((Mat4x4)DirectX::XMMatrixScalingFromVector(Vec3(0.675f)))
 		{
-			Quat quatRot;
-			quatRot.rotationRollPitchYawFromVector(Vec3(0.0f, XM_PIDIV2, 0.0f));
-			m_mtxRotation.rotation(quatRot);
-			m_mtxScale.scale(Vec3(0.675f));
+			m_mtxRotAxisX.rotation((Quat)DirectX::XMQuaternionRotationRollPitchYawFromVector(Vec3(0.0f)));
+			m_mtxRotAxisZ.rotation((Quat)DirectX::XMQuaternionRotationRollPitchYawFromVector(Vec3(0.0f, XM_PIDIV2, 0.0f)));
 		}
 
 		/*!
