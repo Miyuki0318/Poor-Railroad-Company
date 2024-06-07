@@ -124,6 +124,9 @@ namespace basecross
 		const auto& indicator = m_indicator.lock();
 		if (!indicator) return;
 		
+		// インディケーターの方向に向く
+		if (GetButtonRB()) SetRotateIndicatorAngle();
+
 		// 採掘命令、採掘できたら終了
 		if (GatheringOrder(indicator)) return;
 
@@ -224,6 +227,19 @@ namespace basecross
 		}
 
 		return false;
+	}
+
+	// アクション時にインディケーターに向く
+	void GamePlayer::SetRotateIndicatorAngle()
+	{
+		// エラーチェック
+		const auto& indicator = m_indicator.lock();
+		if (!indicator) return;
+
+		// 座標同士で角度を求める
+		Vec3 indiPos = indicator->GetPosition();
+		float rotY = atan2f(indiPos.z - m_position.z, indiPos.x - m_position.x);
+		m_rotTarget = Vec3(cos(rotY), 0.0f, sin(-rotY));
 	}
 
 	// クラフト状態でのXボタン入力

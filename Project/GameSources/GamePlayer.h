@@ -180,6 +180,11 @@ namespace basecross
 		void GatheringProcces(int stageID);
 
 		/*!
+		@brief アクション時にインディケーターの方へ回転設定する関数
+		*/
+		void SetRotateIndicatorAngle();
+
+		/*!
 		@brief クラフト画面切り替え関数
 		*/
 		void SwitchCraftWindow();

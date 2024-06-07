@@ -13,8 +13,8 @@ namespace basecross
 	// プレイヤーのアニメーションキータイプ
 	enum class ePAKey : char
 	{
-		Waiting,			// 待機
-		Walking,			// 移動
+		Waiting,		// 待機
+		Walking,		// 移動
 		Harvesting,		// 採取
 		CraftStart,		// クラフト開始
 		Crafting,		// クラフト中

@@ -10,6 +10,7 @@
 namespace basecross
 {
 	// ネームスペースの省略
+	using namespace Input;
 	using namespace Utility;
 
 	// 生成時の処理
@@ -106,14 +107,18 @@ namespace basecross
 		pos.z = round(pos.z);
 		pos.y = m_position.y;
 
-		// コントローラー入力
-		Vec3 cntlVec = Vec3(Input::GetLStickValue().x, 0.0f, Input::GetLStickValue().y);
-		if (cntlVec.length() > 0.0f)
+		// RBボタン入力が無ければ
+		if (!GetButtonRB())
 		{
-			m_cursolPosition += cntlVec * DELTA_TIME * 4.0f;
-			m_cursolPosition.clamp(Vec3(-1.0f, 0.0f, -1.0f), Vec3(1.0f, 0.0f, 1.0f));
-			if (cntlVec.x <= 0.1f && cntlVec.x >= -0.1f) m_cursolPosition.x = 0.0f;
-			if (cntlVec.z <= 0.1f && cntlVec.z >= -0.1f) m_cursolPosition.z = 0.0f;
+			// コントローラー入力
+			Vec3 cntlVec = Vec3(GetLStickValue().x, 0.0f, GetLStickValue().y);
+			if (cntlVec.length() > 0.0f)
+			{
+				m_cursolPosition += cntlVec * DELTA_TIME * 4.0f;
+				m_cursolPosition.clamp(Vec3(-1.0f, 0.0f, -1.0f), Vec3(1.0f, 0.0f, 1.0f));
+				if (cntlVec.x <= 0.1f && cntlVec.x >= -0.1f) m_cursolPosition.x = 0.0f;
+				if (cntlVec.z <= 0.1f && cntlVec.z >= -0.1f) m_cursolPosition.z = 0.0f;
+			}
 		}
 
 		Vec3 cursol = m_cursolPosition;

@@ -123,6 +123,20 @@ namespace basecross
 		}
 
 		/*!
+		@brief RBボタンを押している間の取得関数
+		@return GetPad().wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER
+		*/
+		inline bool GetButtonRB()
+		{
+			if (GetPadConected())
+			{
+				// RBボタンが入力された瞬間かを返す
+				return GetPad().wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER;
+			}
+			return false;
+		}
+
+		/*!
 		@brief Lスティックの入力量取得関数
 		@return Vec2(pad.fThumbLX, pad.fThumbLY)
 		*/
