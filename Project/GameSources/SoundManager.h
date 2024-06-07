@@ -74,23 +74,28 @@ namespace basecross
 		virtual shared_ptr<SoundItem> StartSE(const wstring& seKey, float volume, const void* objPtr);
 
 		/*!
-		@brief SEの再生関数
+		@brief SEの停止関数
 		*/
 		virtual void StopSE(const wstring& seKey, const void* objPtr);
 
 		/*!
-		@brief SEの再生関数
+		@brief BGMの再生関数
 		*/
 		virtual shared_ptr<SoundItem> StartBGM(const wstring& bgmKey, UINT loopNum, float volume, const void* objPtr);
 
 		/*!
-		@brief SEの再生関数
+		@brief BGMの停止関数
 		*/
 		virtual void StopBGM(const wstring& bgmKey, const void* objPtr);
 
 		/*!
-		@brief SEが再生されてるかのチェック(主にStageのOnUpdateで呼び出す)
+		@brief 音声が再生されてるかのチェック(主にStageのOnUpdateで呼び出す)
 		*/
 		virtual void CheckSoundList();
+
+		/*!
+		@brief 音声を破棄し、再生中の場合は停止処理を送り解放する
+		*/
+		virtual void ReleasedSounds();
 	};
 }
