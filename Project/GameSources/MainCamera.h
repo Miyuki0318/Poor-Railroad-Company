@@ -55,7 +55,7 @@ namespace basecross {
 			m_defaultState(cameraState),
 			m_targetPos(Vec3(0.0f)),
 			m_DefaultEye(eyePos),
-			m_DefaultAt(Vec3(3.0f, 1.0f, -7.0f)),
+			m_DefaultAt(atPos),
 			m_MaxEye(Vec3(400.0f, 20.0f, -22.0f)),
 			m_zoomRatio(0.0f),
 			m_zoomSpeed(0.5f)
