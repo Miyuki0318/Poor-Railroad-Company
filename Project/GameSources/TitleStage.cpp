@@ -45,9 +45,6 @@ namespace basecross
 		// タイトルロゴ
 		AddTextureResource(L"TITLE_LOGO", texturePath + L"TitleLogo.png");
 
-		// フェード用のテクスチャ
-		AddTextureResource(L"FADE_TX", texturePath + L"Blue.png");
-
 		// ボードのテクスチャ
 		AddTextureResource(L"BOARD_TX", modelPath + L"RouteMapTexture.tga");
 
@@ -66,14 +63,6 @@ namespace basecross
 
 		AddedTextureResources();
 		AddedAudioResources();
-	}
-
-	// スプライトの生成
-	void TitleStage::CreateSprite()
-	{
-		auto& sprite = AddGameObject<Sprite>(L"FADE_TX", Vec2(m_width, m_height));
-		sprite->SetDiffuseColor(COL_ALPHA);
-		SetSharedGameObject(L"FadeSprite", sprite);
 	}
 
 	// オープニング画面の生成
@@ -219,22 +208,22 @@ namespace basecross
 	// スプライトのフェード処理
 	void TitleStage::FadeSprite()
 	{
-		auto sprite = GetSharedGameObject<Sprite>(L"FadeSprite", true);
-		
+		if (!m_fadeSprite) return;
+
 		if (titleProgress == zoom)
 		{
-			if (sprite->FadeInColor(2.0f))
+			if (m_fadeSprite->FadeInColor(2.0f))
 			{
 				titleProgress = select;
 			}
 		}
 		else if (titleProgress == start)
 		{
-			sprite->FadeInColor(2.0f);
+			m_fadeSprite->FadeInColor(2.0f);
 		}
 		else if(titleProgress == usually || titleProgress == push)
 		{
-			sprite->SetDiffuseColor(COL_ALPHA);
+			m_fadeSprite->SetDiffuseColor(COL_ALPHA);
 		}
 	}
 
@@ -261,7 +250,7 @@ namespace basecross
 		Vec3 playerPos = player->GetComponent<Transform>()->GetPosition();
 
 		// 範囲for文でグループに所属しているオブジェクト数ループさせる
-		for (auto v : m_objectGroup->GetGroupVector())
+		for (auto& v : m_objectGroup->GetGroupVector())
 		{
 			// オブジェクトをロック
 			auto target = v.lock();
@@ -297,10 +286,6 @@ namespace basecross
 			BaseStage::OnCreate();
 
 			CreateViewLight();
-
-			CreateResourses();
-
-			CreateSprite();
 
 			CreateOpningScreen();
 

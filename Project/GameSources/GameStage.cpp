@@ -28,9 +28,6 @@ namespace basecross
 		// 地面の仮テクスチャ
 		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
 
-		// フェード用のテクスチャ
-		AddTextureResource(L"FADE_TX", texturePath + L"Blue.png");
-
 		// ゲーム中のBGM
 		AddAudioResource(L"GAME_BGM", soundPath + L"GameBGM");
 
@@ -156,15 +153,6 @@ namespace basecross
 	void GameStage::CreateSpriteObject()
 	{
 		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f), Vec3(0.0f));
-
-		// ゲーム画面のサイズを取得
-		const float m_width = static_cast<float>(App::GetApp()->GetGameWidth());
-		const float m_height = static_cast<float>(App::GetApp()->GetGameHeight());
-
-		// フェードイン用スプライトの生成
-		auto& sprite = AddGameObject<Sprite>(L"FADE_TX", Vec2(m_width, m_height));
-		sprite->SetDiffuseColor(COL_ALPHA);
-		SetSharedGameObject(L"FadeSprite", sprite);
 	}
 
 	// UIの生成
@@ -209,11 +197,11 @@ namespace basecross
 	{
 		// フェードイン開始の条件を満たしていた場合の処理
 		if (m_countTime >= m_defermentTransition) {
-			// フェードイン用スプライトを取得
-			auto sprite = GetSharedGameObject<Sprite>(L"FadeSprite", true);
+			// フェード用スプライトのエラーチェック
+			if (!m_fadeSprite) return;
 
 			// スプライトのフェードイン処理が終了していた場合の処理
-			if (sprite->FadeInColor(2.0f))
+			if (m_fadeSprite->FadeInColor(2.0f))
 			{
 				// タイトルステージへ遷移
 				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"TitleStage");
@@ -232,9 +220,6 @@ namespace basecross
 		{
 			// 継承元の生成時の処理
 			BaseStage::OnCreate();
-
-			// リソースの読み込み
-			CreateResourses();
 
 			//ビューとライトの作成
 			CreateViewLight();

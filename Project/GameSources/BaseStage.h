@@ -60,6 +60,9 @@ namespace basecross
 		// タイマーオブジェクト
 		weak_ptr<Timer> m_timer;
 
+		// フェード用スプライト
+		shared_ptr<Sprite> m_fadeSprite;
+
 		// ステージのファイル内
 		const string m_stagePath;
 
@@ -72,6 +75,11 @@ namespace basecross
 		@brief リソースの解放
 		*/
 		virtual void ReleasedResourses();
+
+		/*
+		@brief フェード用スプライトの生成
+		*/
+		virtual void CreateFadeSprite();
 
 		/*!
 		@brief ステージをcsvで生成
