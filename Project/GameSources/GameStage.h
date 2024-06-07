@@ -120,8 +120,9 @@ namespace basecross
 		*/
 		GameStage(const string stagePath) :
 			BaseStage(stagePath),
-			m_defermentTransition(1.0f)
+			m_defermentTransition(3.0f)
 		{
+			m_countTime = 0.0f;
 			m_gameProgress = eGameProgress::Playing;
 		}
 

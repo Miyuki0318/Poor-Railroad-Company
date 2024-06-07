@@ -304,7 +304,7 @@ namespace basecross
 			LogoActive();
 
 			// ゲームの状況がGameClear以外の場合は処理を行わない
-			if (m_gameProgress != Playing) return;
+			if (m_gameProgress != GameClear) return;
 
 			// タイトルステージ遷移用関数
 			ToTitleStage();
