@@ -30,6 +30,12 @@ namespace basecross
 		// ゲームの状況
 		eGameProgress m_gameProgress;
 
+		// ゲームクリアからタイトルステージへの遷移までの猶予
+		const float m_defermentTransition;
+
+		// ゲームクリアからの経過時間カウント用変数
+		float m_countTime;
+
 		/*!
 		@brief リソースの読込
 		*/
@@ -101,12 +107,21 @@ namespace basecross
 		*/
 		void LogoActive();
 
+		/*!
+		@brief タイトルステージ遷移用の処理
+		*/
+		void ToTitleStage();
+
+
 	public:
 
 		/*!
 		@brief コンストラクタ
 		*/
-		GameStage(const string stagePath) :BaseStage(stagePath) {
+		GameStage(const string stagePath) :
+			BaseStage(stagePath),
+			m_defermentTransition(1.0f)
+		{
 			m_gameProgress = eGameProgress::Playing;
 		}
 

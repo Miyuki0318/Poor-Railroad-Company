@@ -28,6 +28,9 @@ namespace basecross
 		// 地面の仮テクスチャ
 		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
 
+		// フェード用のテクスチャ
+		AddTextureResource(L"FADE_TX", texturePath + L"Blue.png");
+
 		// ゲーム中のBGM
 		AddAudioResource(L"GAME_BGM", soundPath + L"GameBGM");
 
@@ -153,6 +156,15 @@ namespace basecross
 	void GameStage::CreateSpriteObject()
 	{
 		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f), Vec3(0.0f));
+
+		// ゲーム画面のサイズを取得
+		const float m_width = static_cast<float>(App::GetApp()->GetGameWidth());
+		const float m_height = static_cast<float>(App::GetApp()->GetGameHeight());
+
+		// フェードイン用スプライトの生成
+		auto& sprite = AddGameObject<Sprite>(L"FADE_TX", Vec2(m_width, m_height));
+		sprite->SetDiffuseColor(COL_ALPHA);
+		SetSharedGameObject(L"FadeSprite", sprite);
 	}
 
 	// UIの生成
@@ -192,6 +204,26 @@ namespace basecross
 			break;
 		}
 	}
+
+	void GameStage::ToTitleStage()
+	{
+		// フェードイン開始の条件を満たしていた場合の処理
+		if (m_countTime >= m_defermentTransition) {
+			// フェードイン用スプライトを取得
+			auto sprite = GetSharedGameObject<Sprite>(L"FadeSprite", true);
+
+			// スプライトのフェードイン処理が終了していた場合の処理
+			if (sprite->FadeInColor(2.0f))
+			{
+				// タイトルステージへ遷移
+				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"TitleStage");
+				m_countTime = 0.0f;
+			}
+		}
+
+		m_countTime += DELTA_TIME;
+	}
+
 
 	// 生成時の処理
 	void GameStage::OnCreate() 
@@ -285,6 +317,12 @@ namespace basecross
 
 			// スプライトの表示
 			LogoActive();
+
+			// ゲームの状況がGameClear以外の場合は処理を行わない
+			if (m_gameProgress != Playing) return;
+
+			// タイトルステージ遷移用関数
+			ToTitleStage();
 		}
 		catch (...)
 		{
