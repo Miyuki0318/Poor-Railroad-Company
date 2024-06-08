@@ -72,8 +72,12 @@ namespace basecross
 	// プレイヤーの生成
 	void GameStage::CreatePlayer()
 	{
+		// 開始時の座標を取得
+		Vec3 startPos = ROWCOL2POS(m_startLine.x, m_startLine.y);
+
 		// プレイヤーオブジェクトの追加
 		const auto& player = AddGameObject<GamePlayer>();
+		player->SetPosition(startPos.x, 2.0f, startPos.z);
 
 		// シェアオブジェクトに登録
 		SetSharedGameObject(L"Player", player);
@@ -112,6 +116,18 @@ namespace basecross
 				{
 					int random = Utility::RangeRand(2, 0);
 					id = id + random;
+				}
+
+				// プレイヤーの開始位置とクリア演出時の移動先を保持
+				if (num == eStageID::PlayerStart)
+				{
+					m_startLine = Point2D<size_t>(i, j);
+					id = 0;
+				}
+				if (num == eStageID::PlayerGoal) 
+				{
+					m_goalLine = Point2D<size_t>(i, j);
+					id = 0;
 				}
 			}
 			m_positionMap.push_back(tempVec);
@@ -306,11 +322,11 @@ namespace basecross
 			// BGMの再生
 			CreateStartBGM();
 
-			// プレイヤーの生成
-			CreatePlayer();
-
 			// CSVでステージを生成
 			CreateStageCSV(m_stagePath);
+
+			// プレイヤーの生成
+			CreatePlayer();
 
 			// 線路の生成
 			CreateRailManager();

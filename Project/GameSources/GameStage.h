@@ -38,13 +38,17 @@ namespace basecross
 		// ゲームの状況
 		eGameProgress m_gameProgress;
 
+		// コンティニュー処理のステート
+		eContinueState m_continueState;
+
 		// ゲームクリアからタイトルステージへの遷移までの猶予
 		const float m_defermentTransition;
 
 		// ゲームクリアからの経過時間カウント用変数
 		float m_countTime;
 
-		eContinueState m_continueState;
+		Point2D<size_t> m_startLine;
+		Point2D<size_t> m_goalLine;
 
 		map<eGameProgress, function<void()>> m_progressFunc;
 		map<eContinueState, function<void()>> m_continueFunc;

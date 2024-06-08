@@ -34,6 +34,8 @@ namespace basecross
 		Gear = 25,			// ギア
 		Water = 31,			// 水
 		WoodBridge = 40,	// 木の足場	
+		PlayerStart = 50,	// プレイヤーの開始位置
+		PlayerGoal,			// プレイヤーのゴール演出位置
 		Grass = 101,		// 地面の草
 		Sand = 102,			// 地面の砂
 		Rock = 103,			// 地面の石
