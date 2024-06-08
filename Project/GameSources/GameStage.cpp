@@ -29,11 +29,24 @@ namespace basecross
 		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
 
 		// ゲーム中のBGM
-		AddAudioResource(L"GAME_BGM", soundPath + L"GameBGM");
+		AddAudioResource(L"FIRST_BGM", soundPath + L"FirstBGM");
+		AddAudioResource(L"SECOND_BGM", soundPath + L"SecondBGM");
+		AddAudioResource(L"THIRD_BGM", soundPath + L"ThirdBGM");
 
 		// 追加したリソースをメモリに追加
 		AddedTextureResources();
 		AddedAudioResources();
+	}
+
+	// BGMの再生
+	void GameStage::CreateStartBGM()
+	{
+		// BGMのキーをステージパスから設定
+		wstring bgmKey;
+		Util::ConvertUtf8toWstring(m_stagePath, bgmKey);
+			
+		// BGMの再生
+		m_soundManager->StartBGM(Utility::ToUpperString(bgmKey) + L"_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);
 	}
 
 	//ビューとライトの生成
@@ -52,10 +65,6 @@ namespace basecross
 	// 床ボックスの生成
 	void GameStage::CreateGroundBox()
 	{
-		// 床ボックスオブジェクトの追加
-		auto g = AddGameObject<GroundBox>(Vec3(49.5f, 0.0f, -7.0f) ,Vec3(100.0f, 2.0f, 15.0f));
-		g->SetDrawActive(false);
-
 		AddGameObject<GroundManager>();	// 地面の描画生成
 		AddGameObject<UnBreakRock>();	// 壊せない岩の生成
 	}
@@ -294,6 +303,9 @@ namespace basecross
 			//ビューとライトの作成
 			CreateViewLight();
 
+			// BGMの再生
+			CreateStartBGM();
+
 			// プレイヤーの生成
 			CreatePlayer();
 
@@ -326,9 +338,6 @@ namespace basecross
 
 			// UIの生成
 			CreateUIObject();
-
-			// BGMの再生
-			m_soundManager->StartBGM(L"GAME_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);
 
 			// スカイボックスの生成
 			auto& camera = GetView()->GetTargetCamera();

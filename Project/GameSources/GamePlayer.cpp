@@ -91,9 +91,6 @@ namespace basecross
 
 		// コリジョンOBBの追加
 		AddComponent<CollisionCapsule>();
-
-		// 重力の追加
-		AddComponent<Gravity>();
 	}
 
 	// プレイヤーに付加する機能の生成

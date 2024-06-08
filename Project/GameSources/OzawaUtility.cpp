@@ -33,6 +33,50 @@ namespace Utility
 		return a > b ? value <= a && value >= b : value <= b && value >= a;
 	}
 
+	/*!
+	@brief アルファベット大文字化
+	@param 変更前文字列
+	@return 変更後文字列
+	*/
+	string ToUpperString(string str)
+	{
+		transform(str.begin(), str.end(), str.begin(), ::toupper);
+		return str;
+	}
+
+	/*!
+	@brief アルファベット大文字化
+	@param 変更前文字列
+	@return 変更後文字列
+	*/
+	wstring ToUpperString(wstring str)
+	{
+		transform(str.begin(), str.end(), str.begin(), ::towupper);
+		return str;
+	}
+
+	/*!
+	@brief アルファベット小文字化
+	@param 変更前文字列
+	@return 変更後文字列
+	*/
+	string ToLowerString(string str)
+	{
+		transform(str.begin(), str.end(), str.begin(), ::tolower);
+		return str;
+	}
+
+	/*!
+	@brief アルファベット小文字化
+	@param 変更前文字列
+	@return 変更後文字列
+	*/
+	wstring ToLowerString(wstring str)
+	{
+		transform(str.begin(), str.end(), str.begin(), ::towlower);
+		return str;
+	}
+
 #if BASECROSS
 
 	/*!

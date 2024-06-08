@@ -130,7 +130,7 @@ namespace basecross
 	void TitleStage::CreatePlayer()
 	{
 		auto& player = AddGameObject<GamePlayer>();
-		player->SetPosition(Vec3(m_cameraAt.x, 5.0f, m_cameraAt.z));
+		player->SetPosition(Vec3(m_cameraAt.x, 2.0f, m_cameraAt.z));
 		SetSharedGameObject(L"Player", player);
 	}
 

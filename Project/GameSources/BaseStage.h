@@ -85,13 +85,13 @@ namespace basecross
 		@brief ステージをcsvで生成
 		@param csvのファイル名
 		*/
-		virtual void CreateStageCSV(string csvPath = "Test") = 0;
+		virtual void CreateStageCSV(string csvPath) = 0;
 
 		/*!
 		@brief ステージマップをcsvで書き換え
 		@param csvのファイル名
 		*/
-		void WriteCSVMap(string csvPath = "Test");
+		void WriteCSVMap(string csvPath);
 
 	public:
 

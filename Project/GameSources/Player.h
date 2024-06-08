@@ -96,7 +96,7 @@ namespace basecross
 		@param ステージポインタ
 		*/
 		Player(const shared_ptr<Stage>& stagePtr) :
-			TemplateObject(stagePtr, Vec3(0.0f, 3.0f, 0.0f), Vec3(0.0f), Vec3(1.0f)),
+			TemplateObject(stagePtr, Vec3(0.0f, 2.0f, 0.0f), Vec3(0.0f), Vec3(1.0f)),
 			m_moveSpeed(5.0f), // 今後CSVから速度等のステータスを取得予定
 			m_rotSpeed(0.5f),  // 今後CSVから速度等のステータスを取得予定
 			m_radius(1.0f),

@@ -402,6 +402,34 @@ namespace Utility
 		return false;
 	}
 
+	/*!
+	@brief アルファベット大文字化
+	@param 変更前文字列
+	@return 変更後文字列
+	*/
+	string ToUpperString(string str);
+
+	/*!
+	@brief アルファベット大文字化
+	@param 変更前文字列
+	@return 変更後文字列
+	*/
+	wstring ToUpperString(wstring str);
+
+	/*!
+	@brief アルファベット小文字化
+	@param 変更前文字列
+	@return 変更後文字列
+	*/
+	string ToLowerString(string str);
+
+	/*!
+	@brief アルファベット小文字化
+	@param 変更前文字列
+	@return 変更後文字列
+	*/
+	wstring ToLowerString(wstring str);
+
 #if BASECROSS
 
 	/*!

@@ -55,6 +55,11 @@ namespace basecross
 		void CreateResourses() override;
 
 		/*!
+		@brief BGMの再生
+		*/
+		void CreateStartBGM();
+
+		/*!
 		@brief ビューとライトの生成
 		*/
 		void CreateViewLight();
