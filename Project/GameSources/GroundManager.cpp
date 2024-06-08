@@ -51,7 +51,6 @@ namespace basecross
 		m_groundMap.emplace(eStageID::Watering, water);		// 水場
 		m_groundMap.emplace(eStageID::Rock, rock);			// 岩地
 
-
 		// 二重ループ
 		for (int row = 0; row < groundMap.size(); row++)
 		{
