@@ -49,7 +49,9 @@ namespace basecross
 		// ステートマシン
 		unique_ptr<PlayerStateMachine> m_playerState;
 
-		const Vec3 m_startPosition; // 開始時の座標
+		const Vec3 m_startPosition;			// 開始時の座標
+		const Vec3 m_goalStagingPosition;	// ゴール演出時の座標
+		Vec3 m_goalPosition;				// ゴール時の座標
 
 		// フレンド化(ステートマシンからメンバ関数を呼び出すため)
 		friend PlayerIdleState;
@@ -65,9 +67,11 @@ namespace basecross
 		@brief コンストラクタ
 		@param ステージポインタ
 		*/
-		GamePlayer(const shared_ptr<Stage>& stagePtr) :
+		GamePlayer(const shared_ptr<Stage>& stagePtr, 
+			const Vec3& start, const Vec3& goal) :
 			Player(stagePtr),
-			m_startPosition(Vec3(0.0f, 3.0f, 0.0f))
+			m_startPosition(start),
+			m_goalStagingPosition(goal)
 		{
 			m_status = 0; // 状態フラグは0で初期化
 

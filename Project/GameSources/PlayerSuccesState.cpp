@@ -29,15 +29,33 @@ namespace basecross
 	void PlayerSuccesState::Enter(const shared_ptr<GamePlayer>& player)
 	{
 		// アニメーションの変更
-		if (!player->IsAnimation(ePAKey::GameSucces))
+		if (!player->IsAnimation(ePAKey::Walking))
 		{
-			player->SetAnimationMesh(ePAKey::GameSucces);
+			player->SetAnimationMesh(ePAKey::Walking);
 		}
+
+		// ゴール時の座標を設定
+		player->m_goalPosition = player->GetPosition();
 	}
 
 	// ステート更新時の処理
 	void PlayerSuccesState::Execute(const shared_ptr<GamePlayer>& player)
 	{
+		// 歩くアニメーションなら
+		if (player->IsAnimation(ePAKey::Walking))
+		{
+			// ゴール時の座標から演出用の座標に移動
+			Vec3 pos = Utility::Lerp(player->m_goalPosition, player->m_goalStagingPosition, m_totalTime);
+			m_totalTime += DELTA_TIME;
+			m_totalTime = min(m_totalTime, 1.0f);
+
+			// 経過時間が1.0以上ならクリア時のアニメーションに切り替える
+			if (m_totalTime >= 1.0f) player->SetAnimationMesh(ePAKey::GameSucces);
+
+			// 座標の更新
+			player->SetPosition(pos);
+		}
+
 		// アニメーションを更新
 		player->UpdateAnimation();
 	}

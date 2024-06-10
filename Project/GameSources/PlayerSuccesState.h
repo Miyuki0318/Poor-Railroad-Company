@@ -14,10 +14,16 @@ namespace basecross
 	*/
 	class PlayerSuccesState : public PlayerState
 	{
+		// 経過時間用変数
+		float m_totalTime;
+
 		/*!
 		@brief コンストラクタ
 		*/
-		PlayerSuccesState() {}
+		PlayerSuccesState() 
+		{
+			m_totalTime = 0.0f;
+		}
 
 	public:
 

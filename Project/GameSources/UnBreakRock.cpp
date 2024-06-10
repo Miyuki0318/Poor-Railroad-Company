@@ -54,7 +54,7 @@ namespace basecross
 				m_mtxRotation.rotation(quatRot);
 
 				// スケール
-				float scaleY = DEFF_SCALE * RangeRand(2.5f, 1.0f);
+				float scaleY = DEFF_SCALE * RangeRand(1.5f, 1.0f);
 				m_mtxScale.scale(Vec3(DEFF_SCALE, scaleY, DEFF_SCALE));
 				
 				// ポジション

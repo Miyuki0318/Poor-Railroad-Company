@@ -72,12 +72,8 @@ namespace basecross
 	// プレイヤーの生成
 	void GameStage::CreatePlayer()
 	{
-		// 開始時の座標を取得
-		Vec3 startPos = ROWCOL2POS(m_startLine.x, m_startLine.y);
-
 		// プレイヤーオブジェクトの追加
-		const auto& player = AddGameObject<GamePlayer>();
-		player->SetPosition(startPos.x, 2.0f, startPos.z);
+		const auto& player = AddGameObject<GamePlayer>(m_startPosition, m_goalStagingPosition);
 
 		// シェアオブジェクトに登録
 		SetSharedGameObject(L"Player", player);
@@ -121,12 +117,12 @@ namespace basecross
 				// プレイヤーの開始位置とクリア演出時の移動先を保持
 				if (num == eStageID::PlayerStart)
 				{
-					m_startLine = Point2D<size_t>(i, j);
+					m_startPosition = Vec3(float(j), 2.0f, -float(i));
 					id = 0;
 				}
 				if (num == eStageID::PlayerGoal) 
 				{
-					m_goalLine = Point2D<size_t>(i, j);
+					m_goalStagingPosition = Vec3(float(j), 2.0f, -float(i));
 					id = 0;
 				}
 			}

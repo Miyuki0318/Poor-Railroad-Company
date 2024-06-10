@@ -47,8 +47,8 @@ namespace basecross
 		// ゲームクリアからの経過時間カウント用変数
 		float m_countTime;
 
-		Point2D<size_t> m_startLine;
-		Point2D<size_t> m_goalLine;
+		Vec3 m_startPosition;
+		Vec3 m_goalStagingPosition;
 
 		map<eGameProgress, function<void()>> m_progressFunc;
 		map<eContinueState, function<void()>> m_continueFunc;

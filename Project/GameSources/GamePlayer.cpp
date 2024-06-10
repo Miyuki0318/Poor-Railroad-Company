@@ -19,6 +19,9 @@ namespace basecross
 		// 継承元の生成時の処理を実行
 		Player::OnCreate();
 
+		// 開始時の座標に移動
+		SetPosition(m_startPosition);
+
 		// プレイヤーに付加する機能の生成
 		CreatePlayerFeatures();
 
