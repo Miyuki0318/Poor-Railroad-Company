@@ -150,7 +150,7 @@ namespace basecross
 		// ‹x–°ó‘Ô‚Ì“¥Ø‚ª‚ ‚é‚È‚ç’u‚«Š·‚¦
 		for (auto& crossing : m_crossingMap)
 		{
-			if (!crossing.second.lock()->GetUpdateActive())
+			if (!crossing.second.lock()->GetDrawActive())
 			{
 				isSleepedBuff = true;
 				newCrossing = crossing.second.lock();
