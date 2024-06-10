@@ -80,14 +80,16 @@ namespace basecross
 		map<eStageID, wstring> m_walkSEKeyMap;
 
 		// 斜めのグリッドリスト
-		vector<pair<int, int>> m_obliqueGridArray;
+		const vector<pair<int, int>> m_obliqueGridArray;
+		
+		// モデルとトランスフォーム差分行列
+		const Mat4x4 m_modelMat;
 
 		// 歩くSEのポインタ
 		weak_ptr<SoundItem> m_walkSoundItem;
 
 		Vec3 m_rotTarget;	// 回転先
 		Vec3 m_currentRot;  // 前回の回転軸
-		Mat4x4 m_modelMat;	// モデルとトランスフォーム差分行列
 
 	public:
 
@@ -97,11 +99,23 @@ namespace basecross
 		*/
 		Player(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr, Vec3(0.0f, 2.0f, 0.0f), Vec3(0.0f), Vec3(1.0f)),
-			m_moveSpeed(5.0f), // 今後CSVから速度等のステータスを取得予定
-			m_rotSpeed(0.5f),  // 今後CSVから速度等のステータスを取得予定
+			m_moveSpeed(5.0f),
+			m_rotSpeed(0.5f),
 			m_radius(1.0f),
 			m_maxAcsel(1.0f),
-			m_maxMove(2.0f)
+			m_maxMove(2.0f),
+			m_obliqueGridArray{
+				make_pair(1, 1),	// 右前
+				make_pair(1, -1),	// 左前
+				make_pair(-1, 1),	// 右奥
+				make_pair(-1, -1)	// 左奥
+			},
+			m_modelMat((Mat4x4)XMMatrixAffineTransformation(
+				Vec3(0.5f),
+				Vec3(0.0f),
+				Vec3(0.0f, -XM_PIDIV2, 0.0f),
+				Vec3(0.0f, -1.05f, 0.0f)
+			))
 		{
 			m_acsel = 0.0f;
 			m_moveValue = 0.0f;
@@ -125,19 +139,21 @@ namespace basecross
 			m_walkSEKeyMap.emplace(eStageID::Sand, L"WALK_SAND_SE");	// 砂地の時のSE
 			m_walkSEKeyMap.emplace(eStageID::Rock, L"WALK_ROCK_SE");	// 石地の時のSE
 
-			// 隣接するグリッド
-			m_obliqueGridArray.push_back(make_pair(1, 1));		// 右前
-			m_obliqueGridArray.push_back(make_pair(1, -1));		// 左前
-			m_obliqueGridArray.push_back(make_pair(-1, 1));		// 右奥
-			m_obliqueGridArray.push_back(make_pair(-1, -1));	// 左奥
-
-			// スケールだけ、Y軸方向に2倍にする
-			m_modelMat.affineTransformation(
-				Vec3(0.5f),
-				Vec3(0.0f),
-				Vec3(0.0f, -XM_PIDIV2, 0.0f),
-				Vec3(0.0f, -1.05f, 0.0f)
-			);
+			// 移動不可なIDの登録
+			m_impassableSet.insert(eStageID::Rail);
+			m_impassableSet.insert(eStageID::DeRail);
+			m_impassableSet.insert(eStageID::GoalRail);
+			m_impassableSet.insert(eStageID::StartRail);
+			m_impassableSet.insert(eStageID::CrossingCross);
+			m_impassableSet.insert(eStageID::Tree1);
+			m_impassableSet.insert(eStageID::Tree2);
+			m_impassableSet.insert(eStageID::Stone1);
+			m_impassableSet.insert(eStageID::Stone2);
+			m_impassableSet.insert(eStageID::Stone3);
+			m_impassableSet.insert(eStageID::UnBreakRock);
+			m_impassableSet.insert(eStageID::Water);
+			m_impassableSet.insert(eStageID::Air);
+			m_impassableSet.insert(eStageID::UnGrass);
 		}
 
 		/*!

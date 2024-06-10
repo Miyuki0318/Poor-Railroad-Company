@@ -163,14 +163,10 @@ namespace basecross
 		eStageID id = STAGE_ID(stageID);
 		
 		// アイテムカウンタの追加とSEの再生
-		if (m_gCountMap.find(id) != m_gCountMap.end())
+		if (m_gatherMap.find(id) != m_gatherMap.end())
 		{
-			AddItemCount(m_gCountMap.at(id));
-		}
-
-		if (m_gSoundMap.find(id) != m_gSoundMap.end())
-		{
-			StartSE(m_gSoundMap.at(id) + L"_SE", 1.0f);
+			AddItemCount(m_gatherMap.at(id).first);
+			StartSE(m_gatherMap.at(id).second + L"_SE", 1.0f);
 		}
 
 		// 採掘状態にする

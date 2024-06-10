@@ -42,8 +42,7 @@ namespace basecross
 		weak_ptr<SelectIndicator> m_indicator; // セレクトインディケーター
 		unique_ptr<CraftManager> m_craft; // クラフトマネージャー
 
-		map<eStageID, eItemType> m_gCountMap; // 採取対象と取得アイテムタイプ
-		map<eStageID, wstring> m_gSoundMap; // 採取対象と取得アイテムタイプ
+		map<eStageID, pair<eItemType, wstring>> m_gatherMap; // 採取対象と取得アイテムタイプ
 		Bool16_t<ePlayerStatus> m_status; // フラグ管理クラス
 
 		// ステートマシン
@@ -75,36 +74,12 @@ namespace basecross
 		{
 			m_status = 0; // 状態フラグは0で初期化
 
-			// 採取オブジェクトのIDと採取時に加算するアイテムのタイプ
-			m_gCountMap.emplace(eStageID::Stone1, eItemType::Stone);
-			m_gCountMap.emplace(eStageID::Stone2, eItemType::Stone);
-			m_gCountMap.emplace(eStageID::Stone3, eItemType::Stone);
-			m_gCountMap.emplace(eStageID::Tree1, eItemType::Wood);
-			m_gCountMap.emplace(eStageID::Tree2, eItemType::Wood);
-
-			// 採取オブジェクトのIDと採取時の再生するSEのキー
-			m_gSoundMap.emplace(eStageID::Stone1, L"ROCK");
-			m_gSoundMap.emplace(eStageID::Stone2, L"ROCK");
-			m_gSoundMap.emplace(eStageID::Stone3, L"ROCK");
-			m_gSoundMap.emplace(eStageID::Tree1, L"TREE");
-			m_gSoundMap.emplace(eStageID::Tree2, L"TREE");
-
-			// 移動不可なIDの登録
-			m_impassableSet.insert(eStageID::Rail);
-			m_impassableSet.insert(eStageID::DeRail);
-			m_impassableSet.insert(eStageID::GoalRail);
-			m_impassableSet.insert(eStageID::StartRail);
-			m_impassableSet.insert(eStageID::CrossingCross);
-			m_impassableSet.insert(eStageID::Tree1);
-			m_impassableSet.insert(eStageID::Tree2);
-			m_impassableSet.insert(eStageID::Stone1);
-			m_impassableSet.insert(eStageID::Stone2);
-			m_impassableSet.insert(eStageID::Stone3);
-			m_impassableSet.insert(eStageID::UnBreakRock);
-			m_impassableSet.insert(eStageID::Water);
-
-			m_impassableSet.insert(eStageID::Air);
-			m_impassableSet.insert(eStageID::UnGrass);
+			// 採取オブジェクトのIDと採取時に扱うデータ
+			m_gatherMap.emplace(eStageID::Stone1, make_pair(eItemType::Stone, L"ROCK"));
+			m_gatherMap.emplace(eStageID::Stone2, make_pair(eItemType::Stone, L"ROCK"));
+			m_gatherMap.emplace(eStageID::Stone3, make_pair(eItemType::Stone, L"ROCK"));
+			m_gatherMap.emplace(eStageID::Tree1, make_pair(eItemType::Wood, L"TREE"));
+			m_gatherMap.emplace(eStageID::Tree2, make_pair(eItemType::Wood, L"TREE"));
 		}
 
 		/*!
