@@ -70,8 +70,6 @@ namespace basecross
 		m_playerState->SetState(PlayerIdleState::Instance());
 
 		// クラフトマネージャーにリセット処理を送る
-		m_craft->StopQTE();
-		m_craft->CraftingEnabled(false);
 		m_craft->ResetCraftManager();
 	}
 

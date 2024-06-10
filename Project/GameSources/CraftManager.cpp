@@ -110,4 +110,10 @@ namespace basecross
 
 		return succes;
 	}
+
+	// QTE‚Ì”jŠü
+	void CraftManager::DestroyCraftQTE()
+	{
+		m_craftQTE.lock()->StopQTE();
+	}
 }

@@ -121,6 +121,11 @@ namespace basecross
 		bool StopQTE();
 
 		/*!
+		@brief QTE強制停止関数
+		*/
+		void DestroyCraftQTE();
+
+		/*!
 		@brief ウィンドウ描画が完了したかの真偽取得関数
 		@return 描画完了してたらtrue、それ以外はfalse
 		*/
