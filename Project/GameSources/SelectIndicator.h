@@ -51,6 +51,30 @@ namespace basecross
 		void OnUpdate() override;
 
 		/*!
+		@brief セレクターの位置に採取可能オブジェクトあるか確認する関数
+		@return 存在するならtrue
+		*/
+		bool IsGatheringPoint() const;
+
+		/*!
+		@brief セレクターの位置にガイドレールあるか確認する関数
+		@return 存在するならtrue
+		*/
+		bool IsGuideRailPoint() const;
+
+		/*!
+		@brief セレクターの位置が水場かどうか確認する関数
+		@return 水場ならtrue
+		*/
+		bool IsWaterPoint() const;
+
+		/*!
+		@brief セレクターの位置に直線レールがあるか確認する関数
+		@return 存在するならtrue
+		*/
+		bool IsStraightRailPoint() const;
+
+		/*!
 		@brief セレクターの位置に採取可能オブジェクトあるなら採取処理を行う関数
 		@return 採取できていたらtrue
 		*/

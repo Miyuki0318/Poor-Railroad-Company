@@ -68,8 +68,7 @@ namespace basecross
 	// アイコンタイプの更新
 	void ActionGuide::UpdateIconType()
 	{
-		// バッファの初期化
-		m_iconBuffer.clear();
+		m_iconBuffer.clear(); // バッファの初期化
 
 		// プレイヤーとインディケーターが存在するか
 		const auto& player = m_player.lock();
@@ -79,25 +78,18 @@ namespace basecross
 		// クラフト可能ならクラフトアイコン
 		if (player->GetCraftPosshible()) m_iconBuffer.insert(make_pair(m_texMap.at(eActionIcon::Craft).layerIndex, eActionIcon::Craft));
 
-		// ステージcsvIDに応じて設定
-		const auto& stageMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetGuideMap();
-		const auto& selectPoint = indicator->GetSelectPoint();
-		if (!Utility::WithInElemRange(selectPoint.x, selectPoint.y, stageMap)) return;
+		// アクションできるポイントを選択してなければ無視
+		if (!IsActionSelectPoint(player, indicator)) return;
 
 		// IDに応じてアイコンタイプを設定
-		eStageID id = STAGE_ID(stageMap.at(selectPoint.x).at(selectPoint.y));
+		eStageID id = STAGE_ID(GetIntValueStageID(indicator));
 
-		// ガイドレールかの真偽と採掘オブジェクトかの真偽
-		bool isGuide = (id == eStageID::GuideRail && player->GetStatus(ePlayerStatus::IsHaveRail));
-		bool isMining = (id != eStageID::GuideRail);
-
+		// アイコンバッファに追加
 		for (const auto& type : m_iconMap)
 		{
 			if (id != type.first) continue;
 
-			// idとタイプが一致するなら
-			if (isGuide) m_iconBuffer.insert(make_pair(m_texMap.at(type.second).layerIndex, type.second));
-			if (isMining) m_iconBuffer.insert(make_pair(m_texMap.at(type.second).layerIndex, type.second));
+			m_iconBuffer.insert(make_pair(m_texMap.at(type.second).layerIndex, type.second));
 		}
 	}
 
@@ -106,7 +98,65 @@ namespace basecross
 	{
 		// 優先度インデックス配列の設定
 		vector<int> indices;
-		size_t buffSize = m_iconBuffer.size();
+		SortedIndicesBuffer(indices);
+		if (indices.empty()) return;
+
+		// 表示数に応じてアイコンの設定方法を変更
+		SetIndicesIconTexture(indices);
+	}
+
+	// アイコン描画更新
+	void ActionGuide::UpdateIconDraw()
+	{
+		// スプライト配列を全ループ
+		for (auto& sprite : m_spriteMap)
+		{
+			// 描画するかの真偽設定
+			sprite.sprite.lock()->SetDrawActive(sprite.active && !m_player.lock()->GetStatus(ePlayerStatus::IsCrafting));
+
+			// 非アクティブなら無視
+			if (!sprite.active) continue;
+
+			//複数なら
+			if (m_iconBuffer.size() > 1)
+			{
+				Vec3 diss = (sprite.pivot != eIconPivot::Left) ? Vec3(m_distanceX, 0.0f, 0.0f) : Vec3(-m_distanceX, 0.0f, 0.0f);
+				sprite.sprite.lock()->SetPosition(m_position - diss + m_typePos.at(sprite.type));
+			}
+			else // 1つなら
+			{
+				sprite.sprite.lock()->SetPosition(m_position + m_typePos.at(sprite.type));
+			}
+		}
+	}
+
+	// アクションできるポイントを選択しているか
+	bool ActionGuide::IsActionSelectPoint(const shared_ptr<GamePlayer>& player, const shared_ptr<SelectIndicator>& indicator)
+	{
+		// 真偽
+		bool isGuide = (indicator->IsGuideRailPoint() && player->GetItemCount(eItemType::Rail));
+		bool isBridge = (indicator->IsWaterPoint() && player->GetItemCount(eItemType::WoodBridge));
+		bool isCross = (indicator->IsStraightRailPoint() && player->GetItemCount(eItemType::Crossing));
+		bool isGathering = indicator->IsGatheringPoint();
+
+		// どれか1つでも選択しているなら
+		return (isGuide || isBridge || isCross || isGathering);
+	}
+
+	// ステージIDを取得
+	int ActionGuide::GetIntValueStageID(const shared_ptr<SelectIndicator>& indicator)
+	{
+		// ステージcsvIDに応じて設定
+		const auto& stageMap = GetStage()->GetSharedGameObject<RailManager>(L"RailManager")->GetGuideMap();
+		const auto& selectPoint = indicator->GetSelectPoint();
+		if (!Utility::WithInElemRange(selectPoint.x, selectPoint.y, stageMap)) return 0;
+
+		return stageMap.at(selectPoint.x).at(selectPoint.y);
+	}
+
+	// インデックスのソート
+	void ActionGuide::SortedIndicesBuffer(vector<int>& indices)
+	{
 		for (const auto& buff : m_iconBuffer)
 		{
 			// アクションアイコンと一致したら追加
@@ -118,10 +168,15 @@ namespace basecross
 
 		// レイヤーのソート
 		sort(indices.begin(), indices.end());
-		if (indices.empty()) return;
+	}
 
-		// 表示数に応じてアイコンの設定方法を変更
-		int loopNum = 0;
+	// 表示数に応じてアイコンの設定方法を変更
+	void ActionGuide::SetIndicesIconTexture(vector<int>& indices)
+	{
+		int loopNum = 0; // ループ数
+		size_t buffSize = m_iconBuffer.size(); // バッファサイズ
+
+		// スプライト配列を全ループ
 		for (auto& sprite : m_spriteMap)
 		{
 			bool isCenterPivot = (sprite.pivot == eIconPivot::Center); // センターかどうか
@@ -130,41 +185,16 @@ namespace basecross
 			// 表示数が１ならセンターに、複数ならセンター以外に
 			if ((buffSize == 1 && isCenterPivot) || (buffSize > 1 && !isCenterPivot))
 			{
-				if (isNotBalloon)
-				{
-					auto textureIter = (buffSize == 1) ? m_iconBuffer.begin()->second : std::next(m_iconBuffer.begin(), loopNum)->second;
-					sprite.sprite.lock()->SetTexture(m_texMap.at(textureIter).textureStr);
-					loopNum++;
-				}
-				sprite.active = true;
+				sprite.active = true; // アクティブに
+
+				// 吹き出しならこれ以降は無視
+				if (!isNotBalloon) continue;
+				
+				// バッファが1つなら先頭の、複数ならループ数分先頭から進んだイテレータを取得し設定
+				auto textureIter = (buffSize == 1) ? m_iconBuffer.begin()->second : next(m_iconBuffer.begin(), loopNum)->second;
+				sprite.sprite.lock()->SetTexture(m_texMap.at(textureIter).textureStr);
+				loopNum++;
 			}
-		}
-	}
-
-	// アイコン描画更新
-	void ActionGuide::UpdateIconDraw()
-	{
-		bool isCrafting = m_player.lock()->GetStatus(ePlayerStatus::IsCrafting);
-
-		for (auto& sprite : m_spriteMap)
-		{
-			// アクティブなら
-			if (sprite.active)
-			{
-				//複数なら
-				if (m_iconBuffer.size() > 1)
-				{
-					Vec3 diss = (sprite.pivot != eIconPivot::Left) ? Vec3(m_distanceX, 0.0f, 0.0f) : Vec3(-m_distanceX, 0.0f, 0.0f);
-					sprite.sprite.lock()->SetPosition(m_position - diss + m_typePos.at(sprite.type));
-				}
-				else // 1つなら
-				{
-					sprite.sprite.lock()->SetPosition(m_position + m_typePos.at(sprite.type));
-				}
-			}
-
-			// 描画真偽設定
-			sprite.sprite.lock()->SetDrawActive(sprite.active && !isCrafting);
 		}
 	}
 }

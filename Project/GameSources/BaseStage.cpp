@@ -40,6 +40,8 @@ namespace basecross
 		AddTextureResource(L"I_PICK_TX", texturePath + L"PickIcon.png");
 		AddTextureResource(L"I_RAIL_TX", texturePath + L"RailIcon.png");
 		AddTextureResource(L"I_CRAFT_TX", texturePath + L"CraftIcon.png");
+		AddTextureResource(L"I_BRIDGE_TX", texturePath + L"BridgeIcon.png");
+		AddTextureResource(L"I_CROSSING_TX", texturePath + L"CrossingIcon.png");
 		AddTextureResource(L"I_BALOON_CENTER_TX", texturePath + L"BalloonCenter.png");
 		AddTextureResource(L"I_BALOON_RIGHT_TX", texturePath + L"BalloonRight.png");
 		AddTextureResource(L"I_BALOON_LEFT_TX", texturePath + L"BalloonLeft.png");

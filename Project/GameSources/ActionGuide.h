@@ -13,11 +13,13 @@ namespace basecross
 	// アイコンタイプenum
 	enum class eActionIcon : size_t
 	{
-		None,	// 何も無し
-		Pick,	// ツルハシ
-		Axe,	// アックス
-		Craft,	// クラフト
-		Rail,	// レール
+		None,		// 何も無し
+		Pick,		// ツルハシ
+		Axe,		// アックス
+		Craft,		// クラフト
+		Rail,		// レール
+		Bridge,		// 木の足場
+		Crossing,	// 踏切
 	};
 
 	// アイコン位置タイプenum
@@ -113,9 +115,13 @@ namespace basecross
 			m_iconMap.emplace(eStageID::Tree1, eActionIcon::Axe);
 			m_iconMap.emplace(eStageID::Tree2, eActionIcon::Axe);
 			m_iconMap.emplace(eStageID::GuideRail, eActionIcon::Rail);
+			m_iconMap.emplace(eStageID::Rail, eActionIcon::Crossing);
+			m_iconMap.emplace(eStageID::Water, eActionIcon::Bridge);
 
 			// アイコンに応じたテクスチャと優先度テーブル
 			m_texMap.emplace(eActionIcon::Rail, TextureType(L"I_RAIL_TX", 1));
+			m_texMap.emplace(eActionIcon::Bridge, TextureType(L"I_BRIDGE_TX", 1));
+			m_texMap.emplace(eActionIcon::Crossing, TextureType(L"I_CROSSING_TX", 1));
 			m_texMap.emplace(eActionIcon::Axe, TextureType(L"I_AXE_TX", 2));
 			m_texMap.emplace(eActionIcon::Pick, TextureType(L"I_PICK_TX", 2));
 			m_texMap.emplace(eActionIcon::Craft, TextureType(L"I_CRAFT_TX", 3));
@@ -186,5 +192,32 @@ namespace basecross
 		@brief アイコン描画の更新処理関数
 		*/
 		void UpdateIconDraw();
+
+		/*!
+		@brief アクション可能ポイントを選択しているか取得する関数
+		@param プレイヤーのシェアドポインタ
+		@param インディケーターのシェアドポインタ
+		@return bool 何か1つでもアクションできるならtrue
+		*/
+		bool IsActionSelectPoint(const shared_ptr<GamePlayer>& player, const shared_ptr<SelectIndicator>& indicator);
+
+		/*!
+		@brief インディケーターの選択しているステージIDを取得する関数
+		@param インディケーターのシェアドポインタ
+		@return int型でのステージID
+		*/
+		int GetIntValueStageID(const shared_ptr<SelectIndicator>& indicator);
+
+		/*!
+		@brief 優先度をインデックスをソートする関数
+		@param インデックス配列
+		*/
+		void SortedIndicesBuffer(vector<int>& indices);
+
+		/*!
+		@brief 優先度インデックスを用いてスプライトの設定を行う関数
+		@param インデックス配列
+		*/
+		void SetIndicesIconTexture(vector<int>& indices);
 	};
 }

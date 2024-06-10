@@ -83,7 +83,7 @@ namespace basecross
 		const vector<pair<int, int>> m_obliqueGridArray;
 		
 		// モデルとトランスフォーム差分行列
-		const Mat4x4 m_modelMat;
+		Mat4x4 m_modelMat;
 
 		// 歩くSEのポインタ
 		weak_ptr<SoundItem> m_walkSoundItem;
@@ -109,18 +109,20 @@ namespace basecross
 				make_pair(1, -1),	// 左前
 				make_pair(-1, 1),	// 右奥
 				make_pair(-1, -1)	// 左奥
-			},
-			m_modelMat((Mat4x4)XMMatrixAffineTransformation(
-				Vec3(0.5f),
-				Vec3(0.0f),
-				Vec3(0.0f, -XM_PIDIV2, 0.0f),
-				Vec3(0.0f, -1.05f, 0.0f)
-			))
+			}
 		{
 			m_acsel = 0.0f;
 			m_moveValue = 0.0f;
 			m_rotTarget.zero(); // 回転先は0.0fで初期化
 			m_currentRot.zero(); // 回転先は0.0fで初期化
+
+			// モデルとトランスフォームの差分行列を設定
+			m_modelMat.affineTransformation(
+				Vec3(0.5f),						// スケール
+				Vec3(0.0f),						// 回転軸
+				Vec3(0.0f, -XM_PIDIV2, 0.0f),	// ローテーション
+				Vec3(0.0f, -1.05f, 0.0f)		// ポジション
+			);
 
 			// アニメーションキー
 			m_animationMap.emplace(ePAKey::Waiting, AnimationMap(L"WAIT", 24, 0.75f, true));	// 待機

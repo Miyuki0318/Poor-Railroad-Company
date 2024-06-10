@@ -129,10 +129,50 @@ namespace basecross
 		position = pos + cursol;
 	}
 
+	// 採取オブジェクトを選択しているか
+	bool SelectIndicator::IsGatheringPoint() const
+	{
+		// 採取オブジェクトマネージャーの取得
+		const auto& gatheringManager = GetStage()->GetSharedGameObject<GatheringManager>(L"GatheringManager", false);
+		if (!gatheringManager) return false;
+
+		return gatheringManager->GetIsGatheringPoint(m_selectPoint);
+	}
+
+	// ガイドレールを選択しているか
+	bool SelectIndicator::IsGuideRailPoint() const
+	{
+		// レールマネージャーの取得
+		const auto& railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager", false);
+		if (!railManager) return false;
+
+		return railManager->GetIsGuidePoint(m_selectPoint);
+	}
+
+	// 水場を選択しているか
+	bool SelectIndicator::IsWaterPoint() const
+	{
+		// 木の足場マネージャーを取得
+		const auto& bridgeManager = GetStage()->GetSharedGameObject<BridgeManager>(L"BridgeManager", false);
+		if (!bridgeManager) return false;
+
+		return bridgeManager->GetIsWaterPoint(m_selectPoint);
+	}
+
+	// 直線レールを選択しているか
+	bool SelectIndicator::IsStraightRailPoint() const
+	{
+		// 選択ポイントが踏切を設置できるレールの位置と一致しているか
+		const auto& crossingManager = GetStage()->GetSharedGameObject<CrossingManager>(L"CrossingManager", false);
+		if (!crossingManager) return false;
+
+		return crossingManager->GetIsRailPoint(m_selectPoint);
+	}
+
 	// 採取命令
 	int SelectIndicator::GatheringOrder() const
 	{
-		// レールマネージャーの取得
+		// 採取オブジェクトマネージャーの取得
 		const auto& gatheringManager = GetStage()->GetSharedGameObject<GatheringManager>(L"GatheringManager", false);
 		if (!gatheringManager) return 0;
 
