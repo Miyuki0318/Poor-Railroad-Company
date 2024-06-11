@@ -324,6 +324,7 @@ namespace basecross
 	{
 		try
 		{
+			BaseStage::OnDestroy();
 			ReleasedResourses();
 		}
 		catch (...)
