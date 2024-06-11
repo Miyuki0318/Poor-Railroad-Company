@@ -14,11 +14,14 @@ namespace basecross {
 		TemplateObject::OnCreate();
 
 		// ƒ^ƒCƒgƒ‹ƒƒS¶¬
-		m_sprite = GetStage()->AddGameObject<Sprite>(L"TITLE_LOGO", Vec2(500.0f));
+		m_titleLogo = GetTypeStage<TitleStage>()->AddGameObject<Sprite>(L"TITLE_LOGO", Vec2(500.0f));
+		m_pushLogo = GetTypeStage<TitleStage>()->AddGameObject<Sprite>(L"START_TX", Vec2(300.0f, 150.0f));
 
-		m_sprite->SetPosition(Vec3(0.0f, -m_startPosY, 0.0f));
+		m_titleLogo->SetPosition(Vec3(0.0f, -m_startPosY, 0.0f));
+		m_pushLogo->SetPosition(Vec3(0.0f, -m_startPosY + (-m_titleLogo->GetScale().y), 0.0f));
 
-		m_position = m_sprite->GetPosition();
+		m_titlePos = m_titleLogo->GetPosition();
+		m_pushPos = m_pushLogo->GetPosition();
 	}
 
 	void TitleLogo::OnUpdate()
@@ -33,7 +36,7 @@ namespace basecross {
 			PushButton();
 			break;
 
-		case eLogoState::fade:
+		case eLogoState::exit:
 			FadeTitleLogo();
 			break;
 
@@ -43,11 +46,18 @@ namespace basecross {
 		default:
 			break;
 		}
+
+		if (m_logoState != eLogoState::move)
+		{
+			SpriteBrink();
+		}
+
+		Debug::Log(m_brinkTime);
 	}
 	
 	void TitleLogo::MoveTitleLogo()
 	{
-		if (m_maxPosY <= m_position.y)
+		if (m_maxPosY <= m_titlePos.y)
 		{
 			m_deltaTime = 0.0f;
 			m_logoState = eLogoState::push;
@@ -56,27 +66,72 @@ namespace basecross {
 		}
 
 		const auto& app = App::GetApp();
-
 		m_deltaTime += app->GetElapsedTime();
 
-		m_position.y += m_deltaTime * m_speed;
+		m_vel = m_deltaTime * m_speed;
 
-		m_sprite->SetPosition(m_position);
+		m_titlePos.y += m_vel;
+		m_pushPos.y += m_vel;
+
+		m_titleLogo->SetPosition(m_titlePos);
+		m_pushLogo->SetPosition(m_pushPos);
 	}
 
 	void TitleLogo::FadeTitleLogo()
 	{
-		if (m_sprite->FadeOutColor(m_fadeTime))
+		if (m_pushPos.y <= -m_startPosY)
 		{
+			m_deltaTime = 0.0f;
 			m_logoState = eLogoState::idel;
+			return;
 		}
+
+		const auto& app = App::GetApp();
+		m_deltaTime += app->GetElapsedTime();
+
+		m_vel = m_deltaTime * m_speed;
+
+		m_titlePos.y += m_vel;
+		m_pushPos.y -= m_vel;
+
+		m_titleLogo->SetPosition(m_titlePos);
+		m_pushLogo->SetPosition(m_pushPos);
 	}
 
 	void TitleLogo::PushButton()
 	{
 		if (Input::GetPush())
 		{
-			m_logoState = eLogoState::fade;
+			m_logoState = eLogoState::exit;
+			m_brinkTime = 25.0f;
 		}
+	}
+
+	void TitleLogo::SpriteBrink()
+	{
+		const auto& app = App::GetApp();
+
+		m_color = m_pushLogo->GetDiffuseColor();
+
+		if (m_brinkingFlag)
+		{
+			m_color.w -= app->GetElapsedTime() * m_brinkTime;
+
+			if (m_color.w <= 0.0f)
+			{
+				m_brinkingFlag = false;
+			}
+		}
+		else
+		{
+			m_color.w += app->GetElapsedTime() * m_brinkTime;
+
+			if (m_color.w >= 1.0f)
+			{
+				m_brinkingFlag = true;
+			}
+		}
+
+		m_pushLogo->SetDiffuseColor(m_color);
 	}
 }

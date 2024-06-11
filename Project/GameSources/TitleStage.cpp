@@ -45,6 +45,9 @@ namespace basecross
 		// タイトルロゴ
 		AddTextureResource(L"TITLE_LOGO", texturePath + L"TitleLogo.png");
 
+		// 開発開始のテクスチャ
+		AddTextureResource(L"START_TX", texturePath + L"PleaseButton.png");
+
 		// ボードのテクスチャ
 		AddTextureResource(L"BOARD_TX", modelPath + L"RouteMapTexture.tga");
 
