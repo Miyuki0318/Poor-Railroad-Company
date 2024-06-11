@@ -8,16 +8,11 @@
 #include "TemplateObject.h"
 
 namespace basecross {
-	enum eOpeningState
-	{
-		move, // 移動
-		fade, // フェード
-		idel, // 待機
-	};
-
 	class TitleLogo : public TemplateObject
 	{
 	private:
+		const float m_fadeTime = 3.0f;
+
 		// 移動速度
 		const float m_speed = 3.0f;
 		
@@ -30,19 +25,19 @@ namespace basecross {
 		// デルタタイム
 		float m_deltaTime;
 
-		eOpeningState m_openState;
-
 		shared_ptr<Sprite> m_sprite;
 
 		// 現在の位置
 		Vec3 m_position;
+
+		bool m_fade;
 
 	public:
 		TitleLogo(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr)
 		{
 			m_deltaTime = 0.0f;
-			m_openState = eOpeningState::move;
+			m_fade = false;
 		}
 
 		/*!
@@ -55,18 +50,12 @@ namespace basecross {
 		*/
 		virtual void OnUpdate() override;
 
-		/*!
-		@brief オープニングの状態を管理する関数
-		*/
-		void OpenStateBase(eOpeningState state);
-
 		// 移動処理の関数
-		void OpenStateMove();
+		void MoveTitleLogo();
 
 		// フェード処理の関数
-		void OpenStateFade();
+		void FadeTitleLogo();
 
-		// 待機状態の関数
-		void OpenStateIdel();
+		void PushButton();
 	};
 }

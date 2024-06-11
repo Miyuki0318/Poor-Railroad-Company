@@ -23,36 +23,22 @@ namespace basecross {
 
 	void TitleLogo::OnUpdate()
 	{
-		OpenStateBase(m_openState);
-	}
-
-	void TitleLogo::OpenStateBase(eOpeningState state)
-	{
-		switch (m_openState)
+		if (!m_fade)
 		{
-		case basecross::move:
-			OpenStateMove();
-			break;
-
-		case basecross::fade:
-			OpenStateFade();
-			break;
-
-		case basecross::idel:
-			OpenStateIdel();
-			break;
-
-		default:
-			break;
+			MoveTitleLogo();
+		}
+		else
+		{
+			FadeTitleLogo();
 		}
 	}
-
-	void TitleLogo::OpenStateMove()
+	
+	void TitleLogo::MoveTitleLogo()
 	{
 		if (m_maxPosY <= m_position.y)
 		{
-			m_openState = eOpeningState::fade;
 			m_deltaTime = 0.0f;
+			PushButton();
 			return;
 		}
 
@@ -65,17 +51,16 @@ namespace basecross {
 		m_sprite->SetPosition(m_position);
 	}
 
-	void TitleLogo::OpenStateFade()
+	void TitleLogo::FadeTitleLogo()
 	{
-		if (m_sprite->FadeOutColor(3.0f))
-		{
-			m_openState = eOpeningState::idel;
-			return;
-		}
+		m_sprite->FadeOutColor(m_fadeTime);
 	}
 
-	void TitleLogo::OpenStateIdel()
+	void TitleLogo::PushButton()
 	{
-
+		if (Input::GetPush())
+		{
+			m_fade = true;
+		}
 	}
 }
