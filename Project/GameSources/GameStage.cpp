@@ -24,6 +24,9 @@ namespace basecross
 		// ゲーム結果テクスチャ
 		AddTextureResource(L"GAMECLEAR_TX", texturePath + L"Win.png");
 		AddTextureResource(L"GAMEOVER_TX", texturePath + L"Lose.png");
+		AddTextureResource(L"CONTINUE_TX", texturePath + L"Continue.png");
+		AddTextureResource(L"STAGESELECT_TX", texturePath + L"StageSelect.png");
+		AddTextureResource(L"TITLEBACK_TX", texturePath + L"TitleBack.png");
 
 		// 地面の仮テクスチャ
 		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
@@ -175,7 +178,18 @@ namespace basecross
 	// スプライトの生成
 	void GameStage::CreateSpriteObject()
 	{
-		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f), Vec3(0.0f));
+		m_fadeSprite->SetPosition(m_fadeSprite->GetPosition() + Vec3(0.0f, 0.0f, 0.1f));
+		m_fadeSprite->SetDiffuseColor(COL_WHITE);
+		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f), Vec3(0.0f, 200.0f, 0.0f));
+
+		m_ctSprite = AddGameObject<Sprite>(L"CONTINUE_TX",	m_defScale, Vec3(-300.0f, -200.0f, 0.0f));
+		m_tbSprite = AddGameObject<Sprite>(L"TITLEBACK_TX", m_defScale, Vec3(300.0f, -200.0f, 0.0f));
+
+		m_selectMap.emplace(eContinueSelect::Continue, m_ctSprite);
+		m_selectMap.emplace(eContinueSelect::TitleBack, m_tbSprite);
+
+		m_ctSprite->SetDiffuseColor(COL_ALPHA);
+		m_tbSprite->SetDiffuseColor(COL_ALPHA);
 	}
 
 	// UIの生成
@@ -183,7 +197,7 @@ namespace basecross
 	{
 		// パラメータ
 		const float scale = 60.0f;
-		const Vec3 startPos = Vec3(-910.0f, 500.0f, 0.1f);
+		const Vec3 startPos = Vec3(-910.0f, 500.0f, 0.2f);
 		const Vec3 distance = Vec3(0.0f, -scale * 1.75f, 0.0f);
 
 		// アイテム数UI
@@ -214,6 +228,17 @@ namespace basecross
 			m_gameSprite->SetTexture(L"GAMEOVER_TX");
 			m_gameSprite->SetDrawActive(true);
 			break;
+
+		default:
+			break;
+		}
+	}
+
+	void GameStage::ToFadeInState()
+	{
+		if (m_fadeSprite->FadeOutColor(2.0f))
+		{
+			m_gameProgress = eGameProgress::Playing;
 		}
 	}
 
@@ -249,8 +274,10 @@ namespace basecross
 			if (m_continueFunc.find(m_continueState) == m_continueFunc.end()) return;
 			m_continueFunc.at(m_continueState)();
 		}
-
-		m_countTime += DELTA_TIME;
+		else
+		{
+			m_countTime += DELTA_TIME;
+		}
 	}
 
 	// コンティニュー時のフェードイン処理
@@ -258,12 +285,63 @@ namespace basecross
 	{
 		if (m_fadeSprite->FadeInColor(2.0f))
 		{
-			m_continueState = eContinueState::Reset;
+			m_continueState = eContinueState::SelectFade;
 		}
 	}
 
+	void GameStage::ContinueSelectFadeState()
+	{
+		m_tbSprite->FadeInColor(0.5f);
+		if (m_ctSprite->FadeInColor(0.5f))
+		{
+			m_continueState = eContinueState::Selecting;
+		}
+	}
+
+	void GameStage::ContinueSelectingState()
+	{
+		float stickVal = Input::GetLStickValue().x;
+		
+		m_totalTime += DELTA_TIME * 2.0f;
+		if (m_totalTime >= XM_2PI) m_totalTime = 0.0f;
+
+		if (stickVal && !m_pastStickVal)
+		{
+			m_totalTime = 0.0f;
+			m_pastState = m_currentState;
+			switch (m_currentState)
+			{
+			case eContinueSelect::Continue:
+				m_currentState = eContinueSelect::TitleBack;
+				break;
+
+			case eContinueSelect::TitleBack:
+				m_currentState = eContinueSelect::Continue;
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		m_pastStickVal = stickVal;
+		float scale = Utility::SinCurve(m_totalTime, 1.0f, 1.25f);
+		m_selectMap.at(m_pastState).lock()->SetScale(m_defScale);
+		m_selectMap.at(m_currentState).lock()->SetScale(m_defScale * scale);
+
+		if (Input::GetPushB()) m_continueState = eContinueState::SelectState;
+	}
+
+	// コンティニュー時の選択肢を呼び出す
+	void GameStage::ContinueSelectState()
+	{
+		if (m_selectFunc.find(m_currentState) == m_selectFunc.end()) return;
+
+		m_selectFunc.at(m_currentState)();
+	}
+
 	// コンティニュー時のリセット処理
-	void GameStage::ContinueResetState()
+	void GameStage::ResetState()
 	{
 		// CSVでステージを生成
 		CreateStageCSV(m_stagePath);
@@ -294,9 +372,25 @@ namespace basecross
 		m_gameProgress = eGameProgress::ContinueFade;
 	}
 
+	// タイトルに戻る
+	void GameStage::TitleBackState()
+	{
+		// スプライトをフェードアウト
+		m_tbSprite->FadeOutColor(1.0f);
+		m_ctSprite->FadeOutColor(1.0f);
+		if (m_gameSprite->FadeOutColor(2.5f))
+		{
+			// タイトルステージに遷移
+			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"TitleStage");
+		}
+	}
+
 	// コンティニュー時のフェードアウト
 	void GameStage::ContinueFadeOutState()
 	{
+		m_tbSprite->FadeOutColor(0.5f);
+		m_ctSprite->FadeOutColor(0.5f);
+
 		if (m_fadeSprite->FadeOutColor(2.0f))
 		{
 			m_gameProgress = eGameProgress::Playing;
