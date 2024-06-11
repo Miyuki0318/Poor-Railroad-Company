@@ -68,7 +68,7 @@ namespace basecross
 	// オープニング画面の生成
 	void TitleStage::CreateOpningScreen()
 	{
-		//auto& opning = AddGameObject<TitleLogo>();
+		auto& opning = AddGameObject<TitleLogo>();
 	}
 
 	// 地面の生成
