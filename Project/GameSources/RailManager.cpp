@@ -130,6 +130,7 @@ namespace basecross
 		// ステージとCSVの取得
 		const auto& stagePtr = GetTypeStage<BaseStage>();
 		const auto& stageMap = stagePtr->GetStageMap();
+		m_guideMap = stageMap;
 
 		// 初期化
 		m_railDataMap.clear();

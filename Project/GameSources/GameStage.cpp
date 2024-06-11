@@ -214,7 +214,8 @@ namespace basecross
 	{
 		switch (m_gameProgress)
 		{
-		case Playing :
+		case FadeIn:
+		case Playing:
 		case ContinueFade:
 			m_gameSprite->SetDrawActive(false);
 			break;
