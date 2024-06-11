@@ -14,10 +14,10 @@ namespace basecross {
 		const float m_fadeTime = 3.0f;
 
 		// ˆÚ“®‘¬“x
-		const float m_speed = 3.0f;
+		const float m_speed = 10.0f;
 		
 		// Å‰‚ÌYÀ•W
-		const float m_startPosY = 1000.0f;
+		const float m_startPosY = 900.0f;
 
 		// Y²‚ÌˆÚ“®§ŒÀ
 		const float m_maxPosY = 250.0f;
