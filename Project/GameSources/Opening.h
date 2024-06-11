@@ -8,6 +8,14 @@
 #include "TemplateObject.h"
 
 namespace basecross {
+	enum class eLogoState
+	{
+		move,
+		push,
+		fade,
+		idel
+	};
+
 	class TitleLogo : public TemplateObject
 	{
 	private:
@@ -25,6 +33,8 @@ namespace basecross {
 		// デルタタイム
 		float m_deltaTime;
 
+		eLogoState m_logoState;
+
 		shared_ptr<Sprite> m_sprite;
 
 		// 現在の位置
@@ -37,6 +47,7 @@ namespace basecross {
 			TemplateObject(stagePtr)
 		{
 			m_deltaTime = 0.0f;
+			m_logoState = eLogoState::move;
 			m_fade = false;
 		}
 
@@ -56,6 +67,8 @@ namespace basecross {
 		// フェード処理の関数
 		void FadeTitleLogo();
 
+		// ボタンを押した時の処理
 		void PushButton();
+
 	};
 }

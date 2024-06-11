@@ -61,8 +61,15 @@ namespace basecross
 		// 地面のテクスチャ
 		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
 
+		AddAudioResource(L"TITLE_BGM", soundPath + L"Title");
+
 		AddedTextureResources();
 		AddedAudioResources();
+	}
+
+	void TitleStage::StartBGM()
+	{
+		m_soundManager->StartBGM(L"TITLE_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);
 	}
 
 	// オープニング画面の生成

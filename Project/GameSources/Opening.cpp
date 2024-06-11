@@ -23,13 +23,25 @@ namespace basecross {
 
 	void TitleLogo::OnUpdate()
 	{
-		if (!m_fade)
+		switch (m_logoState)
 		{
+		case eLogoState::move:
 			MoveTitleLogo();
-		}
-		else
-		{
+			break;
+
+		case eLogoState::push:
+			PushButton();
+			break;
+
+		case eLogoState::fade:
 			FadeTitleLogo();
+			break;
+
+		case eLogoState::idel:
+			break;
+
+		default:
+			break;
 		}
 	}
 	
@@ -38,7 +50,8 @@ namespace basecross {
 		if (m_maxPosY <= m_position.y)
 		{
 			m_deltaTime = 0.0f;
-			PushButton();
+			m_logoState = eLogoState::push;
+			GetTypeStage<TitleStage>()->StartBGM();
 			return;
 		}
 
@@ -53,14 +66,17 @@ namespace basecross {
 
 	void TitleLogo::FadeTitleLogo()
 	{
-		m_sprite->FadeOutColor(m_fadeTime);
+		if (m_sprite->FadeOutColor(m_fadeTime))
+		{
+			m_logoState = eLogoState::idel;
+		}
 	}
 
 	void TitleLogo::PushButton()
 	{
 		if (Input::GetPush())
 		{
-			m_fade = true;
+			m_logoState = eLogoState::fade;
 		}
 	}
 }

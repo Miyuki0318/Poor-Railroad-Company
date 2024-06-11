@@ -164,6 +164,8 @@ namespace basecross
 		*/
 		virtual void OnUpdate() override;
 
+		void StartBGM();
+
 		/*
 		@brief オブジェクト選択時にtrueを返す関数
 		*/
