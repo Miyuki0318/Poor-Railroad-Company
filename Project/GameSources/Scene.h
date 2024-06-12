@@ -10,9 +10,11 @@ namespace basecross{
 	// マップの難易度
 	enum class eMapLevel
 	{
-		easyMap,
-		normalMap,
-		hardMap
+		FirstMap,
+		SecondMap,
+		ThirdMap,
+		FourthMap,
+		FifthMap
 	};
 
 	//--------------------------------------------------------------------------------------
@@ -20,7 +22,7 @@ namespace basecross{
 	//--------------------------------------------------------------------------------------
 	class Scene : public SceneBase{
 	private:
-		eMapLevel m_mapLevel = eMapLevel::easyMap;
+		eMapLevel m_mapLevel = eMapLevel::FirstMap;
 		map<eMapLevel, string> m_stagePathMap;
 	public:
 		const wstring m_objTagName = L"SELECT";
@@ -31,9 +33,11 @@ namespace basecross{
 		//--------------------------------------------------------------------------------------
 		Scene() :SceneBase()
 		{
-			m_stagePathMap.emplace(eMapLevel::easyMap, "First");
-			m_stagePathMap.emplace(eMapLevel::normalMap, "Second");
-			m_stagePathMap.emplace(eMapLevel::hardMap, "Third");
+			m_stagePathMap.emplace(eMapLevel::FirstMap, "First");
+			m_stagePathMap.emplace(eMapLevel::SecondMap, "Second");
+			m_stagePathMap.emplace(eMapLevel::ThirdMap, "Third");
+			m_stagePathMap.emplace(eMapLevel::FourthMap, "Fourth");
+			m_stagePathMap.emplace(eMapLevel::FifthMap, "Fifth");
 		}
 		//--------------------------------------------------------------------------------------
 		/*!
