@@ -13,9 +13,6 @@ namespace basecross {
 		// モデルのテクスチャキー
 		map<eMapLevel, wstring> m_modelTextures;
 		
-		// スプライトのテクスチャキー
-		map<eMapLevel, wstring> m_mapTextures;
-
 		// タグ名取得
 		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
 
@@ -33,7 +30,6 @@ namespace basecross {
 
 		Mat4x4 m_spanMat;
 
-		shared_ptr<Sprite> m_mapSprite;
 		eMapLevel m_mapLevel;
 
 	public:
@@ -53,10 +49,6 @@ namespace basecross {
 			m_modelTextures.emplace(eMapLevel::easyMap, L"EASY_TX");
 			m_modelTextures.emplace(eMapLevel::normalMap, L"NORMAL_TX");
 			m_modelTextures.emplace(eMapLevel::hardMap, L"HARD_TX");
-
-			m_mapTextures.emplace(eMapLevel::easyMap, L"EASYMAP_TX");
-			m_mapTextures.emplace(eMapLevel::normalMap, L"NORMALMAP_TX");
-			m_mapTextures.emplace(eMapLevel::hardMap, L"HARDMAP_TX");
 		}
 
 		virtual void OnCreate() override;
