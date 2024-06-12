@@ -44,6 +44,8 @@ namespace basecross
 	*/
 	class GameStage : public BaseStage
 	{
+		weak_ptr<SoundItem> m_bgmItem; // BGMのサウンドアイテム
+
 		// ゲームクリア・ゲームオーバーのスプライト
 		shared_ptr<Sprite> m_gameSprite;
 
