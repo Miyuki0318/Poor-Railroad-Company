@@ -29,8 +29,8 @@ namespace basecross
 		const Vec3 m_groundScale = Vec3(+50.0f, +2.0f, +50.0f);
 
 		// カメラの位置・視点
-		const Vec3 m_cameraEye = Vec3(25.0f, 20.0f, -47.0f);
-		const Vec3 m_cameraAt = Vec3(25.0f, 2.0f, -25.0f);
+		const Vec3 m_cameraEye = Vec3(17.5f, 20.0f, -39.5f);
+		const Vec3 m_cameraAt = Vec3(17.5f, 2.0f, -17.5f);
 
 		// 列車の開始位置
 		const Vec3 m_trainPos = Vec3(35.0f,1.0f,-29.0f);
