@@ -37,6 +37,7 @@ namespace basecross {
 
 		const Vec3 m_DefaultPosition;
 		const Vec3 m_DefaultScale;
+		const float m_defSpeed;
 		float m_moveSpeed;
 
 		pair<Vec3, Vec3> m_movePos;
@@ -57,11 +58,12 @@ namespace basecross {
 			TemplateObject(stagePtr),
 			m_DefaultPosition(Vec3(3.0f, 1.0f, -7.0f)),
 			m_DefaultScale(Vec3(1.0f, 1.0f, 1.0f)),
-			m_moveSpeed(0.2f),
+			m_defSpeed(0.2f),
 			m_moveDirection(Vec3(0.0f))
 		{
 			m_state = State::None;
 
+			m_moveSpeed = m_defSpeed;
 			m_moveRatio = 0.0f;
 			m_railPos = { 0, 0 };
 			m_direction = eDirection::Right;
@@ -89,11 +91,11 @@ namespace basecross {
 			TemplateObject(stagePtr),
 			m_DefaultPosition(position),
 			m_DefaultScale(Vec3(1.0f, 1.0f, 1.0f)),
-			m_moveSpeed(0.2f),
-			m_moveDirection(Vec3(0.0f))
+			m_moveDirection(Vec3(0.0f)),
+			m_defSpeed(0.2f)
 		{
 			m_state = State::None;
-
+			m_moveSpeed = m_defSpeed;
 			m_moveRatio = 0.0f;
 			m_railPos = { 0, 0 };
 			m_direction = eDirection::Right;

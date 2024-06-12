@@ -10,6 +10,7 @@
 namespace basecross
 {
 	const float HELF_TIME = 0.5f;	// 半分の時間
+	const float ACSEL = 0.75f;	// 半分の時間
 
 	// インスタンス生成
 	shared_ptr<GameTrainCurveStandbyState> GameTrainCurveStandbyState::Instance()
@@ -50,11 +51,11 @@ namespace basecross
 	void GameTrainCurveStandbyState::Execute(const shared_ptr<GameTrain>& train)
 	{
 		// 加速度を1.0から0.5に下げる
-		train->m_acsel = Utility::Lerp(1.0f, HELF_TIME, train->m_moveRatio);
+		train->m_acsel = Utility::Lerp(1.0f, ACSEL, train->m_moveRatio);
 
 		// カーブを線形補間で処理
 		Vec3 pos = Utility::Lerp(train->m_movePos.first, train->m_movePos.second, train->m_moveRatio);
-		train->m_moveRatio = MathF::Repeat01(train->m_moveRatio, train->m_moveSpeed * train->m_acsel / HELF_TIME);
+		train->m_moveRatio = MathF::Repeat01(train->m_moveRatio, train->m_moveSpeed * train->m_acsel / ACSEL);
 
 		// 範囲外になったら
 		if (MathF::GetOutRange())
@@ -70,6 +71,6 @@ namespace basecross
 	// ステート終了時の処理
 	void GameTrainCurveStandbyState::Exit(const shared_ptr<GameTrain>& train)
 	{
-		train->m_acsel = HELF_TIME;
+		train->m_acsel = ACSEL;
 	}
 }
