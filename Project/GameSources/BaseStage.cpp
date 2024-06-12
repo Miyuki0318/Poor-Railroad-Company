@@ -76,6 +76,8 @@ namespace basecross
 		// ‹D“J‚ÌSE
 		AddAudioResource(L"WHISTLE_SE", soundPath + L"Whistle");
 
+		AddAudioResource(L"PUSH_SE", soundPath + L"ButtonPush");
+
 		// ’Ç‰Á‚µ‚½ƒŠƒ\[ƒX‚ğƒƒ‚ƒŠ‚É’Ç‰Á
 		AddedTextureResources();
 		AddedAudioResources();
