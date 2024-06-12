@@ -195,6 +195,7 @@ namespace basecross
 		}
 		catch (...)
 		{
+			throw;
 		}
 	}
 
@@ -210,6 +211,7 @@ namespace basecross
 		}
 		catch (...)
 		{
+			throw;
 		}
 	}
 
@@ -223,6 +225,7 @@ namespace basecross
 		}
 		catch (...)
 		{
+			throw;
 		}
 	}
 
