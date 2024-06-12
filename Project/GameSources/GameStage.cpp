@@ -57,7 +57,11 @@ namespace basecross
 	{
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
-		auto PtrCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow);
+		Vec3 defEye = Vec3(3.0f, 20.0f, -23.5f);
+		Vec3 defAt = Vec3(3.0f, 1.0f, -8.5f);
+		Vec3 newEye = Utility::Lerp(defAt, defEye, 0.6f);
+
+		auto PtrCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow, newEye, defAt);
 		PtrView->SetCamera(PtrCamera);
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
