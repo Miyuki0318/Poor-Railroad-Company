@@ -146,13 +146,14 @@ namespace basecross
 			m_impassableSet.insert(eStageID::DeRail);
 			m_impassableSet.insert(eStageID::GoalRail);
 			m_impassableSet.insert(eStageID::StartRail);
-			m_impassableSet.insert(eStageID::CrossingCross);
+			m_impassableSet.insert(eStageID::DrawRail);
 			m_impassableSet.insert(eStageID::Tree1);
 			m_impassableSet.insert(eStageID::Tree2);
 			m_impassableSet.insert(eStageID::Stone1);
 			m_impassableSet.insert(eStageID::Stone2);
 			m_impassableSet.insert(eStageID::Stone3);
 			m_impassableSet.insert(eStageID::UnBreakRock);
+			m_impassableSet.insert(eStageID::CrossingCross);
 			m_impassableSet.insert(eStageID::Water);
 			m_impassableSet.insert(eStageID::Air);
 			m_impassableSet.insert(eStageID::UnGrass);

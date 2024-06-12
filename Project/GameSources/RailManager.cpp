@@ -148,7 +148,7 @@ namespace basecross
 			{
 				// レールIDと先端レールID以外は無視
 				eStageID id = STAGE_ID(stageMap.at(row).at(col));
-				if (!GetBetween(id, eStageID::Rail, eStageID::StartRail)) continue;
+				if (!GetBetween(id, eStageID::Rail, eStageID::DrawRail)) continue;
 
 				// 開始レールならガイドIDを設定
 				if (id == eStageID::StartRail) m_startRailPos = ROWCOL2POS(row, col);
