@@ -363,6 +363,8 @@ namespace basecross
 			TitleCameraZoom();
 
 			FadeSprite();
+
+			m_fadeSprite->SetDrawActive(false);
 		}
 		catch (...)
 		{
