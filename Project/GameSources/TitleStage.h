@@ -55,6 +55,8 @@ namespace basecross
 
 		shared_ptr<GameObjectGroup> m_objectGroup;
 
+		weak_ptr<SoundItem> m_bgmItem;
+
 		/*
 		@brief ビューとライトの生成
 		*/
@@ -165,6 +167,15 @@ namespace basecross
 		virtual void OnUpdate() override;
 
 		void StartBGM();
+
+		/*
+		@brief bgmのサウンドアイテムを取得する関数
+		@return m_bgmItem
+		*/
+		weak_ptr<SoundItem>& GetBGMItem()
+		{
+			return m_bgmItem;
+		}
 
 		/*
 		@brief オブジェクト選択時にtrueを返す関数
