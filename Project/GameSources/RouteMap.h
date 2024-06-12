@@ -51,12 +51,6 @@ namespace basecross {
 			m_modelTextures.emplace(eMapLevel::ThirdMap, L"THIRD_TX");
 			m_modelTextures.emplace(eMapLevel::FourthMap, L"FOURTH_TX");
 			m_modelTextures.emplace(eMapLevel::FifthMap, L"FIFTH_TX");
-
-			m_mapTextures.emplace(eMapLevel::FirstMap, L"FIRSTMAP_TX");
-			m_mapTextures.emplace(eMapLevel::SecondMap, L"SECONDMAP_TX");
-			m_mapTextures.emplace(eMapLevel::ThirdMap, L"THIRDMAP_TX");
-			m_mapTextures.emplace(eMapLevel::FourthMap, L"FOURTHMAP_TX");
-			m_mapTextures.emplace(eMapLevel::FifthMap, L"FIFTHMAP_TX");
 		}
 
 		virtual void OnCreate() override;

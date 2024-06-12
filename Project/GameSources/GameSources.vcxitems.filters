@@ -199,6 +199,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Gear.h">
       <Filter>StageObject\Gear</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ItemFly.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">

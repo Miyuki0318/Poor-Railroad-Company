@@ -171,7 +171,8 @@ namespace basecross
 	void GameStage::CreateTrain()
 	{
 		// 列車オブジェクトの追加
-		const auto& train = AddGameObject<GameTrain>(Vec3(0.0f, 1.0f, -7.0f));
+		Vec3 startPos = GetSharedGameObject<RailManager>(L"RailManager")->GetStartRailPos();
+		const auto& train = AddGameObject<GameTrain>(startPos);
 
 		// シェアオブジェクトに登録
 		SetSharedGameObject(L"Train", train);

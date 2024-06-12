@@ -100,12 +100,13 @@ namespace basecross {
 		{
 			m_trainState->Update();
 
-			Debug::Log(L"前方にあるレールの数", GetNextedRailCount());
-			DeRailWhistleSE();
-
 			if (m_railManager.lock()->IsConnectionGoalRail()) // ゴールまで線路がつながったら
 			{
 				m_moveSpeed = m_defSpeed * 1.2f; // 早く進む
+			}
+			else
+			{
+				DeRailWhistleSE();
 			}
 		}
 
