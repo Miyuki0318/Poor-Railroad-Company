@@ -25,6 +25,30 @@ namespace basecross
 		GameFailed,		// ゲーム失敗
 	};
 
+	// Player Status Type
+	enum class ePST : char
+	{
+		WalkSpeed,
+		GatherSpeed,
+		StoneMax,
+		WoodMax,
+		GearMax,
+		RailMax,
+		BridgeMax,
+		CrossingMax,
+		StartGear,
+	};
+
+	// Player Level
+	enum class ePL : char
+	{
+		Level1,
+		Level2,
+		Level3,
+		Level4,
+		Level5,
+	};
+
 	/*!
 	@brief アニメーションデータ構造体
 	*/
@@ -67,7 +91,6 @@ namespace basecross
 		const float m_maxAcsel;	 // 最大加速度
 		const float m_maxMove;	 // 最大運動量
 		const float m_radius;	 // 衝突判定用半径
-		const float m_moveSpeed; // 移動速度
 		const float m_rotSpeed;  // 回転速度
 
 		// 通れないステージIDリスト
@@ -82,6 +105,10 @@ namespace basecross
 		// 斜めのグリッドリスト
 		const vector<pair<int, int>> m_obliqueGridArray;
 		
+		// プレイヤーのステータス
+		map<ePST, map<ePL, float>> m_playerData;
+		ePL m_playerLevel;
+
 		// モデルとトランスフォーム差分行列
 		Mat4x4 m_modelMat;
 
@@ -99,7 +126,6 @@ namespace basecross
 		*/
 		Player(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr, Vec3(0.0f, 2.0f, 0.0f), Vec3(0.0f), Vec3(1.0f)),
-			m_moveSpeed(5.0f),
 			m_rotSpeed(0.5f),
 			m_radius(1.0f),
 			m_maxAcsel(1.0f),
@@ -115,6 +141,7 @@ namespace basecross
 			m_moveValue = 0.0f;
 			m_rotTarget.zero(); // 回転先は0.0fで初期化
 			m_currentRot.zero(); // 回転先は0.0fで初期化
+			m_playerLevel = ePL::Level1;
 
 			// モデルとトランスフォームの差分行列を設定
 			m_modelMat.affineTransformation(
@@ -157,6 +184,20 @@ namespace basecross
 			m_impassableSet.insert(eStageID::Water);
 			m_impassableSet.insert(eStageID::Air);
 			m_impassableSet.insert(eStageID::UnGrass);
+
+			// プレイヤーのレベル事のステータスを設定
+			vector<map<ePL, float>> tempMap(8);
+			auto status = CSVLoader::ReadDataToFloat(CSVLoader::LoadFile("PlayerLevel"));
+			for (size_t i = 0; i < tempMap.size(); i++)
+			{
+				tempMap.at(i).emplace(ePL::Level1, status.at(i).at(1));
+				tempMap.at(i).emplace(ePL::Level2, status.at(i).at(2));
+				tempMap.at(i).emplace(ePL::Level3, status.at(i).at(3));
+				tempMap.at(i).emplace(ePL::Level4, status.at(i).at(4));
+				tempMap.at(i).emplace(ePL::Level5, status.at(i).at(5));
+
+				m_playerData.emplace(static_cast<ePST>(i), tempMap.at(i));
+			}
 		}
 
 		/*!

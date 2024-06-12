@@ -94,7 +94,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerState.h">
       <Filter>Player\Game\State</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerMiningState.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerGatheringState.h">
       <Filter>Player\Game\State\Mining</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerCraftingState.h">
@@ -273,7 +273,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMovingState.cpp">
       <Filter>Player\Game\State\Moving</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMiningState.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerGatheringState.cpp">
       <Filter>Player\Game\State\Mining</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerCraftingState.cpp">

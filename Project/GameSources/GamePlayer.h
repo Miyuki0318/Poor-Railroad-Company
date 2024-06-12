@@ -29,7 +29,7 @@ namespace basecross
 	// プレイヤーの状態ステートクラス(名前のみ宣言)
 	class PlayerIdleState;		// 待機状態
 	class PlayerMovingState;	// 移動状態
-	class PlayerMiningState;	// 採掘状態
+	class PlayerGatheringState;	// 採掘状態
 	class PlayerCraftingState;	// クラフト状態
 	class PlayerSuccesState;	// クラフト状態
 	class PlayerFailedState;	// クラフト状態
@@ -55,7 +55,7 @@ namespace basecross
 		// フレンド化(ステートマシンからメンバ関数を呼び出すため)
 		friend PlayerIdleState;
 		friend PlayerMovingState;
-		friend PlayerMiningState;
+		friend PlayerGatheringState;
 		friend PlayerCraftingState;
 		friend PlayerSuccesState;
 		friend PlayerFailedState;
@@ -172,6 +172,11 @@ namespace basecross
 		@brief アイテム状態の更新関数
 		*/
 		void UpdateStatus();
+
+		/*!
+		@brief アイテム数の更新関数
+		*/
+		void UpdateItemCount();
 
 		/*!
 		@brief 移動更新関数

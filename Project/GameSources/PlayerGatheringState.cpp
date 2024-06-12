@@ -1,5 +1,5 @@
 /*!
-@file PlayerMiningState.cpp
+@file PlayerGatheringState.cpp
 @brief プレイヤーの採掘状態ステート
 @author 小澤博貴
 */
@@ -10,33 +10,34 @@
 namespace basecross
 {
 	// インスタンス生成
-	shared_ptr<PlayerMiningState> PlayerMiningState::Instance()
+	shared_ptr<PlayerGatheringState> PlayerGatheringState::Instance()
 	{
 		// new演算子で自身を生成
-		static shared_ptr<PlayerMiningState> instance(new PlayerMiningState);
+		static shared_ptr<PlayerGatheringState> instance(new PlayerGatheringState);
 
 		// 新しく生成されたthisポインタ
 		return instance;
 	}
 
 	// ステート名取得
-	wstring PlayerMiningState::GetStateName() const
+	wstring PlayerGatheringState::GetStateName() const
 	{
 		return L"採掘状態ステート";
 	}
 
 	// ステート開始時の処理
-	void PlayerMiningState::Enter(const shared_ptr<GamePlayer>& player)
+	void PlayerGatheringState::Enter(const shared_ptr<GamePlayer>& player)
 	{
 		// アニメーションの変更
 		player->SetAnimationMesh(ePAKey::Harvesting);
 	}
 
 	// ステート更新時の処理
-	void PlayerMiningState::Execute(const shared_ptr<GamePlayer>& player)
+	void PlayerGatheringState::Execute(const shared_ptr<GamePlayer>& player)
 	{
 		// アニメーション更新
-		player->UpdateAnimation();
+		float animeSpeed = player->m_playerData.at(ePST::GatherSpeed).at(player->m_playerLevel);
+		player->UpdateAnimation(animeSpeed);
 		player->UpdateRotation();
 
 		// 採掘中の待機時間
@@ -56,31 +57,31 @@ namespace basecross
 	}
 
 	// ステート終了時の処理
-	void PlayerMiningState::Exit(const shared_ptr<GamePlayer>& player)
+	void PlayerGatheringState::Exit(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// Aボタン入力時
-	void PlayerMiningState::OnPushA(const shared_ptr<GamePlayer>& player)
+	void PlayerGatheringState::OnPushA(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// Bボタン入力時
-	void PlayerMiningState::OnPushB(const shared_ptr<GamePlayer>& player)
+	void PlayerGatheringState::OnPushB(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// Xボタン入力時
-	void PlayerMiningState::OnPushX(const shared_ptr<GamePlayer>& player)
+	void PlayerGatheringState::OnPushX(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// Yボタン入力時
-	void PlayerMiningState::OnPushY(const shared_ptr<GamePlayer>& player)
+	void PlayerGatheringState::OnPushY(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
