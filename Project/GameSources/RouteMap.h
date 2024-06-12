@@ -48,15 +48,19 @@ namespace basecross {
 			);
 
 			m_currentX = 0.0f;
-			m_mapLevel = eMapLevel::easyMap;
+			m_mapLevel = eMapLevel::FirstMap;
 
-			m_modelTextures.emplace(eMapLevel::easyMap, L"EASY_TX");
-			m_modelTextures.emplace(eMapLevel::normalMap, L"NORMAL_TX");
-			m_modelTextures.emplace(eMapLevel::hardMap, L"HARD_TX");
+			m_modelTextures.emplace(eMapLevel::FirstMap, L"FIRST_TX");
+			m_modelTextures.emplace(eMapLevel::SecondMap, L"SECOND_TX");
+			m_modelTextures.emplace(eMapLevel::ThirdMap, L"THIRD_TX");
+			m_modelTextures.emplace(eMapLevel::FourthMap, L"FOURTH_TX");
+			m_modelTextures.emplace(eMapLevel::FifthMap, L"FIFTH_TX");
 
-			m_mapTextures.emplace(eMapLevel::easyMap, L"EASYMAP_TX");
-			m_mapTextures.emplace(eMapLevel::normalMap, L"NORMALMAP_TX");
-			m_mapTextures.emplace(eMapLevel::hardMap, L"HARDMAP_TX");
+			m_mapTextures.emplace(eMapLevel::FirstMap, L"FIRSTMAP_TX");
+			m_mapTextures.emplace(eMapLevel::SecondMap, L"SECONDMAP_TX");
+			m_mapTextures.emplace(eMapLevel::ThirdMap, L"THIRDMAP_TX");
+			m_mapTextures.emplace(eMapLevel::FourthMap, L"FOURTHMAP_TX");
+			m_mapTextures.emplace(eMapLevel::FifthMap, L"FIFTHMAP_TX");
 		}
 
 		virtual void OnCreate() override;

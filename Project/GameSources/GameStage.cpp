@@ -35,6 +35,8 @@ namespace basecross
 		AddAudioResource(L"FIRST_BGM", soundPath + L"FirstBGM");
 		AddAudioResource(L"SECOND_BGM", soundPath + L"SecondBGM");
 		AddAudioResource(L"THIRD_BGM", soundPath + L"ThirdBGM");
+		AddAudioResource(L"FOURTH_BGM", soundPath + L"FourthBGM");
+		AddAudioResource(L"FIFTH_BGM", soundPath + L"FifthBGM");
 
 		// í«â¡ÇµÇΩÉäÉ\Å[ÉXÇÉÅÉÇÉäÇ…í«â¡
 		AddedTextureResources();

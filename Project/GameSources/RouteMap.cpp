@@ -56,16 +56,24 @@ namespace basecross {
 		{
 			switch (m_mapLevel)
 			{
-			case eMapLevel::easyMap:
-				m_mapLevel = eMapLevel::hardMap;
+			case eMapLevel::FirstMap:
+				m_mapLevel = eMapLevel::FifthMap;
 				break;
 
-			case eMapLevel::normalMap:
-				m_mapLevel = eMapLevel::easyMap;
+			case eMapLevel::SecondMap:
+				m_mapLevel = eMapLevel::FirstMap;
 				break;
 
-			case eMapLevel::hardMap:
-				m_mapLevel = eMapLevel::normalMap;
+			case eMapLevel::ThirdMap:
+				m_mapLevel = eMapLevel::SecondMap;
+				break;
+
+			case eMapLevel::FourthMap:
+				m_mapLevel = eMapLevel::ThirdMap;
+				break;
+
+			case eMapLevel::FifthMap:
+				m_mapLevel = eMapLevel::FourthMap;
 				break;
 
 			default:
@@ -76,16 +84,24 @@ namespace basecross {
 		{
 			switch (m_mapLevel)
 			{
-			case eMapLevel::easyMap:
-				m_mapLevel = eMapLevel::normalMap;
+			case eMapLevel::FirstMap:
+				m_mapLevel = eMapLevel::SecondMap;
 				break;
 
-			case eMapLevel::normalMap:
-				m_mapLevel = eMapLevel::hardMap;
+			case eMapLevel::SecondMap:
+				m_mapLevel = eMapLevel::ThirdMap;
 				break;
 
-			case eMapLevel::hardMap:
-				m_mapLevel = eMapLevel::easyMap;
+			case eMapLevel::ThirdMap:
+				m_mapLevel = eMapLevel::FourthMap;
+				break;
+
+			case eMapLevel::FourthMap:
+				m_mapLevel = eMapLevel::FifthMap;
+				break;
+
+			case eMapLevel::FifthMap:
+				m_mapLevel = eMapLevel::FirstMap;
 				break;
 
 			default:
