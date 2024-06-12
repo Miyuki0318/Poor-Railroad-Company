@@ -166,6 +166,9 @@ namespace basecross
 		*/
 		virtual void OnUpdate() override;
 
+		/*
+		@brief BGMŠJnŠÖ”
+		*/
 		void StartBGM();
 
 		/*

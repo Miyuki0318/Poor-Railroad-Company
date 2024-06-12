@@ -15,7 +15,7 @@
 #include "PlayerState.h"
 #include "PlayerIdleState.h"
 #include "PlayerMovingState.h"
-#include "PlayerMiningState.h"
+#include "PlayerGatheringState.h"
 #include "PlayerCraftingState.h"
 #include "PlayerSuccesState.h"
 #include "PlayerFailedState.h"

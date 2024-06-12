@@ -50,6 +50,7 @@ namespace basecross
 
 		// アイテム状態の更新
 		UpdateStatus();
+		UpdateItemCount();
 
 		// デバック用文字列
 		Debug::Log(L"プレイヤーの座標 : ", GetPosition());
@@ -260,6 +261,18 @@ namespace basecross
 		m_status.Set(ePlayerStatus::IsHaveRail) = GetItemCount(eItemType::Rail);
 		m_status.Set(ePlayerStatus::IsHaveWood) = GetItemCount(eItemType::Wood);
 		m_status.Set(ePlayerStatus::IsHaveStone) = GetItemCount(eItemType::Stone);
+	}
+
+	// アイテム数の更新
+	void GamePlayer::UpdateItemCount()
+	{
+		// アイテム数が越えない様に上書き
+		m_craft->m_itemCount.at(eItemType::Stone) = min(m_craft->m_itemCount.at(eItemType::Stone), (unsigned char)m_playerData.at(ePST::StoneMax).at(m_playerLevel));
+		m_craft->m_itemCount.at(eItemType::Wood) = min(m_craft->m_itemCount.at(eItemType::Wood), (unsigned char)m_playerData.at(ePST::WoodMax).at(m_playerLevel));
+		m_craft->m_itemCount.at(eItemType::Gear) = min(m_craft->m_itemCount.at(eItemType::Gear), (unsigned char)m_playerData.at(ePST::GearMax).at(m_playerLevel));
+		m_craft->m_itemCount.at(eItemType::Rail) = min(m_craft->m_itemCount.at(eItemType::Rail), (unsigned char)m_playerData.at(ePST::RailMax).at(m_playerLevel));
+		m_craft->m_itemCount.at(eItemType::WoodBridge) = min(m_craft->m_itemCount.at(eItemType::WoodBridge), (unsigned char)m_playerData.at(ePST::BridgeMax).at(m_playerLevel));
+		m_craft->m_itemCount.at(eItemType::Crossing) = min(m_craft->m_itemCount.at(eItemType::Crossing), (unsigned char)m_playerData.at(ePST::CrossingMax).at(m_playerLevel));
 	}
 
 	// 移動更新
