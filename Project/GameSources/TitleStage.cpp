@@ -365,6 +365,8 @@ namespace basecross
 			FadeSprite();
 
 			m_fadeSprite->SetDrawActive(false);
+
+			Debug::Log(m_distance);
 		}
 		catch (...)
 		{
