@@ -10,7 +10,7 @@
 namespace basecross {
 	class Company : public TemplateObject
 	{
-		const Vec3 m_position = Vec3(10.0f, 1.0f, -14.5f);
+		const Vec3 m_position = Vec3(5.0f, 1.0f, -8.0f);
 
 		const Vec2 m_scale = Vec2(700.0f);
 
