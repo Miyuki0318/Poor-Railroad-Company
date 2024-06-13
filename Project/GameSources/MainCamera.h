@@ -29,7 +29,7 @@ namespace basecross {
 			Zoom	// ズーム
 		};
 		State m_cameraState;	// カメラの現在の状態
-		State m_defaultState;	// カメラの初期状態
+		const State m_DefaultState;	// カメラの初期状態
 
 		/// <summary>
 		/// カメラのコンストラクタ
@@ -37,7 +37,7 @@ namespace basecross {
 		/// <param name="cameraState">カメラの初期状態</param>
 		MainCamera(State cameraState) : Camera(),
 			m_cameraState(cameraState),
-			m_defaultState(cameraState),
+			m_DefaultState(cameraState),
 			m_targetPos(Vec3(0.0f)),
 			m_DefaultEye(Vec3(3.0f, 20.0f, -22.0f)),
 			m_DefaultAt(Vec3(3.0f, 1.0f, -7.0f)),
@@ -52,7 +52,7 @@ namespace basecross {
 		/// <param name="cameraState">カメラの初期状態</param>
 		MainCamera(State cameraState, const Vec3& eyePos, const Vec3& atPos) : Camera(),
 			m_cameraState(cameraState),
-			m_defaultState(cameraState),
+			m_DefaultState(cameraState),
 			m_targetPos(Vec3(0.0f)),
 			m_DefaultEye(eyePos),
 			m_DefaultAt(atPos),

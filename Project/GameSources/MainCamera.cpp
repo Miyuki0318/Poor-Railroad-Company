@@ -58,7 +58,7 @@ namespace basecross {
 		if (GetOutRange())
 		{
 			// ’l‚ğ‰Šú‰»‚µ‚ÄƒJƒƒ‰‚Ìó‘Ô‚ğ‚à‚Æ‚É–ß‚·
-			m_cameraState = m_defaultState;
+			m_cameraState = m_DefaultState;
 		}
 	}
 }
