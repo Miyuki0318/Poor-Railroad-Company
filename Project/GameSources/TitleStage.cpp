@@ -201,8 +201,11 @@ namespace basecross
 
 		if (m_selectObj&& !m_zooming)
 		{
+			Vec3 cameraPos = m_selectObj->GetComponent<Transform>()->GetPosition();
+
+
 			titleCamera->SetTargetObject(m_selectObj);
-			titleCamera->ZoomStart(titleCamera->GetEye());
+			titleCamera->ZoomStart(cameraPos,Vec3(cameraPos.x, cameraPos.y + 2.0f, cameraPos.z));
 			m_zooming = true;
 		}
 
