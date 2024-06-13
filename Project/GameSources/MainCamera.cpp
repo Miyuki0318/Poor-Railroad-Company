@@ -50,16 +50,9 @@ namespace basecross {
 	{
 		m_zoomRatio = Clamp01(m_zoomRatio);
 		// 線形補間でズームさせる
-		SetEye(Utility::Lerp(m_currentEye, Vec3(m_targetPos.x, m_targetPos.y + m_targetPos.getY(), m_targetPos.z + m_targetPos.getZ()), m_zoomRatio));
-		SetAt(Utility::Lerp(m_DefaultAt, Vec3(m_targetPos.x, m_targetPos.y + m_targetPos.getY(), m_targetPos.z), m_zoomRatio));
+		SetEye(Utility::Lerp(m_currentEye, Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z + m_zoomEye.z), m_zoomRatio));
+		SetAt(Utility::Lerp(m_DefaultAt, Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z), m_zoomRatio));
 		m_zoomRatio += DELTA_TIME * m_zoomSpeed;
 		//m_zoomRatio = Repeat01(m_zoomRatio, m_zoomSpeed);
-
-		// ズーム処理が終わったら
-		if (m_zoomRatio >= 1.0f)
-		{
-			// 値を初期化してカメラの状態をもとに戻す
-			//m_cameraState = m_DefaultState;
-		}
 	}
 }
