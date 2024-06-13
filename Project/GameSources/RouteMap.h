@@ -17,7 +17,7 @@ namespace basecross {
 		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
 
 		const Vec3 m_scale = Vec3(3.0f);
-		const Vec3 m_position = Vec3(23.0f, 1.0f, -9.0f);
+		const Vec3 m_position = Vec3(23.0f, 1.0f, -15.0f);
 
 		const Vec2 m_spriteScale = Vec2(500.0f);
 
