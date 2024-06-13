@@ -16,17 +16,18 @@ namespace basecross {
 	}
 
 	void MainCamera::OnUpdate() {
-		// ターゲットがオブジェクトがなければ処理を行わない
+		// 固定状態
+		if (m_cameraState == Fixed)
+		{
+			SetEye(Utility::Lerp(m_DefaultAt, m_DefaultEye, 0.6f));
+		}
+
+		// これ以降の所為はターゲットがオブジェクトがなければ行わない
 		if (GetTargetObject() == nullptr) return;
 
 		m_targetPos = GetTargetObject()->GetComponent<Transform>()->GetPosition(); // ターゲットの位置を取得
 
-		// 状態ごとの処理
-		if (m_cameraState == Fixed)
-		{
-			SetEye(m_DefaultEye);
-		}
-		else if (m_cameraState == Follow)
+		if (m_cameraState == Follow)
 		{
 			FollowTarget();
 		}
