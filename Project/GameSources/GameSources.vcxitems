@@ -69,7 +69,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectIndicator.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SmokeEffect.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Signboard.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SkyBox.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BaseStage.h" />
@@ -129,7 +128,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectIndicator.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SmokeEffect.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SoundManager.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Signboard.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SkyBox.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Station.cpp" />

@@ -162,11 +162,6 @@ namespace basecross
 		const auto& company = AddGameObject<Company>();
 		SetSharedGameObject(L"Company", company);
 		m_objectGroup->IntoGroup(company);
-
-		// ŠÅ”Â‚Ì¶¬
-		const auto& board = AddGameObject<SignBoard>();
-		SetSharedGameObject(L"Board", board);
-		m_objectGroup->IntoGroup(board);
 		
 		// ˜Hü}‚Ì¶¬
 		const auto& routeMap = AddGameObject<RouteMap>();

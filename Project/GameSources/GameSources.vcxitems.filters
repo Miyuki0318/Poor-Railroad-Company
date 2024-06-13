@@ -127,9 +127,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RouteMap.h">
       <Filter>StageObject\RouteMap</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Signboard.h">
-      <Filter>StageObject\Signboard</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)BaseStage.h">
       <Filter>Stage\BaseStage</Filter>
     </ClInclude>
@@ -309,9 +306,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)RouteMap.cpp">
       <Filter>StageObject\RouteMap</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Signboard.cpp">
-      <Filter>StageObject\Signboard</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ItemCountUI.cpp">
       <Filter>UI\ItemCount</Filter>
@@ -500,9 +494,6 @@
     </Filter>
     <Filter Include="StageObject\Building\Company">
       <UniqueIdentifier>{d690f63b-e233-4a56-81e5-5f4197b5736f}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="StageObject\Signboard">
-      <UniqueIdentifier>{1ef41b47-a1a8-4ce7-9b1d-c9c5d85e54fd}</UniqueIdentifier>
     </Filter>
     <Filter Include="StageObject\RouteMap">
       <UniqueIdentifier>{4913c0dd-f707-4de5-bda6-ec759d7fba53}</UniqueIdentifier>
