@@ -23,14 +23,15 @@ namespace basecross
 		GuideRail,			// ガイドレール
 		GoalRail,			// ゴールレール
 		StartRail,			// 開始レール
-		CrossingOpen,		// 踏切(通れる)
-		CrossingCross,		// 踏切(通れない)
+		DrawRail,			// 描画のみのレール
 		Stone1 = 10,		// 岩0
 		Stone2,				// 岩1
 		Stone3,				// 岩2
 		Tree1,				// 木0
 		Tree2,				// 木1
 		UnBreakRock = 20,	// 壊せない岩
+		CrossingOpen = 22,	// 踏切(通れる)
+		CrossingCross,		// 踏切(通れない)
 		Gear = 25,			// ギア
 		Water = 31,			// 水
 		WoodBridge = 40,	// 木の足場	

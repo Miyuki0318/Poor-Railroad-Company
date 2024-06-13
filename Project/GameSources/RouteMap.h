@@ -13,14 +13,11 @@ namespace basecross {
 		// モデルのテクスチャキー
 		map<eMapLevel, wstring> m_modelTextures;
 		
-		// スプライトのテクスチャキー
-		map<eMapLevel, wstring> m_mapTextures;
-
 		// タグ名取得
 		const wstring tagName = App::GetApp()->GetScene<Scene>()->GetTagName();
 
 		const Vec3 m_scale = Vec3(3.0f);
-		const Vec3 m_position = Vec3(30.0f, 1.0f, -15.0f);
+		const Vec3 m_position = Vec3(23.0f, 1.0f, -9.0f);
 
 		const Vec2 m_spriteScale = Vec2(500.0f);
 
@@ -33,7 +30,6 @@ namespace basecross {
 
 		Mat4x4 m_spanMat;
 
-		shared_ptr<Sprite> m_mapSprite;
 		eMapLevel m_mapLevel;
 
 	public:
@@ -55,12 +51,6 @@ namespace basecross {
 			m_modelTextures.emplace(eMapLevel::ThirdMap, L"THIRD_TX");
 			m_modelTextures.emplace(eMapLevel::FourthMap, L"FOURTH_TX");
 			m_modelTextures.emplace(eMapLevel::FifthMap, L"FIFTH_TX");
-
-			m_mapTextures.emplace(eMapLevel::FirstMap, L"FIRSTMAP_TX");
-			m_mapTextures.emplace(eMapLevel::SecondMap, L"SECONDMAP_TX");
-			m_mapTextures.emplace(eMapLevel::ThirdMap, L"THIRDMAP_TX");
-			m_mapTextures.emplace(eMapLevel::FourthMap, L"FOURTHMAP_TX");
-			m_mapTextures.emplace(eMapLevel::FifthMap, L"FIFTHMAP_TX");
 		}
 
 		virtual void OnCreate() override;

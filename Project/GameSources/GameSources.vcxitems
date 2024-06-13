@@ -33,6 +33,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Gear.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GroundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ItemCountUI.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ItemFly.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftingIcon.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftingQTE.h" />
@@ -55,7 +56,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerCraftingState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerFailedState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerIdleState.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerMiningState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerGatheringState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerMovingState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerSuccesState.h" />
@@ -118,7 +119,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerCraftingState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerFailedState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerIdleState.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMiningState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerGatheringState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMovingState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerSuccesState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RailGuide.cpp" />

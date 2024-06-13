@@ -51,7 +51,7 @@ namespace basecross
 		Util::ConvertUtf8toWstring(m_stagePath, bgmKey);
 			
 		// BGMの再生
-		m_soundManager->StartBGM(Utility::ToUpperString(bgmKey) + L"_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);
+		m_bgmItem = m_soundManager->StartBGM(Utility::ToUpperString(bgmKey) + L"_BGM", XAUDIO2_LOOP_INFINITE, 0.0f, ThisPtr);
 	}
 
 	//ビューとライトの生成
@@ -171,7 +171,8 @@ namespace basecross
 	void GameStage::CreateTrain()
 	{
 		// 列車オブジェクトの追加
-		const auto& train = AddGameObject<GameTrain>(Vec3(0.0f, 1.0f, -7.0f));
+		Vec3 startPos = GetSharedGameObject<RailManager>(L"RailManager")->GetStartRailPos();
+		const auto& train = AddGameObject<GameTrain>(startPos);
 
 		// シェアオブジェクトに登録
 		SetSharedGameObject(L"Train", train);
@@ -243,6 +244,9 @@ namespace basecross
 		{
 			m_gameProgress = eGameProgress::Playing;
 		}
+
+		float volume = Utility::Lerp(0.5f, 0.0f, m_fadeSprite->GetDiffuseColor().w);
+		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
 	}
 
 	void GameStage::ToTitleStage()
@@ -259,6 +263,9 @@ namespace basecross
 				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"TitleStage");
 				m_countTime = 0.0f;
 			}
+
+			float volume = Utility::Lerp(0.5f, 0.0f, m_fadeSprite->GetDiffuseColor().w);
+			m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
 		}
 
 		m_countTime += DELTA_TIME;
@@ -386,6 +393,9 @@ namespace basecross
 			// タイトルステージに遷移
 			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"TitleStage");
 		}
+
+		float volume = Utility::Lerp(0.0f, 0.5f, m_gameSprite->GetDiffuseColor().w);
+		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
 	}
 
 	// コンティニュー時のフェードアウト

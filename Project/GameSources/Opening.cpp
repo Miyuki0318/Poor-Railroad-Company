@@ -102,6 +102,7 @@ namespace basecross {
 	{
 		if (Input::GetPush())
 		{
+			StartSE(L"PUSH_SE", 1.0f);
 			m_logoState = eLogoState::exit;
 			m_brinkTime = 25.0f;
 		}

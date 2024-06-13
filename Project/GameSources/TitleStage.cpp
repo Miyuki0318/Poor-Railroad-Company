@@ -76,7 +76,7 @@ namespace basecross
 
 	void TitleStage::StartBGM()
 	{
-		m_soundManager->StartBGM(L"TITLE_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);
+		m_bgmItem = m_soundManager->StartBGM(L"TITLE_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);
 	}
 
 	// オープニング画面の生成
@@ -367,6 +367,10 @@ namespace basecross
 			TitleCameraZoom();
 
 			FadeSprite();
+
+			m_fadeSprite->SetDrawActive(false);
+
+			Debug::Log(m_distance);
 		}
 		catch (...)
 		{

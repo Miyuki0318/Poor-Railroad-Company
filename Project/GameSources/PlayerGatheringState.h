@@ -1,6 +1,6 @@
 /*!
-@file PlayerMiningState.h
-@brief プレイヤーの採掘状態ステート
+@file PlayerGatheringState.h
+@brief プレイヤーの採取状態ステート
 @author 小澤博貴
 */
 
@@ -10,27 +10,27 @@
 namespace basecross
 {
 	/*!
-	@brief 採掘状態のプレイヤーステート
+	@brief 採取状態のプレイヤーステート
 	*/
-	class PlayerMiningState : public PlayerState
+	class PlayerGatheringState : public PlayerState
 	{
 		/*!
 		@brief コンストラクタ
 		*/
-		PlayerMiningState() {}
+		PlayerGatheringState() {}
 
 	public:
 
 		/*!
 		@brief デストラクタ
 		*/
-		virtual ~PlayerMiningState() {}
+		virtual ~PlayerGatheringState() {}
 
 		/*!
 		@brief インスタンス関数
 		@return 新しく生成されたthisポインタ
 		*/
-		static shared_ptr<PlayerMiningState> Instance();
+		static shared_ptr<PlayerGatheringState> Instance();
 
 		/*!
 		@brief ステート名取得関数

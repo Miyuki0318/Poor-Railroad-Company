@@ -23,22 +23,13 @@ namespace basecross {
 		m_drawComp->SetMeshToTransformMatrix(m_spanMat);
 		m_drawComp->SetMeshResource(L"BOARD");
 		m_drawComp->SetTextureResource(m_modelTextures.at(m_mapLevel));
-
-		// スプライトの追加
-		m_mapSprite = GetStage()->AddGameObject<Sprite>(m_mapTextures.at(m_mapLevel), m_spriteScale);
-		m_mapSprite->SetDrawActive(false);
 	}
 
 	void RouteMap::OnUpdate()
 	{
 		if (FindTag(tagName))
 		{
-			m_mapSprite->SetDrawActive(true);
 			MapSelect();
-		}
-		else
-		{
-			m_mapSprite->SetDrawActive(false);
 		}
 	}
 
@@ -111,7 +102,6 @@ namespace basecross {
 
 		m_currentX = stickX;
 		m_drawComp->SetTextureResource(m_modelTextures[m_mapLevel]);
-		m_mapSprite->SetTexture(m_mapTextures[m_mapLevel]);
 		scene->SetMapLevel(m_mapLevel);
 	}
 }
