@@ -20,6 +20,7 @@ namespace basecross {
 		m_railManager = stagePtr->GetSharedGameObject<RailManager>(L"RailManager");
 		m_railDataMap = &m_railManager.lock()->GetRailDataMap();
 		m_railPos = POS2LINE(m_railManager.lock()->GetStartRailPos());
+		m_trainPos = m_railPos;
 
 		m_trainState.reset(new StateMachine<GameTrain>(GetThis<GameTrain>()));
 		m_trainState->ChangeState(GameTrainStraightState::Instance());
@@ -34,7 +35,11 @@ namespace basecross {
 
 	void GameTrain::OnUpdate()
 	{
-		StateProcess(m_state);
+		eGameProgress prog = GetTypeStage<GameStage>()->GetGameProgress();
+		if (prog != eGameProgress::FadeIn)
+		{
+			StateProcess(m_state);
+		}
 
 		Debug::Log(L"現在のステート : ", m_trainState->GetCurrentState()->GetStateName());
 	}
@@ -97,7 +102,11 @@ namespace basecross {
 
 			if (m_railManager.lock()->IsConnectionGoalRail()) // ゴールまで線路がつながったら
 			{
-				m_moveSpeed *= 1.2f; // 早く進む
+				m_moveSpeed = m_defSpeed * 1.2f; // 早く進む
+			}
+			else
+			{
+				DeRailWhistleSE();
 			}
 		}
 
@@ -108,10 +117,49 @@ namespace basecross {
 	{
 		auto soundItem = m_whistleSE.lock();
 		if (!soundItem) return;
-		if (soundItem->m_SoundKey != L"WHISTLE_SE") return;
+		if (m_whistleSEKey.find(soundItem->m_SoundKey) == m_whistleSEKey.end()) return;
 		if (!soundItem->m_AudioResource.lock()) return;
 
 		m_smokeEffect.lock()->AddSmokeEffect(m_rotation.y);
+	}
+
+	int GameTrain::GetNextedRailCount()
+	{
+		// レールマップの取得
+		const auto& railMap = GetRailDataMap();
+		if (railMap.empty()) return false;
+
+		int nextRailCount = 0;
+
+		m_trainPos = POS2LINE(GetPosition());
+
+		// 一個先のレール
+		string next = POS2LINE(railMap.at(m_trainPos).futurePos);
+		while (railMap.find(next) != railMap.end())
+		{
+			// レールデータの現在と次のレールの座標が同じなら終了
+			if (railMap.at(next).thisPos == railMap.at(next).futurePos) break;
+
+			// カウンタを増やし、更に次のレールを確認する
+			nextRailCount++;
+			next = POS2LINE(railMap.at(next).futurePos);
+
+			// レールデータマップに存在しなければ終了
+			if (railMap.find(next) == railMap.end()) break;
+		}
+
+		return nextRailCount;
+	}
+
+	void GameTrain::DeRailWhistleSE()
+	{
+		int nextedRail = GetNextedRailCount();
+		if (2 >= nextedRail)
+		{
+			// サウンドアイテムが存在しない、またはリソースが空なら
+			if (auto& item = m_whistleSE.lock()) if (item->m_AudioResource.lock()) return;
+			m_whistleSE = StartSE(L"SHORT_WHISTLE_SE", 1.5f);
+		}
 	}
 
 	bool GameTrain::SearchNextRail()

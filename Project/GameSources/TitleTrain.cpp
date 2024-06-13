@@ -35,11 +35,18 @@ namespace basecross {
 
 	void TitleTrain::GameStartProcess()
 	{
+		const float TIME = 2.0f;
+
 		MoveProcess(State::None);
 
-		if (SetTimer(2.0f))
+		float volume = (TIME - GetTime(TIME)) / TIME * 0.5f;
+		if (SetTimer(TIME))
 		{
 			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"GameStage");
 		}
+
+		auto& bgm = GetTypeStage<TitleStage>()->GetBGMItem();
+		if (!bgm.lock()) return;
+		bgm.lock()->m_SourceVoice->SetVolume(volume);
 	}
 }

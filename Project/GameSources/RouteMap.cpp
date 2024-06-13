@@ -23,22 +23,13 @@ namespace basecross {
 		m_drawComp->SetMeshToTransformMatrix(m_spanMat);
 		m_drawComp->SetMeshResource(L"BOARD");
 		m_drawComp->SetTextureResource(m_modelTextures.at(m_mapLevel));
-
-		// スプライトの追加
-		m_mapSprite = GetStage()->AddGameObject<Sprite>(m_mapTextures.at(m_mapLevel), m_spriteScale);
-		m_mapSprite->SetDrawActive(false);
 	}
 
 	void RouteMap::OnUpdate()
 	{
 		if (FindTag(tagName))
 		{
-			m_mapSprite->SetDrawActive(true);
 			MapSelect();
-		}
-		else
-		{
-			m_mapSprite->SetDrawActive(false);
 		}
 	}
 
@@ -56,16 +47,24 @@ namespace basecross {
 		{
 			switch (m_mapLevel)
 			{
-			case eMapLevel::easyMap:
-				m_mapLevel = eMapLevel::hardMap;
+			case eMapLevel::FirstMap:
+				m_mapLevel = eMapLevel::FifthMap;
 				break;
 
-			case eMapLevel::normalMap:
-				m_mapLevel = eMapLevel::easyMap;
+			case eMapLevel::SecondMap:
+				m_mapLevel = eMapLevel::FirstMap;
 				break;
 
-			case eMapLevel::hardMap:
-				m_mapLevel = eMapLevel::normalMap;
+			case eMapLevel::ThirdMap:
+				m_mapLevel = eMapLevel::SecondMap;
+				break;
+
+			case eMapLevel::FourthMap:
+				m_mapLevel = eMapLevel::ThirdMap;
+				break;
+
+			case eMapLevel::FifthMap:
+				m_mapLevel = eMapLevel::FourthMap;
 				break;
 
 			default:
@@ -76,16 +75,24 @@ namespace basecross {
 		{
 			switch (m_mapLevel)
 			{
-			case eMapLevel::easyMap:
-				m_mapLevel = eMapLevel::normalMap;
+			case eMapLevel::FirstMap:
+				m_mapLevel = eMapLevel::SecondMap;
 				break;
 
-			case eMapLevel::normalMap:
-				m_mapLevel = eMapLevel::hardMap;
+			case eMapLevel::SecondMap:
+				m_mapLevel = eMapLevel::ThirdMap;
 				break;
 
-			case eMapLevel::hardMap:
-				m_mapLevel = eMapLevel::easyMap;
+			case eMapLevel::ThirdMap:
+				m_mapLevel = eMapLevel::FourthMap;
+				break;
+
+			case eMapLevel::FourthMap:
+				m_mapLevel = eMapLevel::FifthMap;
+				break;
+
+			case eMapLevel::FifthMap:
+				m_mapLevel = eMapLevel::FirstMap;
 				break;
 
 			default:
@@ -95,7 +102,6 @@ namespace basecross {
 
 		m_currentX = stickX;
 		m_drawComp->SetTextureResource(m_modelTextures[m_mapLevel]);
-		m_mapSprite->SetTexture(m_mapTextures[m_mapLevel]);
 		scene->SetMapLevel(m_mapLevel);
 	}
 }

@@ -52,14 +52,18 @@ namespace basecross
 		AddTextureResource(L"BOARD_TX", modelPath + L"RouteMapTexture.tga");
 
 		// マップ選択モデルのテクスチャ
-		AddTextureResource(L"EASY_TX", modelPath + L"EasyMapTexture.tga");
-		AddTextureResource(L"NORMAL_TX", modelPath + L"NormalMapTexture.tga");
-		AddTextureResource(L"HARD_TX", modelPath + L"HardMapTexture.tga");
+		AddTextureResource(L"FIRST_TX", modelPath + L"SecondMapTexture.tga");
+		AddTextureResource(L"SECOND_TX", modelPath + L"SecondMapTexture.tga");
+		AddTextureResource(L"THIRD_TX", modelPath + L"ThirdMapTexture.tga");
+		AddTextureResource(L"FOURTH_TX", modelPath + L"FourthMapTexture.tga");
+		AddTextureResource(L"FIFTH_TX", modelPath + L"FifthMapTexture.tga");
 
 		// マップのテクスチャ
-		AddTextureResource(L"EASYMAP_TX", texturePath + L"MapEasy.png");
-		AddTextureResource(L"NORMALMAP_TX", texturePath + L"MapNormal.png");
-		AddTextureResource(L"HARDMAP_TX", texturePath + L"MapHard.png");
+		AddTextureResource(L"FIRSTMAP_TX", texturePath + L"MapSecond.png");
+		AddTextureResource(L"SECONDMAP_TX", texturePath + L"MapSecond.png");
+		AddTextureResource(L"THIRDMAP_TX", texturePath + L"MapThird.png");
+		AddTextureResource(L"FOURTHMAP_TX", texturePath + L"MapFourth.png");
+		AddTextureResource(L"FIFTHMAP_TX", texturePath + L"MapFifth.png");
 
 		// 地面のテクスチャ
 		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
@@ -72,7 +76,7 @@ namespace basecross
 
 	void TitleStage::StartBGM()
 	{
-		m_soundManager->StartBGM(L"TITLE_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);
+		m_bgmItem = m_soundManager->StartBGM(L"TITLE_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);
 	}
 
 	// オープニング画面の生成
@@ -363,6 +367,10 @@ namespace basecross
 			TitleCameraZoom();
 
 			FadeSprite();
+
+			m_fadeSprite->SetDrawActive(false);
+
+			Debug::Log(m_distance);
 		}
 		catch (...)
 		{

@@ -75,6 +75,9 @@ namespace basecross
 
 		// ãDìJÇÃSE
 		AddAudioResource(L"WHISTLE_SE", soundPath + L"Whistle");
+		AddAudioResource(L"SHORT_WHISTLE_SE", soundPath + L"ShortWhistle");
+
+		AddAudioResource(L"PUSH_SE", soundPath + L"ButtonPush");
 
 		// í«â¡ÇµÇΩÉäÉ\Å[ÉXÇÉÅÉÇÉäÇ…í«â¡
 		AddedTextureResources();
@@ -195,6 +198,7 @@ namespace basecross
 		}
 		catch (...)
 		{
+			throw;
 		}
 	}
 
@@ -210,6 +214,7 @@ namespace basecross
 		}
 		catch (...)
 		{
+			throw;
 		}
 	}
 
@@ -223,6 +228,7 @@ namespace basecross
 		}
 		catch (...)
 		{
+			throw;
 		}
 	}
 

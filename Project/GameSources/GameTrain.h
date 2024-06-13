@@ -38,8 +38,12 @@ namespace basecross {
 	class GameTrain : public Train
 	{
 		float m_acsel; // â¡ë¨ìx
+		string m_trainPos;
 
 		const map<string, RailData>* m_railDataMap;
+		
+		set<wstring> m_whistleSEKey;
+		
 		weak_ptr<RailManager> m_railManager;
 		weak_ptr<SmokeEffect> m_smokeEffect;
 		weak_ptr<SoundItem> m_whistleSE;
@@ -59,6 +63,9 @@ namespace basecross {
 			m_railDataMap(nullptr)
 		{
 			m_acsel = 0.0f;
+
+			m_whistleSEKey.insert(L"WHISTLE_SE");
+			m_whistleSEKey.insert(L"SHORT_WHISTLE_SE");
 		}
 
 		GameTrain(const shared_ptr<Stage>& stagePtr,
@@ -68,6 +75,9 @@ namespace basecross {
 			m_railDataMap(nullptr)
 		{
 			m_acsel = 0.0f;
+
+			m_whistleSEKey.insert(L"WHISTLE_SE");
+			m_whistleSEKey.insert(L"SHORT_WHISTLE_SE");
 		}
 
 		~GameTrain() 
@@ -84,6 +94,10 @@ namespace basecross {
 		void ResetTrain();
 
 		void WhistleSmokeEffect();
+
+		int GetNextedRailCount();
+
+		void DeRailWhistleSE();
 
 		/// <summary>
 		/// èÛë‘Ç≤Ç∆ÇÃèàóù

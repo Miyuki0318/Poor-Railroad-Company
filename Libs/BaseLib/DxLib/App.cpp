@@ -56,6 +56,7 @@ namespace basecross {
 		void OnUpdate() {
 			XAUDIO2_VOICE_STATE state;
 			bool isRunning;
+			vector<shared_ptr<SoundItem>> tempVec;
 			for (auto v : m_SoundItemVec) {
 				if (v->m_SourceVoice) {
 					v->m_SourceVoice->GetState(&state);
@@ -65,8 +66,11 @@ namespace basecross {
 						v->m_SourceVoice->DestroyVoice();
 						v->m_SourceVoice = nullptr;
 					}
+					tempVec.push_back(v);
 				}
 			}
+
+			m_SoundItemVec.swap(tempVec);
 		}
 		bool IsItemActive(const shared_ptr<SoundItem>& ChkItem) {
 			for (auto v : m_SoundItemVec) {

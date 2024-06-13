@@ -54,12 +54,12 @@ namespace basecross
 		const weak_ptr<CraftWindow> m_window;	// クラフトウィンドウ
 
 		const vector<vector<string>> m_racipe; // クラフトレシピ
-
-		map<eItemType, unsigned char> m_itemCount; // アイテム数
 		eCraftItem m_craftItem;	// 作成中のアイテム
 		eItemType m_craftType;	// 作成中のアイテム
 
 	public:
+
+		map<eItemType, unsigned char> m_itemCount; // アイテム数
 
 		/*!
 		@brief コンストラクタ

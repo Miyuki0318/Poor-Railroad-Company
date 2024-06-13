@@ -42,7 +42,7 @@ namespace basecross
 		if (player->GetStatus(ePlayerStatus::IsIdle)) player->SetState(PlayerIdleState::Instance());
 
 		// 採掘状態なら採掘ステートに遷移
-		if (player->GetStatus(ePlayerStatus::IsGathering)) player->SetState(PlayerMiningState::Instance());
+		if (player->GetStatus(ePlayerStatus::IsGathering)) player->SetState(PlayerGatheringState::Instance());
 
 		// クラフト状態ならクラフトステートに遷移
 		if (player->GetStatus(ePlayerStatus::IsCrafting)) player->SetState(PlayerCraftingState::Instance());
