@@ -88,12 +88,8 @@ namespace basecross
 	// 地面の生成
 	void TitleStage::CreateGround()
 	{		
-		// 床ボックスオブジェクトの追加
-		auto& ground = AddGameObject<GroundBox>(Vec3(m_cameraAt.x, 0.0f, m_cameraAt.z), m_groundScale);
-		ground->SetDrawActive(false);
-		SetSharedGameObject(L"TitleGround", ground);
-
 		AddGameObject<GroundManager>();
+		AddGameObject<UnBreakRock>();	// 壊せない岩の生成
 	}
 
 	// csvでのステージ生成
@@ -205,7 +201,7 @@ namespace basecross
 
 
 			titleCamera->SetTargetObject(m_selectObj);
-			titleCamera->ZoomStart(cameraPos,Vec3(cameraPos.x, cameraPos.y + 2.0f, cameraPos.z));
+			titleCamera->ZoomStart(m_cameraEye,Vec3(cameraPos.x, cameraPos.y + 2.0f, cameraPos.z));
 			m_zooming = true;
 		}
 
