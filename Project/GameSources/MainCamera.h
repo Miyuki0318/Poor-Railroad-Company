@@ -18,7 +18,6 @@ namespace basecross {
 		shared_ptr<Transform> m_targetTrans; // 目標のトランスフォーム
 
 		Vec3 m_targetPos;  // ターゲットの位置
-		Vec3 m_currentEye; // カメラの現在位置
 		Vec3 m_zoomEye;		// ズーム後の位置
 
 		float m_zoomRatio; // ズームの割合
@@ -70,8 +69,7 @@ namespace basecross {
 		/// </summary>
 		/// <param name="currentEye">現在の位置</param>
 		/// <param name="zoomEye">ズーム後の位置</param>
-		void ZoomStart(Vec3 currentEye, Vec3 zoomEye) {
-			m_currentEye = currentEye;
+		void ZoomStart(Vec3 zoomEye) {
 			m_zoomEye = zoomEye;
 			m_cameraState = Zoom;
 		}

@@ -50,7 +50,7 @@ namespace basecross {
 	{
 		m_zoomRatio = Clamp01(m_zoomRatio);
 		// ê¸å`ï‚ä‘Ç≈ÉYÅ[ÉÄÇ≥ÇπÇÈ
-		SetEye(Utility::Lerp(m_currentEye, Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z + m_zoomEye.z), m_zoomRatio));
+		SetEye(Utility::Lerp(GetEye(), Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z + m_zoomEye.z), m_zoomRatio));
 		SetAt(Utility::Lerp(m_DefaultAt, Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z), m_zoomRatio));
 		m_zoomRatio += DELTA_TIME * m_zoomSpeed;
 		//m_zoomRatio = Repeat01(m_zoomRatio, m_zoomSpeed);
