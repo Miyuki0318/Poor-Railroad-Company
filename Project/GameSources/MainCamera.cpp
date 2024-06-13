@@ -16,22 +16,21 @@ namespace basecross {
 	}
 
 	void MainCamera::OnUpdate() {
-		// 固定状態
-		if (m_cameraState == Fixed)
+		if (m_cameraState == Fixed) // 固定状態
 		{
-			SetEye(Utility::Lerp(m_DefaultAt, m_DefaultEye, 0.6f));
+			SetEye(Utility::Lerp(m_DefaultAt, m_DefaultEye, m_ZoomRatioC));
 		}
 
-		// これ以降の所為はターゲットがオブジェクトがなければ行わない
+		// これ以降の処理はターゲットオブジェクトがなければ行わない
 		if (GetTargetObject() == nullptr) return;
 
 		m_targetPos = GetTargetObject()->GetComponent<Transform>()->GetPosition(); // ターゲットの位置を取得
 
-		if (m_cameraState == Follow)
+		if (m_cameraState == Follow) // 追尾状態
 		{
 			FollowTarget();
 		}
-		else if (m_cameraState == Zoom)
+		if (m_cameraState == Zoom) // ズーム状態
 		{
 			ZoomInProcess(); 
 		}
@@ -44,14 +43,14 @@ namespace basecross {
 		Vec3 newAt = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_DefaultEye.x), m_DefaultAt.y, m_DefaultAt.z);
 
 		SetAt(newAt);
-		SetEye(newEye);
+		SetEye(Utility::Lerp(newAt, newEye, m_ZoomRatioC));
 	}
 
 	void MainCamera::ZoomInProcess()
 	{
 		m_zoomRatio = Clamp01(m_zoomRatio);
 		// 線形補間でズームさせる
-		SetEye(Utility::Lerp(m_currentEye, Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z + m_zoomEye.z), m_zoomRatio));
+		SetEye(Utility::Lerp(GetEye(), Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z + m_zoomEye.z), m_zoomRatio));
 		SetAt(Utility::Lerp(m_DefaultAt, Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z), m_zoomRatio));
 		m_zoomRatio += DELTA_TIME * m_zoomSpeed;
 		//m_zoomRatio = Repeat01(m_zoomRatio, m_zoomSpeed);
