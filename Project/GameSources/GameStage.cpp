@@ -62,6 +62,7 @@ namespace basecross
 		Vec3 defEye = Vec3(3.0f, 20.0f, -23.5f);
 		Vec3 defAt = Vec3(3.0f, 1.0f, -8.5f);
 		Vec3 newEye = Utility::Lerp(defAt, defEye, 0.6f);
+		newEye.x += m_stageDistanceX;
 
 		auto PtrCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow, newEye, defAt);
 		PtrView->SetCamera(PtrCamera);
@@ -133,6 +134,12 @@ namespace basecross
 				{
 					m_goalStagingPosition = Vec3(float(j), 2.0f, -float(i));
 					id = 0;
+				}
+
+				// 先端レールなら配列の行番号をディスタンスにする
+				if (num == eStageID::DeRail)
+				{
+					m_stageDistanceX = j;
 				}
 			}
 			m_positionMap.push_back(tempVec);
@@ -423,9 +430,6 @@ namespace basecross
 			// 継承元の生成時の処理
 			BaseStage::OnCreate();
 
-			//ビューとライトの作成
-			CreateViewLight();
-
 			// BGMの再生
 			CreateStartBGM();
 
@@ -461,6 +465,9 @@ namespace basecross
 
 			// UIの生成
 			CreateUIObject();
+
+			//ビューとライトの作成
+			CreateViewLight();
 
 			// スカイボックスの生成
 			auto& camera = GetView()->GetTargetCamera();
