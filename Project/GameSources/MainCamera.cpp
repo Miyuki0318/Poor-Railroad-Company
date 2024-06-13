@@ -48,17 +48,11 @@ namespace basecross {
 
 	void MainCamera::ZoomInProcess()
 	{
+		m_zoomRatio = Clamp01(m_zoomRatio);
 		// 線形補間でズームさせる
-		SetEye(Utility::Lerp(m_currentEye, Vec3(m_targetPos.x, m_targetPos.y, m_targetPos.z - 1.0f), m_zoomRatio));
-		SetAt(Utility::Lerp(m_DefaultAt, m_targetPos, m_zoomRatio));
-		//m_zoomRatio += DELTA_TIME * m_zoomSpeed;
-		m_zoomRatio = Repeat01(m_zoomRatio, m_zoomSpeed);
-
-		// ズーム処理が終わったら
-		if (GetOutRange())
-		{
-			// 値を初期化してカメラの状態をもとに戻す
-			m_cameraState = m_defaultState;
-		}
+		SetEye(Utility::Lerp(m_currentEye, Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z + m_zoomEye.z), m_zoomRatio));
+		SetAt(Utility::Lerp(m_DefaultAt, Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z), m_zoomRatio));
+		m_zoomRatio += DELTA_TIME * m_zoomSpeed;
+		//m_zoomRatio = Repeat01(m_zoomRatio, m_zoomSpeed);
 	}
 }

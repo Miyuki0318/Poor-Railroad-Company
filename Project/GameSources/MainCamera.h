@@ -18,6 +18,7 @@ namespace basecross {
 
 		Vec3 m_targetPos;  // ターゲットの位置
 		Vec3 m_currentEye; // カメラの現在位置
+		Vec3 m_zoomEye;		// ズーム後の位置
 
 		float m_zoomRatio; // ズームの割合
 		float m_zoomSpeed; // ズーム速度
@@ -29,7 +30,7 @@ namespace basecross {
 			Zoom	// ズーム
 		};
 		State m_cameraState;	// カメラの現在の状態
-		State m_defaultState;	// カメラの初期状態
+		const State m_DefaultState;	// カメラの初期状態
 
 		/// <summary>
 		/// カメラのコンストラクタ
@@ -37,13 +38,14 @@ namespace basecross {
 		/// <param name="cameraState">カメラの初期状態</param>
 		MainCamera(State cameraState) : Camera(),
 			m_cameraState(cameraState),
-			m_defaultState(cameraState),
+			m_DefaultState(cameraState),
 			m_targetPos(Vec3(0.0f)),
 			m_DefaultEye(Vec3(3.0f, 20.0f, -22.0f)),
 			m_DefaultAt(Vec3(3.0f, 1.0f, -7.0f)),
 			m_MaxEye(Vec3(400.0f, 20.0f, -22.0f)),
+			m_zoomEye(Vec3(0.0f)),
 			m_zoomRatio(0.0f),
-			m_zoomSpeed(0.5f)
+			m_zoomSpeed(0.8f)
 		{
 		}
 		/// <summary>
@@ -52,13 +54,14 @@ namespace basecross {
 		/// <param name="cameraState">カメラの初期状態</param>
 		MainCamera(State cameraState, const Vec3& eyePos, const Vec3& atPos) : Camera(),
 			m_cameraState(cameraState),
-			m_defaultState(cameraState),
+			m_DefaultState(cameraState),
 			m_targetPos(Vec3(0.0f)),
 			m_DefaultEye(eyePos),
 			m_DefaultAt(atPos),
 			m_MaxEye(Vec3(400.0f, 20.0f, -22.0f)),
+			m_zoomEye(Vec3(0.0f)),
 			m_zoomRatio(0.0f),
-			m_zoomSpeed(0.5f)
+			m_zoomSpeed(0.8f)
 		{
 		}
 		~MainCamera() {}
@@ -79,10 +82,22 @@ namespace basecross {
 		/// <summary>
 		/// ズーム処理スタート時に呼び出す処理
 		/// </summary>
-		/// <param name="currentEye"></param>
-		void ZoomStart(Vec3 currentEye) {
+		/// <param name="currentEye">現在の位置</param>
+		/// <param name="zoomEye">ズーム後の位置</param>
+		void ZoomStart(Vec3 currentEye, Vec3 zoomEye) {
 			m_currentEye = currentEye;
+			m_zoomEye = zoomEye;
 			m_cameraState = Zoom;
+		}
+
+		/// <summary>
+		/// ズーム処理終了時に呼び出す処理
+		/// </summary>
+		void ZoomEnd()
+		{
+			SetEye(m_DefaultEye);
+			SetAt(m_DefaultAt);
+			m_cameraState = Fixed;
 		}
 
 		// カメラが追尾するオブジェクトを取得する関数
