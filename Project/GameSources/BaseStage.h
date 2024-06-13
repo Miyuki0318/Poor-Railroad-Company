@@ -69,6 +69,8 @@ namespace basecross
 		// ステージのファイル内
 		const string m_stagePath;
 
+		float m_stageDistanceX;
+
 		/*!
 		@brief リソースの読込
 		*/
@@ -101,7 +103,10 @@ namespace basecross
 		/*!
 		@brief コンストラクタ
 		*/
-		BaseStage(const string stagePath) : Stage(), m_stagePath(stagePath) {}
+		BaseStage(const string stagePath) : Stage(), m_stagePath(stagePath) 
+		{
+			m_stageDistanceX = 0.0f;
+		}
 
 		/*!
 		@brief デストラクタ

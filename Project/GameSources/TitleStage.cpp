@@ -162,11 +162,6 @@ namespace basecross
 		const auto& company = AddGameObject<Company>();
 		SetSharedGameObject(L"Company", company);
 		m_objectGroup->IntoGroup(company);
-
-		// ŠÅ”Â‚Ì¶¬
-		const auto& board = AddGameObject<SignBoard>();
-		SetSharedGameObject(L"Board", board);
-		m_objectGroup->IntoGroup(board);
 		
 		// ˜Hü}‚Ì¶¬
 		const auto& routeMap = AddGameObject<RouteMap>();
@@ -206,7 +201,7 @@ namespace basecross
 
 		if (m_selectObj&& !m_zooming)
 		{
-			titleCamera->SetTargetObject(player);
+			titleCamera->SetTargetObject(m_selectObj);
 			titleCamera->ZoomStart(titleCamera->GetEye());
 			m_zooming = true;
 		}
