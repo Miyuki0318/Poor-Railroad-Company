@@ -201,7 +201,7 @@ namespace basecross
 
 		if (m_selectObj&& !m_zooming)
 		{
-			titleCamera->SetTargetObject(player);
+			titleCamera->SetTargetObject(m_selectObj);
 			titleCamera->ZoomStart(titleCamera->GetEye());
 			m_zooming = true;
 		}
