@@ -62,7 +62,7 @@ namespace basecross
 	class GroundManager : public GameObject
 	{
 		float m_defPosY;		// インスタンス描画用のポジションY
-		const Mat4x4 m_mtxScale;		// インスタンス描画用のスケール
+		const Mat4x4 m_mtxScale;	// インスタンス描画用のスケール
 		const Mat4x4 m_mtxRotation;	// インスタンス描画用のローテーション
 
 		// インスタンス描画オブジェクトマップ
@@ -76,8 +76,8 @@ namespace basecross
 		*/
 		GroundManager(const shared_ptr<Stage>& stagePtr) :
 			GameObject(stagePtr),
-			m_defPosY(-2.75f),
-			m_mtxScale((Mat4x4)XMMatrixScalingFromVector(Vec3(1.0f, 7.5f, 1.0f))),
+			m_defPosY(0.5f),
+			m_mtxScale((Mat4x4)XMMatrixScalingFromVector(Vec3(1.0f))),
 			m_mtxRotation((Mat4x4)XMMatrixRotationRollPitchYawFromVector(Vec3(0.0f)))
 		{
 		}

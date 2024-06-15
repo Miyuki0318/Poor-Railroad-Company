@@ -185,5 +185,10 @@ namespace basecross
 		bool isSucces = player->m_craft->StopQTE();
 		player->SetAnimationMesh(isSucces ? ePAKey::QTESucces : ePAKey::QTEFailed);
 		player->StartSE(isSucces ? L"C_SUCCES_SE" : L"C_FAILURE_SE", 1.0f);
+
+		// 作成したアイテムエフェクトを飛ばす
+		eItemType item = player->m_craft->GetCraftingItemType();
+		if (!isSucces && item == eItemType::Crossing) return;
+		player->m_itemFly.lock()->StartFly(item);
 	}
 }

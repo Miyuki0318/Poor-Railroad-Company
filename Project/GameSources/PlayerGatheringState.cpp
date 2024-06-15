@@ -30,6 +30,14 @@ namespace basecross
 	{
 		// アニメーションの変更
 		player->SetAnimationMesh(ePAKey::Harvesting);
+
+		// フラグを初期化
+		m_isFlyEffect = false;
+
+		// アニメーションの半分の時間を求める(フレーム数÷レベルによる速度÷FPS÷2.0f)
+		m_animeHelfTime = player->m_animationMap.at(ePAKey::Harvesting).flameNum
+			/ player->m_playerData.at(ePST::GatherSpeed).at(player->m_playerLevel)
+			/ ANIME_FPS / 2.0f;
 	}
 
 	// ステート更新時の処理
@@ -39,6 +47,14 @@ namespace basecross
 		float animeSpeed = player->m_playerData.at(ePST::GatherSpeed).at(player->m_playerLevel);
 		player->UpdateAnimation(animeSpeed);
 		player->UpdateRotation();
+
+		// アイテムエフェクトを出す
+		float animeTime = player->m_ptrDraw->GetCurrentAnimationTime();
+		if (!m_isFlyEffect && m_animeHelfTime <= animeTime)
+		{
+			m_isFlyEffect = true;
+			player->m_itemFly.lock()->StartFly(player->m_addItem);
+		}
 
 		// 採掘中の待機時間
 		if (!player->m_ptrDraw->IsTargetAnimeEnd()) return;
@@ -50,6 +66,7 @@ namespace basecross
 		if (Input::GetButtonB())
 		{
 			player->IndicatorOrder();
+			m_isFlyEffect = false;
 		}
 
 		// 採取ステータスになっていればアニメーションの切り替え、なってなければステートの切り替え
