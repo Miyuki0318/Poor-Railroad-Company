@@ -203,5 +203,14 @@ namespace basecross
 				&& stoneValue <= GetItemCount(eItemType::Stone) // 石を要求数以上所持しているか
 				&& gearValue <= GetItemCount(eItemType::Gear);	// 歯車を要求数以上所持しているか
 		}
+
+		/*!
+		@brief クラフトしているアイテムタイプを返す関数
+		@return m_craftType
+		*/
+		eItemType GetCraftingItemType() const
+		{
+			return m_craftType;
+		}
 	};
 }

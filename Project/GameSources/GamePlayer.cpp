@@ -107,6 +107,10 @@ namespace basecross
 		// セレクトインディケーターの生成
 		m_indicator = stagePtr->AddGameObject<SelectIndicator>(thisPtr);
 
+		// アイテムエフェクトの生成
+		m_itemFly = stagePtr->AddGameObject<FlyItemManager>(thisPtr);
+		stagePtr->SetSharedGameObject(L"FlyItemManager", m_itemFly.lock());
+
 		// アクションガイドの生成
 		stagePtr->AddGameObject<ActionGuide>(GetThis<GamePlayer>(), m_indicator.lock());
 
@@ -164,6 +168,7 @@ namespace basecross
 		// アイテムカウンタの追加とSEの再生
 		if (m_gatherMap.find(id) != m_gatherMap.end())
 		{
+			m_addItem = m_gatherMap.at(id).first;
 			AddItemCount(m_gatherMap.at(id).first);
 			StartSE(m_gatherMap.at(id).second + L"_SE", 1.0f);
 		}

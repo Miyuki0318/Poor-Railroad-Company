@@ -8,6 +8,8 @@
 #include "BaseStage.h"
 #include "TemplateObject.h"
 
+#define ANIME_FPS 30.0f
+
 namespace basecross
 {
 	// プレイヤーのアニメーションキータイプ
@@ -141,7 +143,7 @@ namespace basecross
 			m_moveValue = 0.0f;
 			m_rotTarget.zero(); // 回転先は0.0fで初期化
 			m_currentRot.zero(); // 回転先は0.0fで初期化
-			m_playerLevel = ePL::Level1;
+			m_playerLevel = ePL::Level5;
 
 			// モデルとトランスフォームの差分行列を設定
 			m_modelMat.affineTransformation(

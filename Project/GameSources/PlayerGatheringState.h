@@ -14,10 +14,17 @@ namespace basecross
 	*/
 	class PlayerGatheringState : public PlayerState
 	{
+		bool m_isFlyEffect;	// アイテムエフェクトを出したか
+		float m_animeHelfTime; // アニメーションの半分の時間
+
 		/*!
 		@brief コンストラクタ
 		*/
-		PlayerGatheringState() {}
+		PlayerGatheringState() 
+		{
+			m_isFlyEffect = false;
+			m_animeHelfTime = 0.0f;
+		}
 
 	public:
 

@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "SelectIndicator.h"
 #include "CraftManager.h"
+#include "ItemFly.h"
 #include "PlayerState.h"
 
 namespace basecross
@@ -40,7 +41,10 @@ namespace basecross
 	class GamePlayer : public Player
 	{
 		weak_ptr<SelectIndicator> m_indicator; // セレクトインディケーター
+		weak_ptr<FlyItemManager> m_itemFly;	// アイテムが飛んでいくエフェクト
 		unique_ptr<CraftManager> m_craft; // クラフトマネージャー
+
+		eItemType m_addItem; // 追加したアイテムのタイプ
 
 		map<eStageID, pair<eItemType, wstring>> m_gatherMap; // 採取対象と取得アイテムタイプ
 		Bool16_t<ePlayerStatus> m_status; // フラグ管理クラス
@@ -73,6 +77,8 @@ namespace basecross
 			m_goalStagingPosition(goal)
 		{
 			m_status = 0; // 状態フラグは0で初期化
+
+			m_addItem = eItemType::Wood; // 取り敢えず木で初期化
 
 			// 採取オブジェクトのIDと採取時に扱うデータ
 			m_gatherMap.emplace(eStageID::Stone1, make_pair(eItemType::Stone, L"ROCK"));

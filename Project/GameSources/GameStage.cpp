@@ -219,6 +219,15 @@ namespace basecross
 		AddGameObject<ItemCountUI>(scale, startPos + (distance * 4.0), L"UI_RAIL_TX", eItemType::Rail);
 		AddGameObject<ItemCountUI>(scale, startPos + (distance * 5.0), L"UI_BRIDGE_TX", eItemType::WoodBridge);
 		AddGameObject<ItemCountUI>(scale, startPos + (distance * 6.0), L"UI_CROSSING_TX", eItemType::Crossing);
+
+		// アイテム取得時の跳んでくエフェクトの設定
+		const auto& itemFly = GetSharedGameObject<FlyItemManager>(L"FlyItemManager");
+		itemFly->SetTargetUIData(eItemType::Wood, L"UI_WOOD_TX", startPos);
+		itemFly->SetTargetUIData(eItemType::Stone, L"UI_STONE_TX", startPos + distance);
+		itemFly->SetTargetUIData(eItemType::Gear, L"UI_GEAR_TX", startPos + (distance * 2.0));
+		itemFly->SetTargetUIData(eItemType::Rail, L"UI_RAIL_TX", startPos + (distance * 4.0));
+		itemFly->SetTargetUIData(eItemType::WoodBridge, L"UI_BRIDGE_TX", startPos + (distance * 5.0));
+		itemFly->SetTargetUIData(eItemType::Crossing, L"UI_CROSSING_TX", startPos + (distance * 6.0));
 	}
 
 	// スプライトの表示

@@ -8,7 +8,7 @@
 #include "Project.h"
 
 #define END_INDEX 10 // 区切るまでの数
-#define WIN_RANGE 30 // カメラから画面外までのゲーム上での距離
+#define WIN_RANGE 20 // カメラから画面外までのゲーム上での距離
 
 namespace basecross
 {

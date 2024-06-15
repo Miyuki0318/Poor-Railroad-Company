@@ -153,8 +153,9 @@ namespace basecross {
 
 	void GameTrain::DeRailWhistleSE()
 	{
+		// 設置されたレールが残り1個以下なら汽笛を鳴らす
 		int nextedRail = GetNextedRailCount();
-		if (2 >= nextedRail)
+		if (1 >= nextedRail)
 		{
 			// サウンドアイテムが存在しない、またはリソースが空なら
 			if (auto& item = m_whistleSE.lock()) if (item->m_AudioResource.lock()) return;

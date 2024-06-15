@@ -196,7 +196,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Gear.h">
       <Filter>StageObject\Gear</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ItemFly.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ItemFly.h">
+      <Filter>Effect\ItemFly</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -369,6 +371,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Gear.cpp">
       <Filter>StageObject\Gear</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ItemFly.cpp">
+      <Filter>Effect\ItemFly</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -572,6 +577,9 @@
     </Filter>
     <Filter Include="StageObject\Gear">
       <UniqueIdentifier>{7d3beb32-e2bf-4423-8a6d-19fb772a64ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\ItemFly">
+      <UniqueIdentifier>{19a02776-e913-436f-9ef6-f664f6f6bb25}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
