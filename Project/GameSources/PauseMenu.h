@@ -3,5 +3,23 @@
 
 namespace basecross
 {
+	class PauseMenu : public GameObject
+	{
+		const Vec3 m_DefaultPosition;
+		const float m_DefaultScale;
 
+		weak_ptr<Sprite> m_menuSprites;
+
+	public:
+		PauseMenu(const shared_ptr<Stage>& stagePtr, float scale, const Vec3& position) :
+			GameObject(stagePtr),
+			m_DefaultPosition(position),
+			m_DefaultScale(scale)
+		{
+		}
+		~PauseMenu() {}
+
+		void OnCreate() override;
+		void OnUpdate() override;
+	};
 }
