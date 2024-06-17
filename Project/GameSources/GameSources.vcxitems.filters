@@ -199,6 +199,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ItemFly.h">
       <Filter>Effect\ItemFly</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PauseMenu.h">
+      <Filter>UI\PauseMenu</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -374,6 +377,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ItemFly.cpp">
       <Filter>Effect\ItemFly</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PauseMenu.cpp">
+      <Filter>UI\PauseMenu</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -580,6 +586,9 @@
     </Filter>
     <Filter Include="Effect\ItemFly">
       <UniqueIdentifier>{19a02776-e913-436f-9ef6-f664f6f6bb25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\PauseMenu">
+      <UniqueIdentifier>{d1af5602-4697-4532-899a-b84c57af08e1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

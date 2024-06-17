@@ -52,6 +52,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Opening.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OzawaFuncs.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OzawaUtility.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PauseMenu.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerCraftingState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)PlayerFailedState.h" />
@@ -115,6 +116,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Number.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Opening.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OzawaUtility.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PauseMenu.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerCraftingState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)PlayerFailedState.cpp" />
