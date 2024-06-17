@@ -6,15 +6,15 @@ namespace basecross
 	class PauseMenu : public GameObject
 	{
 		const Vec3 m_DefaultPosition;
-		const float m_DefaultScale;
+		const Vec2 m_DefaultScale;
 
 		weak_ptr<Sprite> m_menuSprites;
 
 	public:
-		PauseMenu(const shared_ptr<Stage>& stagePtr, float scale, const Vec3& position) :
+		PauseMenu(const shared_ptr<Stage>& stagePtr, const Vec3& position) :
 			GameObject(stagePtr),
 			m_DefaultPosition(position),
-			m_DefaultScale(scale)
+			m_DefaultScale(Vec2(1920.0f, 1080.0f))
 		{
 		}
 		~PauseMenu() {}
