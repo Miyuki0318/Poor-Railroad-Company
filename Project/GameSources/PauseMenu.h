@@ -1,7 +1,7 @@
 #pragma once
-#include "Number.h"
-#include "CraftManager.h"
+#include "stdafx.h"
 
 namespace basecross
 {
+
 }
