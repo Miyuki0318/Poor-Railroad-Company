@@ -228,6 +228,10 @@ namespace basecross
 		itemFly->SetTargetUIData(eItemType::Rail, L"UI_RAIL_TX", startPos + (distance * 4.0));
 		itemFly->SetTargetUIData(eItemType::WoodBridge, L"UI_BRIDGE_TX", startPos + (distance * 5.0));
 		itemFly->SetTargetUIData(eItemType::Crossing, L"UI_CROSSING_TX", startPos + (distance * 6.0));
+
+		// ポーズメニューの作成
+		auto& pauseMenu = AddGameObject<PauseMenu>();
+		SetSharedGameObject(L"PAUSE", pauseMenu);
 	}
 
 	// スプライトの表示
@@ -287,6 +291,12 @@ namespace basecross
 		}
 
 		m_countTime += DELTA_TIME;
+	}
+
+	void GameStage::OnPauseMenu()
+	{
+		auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
+		
 	}
 
 	// コンティニュー処理
