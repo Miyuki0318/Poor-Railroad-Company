@@ -203,6 +203,12 @@ namespace basecross
 		// csvの書き換え
 		stageMap.at(point.x).at(point.y) = UnSTAGE_ID(eStageID::DeRail);
 		m_guideMap = stageMap;
+		if (m_isConnectionGoal)
+		{
+			m_guidePoints.clear();
+			return;
+		}
+
 		SetGuideID(point.x, point.y);
 		SetRailID(point.x, point.y);
 	}
@@ -425,7 +431,8 @@ namespace basecross
 	void RailManager::CheckConnectionGoalRail(size_t row, size_t col)
 	{
 		// レールデータの取得
-		RailData data = m_railDataMap.at(ROWCOL2LINE(row, col));
+		string line = ROWCOL2LINE(row, col);
+		RailData data = m_railDataMap.at(line);
 
 		// ガイド付きcsvマップから設置位置の上下左右を取得
 		auto& elems = CSVElementCheck::GetElemsCheck(row, col, m_guideMap);
@@ -435,8 +442,17 @@ namespace basecross
 			if (eStageID::GoalRail != STAGE_ID(m_guideMap.at(elem.row).at(elem.col))) continue;
 
 			// 設置したレールが直線なら
-			if (CheckStraightRail(data, elem.dir))
+			if (CheckStraightRail(data, elem.dir) && data.type == eRailType::AxisXLine)
 			{
+				m_pastLine = line;
+				AddRailDataMap(elem.row, elem.col);
+				m_isConnectionGoal = true;
+				return;
+			}
+
+			if (!CheckStraightRail(data, elem.dir) && data.type == eRailType::AxisZLine)
+			{
+				m_pastLine = line;
 				AddRailDataMap(elem.row, elem.col);
 				m_isConnectionGoal = true;
 				return;

@@ -33,6 +33,9 @@ namespace basecross
 		// ステートマシンにBボタン入力時の処理を送る
 		if (GetPushB()) m_playerState->PushB();
 
+		// アイテム状態の更新
+		UpdateStatus();
+
 		// デバック用文字列
 		Debug::Log(L"プレイヤーの座標 : ", GetPosition());
 		Debug::Log(L"プレイヤーのステート : ", m_playerState->GetCurrentState()->GetStateName());
@@ -71,8 +74,12 @@ namespace basecross
 	// 移動更新
 	void TitlePlayer::UpdateMove()
 	{
+		// 継承元の移動更新処理
+		Player::UpdateMove();
+
 		// LStickの入力があるなら
-		if (IsInputLStick())
+		bool isLStick = IsInputLStick();
+		if (isLStick)
 		{
 			// LStick入力量の取得
 			Vec3 stickValue = Vec3(GetLStickValue().x, 0.0f, GetLStickValue().y);
@@ -82,5 +89,16 @@ namespace basecross
 			SetRotateTarget(stickValue); // 回転関数
 			ControllerMovement(stickValue);	// 移動関数
 		}
+
+		// 移動状態を設定
+		m_status.Set(ePlayerStatus::IsMove) = isLStick;
+	}
+
+	// アイテム状態の更新
+	void TitlePlayer::UpdateStatus()
+	{
+		// 移動状態の更新
+		m_status.Set(ePlayerStatus::IsRotate) = ((m_currentRot - m_rotTarget).length() > XM_1DIV2PI);
+		m_status.Set(ePlayerStatus::IsIdle) = !m_status(ePlayerStatus::IsMove) && !m_status(ePlayerStatus::IsRotate);
 	}
 }
