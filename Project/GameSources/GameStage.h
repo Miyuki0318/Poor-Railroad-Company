@@ -17,6 +17,7 @@ namespace basecross
 		FadeIn,
 		StartSE,
 		Playing,
+		Pause,
 		GameClear,
 		GameOver,
 		ContinueFade,
@@ -167,6 +168,11 @@ namespace basecross
 		*/
 		void ToTitleStage();
 
+		/// <summary>
+		/// ポーズメニュー表示時の処理
+		/// </summary>
+		void OnPauseMenu();
+
 		/*!
 		@brief コンティニュー時の処理
 		*/
@@ -201,6 +207,7 @@ namespace basecross
 
 			m_progressFunc.emplace(eGameProgress::FadeIn, bind(&GameStage::ToFadeInState, this));
 			//m_progressFunc.emplace(eGameProgress::StartSE, bind(&GameStage::ToStartSEState, this));
+			m_progressFunc.emplace(eGameProgress::Pause, bind(&GameStage::OnPauseMenu, this));
 			m_progressFunc.emplace(eGameProgress::GameClear, bind(&GameStage::ToTitleStage, this));
 			m_progressFunc.emplace(eGameProgress::GameOver, bind(&GameStage::ToContinueStage, this));
 			m_progressFunc.emplace(eGameProgress::ContinueFade, bind(&GameStage::ToContinueStage, this));

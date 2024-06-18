@@ -43,6 +43,5 @@ namespace basecross
 
 		void OnOpen();
 		void OnClose();
-
 	};
 }
