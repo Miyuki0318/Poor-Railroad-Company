@@ -30,9 +30,9 @@ namespace basecross {
 		{
 			FollowTarget();
 		}
-		if (m_cameraState == Zoom) // ズーム状態
+		if (m_cameraState == ZoomIn) // ズーム状態
 		{
-			ZoomInProcess(); 
+			ZoomProcess(); 
 		}
 		Camera::OnUpdate();
 	}
@@ -46,13 +46,21 @@ namespace basecross {
 		SetEye(Utility::Lerp(newAt, newEye, m_ZoomRatioC));
 	}
 
-	void MainCamera::ZoomInProcess()
+	void MainCamera::ZoomProcess()
 	{
 		m_zoomRatio = Clamp01(m_zoomRatio);
 		// 線形補間でズームさせる
-		SetEye(Utility::Lerp(GetEye(), Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z + m_zoomEye.z), m_zoomRatio));
 		SetAt(Utility::Lerp(m_DefaultAt, Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z), m_zoomRatio));
-		m_zoomRatio += DELTA_TIME * m_zoomSpeed;
-		//m_zoomRatio = Repeat01(m_zoomRatio, m_zoomSpeed);
+		SetEye(Utility::Lerp(m_currentEye, Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z + m_zoomEye.z), m_zoomRatio));
+
+		if (m_cameraState == State::ZoomIn)
+		{
+			m_zoomRatio += DELTA_TIME * m_zoomSpeed;
+		}
+		if (m_cameraState == State::ZoomOut)
+		{
+			if (m_zoomRatio <= 0.0f) m_cameraState = State::Fixed;
+			m_zoomRatio -= DELTA_TIME * m_zoomSpeed;
+		}
 	}
 }

@@ -8,7 +8,9 @@ namespace basecross
 		enum State {
 			None,
 			Open,
-			Close
+			Close,
+			Opened,
+			Closed
 		};
 		State m_state;
 
