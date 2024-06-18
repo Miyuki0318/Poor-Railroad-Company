@@ -24,6 +24,8 @@ namespace basecross{
 	private:
 		eMapLevel m_mapLevel = eMapLevel::FirstMap;
 		map<eMapLevel, string> m_stagePathMap;
+
+		int m_money;
 	public:
 		const wstring m_objTagName = L"SELECT";
 		//--------------------------------------------------------------------------------------
@@ -38,6 +40,8 @@ namespace basecross{
 			m_stagePathMap.emplace(eMapLevel::ThirdMap, "Third");
 			m_stagePathMap.emplace(eMapLevel::FourthMap, "Fourth");
 			m_stagePathMap.emplace(eMapLevel::FifthMap, "Fifth");
+
+			m_money = 0;
 		}
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -108,6 +112,24 @@ namespace basecross{
 		wstring GetTagName()
 		{
 			return m_objTagName;
+		}
+
+		/*!
+		@brief Ç®ã‡ÇÃéÊìæ
+		@return m_money
+		*/
+		int GetMoney()
+		{
+			return m_money;
+		}
+
+		/*!
+		@brief Ç®ã‡ÇÃê›íË
+		@param[in] ê›íËÇ∑ÇÈÇ®ã‡ÇÃíl
+		*/
+		void SetMoney(int money)
+		{
+			m_money = money;
 		}
 	};
 }

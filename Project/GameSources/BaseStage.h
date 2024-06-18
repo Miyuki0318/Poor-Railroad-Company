@@ -201,5 +201,51 @@ namespace basecross
 		{
 			return m_positionMap;
 		}
+
+		/*!
+		@brief お金の取得
+		@return money
+		*/
+		int GetMoney() const
+		{
+			// Sceneを取得
+			const weak_ptr<Scene> scene = App::GetApp()->GetScene<Scene>();
+			// Sceneからmoneyを取得
+			int money = scene.lock()->GetMoney();
+			// moneyの値を返す
+			return money;
+		}
+
+		/*!
+		@brief お金の加算
+		@param[in] 加算する値
+		*/
+		void AddMoney(int value) const
+		{
+			// Sceneを取得
+			const weak_ptr<Scene> scene = App::GetApp()->GetScene<Scene>();
+			// Sceneからmoneyを取得
+			int money = scene.lock()->GetMoney();
+			//moneyに値を加算
+			money += value;
+			// Sceneのmoneyを更新
+			scene.lock()->SetMoney(money);
+		}
+
+		/*!
+		@brief お金の使用
+		@param[in] 使用する値
+		*/
+		void UseMoney(int value) const
+		{
+			// Sceneを取得
+			const weak_ptr<Scene> scene = App::GetApp()->GetScene<Scene>();
+			// Sceneからmoneyを取得
+			int money = scene.lock()->GetMoney();
+			//moneyから値を減算
+			money -= value;
+			// Sceneのmoneyを更新
+			scene.lock()->SetMoney(money);
+		}
 	};
 }
