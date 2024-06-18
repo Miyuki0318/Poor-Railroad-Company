@@ -28,12 +28,35 @@ namespace basecross
 		// コンポーネントの設定
 		CreateComponent();
 
+		// プレイヤーに付加する機能の生成
+		CreatePlayerFeatures();
+
 		// タグの設定
 		AddTag(L"Player");
 	}
 
+	void Player::CreateComponent()
+	{
+		// 描画コンポーネントの設定
+		m_ptrDraw = AddComponent<BcPNTBoneModelDraw>();
+		m_ptrDraw->SetMeshToTransformMatrix(m_modelMat);
+		m_ptrDraw->SetSpecularColor(COL_BLACK);
+		m_ptrDraw->SetOwnShadowActive(true);
+		m_ptrDraw->SetLightingEnabled(false);
+
+		// 影の設定
+		m_ptrShadow = AddComponent<Shadowmap>();
+		m_ptrShadow->SetMeshToTransformMatrix(m_modelMat);
+
+		// メッシュとアニメーションの設定
+		SetAnimationMesh(ePAK::Walking);
+
+		// コリジョンOBBの追加
+		AddComponent<CollisionCapsule>();
+	}
+
 	// アニメーションメッシュの切り替え
-	void Player::SetAnimationMesh(ePAKey animation, float start)
+	void Player::SetAnimationMesh(ePAK animation, float start)
 	{
 		if (!m_ptrDraw) return;
 		if (!m_ptrShadow) return;
@@ -55,7 +78,7 @@ namespace basecross
 	}
 
 	// 指定アニメーションになっているかの確認
-	bool Player::IsAnimation(ePAKey animation)
+	bool Player::IsAnimation(ePAK animation)
 	{
 		if (!m_ptrDraw) return false;
 
@@ -64,12 +87,46 @@ namespace basecross
 	}
 
 	// 指定アニメーションになっているかの確認
-	bool Player::IsAnimeEnd(ePAKey animation)
+	bool Player::IsAnimeEnd(ePAK animation)
 	{
 		if (!IsAnimation(animation)) return false;
 
 		// 現在のアニメーションがアニメーションキーと一致しているか
 		return m_ptrDraw->IsTargetAnimeEnd();
+	}
+
+	// 採掘命令
+	bool Player::GatheringOrder(const shared_ptr<SelectIndicator>& indicator)
+	{
+		// 採掘命令を送り、採掘できたらタグセットを受け取る
+		int id = indicator->GatheringOrder();
+
+		// 採掘オブジェクトのタグセットが空じゃなければ採掘処理を送る
+		if (id != 0)
+		{
+			GatheringProcces(id);
+			return true;
+		}
+
+		return false;
+	}
+
+	// 採掘処理
+	void Player::GatheringProcces(int stageID)
+	{
+		// 採掘対象マップを用いて採掘数を追加
+		eStageID id = STAGE_ID(stageID);
+
+		// アイテムカウンタの追加とSEの再生
+		if (m_gatherMap.find(id) != m_gatherMap.end())
+		{
+			m_addItem = m_gatherMap.at(id).first;
+			AddItemCount(m_gatherMap.at(id).first);
+			StartSE(m_gatherMap.at(id).second + L"_SE", 1.0f);
+		}
+
+		// 採掘状態にする
+		m_status.Set(ePlayerStatus::IsGathering) = true;
 	}
 
 	// 回転先設定
@@ -104,6 +161,19 @@ namespace basecross
 		SetRotation(Vec3(0.0f, rotY, 0.0f));
 	}
 	
+	// アクション時にインディケーターに向く
+	void Player::SetRotateIndicatorAngle()
+	{
+		// エラーチェック
+		const auto& indicator = m_indicator.lock();
+		if (!indicator) return;
+
+		// 座標同士で角度を求める
+		Vec3 indiPos = indicator->GetPosition();
+		float rotY = atan2f(indiPos.z - m_position.z, indiPos.x - m_position.x);
+		m_rotTarget = Vec3(cos(rotY), 0.0f, sin(-rotY));
+	}
+
 	// 歩いた時のSE再生
 	void Player::StartWalkSoundEffect()
 	{

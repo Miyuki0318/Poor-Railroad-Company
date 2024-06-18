@@ -1,43 +1,57 @@
 /*!
-@file PlayerGatheringState.h
-@brief プレイヤーの採取状態ステート
+@file GamePlayerCraftingState.h
+@brief プレイヤーのクラフト状態ステート
 @author 小澤博貴
 */
 
 #pragma once
-#include "PlayerState.h"
+#include "GamePlayerStateMachine.h"
 
 namespace basecross
 {
 	/*!
-	@brief 採取状態のプレイヤーステート
+	@brief クラフト状態のプレイヤーステート
 	*/
-	class PlayerGatheringState : public PlayerState
+	class GamePlayerCraftingState : public GamePlayerState
 	{
-		bool m_isFlyEffect;	// アイテムエフェクトを出したか
-		float m_animeHelfTime; // アニメーションの半分の時間
+		// クラフト開始ボタン入力
+		enum class eCurrentCraftInput : unsigned char
+		{
+			None,		// 未入力
+			PushStartA,	// Aボタン入力で開始した
+			PushStartB,	// Bボタン入力で開始した
+			PushStartY,	// Yボタン入力で開始した
+		};
+
+		// クラフト開始ボタン
+		eCurrentCraftInput m_currentInput;
+		eCurrentCraftInput m_pastInput;
+
+		bool m_isStartCraft; // クラフト開始できるかの真偽
 
 		/*!
 		@brief コンストラクタ
 		*/
-		PlayerGatheringState() 
+		GamePlayerCraftingState() 
 		{
-			m_isFlyEffect = false;
-			m_animeHelfTime = 0.0f;
+			m_isStartCraft = true;
+			m_currentInput = eCurrentCraftInput::None;
+			m_pastInput = eCurrentCraftInput::None;
 		}
+
 
 	public:
 
 		/*!
 		@brief デストラクタ
 		*/
-		virtual ~PlayerGatheringState() {}
+		virtual ~GamePlayerCraftingState() {}
 
 		/*!
 		@brief インスタンス関数
 		@return 新しく生成されたthisポインタ
 		*/
-		static shared_ptr<PlayerGatheringState> Instance();
+		static shared_ptr<GamePlayerCraftingState> Instance();
 
 		/*!
 		@brief ステート名取得関数
@@ -86,5 +100,20 @@ namespace basecross
 		@param プレイヤーのポインタ
 		*/
 		void OnPushY(const shared_ptr<GamePlayer>& player) override;
+
+		/*!
+		@brief ボタン入力を行い、QTEを停止させる関数
+		*/
+		void PushedQTE(const shared_ptr<GamePlayer>& player);
+
+		/*!
+		@brief クラフトQTEが終わっているかの確認関数
+		*/
+		void CheckedCraftQTE(const shared_ptr<GamePlayer>& player);
+
+		/*!
+		@brief クラフトQTE停止時に実行する関数
+		*/
+		void StoppedCraftQTE(const shared_ptr<GamePlayer>& player);
 	};
 }

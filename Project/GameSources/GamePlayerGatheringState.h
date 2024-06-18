@@ -1,36 +1,43 @@
 /*!
-@file PlayerMovingState.h
-@brief プレイヤーの移動状態ステート
+@file GamePlayerGatheringState.h
+@brief プレイヤーの採取状態ステート
 @author 小澤博貴
 */
 
 #pragma once
-#include "PlayerState.h"
+#include "GamePlayerStateMachine.h"
 
 namespace basecross
 {
 	/*!
-	@brief 移動状態のプレイヤーステート
+	@brief 採取状態のプレイヤーステート
 	*/
-	class PlayerMovingState : public PlayerState
+	class GamePlayerGatheringState : public GamePlayerState
 	{
+		bool m_isFlyEffect;	// アイテムエフェクトを出したか
+		float m_animeHelfTime; // アニメーションの半分の時間
+
 		/*!
 		@brief コンストラクタ
 		*/
-		PlayerMovingState() {}
+		GamePlayerGatheringState() 
+		{
+			m_isFlyEffect = false;
+			m_animeHelfTime = 0.0f;
+		}
 
 	public:
 
 		/*!
 		@brief デストラクタ
 		*/
-		virtual ~PlayerMovingState() {}
+		virtual ~GamePlayerGatheringState() {}
 
 		/*!
 		@brief インスタンス関数
 		@return 新しく生成されたthisポインタ
 		*/
-		static shared_ptr<PlayerMovingState> Instance();
+		static shared_ptr<GamePlayerGatheringState> Instance();
 
 		/*!
 		@brief ステート名取得関数
@@ -79,11 +86,5 @@ namespace basecross
 		@param プレイヤーのポインタ
 		*/
 		void OnPushY(const shared_ptr<GamePlayer>& player) override;
-
-		/*!
-		@brief 移動更新
-		@param プレイヤーのポインタ
-		*/
-		void UpdateMoving(const shared_ptr<GamePlayer>& player);
 	};
 }
