@@ -40,6 +40,7 @@ namespace basecross
 		TitlePlayer(const shared_ptr<Stage>& stagePtr) :
 			Player(stagePtr)
 		{
+			m_status.Set(ePlayerStatus::IsIdle) = true;
 		}
 
 		/*!
@@ -85,5 +86,10 @@ namespace basecross
 		@brief 移動更新関数
 		*/
 		void UpdateMove() override;
+
+		/*!
+		@brief アイテム状態の更新関数
+		*/
+		void UpdateStatus();
 	};
 }

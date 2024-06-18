@@ -36,7 +36,7 @@ namespace basecross
 	void TitlePlayerGatheringState::Execute(const shared_ptr<TitlePlayer>& player)
 	{
 		// アニメーション更新
-		float animeSpeed = player->m_playerData.at(ePST::GatherSpeed).at(player->m_playerLevel);
+		float animeSpeed = player->m_playerData.at(ePST::GatherSpeed).at(player->m_statusLevel);
 		player->UpdateAnimation(animeSpeed);
 		player->UpdateRotation();
 

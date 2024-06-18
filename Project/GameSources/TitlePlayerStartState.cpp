@@ -51,6 +51,10 @@ namespace basecross
 		if (m_totalTime >= m_moveTime)
 		{
 			player->SetState(TitlePlayerPauseState::Instance());
+
+			const auto& titleStage = player->GetTypeStage<TitleStage>();
+			auto& zoomCamera = dynamic_pointer_cast<MainCamera>(titleStage->GetView()->GetTargetCamera());
+			zoomCamera->ZoomEnd();
 		}
 
 		player->SetPosition(pos);

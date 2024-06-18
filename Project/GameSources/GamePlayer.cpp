@@ -201,12 +201,12 @@ namespace basecross
 	void GamePlayer::UpdateItemCount()
 	{
 		// アイテム数が越えない様に上書き
-		m_craft->m_itemCount.at(eItemType::Stone) = min(m_craft->m_itemCount.at(eItemType::Stone), (unsigned char)m_playerData.at(ePST::StoneMax).at(m_playerLevel));
-		m_craft->m_itemCount.at(eItemType::Wood) = min(m_craft->m_itemCount.at(eItemType::Wood), (unsigned char)m_playerData.at(ePST::WoodMax).at(m_playerLevel));
-		m_craft->m_itemCount.at(eItemType::Gear) = min(m_craft->m_itemCount.at(eItemType::Gear), (unsigned char)m_playerData.at(ePST::GearMax).at(m_playerLevel));
-		m_craft->m_itemCount.at(eItemType::Rail) = min(m_craft->m_itemCount.at(eItemType::Rail), (unsigned char)m_playerData.at(ePST::RailMax).at(m_playerLevel));
-		m_craft->m_itemCount.at(eItemType::WoodBridge) = min(m_craft->m_itemCount.at(eItemType::WoodBridge), (unsigned char)m_playerData.at(ePST::BridgeMax).at(m_playerLevel));
-		m_craft->m_itemCount.at(eItemType::Crossing) = min(m_craft->m_itemCount.at(eItemType::Crossing), (unsigned char)m_playerData.at(ePST::CrossingMax).at(m_playerLevel));
+		m_craft->m_itemCount.at(eItemType::Stone) = min(m_craft->m_itemCount.at(eItemType::Stone), (unsigned char)m_playerData.at(ePST::StoneMax).at(m_backPackLevel));
+		m_craft->m_itemCount.at(eItemType::Wood) = min(m_craft->m_itemCount.at(eItemType::Wood), (unsigned char)m_playerData.at(ePST::WoodMax).at(m_backPackLevel));
+		m_craft->m_itemCount.at(eItemType::Gear) = min(m_craft->m_itemCount.at(eItemType::Gear), (unsigned char)m_playerData.at(ePST::GearMax).at(m_backPackLevel));
+		m_craft->m_itemCount.at(eItemType::Rail) = min(m_craft->m_itemCount.at(eItemType::Rail), (unsigned char)m_playerData.at(ePST::RailMax).at(m_backPackLevel));
+		m_craft->m_itemCount.at(eItemType::WoodBridge) = min(m_craft->m_itemCount.at(eItemType::WoodBridge), (unsigned char)m_playerData.at(ePST::BridgeMax).at(m_backPackLevel));
+		m_craft->m_itemCount.at(eItemType::Crossing) = min(m_craft->m_itemCount.at(eItemType::Crossing), (unsigned char)m_playerData.at(ePST::CrossingMax).at(m_backPackLevel));
 	}
 
 	// 移動更新

@@ -102,7 +102,7 @@ namespace basecross {
 
 			if (m_railManager.lock()->IsConnectionGoalRail()) // ƒS[ƒ‹‚Ü‚Åü˜H‚ª‚Â‚È‚ª‚Á‚½‚ç
 			{
-				m_moveSpeed = m_defSpeed * 1.2f; // ‘‚­i‚Ş
+				m_moveSpeed = m_defSpeed * 5.0f; // ‘‚­i‚Ş
 			}
 			else
 			{
