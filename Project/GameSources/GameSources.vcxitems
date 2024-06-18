@@ -82,6 +82,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerIdleState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerMovingState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerPauseState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerStartState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerStateMachine.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleTrain.h" />
@@ -148,6 +149,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayerIdleState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayerMovingState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayerPauseState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayerStartState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleTrain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Train.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp" />

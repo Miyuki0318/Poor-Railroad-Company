@@ -223,6 +223,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerPauseState.h">
       <Filter>Player\Title\State\Pause</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerStartState.h">
+      <Filter>Player\Title\State\Start</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -413,6 +416,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayerPauseState.cpp">
       <Filter>Player\Title\State\Pause</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayerStartState.cpp">
+      <Filter>Player\Title\State\Start</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -637,6 +643,9 @@
     </Filter>
     <Filter Include="Player\Title\State\Gathering">
       <UniqueIdentifier>{3f8c2efe-399e-42f8-b0a8-1f3468199cf0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Title\State\Start">
+      <UniqueIdentifier>{ff453aae-fa1a-4c12-928f-051b684e73bd}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

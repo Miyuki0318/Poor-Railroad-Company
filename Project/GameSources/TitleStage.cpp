@@ -253,7 +253,7 @@ namespace basecross
 	// オブジェクトとプレイヤーの距離
 	void TitleStage::DistanceToPlayer()
 	{
-		auto& player = GetSharedGameObject<Player>(L"Player");
+		auto& player = GetSharedGameObject<TitlePlayer>(L"Player");
 		Vec3 playerPos = player->GetPosition();
 
 		// 範囲for文でグループに所属しているオブジェクト数ループさせる
@@ -276,6 +276,7 @@ namespace basecross
 				}
 
 				Progress(m_selectObj);
+				player->SetState(TitlePlayerPauseState::Instance());
 			}
 
 			if (!m_selectObj)

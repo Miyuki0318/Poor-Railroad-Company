@@ -40,6 +40,20 @@ namespace basecross
 
 		const auto& titleStage = player->GetTypeStage<TitleStage>();
 
+		auto prog = titleStage->GetTitleProgress();
+		if (Utility::OR(prog, eTitleProgress::select, eTitleProgress::zoom) && Input::GetPushB())
+		{
+			if (dynamic_pointer_cast<Company>(titleStage->GetSelectObject()))
+			{
+				player->SetState(TitlePlayerIdleState::Instance());
+				auto& zoomCamera = dynamic_pointer_cast<MainCamera>(titleStage->GetView()->GetTargetCamera());
+				zoomCamera->ZoomEnd();
+				return;
+			}
+
+			player->SetState(TitlePlayerStartState::Instance());
+		}
+
 		auto& opening = titleStage->GetSharedGameObject<TitleLogo>(L"TitleLogo");
 		if (opening->GetLogoState() == eLogoState::exit && Input::GetPushB())
 		{
