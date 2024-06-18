@@ -223,9 +223,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerPauseState.h">
       <Filter>Player\Title\State\Pause</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Shop.h">
-      <Filter>StageObject\Building\Shop</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -416,9 +413,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayerPauseState.cpp">
       <Filter>Player\Title\State\Pause</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Shop.cpp">
-      <Filter>StageObject\Building\Shop</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -643,9 +637,6 @@
     </Filter>
     <Filter Include="Player\Title\State\Gathering">
       <UniqueIdentifier>{3f8c2efe-399e-42f8-b0a8-1f3468199cf0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="StageObject\Building\Shop">
-      <UniqueIdentifier>{048e7415-39af-4347-9d01-f8b293c8c376}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
