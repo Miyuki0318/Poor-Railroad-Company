@@ -13,23 +13,27 @@ namespace basecross
 		State m_state;
 
 		const Vec3 m_DefaultPosition;
+		const Vec3 m_AfterPosition;
 		const Vec2 m_DefaultScale;
 		const Vec2 m_AfterScale;
-		const float m_ScaleSpeed;
+		const float m_LerpSpeed;
 
-		float m_scaleRatio;
+		float m_lerpRatio;
 
 		weak_ptr<Sprite> m_menuSprites;
 
+		void StateProcess(State state);
+
 	public:
-		PauseMenu(const shared_ptr<Stage>& stagePtr, const Vec3& position) :
+		PauseMenu(const shared_ptr<Stage>& stagePtr) :
 			GameObject(stagePtr),
-			m_DefaultPosition(position),
+			m_DefaultPosition(Vec3(1920.0f, 1080.0f, 0.0f)),
+			m_AfterPosition(Vec3(0.0f)),
 			m_DefaultScale(Vec2(0.0f)),
 			m_AfterScale(Vec2(1920.0f, 1080.0f)),
-			m_ScaleSpeed(3.0f),
+			m_LerpSpeed(3.0f),
 			m_state(State::None),
-			m_scaleRatio(0.0f)
+			m_lerpRatio(0.0f)
 		{
 		}
 		~PauseMenu() {}
@@ -40,6 +44,5 @@ namespace basecross
 		void OnOpen();
 		void OnClose();
 
-		void StateProcess(State state);
 	};
 }

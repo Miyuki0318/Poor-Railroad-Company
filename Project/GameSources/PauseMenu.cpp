@@ -20,19 +20,20 @@ namespace basecross
 	void PauseMenu::OnOpen()
 	{
 		m_state = State::Open;
-		m_scaleRatio = 0.0f;
+		m_lerpRatio = 0.0f;
 	}
 
 	void PauseMenu::OnClose()
 	{
 		m_state = State::Close;
-		m_scaleRatio = 1.0f;
+		m_lerpRatio = 1.0f;
 	}
 
 	void PauseMenu::StateProcess(State state)
 	{
-		m_scaleRatio = Clamp01(m_scaleRatio);
-		m_menuSprites.lock()->SetScale(Utility::Lerp(m_DefaultScale, m_AfterScale, m_scaleRatio));
+		m_lerpRatio = Clamp01(m_lerpRatio);
+		m_menuSprites.lock()->SetPosition(Utility::Lerp(m_DefaultPosition, m_AfterPosition, m_lerpRatio));
+		m_menuSprites.lock()->SetScale(Utility::Lerp(m_DefaultScale, m_AfterScale, m_lerpRatio));
 
 		if (state == State::None)
 		{
@@ -40,13 +41,13 @@ namespace basecross
 		}
 		if (state == State::Open)
 		{
-			m_scaleRatio += DELTA_TIME * m_ScaleSpeed;
-			m_state = m_scaleRatio >= 1.0f ? State::None : State::Open;
+			m_lerpRatio += DELTA_TIME * m_LerpSpeed;
+			m_state = m_lerpRatio >= 1.0f ? State::None : State::Open;
 		}
 		if (state == State::Close)
 		{
-			m_scaleRatio -= DELTA_TIME * m_ScaleSpeed;
-			m_state = m_scaleRatio <= 0.0f ? State::None : State::Close;
+			m_lerpRatio -= DELTA_TIME * m_LerpSpeed;
+			m_state = m_lerpRatio <= 0.0f ? State::None : State::Close;
 		}
 	}
 }
