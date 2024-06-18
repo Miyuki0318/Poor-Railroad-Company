@@ -178,14 +178,14 @@ namespace basecross
 	// ƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚½Žž‚Ìˆ—
 	void TitleStage::PushButtonB()
 	{
-		if (titleProgress == usually)
+		if (titleProgress == normal)
 		{
 			titleProgress = push;
 		}
 
 		if (titleProgress == select)
 		{
-			titleProgress = usually;
+			titleProgress = normal;
 		}
 	}
 
@@ -195,7 +195,8 @@ namespace basecross
 		auto& camera = GetView()->GetTargetCamera();
 		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 
-		if (m_selectObj&& !m_zooming)
+		if (m_selectObj && !m_zooming)
+		//if (titleProgress == zoom)
 		{
 			Vec3 cameraPos = m_selectObj->GetComponent<Transform>()->GetPosition();
 
@@ -205,7 +206,7 @@ namespace basecross
 			m_zooming = true;
 		}
 
-		if (titleProgress == usually)
+		if (titleProgress == normal)
 		{
 			titleCamera->SetEye(m_cameraEye);
 			titleCamera->SetAt(m_cameraAt);
@@ -229,7 +230,7 @@ namespace basecross
 		{
 			m_fadeSprite->FadeInColor(2.0f);
 		}
-		else if(titleProgress == usually || titleProgress == push)
+		else if(titleProgress == normal || titleProgress == push)
 		{
 			m_fadeSprite->SetDiffuseColor(COL_ALPHA);
 		}
@@ -270,18 +271,21 @@ namespace basecross
 			if (m_distance < m_searchArea)
 			{
 				m_selectObj = target;
+
 				if (!m_selectObj->FindTag(tagName))
 				{
 					m_selectObj->AddTag(tagName);
+					titleProgress = zoom;
 				}
 
 				Progress(m_selectObj);
 				player->SetState(TitlePlayerPauseState::Instance());
 			}
 
+
 			if (!m_selectObj)
 			{
-				titleProgress = usually;
+				titleProgress = normal;
 			}
 		}
 	}
@@ -349,7 +353,7 @@ namespace basecross
 			{
 				DistanceToPlayer();
 			}
-			else if(titleProgress == usually)
+			else if(titleProgress == normal)
 			{
 				if (m_selectObj && m_selectObj->FindTag(tagName))
 				{
