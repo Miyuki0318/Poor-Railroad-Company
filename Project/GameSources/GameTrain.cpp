@@ -131,7 +131,7 @@ namespace basecross {
 
 		int nextRailCount = 0;
 
-		m_trainPos = POS2LINE(GetPosition());
+		m_trainPos = POS2LINE(m_movePos.first);
 
 		// ˆêŒÂæ‚ÌƒŒ[ƒ‹
 		string next = POS2LINE(railMap.at(m_trainPos).futurePos);
