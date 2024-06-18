@@ -18,7 +18,7 @@ namespace basecross {
 	void MainCamera::OnUpdate() {
 		if (m_cameraState == Fixed) // 固定状態
 		{
-			SetEye(Utility::Lerp(m_DefaultAt, m_DefaultEye, m_ZoomRatioC));
+			SetEye(Utility::Lerp(m_initializeAt, m_DefaultEye, m_ZoomRatioC));
 		}
 
 		// これ以降の処理はターゲットオブジェクトがなければ行わない
@@ -32,7 +32,7 @@ namespace basecross {
 		}
 		if (m_cameraState == ZoomIn || m_cameraState == ZoomOut) // ズーム状態
 		{
-			ZoomProcess(); 
+			ZoomProcess();
 		}
 		Camera::OnUpdate();
 	}
@@ -40,7 +40,7 @@ namespace basecross {
 	void MainCamera::FollowTarget()
 	{
 		Vec3 newEye = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_DefaultEye.x), m_DefaultEye.y, m_DefaultEye.z);
-		Vec3 newAt = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_DefaultEye.x), m_DefaultAt.y, m_DefaultAt.z);
+		Vec3 newAt = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_DefaultEye.x), m_initializeAt.y, m_initializeAt.z);
 
 		SetAt(newAt);
 		SetEye(Utility::Lerp(newAt, newEye, m_ZoomRatioC));
@@ -50,7 +50,7 @@ namespace basecross {
 	{
 		m_zoomRatio = Clamp01(m_zoomRatio);
 		// 線形補間でズームさせる
-		SetAt(Utility::Lerp(m_DefaultAt, Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z), m_zoomRatio));
+		SetAt(Utility::Lerp(m_initializeAt, Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z), m_zoomRatio));
 		SetEye(Utility::Lerp(m_currentEye, Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z + m_zoomEye.z), m_zoomRatio));
 
 		if (m_cameraState == State::ZoomIn)
