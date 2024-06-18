@@ -55,7 +55,7 @@ namespace basecross
 	void GameTrainCurvingState::Execute(const shared_ptr<GameTrain>& train)
 	{
 		// カーブを線形補間で処理
-		Vec3 pos = Utility::CurveLerp(m_curvePoints.pointA, m_curvePoints.pointB, m_curvePoints.pointC, train->m_moveRatio);
+		Vec3 pos = Utility::BezierLerp(m_curvePoints.pointA, m_curvePoints.pointB, m_curvePoints.pointC, train->m_moveRatio);
 
 		// レールマップの取得
 		const auto& railMap = train->GetRailDataMap();
