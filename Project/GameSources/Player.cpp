@@ -198,7 +198,7 @@ namespace basecross
 	{
 		// 現在の座標に入力量×速度×デルタタイムで加算
 		Vec3 pos = GetPosition();
-		Vec3 newPos = pos + stickValue * m_playerData.at(ePST::WalkSpeed).at(m_playerLevel) * m_acsel * DELTA_TIME;
+		Vec3 newPos = pos + stickValue * m_playerData.at(ePST::WalkSpeed).at(m_statusLevel) * m_acsel * DELTA_TIME;
 		m_moveValue += (newPos - pos).lengthSqr();
 
 		// csvグリッドとの衝突判定を実行

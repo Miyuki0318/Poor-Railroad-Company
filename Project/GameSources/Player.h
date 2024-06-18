@@ -132,7 +132,8 @@ namespace basecross
 
 		// プレイヤーのステータス
 		map<ePST, map<ePL, float>> m_playerData;
-		ePL m_playerLevel;
+		ePL m_statusLevel;
+		ePL m_backPackLevel;
 
 		// モデルとトランスフォーム差分行列
 		Mat4x4 m_modelMat;
@@ -167,7 +168,8 @@ namespace basecross
 			m_moveValue = 0.0f;
 			m_rotTarget = Vec3(0.0f, XM_PIDIV2, 0.0f); // 回転先は0.0fで初期化
 			m_currentRot = Vec3(0.0f, XM_PIDIV2, 0.0f); // 回転先は0.0fで初期化
-			m_playerLevel = ePL::Level5;
+			m_statusLevel = ePL::Level5;
+			m_backPackLevel = ePL::Level5;
 
 			// モデルとトランスフォームの差分行列を設定
 			m_modelMat.affineTransformation(

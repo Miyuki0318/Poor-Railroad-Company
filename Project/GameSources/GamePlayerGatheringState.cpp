@@ -36,7 +36,7 @@ namespace basecross
 
 		// アニメーションの半分の時間を求める(フレーム数÷レベルによる速度÷FPS÷2.0f)
 		m_animeHelfTime = player->m_animationMap.at(ePAK::Harvesting).flameNum
-			/ player->m_playerData.at(ePST::GatherSpeed).at(player->m_playerLevel)
+			/ player->m_playerData.at(ePST::GatherSpeed).at(player->m_statusLevel)
 			/ ANIME_FPS / 2.0f;
 	}
 
@@ -44,7 +44,7 @@ namespace basecross
 	void GamePlayerGatheringState::Execute(const shared_ptr<GamePlayer>& player)
 	{
 		// アニメーション更新
-		float animeSpeed = player->m_playerData.at(ePST::GatherSpeed).at(player->m_playerLevel);
+		float animeSpeed = player->m_playerData.at(ePST::GatherSpeed).at(player->m_statusLevel);
 		player->UpdateAnimation(animeSpeed);
 		player->UpdateRotation();
 
