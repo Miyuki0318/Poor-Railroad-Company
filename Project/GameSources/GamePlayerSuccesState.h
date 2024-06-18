@@ -1,36 +1,42 @@
 /*!
-@file PlayerFailedState.h
-@brief プレイヤーのゲーム失敗状態ステート
+@file GamePlayerSuccesState.h
+@brief プレイヤーのゲームクリア状態ステート
 @author 小澤博貴
 */
 
 #pragma once
-#include "PlayerState.h"
+#include "GamePlayerStateMachine.h"
 
 namespace basecross
 {
 	/*!
-	@brief ゲーム失敗状態のプレイヤーステート
+	@brief ゲームクリア状態のプレイヤーステート
 	*/
-	class PlayerFailedState : public PlayerState
+	class GamePlayerSuccesState : public GamePlayerState
 	{
+		// 経過時間用変数
+		float m_totalTime;
+
 		/*!
 		@brief コンストラクタ
 		*/
-		PlayerFailedState() {}
+		GamePlayerSuccesState() 
+		{
+			m_totalTime = 0.0f;
+		}
 
 	public:
 
 		/*!
 		@brief デストラクタ
 		*/
-		virtual ~PlayerFailedState() {}
+		virtual ~GamePlayerSuccesState() {}
 
 		/*!
 		@brief インスタンス関数
 		@return 新しく生成されたthisポインタ
 		*/
-		static shared_ptr<PlayerFailedState> Instance();
+		static shared_ptr<GamePlayerSuccesState> Instance();
 
 		/*!
 		@brief ステート名取得関数

@@ -22,12 +22,9 @@ namespace basecross
 		// 開始時の座標に移動
 		SetPosition(m_startPosition);
 
-		// プレイヤーに付加する機能の生成
-		CreatePlayerFeatures();
-
 		// ステートマシンの初期化
-		m_playerState.reset(new PlayerStateMachine(GetThis<GamePlayer>()));
-		m_playerState->SetState(PlayerIdleState::Instance());
+		m_playerState.reset(new GamePlayerStateMachine(GetThis<GamePlayer>()));
+		m_playerState->SetState(GamePlayerIdleState::Instance());
 	}
 
 	// 毎フレーム更新処理
@@ -68,31 +65,10 @@ namespace basecross
 		SetPosition(m_startPosition);
 
 		// 待機状態ステートに変更
-		m_playerState->SetState(PlayerIdleState::Instance());
+		m_playerState->SetState(GamePlayerIdleState::Instance());
 
 		// クラフトマネージャーにリセット処理を送る
 		m_craft->ResetCraftManager();
-	}
-
-	// コンポーネント設定
-	void GamePlayer::CreateComponent()
-	{
-		// 描画コンポーネントの設定
-		m_ptrDraw = AddComponent<BcPNTBoneModelDraw>();
-		m_ptrDraw->SetMeshToTransformMatrix(m_modelMat);
-		m_ptrDraw->SetSpecularColor(COL_BLACK);
-		m_ptrDraw->SetOwnShadowActive(true);
-		m_ptrDraw->SetLightingEnabled(false);
-
-		// 影の設定
-		m_ptrShadow = AddComponent<Shadowmap>();
-		m_ptrShadow->SetMeshToTransformMatrix(m_modelMat);
-
-		// メッシュとアニメーションの設定
-		SetAnimationMesh(ePAKey::Waiting);
-
-		// コリジョンOBBの追加
-		AddComponent<CollisionCapsule>();
 	}
 
 	// プレイヤーに付加する機能の生成
@@ -106,6 +82,10 @@ namespace basecross
 
 		// セレクトインディケーターの生成
 		m_indicator = stagePtr->AddGameObject<SelectIndicator>(thisPtr);
+
+		// アイテムエフェクトの生成
+		m_itemFly = stagePtr->AddGameObject<FlyItemManager>(thisPtr);
+		stagePtr->SetSharedGameObject(L"FlyItemManager", m_itemFly.lock());
 
 		// アクションガイドの生成
 		stagePtr->AddGameObject<ActionGuide>(GetThis<GamePlayer>(), m_indicator.lock());
@@ -137,39 +117,6 @@ namespace basecross
 
 		// 踏切の設置命令、設置できたら終了
 		if (AddCrossingOrder(indicator)) return;
-	}
-
-	// 採掘命令
-	bool GamePlayer::GatheringOrder(const shared_ptr<SelectIndicator>& indicator)
-	{
-		// 採掘命令を送り、採掘できたらタグセットを受け取る
-		int id = indicator->GatheringOrder();
-
-		// 採掘オブジェクトのタグセットが空じゃなければ採掘処理を送る
-		if (id != 0)
-		{
-			GatheringProcces(id);
-			return true;
-		}
-		
-		return false;
-	}
-
-	// 採掘処理
-	void GamePlayer::GatheringProcces(int stageID)
-	{
-		// 採掘対象マップを用いて採掘数を追加
-		eStageID id = STAGE_ID(stageID);
-		
-		// アイテムカウンタの追加とSEの再生
-		if (m_gatherMap.find(id) != m_gatherMap.end())
-		{
-			AddItemCount(m_gatherMap.at(id).first);
-			StartSE(m_gatherMap.at(id).second + L"_SE", 1.0f);
-		}
-
-		// 採掘状態にする
-		m_status.Set(ePlayerStatus::IsGathering) = true;
 	}
 
 	// レール追加命令
@@ -222,19 +169,6 @@ namespace basecross
 		}
 
 		return false;
-	}
-
-	// アクション時にインディケーターに向く
-	void GamePlayer::SetRotateIndicatorAngle()
-	{
-		// エラーチェック
-		const auto& indicator = m_indicator.lock();
-		if (!indicator) return;
-
-		// 座標同士で角度を求める
-		Vec3 indiPos = indicator->GetPosition();
-		float rotY = atan2f(indiPos.z - m_position.z, indiPos.x - m_position.x);
-		m_rotTarget = Vec3(cos(rotY), 0.0f, sin(-rotY));
 	}
 
 	// クラフト状態でのXボタン入力
@@ -305,6 +239,6 @@ namespace basecross
 		if (result == eGameProgress::Playing) return;
 
 		// クリアならサクセスステート、失敗ならフェイルドステートに切り替える
-		result == GameClear ? SetState(PlayerSuccesState::Instance()) : SetState(PlayerFailedState::Instance());
+		result == GameClear ? SetState(GamePlayerSuccesState::Instance()) : SetState(GamePlayerFailedState::Instance());
 	}
 }

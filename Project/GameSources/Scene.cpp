@@ -68,6 +68,9 @@ namespace basecross {
 		// メニューテクスチャ
 		app->RegisterTexture(L"MENU_TX", texturePath + L"Menu.png");
 
+		// ポーズメニューテクスチャ
+		app->RegisterTexture(L"PAUSEMENU_TX", texturePath + L"PauseMenu.png");
+
 		// レールの仮モデル
 		RegisterSingleMesh(L"RAIL", modelPath + L"Rail/", L"Rail", false);
 		RegisterSingleMesh(L"TURNRAIL", modelPath + L"Rail/", L"TurnRail", false);

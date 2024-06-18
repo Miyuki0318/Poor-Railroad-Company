@@ -26,6 +26,35 @@ namespace Utility
 	}
 
 	/*!
+	@brief 円弧補間用の線形補間関数
+	@param (start) 線形補間の始点の値
+	@param (end) 線形補間の終点の値
+	@param (time) 線形補間の割合
+	@return 割合に応じて補間された値
+	*/
+	template <class T>
+	inline T SLerp(const T& start, const T& end, float time)
+	{
+		return start * (1.0f - time) + end * time;
+	}
+
+	/*!
+	@brief 円弧補間を行う関数
+	@param (pointA) 補間の始点の値
+	@param (pointB) 補間の中間の値
+	@param (pointC) 補間の終点の値
+	@param (time) 補間の割合
+	@return 割合に応じて補間された値
+	*/
+	template <class T>
+	inline T BezierLerp(const T& pointA, const T& pointB, const T& pointC, float time)
+	{
+		T pA2B = SLerp(pointA, pointB, time);
+		T pB2C = SLerp(pointB, pointC, time);
+		return SLerp(pA2B, pB2C, time);
+	}
+
+	/*!
 	@brief 範囲を指定したサインカーブを生成
 	@param (time) 経過時間
 	@param (min) カーブの下限値
@@ -659,12 +688,6 @@ namespace Utility
 	*/
 	bool GetBetween(const Vec2& value, const Vec2& a, const Vec2& b);
 	bool GetBetween(const Vec3& value, const Vec3& a, const Vec3& b);
-
-	Vec3 SLerp(const Vec3& start, const Vec3& end, float t);
-
-	Vec3 QuadraticBezier(const Vec3& A, const Vec3& B, const Vec3& C, float t);
-
-	Vec3 CurveLerp(const Vec3& A, const Vec3& B, const Vec3& C, float totalTime);
 
 	float rotYatan2f(const Vec3& A, const Vec3& B);
 

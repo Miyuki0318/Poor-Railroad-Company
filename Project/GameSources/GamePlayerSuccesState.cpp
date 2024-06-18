@@ -1,5 +1,5 @@
 /*!
-@file PlayerSuccesState.cpp
+@file GamePlayerSuccesState.cpp
 @brief プレイヤーのゲームクリア状態ステート
 @author 小澤博貴
 */
@@ -10,28 +10,28 @@
 namespace basecross
 {
 	// インスタンス生成
-	shared_ptr<PlayerSuccesState> PlayerSuccesState::Instance()
+	shared_ptr<GamePlayerSuccesState> GamePlayerSuccesState::Instance()
 	{
 		// new演算子で自身を生成
-		static shared_ptr<PlayerSuccesState> instance(new PlayerSuccesState);
+		static shared_ptr<GamePlayerSuccesState> instance(new GamePlayerSuccesState);
 
 		// 新しく生成されたthisポインタ
 		return instance;
 	}
 
 	// ステート名取得
-	wstring PlayerSuccesState::GetStateName() const
+	wstring GamePlayerSuccesState::GetStateName() const
 	{
 		return L"クリア状態ステート";
 	}
 
 	// ステート開始時の処理
-	void PlayerSuccesState::Enter(const shared_ptr<GamePlayer>& player)
+	void GamePlayerSuccesState::Enter(const shared_ptr<GamePlayer>& player)
 	{
 		// アニメーションの変更
-		if (!player->IsAnimation(ePAKey::Walking))
+		if (!player->IsAnimation(ePAK::Walking))
 		{
-			player->SetAnimationMesh(ePAKey::Walking);
+			player->SetAnimationMesh(ePAK::Walking);
 		}
 
 		// ゴール時の座標を設定
@@ -39,10 +39,10 @@ namespace basecross
 	}
 
 	// ステート更新時の処理
-	void PlayerSuccesState::Execute(const shared_ptr<GamePlayer>& player)
+	void GamePlayerSuccesState::Execute(const shared_ptr<GamePlayer>& player)
 	{
 		// 歩くアニメーションなら
-		if (player->IsAnimation(ePAKey::Walking))
+		if (player->IsAnimation(ePAK::Walking))
 		{
 			// ゴール時の座標から演出用の座標に移動
 			Vec3 pos = Utility::Lerp(player->m_goalPosition, player->m_goalStagingPosition, m_totalTime);
@@ -50,7 +50,7 @@ namespace basecross
 			m_totalTime = min(m_totalTime, 1.0f);
 
 			// 経過時間が1.0以上ならクリア時のアニメーションに切り替える
-			if (m_totalTime >= 1.0f) player->SetAnimationMesh(ePAKey::GameSucces);
+			if (m_totalTime >= 1.0f) player->SetAnimationMesh(ePAK::GameSucces);
 
 			// 座標の更新
 			player->SetPosition(pos);
@@ -61,31 +61,31 @@ namespace basecross
 	}
 
 	// ステート終了時の処理
-	void PlayerSuccesState::Exit(const shared_ptr<GamePlayer>& player)
+	void GamePlayerSuccesState::Exit(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// Aボタン入力時
-	void PlayerSuccesState::OnPushA(const shared_ptr<GamePlayer>& player)
+	void GamePlayerSuccesState::OnPushA(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// Bボタン入力時
-	void PlayerSuccesState::OnPushB(const shared_ptr<GamePlayer>& player)
+	void GamePlayerSuccesState::OnPushB(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// Yボタン入力時
-	void PlayerSuccesState::OnPushY(const shared_ptr<GamePlayer>& player)
+	void GamePlayerSuccesState::OnPushY(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// Xボタン入力時
-	void PlayerSuccesState::OnPushX(const shared_ptr<GamePlayer>& player)
+	void GamePlayerSuccesState::OnPushX(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}

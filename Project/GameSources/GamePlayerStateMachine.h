@@ -1,5 +1,5 @@
 /*!
-@file PlayerState.h
+@file GamePlayerStateMachine.h
 @brief プレイヤーの状態ステート
 @author 小澤博貴
 */
@@ -15,19 +15,19 @@ namespace basecross
 	/*!
 	@brief プレイヤー用のステート
 	*/
-	class PlayerState : public ObjState<GamePlayer>
+	class GamePlayerState : public ObjState<GamePlayer>
 	{
 	public:
 
 		/*!
 		@brief	コンストラクタ
 		*/
-		PlayerState() {}
+		GamePlayerState() {}
 
 		/*!
 		@brief	デストラクタ
 		*/
-		virtual ~PlayerState() {}
+		virtual ~GamePlayerState() {}
 
 		/*!
 		@brief ステートに入った時に実行される
@@ -82,7 +82,7 @@ namespace basecross
 	/*!
 	@brief プレイヤー用のステートマシン
 	*/
-	class PlayerStateMachine : public StateMachine<GamePlayer>
+	class GamePlayerStateMachine : public StateMachine<GamePlayer>
 	{
 	public:
 
@@ -90,7 +90,7 @@ namespace basecross
 		@brief コンストラクタ
 		@param プレイヤーのポインタ
 		*/
-		explicit PlayerStateMachine(const shared_ptr<GamePlayer>& owner) :
+		explicit GamePlayerStateMachine(const shared_ptr<GamePlayer>& owner) :
 			StateMachine(owner)
 		{
 		}
@@ -98,13 +98,13 @@ namespace basecross
 		/*!
 		@brief	デストラクタ
 		*/
-		virtual ~PlayerStateMachine() {}
+		virtual ~GamePlayerStateMachine() {}
 		
 		/*!
 		@brief ステートを変更する
 		@param 設定するステート
 		*/
-		void SetState(const shared_ptr<PlayerState>& newState)
+		void SetState(const shared_ptr<GamePlayerState>& newState)
 		{
 			StateMachine::ChangeState(dynamic_pointer_cast<ObjState<GamePlayer>>(newState));
 		}
@@ -116,7 +116,7 @@ namespace basecross
 		{
 			// プレイヤーとステートの取得
 			const auto& player = m_Owner.lock();
-			const auto& state = dynamic_pointer_cast<PlayerState>(m_CurrentState.lock());
+			const auto& state = dynamic_pointer_cast<GamePlayerState>(m_CurrentState.lock());
 			if (state && player)
 			{
 				// ステートにAボタン入力時の処理を送る
@@ -131,7 +131,7 @@ namespace basecross
 		{
 			// プレイヤーとステートの取得
 			const auto& player = m_Owner.lock();
-			const auto& state = dynamic_pointer_cast<PlayerState>(m_CurrentState.lock());
+			const auto& state = dynamic_pointer_cast<GamePlayerState>(m_CurrentState.lock());
 			if (state && player)
 			{
 				// ステートにAボタン入力時の処理を送る
@@ -146,7 +146,7 @@ namespace basecross
 		{
 			// プレイヤーとステートの取得
 			const auto& player = m_Owner.lock();
-			const auto& state = dynamic_pointer_cast<PlayerState>(m_CurrentState.lock());
+			const auto& state = dynamic_pointer_cast<GamePlayerState>(m_CurrentState.lock());
 			if (state && player)
 			{
 				// ステートにAボタン入力時の処理を送る
@@ -161,7 +161,7 @@ namespace basecross
 		{
 			// プレイヤーとステートの取得
 			const auto& player = m_Owner.lock();
-			const auto& state = dynamic_pointer_cast<PlayerState>(m_CurrentState.lock());
+			const auto& state = dynamic_pointer_cast<GamePlayerState>(m_CurrentState.lock());
 			if (state && player)
 			{
 				// ステートにAボタン入力時の処理を送る

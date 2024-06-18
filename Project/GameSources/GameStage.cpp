@@ -59,12 +59,10 @@ namespace basecross
 	{
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
-		Vec3 defEye = Vec3(3.0f, 20.0f, -23.5f);
+		Vec3 defEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
 		Vec3 defAt = Vec3(3.0f, 1.0f, -8.5f);
-		Vec3 newEye = Utility::Lerp(defAt, defEye, 0.6f);
-		newEye.x += m_stageDistanceX;
 
-		auto PtrCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow, newEye, defAt);
+		auto PtrCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow, defEye, defAt);
 		PtrView->SetCamera(PtrCamera);
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
@@ -221,6 +219,15 @@ namespace basecross
 		AddGameObject<ItemCountUI>(scale, startPos + (distance * 4.0), L"UI_RAIL_TX", eItemType::Rail);
 		AddGameObject<ItemCountUI>(scale, startPos + (distance * 5.0), L"UI_BRIDGE_TX", eItemType::WoodBridge);
 		AddGameObject<ItemCountUI>(scale, startPos + (distance * 6.0), L"UI_CROSSING_TX", eItemType::Crossing);
+
+		// アイテム取得時の跳んでくエフェクトの設定
+		const auto& itemFly = GetSharedGameObject<FlyItemManager>(L"FlyItemManager");
+		itemFly->SetTargetUIData(eItemType::Wood, L"UI_WOOD_TX", startPos);
+		itemFly->SetTargetUIData(eItemType::Stone, L"UI_STONE_TX", startPos + distance);
+		itemFly->SetTargetUIData(eItemType::Gear, L"UI_GEAR_TX", startPos + (distance * 2.0));
+		itemFly->SetTargetUIData(eItemType::Rail, L"UI_RAIL_TX", startPos + (distance * 4.0));
+		itemFly->SetTargetUIData(eItemType::WoodBridge, L"UI_BRIDGE_TX", startPos + (distance * 5.0));
+		itemFly->SetTargetUIData(eItemType::Crossing, L"UI_CROSSING_TX", startPos + (distance * 6.0));
 	}
 
 	// スプライトの表示

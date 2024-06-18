@@ -131,7 +131,7 @@ namespace basecross
 	}
 
 	// アクションできるポイントを選択しているか
-	bool ActionGuide::IsActionSelectPoint(const shared_ptr<GamePlayer>& player, const shared_ptr<SelectIndicator>& indicator)
+	bool ActionGuide::IsActionSelectPoint(const shared_ptr<Player>& player, const shared_ptr<SelectIndicator>& indicator)
 	{
 		// 真偽
 		bool isGuide = (indicator->IsGuideRailPoint() && player->GetItemCount(eItemType::Rail));

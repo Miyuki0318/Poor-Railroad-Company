@@ -83,17 +83,14 @@ namespace basecross
 	void TitleStage::CreateOpningScreen()
 	{
 		auto& opning = AddGameObject<TitleLogo>();
+		SetSharedGameObject(L"TitleLogo", opning);
 	}
 
 	// 地面の生成
 	void TitleStage::CreateGround()
 	{		
-		// 床ボックスオブジェクトの追加
-		auto& ground = AddGameObject<GroundBox>(Vec3(m_cameraAt.x, 0.0f, m_cameraAt.z), m_groundScale);
-		ground->SetDrawActive(false);
-		SetSharedGameObject(L"TitleGround", ground);
-
 		AddGameObject<GroundManager>();
+		AddGameObject<UnBreakRock>();	// 壊せない岩の生成
 	}
 
 	// csvでのステージ生成
@@ -144,7 +141,8 @@ namespace basecross
 	void TitleStage::CreatePlayer()
 	{
 		Vec3 startPos = Vec3(m_cameraAt.x, 2.0f, m_cameraAt.z);
-		auto& player = AddGameObject<GamePlayer>(startPos, Vec3(0.0f));
+		auto& player = AddGameObject<TitlePlayer>();
+		player->SetPosition(startPos);
 		SetSharedGameObject(L"Player", player);
 	}
 
@@ -194,15 +192,16 @@ namespace basecross
 	// カメラのズーム処理
 	void TitleStage::TitleCameraZoom()
 	{
-		auto& player = GetSharedGameObject<GamePlayer>(L"Player", true);
-
 		auto& camera = GetView()->GetTargetCamera();
 		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 
 		if (m_selectObj&& !m_zooming)
 		{
-			titleCamera->SetTargetObject(player);
-			titleCamera->ZoomStart(titleCamera->GetEye());
+			Vec3 cameraPos = m_selectObj->GetComponent<Transform>()->GetPosition();
+
+
+			titleCamera->SetTargetObject(m_selectObj);
+			titleCamera->ZoomStart(Vec3(cameraPos.x, cameraPos.y + 2.0f, cameraPos.z));
 			m_zooming = true;
 		}
 
@@ -254,9 +253,8 @@ namespace basecross
 	// オブジェクトとプレイヤーの距離
 	void TitleStage::DistanceToPlayer()
 	{
-		auto& player = GetSharedGameObject<GamePlayer>(L"Player", true);
-
-		Vec3 playerPos = player->GetComponent<Transform>()->GetPosition();
+		auto& player = GetSharedGameObject<Player>(L"Player");
+		Vec3 playerPos = player->GetPosition();
 
 		// 範囲for文でグループに所属しているオブジェクト数ループさせる
 		for (auto& v : m_objectGroup->GetGroupVector())

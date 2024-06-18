@@ -1,36 +1,36 @@
 /*!
-@file PlayerGatheringState.h
-@brief プレイヤーの採取状態ステート
+@file GamePlayerMovingState.h
+@brief プレイヤーの移動状態ステート
 @author 小澤博貴
 */
 
 #pragma once
-#include "PlayerState.h"
+#include "GamePlayerStateMachine.h"
 
 namespace basecross
 {
 	/*!
-	@brief 採取状態のプレイヤーステート
+	@brief 移動状態のプレイヤーステート
 	*/
-	class PlayerGatheringState : public PlayerState
+	class GamePlayerMovingState : public GamePlayerState
 	{
 		/*!
 		@brief コンストラクタ
 		*/
-		PlayerGatheringState() {}
+		GamePlayerMovingState() {}
 
 	public:
 
 		/*!
 		@brief デストラクタ
 		*/
-		virtual ~PlayerGatheringState() {}
+		virtual ~GamePlayerMovingState() {}
 
 		/*!
 		@brief インスタンス関数
 		@return 新しく生成されたthisポインタ
 		*/
-		static shared_ptr<PlayerGatheringState> Instance();
+		static shared_ptr<GamePlayerMovingState> Instance();
 
 		/*!
 		@brief ステート名取得関数
@@ -79,5 +79,11 @@ namespace basecross
 		@param プレイヤーのポインタ
 		*/
 		void OnPushY(const shared_ptr<GamePlayer>& player) override;
+
+		/*!
+		@brief 移動更新
+		@param プレイヤーのポインタ
+		*/
+		void UpdateMoving(const shared_ptr<GamePlayer>& player);
 	};
 }

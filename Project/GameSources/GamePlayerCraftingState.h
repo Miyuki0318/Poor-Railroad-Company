@@ -1,18 +1,18 @@
 /*!
-@file PlayerCraftingState.h
+@file GamePlayerCraftingState.h
 @brief プレイヤーのクラフト状態ステート
 @author 小澤博貴
 */
 
 #pragma once
-#include "PlayerState.h"
+#include "GamePlayerStateMachine.h"
 
 namespace basecross
 {
 	/*!
 	@brief クラフト状態のプレイヤーステート
 	*/
-	class PlayerCraftingState : public PlayerState
+	class GamePlayerCraftingState : public GamePlayerState
 	{
 		// クラフト開始ボタン入力
 		enum class eCurrentCraftInput : unsigned char
@@ -32,7 +32,7 @@ namespace basecross
 		/*!
 		@brief コンストラクタ
 		*/
-		PlayerCraftingState() 
+		GamePlayerCraftingState() 
 		{
 			m_isStartCraft = true;
 			m_currentInput = eCurrentCraftInput::None;
@@ -45,13 +45,13 @@ namespace basecross
 		/*!
 		@brief デストラクタ
 		*/
-		virtual ~PlayerCraftingState() {}
+		virtual ~GamePlayerCraftingState() {}
 
 		/*!
 		@brief インスタンス関数
 		@return 新しく生成されたthisポインタ
 		*/
-		static shared_ptr<PlayerCraftingState> Instance();
+		static shared_ptr<GamePlayerCraftingState> Instance();
 
 		/*!
 		@brief ステート名取得関数

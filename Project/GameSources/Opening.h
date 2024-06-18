@@ -79,5 +79,14 @@ namespace basecross {
 		void PushButton();
 
 		void SpriteBrink();
+
+		/*!
+		@brief タイトルロゴステート取得関数
+		@return m_logoState
+		*/
+		eLogoState GetLogoState() const
+		{
+			return m_logoState;
+		}
 	};
 }

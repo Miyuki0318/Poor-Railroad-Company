@@ -88,19 +88,16 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftUI.h">
       <Filter>Player\Game\Craft\CraftUI</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerMovingState.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerMovingState.h">
       <Filter>Player\Game\State\Moving</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerState.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerStateMachine.h">
       <Filter>Player\Game\State</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerGatheringState.h">
-      <Filter>Player\Game\State\Mining</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerGatheringState.h">
+      <Filter>Player\Game\State\Gathering</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerCraftingState.h">
-      <Filter>Player\Game\State\Crafting</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerIdleState.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerIdleState.h">
       <Filter>Player\Game\State\Idle</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RailManager.h">
@@ -178,10 +175,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainCurveExitState.h">
       <Filter>StageObject\Train\GameTrain\GameTrainState\GameTrainCurveExitState</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerSuccesState.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerSuccesState.h">
       <Filter>Player\Game\State\Succes</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)PlayerFailedState.h">
+    <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerFailedState.h">
       <Filter>Player\Game\State\Failed</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Crossing.h">
@@ -196,7 +193,36 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Gear.h">
       <Filter>StageObject\Gear</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)ItemFly.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ItemFly.h">
+      <Filter>Effect\ItemFly</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PauseMenu.h">
+      <Filter>UI\PauseMenu</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerCraftingState.h">
+      <Filter>Player\Game\State\Crafting</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerState.h">
+      <Filter>Player\Game\State</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerStateMachine.h">
+      <Filter>Player\Title\State</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerIdleState.h">
+      <Filter>Player\Title\State\Idle</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerState.h">
+      <Filter>Player\Title\State</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerMovingState.h">
+      <Filter>Player\Title\State\Moving</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerGatheringState.h">
+      <Filter>Player\Title\State\Gathering</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerPauseState.h">
+      <Filter>Player\Title\State\Pause</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -268,16 +294,13 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftUI.cpp">
       <Filter>Player\Game\Craft\CraftUI</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerMovingState.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayerMovingState.cpp">
       <Filter>Player\Game\State\Moving</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerGatheringState.cpp">
-      <Filter>Player\Game\State\Mining</Filter>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayerGatheringState.cpp">
+      <Filter>Player\Game\State\Gathering</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerCraftingState.cpp">
-      <Filter>Player\Game\State\Crafting</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerIdleState.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayerIdleState.cpp">
       <Filter>Player\Game\State\Idle</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)RailManager.cpp">
@@ -352,11 +375,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainCurveExitState.cpp">
       <Filter>StageObject\Train\GameTrain\GameTrainState\GameTrainCurveExitState</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerSuccesState.cpp">
+    <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayerSuccesState.cpp">
       <Filter>Player\Game\State\Succes</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)PlayerFailedState.cpp">
-      <Filter>Player\Game\State\Failed</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Crossing.cpp">
       <Filter>StageObject\Crossing</Filter>
@@ -369,6 +389,30 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Gear.cpp">
       <Filter>StageObject\Gear</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ItemFly.cpp">
+      <Filter>Effect\ItemFly</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PauseMenu.cpp">
+      <Filter>UI\PauseMenu</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayerCraftingState.cpp">
+      <Filter>Player\Game\State\Crafting</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayerFailedState.cpp">
+      <Filter>Player\Game\State\Failed</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayerIdleState.cpp">
+      <Filter>Player\Title\State\Idle</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayerMovingState.cpp">
+      <Filter>Player\Title\State\Moving</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayerGatheringState.cpp">
+      <Filter>Player\Title\State\Gathering</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayerPauseState.cpp">
+      <Filter>Player\Title\State\Pause</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -458,9 +502,6 @@
     </Filter>
     <Filter Include="Player\Game\State\Moving">
       <UniqueIdentifier>{406bf76f-6cd6-43c6-887a-66267bbf430e}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Player\Game\State\Mining">
-      <UniqueIdentifier>{85f07715-97f4-46c9-a4cc-8c7b64787723}</UniqueIdentifier>
     </Filter>
     <Filter Include="Player\Game\State\Crafting">
       <UniqueIdentifier>{54758f4d-e230-42c6-9dc6-335c4e38edbc}</UniqueIdentifier>
@@ -572,6 +613,30 @@
     </Filter>
     <Filter Include="StageObject\Gear">
       <UniqueIdentifier>{7d3beb32-e2bf-4423-8a6d-19fb772a64ef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Effect\ItemFly">
+      <UniqueIdentifier>{19a02776-e913-436f-9ef6-f664f6f6bb25}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\PauseMenu">
+      <UniqueIdentifier>{d1af5602-4697-4532-899a-b84c57af08e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Title\State">
+      <UniqueIdentifier>{9902b234-2ab1-4cfa-b512-9ed04db6abc2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Title\State\Pause">
+      <UniqueIdentifier>{eab9e013-cb91-4fef-976a-f2e317a1322b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Title\State\Idle">
+      <UniqueIdentifier>{84c9df25-59f2-42a0-b12a-bde0069ef638}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Title\State\Moving">
+      <UniqueIdentifier>{a683ce85-9af5-4674-8bd6-e7886424e8a7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Game\State\Gathering">
+      <UniqueIdentifier>{85f07715-97f4-46c9-a4cc-8c7b64787723}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Title\State\Gathering">
+      <UniqueIdentifier>{3f8c2efe-399e-42f8-b0a8-1f3468199cf0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

@@ -7,11 +7,15 @@
 #pragma once
 #include "BaseStage.h"
 #include "TemplateObject.h"
+#include "SelectIndicator.h"
+#include "CraftManager.h"
+
+#define ANIME_FPS 30.0f
 
 namespace basecross
 {
-	// プレイヤーのアニメーションキータイプ
-	enum class ePAKey : char
+	// Player Animation Key
+	enum class ePAK : char
 	{
 		Waiting,		// 待機
 		Walking,		// 移動
@@ -47,6 +51,20 @@ namespace basecross
 		Level3,
 		Level4,
 		Level5,
+	};
+
+	// プレイヤーの状態
+	enum class ePlayerStatus : uint16_t
+	{
+		IsIdle,			// 待機状態
+		IsMove,			// 移動状態
+		IsRotate,		// 回転状態
+		IsGathering,	// 採掘状態
+		IsHaveWood,		// 木を所持中
+		IsHaveStone,	// 石を所持中
+		IsCrafting,		// クラフト中
+		IsCraftQTE,		// クラフトQTE中
+		IsHaveRail,		// 線路所持中
 	};
 
 	/*!
@@ -86,6 +104,8 @@ namespace basecross
 		shared_ptr<BcPNTBoneModelDraw> m_ptrDraw; 
 		shared_ptr<Shadowmap> m_ptrShadow; 
 
+		weak_ptr<SelectIndicator> m_indicator; // セレクトインディケーター
+
 		float m_acsel;			 // 加速度
 		float m_moveValue;		 // 運動量(移動と回転)
 		const float m_maxAcsel;	 // 最大加速度
@@ -97,7 +117,10 @@ namespace basecross
 		set<eStageID> m_impassableSet; 
 
 		// アニメーションマップ
-		map<ePAKey, AnimationMap> m_animationMap;
+		map<ePAK, AnimationMap> m_animationMap;
+
+		eItemType m_addItem; // 追加したアイテムのタイプ
+		map<eStageID, pair<eItemType, wstring>> m_gatherMap; // 採取対象と取得アイテムタイプ
 
 		// 歩くSEキーマップ
 		map<eStageID, wstring> m_walkSEKeyMap;
@@ -105,6 +128,8 @@ namespace basecross
 		// 斜めのグリッドリスト
 		const vector<pair<int, int>> m_obliqueGridArray;
 		
+		Bool16_t<ePlayerStatus> m_status; // フラグ管理クラス
+
 		// プレイヤーのステータス
 		map<ePST, map<ePL, float>> m_playerData;
 		ePL m_playerLevel;
@@ -137,11 +162,12 @@ namespace basecross
 				make_pair(-1, -1)	// 左奥
 			}
 		{
+			m_status = 0;
 			m_acsel = 0.0f;
 			m_moveValue = 0.0f;
 			m_rotTarget.zero(); // 回転先は0.0fで初期化
 			m_currentRot.zero(); // 回転先は0.0fで初期化
-			m_playerLevel = ePL::Level1;
+			m_playerLevel = ePL::Level5;
 
 			// モデルとトランスフォームの差分行列を設定
 			m_modelMat.affineTransformation(
@@ -151,17 +177,26 @@ namespace basecross
 				Vec3(0.0f, -1.05f, 0.0f)		// ポジション
 			);
 
+			m_addItem = eItemType::Wood; // 取り敢えず木で初期化
+
+			// 採取オブジェクトのIDと採取時に扱うデータ
+			m_gatherMap.emplace(eStageID::Stone1, make_pair(eItemType::Stone, L"ROCK"));
+			m_gatherMap.emplace(eStageID::Stone2, make_pair(eItemType::Stone, L"ROCK"));
+			m_gatherMap.emplace(eStageID::Stone3, make_pair(eItemType::Stone, L"ROCK"));
+			m_gatherMap.emplace(eStageID::Tree1, make_pair(eItemType::Wood, L"TREE"));
+			m_gatherMap.emplace(eStageID::Tree2, make_pair(eItemType::Wood, L"TREE"));
+
 			// アニメーションキー
-			m_animationMap.emplace(ePAKey::Waiting, AnimationMap(L"WAIT", 24, 0.75f, true));	// 待機
-			m_animationMap.emplace(ePAKey::Walking, AnimationMap(L"WALK", 12, 0.75f, true));	// 移動
-			m_animationMap.emplace(ePAKey::Harvesting, AnimationMap(L"HARVESTING", 24, 1.0f));	// 伐採
-			m_animationMap.emplace(ePAKey::CraftStart, AnimationMap(L"C_START", 10, 1.0f));		// クラフト開始
-			m_animationMap.emplace(ePAKey::Crafting, AnimationMap(L"C_NOW", 15, 1.0f, true));	// クラフト中
-			m_animationMap.emplace(ePAKey::CraftFinish, AnimationMap(L"C_END", 10, 1.0f));		// クラフト終了
-			m_animationMap.emplace(ePAKey::QTESucces, AnimationMap(L"SUCCES", 24, 1.0f));		// QTE成功
-			m_animationMap.emplace(ePAKey::QTEFailed, AnimationMap(L"FAILED", 24, 1.0f));		// QTE失敗
-			m_animationMap.emplace(ePAKey::GameSucces, AnimationMap(L"SUCCES", 24, 1.0f, true));// ゲーム成功時
-			m_animationMap.emplace(ePAKey::GameFailed, AnimationMap(L"FAILED", 24, 0.5f));		// ゲーム失敗時
+			m_animationMap.emplace(ePAK::Waiting, AnimationMap(L"WAIT", 24, 0.75f, true));		// 待機
+			m_animationMap.emplace(ePAK::Walking, AnimationMap(L"WALK", 12, 0.75f, true));		// 移動
+			m_animationMap.emplace(ePAK::Harvesting, AnimationMap(L"HARVESTING", 24, 1.0f));	// 伐採
+			m_animationMap.emplace(ePAK::CraftStart, AnimationMap(L"C_START", 10, 1.0f));		// クラフト開始
+			m_animationMap.emplace(ePAK::Crafting, AnimationMap(L"C_NOW", 15, 1.0f, true));		// クラフト中
+			m_animationMap.emplace(ePAK::CraftFinish, AnimationMap(L"C_END", 10, 1.0f));		// クラフト終了
+			m_animationMap.emplace(ePAK::QTESucces, AnimationMap(L"SUCCES", 24, 1.0f));			// QTE成功
+			m_animationMap.emplace(ePAK::QTEFailed, AnimationMap(L"FAILED", 24, 1.0f));			// QTE失敗
+			m_animationMap.emplace(ePAK::GameSucces, AnimationMap(L"SUCCES", 24, 1.0f, true));	// ゲーム成功時
+			m_animationMap.emplace(ePAK::GameFailed, AnimationMap(L"FAILED", 24, 0.5f));		// ゲーム失敗時
 
 			// 歩くSEのキー
 			m_walkSEKeyMap.emplace(eStageID::Grass, L"WALK_GRASS_SE");	// 草地の時のSE
@@ -210,18 +245,78 @@ namespace basecross
 		*/
 		virtual void OnCreate() override;
 
+		/*!
+		@brief アイテム数追加関数
+		@param アイテムタイプenum
+		@param 追加数(デフォ1)
+		*/
+		virtual void AddItemCount(eItemType type, int addNum = 1) {};
+
+		/*!
+		@brief アイテム数取得関数
+		@param アイテムタイプenum
+		@return アイテム数
+		*/
+		virtual int GetItemCount(eItemType type) 
+		{
+			return 0;
+		};
+
+		/*!
+		@brief クラフトできるの取得関数
+		@param クラフトアイテムenum
+		@return クラフトできるかの真偽
+		*/
+		virtual bool GetCraftPosshible() const
+		{
+			return false;
+		}
+
+		/*!
+		@brief 状態取得関数
+		@param プレイヤーの状態enum
+		@return その状態になっているかの真偽
+		*/
+		bool GetStatus(ePlayerStatus status) const
+		{
+			return m_status(status);
+		}
+
 	protected:
 
 		/*!
 		@brief コンポーネントの生成関数
 		*/
-		virtual void CreateComponent() = 0;
+		virtual void CreateComponent();
+
+		/*!
+		@brief プレイヤーに付加する機能生成関数
+		*/
+		virtual void CreatePlayerFeatures() = 0;
+
+		/*!
+		@brief インディケーターへの取得と呼び出し関数
+		*/
+		virtual void IndicatorOrder() = 0;
+
+		/*!
+		@brief 採掘命令関数
+		@param インディケーターのポインタ
+		@return 採掘できたか
+		*/
+		bool GatheringOrder(const shared_ptr<SelectIndicator>& indicator);
+
+		/*!
+		@brief 採掘時に呼び出される関数
+		@param 採掘されるオブジェクトのタグ
+		*/
+		void GatheringProcces(int stageID);
 
 		/*!
 		@brief アニメーションメッシュの更新
 		@param animationKey
 		*/
-		virtual void SetAnimationMesh(ePAKey animation, float start = 0.0f);
+		virtual void SetAnimationMesh(ePAK animation, float start = 0.0f);
 
 		/*!
 		@brief アニメーションのこうしん
@@ -234,14 +329,14 @@ namespace basecross
 		@param animationKey
 		@return 一致してたらtrue
 		*/
-		virtual bool IsAnimation(ePAKey animation);
+		virtual bool IsAnimation(ePAK animation);
 
 		/*!
 		@brief 指定したアニメーションが終了しているかのチェック
 		@param animationKey
 		@return 終了してたらtrue
 		*/
-		virtual bool IsAnimeEnd(ePAKey animation);
+		virtual bool IsAnimeEnd(ePAK animation);
 
 		/*!
 		@brief 移動更新関数
@@ -258,6 +353,11 @@ namespace basecross
 		@param Lスティック入力量
 		*/
 		virtual void SetRotateTarget(const Vec3& stickValue);
+
+		/*!
+		@brief アクション時にインディケーターの方へ回転設定する関数
+		*/
+		void SetRotateIndicatorAngle();
 
 		/*!
 		@brief コントローラー移動関数

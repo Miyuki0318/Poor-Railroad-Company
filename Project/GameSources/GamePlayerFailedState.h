@@ -1,36 +1,36 @@
 /*!
-@file PlayerIdleState.h
-@brief プレイヤーの待機状態ステート
+@file GamePlayerFailedState.h
+@brief プレイヤーのゲーム失敗状態ステート
 @author 小澤博貴
 */
 
 #pragma once
-#include "PlayerState.h"
+#include "GamePlayerStateMachine.h"
 
 namespace basecross
 {
 	/*!
-	@brief 移動状態のプレイヤーステート
+	@brief ゲーム失敗状態のプレイヤーステート
 	*/
-	class PlayerIdleState : public PlayerState
+	class GamePlayerFailedState : public GamePlayerState
 	{
 		/*!
 		@brief コンストラクタ
 		*/
-		PlayerIdleState() {}
+		GamePlayerFailedState() {}
 
 	public:
 
 		/*!
 		@brief デストラクタ
 		*/
-		virtual ~PlayerIdleState() {}
+		virtual ~GamePlayerFailedState() {}
 
 		/*!
 		@brief インスタンス関数
 		@return 新しく生成されたthisポインタ
 		*/
-		static shared_ptr<PlayerIdleState> Instance();
+		static shared_ptr<GamePlayerFailedState> Instance();
 
 		/*!
 		@brief ステート名取得関数
