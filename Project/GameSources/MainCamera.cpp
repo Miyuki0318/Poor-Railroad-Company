@@ -30,7 +30,7 @@ namespace basecross {
 		{
 			FollowTarget();
 		}
-		if (m_cameraState == ZoomIn) // ズーム状態
+		if (m_cameraState == ZoomIn || m_cameraState == ZoomOut) // ズーム状態
 		{
 			ZoomProcess(); 
 		}
