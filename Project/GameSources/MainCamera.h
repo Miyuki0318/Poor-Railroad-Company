@@ -19,6 +19,7 @@ namespace basecross {
 
 		Vec3 m_targetPos;  // ターゲットの位置
 		Vec3 m_zoomEye;		// ズーム後の位置
+		Vec3 m_currentEye;	// ズームのスタート位置
 
 		float m_zoomRatio; // ズームの割合
 		float m_zoomSpeed; // ズーム速度
@@ -27,7 +28,8 @@ namespace basecross {
 		enum State {
 			Fixed,	// 固定
 			Follow,	// 追従
-			Zoom	// ズーム
+			ZoomIn,	// ズームイン
+			ZoomOut	// ズームアウト
 		};
 		State m_cameraState;	// カメラの現在の状態
 		const State m_DefaultState;	// カメラの初期状態
@@ -43,6 +45,7 @@ namespace basecross {
 			m_DefaultEye(eyePos),
 			m_DefaultAt(atPos),
 			m_MaxEye(Vec3(400.0f, 20.0f, -22.0f)),
+			m_currentEye(0.0f),
 			m_ZoomRatioC(0.6f),
 			m_zoomEye(Vec3(0.0f)),
 			m_zoomRatio(0.0f),
@@ -62,7 +65,7 @@ namespace basecross {
 		/// <summary>
 		/// ズーム処理
 		/// </summary>
-		void ZoomInProcess();
+		void ZoomProcess();
 
 		/// <summary>
 		/// ズーム処理スタート時に呼び出す処理
@@ -71,7 +74,9 @@ namespace basecross {
 		/// <param name="zoomEye">ズーム後の位置</param>
 		void ZoomStart(Vec3 zoomEye) {
 			m_zoomEye = zoomEye;
-			m_cameraState = Zoom;
+			m_currentEye = GetEye();
+			m_cameraState = ZoomIn;
+			m_zoomRatio = 0.0f;
 		}
 
 		/// <summary>
@@ -79,9 +84,7 @@ namespace basecross {
 		/// </summary>
 		void ZoomEnd()
 		{
-			SetEye(m_DefaultEye);
-			SetAt(m_DefaultAt);
-			m_cameraState = Fixed;
+			m_cameraState = ZoomOut;
 		}
 
 		// カメラが追尾するオブジェクトを取得する関数

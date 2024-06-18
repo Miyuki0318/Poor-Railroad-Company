@@ -35,19 +35,19 @@ namespace basecross
 		m_menuSprites.lock()->SetPosition(Utility::Lerp(m_DefaultPosition, m_AfterPosition, m_lerpRatio));
 		m_menuSprites.lock()->SetScale(Utility::Lerp(m_DefaultScale, m_AfterScale, m_lerpRatio));
 
-		if (state == State::None)
+		if (state == State::Closed)
 		{
 
 		}
 		if (state == State::Open)
 		{
 			m_lerpRatio += DELTA_TIME * m_LerpSpeed;
-			m_state = m_lerpRatio >= 1.0f ? State::None : State::Open;
+			m_state = m_lerpRatio >= 1.0f ? State::Opened : State::Open;
 		}
 		if (state == State::Close)
 		{
 			m_lerpRatio -= DELTA_TIME * m_LerpSpeed;
-			m_state = m_lerpRatio <= 0.0f ? State::None : State::Close;
+			m_state = m_lerpRatio <= 0.0f ? State::Closed : State::Close;
 		}
 	}
 }
