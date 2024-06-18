@@ -195,5 +195,18 @@ namespace basecross
 		{
 			return titleProgress == eTitleProgress::start;
 		}
+
+		/*
+		@brief タイトルステージの状態を返す関数
+		*/
+		eTitleProgress GetTitleProgress() const
+		{
+			return titleProgress;
+		}
+
+		shared_ptr<GameObject> GetSelectObject() const
+		{
+			return m_selectObj;
+		}
 	};
 }

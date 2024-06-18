@@ -150,7 +150,7 @@ namespace basecross
 		@param ステージポインタ
 		*/
 		Player(const shared_ptr<Stage>& stagePtr) :
-			TemplateObject(stagePtr, Vec3(0.0f, 2.0f, 0.0f), Vec3(0.0f), Vec3(1.0f)),
+			TemplateObject(stagePtr, Vec3(0.0f, 2.0f, 0.0f), Vec3(0.0f, XM_PIDIV2, 0.0f), Vec3(1.0f)),
 			m_rotSpeed(0.5f),
 			m_radius(1.0f),
 			m_maxAcsel(1.0f),

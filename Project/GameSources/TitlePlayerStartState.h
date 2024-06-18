@@ -1,5 +1,5 @@
 /*!
-@file TitlePlayerPauseState.h
+@file TitlePlayerStartState.h
 @brief プレイヤーの停止状態ステート
 @author 小澤博貴
 */
@@ -12,25 +12,35 @@ namespace basecross
 	/*!
 	@brief 移動状態のプレイヤーステート
 	*/
-	class TitlePlayerPauseState : public TitlePlayerState
+	class TitlePlayerStartState : public TitlePlayerState
 	{
+		Vec3 m_startPosition;
+		Vec3 m_endPosition;
+		
+		const float m_moveTime;
+		float m_totalTime;
+
 		/*!
 		@brief コンストラクタ
 		*/
-		TitlePlayerPauseState() {}
+		TitlePlayerStartState() :
+			m_moveTime(2.0f)
+		{
+			m_totalTime = 0.0f;
+		}
 
 	public:
 
 		/*!
 		@brief デストラクタ
 		*/
-		virtual ~TitlePlayerPauseState() {}
+		virtual ~TitlePlayerStartState() {}
 
 		/*!
 		@brief インスタンス関数
 		@return 新しく生成されたthisポインタ
 		*/
-		static shared_ptr<TitlePlayerPauseState> Instance();
+		static shared_ptr<TitlePlayerStartState> Instance();
 
 		/*!
 		@brief ステート名取得関数

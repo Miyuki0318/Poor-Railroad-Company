@@ -137,7 +137,7 @@ namespace basecross
 				// 先端レールなら配列の行番号をディスタンスにする
 				if (num == eStageID::DeRail)
 				{
-					m_stageDistanceX = j;
+					m_stageDistanceX = float(j);
 				}
 			}
 			m_positionMap.push_back(tempVec);

@@ -15,6 +15,7 @@ namespace basecross
 	class TitlePlayerMovingState;		// 移動状態
 	class TitlePlayerPauseState;		// 停止状態
 	class TitlePlayerGatheringState;	// 採掘状態
+	class TitlePlayerStartState;		// 開始状態
 
 	/*!
 	@brief タイトル用プレイヤー
@@ -28,6 +29,7 @@ namespace basecross
 		friend TitlePlayerMovingState;
 		friend TitlePlayerPauseState;
 		friend TitlePlayerGatheringState;
+		friend TitlePlayerStartState;
 
 	public:
 		
@@ -58,6 +60,15 @@ namespace basecross
 		*/
 		void OnUpdate() override;
 
+		/*!
+		@brief State変更関数
+		@param 新しいステートのポインタ
+		*/
+		void SetState(const shared_ptr<TitlePlayerState>& newState)
+		{
+			m_playerState->SetState(newState);
+		}
+
 	private:
 
 		/*!
@@ -74,14 +85,5 @@ namespace basecross
 		@brief 移動更新関数
 		*/
 		void UpdateMove() override;
-
-		/*!
-		@brief State変更関数
-		@param 新しいステートのポインタ
-		*/
-		void SetState(const shared_ptr<TitlePlayerState>& newState)
-		{
-			m_playerState->SetState(newState);
-		}
 	};
 }
