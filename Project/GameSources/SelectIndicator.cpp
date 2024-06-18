@@ -99,7 +99,7 @@ namespace basecross
 	void SelectIndicator::UpdateCursolPosition(Vec3& position)
 	{
 		// プレイヤーの回転角Y軸の中から90の倍数に一番近いのに設定
-		const auto& player = dynamic_pointer_cast<GamePlayer>(m_player.lock());
+		const auto& player = dynamic_pointer_cast<Player>(m_player.lock());
 
 		// プレイヤーの座標を四捨五入する
 		Vec3 pos = player->GetPosition();

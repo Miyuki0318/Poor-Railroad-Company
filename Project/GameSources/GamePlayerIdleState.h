@@ -1,42 +1,36 @@
 /*!
-@file PlayerSuccesState.h
-@brief プレイヤーのゲームクリア状態ステート
+@file GamePlayerIdleState.h
+@brief プレイヤーの待機状態ステート
 @author 小澤博貴
 */
 
 #pragma once
-#include "PlayerState.h"
+#include "GamePlayerStateMachine.h"
 
 namespace basecross
 {
 	/*!
-	@brief ゲームクリア状態のプレイヤーステート
+	@brief 移動状態のプレイヤーステート
 	*/
-	class PlayerSuccesState : public PlayerState
+	class GamePlayerIdleState : public GamePlayerState
 	{
-		// 経過時間用変数
-		float m_totalTime;
-
 		/*!
 		@brief コンストラクタ
 		*/
-		PlayerSuccesState() 
-		{
-			m_totalTime = 0.0f;
-		}
+		GamePlayerIdleState() {}
 
 	public:
 
 		/*!
 		@brief デストラクタ
 		*/
-		virtual ~PlayerSuccesState() {}
+		virtual ~GamePlayerIdleState() {}
 
 		/*!
 		@brief インスタンス関数
 		@return 新しく生成されたthisポインタ
 		*/
-		static shared_ptr<PlayerSuccesState> Instance();
+		static shared_ptr<GamePlayerIdleState> Instance();
 
 		/*!
 		@brief ステート名取得関数

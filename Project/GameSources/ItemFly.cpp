@@ -27,7 +27,7 @@ namespace basecross
 	void FlySprite::OnUpdate()
 	{
 		// ‹Èü•âŠÔ‚ÅÀ•W‚ğ‹‚ß‚é
-		Vec3 pos = CurveLerp(m_targetPointStart, m_targetPointMiddle, m_targetPointEnd, m_totalTime / m_flyTime);
+		Vec3 pos = BezierLerp(m_targetPointStart, m_targetPointMiddle, m_targetPointEnd, m_totalTime / m_flyTime);
 		m_totalTime += DELTA_TIME;
 		m_totalTime = min(m_totalTime, m_flyTime);
 

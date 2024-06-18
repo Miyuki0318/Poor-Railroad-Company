@@ -1,5 +1,5 @@
 /*!
-@file PlayerGatheringState.cpp
+@file GamePlayerGatheringState.cpp
 @brief プレイヤーの採掘状態ステート
 @author 小澤博貴
 */
@@ -10,38 +10,38 @@
 namespace basecross
 {
 	// インスタンス生成
-	shared_ptr<PlayerGatheringState> PlayerGatheringState::Instance()
+	shared_ptr<GamePlayerGatheringState> GamePlayerGatheringState::Instance()
 	{
 		// new演算子で自身を生成
-		static shared_ptr<PlayerGatheringState> instance(new PlayerGatheringState);
+		static shared_ptr<GamePlayerGatheringState> instance(new GamePlayerGatheringState);
 
 		// 新しく生成されたthisポインタ
 		return instance;
 	}
 
 	// ステート名取得
-	wstring PlayerGatheringState::GetStateName() const
+	wstring GamePlayerGatheringState::GetStateName() const
 	{
 		return L"採掘状態ステート";
 	}
 
 	// ステート開始時の処理
-	void PlayerGatheringState::Enter(const shared_ptr<GamePlayer>& player)
+	void GamePlayerGatheringState::Enter(const shared_ptr<GamePlayer>& player)
 	{
 		// アニメーションの変更
-		player->SetAnimationMesh(ePAKey::Harvesting);
+		player->SetAnimationMesh(ePAK::Harvesting);
 
 		// フラグを初期化
 		m_isFlyEffect = false;
 
 		// アニメーションの半分の時間を求める(フレーム数÷レベルによる速度÷FPS÷2.0f)
-		m_animeHelfTime = player->m_animationMap.at(ePAKey::Harvesting).flameNum
+		m_animeHelfTime = player->m_animationMap.at(ePAK::Harvesting).flameNum
 			/ player->m_playerData.at(ePST::GatherSpeed).at(player->m_playerLevel)
 			/ ANIME_FPS / 2.0f;
 	}
 
 	// ステート更新時の処理
-	void PlayerGatheringState::Execute(const shared_ptr<GamePlayer>& player)
+	void GamePlayerGatheringState::Execute(const shared_ptr<GamePlayer>& player)
 	{
 		// アニメーション更新
 		float animeSpeed = player->m_playerData.at(ePST::GatherSpeed).at(player->m_playerLevel);
@@ -70,35 +70,35 @@ namespace basecross
 		}
 
 		// 採取ステータスになっていればアニメーションの切り替え、なってなければステートの切り替え
-		player->m_status(ePlayerStatus::IsGathering) ? player->SetAnimationMesh(ePAKey::Harvesting) : player->SetState(PlayerIdleState::Instance());
+		player->m_status(ePlayerStatus::IsGathering) ? player->SetAnimationMesh(ePAK::Harvesting) : player->SetState(GamePlayerIdleState::Instance());
 	}
 
 	// ステート終了時の処理
-	void PlayerGatheringState::Exit(const shared_ptr<GamePlayer>& player)
+	void GamePlayerGatheringState::Exit(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// Aボタン入力時
-	void PlayerGatheringState::OnPushA(const shared_ptr<GamePlayer>& player)
+	void GamePlayerGatheringState::OnPushA(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// Bボタン入力時
-	void PlayerGatheringState::OnPushB(const shared_ptr<GamePlayer>& player)
+	void GamePlayerGatheringState::OnPushB(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// Xボタン入力時
-	void PlayerGatheringState::OnPushX(const shared_ptr<GamePlayer>& player)
+	void GamePlayerGatheringState::OnPushX(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}
 
 	// Yボタン入力時
-	void PlayerGatheringState::OnPushY(const shared_ptr<GamePlayer>& player)
+	void GamePlayerGatheringState::OnPushY(const shared_ptr<GamePlayer>& player)
 	{
 		// 今のところ何もしない
 	}

@@ -79,7 +79,7 @@ namespace basecross
 		map<int, eActionIcon> m_iconBuffer;			// アイコンタイプバッファ
 		Vec3 m_position;							// 座標
 
-		const weak_ptr<GamePlayer> m_player;		// プレイヤーのポインタ
+		const weak_ptr<Player> m_player;		// プレイヤーのポインタ
 		const weak_ptr<SelectIndicator> m_indicator;// インディケーターのポインタ
 		const Vec2 m_scale;							// スプライトのスケール
 		const Vec3 m_diffPosition;					// 頭上までの座標のずれ
@@ -94,7 +94,7 @@ namespace basecross
 		@param インディケーターポインタ
 		*/
 		ActionGuide(const shared_ptr<Stage>& stagePtr,
-			const shared_ptr<GamePlayer>& playerPtr,
+			const shared_ptr<Player>& playerPtr,
 			const shared_ptr<SelectIndicator>& indicatorPtr
 		) :
 			GameObject(stagePtr),
@@ -199,7 +199,7 @@ namespace basecross
 		@param インディケーターのシェアドポインタ
 		@return bool 何か1つでもアクションできるならtrue
 		*/
-		bool IsActionSelectPoint(const shared_ptr<GamePlayer>& player, const shared_ptr<SelectIndicator>& indicator);
+		bool IsActionSelectPoint(const shared_ptr<Player>& player, const shared_ptr<SelectIndicator>& indicator);
 
 		/*!
 		@brief インディケーターの選択しているステージIDを取得する関数

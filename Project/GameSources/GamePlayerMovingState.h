@@ -1,57 +1,36 @@
 /*!
-@file PlayerCraftingState.h
-@brief プレイヤーのクラフト状態ステート
+@file GamePlayerMovingState.h
+@brief プレイヤーの移動状態ステート
 @author 小澤博貴
 */
 
 #pragma once
-#include "PlayerState.h"
+#include "GamePlayerStateMachine.h"
 
 namespace basecross
 {
 	/*!
-	@brief クラフト状態のプレイヤーステート
+	@brief 移動状態のプレイヤーステート
 	*/
-	class PlayerCraftingState : public PlayerState
+	class GamePlayerMovingState : public GamePlayerState
 	{
-		// クラフト開始ボタン入力
-		enum class eCurrentCraftInput : unsigned char
-		{
-			None,		// 未入力
-			PushStartA,	// Aボタン入力で開始した
-			PushStartB,	// Bボタン入力で開始した
-			PushStartY,	// Yボタン入力で開始した
-		};
-
-		// クラフト開始ボタン
-		eCurrentCraftInput m_currentInput;
-		eCurrentCraftInput m_pastInput;
-
-		bool m_isStartCraft; // クラフト開始できるかの真偽
-
 		/*!
 		@brief コンストラクタ
 		*/
-		PlayerCraftingState() 
-		{
-			m_isStartCraft = true;
-			m_currentInput = eCurrentCraftInput::None;
-			m_pastInput = eCurrentCraftInput::None;
-		}
-
+		GamePlayerMovingState() {}
 
 	public:
 
 		/*!
 		@brief デストラクタ
 		*/
-		virtual ~PlayerCraftingState() {}
+		virtual ~GamePlayerMovingState() {}
 
 		/*!
 		@brief インスタンス関数
 		@return 新しく生成されたthisポインタ
 		*/
-		static shared_ptr<PlayerCraftingState> Instance();
+		static shared_ptr<GamePlayerMovingState> Instance();
 
 		/*!
 		@brief ステート名取得関数
@@ -102,18 +81,9 @@ namespace basecross
 		void OnPushY(const shared_ptr<GamePlayer>& player) override;
 
 		/*!
-		@brief ボタン入力を行い、QTEを停止させる関数
+		@brief 移動更新
+		@param プレイヤーのポインタ
 		*/
-		void PushedQTE(const shared_ptr<GamePlayer>& player);
-
-		/*!
-		@brief クラフトQTEが終わっているかの確認関数
-		*/
-		void CheckedCraftQTE(const shared_ptr<GamePlayer>& player);
-
-		/*!
-		@brief クラフトQTE停止時に実行する関数
-		*/
-		void StoppedCraftQTE(const shared_ptr<GamePlayer>& player);
+		void UpdateMoving(const shared_ptr<GamePlayer>& player);
 	};
 }
