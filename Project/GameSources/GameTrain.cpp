@@ -84,15 +84,21 @@ namespace basecross {
 
 		if (state == State::Arrival)
 		{
-			stagePtr->SetGameProgress(eGameProgress::GameClear);
-			stagePtr->GetSharedGameObject<GamePlayer>(L"Player")->SetGameResult(eGameProgress::GameClear);
+			if (stagePtr->GetGameProgress() != eGameProgress::GameClear)
+			{
+				stagePtr->GetSharedGameObject<GamePlayer>(L"Player")->SetGameResult(eGameProgress::GameClear);
+				stagePtr->SetGameProgress(eGameProgress::GameClear);
+			}
 			return;
 		}
 
 		if (state == State::Derail)
 		{
-			stagePtr->SetGameProgress(eGameProgress::GameOver);
-			stagePtr->GetSharedGameObject<GamePlayer>(L"Player")->SetGameResult(eGameProgress::GameOver);
+			if (stagePtr->GetGameProgress() != eGameProgress::GameOver)
+			{
+				stagePtr->GetSharedGameObject<GamePlayer>(L"Player")->SetGameResult(eGameProgress::GameOver);
+				stagePtr->SetGameProgress(eGameProgress::GameOver);
+			}
 			return;
 		}
 
@@ -106,7 +112,7 @@ namespace basecross {
 				{
 					auto& camera = dynamic_pointer_cast<MainCamera>(stagePtr->GetView()->GetTargetCamera());
 					camera->SetTargetObject(GetThis<GameTrain>());
-					camera->ZoomStart(Utility::Lerp(camera->GetEye(), m_position, 0.5f));
+					camera->ZoomStart(Utility::Lerp(camera->GetEye(), m_position, 0.75f), m_position);
 				}
 				m_moveSpeed = m_defSpeed * 5.0f; // ëÅÇ≠êiÇﬁ
 			}
