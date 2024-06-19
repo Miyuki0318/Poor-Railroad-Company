@@ -183,7 +183,7 @@ namespace basecross
 			titleProgress = push;
 		}
 
-		if (titleProgress == select)
+		if (titleProgress == select || titleProgress == zoom)
 		{
 			titleProgress = normal;
 		}
@@ -200,15 +200,17 @@ namespace basecross
 		{
 			Vec3 cameraPos = m_selectObj->GetComponent<Transform>()->GetPosition();
 
-
 			titleCamera->SetTargetObject(m_selectObj);
 			titleCamera->ZoomStart(Vec3(cameraPos.x, cameraPos.y + 2.0f, cameraPos.z));
 			m_zooming = true;
+			m_zoomEnd = false;
 		}
+
 
 		if (titleProgress == normal)
 		{
-			CameraReset();
+			titleCamera->ZoomEnd();
+			//CameraReset();
 		}
 	}
 
@@ -355,14 +357,24 @@ namespace basecross
 			}
 
 			Debug::Log(L"ƒJƒƒ‰‚ÌAt : ", GetView()->GetTargetCamera()->GetAt());
+			Debug::Log(L"ƒJƒƒ‰‚ÌEye : ", GetView()->GetTargetCamera()->GetEye());
 
 			Debug::Log(L"—ñŽÔ‚ÌˆÊ’u : ", GetSharedGameObject<TitleTrain>(L"TitleTrain", true)->GetPosition());
+
+			if (m_selectObj)
+			{
+				Debug::Log(L"SelectObj : ", m_selectObj->GetComponent<Transform>()->GetPosition());
+			}
+			else
+			{
+				Debug::Log(L"SelectObj : 0,0,0");
+			}
 
 			if (titleProgress == push)
 			{
 				DistanceToPlayer();
 			}
-			else if(titleProgress == normal)
+			else if(titleProgress == normal || titleProgress == move)
 			{
 				if (m_selectObj && m_selectObj->FindTag(tagName))
 				{
