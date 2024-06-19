@@ -8,7 +8,6 @@
 #include "Project.h"
 
 #define END_INDEX 10 // 区切るまでの数
-#define WIN_RANGE 20 // カメラから画面外までのゲーム上での距離
 
 namespace basecross
 {
@@ -99,7 +98,7 @@ namespace basecross
 			for (auto& type : groud.second)
 			{
 				// 開始インデックスが画面内であるか
-				type.second.lock()->SetDrawActive(GetBetween(type.first, atX + WIN_RANGE, atX - WIN_RANGE));
+				type.second.lock()->SetDrawActive(GetBetween(type.first, atX + m_windowRange, atX - m_windowRange));
 			}
 		}
 	}

@@ -33,6 +33,10 @@ namespace basecross
 		const Vec3 m_cameraEye = Vec3(18.0f, 12.5f, -30.0f);
 		const Vec3 m_cameraAt = Vec3(18.0f, 2.0f, -18.0f);
 
+		// ズーム位置に加算する差分
+		const Vec3 m_objDiffEye;
+		const Vec3 m_trainDiffEye;
+
 		// 列車の開始位置
 		const Vec3 m_trainPos = Vec3(23.0f,1.0f,-20.0f);
 
@@ -135,7 +139,10 @@ namespace basecross
 		/*
 		@brief コンストラクタ
 		*/
-		TitleStage(const string& stagePath) : BaseStage(stagePath)
+		TitleStage(const string& stagePath) : 
+			BaseStage(stagePath),
+			m_objDiffEye(0.0f, 2.0f, 0.0f),
+			m_trainDiffEye(0.0f, 10.0f, 5.0f)
 		{
 			titleProgress = eTitleProgress::normal;
 

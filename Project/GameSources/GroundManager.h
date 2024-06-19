@@ -64,6 +64,7 @@ namespace basecross
 		float m_defPosY;		// インスタンス描画用のポジションY
 		const Mat4x4 m_mtxScale;	// インスタンス描画用のスケール
 		const Mat4x4 m_mtxRotation;	// インスタンス描画用のローテーション
+		const int m_windowRange;	// 画面の範囲
 
 		// インスタンス描画オブジェクトマップ
 		map<eStageID, map<int, weak_ptr<InstanceGround>>> m_groundMap;
@@ -74,10 +75,11 @@ namespace basecross
 		@brief コンストラクタ
 		@param ステージポインタ
 		*/
-		GroundManager(const shared_ptr<Stage>& stagePtr) :
+		GroundManager(const shared_ptr<Stage>& stagePtr, const float scale) :
 			GameObject(stagePtr),
-			m_defPosY(0.5f),
-			m_mtxScale((Mat4x4)XMMatrixScalingFromVector(Vec3(1.0f))),
+			m_defPosY(1.0f - (scale / 2.0f)),
+			m_windowRange(30),
+			m_mtxScale((Mat4x4)XMMatrixScalingFromVector(Vec3(1.0f, scale, 1.0f))),
 			m_mtxRotation((Mat4x4)XMMatrixRotationRollPitchYawFromVector(Vec3(0.0f)))
 		{
 		}
