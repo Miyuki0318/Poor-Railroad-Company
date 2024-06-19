@@ -42,6 +42,7 @@ namespace basecross
 		
 		// 座標の更新
 		SetPosition(pos);
+		SetRotation(Vec3(0.0f, 0.0f, m_totalTime));
 	}
 
 	// 開始設定

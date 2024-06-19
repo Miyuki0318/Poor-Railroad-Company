@@ -14,7 +14,7 @@ namespace basecross {
 		TemplateObject::OnCreate();
 
 		// É^ÉCÉgÉãÉçÉSê∂ê¨
-		m_titleLogo = GetTypeStage<TitleStage>()->AddGameObject<Sprite>(L"TITLE_LOGO", Vec2(500.0f));
+		m_titleLogo = GetTypeStage<TitleStage>()->AddGameObject<Sprite>(L"TITLE_LOGO", Vec2(700.0f ,500.0f));
 		m_pushLogo = GetTypeStage<TitleStage>()->AddGameObject<Sprite>(L"START_TX", Vec2(300.0f, 150.0f));
 
 		m_titleLogo->SetPosition(Vec3(0.0f, -m_startPosY, 0.0f));
