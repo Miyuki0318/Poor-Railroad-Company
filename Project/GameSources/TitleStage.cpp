@@ -361,7 +361,14 @@ namespace basecross
 
 			Debug::Log(L"—ñŽÔ‚ÌˆÊ’u : ", GetSharedGameObject<TitleTrain>(L"TitleTrain", true)->GetPosition());
 
-			Debug::Log(L"ó‘Ô : ", titleProgress);
+			if (m_selectObj)
+			{
+				Debug::Log(L"SelectObj : ", m_selectObj->GetComponent<Transform>()->GetPosition());
+			}
+			else
+			{
+				Debug::Log(L"SelectObj : 0,0,0");
+			}
 
 			if (titleProgress == push)
 			{
