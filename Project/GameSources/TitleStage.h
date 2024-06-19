@@ -16,6 +16,7 @@ namespace basecross
 		push,   // ボタン押す
 		zoom,   // ズーム
 		select, // オブジェクト選択
+		move,	// 列車に移動中
 		start   // ゲームスタート
 	};
 
@@ -122,11 +123,6 @@ namespace basecross
 		*/
 		void Progress(shared_ptr<GameObject>& obj);
 
-		/*
-		@brief オブジェクトとプレイヤーの距離
-		*/
-		void DistanceToPlayer();
-
 		/*!
 		@brief ステージをcsvで生成
 		@param csvのファイル名
@@ -172,6 +168,16 @@ namespace basecross
 		void StartBGM();
 
 		/*
+		@brief オブジェクトとプレイヤーの距離
+		*/
+		void DistanceToPlayer();
+
+		/*
+		@brief カメラの初期化
+		*/
+		void CameraReset();
+
+		/*
 		@brief bgmのサウンドアイテムを取得する関数
 		@return m_bgmItem
 		*/
@@ -199,7 +205,7 @@ namespace basecross
 		/*
 		@brief タイトルステージの状態を返す関数
 		*/
-		eTitleProgress GetTitleProgress() const
+		eTitleProgress& GetTitleProgress()
 		{
 			return titleProgress;
 		}

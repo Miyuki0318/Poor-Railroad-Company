@@ -31,32 +31,44 @@ namespace basecross
 		// アニメーションの変更
 		player->SetAnimationMesh(ePAK::Walking);
 
+		// 列車の座標を元に、線形補間に使う座標を保持
 		const auto& train = player->GetStage()->GetSharedGameObject<TitleTrain>(L"TitleTrain");
 		m_startPosition = player->GetPosition();
 		m_endPosition = (train->GetPosition() + BACK_VEC);
+		m_endPosition.y = m_startPosition.y;
 
+		// 回転先を設定
 		float rotY = atan2f(m_endPosition.z - m_startPosition.z, m_endPosition.x - m_startPosition.x);
 		player->m_rotTarget = Vec3(cos(rotY), 0.0f, sin(-rotY));
+
+		m_totalTime = 0.0f;
 	}
 
 	// ステート更新時の処理
 	void TitlePlayerStartState::Execute(const shared_ptr<TitlePlayer>& player)
 	{
+		// アニメーションと回転の更新
 		player->UpdateAnimation();
 		player->UpdateRotation();
 
+		// 線形補間で移動
 		Vec3 pos = Utility::Lerp(m_startPosition, m_endPosition, m_totalTime / m_moveTime);
 		m_totalTime += DELTA_TIME;
 		m_totalTime = min(m_totalTime, m_moveTime);
+
+		// 移動時間に達したなら
 		if (m_totalTime >= m_moveTime)
 		{
+			// 停止状態ステートに切り替え
 			player->SetState(TitlePlayerPauseState::Instance());
 
+			// カメラのズームを終了
 			const auto& titleStage = player->GetTypeStage<TitleStage>();
 			auto& zoomCamera = dynamic_pointer_cast<MainCamera>(titleStage->GetView()->GetTargetCamera());
 			zoomCamera->ZoomEnd();
 		}
 
+		// 座標を更新
 		player->SetPosition(pos);
 	}
 
