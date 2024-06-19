@@ -52,6 +52,8 @@ namespace basecross
 
 		bool m_zooming;
 
+		bool m_zoomEnd;
+
 		shared_ptr<GameObject> m_selectObj;
 
 		shared_ptr<GameObjectGroup> m_objectGroup;
@@ -138,6 +140,8 @@ namespace basecross
 			titleProgress = eTitleProgress::normal;
 
 			m_zooming = false;
+
+			m_zoomEnd = false;
 
 			m_objectGroup = CreateSharedObjectGroup(L"Settings");
 		}
