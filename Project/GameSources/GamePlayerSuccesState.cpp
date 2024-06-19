@@ -36,6 +36,7 @@ namespace basecross
 
 		// ゴール時の座標を設定
 		player->m_goalPosition = player->GetPosition();
+		m_totalTime = 0.0f;
 	}
 
 	// ステート更新時の処理

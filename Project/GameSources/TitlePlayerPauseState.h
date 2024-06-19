@@ -14,6 +14,8 @@ namespace basecross
 	*/
 	class TitlePlayerPauseState : public TitlePlayerState
 	{
+		Vec3 m_trainBackPosition; // 列車の後ろの位置
+
 		/*!
 		@brief コンストラクタ
 		*/

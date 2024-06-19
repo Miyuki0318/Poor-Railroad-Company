@@ -208,10 +208,19 @@ namespace basecross
 
 		if (titleProgress == normal)
 		{
-			titleCamera->SetEye(m_cameraEye);
-			titleCamera->SetAt(m_cameraAt);
-			m_zooming = false;
+			CameraReset();
 		}
+	}
+
+	void TitleStage::CameraReset()
+	{
+		auto& camera = GetView()->GetTargetCamera();
+		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+
+		titleCamera->SetEye(m_cameraEye);
+		titleCamera->SetAt(m_cameraAt);
+		titleCamera->SetTargetObject(nullptr);
+		m_zooming = false;
 	}
 
 	// スプライトのフェード処理

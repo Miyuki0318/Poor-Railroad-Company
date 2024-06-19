@@ -30,6 +30,12 @@ namespace basecross
 	{
 		// アニメーションの変更
 		player->SetAnimationMesh(ePAK::Waiting);
+		
+		// 列車の後ろの位置を保持
+		if (auto& train = player->GetStage()->GetSharedGameObject<TitleTrain>(L"TitleTrain", false))
+		{
+			m_trainBackPosition = train->GetPosition() + BACK_VEC;
+		}
 	}
 
 	// ステート更新時の処理
@@ -38,11 +44,23 @@ namespace basecross
 		// アニメーション更新
 		player->UpdateAnimation();
 
+		// タイトルステージとステージプログレスとカメラを取得
 		const auto& titleStage = player->GetTypeStage<TitleStage>();
+		auto& prog = titleStage->GetTitleProgress();
+		auto& camera = dynamic_pointer_cast<MainCamera>(titleStage->GetView()->GetTargetCamera());
+		
+		// 移動後でカメラが固定ならプレイヤー周りのチェックとカメラリセットを送る
+		if (prog == eTitleProgress::move && camera->m_cameraState == MainCamera::Fixed)
+		{
+			titleStage->DistanceToPlayer();
+			titleStage->CameraReset();
+			return;
+		}
 
-		auto prog = titleStage->GetTitleProgress();
+		// 選択またはズーム中でBボタン入力したら
 		if (Utility::OR(prog, eTitleProgress::select, eTitleProgress::zoom) && Input::GetPushB())
 		{
+			// 会社オブジェクトを選択してるならズームを終えて元に戻す
 			if (dynamic_pointer_cast<Company>(titleStage->GetSelectObject()))
 			{
 				player->SetState(TitlePlayerIdleState::Instance());
@@ -51,9 +69,13 @@ namespace basecross
 				return;
 			}
 
+			// 列車に移動ステートに切り替えて、移動プログレスにする
 			player->SetState(TitlePlayerStartState::Instance());
+			prog = eTitleProgress::move;
+			return;
 		}
 
+		// オープニングスプライト中にBボタン入力したら待機状態ステートに切り替え
 		auto& opening = titleStage->GetSharedGameObject<TitleLogo>(L"TitleLogo");
 		if (opening->GetLogoState() == eLogoState::exit && Input::GetPushB())
 		{

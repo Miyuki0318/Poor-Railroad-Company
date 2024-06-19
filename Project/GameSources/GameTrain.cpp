@@ -102,6 +102,12 @@ namespace basecross {
 
 			if (m_railManager.lock()->IsConnectionGoalRail()) // ƒS[ƒ‹‚Ü‚Åü˜H‚ª‚Â‚È‚ª‚Á‚½‚ç
 			{
+				if (m_moveSpeed == m_defSpeed)
+				{
+					auto& camera = dynamic_pointer_cast<MainCamera>(stagePtr->GetView()->GetTargetCamera());
+					camera->SetTargetObject(GetThis<GameTrain>());
+					camera->ZoomStart(Utility::Lerp(camera->GetEye(), m_position, 0.5f));
+				}
 				m_moveSpeed = m_defSpeed * 5.0f; // ‘‚­i‚Ş
 			}
 			else
