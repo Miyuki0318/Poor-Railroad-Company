@@ -5,6 +5,7 @@
 
 #include "stdafx.h"
 #include "Project.h"
+#include "PauseMenu.h"
 
 namespace basecross
 {
@@ -293,10 +294,20 @@ namespace basecross
 		m_countTime += DELTA_TIME;
 	}
 
-	void GameStage::OnPauseMenu()
+	void GameStage::PushButtonStart()
 	{
-		auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
-		
+		if (m_gameProgress == Pause)
+		{
+			auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
+			menu->OnClose();
+			m_gameProgress = Playing;
+		}
+		if (m_gameProgress == Playing)
+		{
+			auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
+			menu->OnOpen();
+			m_gameProgress = Pause;
+		}
 	}
 
 	// コンティニュー処理
@@ -528,6 +539,11 @@ namespace basecross
 
 			// スプライトの表示
 			LogoActive();
+
+			if (Input::GetPad().wPressedButtons & XINPUT_GAMEPAD_START)
+			{
+				PushButtonStart();
+			}
 
 			// ゲームの結果に応じて処理を実行
 			if (m_progressFunc.find(m_gameProgress) == m_progressFunc.end()) return;
