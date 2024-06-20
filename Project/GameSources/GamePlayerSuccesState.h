@@ -15,13 +15,18 @@ namespace basecross
 	class GamePlayerSuccesState : public GamePlayerState
 	{
 		// 経過時間用変数
+		float m_moveTime;
 		float m_totalTime;
+
+		// カメラの方向
+		Vec3 m_toCameraRot;
 
 		/*!
 		@brief コンストラクタ
 		*/
-		GamePlayerSuccesState() 
+		GamePlayerSuccesState()
 		{
+			m_moveTime = 1.0f;
 			m_totalTime = 0.0f;
 		}
 

@@ -30,7 +30,7 @@ namespace basecross
 		const Vec3 m_groundScale = Vec3(+50.0f, +2.0f, +50.0f);
 
 		// カメラの位置・視点
-		const Vec3 m_cameraEye = Vec3(18.0f, 20.0f, -42.5f);
+		const Vec3 m_cameraEye = Vec3(18.0f, 12.5f, -30.0f);
 		const Vec3 m_cameraAt = Vec3(18.0f, 2.0f, -18.0f);
 
 		// 列車の開始位置
@@ -51,6 +51,8 @@ namespace basecross
 		float m_distance;
 
 		bool m_zooming;
+
+		bool m_zoomEnd;
 
 		shared_ptr<GameObject> m_selectObj;
 
@@ -138,6 +140,8 @@ namespace basecross
 			titleProgress = eTitleProgress::normal;
 
 			m_zooming = false;
+
+			m_zoomEnd = false;
 
 			m_objectGroup = CreateSharedObjectGroup(L"Settings");
 		}

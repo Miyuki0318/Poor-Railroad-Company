@@ -247,7 +247,7 @@ namespace basecross
 
 		case GameClear:
 			m_gameSprite->SetTexture(L"GAMECLEAR_TX");
-			m_gameSprite->SetDrawActive(true);
+			m_gameSprite->SetDrawActive(false);
 			break;
 
 		case GameOver:
