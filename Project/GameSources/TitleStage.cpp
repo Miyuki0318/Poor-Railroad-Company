@@ -89,7 +89,8 @@ namespace basecross
 	// ínñ ÇÃê∂ê¨
 	void TitleStage::CreateGround()
 	{		
-		AddGameObject<GroundManager>();
+		const float scale = 5.5f;
+		AddGameObject<GroundManager>(scale);
 		AddGameObject<UnBreakRock>();	// âÛÇπÇ»Ç¢ä‚ÇÃê∂ê¨
 	}
 
@@ -196,14 +197,15 @@ namespace basecross
 		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 
 		if (m_selectObj && !m_zooming)
-		//if (titleProgress == zoom)
 		{
-			Vec3 cameraPos = m_selectObj->GetComponent<Transform>()->GetPosition();
-
-			titleCamera->SetTargetObject(m_selectObj);
-			titleCamera->ZoomStart(Vec3(cameraPos.x, cameraPos.y + 2.0f, cameraPos.z));
 			m_zooming = true;
-			m_zoomEnd = false;
+			
+			Vec3 objPos = m_selectObj->GetComponent<Transform>()->GetPosition();
+			titleCamera->SetTargetObject(m_selectObj);
+
+			bool isTrain = bool(dynamic_pointer_cast<TitleTrain>(m_selectObj));
+			objPos += isTrain ? m_trainDiffEye : m_objDiffEye;
+			titleCamera->ZoomStart(objPos);
 		}
 
 

@@ -108,9 +108,9 @@ namespace basecross {
 		RegisterSingleMesh(playerTag + L"SUCCES", modelPath + L"Player/", L"succces", true);
 		RegisterSingleMesh(playerTag + L"FAILED", modelPath + L"Player/", L"failed", true);
 
-		// Œš•¨‚Ì‰¼ƒ‚ƒfƒ‹
-		RegisterSingleMesh(L"COMPANY", modelPath + L"Bilding/", L"TestCompany", false);
-		RegisterSingleMesh(L"CONSTRUCTION", modelPath + L"Bilding/", L"TestConstruction", false);
+		// Œš•¨‚Ìƒ‚ƒfƒ‹
+		app->RegisterTexture(L"COMPANY_TX", modelPath + L"Bilding/" + L"T_Building.png");
+		RegisterSingleMesh(L"COMPANY", modelPath + L"Bilding/", L"buillding", false);
 
 		// ŠÅ”Â‚Ìƒ‚ƒfƒ‹
 		RegisterSingleMesh(L"BOARD", modelPath + L"Bilding/", L"RouteMap", false);

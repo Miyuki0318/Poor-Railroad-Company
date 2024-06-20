@@ -22,7 +22,7 @@ namespace basecross {
 		drawComp = AddComponent<PNTStaticDraw>();
 		drawComp->SetMeshToTransformMatrix(m_spanMat);
 		drawComp->SetMeshResource(L"COMPANY");
-		drawComp->SetDiffuse(COL_GRAY);
+		drawComp->SetTextureResource(L"COMPANY_TX");
 
 		m_menuSprite = GetStage()->AddGameObject<Sprite>(L"MENU_TX", m_scale);
 		m_menuSprite->SetDrawActive(FindTag(tagName));

@@ -73,7 +73,8 @@ namespace basecross
 	// 床ボックスの生成
 	void GameStage::CreateGroundBox()
 	{
-		AddGameObject<GroundManager>();	// 地面の描画生成
+		const float scale = 1.0f;
+		AddGameObject<GroundManager>(scale);	// 地面の描画生成
 		AddGameObject<UnBreakRock>();	// 壊せない岩の生成
 	}
 
