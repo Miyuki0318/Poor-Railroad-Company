@@ -91,7 +91,7 @@ namespace basecross {
 
 		m_vel = m_deltaTime * m_speed;
 
-		m_titlePos.y += m_vel;
+		m_titlePos.y += m_vel * 1.25f;
 		m_pushPos.y -= m_vel;
 
 		m_titleLogo->SetPosition(m_titlePos);
