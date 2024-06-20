@@ -208,7 +208,6 @@ namespace basecross
 			titleCamera->ZoomStart(objPos);
 		}
 
-
 		if (titleProgress == normal)
 		{
 			titleCamera->ZoomEnd();
@@ -249,21 +248,6 @@ namespace basecross
 		}
 	}
 
-	void TitleStage::Progress(shared_ptr<GameObject>& obj)
-	{
-		if (obj)
-		{
-			if (obj->FindTag(L"GAMESTART"))
-			{
-				titleProgress = start;
-				return;
-			}
-
-			titleProgress = zoom;
-			return;
-		}
-	}
-
 	// オブジェクトとプレイヤーの距離
 	void TitleStage::DistanceToPlayer()
 	{
@@ -291,7 +275,6 @@ namespace basecross
 					titleProgress = zoom;
 				}
 
-				Progress(m_selectObj);
 				player->SetState(TitlePlayerPauseState::Instance());
 			}
 
@@ -357,11 +340,11 @@ namespace basecross
 			{
 				PushButtonB();
 			}
-
-			Debug::Log(L"カメラのAt : ", GetView()->GetTargetCamera()->GetAt());
-			Debug::Log(L"カメラのEye : ", GetView()->GetTargetCamera()->GetEye());
-
-			Debug::Log(L"列車の位置 : ", GetSharedGameObject<TitleTrain>(L"TitleTrain", true)->GetPosition());
+			
+			auto& camera = GetView()->GetTargetCamera();
+			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+			
+			Debug::Log(L"カメラステート : ", titleCamera->m_cameraState);
 
 			if (m_selectObj)
 			{
