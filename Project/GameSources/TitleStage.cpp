@@ -344,17 +344,6 @@ namespace basecross
 			auto& camera = GetView()->GetTargetCamera();
 			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 			
-			Debug::Log(L"カメラステート : ", titleCamera->m_cameraState);
-
-			if (m_selectObj)
-			{
-				Debug::Log(L"SelectObj : ", m_selectObj->GetComponent<Transform>()->GetPosition());
-			}
-			else
-			{
-				Debug::Log(L"SelectObj : 0,0,0");
-			}
-
 			if (titleProgress == push)
 			{
 				DistanceToPlayer();
@@ -366,6 +355,7 @@ namespace basecross
 					m_selectObj->RemoveTag(tagName);
 				}
 				m_selectObj = NULL;
+				m_zooming = false;
 			}
 
 			TitleCameraZoom();
