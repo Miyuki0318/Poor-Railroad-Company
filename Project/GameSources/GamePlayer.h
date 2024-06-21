@@ -171,6 +171,42 @@ namespace basecross
 			return m_craft->GetItemCount(type);
 		}
 
+		int GetLimitCount(eItemType type)
+		{
+			int retVal = 0;
+			switch (type)
+			{
+			case eItemType::Wood:
+				retVal = (int)m_playerData.at(ePST::WoodMax).at(m_backPackLevel);
+				break;
+
+			case eItemType::Stone:
+				retVal = (int)m_playerData.at(ePST::StoneMax).at(m_backPackLevel);
+				break;
+
+			case eItemType::Gear:
+				retVal = (int)m_playerData.at(ePST::GearMax).at(m_backPackLevel);
+				break;
+
+			case eItemType::Rail:
+				retVal = (int)m_playerData.at(ePST::RailMax).at(m_backPackLevel);
+				break;
+
+			case eItemType::WoodBridge:
+				retVal = (int)m_playerData.at(ePST::BridgeMax).at(m_backPackLevel);
+				break;
+
+			case eItemType::Crossing:
+				retVal = (int)m_playerData.at(ePST::CrossingMax).at(m_backPackLevel);
+				break;
+
+			default:
+				break;
+			}
+
+			return retVal;
+		}
+
 		/*!
 		@brief クラフトできるの取得関数
 		@param クラフトアイテムenum

@@ -210,7 +210,7 @@ namespace basecross
 	{
 		// パラメータ
 		const float scale = 60.0f;
-		const Vec3 startPos = Vec3(-910.0f, 500.0f, 0.2f);
+		const Vec3 startPos = Vec3(-900.0f, 500.0f, 0.2f);
 		const Vec3 distance = Vec3(0.0f, -scale * 1.75f, 0.0f);
 
 		// アイテム数UI

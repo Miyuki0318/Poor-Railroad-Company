@@ -62,9 +62,10 @@ namespace basecross {
 		// 白塗りテクスチャ
 		app->RegisterTexture(L"WHITE_TX", texturePath + L"White.png");
 
-		// 数字テクスチャ
+		// 数字や文字テクスチャ
 		app->RegisterTexture(L"NUMBER_TX", texturePath + L"Number.png");
-		
+		app->RegisterTexture(L"SLASH_TX", texturePath + L"Slash.png");
+
 		// メニューテクスチャ
 		app->RegisterTexture(L"MENU_TX", texturePath + L"Menu.png");
 

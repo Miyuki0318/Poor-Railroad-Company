@@ -47,6 +47,7 @@ namespace basecross
 		AddTextureResource(L"I_BALOON_LEFT_TX", texturePath + L"BalloonLeft.png");
 
 		// UIテクスチャ
+		AddTextureResource(L"UI_MENUBACK_TX", texturePath + L"ItemCountBack.png");
 		AddTextureResource(L"UI_WOOD_TX", texturePath + L"Wood.png");
 		AddTextureResource(L"UI_STONE_TX", texturePath + L"Stone.png");
 		AddTextureResource(L"UI_GEAR_TX", texturePath + L"Gear.png");
