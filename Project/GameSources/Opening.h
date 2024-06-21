@@ -22,13 +22,13 @@ namespace basecross {
 		const float m_fadeTime = 3.0f;
 
 		// ˆÚ“®‘¬“x
-		const float m_speed = 5.0f;
+		const float m_speed = 5.5f;
 		
 		// Å‰‚ÌYÀ•W
 		const float m_startPosY = 900.0f;
 
 		// Y²‚ÌˆÚ“®§ŒÀ
-		const float m_maxPosY = 250.0f;
+		const float m_maxPosY = 150.0f;
 
 		float m_brinkTime = 1.0f;
 
