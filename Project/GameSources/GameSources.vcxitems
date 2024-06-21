@@ -31,6 +31,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainStraightState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainCurvingState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GatheringObject.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GatherTreasure.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Gear.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GroundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ItemCountUI.h" />
@@ -105,6 +106,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainStraightState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainCurvingState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GatheringObject.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GatherTreasure.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Gear.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GroundManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ItemCountUI.cpp" />

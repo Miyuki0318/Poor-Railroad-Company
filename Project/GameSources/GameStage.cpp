@@ -76,6 +76,9 @@ namespace basecross
 		const float scale = 1.0f;
 		AddGameObject<GroundManager>(scale);	// 地面の描画生成
 		AddGameObject<UnBreakRock>();	// 壊せない岩の生成
+
+		const auto& treasure = AddGameObject<GatherTreasure>();
+		SetSharedGameObject(L"GatherTreasure", treasure);
 	}
 
 	// プレイヤーの生成

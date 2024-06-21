@@ -161,6 +161,12 @@ namespace basecross
 
 		// レールマネージャーにガイドの再生成関数を送る
 		stagePtr->GetSharedGameObject<RailManager>(L"RailManager")->GuideRecalculation();
+
+		// お宝チェックを行い、お宝があればプレイヤーにアイテム追加処理を送る
+		auto& addItem = stagePtr->GetSharedGameObject<GatherTreasure>(L"GatherTreasure")->TreasureCheck(ROWCOL2POS(point.x, point.y));
+		if (addItem.second == 0) return;
+
+		stagePtr->GetSharedGameObject<GamePlayer>(L"Player")->AddItemCountFly(addItem.first, addItem.second);
 	}
 
 	// フルサイズでの採取

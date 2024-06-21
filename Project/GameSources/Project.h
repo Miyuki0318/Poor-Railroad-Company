@@ -19,6 +19,7 @@
 #include "Station.h"
 #include "SelectIndicator.h"
 #include "CraftManager.h"
+#include "GatherTreasure.h"
 #include "Ground.h"
 #include "RailManager.h"
 #include "RailGuide.h"

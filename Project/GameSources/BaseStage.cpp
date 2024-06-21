@@ -55,6 +55,9 @@ namespace basecross
 		AddTextureResource(L"UI_BRIDGE_TX", texturePath + L"Bridge.png");
 		AddTextureResource(L"UI_CROSSING_TX", texturePath + L"Crossing.png");
 
+		// 宝箱のテクスチャ
+		AddTextureResource(L"TREASURE_TX", texturePath + L"TreasureBox.png");
+
 		// 列車の煙テクスチャ
 		AddTextureResource(L"SMOKE_TX", texturePath + L"Smoke.png");
 

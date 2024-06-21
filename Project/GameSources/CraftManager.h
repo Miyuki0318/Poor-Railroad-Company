@@ -42,6 +42,7 @@ namespace basecross
 		Rail,		// ƒŒ[ƒ‹
 		WoodBridge,	// –Ø‚Ì‹´
 		Crossing,	// “¥Ø
+		GoldVar,	// ‹à‰ò
 	};
 
 	/*!
@@ -84,6 +85,7 @@ namespace basecross
 			m_itemCount.emplace(eItemType::Rail, 0);
 			m_itemCount.emplace(eItemType::WoodBridge, 0);
 			m_itemCount.emplace(eItemType::Crossing, 0);
+			m_itemCount.emplace(eItemType::GoldVar, 0);
 		}
 
 		/*!

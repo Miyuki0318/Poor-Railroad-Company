@@ -25,10 +25,13 @@ namespace basecross
 	class GamePlayer : public Player
 	{
 		weak_ptr<FlyItemManager> m_itemFly;	// アイテムが飛んでいくエフェクト
-		unique_ptr<CraftManager> m_craft; // クラフトマネージャー
+		unique_ptr<CraftManager> m_craft;	// クラフトマネージャー
 
 		// ステートマシン
 		unique_ptr<GamePlayerStateMachine> m_playerState;
+
+		// ステータスに応じたアイテムタイプ用マップ
+		map<eItemType, ePST> m_itemLimitMap;
 
 		const Vec3 m_startPosition;			// 開始時の座標
 		const Vec3 m_goalStagingPosition;	// ゴール演出時の座標
@@ -54,6 +57,12 @@ namespace basecross
 			m_startPosition(start),
 			m_goalStagingPosition(goal)
 		{
+			m_itemLimitMap.emplace(eItemType::Wood, ePST::WoodMax);
+			m_itemLimitMap.emplace(eItemType::Stone, ePST::StoneMax);
+			m_itemLimitMap.emplace(eItemType::Gear, ePST::GearMax);
+			m_itemLimitMap.emplace(eItemType::Rail, ePST::RailMax);
+			m_itemLimitMap.emplace(eItemType::WoodBridge, ePST::BridgeMax);
+			m_itemLimitMap.emplace(eItemType::Crossing, ePST::CrossingMax);
 		}
 
 		/*!
@@ -162,6 +171,17 @@ namespace basecross
 		}
 
 		/*!
+		@brief アイテム数追加しフライエフェクトを出す関数
+		@param アイテムタイプenum
+		@param 追加数(デフォ1)
+		*/
+		void AddItemCountFly(eItemType type, int addNum = 1)
+		{
+			AddItemCount(type, addNum);
+			m_itemFly.lock()->StartFly(type);
+		}
+
+		/*!
 		@brief アイテム数取得関数
 		@param アイテムタイプenum
 		@return アイテム数
@@ -171,40 +191,15 @@ namespace basecross
 			return m_craft->GetItemCount(type);
 		}
 
+		/*!
+		@brief アイテム上限数取得関数
+		@param アイテムタイプenum
+		@return アイテム数
+		*/
 		int GetLimitCount(eItemType type)
 		{
-			int retVal = 0;
-			switch (type)
-			{
-			case eItemType::Wood:
-				retVal = (int)m_playerData.at(ePST::WoodMax).at(m_backPackLevel);
-				break;
-
-			case eItemType::Stone:
-				retVal = (int)m_playerData.at(ePST::StoneMax).at(m_backPackLevel);
-				break;
-
-			case eItemType::Gear:
-				retVal = (int)m_playerData.at(ePST::GearMax).at(m_backPackLevel);
-				break;
-
-			case eItemType::Rail:
-				retVal = (int)m_playerData.at(ePST::RailMax).at(m_backPackLevel);
-				break;
-
-			case eItemType::WoodBridge:
-				retVal = (int)m_playerData.at(ePST::BridgeMax).at(m_backPackLevel);
-				break;
-
-			case eItemType::Crossing:
-				retVal = (int)m_playerData.at(ePST::CrossingMax).at(m_backPackLevel);
-				break;
-
-			default:
-				break;
-			}
-
-			return retVal;
+			if (m_itemLimitMap.find(type) == m_itemLimitMap.end()) return 0;
+			return (int)m_playerData.at(m_itemLimitMap.at(type)).at(m_backPackLevel);
 		}
 
 		/*!

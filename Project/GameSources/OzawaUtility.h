@@ -680,6 +680,15 @@ namespace Utility
 	Quat GetBillboardQuat(const Vec3& Line);
 
 	/*!
+	@brief ビルボード状態から回転させたクォータニオンで作成し返す
+	@param (cameraPos)　カメラの位置
+	@param (objPos)　オブジェクトの位置
+	@param (rotateVec)　回転量(Vec3)
+	@return 作成されたクォータニオン
+	*/
+	Quat GetBillboardRotateQuat(const Vec3& cameraPos, const Vec3& objPos, Vec3& rotateVec);
+
+	/*!
 	@brief 値が範囲内かを返す
 	@param (value)　確認する値
 	@param (a)　範囲の値１
