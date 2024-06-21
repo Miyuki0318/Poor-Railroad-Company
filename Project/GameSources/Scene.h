@@ -20,12 +20,29 @@ namespace basecross{
 	//--------------------------------------------------------------------------------------
 	///	ゲームシーン
 	//--------------------------------------------------------------------------------------
+
+	// Player Level
+	enum class ePL : char
+	{
+		Level1,
+		Level2,
+		Level3,
+		Level4,
+		Level5,
+	};
+
 	class Scene : public SceneBase{
 	private:
 		eMapLevel m_mapLevel = eMapLevel::FirstMap;
 		map<eMapLevel, string> m_stagePathMap;
 
 		int m_money;
+
+		// 各種レベル
+		ePL m_statusLevel;
+		ePL m_backPackLevel;
+		ePL m_startGearLevel;
+
 	public:
 		const wstring m_objTagName = L"SELECT";
 		//--------------------------------------------------------------------------------------
@@ -42,6 +59,10 @@ namespace basecross{
 			m_stagePathMap.emplace(eMapLevel::FifthMap, "Fifth");
 
 			m_money = 0;
+
+			m_statusLevel = ePL::Level5;
+			m_backPackLevel = ePL::Level5;
+			m_startGearLevel = ePL::Level5;
 		}
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -118,7 +139,7 @@ namespace basecross{
 		@brief お金の取得
 		@return m_money
 		*/
-		int GetMoney()
+		int GetMoney() const
 		{
 			return m_money;
 		}
@@ -130,6 +151,60 @@ namespace basecross{
 		void SetMoney(int money)
 		{
 			m_money = money;
+		}
+
+		/*!
+		@brief ステータスレベルの設定
+		@param[in] 設定するステータスレベルの値
+		*/
+		void SetStatusLevel(ePL level)
+		{
+			m_statusLevel = level;
+		}
+
+		/*!
+		@brief ステータスレベルの取得
+		@return 取得するステータスレベルの値
+		*/
+		ePL GetStatusLevel() const
+		{
+			return m_statusLevel;
+		}
+
+		/*!
+		@brief バックパックレベルの設定
+		@param[in] 設定するバックパックレベルの値
+		*/
+		void SetBackPackLevel(ePL level)
+		{
+			m_backPackLevel = level;
+		}
+
+		/*!
+		@brief バックパックレベルの取得
+		@return 取得するバックパックレベルの値
+		*/
+		ePL GetBackPackLevel() const
+		{
+			return m_backPackLevel;
+		}
+
+		/*!
+		@brief 開始時所持ギアレベルの設定
+		@param[in] 設定する開始時所持ギアレベルの値
+		*/
+		void SetStartGearLevel(ePL level)
+		{
+			m_startGearLevel = level;
+		}
+
+		/*!
+		@brief 開始時所持ギアレベルの取得
+		@return 取得する開始時所持ギアレベルの値
+		*/
+		ePL GetStartGearLevel() const
+		{
+			return m_startGearLevel;
 		}
 	};
 }

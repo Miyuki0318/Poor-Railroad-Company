@@ -100,5 +100,10 @@ namespace basecross
 		// 移動状態の更新
 		m_status.Set(ePlayerStatus::IsRotate) = ((m_currentRot - m_rotTarget).length() > XM_1DIV2PI);
 		m_status.Set(ePlayerStatus::IsIdle) = !m_status(ePlayerStatus::IsMove) && !m_status(ePlayerStatus::IsRotate);
+
+		// ステータスの設定
+		const auto& scene = App::GetApp()->GetScene<Scene>();
+		m_statusLevel = scene->GetStatusLevel();
+		m_backPackLevel = scene->GetBackPackLevel();
 	}
 }
