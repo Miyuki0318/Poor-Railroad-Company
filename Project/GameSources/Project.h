@@ -42,3 +42,4 @@
 #include "Gear.h"
 #include "ItemFly.h"
 #include "PauseMenu.h"
+#include "Shop.h"
