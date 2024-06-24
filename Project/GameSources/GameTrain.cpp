@@ -27,7 +27,7 @@ namespace basecross {
 
 		auto smokeEffect = stagePtr->AddGameObject<SmokeEffect>();
 		auto smokeTrans = smokeEffect->GetComponent<Transform>();
-		smokeTrans->SetPosition(GetPosition() + Vec3(0.5f, 1.5f, 0.0f));
+		smokeTrans->SetPosition(GetPosition() + Vec3(0.25f, 1.5f, 0.0f));
 		smokeTrans->SetParent(GetThis<GameObject>());
 
 		m_smokeEffect = smokeEffect;
