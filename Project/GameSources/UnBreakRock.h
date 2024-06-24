@@ -73,6 +73,15 @@ namespace basecross
 			if (!m_ptrDraw) return;
 			m_ptrDraw->AddMatrix(matrix);
 		}
+
+		/*!
+		@brief 地面描画全削除関数
+		*/
+		void ClearMatrix() const
+		{
+			if (!m_ptrDraw) return;
+			m_ptrDraw->ClearMatrixVec();
+		}
 	};
 
 	/*!
@@ -108,5 +117,10 @@ namespace basecross
 		@brief 生成時に一度だけ呼び出される関数
 		*/
 		void OnCreate() override;
+
+		/*!
+		@brief 壊れない岩描画生成関数
+		*/
+		void CreateUnBreakRock();
 	};
 }

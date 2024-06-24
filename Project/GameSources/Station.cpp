@@ -42,7 +42,9 @@ namespace basecross {
 
 	}
 
-	void Station::OnReset(){
-	
+	void Station::OnReset(const Vec3& position){
+		m_spawnPos = position;
+		Vec3 hulfScale = GetScale() / 2.0f;
+		SetPosition(m_spawnPos.x, m_spawnPos.y + hulfScale.y, m_spawnPos.z);
 	}
 }

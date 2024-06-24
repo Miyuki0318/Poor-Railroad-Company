@@ -232,6 +232,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Shop.h">
       <Filter>UI\Shop</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameClearState.h">
+      <Filter>Stage\GameStage\GameClearState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -431,6 +434,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Shop.cpp">
       <Filter>UI\Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameClearState.cpp">
+      <Filter>Stage\GameStage\GameClearState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -664,6 +670,9 @@
     </Filter>
     <Filter Include="UI\Shop">
       <UniqueIdentifier>{f14d6fcb-7237-4de0-b34f-f002633a57c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage\GameStage\GameClearState">
+      <UniqueIdentifier>{a79d6832-bda8-4a66-be57-40fbc6a850e9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

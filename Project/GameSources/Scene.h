@@ -35,6 +35,7 @@ namespace basecross{
 	private:
 		eMapLevel m_mapLevel = eMapLevel::FirstMap;
 		map<eMapLevel, string> m_stagePathMap;
+		map<eMapLevel, eMapLevel> m_nextLevel;
 
 		int m_money;
 
@@ -57,6 +58,12 @@ namespace basecross{
 			m_stagePathMap.emplace(eMapLevel::ThirdMap, "Third");
 			m_stagePathMap.emplace(eMapLevel::FourthMap, "Fourth");
 			m_stagePathMap.emplace(eMapLevel::FifthMap, "Fifth");
+
+			m_nextLevel.emplace(eMapLevel::FirstMap, eMapLevel::SecondMap);
+			m_nextLevel.emplace(eMapLevel::SecondMap, eMapLevel::ThirdMap);
+			m_nextLevel.emplace(eMapLevel::ThirdMap, eMapLevel::FourthMap);
+			m_nextLevel.emplace(eMapLevel::FourthMap, eMapLevel::FifthMap);
+			m_nextLevel.emplace(eMapLevel::FifthMap, eMapLevel::FirstMap);
 
 			m_money = 0;
 
@@ -124,6 +131,16 @@ namespace basecross{
 		void SetMapLevel(eMapLevel level)
 		{
 			m_mapLevel = level;
+		}
+
+		/*!
+		@brief	マップ難易度を次のステージにしてファイル名を返す関数
+		@return 次のステージのパス
+		*/
+		string ToNextStage()
+		{
+			m_mapLevel = m_nextLevel.at(m_mapLevel);
+			return m_stagePathMap.at(m_mapLevel);
 		}
 
 

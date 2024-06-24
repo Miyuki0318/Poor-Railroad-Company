@@ -32,10 +32,11 @@ namespace basecross {
 			OnRail,		// ü˜Hã
 			Derail,		// ’Eü
 			Arrival,	// “’…
+			StandBy,	// ‘JˆÚ“™‚Ì‘Ò‹@
 		};
 		State m_state;
 
-		const Vec3 m_DefaultPosition;
+		Vec3 m_DefaultPosition;
 		const Vec3 m_DefaultScale;
 		const float m_defSpeed;
 		float m_moveSpeed;

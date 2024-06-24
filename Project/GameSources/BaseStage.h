@@ -67,7 +67,7 @@ namespace basecross
 		shared_ptr<Sprite> m_fadeSprite;
 
 		// ステージのファイル内
-		const string m_stagePath;
+		string m_stagePath;
 
 		float m_stageDistanceX;
 

@@ -6,6 +6,7 @@
 #pragma once
 #include "stdafx.h"
 #include "BaseStage.h"
+#include "GameClearState.h"
 
 namespace basecross 
 {
@@ -15,10 +16,12 @@ namespace basecross
 	enum eGameProgress
 	{
 		FadeIn,
-		StartSE,
 		Playing,
 		Pause,
 		GameClear,
+		ClearSlect,
+		ToNext,
+		ToTitle,
 		GameOver,
 		ContinueFade,
 	};
@@ -51,9 +54,14 @@ namespace basecross
 		shared_ptr<Sprite> m_gameSprite;
 
 		// コンティニュー時のスプライト
-		shared_ptr<Sprite> m_ctSprite;	// コンティニュー
-		shared_ptr<Sprite> m_tbSprite;	// タイトルバック
+		shared_ptr<Sprite> m_continueSprite;	// コンティニュー
+		shared_ptr<Sprite> m_titleBackSprite;	// タイトルバック
 		const Vec2 m_defScale;
+		const Vec3 m_leftPos;
+		const Vec3 m_rightPos;
+
+		// クリア時の処理
+		unique_ptr<GameClearState> m_clearState;
 
 		// ゲームの状況
 		eGameProgress m_gameProgress;
@@ -155,13 +163,30 @@ namespace basecross
 		void CreateUIObject();
 
 		/*!
+		@brief ステージをcsvで再生成
+		*/
+		void ResetCreateStage();
+
+		/*!
+		@brief 地面をcsvで再生成
+		*/
+		void ResetGroundStage();
+
+		/*!
+		@brief カメラの再生成
+		*/
+		void ResetCameraObject();
+
+		/*!
 		@brief スプライトの表示
 		*/
 		void LogoActive();
 
 		void ToFadeInState();
 
-		//void ToStartSEState();
+		void ToClearSelectStage();
+
+		void ToNextStage();
 
 		/*!
 		@brief タイトルステージ遷移用の処理
@@ -195,7 +220,9 @@ namespace basecross
 		GameStage(const string stagePath) :
 			BaseStage(stagePath),
 			m_defermentTransition(3.0f),
-			m_defScale(275.0f, 100.0f)
+			m_defScale(275.0f, 100.0f),
+			m_leftPos(-300.0f, -200.0f, 0.0f),
+			m_rightPos(300.0f, -200.0f, 0.0f)
 		{
 			m_countTime = 0.0f;
 			m_totalTime = 0.0f;
@@ -206,9 +233,10 @@ namespace basecross
 			m_pastState = eContinueSelect::TitleBack;
 
 			m_progressFunc.emplace(eGameProgress::FadeIn, bind(&GameStage::ToFadeInState, this));
-			//m_progressFunc.emplace(eGameProgress::StartSE, bind(&GameStage::ToStartSEState, this));
 			m_progressFunc.emplace(eGameProgress::Pause, bind(&GameStage::OnPauseMenu, this));
-			m_progressFunc.emplace(eGameProgress::GameClear, bind(&GameStage::ToTitleStage, this));
+			m_progressFunc.emplace(eGameProgress::ToNext, bind(&GameStage::ToNextStage, this));
+			m_progressFunc.emplace(eGameProgress::ToTitle, bind(&GameStage::ToTitleStage, this));
+			m_progressFunc.emplace(eGameProgress::ClearSlect, bind(&GameStage::ToClearSelectStage, this));
 			m_progressFunc.emplace(eGameProgress::GameOver, bind(&GameStage::ToContinueStage, this));
 			m_progressFunc.emplace(eGameProgress::ContinueFade, bind(&GameStage::ToContinueStage, this));
 

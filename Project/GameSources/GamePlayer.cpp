@@ -64,13 +64,15 @@ namespace basecross
 	}
 
 	// リセット処理
-	void GamePlayer::ResetPlayer()
+	void GamePlayer::ResetPlayer(const Vec3& start, const Vec3& goal)
 	{
 		// 初期化
 		m_acsel = 0.0f;
 		m_moveValue = 0.0f;
 		m_rotTarget.zero(); 
 		m_currentRot.zero();
+		m_startPosition = start;
+		m_goalStagingPosition = goal;
 		SetPosition(m_startPosition);
 
 		// 待機状態ステートに変更

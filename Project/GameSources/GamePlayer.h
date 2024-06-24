@@ -33,9 +33,9 @@ namespace basecross
 		// ステータスに応じたアイテムタイプ用マップ
 		map<eItemType, ePST> m_itemLimitMap;
 
-		const Vec3 m_startPosition;			// 開始時の座標
-		const Vec3 m_goalStagingPosition;	// ゴール演出時の座標
-		Vec3 m_goalPosition;				// ゴール時の座標
+		Vec3 m_startPosition;			// 開始時の座標
+		Vec3 m_goalStagingPosition;		// ゴール演出時の座標
+		Vec3 m_goalPosition;			// ゴール時の座標
 
 		// フレンド化(ステートマシンからメンバ関数を呼び出すため)
 		friend GamePlayerIdleState;
@@ -88,7 +88,7 @@ namespace basecross
 		/*!
 		@brief リセット処理関数
 		*/
-		void ResetPlayer();
+		void ResetPlayer(const Vec3& start, const Vec3& goal);
 
 	private:
 

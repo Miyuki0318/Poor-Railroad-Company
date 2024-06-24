@@ -54,6 +54,15 @@ namespace basecross
 			if (!m_ptrDraw) return;
 			m_ptrDraw->AddMatrix(matrix);
 		}
+
+		/*!
+		@brief 地面描画全削除関数
+		*/
+		void ClearMatrix() const
+		{
+			if (!m_ptrDraw) return;
+			m_ptrDraw->ClearMatrixVec();
+		}
 	};
 
 	/*!
@@ -98,5 +107,9 @@ namespace basecross
 		@brief 毎フレーム度に呼び出される関数
 		*/
 		void OnUpdate() override;
+
+		void CreateInstanceGround();
+
+		void ClearInstanceGround();
 	};
 }

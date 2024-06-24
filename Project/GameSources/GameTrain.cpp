@@ -56,8 +56,11 @@ namespace basecross {
 	{
 		m_acsel = 0.0f;
 		m_state = State::None;
+		m_moveSpeed = m_defSpeed;
 		m_railPos = POS2LINE(m_railManager.lock()->GetStartRailPos());
+		m_DefaultPosition = m_railManager.lock()->GetStartRailPos();
 		m_trainState->ChangeState(GameTrainStraightState::Instance());
+		m_trainState->Update();
 	}
 
 	const map<string, RailData>& GameTrain::GetRailDataMap() const
@@ -84,22 +87,16 @@ namespace basecross {
 
 		if (state == State::Arrival)
 		{
-			if (stagePtr->GetGameProgress() != eGameProgress::GameClear)
-			{
-				stagePtr->GetSharedGameObject<GamePlayer>(L"Player")->SetGameResult(eGameProgress::GameClear);
-				stagePtr->SetGameProgress(eGameProgress::GameClear);
-			}
-			return;
+			stagePtr->GetSharedGameObject<GamePlayer>(L"Player")->SetGameResult(eGameProgress::GameClear);
+			stagePtr->SetGameProgress(eGameProgress::GameClear);
+			m_state = State::StandBy;
 		}
 
 		if (state == State::Derail)
 		{
-			if (stagePtr->GetGameProgress() != eGameProgress::GameOver)
-			{
-				stagePtr->GetSharedGameObject<GamePlayer>(L"Player")->SetGameResult(eGameProgress::GameOver);
-				stagePtr->SetGameProgress(eGameProgress::GameOver);
-			}
-			return;
+			stagePtr->GetSharedGameObject<GamePlayer>(L"Player")->SetGameResult(eGameProgress::GameOver);
+			stagePtr->SetGameProgress(eGameProgress::GameOver);
+			m_state = State::StandBy;
 		}
 
 		if (state == State::OnRail)
