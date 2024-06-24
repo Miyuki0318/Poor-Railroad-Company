@@ -434,10 +434,10 @@ namespace Utility
 	@param (rotateVec)　回転量(Vec3)
 	@return 作成されたクォータニオン
 	*/
-	Quat GetBillboardRotateQuat(const Vec3& cameraPos, const Vec3& objPos, Vec3& rotateVec)
+	Quat GetBillboardRotateQuat(const Vec3& Line, Vec3& rotateVec)
 	{
 		// 線分の計算
-		Vec3 line = objPos - cameraPos;
+		Vec3 line = Line;
 		Vec3 defUp(UP_VEC);
 		Vec2 lineVec(line.x, line.z);
 

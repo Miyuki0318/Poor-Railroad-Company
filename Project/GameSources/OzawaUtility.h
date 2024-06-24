@@ -686,7 +686,7 @@ namespace Utility
 	@param (rotateVec)　回転量(Vec3)
 	@return 作成されたクォータニオン
 	*/
-	Quat GetBillboardRotateQuat(const Vec3& cameraPos, const Vec3& objPos, Vec3& rotateVec);
+	Quat GetBillboardRotateQuat(const Vec3& Line, Vec3& rotateVec);
 
 	/*!
 	@brief 値が範囲内かを返す

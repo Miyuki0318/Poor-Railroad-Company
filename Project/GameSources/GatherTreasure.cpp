@@ -29,13 +29,13 @@ namespace basecross
 		// サインカーブ等に使うラジアン
 		float rad = m_totalTime * XM_2PI;
 
-		// カメラの視点の座標
-		Vec3 cameraPos = GetStage()->GetView()->GetTargetCamera()->GetEye();
+		// カメラを取得
+		const auto& camera = GetStage()->GetView()->GetTargetCamera();
 
 		// トランスフォームの計算
 		Vec3 pos = SinCurve(rad, m_startPos, m_startPos + m_boundVal);
+		Quat rot = GetBillboardRotateQuat(camera->GetAt() - camera->GetEye(), Vec3(0.0f, rad, 0.0f));
 		Vec2 scale = Utility::Lerp(Vec2(0.0f), m_drawScale, m_totalTime / m_effectTime);
-		Quat rot = GetBillboardRotateQuat(cameraPos, pos, Vec3(0.0f, 0.0f, rad));
 
 		// 経過時間を加算
 		m_totalTime += DELTA_TIME;
@@ -50,7 +50,7 @@ namespace basecross
 		// トランスフォームの更新
 		SetScale(scale);
 		SetPosition(pos);
-		m_ptrTrans->SetQuaternion(rot);
+		SetQuaternion(rot);
 
 		// 色の更新処理
 		SetDiffuseColor(Col4(1.0f, 1.0f, 1.0f, m_totalTime / m_effectTime));
