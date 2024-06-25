@@ -164,11 +164,6 @@ namespace basecross
 		void CreateUIObject();
 
 		/*!
-		@brief ステージをcsvで再生成
-		*/
-		void ResetCreateStage();
-
-		/*!
 		@brief 地面をcsvで再生成
 		*/
 		void ResetGroundStage();
@@ -266,6 +261,11 @@ namespace basecross
 		@brief 毎フレーム度に呼び出される関数
 		*/
 		virtual void OnUpdate() override;
+
+		/*!
+		@brief ステージをcsvで再生成
+		*/
+		void ResetCreateStage();
 
 		/*!
 		@brief ゲームの進行状態をゲットする関数

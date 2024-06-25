@@ -107,9 +107,12 @@ namespace basecross
 		}
 		if (m_currentButton == eButtons::Retry)
 		{
+			auto& gameStage = GetTypeStage<GameStage>();
+			gameStage->ResetCreateStage();
+			gameStage->SetGameProgress(eGameProgress::Playing);
 			m_retrySprite.lock()->SetDrawActive(false);
 			m_titleBackSprite.lock()->SetDrawActive(false);
-			m_state = Close;
+			m_state = State::Close;
 		}
 	}
 }

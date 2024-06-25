@@ -16,7 +16,7 @@ namespace basecross {
 	}
 
 	void MainCamera::OnUpdate() {
-		if (m_cameraState == Fixed) // 固定状態
+		if (m_cameraState == State::Fixed) // 固定状態
 		{
 			SetEye(Utility::Lerp(m_initialAt, m_initialEye, m_ZoomRatioC));
 		}
@@ -26,11 +26,11 @@ namespace basecross {
 
 		m_targetPos = GetTargetObject()->GetComponent<Transform>()->GetPosition(); // ターゲットの位置を取得
 
-		if (m_cameraState == Follow) // 追尾状態
+		if (m_cameraState == State::Follow) // 追尾状態
 		{
 			FollowTarget();
 		}
-		if (m_cameraState == ZoomIn || m_cameraState == ZoomOut) // ズーム状態
+		if (m_cameraState == State::ZoomIn || m_cameraState == State::ZoomOut) // ズーム状態
 		{
 			ZoomProcess();
 		}
