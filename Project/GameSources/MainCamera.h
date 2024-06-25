@@ -9,17 +9,17 @@
 
 namespace basecross {
 	class MainCamera : public Camera {
-		const Vec3 m_DefaultEye;	// カメラの初期位置
 		const Vec3 m_MaxEye;		// カメラの最大移動距離
 		const float m_ZoomRatioC;	// 固定状態時のズーム割合
 
 		weak_ptr<GameObject> m_targetObject; // 目標となるオブジェクト
 		shared_ptr<Transform> m_targetTrans; // 目標のトランスフォーム
 
-		Vec3 m_targetPos;  // ターゲットの位置
+		Vec3 m_targetPos;	// ターゲットの位置
 		Vec3 m_zoomEye;		// ズーム後の位置
 		Vec3 m_currentEye;	// ズームのスタート位置
-		Vec3 m_initializeAt;// カメラの初期注視点
+		Vec3 m_initialEye;	// カメラの初期位置
+		Vec3 m_initialAt;	// カメラの初期注視点
 
 		float m_zoomRatio; // ズームの割合
 		float m_zoomSpeed; // ズーム速度
@@ -42,8 +42,8 @@ namespace basecross {
 			m_cameraState(cameraState),
 			m_DefaultState(cameraState),
 			m_targetPos(Vec3(0.0f)),
-			m_DefaultEye(eyePos),
-			m_initializeAt(atPos),
+			m_initialEye(eyePos),
+			m_initialAt(atPos),
 			m_MaxEye(Vec3(400.0f, 20.0f, -22.0f)),
 			m_currentEye(0.0f),
 			m_ZoomRatioC(0.6f),
@@ -68,6 +68,13 @@ namespace basecross {
 		void ZoomProcess();
 
 		/// <summary>
+		/// カメラのリセット処理
+		/// </summary>
+		/// <param name="eyePos">位置</param>
+		/// <param name="atPos">注視点</param>
+		void ResetCamera(Vec3 eyePos, Vec3 atPos);
+
+		/// <summary>
 		/// ズーム処理スタート時に呼び出す処理
 		/// </summary>
 		/// <param name="currentEye">現在の位置</param>
@@ -80,7 +87,7 @@ namespace basecross {
 		}
 		void ZoomStart(Vec3 zoomEye, Vec3 defAt) {
 			m_zoomEye = zoomEye;
-			m_initializeAt = defAt;
+			m_initialAt = defAt;
 			m_currentEye = GetEye();
 			m_cameraState = ZoomIn;
 			m_zoomRatio = 0.0f;

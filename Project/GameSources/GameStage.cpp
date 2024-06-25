@@ -5,6 +5,7 @@
 
 #include "stdafx.h"
 #include "Project.h"
+#include "PauseMenu.h"
 
 namespace basecross
 {
@@ -202,7 +203,7 @@ namespace basecross
 	{
 		m_fadeSprite->SetPosition(m_fadeSprite->GetPosition() + Vec3(0.0f, 0.0f, 0.1f));
 		m_fadeSprite->SetDiffuseColor(COL_WHITE);
-		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f, 400.0f), Vec3(0.0f, 200.0f, 0.1f));
+		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f, 400.0f), Vec3(0.0f, 200.0f, 0.3f));
 
 		// コンティニュー時に扱うスプライト
 		m_continueSprite = AddGameObject<Sprite>(L"CONTINUE_TX", m_defScale, m_leftPos);
@@ -293,12 +294,9 @@ namespace basecross
 		Vec3 defEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
 		Vec3 defAt = Vec3(3.0f, 1.0f, -8.5f);
 
-		auto newCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow, defEye, defAt);
-		newCamera->SetTargetObject(train);
-		newCamera->SetAt(train->GetDefaultPosition());
-
-		auto& view = dynamic_pointer_cast<SingleView>(GetView());
-		view->SetCamera(newCamera);
+		auto& camera = GetView()->GetTargetCamera();
+		auto mainCamera = dynamic_pointer_cast<MainCamera>(camera);
+		mainCamera->ResetCamera(defEye, defAt);
 	}
 
 	// スプライトの表示
@@ -335,6 +333,14 @@ namespace basecross
 
 		float volume = Utility::Lerp(0.5f, 0.0f, m_fadeSprite->GetDiffuseColor().w);
 		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
+	}
+
+	void GameStage::ToPlayingState()
+	{
+		if (m_fadeSprite->GetDiffuseColor().w > 0.0f)
+		{
+			m_fadeSprite->FadeOutColor(2.0f);
+		}
 	}
 
 	void GameStage::ToClearSelectStage()
@@ -391,10 +397,19 @@ namespace basecross
 		m_countTime += DELTA_TIME;
 	}
 
-	void GameStage::OnPauseMenu()
+	void GameStage::PushButtonStart()
 	{
-		auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
-		
+		if (GetSharedGameObject<Player>(L"Player")->GetStatus(ePlayerStatus::IsCraftQTE)) return;
+		if (m_gameProgress == Pause)
+		{
+			auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
+			menu->OnClose();
+		}
+		if (m_gameProgress == Playing)
+		{
+			auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
+			menu->OnOpen();
+		}
 	}
 
 	// コンティニュー処理
@@ -604,6 +619,11 @@ namespace basecross
 			// スプライトの表示
 			LogoActive();
 
+			// STARTボタンを押したら
+			if (Input::GetPad().wPressedButtons & XINPUT_GAMEPAD_START)
+			{
+				PushButtonStart();
+			}
 			// 演出中かの真偽をプレイ中かどうかで立てる
 			m_isStaging = !Utility::OR(m_gameProgress, eGameProgress::FadeIn, eGameProgress::Playing);
 

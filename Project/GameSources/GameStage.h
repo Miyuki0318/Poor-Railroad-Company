@@ -164,11 +164,6 @@ namespace basecross
 		void CreateUIObject();
 
 		/*!
-		@brief ステージをcsvで再生成
-		*/
-		void ResetCreateStage();
-
-		/*!
 		@brief 地面をcsvで再生成
 		*/
 		void ResetGroundStage();
@@ -183,6 +178,8 @@ namespace basecross
 		*/
 		void LogoActive();
 
+		void ToPlayingState();
+
 		void ToFadeInState();
 
 		void ToClearSelectStage();
@@ -194,10 +191,7 @@ namespace basecross
 		*/
 		void ToTitleStage();
 
-		/// <summary>
-		/// ポーズメニュー表示時の処理
-		/// </summary>
-		void OnPauseMenu();
+		void PushButtonStart();
 
 		/*!
 		@brief コンティニュー時の処理
@@ -234,7 +228,7 @@ namespace basecross
 			m_pastState = eContinueSelect::TitleBack;
 
 			m_progressFunc.emplace(eGameProgress::FadeIn, bind(&GameStage::ToFadeInState, this));
-			m_progressFunc.emplace(eGameProgress::Pause, bind(&GameStage::OnPauseMenu, this));
+			m_progressFunc.emplace(eGameProgress::Playing, bind(&GameStage::ToPlayingState, this));
 			m_progressFunc.emplace(eGameProgress::ToNext, bind(&GameStage::ToNextStage, this));
 			m_progressFunc.emplace(eGameProgress::ToTitle, bind(&GameStage::ToTitleStage, this));
 			m_progressFunc.emplace(eGameProgress::ClearSlect, bind(&GameStage::ToClearSelectStage, this));
@@ -272,11 +266,26 @@ namespace basecross
 		virtual void OnUpdate() override;
 
 		/*!
+		@brief ステージをcsvで再生成
+		*/
+		void ResetCreateStage();
+
+		bool GetFadeIn() const
+		{
+			return m_fadeSprite->FadeInColor(2.0f);
+		}
+
+		/*!
 		@brief ゲームの進行状態をゲットする関数
 		*/
 		eGameProgress GetGameProgress() const
 		{
 			return m_gameProgress;
+		}
+
+		void SetContinueState(eContinueState state)
+		{
+			m_continueState = state;
 		}
 
 		/*!
