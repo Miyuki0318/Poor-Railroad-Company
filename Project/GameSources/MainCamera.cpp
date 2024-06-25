@@ -63,4 +63,10 @@ namespace basecross {
 			m_zoomRatio -= DELTA_TIME * m_zoomSpeed;
 		}
 	}
+
+	void MainCamera::ResetCamera(const Vec3& eyePos, const Vec3& atPos)
+	{
+		SetEye(eyePos);
+		SetAt(atPos);
+	}
 }

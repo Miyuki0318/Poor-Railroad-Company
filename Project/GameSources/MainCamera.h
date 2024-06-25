@@ -67,6 +67,8 @@ namespace basecross {
 		/// </summary>
 		void ZoomProcess();
 
+		void ResetCamera(const Vec3& eyePos, const Vec3& atPos);
+
 		/// <summary>
 		/// ズーム処理スタート時に呼び出す処理
 		/// </summary>
