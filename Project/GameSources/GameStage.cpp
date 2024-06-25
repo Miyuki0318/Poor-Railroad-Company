@@ -27,8 +27,8 @@ namespace basecross
 		AddTextureResource(L"CONTINUE_TX", texturePath + L"Continue.png");
 		AddTextureResource(L"STAGESELECT_TX", texturePath + L"StageSelect.png");
 		AddTextureResource(L"CONTINUE_TITLEBACK_TX", texturePath + L"TitleBack.png");
-		AddTextureResource(L"NEXTSTAGE_TX", texturePath + L"White.png");
-		AddTextureResource(L"CLEAR_TITLEBACK_TX", texturePath + L"White.png");
+		AddTextureResource(L"NEXTSTAGE_TX", texturePath + L"NextStage.png");
+		AddTextureResource(L"CLEAR_TITLEBACK_TX", texturePath + L"ClearTitleBack.png");
 		AddTextureResource(L"RAIL_LINE_TX", texturePath + L"RailLine.tga");
 
 		// 地面の仮テクスチャ

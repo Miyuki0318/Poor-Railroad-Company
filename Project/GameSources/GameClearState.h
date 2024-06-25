@@ -76,7 +76,7 @@ namespace basecross
 			m_boundScale(1.25f),
 			m_railFadeTime(3.0f),
 			m_selectFadeTime(5.0f),
-			m_defScale(275.0f, 100.0f),
+			m_defScale(300.0f, 350.0f),
 			m_leftPos(-300.0f, -200.0f, 0.0f),
 			m_rightPos(300.0f, -200.0f, 0.0f),
 			m_railPos(-1920.0f, -250.0f, 0.2f),
