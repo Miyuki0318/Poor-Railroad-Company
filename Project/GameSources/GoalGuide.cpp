@@ -49,6 +49,8 @@ namespace basecross
 		m_arrowSprite.lock()->SetRotation(Vec3(0.0f, 0.0f, rad));
 
 		// ƒS[ƒ‹‰w‚ª‰æ–Ê“à‚È‚ç”ñ•\Ž¦
-		SetDrawActive(!GetBetween(stationPos, -windowMax, windowMax));
+		bool isDraw = !GetBetween(stationPos, -windowMax, windowMax);
+		SetDrawActive(isDraw);
+		m_arrowSprite.lock()->SetDrawActive(isDraw);
 	}
 }
