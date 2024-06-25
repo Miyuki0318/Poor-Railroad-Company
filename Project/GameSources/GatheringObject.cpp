@@ -161,6 +161,9 @@ namespace basecross
 
 		// レールマネージャーにガイドの再生成関数を送る
 		stagePtr->GetSharedGameObject<RailManager>(L"RailManager")->GuideRecalculation();
+		
+		// タイトルにキャストできたら終了
+		if (auto& gameStage = dynamic_pointer_cast<TitleStage>(stagePtr)) return;
 
 		// お宝チェックを行い、お宝があればプレイヤーにアイテム追加処理を送る
 		auto& addItem = stagePtr->GetSharedGameObject<GatherTreasure>(L"GatherTreasure")->TreasureCheck(ROWCOL2POS(point.x, point.y));
