@@ -364,7 +364,8 @@ namespace basecross
 
 			m_fadeSprite->SetDrawActive(false);
 
-			Debug::Log(m_distance);
+			// 通常時以外は演出中のフラグを立てる
+			m_isStaging = titleProgress != normal;
 		}
 		catch (...)
 		{

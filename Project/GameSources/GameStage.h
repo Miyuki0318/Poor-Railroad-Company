@@ -17,6 +17,7 @@ namespace basecross
 	{
 		FadeIn,
 		Playing,
+		GoalConect,
 		Pause,
 		GameClear,
 		ClearSlect,

@@ -69,6 +69,7 @@ namespace basecross
 		// ステージのファイル内
 		string m_stagePath;
 
+		bool m_isStaging;
 		float m_stageDistanceX;
 
 		/*!
@@ -105,6 +106,7 @@ namespace basecross
 		*/
 		BaseStage(const string stagePath) : Stage(), m_stagePath(stagePath) 
 		{
+			m_isStaging = false;
 			m_stageDistanceX = 0.0f;
 		}
 
@@ -165,6 +167,15 @@ namespace basecross
 		@param オブジェクトのポインタ
 		*/
 		virtual void StopSE(const wstring& seKey, const void* objPtr);
+
+		/*!
+		@brief 演出中かの真偽取得関数
+		@return m_isStaging
+		*/
+		bool GetIsStaging() const
+		{
+			return m_isStaging;
+		}
 
 		/*!
 		@brief タイマークラス取得関数
