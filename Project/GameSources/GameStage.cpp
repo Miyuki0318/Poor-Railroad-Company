@@ -202,7 +202,7 @@ namespace basecross
 	{
 		m_fadeSprite->SetPosition(m_fadeSprite->GetPosition() + Vec3(0.0f, 0.0f, 0.1f));
 		m_fadeSprite->SetDiffuseColor(COL_WHITE);
-		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f), Vec3(0.0f, 200.0f, 0.0f));
+		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f, 400.0f), Vec3(0.0f, 200.0f, 0.0f));
 
 		// コンティニュー時に扱うスプライト
 		m_continueSprite = AddGameObject<Sprite>(L"CONTINUE_TX", m_defScale, m_leftPos);
@@ -309,7 +309,11 @@ namespace basecross
 		switch (m_gameProgress)
 		{
 		case GameClear:
+		case ClearSlect:
+		case ToNext:
+		case ToTitle:
 			m_gameSprite->SetTexture(L"GAMECLEAR_TX");
+			m_gameSprite->SetDrawActive(true);
 			break;
 
 		case GameOver:
