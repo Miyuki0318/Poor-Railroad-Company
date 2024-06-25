@@ -410,6 +410,9 @@ namespace basecross
 	// ガイドの再計算処理
 	void RailManager::GuideRecalculation()
 	{
+		// 既にゴールと繋がっているなら無視
+		if (m_isConnectionGoal) return;
+
 		// ステージcsvの取得
 		auto& stageMap = GetTypeStage<BaseStage>()->GetStageMap();
 		m_guideMap = stageMap;
