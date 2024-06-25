@@ -14,8 +14,7 @@ namespace basecross
 	*/
 	class SelectIndicator : public TemplateObject
 	{
-		VertexData m_vertex; // 頂点データ
-		shared_ptr<PCTStaticDraw> m_ptrDraw; // 描画コンポーネント
+		shared_ptr<PCStaticDraw> m_ptrDraw; // 描画コンポーネント
 		weak_ptr<TemplateObject> m_player; // プレイヤー
 		Point2D<size_t> m_selectPoint; // 選択しているポイント
 		Vec3 m_cursolPosition;
