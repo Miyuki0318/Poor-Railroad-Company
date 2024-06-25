@@ -65,6 +65,19 @@ namespace basecross
 			m_titleBackSprite.lock()->SetDrawActive(true);
 			ButtonSelect();
 		}
+		if (state == State::Continued)
+		{
+			if (m_currentButton == eButtons::BackTitle)
+			{
+				TitleButton();
+				return;
+			}
+
+			if (GetTypeStage<GameStage>()->GetFadeIn() && m_currentButton == eButtons::Retry)
+			{
+				RetryButton();
+			}
+		}
 	}
 
 	void PauseMenu::ButtonSelect()
@@ -98,23 +111,21 @@ namespace basecross
 		m_buttonSprites.at(m_pastButton).lock()->SetScale(m_DefaultButtonScale);
 		m_buttonSprites.at(m_currentButton).lock()->SetScale(m_DefaultButtonScale * scale);
 
-		if (Input::GetPushB()) ButtonAction();
+		if (Input::GetPushB()) m_state = State::Continued;
 	}
 
-	void PauseMenu::ButtonAction()
+	void PauseMenu::TitleButton()
 	{
-		if (m_currentButton == eButtons::BackTitle)
-		{
-			GetTypeStage<GameStage>()->PostEvent(0.0f, GetTypeStage<GameStage>(), App::GetApp()->GetScene<Scene>(), L"TitleStage");
-		}
-		if (m_currentButton == eButtons::Retry)
-		{
-			auto& gameStage = GetTypeStage<GameStage>();
-			gameStage->ResetCreateStage();
-			gameStage->SetGameProgress(eGameProgress::Playing);
-			m_retrySprite.lock()->SetDrawActive(false);
-			m_titleBackSprite.lock()->SetDrawActive(false);
-			m_state = State::Close;
-		}
+		GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::ToTitle);
+	}
+
+	void PauseMenu::RetryButton()
+	{
+		auto& gameStage = GetTypeStage<GameStage>();
+		gameStage->ResetCreateStage();
+		gameStage->SetGameProgress(eGameProgress::Playing);
+		m_retrySprite.lock()->SetDrawActive(false);
+		m_titleBackSprite.lock()->SetDrawActive(false);
+		m_state = State::Close;
 	}
 }

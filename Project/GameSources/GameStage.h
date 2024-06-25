@@ -178,6 +178,8 @@ namespace basecross
 		*/
 		void LogoActive();
 
+		void ToPlayingState();
+
 		void ToFadeInState();
 
 		void ToClearSelectStage();
@@ -226,6 +228,7 @@ namespace basecross
 			m_pastState = eContinueSelect::TitleBack;
 
 			m_progressFunc.emplace(eGameProgress::FadeIn, bind(&GameStage::ToFadeInState, this));
+			m_progressFunc.emplace(eGameProgress::Playing, bind(&GameStage::ToPlayingState, this));
 			m_progressFunc.emplace(eGameProgress::ToNext, bind(&GameStage::ToNextStage, this));
 			m_progressFunc.emplace(eGameProgress::ToTitle, bind(&GameStage::ToTitleStage, this));
 			m_progressFunc.emplace(eGameProgress::ClearSlect, bind(&GameStage::ToClearSelectStage, this));
@@ -267,12 +270,22 @@ namespace basecross
 		*/
 		void ResetCreateStage();
 
+		bool GetFadeIn() const
+		{
+			return m_fadeSprite->FadeInColor(2.0f);
+		}
+
 		/*!
 		@brief ゲームの進行状態をゲットする関数
 		*/
 		eGameProgress GetGameProgress() const
 		{
 			return m_gameProgress;
+		}
+
+		void SetContinueState(eContinueState state)
+		{
+			m_continueState = state;
 		}
 
 		/*!

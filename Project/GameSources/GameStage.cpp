@@ -203,7 +203,7 @@ namespace basecross
 	{
 		m_fadeSprite->SetPosition(m_fadeSprite->GetPosition() + Vec3(0.0f, 0.0f, 0.1f));
 		m_fadeSprite->SetDiffuseColor(COL_WHITE);
-		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f, 400.0f), Vec3(0.0f, 200.0f, 0.1f));
+		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f, 400.0f), Vec3(0.0f, 200.0f, 0.3f));
 
 		// コンティニュー時に扱うスプライト
 		m_continueSprite = AddGameObject<Sprite>(L"CONTINUE_TX", m_defScale, m_leftPos);
@@ -333,6 +333,14 @@ namespace basecross
 
 		float volume = Utility::Lerp(0.5f, 0.0f, m_fadeSprite->GetDiffuseColor().w);
 		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
+	}
+
+	void GameStage::ToPlayingState()
+	{
+		if (m_fadeSprite->GetDiffuseColor().w > 0.0f)
+		{
+			m_fadeSprite->FadeOutColor(2.0f);
+		}
 	}
 
 	void GameStage::ToClearSelectStage()
