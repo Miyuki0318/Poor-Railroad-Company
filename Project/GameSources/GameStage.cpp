@@ -32,6 +32,10 @@ namespace basecross
 		AddTextureResource(L"CLEAR_TITLEBACK_TX", texturePath + L"ClearTitleBack.png");
 		AddTextureResource(L"RAIL_LINE_TX", texturePath + L"RailLine.tga");
 
+		// ゴールガイドテクスチャ
+		AddTextureResource(L"GOAL_GUIDE_TX", texturePath + L"GoalGuide.png");
+		AddTextureResource(L"GOAL_ARROW_TX", texturePath + L"GoalGuideArrow.png");
+
 		// ゲーム中のBGM
 		AddAudioResource(L"FIRST_BGM", soundPath + L"FirstBGM");
 		AddAudioResource(L"SECOND_BGM", soundPath + L"SecondBGM");
@@ -244,6 +248,9 @@ namespace basecross
 		// ポーズメニューの作成
 		auto& pauseMenu = AddGameObject<PauseMenu>();
 		SetSharedGameObject(L"PAUSE", pauseMenu);
+
+		// ゴールガイドの生成
+		AddGameObject<GoalGuide>();
 	}
 
 	// リセット処理

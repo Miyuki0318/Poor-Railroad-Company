@@ -232,6 +232,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GameClearState.h">
       <Filter>Stage\GameStage\GameClearState</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GoalGuide.h">
+      <Filter>Guide\GoalGuide</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -431,6 +434,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameClearState.cpp">
       <Filter>Stage\GameStage\GameClearState</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GoalGuide.cpp">
+      <Filter>Guide\GoalGuide</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -667,6 +673,9 @@
     </Filter>
     <Filter Include="Stage\GameStage\GameClearState">
       <UniqueIdentifier>{a79d6832-bda8-4a66-be57-40fbc6a850e9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Guide\GoalGuide">
+      <UniqueIdentifier>{5148ed22-9aa6-469b-9563-a278d75b62f2}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

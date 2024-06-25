@@ -26,6 +26,7 @@
 #include "Train.h"
 #include "TitleStage.h"
 #include "ActionGuide.h"
+#include "GoalGuide.h"
 #include "Company.h"
 #include "RouteMap.h"
 #include "ItemCountUI.h"
