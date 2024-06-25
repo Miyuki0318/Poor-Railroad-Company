@@ -18,10 +18,13 @@ namespace basecross
 		// ステージの取得
 		const auto& stagePtr = GetStage();
 
-		// フレームとQTEポイントを生成
+		// フレームとQTEポイントとボタン入力を生成
 		m_barFlame = stagePtr->AddGameObject<CraftUI>(L"C_QTE_FLAME_TX", m_drawScale, m_drawSpeed);
 		m_qtePoint = stagePtr->AddGameObject<CraftUI>(L"WHITE_TX", Vec2(40.0f, 10.0f), m_drawSpeed);
-		m_qtePoint.lock()->SetDiffuseColor(Col4(1.0f, 0.0f, 0.0f, 0.75f));
+		m_qteButton = stagePtr->AddGameObject<CraftUI>(L"BUTTON_A_TX", Vec2(50.0f), m_drawSpeed);
+		
+		// 色を変更
+		m_qtePoint.lock()->SetDiffuseColor(Col4(0.0f, 0.0f, 1.0f, 0.75f));
 	}
 
 	// 毎フレーム更新処理
@@ -53,16 +56,22 @@ namespace basecross
 		// 継承元の表示切替え処理を実行
 		CraftUI::SetEnable(enable);
 
+		// 各種ポインタ
+		auto& flame = m_barFlame.lock();
+		auto& point = m_qtePoint.lock();
+		auto& button = m_qteButton.lock();
+
 		// フレームとQTEポイントにも表示切替えの処理を送る
-		m_barFlame.lock()->SetEnable(enable);
-		m_qtePoint.lock()->SetEnable(enable);
+		flame->SetEnable(enable);
+		point->SetEnable(enable);
 
 		// 座標を設定
 		Vec3 diff = m_rectDiff.at(m_rectType);
 		Vec3 pos = windowPos + Vec3(0.0f, (m_posDiff + m_drawScale.y) * diff.y, 0.0f);
 		SetPosition(Vec3(pos.x, pos.y, 0.2f));
-		m_barFlame.lock()->SetPosition(Vec3(pos.x, pos.y, 0.0f));
-		m_qtePoint.lock()->SetPosition(Vec3(pos.x + (m_drawScale.x * (m_qteRatio - 0.1f)) * diff.x, pos.y, 0.1f));
+		flame->SetPosition(Vec3(pos.x, pos.y, 0.0f));
+		point->SetPosition(Vec3(pos.x + (m_drawScale.x * (m_qteRatio - 0.1f)) * diff.x, pos.y, 0.1f));
+		button->SetPosition(point->GetPosition() + Vec3(point->m_drawScale.x / 2.0f * diff.x, button->m_drawScale.y / 1.25f * diff.y, 0.0f));
 	}
 	
 	// 描画変更設定
@@ -102,6 +111,7 @@ namespace basecross
 		// 開始時の初期化を行う
 		m_barRatio = 0.0f;
 		m_qteEnable = true;
+		m_qteButton.lock()->SetEnable(true);
 	}
 
 	// QTEの停止処理
@@ -109,6 +119,7 @@ namespace basecross
 	{
 		// QTEを停止
 		m_qteEnable = false;
+		m_qteButton.lock()->SetEnable(false);
 
 		// Y軸のスケールは0の状態にする
 		SetScale(0.0f, m_scale.y);

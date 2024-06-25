@@ -9,7 +9,6 @@
 #include "CraftUI.h"
 #include "CraftWindow.h"
 #include "CraftItemIcon.h"
-#include "CraftingIcon.h"
 #include "CraftingQTE.h"
 
 namespace basecross
@@ -42,7 +41,7 @@ namespace basecross
 		Rail,		// レール
 		WoodBridge,	// 木の橋
 		Crossing,	// 踏切
-		GoldVar,	// 金塊
+		GoldBar,	// 金塊
 	};
 
 	/*!
@@ -53,6 +52,10 @@ namespace basecross
 		const weak_ptr<TemplateObject> m_player;// プレイヤーのポインタ
 		const weak_ptr<CraftingQTE> m_craftQTE; // クラフトQTE
 		const weak_ptr<CraftWindow> m_window;	// クラフトウィンドウ
+
+		// クラフトアイテムアイコン
+		map<eCraftItem, weak_ptr<CraftItemIcon>> m_iconMap;
+		map<eCraftItem, eInputButton> m_inputButton;
 
 		const vector<vector<string>> m_racipe; // クラフトレシピ
 		eCraftItem m_craftItem;	// 作成中のアイテム
@@ -85,13 +88,22 @@ namespace basecross
 			m_itemCount.emplace(eItemType::Rail, 0);
 			m_itemCount.emplace(eItemType::WoodBridge, 0);
 			m_itemCount.emplace(eItemType::Crossing, 0);
-			m_itemCount.emplace(eItemType::GoldVar, 0);
+			m_itemCount.emplace(eItemType::GoldBar, 0);
+
+			m_inputButton.emplace(eCraftItem::Rail, eInputButton::ButtonB);
+			m_inputButton.emplace(eCraftItem::WoodBridge, eInputButton::ButtonA);
+			m_inputButton.emplace(eCraftItem::Crossing, eInputButton::ButtonY);
 		}
 
 		/*!
 		@brief デストラクタ
 		*/
 		~CraftManager() {}
+
+		/*!
+		@brief 生成時の処理関数
+		*/
+		void OnCreate();
 
 		/*!
 		@brief リセット処理関数

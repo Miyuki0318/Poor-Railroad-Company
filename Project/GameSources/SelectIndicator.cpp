@@ -21,31 +21,27 @@ namespace basecross
 
 		// 頂点データの設定
 		const float HELF = 0.55f;
-		vector<Vec3> point = {
-			Vec3(HELF, 0.0f, HELF),
-			Vec3(HELF, 0.0f, -HELF),
-			Vec3(-HELF, 0.0f, -HELF),
-			Vec3(-HELF, 0.0f, HELF),
-			Vec3(HELF, 0.0f, HELF),
+		vector<VertexPositionColor> vertices = {
+			{{-HELF, -HELF, -HELF}, COL_WHITE}, // 0
+			{{-HELF,  HELF, -HELF}, COL_ALPHA}, // 1
+			{{ HELF,  HELF, -HELF}, COL_ALPHA}, // 2
+			{{ HELF, -HELF, -HELF}, COL_WHITE}, // 3
+			{{-HELF, -HELF,  HELF}, COL_WHITE}, // 4
+			{{-HELF,  HELF,  HELF}, COL_ALPHA}, // 5
+			{{ HELF,  HELF,  HELF}, COL_ALPHA}, // 6
+			{{ HELF, -HELF,  HELF}, COL_WHITE}, // 7		
+		};
+		vector<uint16_t> indices = {
+			0, 1, 2, 0, 2, 3, // Front
+			4, 6, 5, 4, 7, 6, // Back
+			0, 4, 5, 0, 5, 1, // Left
+			3, 2, 6, 3, 6, 7, // Right
 		};
 
-		// リボン型の頂点データを作成
-		RibonVerticesIndices(point, m_vertex, Vec3(0.0f, 0.0f, 0.5f), HELF, 1);
-
-		// 頂点データの数ループ
-		for (auto& vertices : m_vertex.vertices)
-		{
-			// 座標Y軸が上側であれば、透明色にする
-			if (vertices.position.y > 0.0f)
-			{
-				vertices.color = COL_ALPHA;
-			}
-		}
-
 		// 描画コンポーネントの設定
-		m_ptrDraw = AddComponent<PCTStaticDraw>();
+		m_ptrDraw = AddComponent<PCStaticDraw>();
 		m_ptrDraw->SetOriginalMeshUse(true);
-		m_ptrDraw->CreateOriginalMesh(m_vertex);
+		m_ptrDraw->CreateOriginalMesh(vertices, indices);
 
 		// 透明色の描画を可能に
 		SetAlphaActive(true);
