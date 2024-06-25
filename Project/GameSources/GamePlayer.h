@@ -198,7 +198,7 @@ namespace basecross
 		*/
 		int GetLimitCount(eItemType type)
 		{
-			if (m_itemLimitMap.find(type) == m_itemLimitMap.end()) return 0;
+			if (m_itemLimitMap.find(type) == m_itemLimitMap.end()) return 99;
 			return (int)m_playerData.at(m_itemLimitMap.at(type)).at(m_backPackLevel);
 		}
 

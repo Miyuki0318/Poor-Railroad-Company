@@ -25,6 +25,7 @@ namespace basecross
 		m_itemCount.at(eItemType::Rail) = 0;
 		m_itemCount.at(eItemType::WoodBridge) = 0;
 		m_itemCount.at(eItemType::Crossing) = 0;
+		m_itemCount.at(eItemType::GoldBar) = 0;
 	}
 
 	// アイテムクラフト
