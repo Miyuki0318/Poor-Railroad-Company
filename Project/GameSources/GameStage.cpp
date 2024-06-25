@@ -31,9 +31,6 @@ namespace basecross
 		AddTextureResource(L"CLEAR_TITLEBACK_TX", texturePath + L"ClearTitleBack.png");
 		AddTextureResource(L"RAIL_LINE_TX", texturePath + L"RailLine.tga");
 
-		// 地面の仮テクスチャ
-		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
-
 		// ゲーム中のBGM
 		AddAudioResource(L"FIRST_BGM", soundPath + L"FirstBGM");
 		AddAudioResource(L"SECOND_BGM", soundPath + L"SecondBGM");

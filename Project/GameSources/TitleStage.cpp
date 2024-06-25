@@ -65,9 +65,6 @@ namespace basecross
 		AddTextureResource(L"FOURTHMAP_TX", texturePath + L"MapFourth.png");
 		AddTextureResource(L"FIFTHMAP_TX", texturePath + L"MapFifth.png");
 
-		// 地面のテクスチャ
-		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
-
 		AddAudioResource(L"TITLE_BGM", soundPath + L"Title");
 
 		AddedTextureResources();
