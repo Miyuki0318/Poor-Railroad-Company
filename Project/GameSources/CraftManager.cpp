@@ -103,6 +103,7 @@ namespace basecross
 		{
 			// qteオブジェクトにQTE開始呼び出しを送る
 			qte->StartQTE(window->GetPosition());
+			qte->SetButtonTexture(m_inputButton.at(item));
 			m_craftItem = item;
 			m_craftType = type;
 		}

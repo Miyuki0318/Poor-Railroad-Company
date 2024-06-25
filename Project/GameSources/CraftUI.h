@@ -32,11 +32,13 @@ namespace basecross
 		// 描画方向
 		eRectType m_rectType;
 
-		const Vec2 m_drawScale;	 // 展開時のスケール
-		const float m_drawSpeed; // 展開速度
-		float m_drawRatio;		 // 展開割合
+		// 展開割合
+		float m_drawRatio;		 
 
 	public:
+
+		const Vec2 m_drawScale;	 // 展開時のスケール
+		const float m_drawSpeed; // 展開速度
 
 		/*!
 		@brief コンストラクタ

@@ -70,9 +70,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftManager.h">
       <Filter>Player\Game\Craft</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)CraftingIcon.h">
-      <Filter>Player\Game\Craft\CraftUI\CraftingIcon</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftItemIcon.h">
       <Filter>Player\Game\Craft\CraftUI\CraftItemIcon</Filter>
     </ClInclude>
@@ -287,9 +284,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftManager.cpp">
       <Filter>Player\Game\Craft</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)CraftingIcon.cpp">
-      <Filter>Player\Game\Craft\CraftUI\CraftingIcon</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftItemIcon.cpp">
       <Filter>Player\Game\Craft\CraftUI\CraftItemIcon</Filter>

@@ -55,6 +55,7 @@ namespace basecross
 
 		// クラフトアイテムアイコン
 		map<eCraftItem, weak_ptr<CraftItemIcon>> m_iconMap;
+		map<eCraftItem, eInputButton> m_inputButton;
 
 		const vector<vector<string>> m_racipe; // クラフトレシピ
 		eCraftItem m_craftItem;	// 作成中のアイテム
@@ -88,6 +89,10 @@ namespace basecross
 			m_itemCount.emplace(eItemType::WoodBridge, 0);
 			m_itemCount.emplace(eItemType::Crossing, 0);
 			m_itemCount.emplace(eItemType::GoldBar, 0);
+
+			m_inputButton.emplace(eCraftItem::Rail, eInputButton::ButtonB);
+			m_inputButton.emplace(eCraftItem::WoodBridge, eInputButton::ButtonA);
+			m_inputButton.emplace(eCraftItem::Crossing, eInputButton::ButtonY);
 		}
 
 		/*!

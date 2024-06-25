@@ -40,6 +40,11 @@ namespace basecross
 		AddTextureResource(L"C_BRIDGE_TX", texturePath + L"CraftBridgeIcon.png");
 		AddTextureResource(L"C_CROSSING_TX", texturePath + L"CraftCrossingIcon.png");
 
+		// ボタン入力アイコンテクスチャ
+		AddTextureResource(L"BUTTON_A_TX", texturePath + L"A.png");
+		AddTextureResource(L"BUTTON_B_TX", texturePath + L"B.png");
+		AddTextureResource(L"BUTTON_Y_TX", texturePath + L"Y.png");
+
 		// アイコンテクスチャ
 		AddTextureResource(L"I_AXE_TX", texturePath + L"AxeIcon.png");
 		AddTextureResource(L"I_PICK_TX", texturePath + L"PickIcon.png");
