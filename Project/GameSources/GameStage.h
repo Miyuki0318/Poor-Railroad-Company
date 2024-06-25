@@ -231,8 +231,6 @@ namespace basecross
 			m_pastState = eContinueSelect::TitleBack;
 
 			m_progressFunc.emplace(eGameProgress::FadeIn, bind(&GameStage::ToFadeInState, this));
-			//m_progressFunc.emplace(eGameProgress::StartSE, bind(&GameStage::ToStartSEState, this));
-			m_progressFunc.emplace(eGameProgress::GameClear, bind(&GameStage::ToTitleStage, this));
 			m_progressFunc.emplace(eGameProgress::ToNext, bind(&GameStage::ToNextStage, this));
 			m_progressFunc.emplace(eGameProgress::ToTitle, bind(&GameStage::ToTitleStage, this));
 			m_progressFunc.emplace(eGameProgress::ClearSlect, bind(&GameStage::ToClearSelectStage, this));
