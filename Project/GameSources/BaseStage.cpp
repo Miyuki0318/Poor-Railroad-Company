@@ -30,10 +30,15 @@ namespace basecross
 		AddTextureResource(L"G_ROCK_TX", texturePath + L"Rock.png");
 
 		// クラフトウィンドウのテクスチャ
-		AddTextureResource(L"C_WINDOW_TX", texturePath + L"CraftWindow2.png");
+		AddTextureResource(L"C_WINDOW_TX", texturePath + L"CraftWindow.png");
 
 		// QTEバーのフレームのテクスチャ
 		AddTextureResource(L"C_QTE_FLAME_TX", texturePath + L"BarFlame.png");
+
+		// クラフトアイテムアイコンテクスチャ
+		AddTextureResource(L"C_RAIL_TX", texturePath + L"CraftRailIcon.png");
+		AddTextureResource(L"C_BRIDGE_TX", texturePath + L"CraftBridgeIcon.png");
+		AddTextureResource(L"C_CROSSING_TX", texturePath + L"CraftCrossingIcon.png");
 
 		// アイコンテクスチャ
 		AddTextureResource(L"I_AXE_TX", texturePath + L"AxeIcon.png");

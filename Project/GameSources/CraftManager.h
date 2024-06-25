@@ -9,7 +9,6 @@
 #include "CraftUI.h"
 #include "CraftWindow.h"
 #include "CraftItemIcon.h"
-#include "CraftingIcon.h"
 #include "CraftingQTE.h"
 
 namespace basecross
@@ -54,6 +53,9 @@ namespace basecross
 		const weak_ptr<CraftingQTE> m_craftQTE; // クラフトQTE
 		const weak_ptr<CraftWindow> m_window;	// クラフトウィンドウ
 
+		// クラフトアイテムアイコン
+		map<eCraftItem, weak_ptr<CraftItemIcon>> m_iconMap;
+
 		const vector<vector<string>> m_racipe; // クラフトレシピ
 		eCraftItem m_craftItem;	// 作成中のアイテム
 		eItemType m_craftType;	// 作成中のアイテム
@@ -92,6 +94,11 @@ namespace basecross
 		@brief デストラクタ
 		*/
 		~CraftManager() {}
+
+		/*!
+		@brief 生成時の処理関数
+		*/
+		void OnCreate();
 
 		/*!
 		@brief リセット処理関数

@@ -90,7 +90,7 @@ namespace basecross
 		@brief 表示非表示設定関数
 		@param bool
 		*/
-		virtual void SetDrawEnable(bool enable);
+		virtual void SetDrawEnable(bool enable, const Vec3& position);
 
 		/*!
 		@brief ウィンドウ描画が完了したかの真偽取得関数

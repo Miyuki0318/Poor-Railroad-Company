@@ -12,6 +12,15 @@ namespace basecross
 	// ネームスペースの省略
 	using namespace Input;
 
+	void CraftManager::OnCreate()
+	{
+		const auto& stagePtr = m_player.lock()->GetStage();
+
+		m_iconMap.emplace(eCraftItem::Rail, stagePtr->AddGameObject<CraftItemIcon>(L"C_RAIL_TX"));
+		m_iconMap.emplace(eCraftItem::WoodBridge, stagePtr->AddGameObject<CraftItemIcon>(L"C_BRIDGE_TX"));
+		m_iconMap.emplace(eCraftItem::Crossing, stagePtr->AddGameObject<CraftItemIcon>(L"C_CROSSING_TX"));
+	}
+
 	// リセット処理
 	void CraftManager::ResetCraftManager()
 	{
@@ -52,6 +61,9 @@ namespace basecross
 			// スプライトの中心位置設定を送る
 			Vec3 playerPos = player->GetPosition();
 			Vec3 windowPos = Utility::ConvertToWorldPosition(player->GetStage()->GetView(), playerPos);
+			Vec3 windowRect = Vec3((WINDOW_WIDTH / 2.0f), WINDOW_HEIGHT / 2.0f, 1.0f);
+			windowPos.clamp(-windowRect, windowRect);
+			windowPos.z = 0.0f;
 			eRectType rect = eRectType::DownLeft;
 			if (windowPos.x < 0.0f) rect = eRectType::DownRight;
 			if (windowPos.y < 0.0f) rect = eRectType::UpLeft;
@@ -66,8 +78,18 @@ namespace basecross
 			window->SetRectType(rect);
 
 			// 描画状態設定を送る
-			window->SetDrawEnable(enable);
+			window->SetDrawEnable(enable, windowPos + Vec3(0.0f, 0.0f, 0.1f));
 			qte->SetDrawEnable(enable, window->GetPosition());
+
+			// アイコンにも設定を送る
+			for (auto& icon : m_iconMap)
+			{
+				auto& ptr = icon.second.lock();
+				ptr->SetVerticesRect(rect);
+				ptr->SetRectType(rect);
+				ptr->SetCraftPosshible(CraftOrder(icon.first));
+				ptr->SetDrawEnable(enable, windowPos);
+			}
 		}
 	}
 
@@ -107,6 +129,12 @@ namespace basecross
 
 			// QTE結果に応じて作成量を設定
 			AddItemCount(m_craftType, GetRacipeValue(m_craftItem, succes ? eCraftParam::SuccesValue : eCraftParam::FailedValue));
+
+			// クラフトできるかを更新
+			for (auto& icon : m_iconMap)
+			{
+				icon.second.lock()->SetCraftPosshible(CraftOrder(icon.first));
+			}
 		}
 
 		return succes;

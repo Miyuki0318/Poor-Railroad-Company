@@ -105,6 +105,7 @@ namespace basecross
 		const auto& cWindow = stagePtr->AddGameObject<CraftWindow>();
 		const auto& cQTE = stagePtr->AddGameObject<CraftingQTE>();
 		m_craft.reset(new CraftManager(thisPtr, cWindow, cQTE));
+		m_craft->OnCreate();
 	}
 
 	// インディケーターの取得に応じて処理
@@ -185,6 +186,10 @@ namespace basecross
 	// クラフト状態でのXボタン入力
 	void GamePlayer::SwitchCraftWindow()
 	{
+		// 演出中じゃなければ
+		bool isStaging = GetTypeStage<BaseStage>()->GetIsStaging();
+		if (isStaging) return;
+
 		// クラフト中じゃない時に、クラフト不可なら
 		if (!m_status(ePlayerStatus::IsCrafting) && !GetCraftPosshible()) return;
 
