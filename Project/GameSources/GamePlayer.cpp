@@ -25,6 +25,15 @@ namespace basecross
 		// ステートマシンの初期化
 		m_playerState.reset(new GamePlayerStateMachine(GetThis<GamePlayer>()));
 		m_playerState->SetState(GamePlayerIdleState::Instance());
+
+		// ステータスの設定
+		const auto& scene = App::GetApp()->GetScene<Scene>();
+		m_statusLevel = scene->GetStatusLevel();
+		m_backPackLevel = scene->GetBackPackLevel();
+		m_startGearLevel = scene->GetStartGearLevel();
+
+		// 開始時の所持ギア設定
+		AddItemCount(eItemType::Gear, (int)m_playerData.at(ePST::StartGear).at(m_startGearLevel));
 	}
 
 	// 毎フレーム更新処理
@@ -55,13 +64,15 @@ namespace basecross
 	}
 
 	// リセット処理
-	void GamePlayer::ResetPlayer()
+	void GamePlayer::ResetPlayer(const Vec3& start, const Vec3& goal)
 	{
 		// 初期化
 		m_acsel = 0.0f;
 		m_moveValue = 0.0f;
 		m_rotTarget.zero(); 
 		m_currentRot.zero();
+		m_startPosition = start;
+		m_goalStagingPosition = goal;
 		SetPosition(m_startPosition);
 
 		// 待機状態ステートに変更

@@ -105,6 +105,8 @@ namespace basecross
 		*/
 		void OnUpdate() override;
 
+		void CreateGear();
+
 		/*!
 		@brief •Ô‚ÌƒŠƒZƒbƒgŠÖ”
 		*/

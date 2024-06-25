@@ -43,16 +43,6 @@ namespace basecross
 		StartGear,
 	};
 
-	// Player Level
-	enum class ePL : char
-	{
-		Level1,
-		Level2,
-		Level3,
-		Level4,
-		Level5,
-	};
-
 	// プレイヤーの状態
 	enum class ePlayerStatus : uint16_t
 	{
@@ -134,6 +124,7 @@ namespace basecross
 		map<ePST, map<ePL, float>> m_playerData;
 		ePL m_statusLevel;
 		ePL m_backPackLevel;
+		ePL m_startGearLevel;
 
 		// モデルとトランスフォーム差分行列
 		Mat4x4 m_modelMat;
@@ -168,8 +159,9 @@ namespace basecross
 			m_moveValue = 0.0f;
 			m_rotTarget = Vec3(0.0f, XM_PIDIV2, 0.0f); // 回転先は0.0fで初期化
 			m_currentRot = Vec3(0.0f, XM_PIDIV2, 0.0f); // 回転先は0.0fで初期化
-			m_statusLevel = ePL::Level5;
-			m_backPackLevel = ePL::Level5;
+			m_statusLevel = ePL::Level1;
+			m_backPackLevel = ePL::Level1;
+			m_startGearLevel = ePL::Level1;
 
 			// モデルとトランスフォームの差分行列を設定
 			m_modelMat.affineTransformation(
@@ -223,7 +215,7 @@ namespace basecross
 			m_impassableSet.insert(eStageID::UnGrass);
 
 			// プレイヤーのレベル事のステータスを設定
-			vector<map<ePL, float>> tempMap(8);
+			vector<map<ePL, float>> tempMap(9);
 			auto status = CSVLoader::ReadDataToFloat(CSVLoader::LoadFile("PlayerLevel"));
 			for (size_t i = 0; i < tempMap.size(); i++)
 			{

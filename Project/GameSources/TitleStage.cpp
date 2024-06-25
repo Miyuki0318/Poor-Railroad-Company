@@ -89,7 +89,8 @@ namespace basecross
 	// 地面の生成
 	void TitleStage::CreateGround()
 	{		
-		AddGameObject<GroundManager>();
+		const float scale = 5.5f;
+		AddGameObject<GroundManager>(scale);
 		AddGameObject<UnBreakRock>();	// 壊せない岩の生成
 	}
 
@@ -196,16 +197,16 @@ namespace basecross
 		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 
 		if (m_selectObj && !m_zooming)
-		//if (titleProgress == zoom)
 		{
-			Vec3 cameraPos = m_selectObj->GetComponent<Transform>()->GetPosition();
-
-			titleCamera->SetTargetObject(m_selectObj);
-			titleCamera->ZoomStart(Vec3(cameraPos.x, cameraPos.y + 2.0f, cameraPos.z));
 			m_zooming = true;
-			m_zoomEnd = false;
-		}
+			
+			Vec3 objPos = m_selectObj->GetComponent<Transform>()->GetPosition();
+			titleCamera->SetTargetObject(m_selectObj);
 
+			bool isTrain = bool(dynamic_pointer_cast<TitleTrain>(m_selectObj));
+			objPos += isTrain ? m_trainDiffEye : m_objDiffEye;
+			titleCamera->ZoomStart(objPos);
+		}
 
 		if (titleProgress == normal)
 		{
@@ -247,21 +248,6 @@ namespace basecross
 		}
 	}
 
-	void TitleStage::Progress(shared_ptr<GameObject>& obj)
-	{
-		if (obj)
-		{
-			if (obj->FindTag(L"GAMESTART"))
-			{
-				titleProgress = start;
-				return;
-			}
-
-			titleProgress = zoom;
-			return;
-		}
-	}
-
 	// オブジェクトとプレイヤーの距離
 	void TitleStage::DistanceToPlayer()
 	{
@@ -289,7 +275,6 @@ namespace basecross
 					titleProgress = zoom;
 				}
 
-				Progress(m_selectObj);
 				player->SetState(TitlePlayerPauseState::Instance());
 			}
 
@@ -355,21 +340,10 @@ namespace basecross
 			{
 				PushButtonB();
 			}
-
-			Debug::Log(L"カメラのAt : ", GetView()->GetTargetCamera()->GetAt());
-			Debug::Log(L"カメラのEye : ", GetView()->GetTargetCamera()->GetEye());
-
-			Debug::Log(L"列車の位置 : ", GetSharedGameObject<TitleTrain>(L"TitleTrain", true)->GetPosition());
-
-			if (m_selectObj)
-			{
-				Debug::Log(L"SelectObj : ", m_selectObj->GetComponent<Transform>()->GetPosition());
-			}
-			else
-			{
-				Debug::Log(L"SelectObj : 0,0,0");
-			}
-
+			
+			auto& camera = GetView()->GetTargetCamera();
+			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+			
 			if (titleProgress == push)
 			{
 				DistanceToPlayer();
@@ -381,6 +355,7 @@ namespace basecross
 					m_selectObj->RemoveTag(tagName);
 				}
 				m_selectObj = NULL;
+				m_zooming = false;
 			}
 
 			TitleCameraZoom();
@@ -389,7 +364,8 @@ namespace basecross
 
 			m_fadeSprite->SetDrawActive(false);
 
-			Debug::Log(m_distance);
+			// 通常時以外は演出中のフラグを立てる
+			m_isStaging = titleProgress != normal;
 		}
 		catch (...)
 		{

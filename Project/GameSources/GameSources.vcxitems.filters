@@ -226,6 +226,15 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerStartState.h">
       <Filter>Player\Title\State\Start</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GatherTreasure.h">
+      <Filter>Player\Game\GatherTreasure</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Shop.h">
+      <Filter>UI\Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameClearState.h">
+      <Filter>Stage\GameStage\GameClearState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -419,6 +428,15 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayerStartState.cpp">
       <Filter>Player\Title\State\Start</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GatherTreasure.cpp">
+      <Filter>Player\Game\GatherTreasure</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Shop.cpp">
+      <Filter>UI\Shop</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameClearState.cpp">
+      <Filter>Stage\GameStage\GameClearState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -646,6 +664,15 @@
     </Filter>
     <Filter Include="Player\Title\State\Start">
       <UniqueIdentifier>{ff453aae-fa1a-4c12-928f-051b684e73bd}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Game\GatherTreasure">
+      <UniqueIdentifier>{674ca517-8d79-4f2a-91fd-d5f71b400687}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Shop">
+      <UniqueIdentifier>{f14d6fcb-7237-4de0-b34f-f002633a57c2}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage\GameStage\GameClearState">
+      <UniqueIdentifier>{a79d6832-bda8-4a66-be57-40fbc6a850e9}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

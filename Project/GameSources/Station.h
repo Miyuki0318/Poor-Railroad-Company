@@ -11,7 +11,7 @@ namespace basecross {
 	class Station : public  TemplateObject {
 	protected:
 		// 生成座標
-		const Vec3 m_spawnPos;
+		Vec3 m_spawnPos;
 		// 開始時だけ処理させたい関数用のbool
 		bool m_setFlg;
 		// トランスフォームとモデルの差分行列
@@ -49,6 +49,6 @@ namespace basecross {
 		/*
 		@brief	 オブジェクトをリセットする関数
 		*/
-		void OnReset();
+		void OnReset(const Vec3& position);
 	};
 }

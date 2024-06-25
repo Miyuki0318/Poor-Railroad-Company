@@ -62,9 +62,10 @@ namespace basecross {
 		// 白塗りテクスチャ
 		app->RegisterTexture(L"WHITE_TX", texturePath + L"White.png");
 
-		// 数字テクスチャ
+		// 数字や文字テクスチャ
 		app->RegisterTexture(L"NUMBER_TX", texturePath + L"Number.png");
-		
+		app->RegisterTexture(L"SLASH_TX", texturePath + L"Slash.png");
+
 		// メニューテクスチャ
 		app->RegisterTexture(L"MENU_TX", texturePath + L"Menu.png");
 
@@ -108,9 +109,9 @@ namespace basecross {
 		RegisterSingleMesh(playerTag + L"SUCCES", modelPath + L"Player/", L"succces", true);
 		RegisterSingleMesh(playerTag + L"FAILED", modelPath + L"Player/", L"failed", true);
 
-		// 建物の仮モデル
-		RegisterSingleMesh(L"COMPANY", modelPath + L"Bilding/", L"TestCompany", false);
-		RegisterSingleMesh(L"CONSTRUCTION", modelPath + L"Bilding/", L"TestConstruction", false);
+		// 建物のモデル
+		app->RegisterTexture(L"COMPANY_TX", modelPath + L"Bilding/" + L"T_Building.png");
+		RegisterSingleMesh(L"COMPANY", modelPath + L"Bilding/", L"buillding", false);
 
 		// 看板のモデル
 		RegisterSingleMesh(L"BOARD", modelPath + L"Bilding/", L"RouteMap", false);
@@ -122,7 +123,7 @@ namespace basecross {
 		RegisterSingleMesh(L"UN_BREAK_ROCK3", modelPath + L"UnBreakRock/", L"Rock3", false);
 
 		// 木の足場のモデル
-		app->RegisterTexture(L"WOOD_BRIDGE_TX", modelPath + L"Bridge/TX_Bridge.tga");
+		app->RegisterTexture(L"WOOD_BRIDGE_TX", modelPath + L"Bridge/T_Bridge.tga");
 		RegisterSingleMesh(L"WOOD_BRIDGE", modelPath + L"Bridge/", L"Bridge", false);
 
 		// 踏切のモデル

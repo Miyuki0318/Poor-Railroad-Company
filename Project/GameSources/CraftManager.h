@@ -42,6 +42,7 @@ namespace basecross
 		Rail,		// レール
 		WoodBridge,	// 木の橋
 		Crossing,	// 踏切
+		GoldVar,	// 金塊
 	};
 
 	/*!
@@ -80,10 +81,11 @@ namespace basecross
 			// アイテムカウンタ
 			m_itemCount.emplace(eItemType::Wood, 0);
 			m_itemCount.emplace(eItemType::Stone, 0);
-			m_itemCount.emplace(eItemType::Gear, 1);
+			m_itemCount.emplace(eItemType::Gear, 0);
 			m_itemCount.emplace(eItemType::Rail, 0);
 			m_itemCount.emplace(eItemType::WoodBridge, 0);
 			m_itemCount.emplace(eItemType::Crossing, 0);
+			m_itemCount.emplace(eItemType::GoldVar, 0);
 		}
 
 		/*!

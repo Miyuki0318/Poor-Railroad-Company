@@ -47,12 +47,16 @@ namespace basecross
 		AddTextureResource(L"I_BALOON_LEFT_TX", texturePath + L"BalloonLeft.png");
 
 		// UIテクスチャ
+		AddTextureResource(L"UI_MENUBACK_TX", texturePath + L"ItemCountBack.png");
 		AddTextureResource(L"UI_WOOD_TX", texturePath + L"Wood.png");
 		AddTextureResource(L"UI_STONE_TX", texturePath + L"Stone.png");
 		AddTextureResource(L"UI_GEAR_TX", texturePath + L"Gear.png");
 		AddTextureResource(L"UI_RAIL_TX", texturePath + L"Rail.png");
 		AddTextureResource(L"UI_BRIDGE_TX", texturePath + L"Bridge.png");
 		AddTextureResource(L"UI_CROSSING_TX", texturePath + L"Crossing.png");
+
+		// 宝箱のテクスチャ
+		AddTextureResource(L"TREASURE_TX", texturePath + L"TreasureBox.png");
 
 		// 列車の煙テクスチャ
 		AddTextureResource(L"SMOKE_TX", texturePath + L"Smoke.png");

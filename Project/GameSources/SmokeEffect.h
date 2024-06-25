@@ -27,7 +27,7 @@ namespace basecross
 		*/
 		SmokeEffect(const shared_ptr<Stage>& stagePtr) :
 			MultiParticle(stagePtr),
-			m_scale(1.0f),
+			m_scale(0.5f),
 			m_drawTime(1.0f),
 			m_upVelo(5.0f),
 			m_veloRange(0.5f)
