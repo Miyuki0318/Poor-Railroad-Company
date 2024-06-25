@@ -391,6 +391,7 @@ namespace basecross
 
 	void GameStage::PushButtonStart()
 	{
+		if (GetSharedGameObject<Player>(L"Player")->GetStatus(ePlayerStatus::IsCraftQTE)) return;
 		if (m_gameProgress == Pause)
 		{
 			auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
