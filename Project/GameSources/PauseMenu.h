@@ -63,7 +63,11 @@ namespace basecross
 			m_MaxScaleRatio(1.25f),
 			m_MinScaleRatio(1.0f),
 			m_state(State::Closed),
-			m_lerpRatio(0.0f)
+			m_currentButton(eButtons::Retry),
+			m_pastButton(eButtons::BackTitle),
+			m_lerpRatio(0.0f),
+			m_scaleRatio(0.0f),
+			m_pastStickVal(0.0f)
 		{
 		}
 		~PauseMenu() {}

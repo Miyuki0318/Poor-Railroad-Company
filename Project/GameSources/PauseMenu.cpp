@@ -12,7 +12,7 @@ namespace basecross
 
 		m_menuSprite = stagePtr->AddGameObject<Sprite>(L"PAUSEMENU_TX", m_CloseMenuScale, m_CloseMenuPos);
 		m_retrySprite = stagePtr->AddGameObject<Sprite>(L"CONTINUE_TX", m_DefaultButtonScale, m_DefaultRetryButtonPos);
-		m_titleBackSprite = stagePtr->AddGameObject<Sprite>(L"TITLEBACK_TX", m_DefaultButtonScale, m_DefaultTitleButtonPos);
+		m_titleBackSprite = stagePtr->AddGameObject<Sprite>(L"CONTINUE_TITLEBACK_TX", m_DefaultButtonScale, m_DefaultTitleButtonPos);
 		m_retrySprite.lock()->SetDrawActive(false);
 		m_titleBackSprite.lock()->SetDrawActive(false);
 		m_buttonSprites.emplace(eButtons::Retry, m_retrySprite);
@@ -107,7 +107,6 @@ namespace basecross
 		}
 		if (m_currentButton == eButtons::Retry)
 		{
-			GetTypeStage<GameStage>()->ResetState();
 			m_retrySprite.lock()->SetDrawActive(false);
 			m_titleBackSprite.lock()->SetDrawActive(false);
 			m_state = Close;

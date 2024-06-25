@@ -294,12 +294,9 @@ namespace basecross
 		Vec3 defEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
 		Vec3 defAt = Vec3(3.0f, 1.0f, -8.5f);
 
-		auto newCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow, defEye, defAt);
-		newCamera->SetTargetObject(train);
-		newCamera->SetAt(train->GetDefaultPosition());
-
-		auto& view = dynamic_pointer_cast<SingleView>(GetView());
-		view->SetCamera(newCamera);
+		auto& camera = GetView()->GetTargetCamera();
+		auto mainCamera = dynamic_pointer_cast<MainCamera>(camera);
+		mainCamera->ResetCamera(defEye, defAt);
 	}
 
 	// スプライトの表示
