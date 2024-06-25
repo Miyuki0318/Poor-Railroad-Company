@@ -28,6 +28,7 @@ namespace basecross
 	{
 		if (m_state != State::Closed) return;
 		m_state = State::Open;
+		GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::Pause);
 		m_lerpRatio = 0.0f;
 	}
 
@@ -38,6 +39,7 @@ namespace basecross
 		m_titleBackSprite.lock()->SetDrawActive(false);
 
 		m_state = State::Close;
+		GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::Playing);
 		m_lerpRatio = 1.0f;
 	}
 

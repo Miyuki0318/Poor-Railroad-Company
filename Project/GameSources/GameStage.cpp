@@ -395,13 +395,11 @@ namespace basecross
 		{
 			auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
 			menu->OnClose();
-			m_gameProgress = Playing;
 		}
 		if (m_gameProgress == Playing)
 		{
 			auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
 			menu->OnOpen();
-			m_gameProgress = Pause;
 		}
 	}
 
