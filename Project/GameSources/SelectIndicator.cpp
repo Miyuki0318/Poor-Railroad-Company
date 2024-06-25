@@ -77,7 +77,8 @@ namespace basecross
 	void SelectIndicator::UpdateSelectPoint()
 	{
 		// ステージcsv配列の取得
-		const auto& stageMap = GetTypeStage<BaseStage>()->GetStageMap();
+		const auto& stagePtr = GetTypeStage<BaseStage>();
+		const auto& stageMap = stagePtr->GetStageMap();
 
 		// サイズと列と行
 		Vec3 pos = GetPosition();
@@ -93,6 +94,9 @@ namespace basecross
 
 		// 更新
 		m_selectPoint = Point2D<size_t>(row, col);
+
+		// 演出中じゃなければ表示する
+		SetDrawActive(!stagePtr->GetIsStaging());
 	}
 
 	// 隣接点にインディケーターを移動

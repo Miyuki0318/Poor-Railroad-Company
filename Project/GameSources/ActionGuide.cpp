@@ -108,11 +108,14 @@ namespace basecross
 	// アイコン描画更新
 	void ActionGuide::UpdateIconDraw()
 	{
+		bool isCrafting = m_player.lock()->GetStatus(ePlayerStatus::IsCrafting);
+		bool isStaging = GetTypeStage<BaseStage>()->GetIsStaging();
+
 		// スプライト配列を全ループ
 		for (auto& sprite : m_spriteMap)
 		{
 			// 描画するかの真偽設定
-			sprite.sprite.lock()->SetDrawActive(sprite.active && !m_player.lock()->GetStatus(ePlayerStatus::IsCrafting));
+			sprite.sprite.lock()->SetDrawActive(sprite.active && !isCrafting && !isStaging);
 
 			// 非アクティブなら無視
 			if (!sprite.active) continue;

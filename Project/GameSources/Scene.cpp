@@ -123,7 +123,7 @@ namespace basecross {
 		RegisterSingleMesh(L"UN_BREAK_ROCK3", modelPath + L"UnBreakRock/", L"Rock3", false);
 
 		// –Ø‚Ì‘«ê‚Ìƒ‚ƒfƒ‹
-		app->RegisterTexture(L"WOOD_BRIDGE_TX", modelPath + L"Bridge/TX_Bridge.tga");
+		app->RegisterTexture(L"WOOD_BRIDGE_TX", modelPath + L"Bridge/T_Bridge.tga");
 		RegisterSingleMesh(L"WOOD_BRIDGE", modelPath + L"Bridge/", L"Bridge", false);
 
 		// “¥Ø‚Ìƒ‚ƒfƒ‹

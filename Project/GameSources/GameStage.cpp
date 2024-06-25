@@ -27,8 +27,8 @@ namespace basecross
 		AddTextureResource(L"CONTINUE_TX", texturePath + L"Continue.png");
 		AddTextureResource(L"STAGESELECT_TX", texturePath + L"StageSelect.png");
 		AddTextureResource(L"CONTINUE_TITLEBACK_TX", texturePath + L"TitleBack.png");
-		AddTextureResource(L"NEXTSTAGE_TX", texturePath + L"White.png");
-		AddTextureResource(L"CLEAR_TITLEBACK_TX", texturePath + L"White.png");
+		AddTextureResource(L"NEXTSTAGE_TX", texturePath + L"NextStage.png");
+		AddTextureResource(L"CLEAR_TITLEBACK_TX", texturePath + L"ClearTitleBack.png");
 		AddTextureResource(L"RAIL_LINE_TX", texturePath + L"RailLine.tga");
 
 		// 地面の仮テクスチャ
@@ -202,7 +202,7 @@ namespace basecross
 	{
 		m_fadeSprite->SetPosition(m_fadeSprite->GetPosition() + Vec3(0.0f, 0.0f, 0.1f));
 		m_fadeSprite->SetDiffuseColor(COL_WHITE);
-		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f), Vec3(0.0f, 200.0f, 0.0f));
+		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f, 400.0f), Vec3(0.0f, 200.0f, 0.0f));
 
 		// コンティニュー時に扱うスプライト
 		m_continueSprite = AddGameObject<Sprite>(L"CONTINUE_TX", m_defScale, m_leftPos);
@@ -309,7 +309,11 @@ namespace basecross
 		switch (m_gameProgress)
 		{
 		case GameClear:
+		case ClearSlect:
+		case ToNext:
+		case ToTitle:
 			m_gameSprite->SetTexture(L"GAMECLEAR_TX");
+			m_gameSprite->SetDrawActive(true);
 			break;
 
 		case GameOver:
@@ -599,6 +603,9 @@ namespace basecross
 
 			// スプライトの表示
 			LogoActive();
+
+			// 演出中かの真偽をプレイ中かどうかで立てる
+			m_isStaging = !Utility::OR(m_gameProgress, eGameProgress::FadeIn, eGameProgress::Playing);
 
 			// ゲームの結果に応じて処理を実行
 			if (m_progressFunc.find(m_gameProgress) == m_progressFunc.end()) return;
