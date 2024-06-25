@@ -85,8 +85,14 @@ namespace basecross
 		/// </summary>
 		void OnClose();
 
+		/// <summary>
+		/// ボタンセレクト中の処理
+		/// </summary>
 		void ButtonSelect();
 
+		/// <summary>
+		/// ボタンセレクト後の処理
+		/// </summary>
 		void ButtonAction();
 	};
 }

@@ -612,6 +612,7 @@ namespace basecross
 			// スプライトの表示
 			LogoActive();
 
+			// STARTボタンを押したら
 			if (Input::GetPad().wPressedButtons & XINPUT_GAMEPAD_START)
 			{
 				PushButtonStart();

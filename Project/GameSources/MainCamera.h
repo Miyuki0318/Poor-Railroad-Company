@@ -67,6 +67,11 @@ namespace basecross {
 		/// </summary>
 		void ZoomProcess();
 
+		/// <summary>
+		/// カメラのリセット処理
+		/// </summary>
+		/// <param name="eyePos">位置</param>
+		/// <param name="atPos">注視点</param>
 		void ResetCamera(Vec3 eyePos, Vec3 atPos);
 
 		/// <summary>
