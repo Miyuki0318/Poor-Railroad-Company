@@ -21,7 +21,7 @@ namespace basecross
 		wstring soundPath = mediaPath + L"Sounds/";
 
 		// フェード用のテクスチャ
-		AddTextureResource(L"FADE_TX", texturePath + L"Blue.png");
+		AddTextureResource(L"FADE_TX", texturePath + L"Fade_1.png");
 
 		// 地面のテクスチャ
 		AddTextureResource(L"G_GRASS_TX", texturePath + L"Grass.png");
