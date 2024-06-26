@@ -45,6 +45,10 @@ namespace basecross
 		AddAudioResource(L"FOURTH_BGM", soundPath + L"FourthBGM");
 		AddAudioResource(L"FIFTH_BGM", soundPath + L"FifthBGM");
 
+		// ゲーム中のSE
+		AddAudioResource(L"PAUSE_OPEN_SE", soundPath + L"PauseOpen");
+		AddAudioResource(L"PAUSE_CLOSE_SE", soundPath + L"PauseClose");
+
 		// 追加したリソースをメモリに追加
 		AddedTextureResources();
 		AddedAudioResources();
@@ -412,14 +416,16 @@ namespace basecross
 	void GameStage::PushButtonStart()
 	{
 		if (GetSharedGameObject<Player>(L"Player")->GetStatus(ePlayerStatus::IsCraftQTE)) return;
+		auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
 		if (m_gameProgress == Pause)
 		{
-			auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
+			m_bgmItem = m_soundManager->StartBGM(L"PAUSE_CLOSE_SE", 0, 1.0f, ThisPtr);
 			menu->OnClose();
+			return;
 		}
 		if (m_gameProgress == Playing)
 		{
-			auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
+			m_bgmItem = m_soundManager->StartBGM(L"PAUSE_OPEN_SE", 0, 1.0f, ThisPtr);
 			menu->OnOpen();
 		}
 	}
