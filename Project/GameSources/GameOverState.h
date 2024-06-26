@@ -1,6 +1,6 @@
 /*!
-@file GameClearState.h
-@brief ゲームクリア時の処理ステート
+@file GameOverState.h
+@brief ゲームオーバー時の処理ステート
 @author 小澤博貴
 */
 
@@ -9,8 +9,8 @@
 
 namespace basecross
 {
-	// クリア時のステートenum
-	enum class eGameClearState : char
+	// 失敗時のステートenum
+	enum class eGameOverState : char
 	{
 		RailFadeIn,		// レールのフェード
 		SelectFadeIn,	// 選択肢のフェードイン
@@ -19,27 +19,27 @@ namespace basecross
 		StandBy,		// 待機状態
 	};
 
-	// 選択したステージタイプ
-	enum class eSelectGameClear : char
+	// 選択したタイプ
+	enum class eSelectGameOver : char
 	{
-		NextStage,	// 次のステージ
-		TitleBack,	// タイトルステージ
+		Continue,	// コンティニュー
+		TitleBack,	// タイトルに戻る
 	};
 
 	// ゲームステージの名前宣言
 	class GameStage;
 
 	/*!
-	@brief ゲームクリア時のステート
+	@brief ゲームオーバー時のステート
 	*/
-	class GameClearState
+	class GameOverState
 	{
 		// 所属ステージポインタ
 		weak_ptr<GameStage> m_stage;
 
 		// クリア時の選択肢スプライト
-		weak_ptr<Sprite> m_nextStageSprite;	// ネクストステージ
-		weak_ptr<Sprite> m_clearBackSprite;	// タイトルバック
+		weak_ptr<Sprite> m_continueSprite;	// コンティニュー
+		weak_ptr<Sprite> m_titleBackSprite;	// タイトルバック
 		weak_ptr<Sprite> m_railLineSprite;	// レール
 
 		const Vec2 m_defScale;	// スケール
@@ -54,16 +54,16 @@ namespace basecross
 
 		float m_totalTime;	// 経過時間
 		float m_pastStick;	// 前回のスティック入力
-		
-		eSelectGameClear m_currentSelect;	// 選択したステージ
-		eSelectGameClear m_pastSelect;		// 前回選択したステージ
-		eGameClearState m_currentState;		// ステート
+
+		eSelectGameOver m_currentSelect;	// 選択したステージ
+		eSelectGameOver m_pastSelect;		// 前回選択したステージ
+		eGameOverState m_currentState;		// ステート
 
 		// ステートに応じた関数呼び出しマップ
-		map<eGameClearState, function<void()>> m_stateFunc;
+		map<eGameOverState, function<void()>> m_stateFunc;
 
 		// 選択肢に応じたスプライトマップ
-		map<eSelectGameClear, weak_ptr<Sprite>> m_selectSprite;
+		map<eSelectGameOver, weak_ptr<Sprite>> m_selectSprite;
 
 	public:
 
@@ -71,7 +71,7 @@ namespace basecross
 		@brief コンストラクタ
 		@param ステージポインタ
 		*/
-		GameClearState(const shared_ptr<GameStage>& stagePtr) :
+		GameOverState(const shared_ptr<GameStage>& stagePtr) :
 			m_stage(stagePtr),
 			m_boundScale(1.25f),
 			m_railFadeTime(3.0f),
@@ -79,26 +79,26 @@ namespace basecross
 			m_defScale(300.0f, 350.0f),
 			m_leftPos(-300.0f, -200.0f, 0.0f),
 			m_rightPos(300.0f, -200.0f, 0.0f),
-			m_railPos(-1920.0f, -250.0f, 0.2f),
+			m_railPos(1920.0f, -250.0f, 0.2f),
 			m_moveVal(1920.0f, 0.0f, 0.0f)
 		{
 			m_totalTime = 0.0f;
 			m_pastStick = 0.0f;
 
-			m_currentSelect = eSelectGameClear::NextStage;
-			m_pastSelect = eSelectGameClear::TitleBack;
+			m_currentSelect = eSelectGameOver::Continue;
+			m_pastSelect = eSelectGameOver::TitleBack;
 
-			m_currentState = eGameClearState::RailFadeIn;
-			m_stateFunc.emplace(eGameClearState::RailFadeIn, bind(&GameClearState::RailSpriteFadeIn, this));
-			m_stateFunc.emplace(eGameClearState::SelectFadeIn, bind(&GameClearState::SelectSpriteFadeIn, this));
-			m_stateFunc.emplace(eGameClearState::SelectState, bind(&GameClearState::SelectStageState, this));
-			m_stateFunc.emplace(eGameClearState::SelectFadeOut, bind(&GameClearState::SelectSpriteFadeOut, this));
+			m_currentState = eGameOverState::RailFadeIn;
+			m_stateFunc.emplace(eGameOverState::RailFadeIn, bind(&GameOverState::RailSpriteFadeIn, this));
+			m_stateFunc.emplace(eGameOverState::SelectFadeIn, bind(&GameOverState::SelectSpriteFadeIn, this));
+			m_stateFunc.emplace(eGameOverState::SelectState, bind(&GameOverState::SelectStageState, this));
+			m_stateFunc.emplace(eGameOverState::SelectFadeOut, bind(&GameOverState::SelectSpriteFadeOut, this));
 		}
 
 		/*!
 		@brief デストラクタ
 		*/
-		~GameClearState() {}
+		~GameOverState() {}
 
 		/*!
 		@brief スプライトの生成関数
@@ -119,7 +119,7 @@ namespace basecross
 		@brief ステート取得関数
 		@return m_gameClearState
 		*/
-		eGameClearState GetClearState() const
+		eGameOverState GetClearState() const
 		{
 			return m_currentState;
 		}
@@ -128,7 +128,7 @@ namespace basecross
 		@brief 選択したステージ取得関数
 		@return m_selectStage
 		*/
-		eSelectGameClear GetSelectStage() const
+		eSelectGameOver GetSelectStage() const
 		{
 			return m_currentSelect;
 		}

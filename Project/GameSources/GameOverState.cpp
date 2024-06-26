@@ -1,6 +1,6 @@
 /*!
-@file GameClearState.cpp
-@brief ゲームクリア時の処理ステート
+@file GameOverState.cpp
+@brief ゲームオーバー時の処理ステート
 @author 小澤博貴
 */
 
@@ -10,50 +10,50 @@
 namespace basecross
 {
 	// 生成時の処理
-	void GameClearState::CreateState()
+	void GameOverState::CreateState()
 	{
 		// ステージの取得
 		const auto& stagePtr = m_stage.lock();
 
-		// ゲームクリア時に扱うスプライト
-		m_nextStageSprite = stagePtr->AddGameObject<Sprite>(L"NEXTSTAGE_TX", m_defScale, m_leftPos - m_moveVal);
-		m_clearBackSprite = stagePtr->AddGameObject<Sprite>(L"CLEAR_TITLEBACK_TX", m_defScale, m_rightPos - m_moveVal);
+		// ゲームオーバー時に扱うスプライト
+		m_continueSprite = stagePtr->AddGameObject<Sprite>(L"OVER_CONTINUE_TX", m_defScale, m_leftPos + m_moveVal);
+		m_titleBackSprite = stagePtr->AddGameObject<Sprite>(L"OVER_TITLEBACK_TX", m_defScale, m_rightPos + m_moveVal);
 		m_railLineSprite = stagePtr->AddGameObject<Sprite>(L"RAIL_LINE_TX", Vec2(WINDOW_WIDTH, 128.0f), m_railPos);
 
 		// 選択肢マップに追加
-		m_selectSprite.emplace(eSelectGameClear::NextStage, m_nextStageSprite);
-		m_selectSprite.emplace(eSelectGameClear::TitleBack, m_clearBackSprite);
+		m_selectSprite.emplace(eSelectGameOver::Continue, m_continueSprite);
+		m_selectSprite.emplace(eSelectGameOver::TitleBack, m_titleBackSprite);
 	}
 
 	// 更新処理
-	void GameClearState::UpdateState()
+	void GameOverState::UpdateState()
 	{
 		// ステートに応じた関数呼び出し
 		m_stateFunc.at(m_currentState)();
 	}
 
 	// 初期化処理
-	void GameClearState::ResetState()
+	void GameOverState::ResetState()
 	{
 		m_totalTime = 0.0f;
-		m_currentState = eGameClearState::RailFadeIn;
-		
+		m_currentState = eGameOverState::RailFadeIn;
+
 		// 生成時の座標に戻す
-		m_nextStageSprite.lock()->SetPosition(m_leftPos - m_moveVal);
-		m_clearBackSprite.lock()->SetPosition(m_rightPos - m_moveVal);
+		m_continueSprite.lock()->SetPosition(m_leftPos + m_moveVal);
+		m_titleBackSprite.lock()->SetPosition(m_rightPos + m_moveVal);
 		m_railLineSprite.lock()->SetPosition(m_railPos);
 	}
 
 	// レールのフェードイン
-	void GameClearState::RailSpriteFadeIn()
+	void GameOverState::RailSpriteFadeIn()
 	{
 		// 線形補間で移動
-		Vec3 pos = Utility::Lerp(m_railPos, m_railPos + m_moveVal, m_totalTime / m_railFadeTime);
+		Vec3 pos = Utility::Lerp(m_railPos, m_railPos - m_moveVal, m_totalTime / m_railFadeTime);
 
 		// フェード時間を過ぎたらステートを切り替え
 		if (m_totalTime >= m_railFadeTime)
 		{
-			m_currentState = eGameClearState::SelectFadeIn;
+			m_currentState = eGameOverState::SelectFadeIn;
 			m_totalTime = 0.0f;
 		}
 
@@ -63,7 +63,7 @@ namespace basecross
 	}
 
 	// 選択肢スプライトのフェードイン
-	void GameClearState::SelectSpriteFadeIn()
+	void GameOverState::SelectSpriteFadeIn()
 	{
 		// イージング処理で移動
 		Easing<Vec3> moveEasing;
@@ -72,17 +72,18 @@ namespace basecross
 		// フェード時間を過ぎたらステートを切り替え
 		if (m_totalTime >= m_selectFadeTime)
 		{
-			m_currentState = eGameClearState::SelectState;
+			m_currentState = eGameOverState::SelectState;
 			m_totalTime = -XM_PIDIV4;
 		}
-		
+
 		// 経過時間をデルタタイムで加算し、座標を更新
 		m_totalTime += DELTA_TIME;
-		m_nextStageSprite.lock()->SetPosition(m_leftPos - move);
-		m_clearBackSprite.lock()->SetPosition(m_rightPos - move);
+		m_continueSprite.lock()->SetPosition(m_leftPos + move);
+		m_titleBackSprite.lock()->SetPosition(m_rightPos + move);
 	}
 
-	void GameClearState::SelectStageState()
+	// 選択中のステート
+	void GameOverState::SelectStageState()
 	{
 		// LStick入力
 		float stickVal = Input::GetLStickValue().x;
@@ -99,12 +100,12 @@ namespace basecross
 			m_pastSelect = m_currentSelect;
 			switch (m_currentSelect)
 			{
-			case eSelectGameClear::TitleBack:
-				m_currentSelect = eSelectGameClear::NextStage;
+			case eSelectGameOver::TitleBack:
+				m_currentSelect = eSelectGameOver::Continue;
 				break;
 
-			case eSelectGameClear::NextStage:
-				m_currentSelect = eSelectGameClear::TitleBack;
+			case eSelectGameOver::Continue:
+				m_currentSelect = eSelectGameOver::TitleBack;
 				break;
 
 			default:
@@ -127,27 +128,27 @@ namespace basecross
 			m_totalTime = 0.0f;
 			m_stage.lock()->CreateSE(L"WHISTLE_SE", 1.0f);
 			m_selectSprite.at(m_currentSelect).lock()->SetScale(m_defScale);
-			m_currentState = eGameClearState::SelectFadeOut;
+			m_currentState = eGameOverState::SelectFadeOut;
 		}
 	}
 
 	// 選択肢スプライトのフェードアウト
-	void GameClearState::SelectSpriteFadeOut()
+	void GameOverState::SelectSpriteFadeOut()
 	{
 		// イージング処理で移動
 		Easing<Vec3> moveEasing;
 		Vec3 move = moveEasing.EaseIn(EasingType::Cubic, Vec3(0.0f), m_moveVal, m_totalTime, m_selectFadeTime);
-		
+
 		// フェード時間を過ぎたらステートを切り替え
 		if (m_totalTime >= m_selectFadeTime)
 		{
-			m_currentState = eGameClearState::StandBy;
+			m_currentState = eGameOverState::StandBy;
 			m_totalTime = 0.0f;
 		}
-		
+
 		// 経過時間をデルタタイムで加算し、座標を更新
 		m_totalTime += DELTA_TIME;
-		m_nextStageSprite.lock()->SetPosition(m_leftPos + move);
-		m_clearBackSprite.lock()->SetPosition(m_rightPos + move);
+		m_continueSprite.lock()->SetPosition(m_leftPos - move);
+		m_titleBackSprite.lock()->SetPosition(m_rightPos - move);
 	}
 }

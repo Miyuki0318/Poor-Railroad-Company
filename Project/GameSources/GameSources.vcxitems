@@ -23,6 +23,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Company.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Crossing.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameClearState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameOverState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrain.h" />
@@ -34,6 +35,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GatheringObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GatherTreasure.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Gear.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GoalGuide.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GroundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ItemCountUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ItemFly.h" />
@@ -101,6 +103,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Company.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Crossing.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameClearState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameOverState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainCurveExitState.cpp" />
@@ -110,6 +113,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GatheringObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GatherTreasure.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Gear.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GoalGuide.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GroundManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ItemCountUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ItemFly.cpp" />

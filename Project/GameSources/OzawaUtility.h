@@ -700,5 +700,25 @@ namespace Utility
 
 	float rotYatan2f(const Vec3& A, const Vec3& B);
 
+	namespace CohenClip 
+	{
+		const int INSIDE = 0; // 0000
+		const int LEFT = 1;   // 0001
+		const int RIGHT = 2;  // 0010
+		const int BOTTOM = 4; // 0100
+		const int TOP = 8;    // 1000
+
+		// 座標のコード計算
+		int ComputeOutCode(float x, float y);
+	}
+
+	/*!
+	@brief 元の位置とターゲットで線分を作り、画面内の座標にクリッピングして返す
+	@param (center)　元の位置の座標(基本は中心0.0f,0.0f)
+	@param (target)　ターゲットの座標
+	@return 画面内に変換された座標
+	*/
+	Vec3 WindowClipLineVec(const Vec3& center, const Vec3& target);
+
 #endif
 }
