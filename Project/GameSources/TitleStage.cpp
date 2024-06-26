@@ -58,6 +58,7 @@ namespace basecross
 		AddTextureResource(L"FOURTH_TX", modelPath + L"FourthMapTexture.tga");
 		AddTextureResource(L"FIFTH_TX", modelPath + L"FifthMapTexture.tga");
 
+		// ƒ^ƒCƒgƒ‹BGM
 		AddAudioResource(L"TITLE_BGM", soundPath + L"Title");
 
 		AddedTextureResources();
