@@ -45,6 +45,10 @@ namespace basecross
 		AddAudioResource(L"FOURTH_BGM", soundPath + L"FourthBGM");
 		AddAudioResource(L"FIFTH_BGM", soundPath + L"FifthBGM");
 
+		// ゲーム中のSE
+		AddAudioResource(L"PAUSE_OPEN_SE", soundPath + L"PauseOpen");
+		AddAudioResource(L"PAUSE_CLOSE_SE", soundPath + L"PauseClose");
+
 		// 追加したリソースをメモリに追加
 		AddedTextureResources();
 		AddedAudioResources();
@@ -411,15 +415,21 @@ namespace basecross
 
 	void GameStage::PushButtonStart()
 	{
+		// QTE中はポーズできないようにする
 		if (GetSharedGameObject<Player>(L"Player")->GetStatus(ePlayerStatus::IsCraftQTE)) return;
-		if (m_gameProgress == Pause)
+		auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE"); // ポーズメニューオブジェクトを取得
+
+		if (m_gameProgress == Pause) // ポーズ中なら
 		{
-			auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
+			// ポーズ画面を閉じる
+			m_soundManager->StartBGM(L"PAUSE_CLOSE_SE", 0, 1.0f, ThisPtr);
 			menu->OnClose();
+			return;
 		}
-		if (m_gameProgress == Playing)
+		if (m_gameProgress == Playing) // プレイ中なら
 		{
-			auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
+			// ポーズ画面を表示する
+			m_soundManager->StartBGM(L"PAUSE_OPEN_SE", 0, 1.0f, ThisPtr);
 			menu->OnOpen();
 		}
 	}

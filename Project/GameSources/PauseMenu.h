@@ -1,3 +1,9 @@
+/*!
+@file PauseMenu.h
+@brief ポーズメニュー
+@prod 矢吹悠葉
+*/
+
 #pragma once
 #include "stdafx.h"
 
@@ -10,11 +16,12 @@ namespace basecross
 			Close,	// クローズ
 			Opened, // オープン後
 			Closed,	// クローズ後
-			Continued // ボタンセレクト後
+			Selected // ボタンセレクト後
 		};
 		enum eButtons {
 			Retry,
-			BackTitle
+			BackTitle,
+			ButtonNum
 		};
 		State m_state;	// 現在の状態
 		eButtons m_currentButton;
@@ -29,8 +36,8 @@ namespace basecross
 		const Vec3 m_DefaultTitleButtonPos; // タイトルボタン表示位置
 		const Vec2 m_DefaultButtonScale;	// ボタンサイズ
 
-		const float m_LerpSpeed; // 線形補間速度
-		const float m_ScaleSpeed; // 大きさ変更速度
+		const float m_LerpSpeed;	// 線形補間速度
+		const float m_ScaleSpeed;	// 大きさ変更速度
 		const float m_MaxScaleRatio; // 大きさ変更上限
 		const float m_MinScaleRatio; // 大きさ変更下限
 
@@ -38,11 +45,7 @@ namespace basecross
 		float m_scaleRatio; // 大きさ変更割合
 		float m_pastStickVal; // 直前のLスティックの量
 
-		bool m_pressedB;
-
-		weak_ptr<Sprite> m_menuSprite;		// メニュー画像
-		weak_ptr<Sprite> m_retrySprite;		// リトライボタン画像
-		weak_ptr<Sprite> m_titleBackSprite;	// タイトルボタン画像
+		weak_ptr<Sprite> m_menuSprite;	// メニュー画像
 		map<eButtons, weak_ptr<Sprite>> m_buttonSprites; // ボタン用スプライト
 
 		/// <summary>
@@ -70,8 +73,7 @@ namespace basecross
 			m_pastButton(eButtons::BackTitle),
 			m_lerpRatio(0.0f),
 			m_scaleRatio(0.0f),
-			m_pastStickVal(0.0f),
-			m_pressedB(false)
+			m_pastStickVal(0.0f)
 		{
 		}
 		~PauseMenu() {}
@@ -90,15 +92,24 @@ namespace basecross
 		void OnClose();
 
 		/// <summary>
-		/// ボタンセレクト中の処理
+		/// ボタンセレクト中の処理	
 		/// </summary>
 		void ButtonSelect();
 
 		/// <summary>
-		/// ボタンセレクト後の処理
+		/// タイトルボタンセレクト後の処理
 		/// </summary>
 		void TitleButton();
 
+		/// <summary>
+		/// リトライボタンセレクト後の処理
+		/// </summary>
 		void RetryButton();
+
+		/// <summary>
+		/// ボタンのDrawActiveを切り替える処理
+		/// </summary>
+		/// <param name="drawFlag">DrawActiveのオンオフ</param>
+		void SetDrawActiveButtons(bool drawFlag);
 	};
 }
