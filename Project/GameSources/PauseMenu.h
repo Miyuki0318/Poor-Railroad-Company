@@ -1,3 +1,9 @@
+/*!
+@file PauseMenu.h
+@brief ポーズメニュー
+@prod 矢吹悠葉
+*/
+
 #pragma once
 #include "stdafx.h"
 

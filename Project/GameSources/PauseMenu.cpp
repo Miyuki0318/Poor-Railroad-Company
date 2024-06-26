@@ -1,3 +1,9 @@
+/*!
+@file PauseMenu.cpp
+@brief ポーズメニュー
+@prod 矢吹悠葉
+*/
+
 #include "stdafx.h"
 #include "Project.h"
 #include "PauseMenu.h"
