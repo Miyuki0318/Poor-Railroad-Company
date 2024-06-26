@@ -178,6 +178,14 @@ namespace basecross
 		}
 	}
 
+	// Š‹àUI‚Ì¶¬
+	void TitleStage::CreateUISprite()
+	{
+		const float scale = 75.0f;
+		const Vec3 position = Vec3(650.0f, 460.0f, 0.2f);
+		AddGameObject<MoneyCountUI>(scale, position);
+	}
+
 	// ƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚Ìˆ—
 	void TitleStage::PushButtonB()
 	{
@@ -315,6 +323,8 @@ namespace basecross
 			CreateTrain();
 
 			CreateSignBoard();
+			
+			CreateUISprite();
 		}
 		catch (...)
 		{

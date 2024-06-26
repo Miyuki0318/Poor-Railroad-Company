@@ -6,6 +6,8 @@
 
 #include "stdafx.h"
 
+#define MONEY_LIMIT 99999
+
 namespace basecross{
 	// マップの難易度
 	enum class eMapLevel

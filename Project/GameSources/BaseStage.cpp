@@ -65,6 +65,7 @@ namespace basecross
 		AddTextureResource(L"UI_BRIDGE_TX", texturePath + L"Bridge.png");
 		AddTextureResource(L"UI_CROSSING_TX", texturePath + L"Crossing.png");
 		AddTextureResource(L"UI_GOLDBAR_TX", texturePath + L"GoldBar.png");
+		AddTextureResource(L"UI_COIN_TX", texturePath + L"Coin.png");
 
 		// 宝箱のテクスチャ
 		AddTextureResource(L"TREASURE_TX", texturePath + L"TreasureBox.png");
@@ -92,7 +93,12 @@ namespace basecross
 		AddAudioResource(L"WHISTLE_SE", soundPath + L"Whistle");
 		AddAudioResource(L"SHORT_WHISTLE_SE", soundPath + L"ShortWhistle");
 
+		// ボタン入力時のSE
 		AddAudioResource(L"PUSH_SE", soundPath + L"ButtonPush");
+
+		// お金関係のSE
+		AddAudioResource(L"COIN_SE", soundPath + L"Coin");
+		AddAudioResource(L"BUY_SE", soundPath + L"Buy");
 
 		// 追加したリソースをメモリに追加
 		AddedTextureResources();

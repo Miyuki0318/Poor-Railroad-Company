@@ -239,6 +239,7 @@ namespace basecross
 			int money = scene.lock()->GetMoney();
 			//moneyに値を加算
 			money += value;
+			money = min(money, MONEY_LIMIT);
 			// Sceneのmoneyを更新
 			scene.lock()->SetMoney(money);
 		}
@@ -255,6 +256,7 @@ namespace basecross
 			int money = scene.lock()->GetMoney();
 			//moneyから値を減算
 			money -= value;
+			money = max(money, 0);
 			// Sceneのmoneyを更新
 			scene.lock()->SetMoney(money);
 		}

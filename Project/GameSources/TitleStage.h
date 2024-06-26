@@ -124,6 +124,11 @@ namespace basecross
 		@brief 看板の生成
 		*/
 		void CreateSignBoard();
+				
+		/*
+		@brief 所持金スプライトの生成
+		*/
+		void CreateUISprite();
 
 		/*
 		@brief カメラのズーム処理

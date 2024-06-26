@@ -76,7 +76,7 @@ namespace basecross
 					player->SetAnimationMesh(ePAK::GameSucces);
 
 					const auto& stagePtr = player->GetTypeStage<GameStage>();
-					stagePtr->SetGameProgress(eGameProgress::ClearSlect);
+					stagePtr->SetGameProgress(eGameProgress::MoneyCalculation);
 				}
 			}
 
