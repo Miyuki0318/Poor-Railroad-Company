@@ -110,6 +110,11 @@ namespace basecross
 		void CreateTrain();
 
 		/*
+		@brief UIスプライトの生成
+		*/
+		void CreateUISprite();
+
+		/*
 		@brief カメラのズーム処理
 		*/
 		void TitleCameraZoom();

@@ -47,3 +47,5 @@
 #include "Shop.h"
 #include "GameClearState.h"
 #include "GameOverState.h"
+#include "PaymentsState.h"
+#include "MoneyCountUI.h"

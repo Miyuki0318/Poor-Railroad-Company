@@ -33,6 +33,7 @@ namespace basecross
 		AddTextureResource(L"OVER_CONTINUE_TX", texturePath + L"ContinueTrain.png");
 		AddTextureResource(L"OVER_TITLEBACK_TX", texturePath + L"TitleBackTrain.png");
 		AddTextureResource(L"RAIL_LINE_TX", texturePath + L"RailLine.tga");
+		AddTextureResource(L"PAYMENTS_MENU_TX", texturePath + L"PaymentsMenu.tga");
 
 		// ゴールガイドテクスチャ
 		AddTextureResource(L"GOAL_GUIDE_TX", texturePath + L"GoalGuide.png");
@@ -221,6 +222,9 @@ namespace basecross
 
 		m_gameOverState.reset(new GameOverState(GetThis<GameStage>()));
 		m_gameOverState->CreateState();
+
+		m_paymentsState.reset(new PaymentsState(GetThis<GameStage>()));
+		m_paymentsState->CreateState();
 	}
 
 	// UIの生成
@@ -318,7 +322,7 @@ namespace basecross
 		switch (m_gameProgress)
 		{
 		case GameClear:
-		case ClearSlect:
+		case ClearSelect:
 		case ToNext:
 		case ToTitle:
 			m_gameSprite->SetTexture(L"GAMECLEAR_TX");
@@ -353,6 +357,61 @@ namespace basecross
 		{
 			m_fadeSprite->FadeOutColor(2.0f);
 		}
+	}
+
+	void GameStage::ToMoneyCalculationState()
+	{
+		const auto& player = GetSharedGameObject<GamePlayer>(L"Player");
+		const auto& railManager = GetSharedGameObject<RailManager>(L"RailManager");
+		const auto reward = CSVLoader::LoadFile("StageClearReward");
+		const auto moneyOperator = CSVLoader::ReadDataToInt(CSVLoader::LoadFile("MoneyOperator")).at(0);
+
+		int addMoney = 0;
+		int count = 0;
+
+		count = int(railManager->GetAddRailNum()) * moneyOperator.at(0);
+		m_paymentsState->SetNumberGoal(eGamePaymentsState::RailsInstallations, count * -1);
+		addMoney += count;
+
+		count = player->GetItemCount(eItemType::Wood) * moneyOperator.at(1);
+		count += player->GetItemCount(eItemType::Stone) * moneyOperator.at(1);
+		m_paymentsState->SetNumberGoal(eGamePaymentsState::ResourceSales, count);
+		addMoney += count;
+
+		count = player->GetItemCount(eItemType::Rail) * moneyOperator.at(2);
+		m_paymentsState->SetNumberGoal(eGamePaymentsState::RailsSales, count);
+		addMoney += count;
+
+		count = player->GetItemCount(eItemType::GoldBar) * moneyOperator.at(3);
+		m_paymentsState->SetNumberGoal(eGamePaymentsState::GoldBarSales, count);
+		addMoney += count;
+
+		for (size_t i = 0; i < reward.size(); i++)
+		{
+			if (reward.at(i).at(0) == m_stagePath)
+			{
+				count = stoi(reward.at(i).at(1));
+				break;
+			}
+		}
+
+		m_paymentsState->SetNumberGoal(eGamePaymentsState::RewardCount, count);
+		addMoney += count;
+
+		AddMoney(addMoney);
+		m_paymentsState->SetNumberGoal(eGamePaymentsState::TotalIncome, addMoney);
+		m_gameProgress = eGameProgress::MoneyCountDown;
+	}
+
+	void GameStage::ToMoneyCountDownState()
+	{
+		if (m_paymentsState->GetPaymentsState() != eGamePaymentsState::StandBy)
+		{
+			m_paymentsState->UpdateState();
+			return;
+		}
+
+		m_gameProgress = eGameProgress::ClearSelect;
 	}
 
 	void GameStage::ToClearSelectStage()
