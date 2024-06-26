@@ -9,15 +9,26 @@
 
 namespace basecross
 {
+	// QTE入力するボタン
+	enum class eInputButton
+	{
+		ButtonB, // ボタンB
+		ButtonA, // ボタンA
+		ButtonY, // ボタンY
+	};
+
 	/*!
 	@brief クラフトQTE
 	*/
 	class CraftingQTE : public CraftUI
 	{
-		weak_ptr<CraftUI> m_barFlame; // バーのフレーム
-		weak_ptr<CraftUI> m_qtePoint; // QTEのタイミング範囲
+		weak_ptr<CraftUI> m_barFlame;	// バーのフレーム
+		weak_ptr<CraftUI> m_qtePoint;	// QTEのタイミング範囲
+		weak_ptr<CraftUI> m_qteButton;	// QTEで入力するボタン
 
 		map<eRectType, Vec3> m_rectDiff;
+		map<eInputButton, wstring> m_buttonTexMap;
+		map<eInputButton, Col4> m_buttonBarColor;
 
 		const float m_posDiff;  // ウィンドウとの座標差分
 		const float m_qteRatio; // QTEの成功位置の割合
@@ -43,6 +54,14 @@ namespace basecross
 			m_rectDiff.emplace(eRectType::UpLeft, Vec3(-1.0f, 1.0f, 1.0f));
 			m_rectDiff.emplace(eRectType::DownRight, Vec3(1.0f, -1.0f, 1.0f));
 			m_rectDiff.emplace(eRectType::DownLeft, Vec3(-1.0f, -1.0f, 1.0f));
+
+			m_buttonTexMap.emplace(eInputButton::ButtonB, L"BUTTON_B_TX");
+			m_buttonTexMap.emplace(eInputButton::ButtonA, L"BUTTON_A_TX");
+			m_buttonTexMap.emplace(eInputButton::ButtonY, L"BUTTON_Y_TX");
+
+			m_buttonBarColor.emplace(eInputButton::ButtonB, Col4(1.0f, 0.23f, 0.18f, 1.0f));
+			m_buttonBarColor.emplace(eInputButton::ButtonA, Col4(0.0f, 1.0f, 0.6f, 1.0f));
+			m_buttonBarColor.emplace(eInputButton::ButtonY, Col4(0.9f, 0.84f, 0.0f, 1.0f));
 		}
 
 		/*!
@@ -77,7 +96,7 @@ namespace basecross
 		@param eRectType
 		*/
 		void SetVerticesRect(eRectType rect) override;
-
+		
 		/*!
 		@brief QTEの更新関数
 		*/
@@ -101,6 +120,16 @@ namespace basecross
 		bool GetEnableQTE() const
 		{
 			return m_qteEnable;
+		}
+
+		/*!
+		@brief QTE入力するボタンテクスチャ設定関数
+		@param ボタン入力タイプ
+		*/
+		void SetButtonTexture(eInputButton button)
+		{
+			SetDiffuseColor(m_buttonBarColor.at(button));
+			m_qteButton.lock()->SetTexture(m_buttonTexMap.at(button));
 		}
 	};
 }

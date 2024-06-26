@@ -52,7 +52,7 @@ namespace basecross
 		AddTextureResource(L"BOARD_TX", modelPath + L"RouteMapTexture.tga");
 
 		// マップ選択モデルのテクスチャ
-		AddTextureResource(L"FIRST_TX", modelPath + L"SecondMapTexture.tga");
+		AddTextureResource(L"FIRST_TX", modelPath + L"FirstMapTexture.tga");
 		AddTextureResource(L"SECOND_TX", modelPath + L"SecondMapTexture.tga");
 		AddTextureResource(L"THIRD_TX", modelPath + L"ThirdMapTexture.tga");
 		AddTextureResource(L"FOURTH_TX", modelPath + L"FourthMapTexture.tga");
@@ -64,9 +64,6 @@ namespace basecross
 		AddTextureResource(L"THIRDMAP_TX", texturePath + L"MapThird.png");
 		AddTextureResource(L"FOURTHMAP_TX", texturePath + L"MapFourth.png");
 		AddTextureResource(L"FIFTHMAP_TX", texturePath + L"MapFifth.png");
-
-		// 地面のテクスチャ
-		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
 
 		AddAudioResource(L"TITLE_BGM", soundPath + L"Title");
 
@@ -205,6 +202,7 @@ namespace basecross
 
 			bool isTrain = bool(dynamic_pointer_cast<TitleTrain>(m_selectObj));
 			objPos += isTrain ? m_trainDiffEye : m_objDiffEye;
+
 			titleCamera->ZoomStart(objPos);
 		}
 
@@ -364,7 +362,8 @@ namespace basecross
 
 			m_fadeSprite->SetDrawActive(false);
 
-			Debug::Log(m_distance);
+			// 通常時以外は演出中のフラグを立てる
+			m_isStaging = titleProgress != normal;
 		}
 		catch (...)
 		{

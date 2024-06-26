@@ -99,7 +99,7 @@ namespace basecross
 		string moveLine = train->GetRailPosLine();
 		if (m_pastLine != moveLine) return;
 		if (m_railDataMap.find(moveLine) == m_railDataMap.end()) return;
-		
+
 		// レールデータを取得しガイドを初期化
 		auto& data = m_railDataMap.at(moveLine);
 		m_guidePoints.clear();
@@ -133,6 +133,7 @@ namespace basecross
 		m_guideMap = stageMap;
 
 		// 初期化
+		m_isConnectionGoal = false;
 		m_railDataMap.clear();
 
 		// 初期化
@@ -159,12 +160,15 @@ namespace basecross
 				// ゴールレールなら
 				if (id == eStageID::GoalRail)
 				{
-					// 駅が存在しなければ生成
+					// 駅が存在すれば座標の変更、なければ生成
 					auto station = stagePtr->GetSharedGameObject<Station>(L"Station", false);
 					if (!station)
 					{
 						station = stagePtr->AddGameObject<Station>(ROWCOL2POS(row - 2, col));
 						stagePtr->SetSharedGameObject(L"Station", station);
+					}
+					else {
+						station->OnReset(ROWCOL2POS(row - 2, col));
 					}
 				}
 
@@ -326,7 +330,7 @@ namespace basecross
 	{
 		// csvの取得
 		auto& stageMap = GetTypeStage<BaseStage>()->GetStageMap();
-		
+
 		// 要素数が範囲内で、先端レールなら通常のレールにする
 		for (const auto& elem : CSVElementCheck::GetElemsCheck(row, col, stageMap))
 		{
@@ -406,6 +410,9 @@ namespace basecross
 	// ガイドの再計算処理
 	void RailManager::GuideRecalculation()
 	{
+		// 既にゴールと繋がっているなら無視
+		if (m_isConnectionGoal) return;
+
 		// ステージcsvの取得
 		auto& stageMap = GetTypeStage<BaseStage>()->GetStageMap();
 		m_guideMap = stageMap;

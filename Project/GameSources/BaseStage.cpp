@@ -30,10 +30,20 @@ namespace basecross
 		AddTextureResource(L"G_ROCK_TX", texturePath + L"Rock.png");
 
 		// クラフトウィンドウのテクスチャ
-		AddTextureResource(L"C_WINDOW_TX", texturePath + L"CraftWindow2.png");
+		AddTextureResource(L"C_WINDOW_TX", texturePath + L"CraftWindow.png");
 
 		// QTEバーのフレームのテクスチャ
 		AddTextureResource(L"C_QTE_FLAME_TX", texturePath + L"BarFlame.png");
+
+		// クラフトアイテムアイコンテクスチャ
+		AddTextureResource(L"C_RAIL_TX", texturePath + L"CraftRailIcon.png");
+		AddTextureResource(L"C_BRIDGE_TX", texturePath + L"CraftBridgeIcon.png");
+		AddTextureResource(L"C_CROSSING_TX", texturePath + L"CraftCrossingIcon.png");
+
+		// ボタン入力アイコンテクスチャ
+		AddTextureResource(L"BUTTON_A_TX", texturePath + L"A.png");
+		AddTextureResource(L"BUTTON_B_TX", texturePath + L"B.png");
+		AddTextureResource(L"BUTTON_Y_TX", texturePath + L"Y.png");
 
 		// アイコンテクスチャ
 		AddTextureResource(L"I_AXE_TX", texturePath + L"AxeIcon.png");
@@ -47,12 +57,17 @@ namespace basecross
 		AddTextureResource(L"I_BALOON_LEFT_TX", texturePath + L"BalloonLeft.png");
 
 		// UIテクスチャ
+		AddTextureResource(L"UI_MENUBACK_TX", texturePath + L"ItemCountBack.png");
 		AddTextureResource(L"UI_WOOD_TX", texturePath + L"Wood.png");
 		AddTextureResource(L"UI_STONE_TX", texturePath + L"Stone.png");
 		AddTextureResource(L"UI_GEAR_TX", texturePath + L"Gear.png");
 		AddTextureResource(L"UI_RAIL_TX", texturePath + L"Rail.png");
 		AddTextureResource(L"UI_BRIDGE_TX", texturePath + L"Bridge.png");
 		AddTextureResource(L"UI_CROSSING_TX", texturePath + L"Crossing.png");
+		AddTextureResource(L"UI_GOLDBAR_TX", texturePath + L"GoldBar.png");
+
+		// 宝箱のテクスチャ
+		AddTextureResource(L"TREASURE_TX", texturePath + L"TreasureBox.png");
 
 		// 列車の煙テクスチャ
 		AddTextureResource(L"SMOKE_TX", texturePath + L"Smoke.png");

@@ -147,6 +147,24 @@ namespace basecross
 		}
 
 		/*!
+		@brief クォータニオン設定関数
+		@param Quat型クォータニオン
+		*/
+		virtual void SetQuaternion(const Quat& quat)
+		{
+			m_ptrTrans->SetQuaternion(quat);
+		}
+
+		/*!
+		@brief クォータニオン取得関数
+		@return Quat型クォータニオン
+		*/
+		virtual Quat GetQuaternion() const
+		{
+			return m_ptrTrans->GetQuaternion();
+		}
+
+		/*!
 		@brief スケール設定関数
 		@param Vec3型Scale
 		*/

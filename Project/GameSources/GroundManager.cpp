@@ -50,6 +50,33 @@ namespace basecross
 		m_groundMap.emplace(eStageID::Watering, water);		// 水場
 		m_groundMap.emplace(eStageID::Rock, rock);			// 岩地
 
+		// 地面の生成
+		CreateInstanceGround();
+	}
+
+	// 毎フレーム更新処理
+	void GroundManager::OnUpdate()
+	{
+		// カメラの注視点座標X軸
+		int atX = int(GetStage()->GetView()->GetTargetCamera()->GetAt().x);
+
+		// カメラの注視点X軸から計測して、大まかに画面内であれば表示する
+		for (auto& groud : m_groundMap)
+		{
+			for (auto& type : groud.second)
+			{
+				// 開始インデックスが画面内であるか
+				type.second.lock()->SetDrawActive(GetBetween(type.first, atX + m_windowRange, atX - m_windowRange));
+			}
+		}
+	}
+
+	// 地面生成処理
+	void GroundManager::CreateInstanceGround()
+	{
+		// 地面マップを取得
+		auto& groundMap = GetTypeStage<BaseStage>()->GetGroundMap();
+
 		// 二重ループ
 		for (int row = 0; row < groundMap.size(); row++)
 		{
@@ -85,20 +112,16 @@ namespace basecross
 			}
 		}
 	}
-
-	// 毎フレーム更新処理
-	void GroundManager::OnUpdate()
+	
+	// 地面描画の初期化
+	void GroundManager::ClearInstanceGround()
 	{
-		// カメラの注視点座標X軸
-		int atX = int(GetStage()->GetView()->GetTargetCamera()->GetAt().x);
-
-		// カメラの注視点X軸から計測して、大まかに画面内であれば表示する
+		// 全部のInstance描画行列を削除
 		for (auto& groud : m_groundMap)
 		{
 			for (auto& type : groud.second)
 			{
-				// 開始インデックスが画面内であるか
-				type.second.lock()->SetDrawActive(GetBetween(type.first, atX + m_windowRange, atX - m_windowRange));
+				type.second.lock()->ClearMatrix();
 			}
 		}
 	}

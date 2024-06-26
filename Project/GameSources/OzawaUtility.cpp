@@ -409,35 +409,54 @@ namespace Utility
 	Quat GetBillboardQuat(const Vec3& Line)
 	{
 		// 線分のコピー
-		Vec3 temp = Line;
+		Vec3 line = Line;
+		Vec3 defUp(UP_VEC);
+		Vec2 lineVec(line.x, line.z);
 
-		// マトリックスの宣言
-		Mat4x4 rotMatrix;
-
-		// 回転軸の設定
-		Vec3 defUp(0, 1.0f, 0);
-
-		// 線分をVec2に変換
-		Vec2 tempVec(temp.x, temp.z);
-
-		// 前後左右の長さが0.1f以下なら
-		if (tempVec.length() < 0.1f)
-		{
-			// 回転軸を変更
-			defUp = Vec3(0, 0, 1.0f);
-		}
-		
-		// 線分の正規化
-		temp.normalize();
+		// 前後左右の長さが0.1f以下なら回転軸を変更
+		if (lineVec.length() < 0.1f) defUp = BACK_VEC;
+		line.normalize();
 
 		// マトリックスの計算
-		rotMatrix = XMMatrixLookAtLH(Vec3(0, 0, 0), temp, defUp);
+		Mat4x4 rotMatrix = (Mat4x4)XMMatrixLookAtLH(Vec3(0.0f), line, defUp);
 		rotMatrix.inverse();
 
 		// クォータニオンに変換し、正規化
 		Quat qt = rotMatrix.quatInMatrix();
 		qt.normalize();
 		return qt;
+	}
+
+	/*!
+	@brief ビルボード状態から回転させたクォータニオンで作成し返す
+	@param (cameraPos)　カメラの位置
+	@param (objPos)　オブジェクトの位置
+	@param (rotateVec)　回転量(Vec3)
+	@return 作成されたクォータニオン
+	*/
+	Quat GetBillboardRotateQuat(const Vec3& Line, Vec3& rotateVec)
+	{
+		// 線分の計算
+		Vec3 line = Line;
+		Vec3 defUp(UP_VEC);
+		Vec2 lineVec(line.x, line.z);
+
+		// 前後左右の長さが0.1f以下なら回転軸を変更
+		if (lineVec.length() < 0.1f) defUp = BACK_VEC;
+		line.normalize();
+
+		// 回転量が360度を超えてたら0度にする
+		if (rotateVec.x >= XM_2PI) rotateVec.x -= XM_2PI;
+		if (rotateVec.y >= XM_2PI) rotateVec.y -= XM_2PI;
+		if (rotateVec.z >= XM_2PI) rotateVec.z -= XM_2PI;
+
+		// マトリックスの計算
+		Mat4x4 rotMatrix = (Mat4x4)XMMatrixLookAtLH(Vec3(0.0f), line, defUp);
+		rotMatrix *= (Mat4x4)XMMatrixRotationRollPitchYawFromVector(rotateVec);
+		rotMatrix.inverse();
+
+		// 軸回転させたクォータニオンを返す
+		return rotMatrix.quatInMatrix();
 	}
 
 	/*!
@@ -467,6 +486,106 @@ namespace Utility
 	float rotYatan2f(const Vec3& A, const Vec3& B)
 	{
 		return atan2f(B.z - A.z, B.x - A.x);
+	}
+
+	namespace CohenClip
+	{
+		const float xmin = -960.0f;
+		const float xmax = 960.0f;
+		const float ymin = -540.0f;
+		const float ymax = 540.0f;
+
+		// 座標のコード計算
+		int ComputeOutCode(float x, float y) 
+		{
+			int code = INSIDE;
+
+			if (x < xmin) code |= LEFT;
+			else if (x > xmax) code |= RIGHT;
+
+			if (y < ymin) code |= BOTTOM;				
+			else if (y > ymax) code |= TOP;
+				
+			return code;
+		}
+	}
+
+	Vec3 WindowClipLineVec(const Vec3& center, const Vec3& target)
+	{
+		float x0 = center.x;
+		float y0 = center.y;
+		float x1 = target.x;
+		float y1 = target.y;
+
+		int outcode0 = CohenClip::ComputeOutCode(center.x, center.y);
+		int outcode1 = CohenClip::ComputeOutCode(target.x, target.y);
+		bool accept = false;
+
+		while (true) 
+		{
+			if (!(outcode0 | outcode1)) 
+			{
+				// 両端点がウィンドウ内にある場合
+				accept = true;
+				break;
+			}
+			else if (outcode0 & outcode1)
+			{
+				// 両端点がウィンドウの外側の同じ領域にある場合
+				break;
+			}
+			else 
+			{
+				// クリッピングする必要がある場合
+				Vec3 clipVec;
+				int outcodeOut = outcode0 ? outcode0 : outcode1;
+				
+				// 上側に交差
+				if (outcodeOut & CohenClip::TOP) 
+				{           
+					clipVec.x = x0 + (x1 - x0) * (CohenClip::ymax - y0) / (y1 - y0);
+					clipVec.y = CohenClip::ymax;
+				} 
+				else if (outcodeOut & CohenClip::BOTTOM) // 下側に交差
+				{
+					clipVec.x = x0 + (x1 - x0) * (CohenClip::ymin - y0) / (y1 - y0);
+					clipVec.y = CohenClip::ymin;
+				}
+				else if (outcodeOut & CohenClip::RIGHT) // 右側に交差
+				{  
+					clipVec.y = y0 + (y1 - y0) * (CohenClip::xmax - x0) / (x1 - x0);
+					clipVec.x = CohenClip::xmax;
+				}
+				else if (outcodeOut & CohenClip::LEFT) // 左側に交差
+				{   
+					clipVec.y = y0 + (y1 - y0) * (CohenClip::xmin - x0) / (x1 - x0);
+					clipVec.x = CohenClip::xmin;
+				}
+
+				// 交差点をクリップされた端点として設定
+				if (outcodeOut == outcode0) 
+				{
+					x0 = clipVec.x;
+					y0 = clipVec.y;
+					outcode0 = CohenClip::ComputeOutCode(x0, y0);
+				}
+				else
+				{
+					x1 = clipVec.x;
+					y1 = clipVec.y;
+					outcode1 = CohenClip::ComputeOutCode(x1, y1);
+				}
+			}
+		}
+
+		if (accept)
+		{
+			return Vec3(x1, y1, target.z);
+		}
+		else 
+		{
+			return target; // クリッピングに失敗した場合も元の座標を返す
+		}
 	}
 
 #endif

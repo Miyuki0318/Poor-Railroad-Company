@@ -64,10 +64,20 @@ namespace basecross
 			if (m_totalTime >= m_moveTime)
 			{
 				// 回転先をカメラの方向にする
-				if (player->m_rotTarget != m_toCameraRot) player->m_rotTarget = m_toCameraRot;
+				if (player->m_rotTarget != m_toCameraRot)
+				{
+					player->m_rotTarget = m_toCameraRot;
+					player->UpdateStatus();
+				}
 
 				// 回転が終わっていたらアニメーションを終了
-				if (!player->GetStatus(ePlayerStatus::IsRotate)) player->SetAnimationMesh(ePAK::GameSucces);
+				if (!player->GetStatus(ePlayerStatus::IsRotate) && !player->IsAnimation(ePAK::GameSucces))
+				{
+					player->SetAnimationMesh(ePAK::GameSucces);
+
+					const auto& stagePtr = player->GetTypeStage<GameStage>();
+					stagePtr->SetGameProgress(eGameProgress::ClearSlect);
+				}
 			}
 
 			// 座標の更新

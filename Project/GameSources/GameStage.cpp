@@ -5,6 +5,7 @@
 
 #include "stdafx.h"
 #include "Project.h"
+#include "PauseMenu.h"
 
 namespace basecross
 {
@@ -26,10 +27,16 @@ namespace basecross
 		AddTextureResource(L"GAMEOVER_TX", texturePath + L"Lose.png");
 		AddTextureResource(L"CONTINUE_TX", texturePath + L"Continue.png");
 		AddTextureResource(L"STAGESELECT_TX", texturePath + L"StageSelect.png");
-		AddTextureResource(L"TITLEBACK_TX", texturePath + L"TitleBack.png");
+		AddTextureResource(L"CONTINUE_TITLEBACK_TX", texturePath + L"TitleBack.png");
+		AddTextureResource(L"NEXTSTAGE_TX", texturePath + L"NextStage.png");
+		AddTextureResource(L"CLEAR_TITLEBACK_TX", texturePath + L"ClearTitleBack.png");
+		AddTextureResource(L"OVER_CONTINUE_TX", texturePath + L"ContinueTrain.png");
+		AddTextureResource(L"OVER_TITLEBACK_TX", texturePath + L"TitleBackTrain.png");
+		AddTextureResource(L"RAIL_LINE_TX", texturePath + L"RailLine.tga");
 
-		// 地面の仮テクスチャ
-		AddTextureResource(L"GROUND_TX", texturePath + L"ForestGround.png");
+		// ゴールガイドテクスチャ
+		AddTextureResource(L"GOAL_GUIDE_TX", texturePath + L"GoalGuide.png");
+		AddTextureResource(L"GOAL_ARROW_TX", texturePath + L"GoalGuideArrow.png");
 
 		// ゲーム中のBGM
 		AddAudioResource(L"FIRST_BGM", soundPath + L"FirstBGM");
@@ -74,8 +81,14 @@ namespace basecross
 	void GameStage::CreateGroundBox()
 	{
 		const float scale = 1.0f;
-		AddGameObject<GroundManager>(scale);	// 地面の描画生成
-		AddGameObject<UnBreakRock>();	// 壊せない岩の生成
+		const auto& ground = AddGameObject<GroundManager>(scale);	// 地面の描画生成
+		SetSharedGameObject(L"GroundManager", ground);
+		
+		const auto& treasure = AddGameObject<GatherTreasure>();
+		SetSharedGameObject(L"GatherTreasure", treasure);
+
+		const auto& unbreak = AddGameObject<UnBreakRock>();	// 壊せない岩の生成
+		SetSharedGameObject(L"UnBreakRock", unbreak);
 	}
 
 	// プレイヤーの生成
@@ -193,16 +206,21 @@ namespace basecross
 	{
 		m_fadeSprite->SetPosition(m_fadeSprite->GetPosition() + Vec3(0.0f, 0.0f, 0.1f));
 		m_fadeSprite->SetDiffuseColor(COL_WHITE);
-		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f), Vec3(0.0f, 200.0f, 0.0f));
+		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f, 400.0f), Vec3(0.0f, 200.0f, 0.3f));
 
-		m_ctSprite = AddGameObject<Sprite>(L"CONTINUE_TX",	m_defScale, Vec3(-300.0f, -200.0f, 0.0f));
-		m_tbSprite = AddGameObject<Sprite>(L"TITLEBACK_TX", m_defScale, Vec3(300.0f, -200.0f, 0.0f));
+		// コンティニュー時に扱うスプライト
+		m_continueSprite = AddGameObject<Sprite>(L"CONTINUE_TX", m_defScale, m_leftPos);
+		m_titleBackSprite = AddGameObject<Sprite>(L"CONTINUE_TITLEBACK_TX", m_defScale, m_rightPos);
+		m_selectMap.emplace(eContinueSelect::Continue, m_continueSprite);
+		m_selectMap.emplace(eContinueSelect::TitleBack, m_titleBackSprite);
+		m_continueSprite->SetDiffuseColor(COL_ALPHA);
+		m_titleBackSprite->SetDiffuseColor(COL_ALPHA);
 
-		m_selectMap.emplace(eContinueSelect::Continue, m_ctSprite);
-		m_selectMap.emplace(eContinueSelect::TitleBack, m_tbSprite);
+		m_gameClearState.reset(new GameClearState(GetThis<GameStage>()));
+		m_gameClearState->CreateState();
 
-		m_ctSprite->SetDiffuseColor(COL_ALPHA);
-		m_tbSprite->SetDiffuseColor(COL_ALPHA);
+		m_gameOverState.reset(new GameOverState(GetThis<GameStage>()));
+		m_gameOverState->CreateState();
 	}
 
 	// UIの生成
@@ -210,7 +228,7 @@ namespace basecross
 	{
 		// パラメータ
 		const float scale = 60.0f;
-		const Vec3 startPos = Vec3(-910.0f, 500.0f, 0.2f);
+		const Vec3 startPos = Vec3(-900.0f, 500.0f, 0.3f);
 		const Vec3 distance = Vec3(0.0f, -scale * 1.75f, 0.0f);
 
 		// アイテム数UI
@@ -220,6 +238,7 @@ namespace basecross
 		AddGameObject<ItemCountUI>(scale, startPos + (distance * 4.0), L"UI_RAIL_TX", eItemType::Rail);
 		AddGameObject<ItemCountUI>(scale, startPos + (distance * 5.0), L"UI_BRIDGE_TX", eItemType::WoodBridge);
 		AddGameObject<ItemCountUI>(scale, startPos + (distance * 6.0), L"UI_CROSSING_TX", eItemType::Crossing);
+		AddGameObject<ItemCountUI>(scale, startPos + (distance * 7.0), L"UI_GOLDBAR_TX", eItemType::GoldBar);
 
 		// アイテム取得時の跳んでくエフェクトの設定
 		const auto& itemFly = GetSharedGameObject<FlyItemManager>(L"FlyItemManager");
@@ -229,29 +248,85 @@ namespace basecross
 		itemFly->SetTargetUIData(eItemType::Rail, L"UI_RAIL_TX", startPos + (distance * 4.0));
 		itemFly->SetTargetUIData(eItemType::WoodBridge, L"UI_BRIDGE_TX", startPos + (distance * 5.0));
 		itemFly->SetTargetUIData(eItemType::Crossing, L"UI_CROSSING_TX", startPos + (distance * 6.0));
+		itemFly->SetTargetUIData(eItemType::GoldBar, L"UI_GOLDBAR_TX", startPos + (distance * 7.0));
 
 		// ポーズメニューの作成
 		auto& pauseMenu = AddGameObject<PauseMenu>();
 		SetSharedGameObject(L"PAUSE", pauseMenu);
+
+		// ゴールガイドの生成
+		AddGameObject<GoalGuide>();
+	}
+
+	// リセット処理
+	void GameStage::ResetCreateStage()
+	{
+		// CSVでステージを生成
+		CreateStageCSV(m_stagePath);
+
+		// 各種リセット処理を送る
+		const auto& railManager = GetSharedGameObject<RailManager>(L"RailManager");
+		railManager->ResetInstanceRail();
+
+		const auto& gameTrain = GetSharedGameObject<GameTrain>(L"Train");
+		gameTrain->ResetTrain();
+
+		const auto& bridgeManager = GetSharedGameObject<BridgeManager>(L"BridgeManager");
+		bridgeManager->ResetBridge();
+
+		const auto& gatheringManager = GetSharedGameObject<GatheringManager>(L"GatheringManager");
+		gatheringManager->ResetGathering();
+
+		const auto& crossingManager = GetSharedGameObject<CrossingManager>(L"CrossingManager");
+		crossingManager->ResetCrossing();
+
+		const auto& gearManager = GetSharedGameObject<GearManager>(L"GearManager");
+		gearManager->ResetGears();
+
+		const auto& player = GetSharedGameObject<GamePlayer>(L"Player");
+		player->ResetPlayer(m_startPosition, m_goalStagingPosition);
+	}
+
+	// 地面の再生成処理
+	void GameStage::ResetGroundStage()
+	{
+		const auto& groundManager = GetSharedGameObject<GroundManager>(L"GroundManager");
+		groundManager->ClearInstanceGround();
+		groundManager->CreateInstanceGround();
+
+		const auto& unbreakRock = GetSharedGameObject<UnBreakRock>(L"UnBreakRock");
+		unbreakRock->CreateUnBreakRock();
+	}
+
+	void GameStage::ResetCameraObject()
+	{
+		auto train = GetSharedGameObject<GameTrain>(L"Train");
+
+		Vec3 defEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
+		Vec3 defAt = Vec3(3.0f, 1.0f, -8.5f);
+
+		auto& camera = GetView()->GetTargetCamera();
+		auto mainCamera = dynamic_pointer_cast<MainCamera>(camera);
+		mainCamera->ResetCamera(defEye, defAt);
 	}
 
 	// スプライトの表示
 	void GameStage::LogoActive()
 	{
+		m_gameSprite->SetDrawActive(false);
+
 		switch (m_gameProgress)
 		{
-		case FadeIn:
-		case Playing:
-		case ContinueFade:
-			m_gameSprite->SetDrawActive(false);
-			break;
-
 		case GameClear:
+		case ClearSlect:
+		case ToNext:
+		case ToTitle:
 			m_gameSprite->SetTexture(L"GAMECLEAR_TX");
-			m_gameSprite->SetDrawActive(false);
+			m_gameSprite->SetDrawActive(true);
 			break;
 
 		case GameOver:
+		case ContinueFadeIn:
 			m_gameSprite->SetTexture(L"GAMEOVER_TX");
 			m_gameSprite->SetDrawActive(true);
 			break;
@@ -266,6 +341,46 @@ namespace basecross
 		if (m_fadeSprite->FadeOutColor(2.0f))
 		{
 			m_gameProgress = eGameProgress::Playing;
+		}
+
+		float volume = Utility::Lerp(0.5f, 0.0f, m_fadeSprite->GetDiffuseColor().w);
+		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
+	}
+
+	void GameStage::ToPlayingState()
+	{
+		if (m_fadeSprite->GetDiffuseColor().w > 0.0f)
+		{
+			m_fadeSprite->FadeOutColor(2.0f);
+		}
+	}
+
+	void GameStage::ToClearSelectStage()
+	{
+		if (m_gameClearState->GetClearState() != eGameClearState::StandBy)
+		{
+			m_gameClearState->UpdateState();
+			return;
+		}
+
+		auto select = m_gameClearState->GetSelectStage();
+		m_gameProgress = select != eSelectGameClear::TitleBack ? eGameProgress::ToNext : eGameProgress::ToTitle;
+	}
+
+	void GameStage::ToNextStage()
+	{
+		// フェード用スプライトのエラーチェック
+		if (!m_fadeSprite) return;
+
+		if (m_fadeSprite->FadeInColor(2.0f))
+		{
+			m_stagePath = App::GetApp()->GetScene<Scene>()->ToNextStage();
+			ResetCreateStage();
+			ResetGroundStage();
+			ResetCameraObject();
+			CreateStartBGM();
+			m_gameClearState->ResetState();
+			m_gameProgress = eGameProgress::FadeIn;
 		}
 
 		float volume = Utility::Lerp(0.5f, 0.0f, m_fadeSprite->GetDiffuseColor().w);
@@ -294,24 +409,35 @@ namespace basecross
 		m_countTime += DELTA_TIME;
 	}
 
-	void GameStage::OnPauseMenu()
+	void GameStage::PushButtonStart()
 	{
-		auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
-		
+		if (GetSharedGameObject<Player>(L"Player")->GetStatus(ePlayerStatus::IsCraftQTE)) return;
+		if (m_gameProgress == Pause)
+		{
+			auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
+			menu->OnClose();
+		}
+		if (m_gameProgress == Playing)
+		{
+			auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
+			menu->OnOpen();
+		}
 	}
 
 	// コンティニュー処理
-	void GameStage::ToContinueStage()
+	void GameStage::ToGameOverStage()
 	{
 		// フェードイン開始の条件を満たしていた場合の処理
 		if (m_countTime >= m_defermentTransition) 
 		{
-			// フェード用スプライトのエラーチェック
-			if (!m_fadeSprite) return;
+			if (m_gameOverState->GetClearState() != eGameOverState::StandBy)
+			{
+				m_gameOverState->UpdateState();
+				return;
+			}
 
-			// コンティニュー処理を送る
-			if (m_continueFunc.find(m_continueState) == m_continueFunc.end()) return;
-			m_continueFunc.at(m_continueState)();
+			auto select = m_gameOverState->GetSelectStage();
+			m_gameProgress = select != eSelectGameOver::TitleBack ? eGameProgress::ContinueFadeIn : eGameProgress::ToTitle;
 		}
 		else
 		{
@@ -319,104 +445,38 @@ namespace basecross
 		}
 	}
 
-	// コンティニュー時のフェードイン処理
-	void GameStage::ContinueFadeInState()
+	void GameStage::ToContinueFadeIn()
 	{
 		if (m_fadeSprite->FadeInColor(2.0f))
 		{
-			m_continueState = eContinueState::SelectFade;
+			ResetCreateStage();
+			m_gameOverState->ResetState();
+			m_gameProgress = eGameProgress::ContinueFadeOut;
 		}
 	}
 
-	void GameStage::ContinueSelectFadeState()
+	void GameStage::ToContinueFadeOut()
 	{
-		m_tbSprite->FadeInColor(0.5f);
-		if (m_ctSprite->FadeInColor(0.5f))
+		if (m_fadeSprite->FadeOutColor(2.0f))
 		{
-			m_continueState = eContinueState::Selecting;
+			m_gameProgress = eGameProgress::Playing;
 		}
-	}
-
-	void GameStage::ContinueSelectingState()
-	{
-		float stickVal = Input::GetLStickValue().x;
-		
-		m_totalTime += DELTA_TIME * 2.0f;
-		if (m_totalTime >= XM_2PI) m_totalTime = 0.0f;
-
-		if (stickVal && !m_pastStickVal)
-		{
-			m_totalTime = 0.0f;
-			m_pastState = m_currentState;
-			switch (m_currentState)
-			{
-			case eContinueSelect::Continue:
-				m_currentState = eContinueSelect::TitleBack;
-				break;
-
-			case eContinueSelect::TitleBack:
-				m_currentState = eContinueSelect::Continue;
-				break;
-
-			default:
-				break;
-			}
-		}
-
-		m_pastStickVal = stickVal;
-		float scale = Utility::SinCurve(m_totalTime, 1.0f, 1.25f);
-		m_selectMap.at(m_pastState).lock()->SetScale(m_defScale);
-		m_selectMap.at(m_currentState).lock()->SetScale(m_defScale * scale);
-
-		if (Input::GetPushB()) m_continueState = eContinueState::SelectState;
-	}
-
-	// コンティニュー時の選択肢を呼び出す
-	void GameStage::ContinueSelectState()
-	{
-		if (m_selectFunc.find(m_currentState) == m_selectFunc.end()) return;
-
-		m_selectFunc.at(m_currentState)();
 	}
 
 	// コンティニュー時のリセット処理
 	void GameStage::ResetState()
 	{
-		// CSVでステージを生成
-		CreateStageCSV(m_stagePath);
+		ResetCreateStage();
 
-		// 各種リセット処理を送る
-		const auto& railManager = GetSharedGameObject<RailManager>(L"RailManager");
-		railManager->ResetInstanceRail();
-
-		const auto& gameTrain = GetSharedGameObject<GameTrain>(L"Train");
-		gameTrain->ResetTrain();
-
-		const auto& bridgeManager = GetSharedGameObject<BridgeManager>(L"BridgeManager");
-		bridgeManager->ResetBridge();
-
-		const auto& gatheringManager = GetSharedGameObject<GatheringManager>(L"GatheringManager");
-		gatheringManager->ResetGathering();
-
-		const auto& crossingManager = GetSharedGameObject<CrossingManager>(L"CrossingManager");
-		crossingManager->ResetCrossing();
-
-		const auto& gearManager = GetSharedGameObject<GearManager>(L"GearManager");
-		gearManager->ResetGears();
-
-		const auto& player = GetSharedGameObject<GamePlayer>(L"Player");
-		player->ResetPlayer();
-
-		m_continueState = eContinueState::FadeOut;
-		m_gameProgress = eGameProgress::ContinueFade;
+		m_gameProgress = eGameProgress::ContinueFadeIn;
 	}
 
 	// タイトルに戻る
 	void GameStage::TitleBackState()
 	{
 		// スプライトをフェードアウト
-		m_tbSprite->FadeOutColor(1.0f);
-		m_ctSprite->FadeOutColor(1.0f);
+		m_titleBackSprite->FadeOutColor(1.0f);
+		m_continueSprite->FadeOutColor(1.0f);
 		if (m_gameSprite->FadeOutColor(2.5f))
 		{
 			// タイトルステージに遷移
@@ -425,19 +485,6 @@ namespace basecross
 
 		float volume = Utility::Lerp(0.0f, 0.5f, m_gameSprite->GetDiffuseColor().w);
 		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
-	}
-
-	// コンティニュー時のフェードアウト
-	void GameStage::ContinueFadeOutState()
-	{
-		m_tbSprite->FadeOutColor(0.5f);
-		m_ctSprite->FadeOutColor(0.5f);
-
-		if (m_fadeSprite->FadeOutColor(2.0f))
-		{
-			m_gameProgress = eGameProgress::Playing;
-			m_continueState = eContinueState::FadeIn;
-		}
 	}
 
 	// 生成時の処理
@@ -529,6 +576,14 @@ namespace basecross
 
 			// スプライトの表示
 			LogoActive();
+
+			// STARTボタンを押したら
+			if (Input::GetPad().wPressedButtons & XINPUT_GAMEPAD_START)
+			{
+				PushButtonStart();
+			}
+			// 演出中かの真偽をプレイ中かどうかで立てる
+			m_isStaging = !Utility::OR(m_gameProgress, eGameProgress::FadeIn, eGameProgress::Playing);
 
 			// ゲームの結果に応じて処理を実行
 			if (m_progressFunc.find(m_gameProgress) == m_progressFunc.end()) return;

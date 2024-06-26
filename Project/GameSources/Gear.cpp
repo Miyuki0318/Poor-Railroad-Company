@@ -52,32 +52,12 @@ namespace basecross
 	{
 		// ステージとステージcsvの取得
 		const auto& stagePtr = GetTypeStage<BaseStage>();
-		const auto& stageMap = stagePtr->GetStageMap();
-
+		
 		// プレイヤーの取得
 		m_playerPtr = stagePtr->GetSharedGameObject<GamePlayer>(L"Player");
 
-		// 二重ループ
-		for (int row = 0; row < stageMap.size(); row++)
-		{
-			for (int col = 0; col < stageMap.at(row).size(); col++)
-			{
-				// 歯車以外のIDなら無視
-				eStageID id = STAGE_ID(stageMap.at(row).at(col));
-				if (id != eStageID::Gear) continue;
-
-				// 歯車を生成し、マップに追加
-				m_gearMap.emplace(ROWCOL2LINE(row, col), stagePtr->AddGameObject<Gear>(ROWCOL2POS(row, col)));
-			}
-		}
-
-		// 生成した歯車に差分行列を設定
-		for (auto& gear : m_gearMap)
-		{
-			auto& ptr = gear.second.lock();
-			ptr->m_ptrDraw->SetMeshToTransformMatrix(m_gearModelMat);
-			ptr->m_ptrShadow->SetMeshToTransformMatrix(m_gearModelMat);
-		}
+		// 歯車の生成
+		CreateGear();
 	}
 
 	// 更新処理
@@ -109,6 +89,55 @@ namespace basecross
 		}
 	}
 
+	void GearManager::CreateGear()
+	{
+		// ステージとステージcsvの取得
+		const auto& stagePtr = GetTypeStage<BaseStage>();
+		const auto& stageMap = stagePtr->GetStageMap();
+
+		// 二重ループ
+		for (int row = 0; row < stageMap.size(); row++)
+		{
+			for (int col = 0; col < stageMap.at(row).size(); col++)
+			{
+				// 歯車以外のIDなら無視
+				eStageID id = STAGE_ID(stageMap.at(row).at(col));
+				if (id != eStageID::Gear) continue;
+
+				bool isBuff = false;
+				for (auto& gear : m_gearMap)
+				{
+					// 存在しないなら無視
+					auto& ptr = gear.second.lock();
+					if (!ptr) continue;
+
+					// 非アクティブがあれば
+					if (!ptr->GetUpdateActive()) 
+					{
+						ptr->SetPosition(ROWCOL2POS(row, col));
+						ptr->ResetGear();
+						isBuff = true;
+						break;
+					}
+				}
+
+				// 空きを使用したなら無視
+				if (isBuff) continue;
+
+				// 歯車を生成し、マップに追加
+				m_gearMap.emplace(ROWCOL2LINE(row, col), stagePtr->AddGameObject<Gear>(ROWCOL2POS(row, col)));
+			}
+		}
+
+		// 生成した歯車に差分行列を設定
+		for (auto& gear : m_gearMap)
+		{
+			auto& ptr = gear.second.lock();
+			ptr->m_ptrDraw->SetMeshToTransformMatrix(m_gearModelMat);
+			ptr->m_ptrShadow->SetMeshToTransformMatrix(m_gearModelMat);
+		}
+	}
+
 	// 歯車の取得処理
 	void GearManager::GetGearPlayar(const pair<string, weak_ptr<Gear>>& gear)
 	{
@@ -131,10 +160,13 @@ namespace basecross
 	// リセット処理
 	void GearManager::ResetGears()
 	{
-		// 全ての歯車にリセット処理を送る
+		// 全ての歯車にスリーブ処理を送る
 		for (auto& gear : m_gearMap)
 		{
-			gear.second.lock()->ResetGear();
+			gear.second.lock()->GetGearSleap();
 		}
+
+		// 再生成
+		CreateGear();
 	}
 }

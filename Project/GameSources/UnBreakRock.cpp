@@ -38,8 +38,21 @@ namespace basecross
 		m_instanceMap.emplace(eRockMeshType::Mesh2, stagePtr->AddGameObject<InstanceRock>(eRockMeshType::Mesh2));
 		m_instanceMap.emplace(eRockMeshType::Mesh3, stagePtr->AddGameObject<InstanceRock>(eRockMeshType::Mesh3));
 
+		// 生成処理
+		CreateUnBreakRock();
+	}
+
+	// インスタンス描画の生成
+	void UnBreakRock::CreateUnBreakRock()
+	{
+		// 行列の初期化
+		for (auto& instance : m_instanceMap)
+		{
+			instance.second.lock()->ClearMatrix();
+		}
+
 		// ステージマップcsvから生成
-		const auto& stageMap = stagePtr->GetStageMap();
+		const auto& stageMap = GetTypeStage<BaseStage>()->GetStageMap();
 		for (int row = 0; row < stageMap.size(); row++)
 		{
 			for (int col = 0; col < stageMap.at(row).size(); col++)
@@ -56,7 +69,7 @@ namespace basecross
 				// スケール
 				float scaleY = DEFF_SCALE * RangeRand(1.5f, 1.0f);
 				m_mtxScale.scale(Vec3(DEFF_SCALE, scaleY, DEFF_SCALE));
-				
+
 				// ポジション
 				m_mtxPosition.translation(Vec3(float(col), 0.5f, -float(row)));
 

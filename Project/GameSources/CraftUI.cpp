@@ -50,17 +50,11 @@ namespace basecross
 	}
 
 	// 表示切り替え
-	void CraftUI::SetDrawEnable(bool enable)
+	void CraftUI::SetDrawEnable(bool enable, const Vec3& position)
 	{
 		SetEnable(enable);
 
-		// プレイヤーの頭上の座標の位置に移動
-		const auto& stagePtr = GetStage();
-		const auto& player = stagePtr->GetSharedGameObject<Player>(L"Player");
-		Vec3 point = Utility::ConvertToWorldPosition(stagePtr->GetView(), player->GetPosition());
-		point.z = 0.0f;
-
 		// 座標を更新
-		SetPosition(point);
+		SetPosition(position);
 	}
 }
