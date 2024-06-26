@@ -38,8 +38,6 @@ namespace basecross
 		float m_scaleRatio; // 大きさ変更割合
 		float m_pastStickVal; // 直前のLスティックの量
 
-		bool m_pressedB;
-
 		weak_ptr<Sprite> m_menuSprite;		// メニュー画像
 		weak_ptr<Sprite> m_retrySprite;		// リトライボタン画像
 		weak_ptr<Sprite> m_titleBackSprite;	// タイトルボタン画像
@@ -70,8 +68,7 @@ namespace basecross
 			m_pastButton(eButtons::BackTitle),
 			m_lerpRatio(0.0f),
 			m_scaleRatio(0.0f),
-			m_pastStickVal(0.0f),
-			m_pressedB(false)
+			m_pastStickVal(0.0f)
 		{
 		}
 		~PauseMenu() {}
@@ -90,15 +87,18 @@ namespace basecross
 		void OnClose();
 
 		/// <summary>
-		/// ボタンセレクト中の処理
+		/// ボタンセレクト中の処理	
 		/// </summary>
 		void ButtonSelect();
 
 		/// <summary>
-		/// ボタンセレクト後の処理
+		/// タイトルボタンセレクト後の処理
 		/// </summary>
 		void TitleButton();
 
+		/// <summary>
+		/// リトライボタンセレクト後の処理
+		/// </summary>
 		void RetryButton();
 	};
 }

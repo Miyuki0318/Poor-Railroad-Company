@@ -60,14 +60,14 @@ namespace basecross {
 		}
 		if (m_cameraState == State::ZoomOut)
 		{
-			if (m_zoomRatio <= 0.0f) m_cameraState = State::Fixed;
+			if (m_zoomRatio <= 0.0f) m_cameraState = m_DefaultState;
 			m_zoomRatio -= DELTA_TIME * m_zoomSpeed;
 		}
 	}
 
 	void MainCamera::ResetCamera(Vec3 eyePos, Vec3 atPos)
 	{
-		m_cameraState = State::Follow;
+		m_cameraState = m_DefaultState;
 		m_initialEye = eyePos;
 		m_initialAt = atPos;
 		SetEye(eyePos);

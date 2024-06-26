@@ -77,7 +77,6 @@ namespace basecross {
 		/// <summary>
 		/// ズーム処理スタート時に呼び出す処理
 		/// </summary>
-		/// <param name="currentEye">現在の位置</param>
 		/// <param name="zoomEye">ズーム後の位置</param>
 		void ZoomStart(Vec3 zoomEye) {
 			m_zoomEye = zoomEye;
@@ -85,6 +84,12 @@ namespace basecross {
 			m_cameraState = ZoomIn;
 			m_zoomRatio = 0.0f;
 		}
+
+		/// <summary>
+		/// ズーム処理スタート時に呼び出す処理
+		/// </summary>
+		/// <param name="zoomEye">ズーム後の位置</param>
+		/// <param name="defAt">初期注視点</param>
 		void ZoomStart(Vec3 zoomEye, Vec3 defAt) {
 			m_zoomEye = zoomEye;
 			m_initialAt = defAt;

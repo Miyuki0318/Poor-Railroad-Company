@@ -415,16 +415,20 @@ namespace basecross
 
 	void GameStage::PushButtonStart()
 	{
+		// QTE中はポーズできないようにする
 		if (GetSharedGameObject<Player>(L"Player")->GetStatus(ePlayerStatus::IsCraftQTE)) return;
-		auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
-		if (m_gameProgress == Pause)
+		auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE"); // ポーズメニューオブジェクトを取得
+
+		if (m_gameProgress == Pause) // ポーズ中なら
 		{
+			// ポーズ画面を閉じる
 			m_bgmItem = m_soundManager->StartBGM(L"PAUSE_CLOSE_SE", 0, 1.0f, ThisPtr);
 			menu->OnClose();
 			return;
 		}
-		if (m_gameProgress == Playing)
+		if (m_gameProgress == Playing) // プレイ中なら
 		{
+			// ポーズ画面を表示する
 			m_bgmItem = m_soundManager->StartBGM(L"PAUSE_OPEN_SE", 0, 1.0f, ThisPtr);
 			menu->OnOpen();
 		}
