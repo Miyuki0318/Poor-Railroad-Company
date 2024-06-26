@@ -216,8 +216,6 @@ namespace basecross
 		// コンティニュー時に扱うスプライト
 		m_continueSprite = AddGameObject<Sprite>(L"CONTINUE_TX", m_defScale, m_leftPos);
 		m_titleBackSprite = AddGameObject<Sprite>(L"CONTINUE_TITLEBACK_TX", m_defScale, m_rightPos);
-		m_selectMap.emplace(eContinueSelect::Continue, m_continueSprite);
-		m_selectMap.emplace(eContinueSelect::TitleBack, m_titleBackSprite);
 		m_continueSprite->SetDiffuseColor(COL_ALPHA);
 		m_titleBackSprite->SetDiffuseColor(COL_ALPHA);
 
@@ -368,7 +366,7 @@ namespace basecross
 		const auto& player = GetSharedGameObject<GamePlayer>(L"Player");
 		const auto& railManager = GetSharedGameObject<RailManager>(L"RailManager");
 		const auto reward = CSVLoader::LoadFile("StageClearReward");
-		const auto moneyOperator = CSVLoader::ReadDataToInt(CSVLoader::LoadFile("MoneyOperator")).at(0);
+		vector<int> moneyOperator = CSVLoader::ReadDataToInt(CSVLoader::LoadFile("MoneyOperator")).at(0);
 
 		int addMoney = 0;
 		int count = 0;

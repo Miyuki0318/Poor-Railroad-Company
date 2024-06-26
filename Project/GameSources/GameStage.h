@@ -32,23 +32,6 @@ namespace basecross
 		ContinueFadeOut,
 	};
 
-	// コンティニュー処理中のステートenum
-	enum class eContinueState
-	{
-		FadeIn,
-		SelectFade,
-		Selecting,
-		SelectState,
-		FadeOut,
-	};
-
-	// コンティニュー時の選択肢
-	enum class eContinueSelect
-	{
-		Continue,
-		TitleBack,
-	};
-
 	/*!
 	@brief ゲーム中のステージ
 	*/
@@ -88,7 +71,6 @@ namespace basecross
 		Vec3 m_goalStagingPosition;
 
 		map<eGameProgress, function<void()>> m_progressFunc;
-		map<eContinueSelect, weak_ptr<Sprite>> m_selectMap;
 
 		/*!
 		@brief リソースの読込
