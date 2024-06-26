@@ -209,8 +209,6 @@ namespace basecross
 	// スプライトの生成
 	void GameStage::CreateSpriteObject()
 	{
-		m_fadeSprite->SetPosition(m_fadeSprite->GetPosition() + Vec3(0.0f, 0.0f, 0.1f));
-		m_fadeSprite->SetDiffuseColor(COL_WHITE);
 		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f, 400.0f), Vec3(0.0f, 200.0f, 0.3f));
 
 		// コンティニュー時に扱うスプライト
@@ -234,7 +232,7 @@ namespace basecross
 	{
 		// パラメータ
 		const float scale = 60.0f;
-		const Vec3 startPos = Vec3(-900.0f, 500.0f, 0.3f);
+		const Vec3 startPos = Vec3(-900.0f, 500.0f, 0.4f);
 		const Vec3 distance = Vec3(0.0f, -scale * 1.75f, 0.0f);
 
 		// アイテム数UI
