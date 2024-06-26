@@ -141,7 +141,7 @@ namespace basecross
 		*/
 		TitleStage(const string& stagePath) : 
 			BaseStage(stagePath),
-			m_objDiffEye(0.0f, 2.0f, 0.0f),
+			m_objDiffEye(0.0f, 3.0f, -0.5f),
 			m_trainDiffEye(0.0f, 8.0f, 12.0f)
 		{
 			titleProgress = eTitleProgress::normal;
