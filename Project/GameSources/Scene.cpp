@@ -113,8 +113,11 @@ namespace basecross {
 		app->RegisterTexture(L"COMPANY_TX", modelPath + L"Bilding/" + L"T_Building.png");
 		RegisterSingleMesh(L"COMPANY", modelPath + L"Bilding/", L"buillding", false);
 
-		// 看板のモデル
+		// ステージ選択のモデル
 		RegisterSingleMesh(L"BOARD", modelPath + L"Bilding/", L"RouteMap", false);
+
+		app->RegisterTexture(L"SIGNBOARD_TX", modelPath + L"Signboard/" + L"T_kanban.png");
+		RegisterSingleMesh(L"SIGNBOARD", modelPath + L"Signboard/", L"kanban", false);
 
 		// 不壊岩モデル
 		app->RegisterTexture(L"UN_BREAK_ROCK_TX", modelPath + L"UnBreakRock/Rock.png");

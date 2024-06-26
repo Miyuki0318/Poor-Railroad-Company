@@ -157,6 +157,9 @@ namespace basecross
 		const auto& routeMap = AddGameObject<RouteMap>();
 		SetSharedGameObject(L"RouteMap", routeMap);
 		m_objectGroup->IntoGroup(routeMap);
+
+		const auto& board = AddGameObject<SignBoard>();
+		SetSharedGameObject(L"SignBoard", board);
 	}
 
 	// 列車の生成
@@ -358,6 +361,9 @@ namespace basecross
 
 			// 通常時以外は演出中のフラグを立てる
 			m_isStaging = titleProgress != normal;
+		
+			auto board = GetSharedGameObject<SignBoard>(L"SignBoard");
+			Debug::Log(board->GetPosition());
 		}
 		catch (...)
 		{
