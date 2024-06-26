@@ -7,6 +7,7 @@
 #include "stdafx.h"
 #include "BaseStage.h"
 #include "GameClearState.h"
+#include "GameOverState.h"
 
 namespace basecross 
 {
@@ -24,7 +25,8 @@ namespace basecross
 		ToNext,
 		ToTitle,
 		GameOver,
-		ContinueFade,
+		ContinueFadeIn,
+		ContinueFadeOut,
 	};
 
 	// コンティニュー処理中のステートenum
@@ -62,17 +64,11 @@ namespace basecross
 		const Vec3 m_rightPos;
 
 		// クリア時の処理
-		unique_ptr<GameClearState> m_clearState;
+		unique_ptr<GameClearState> m_gameClearState;
+		unique_ptr<GameOverState> m_gameOverState;
 
 		// ゲームの状況
 		eGameProgress m_gameProgress;
-
-		// コンティニュー処理のステート
-		eContinueState m_continueState;
-
-		// コンティニュー時の選択肢
-		eContinueSelect m_currentState;
-		eContinueSelect m_pastState;
 
 		// ゲームクリアからタイトルステージへの遷移までの猶予
 		const float m_defermentTransition;
@@ -88,9 +84,7 @@ namespace basecross
 		Vec3 m_goalStagingPosition;
 
 		map<eGameProgress, function<void()>> m_progressFunc;
-		map<eContinueState, function<void()>> m_continueFunc;
 		map<eContinueSelect, weak_ptr<Sprite>> m_selectMap;
-		map<eContinueSelect, function<void()>> m_selectFunc;
 
 		/*!
 		@brief リソースの読込
@@ -196,13 +190,10 @@ namespace basecross
 		/*!
 		@brief コンティニュー時の処理
 		*/
-		void ToContinueStage();
+		void ToGameOverStage();
 
-		void ContinueFadeInState();
-		void ContinueSelectFadeState();
-		void ContinueSelectingState();
-		void ContinueSelectState();
-		void ContinueFadeOutState();
+		void ToContinueFadeIn();
+		void ToContinueFadeOut();
 
 		void ResetState();
 		void TitleBackState();
@@ -223,26 +214,15 @@ namespace basecross
 			m_totalTime = 0.0f;
 			m_pastStickVal = 0.0f;
 			m_gameProgress = eGameProgress::FadeIn;
-			m_continueState = eContinueState::FadeIn;
-			m_currentState = eContinueSelect::Continue;
-			m_pastState = eContinueSelect::TitleBack;
 
 			m_progressFunc.emplace(eGameProgress::FadeIn, bind(&GameStage::ToFadeInState, this));
 			m_progressFunc.emplace(eGameProgress::Playing, bind(&GameStage::ToPlayingState, this));
 			m_progressFunc.emplace(eGameProgress::ToNext, bind(&GameStage::ToNextStage, this));
 			m_progressFunc.emplace(eGameProgress::ToTitle, bind(&GameStage::ToTitleStage, this));
 			m_progressFunc.emplace(eGameProgress::ClearSlect, bind(&GameStage::ToClearSelectStage, this));
-			m_progressFunc.emplace(eGameProgress::GameOver, bind(&GameStage::ToContinueStage, this));
-			m_progressFunc.emplace(eGameProgress::ContinueFade, bind(&GameStage::ToContinueStage, this));
-
-			m_continueFunc.emplace(eContinueState::FadeIn, bind(&GameStage::ContinueFadeInState, this));
-			m_continueFunc.emplace(eContinueState::SelectFade, bind(&GameStage::ContinueSelectFadeState, this));
-			m_continueFunc.emplace(eContinueState::Selecting, bind(&GameStage::ContinueSelectingState, this));
-			m_continueFunc.emplace(eContinueState::SelectState, bind(&GameStage::ContinueSelectState, this));
-			m_continueFunc.emplace(eContinueState::FadeOut, bind(&GameStage::ContinueFadeOutState, this));
-
-			m_selectFunc.emplace(eContinueSelect::Continue, bind(&GameStage::ResetState, this));
-			m_selectFunc.emplace(eContinueSelect::TitleBack, bind(&GameStage::TitleBackState, this));
+			m_progressFunc.emplace(eGameProgress::GameOver, bind(&GameStage::ToGameOverStage, this));
+			m_progressFunc.emplace(eGameProgress::ContinueFadeIn, bind(&GameStage::ToContinueFadeIn, this));
+			m_progressFunc.emplace(eGameProgress::ContinueFadeOut, bind(&GameStage::ToContinueFadeOut, this));
 		}
 
 		/*!
@@ -281,11 +261,6 @@ namespace basecross
 		eGameProgress GetGameProgress() const
 		{
 			return m_gameProgress;
-		}
-
-		void SetContinueState(eContinueState state)
-		{
-			m_continueState = state;
 		}
 
 		/*!

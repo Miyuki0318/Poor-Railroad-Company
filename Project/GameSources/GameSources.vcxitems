@@ -23,6 +23,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Company.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Crossing.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameClearState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameOverState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrain.h" />
@@ -102,6 +103,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Company.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Crossing.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameClearState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameOverState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainCurveExitState.cpp" />

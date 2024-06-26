@@ -24,7 +24,7 @@ namespace basecross
 		@param ステージポインタ
 		*/
 		GoalGuide(const shared_ptr<Stage>& stagePtr) :
-			Sprite(stagePtr, L"GOAL_GUIDE_TX", Vec2(75.0f))
+			Sprite(stagePtr, L"GOAL_GUIDE_TX", Vec2(150.0f))
 		{
 		}
 

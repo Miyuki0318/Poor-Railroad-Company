@@ -46,3 +46,4 @@
 #include "PauseMenu.h"
 #include "Shop.h"
 #include "GameClearState.h"
+#include "GameOverState.h"

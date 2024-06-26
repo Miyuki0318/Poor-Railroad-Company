@@ -30,6 +30,8 @@ namespace basecross
 		AddTextureResource(L"CONTINUE_TITLEBACK_TX", texturePath + L"TitleBack.png");
 		AddTextureResource(L"NEXTSTAGE_TX", texturePath + L"NextStage.png");
 		AddTextureResource(L"CLEAR_TITLEBACK_TX", texturePath + L"ClearTitleBack.png");
+		AddTextureResource(L"OVER_CONTINUE_TX", texturePath + L"ContinueTrain.png");
+		AddTextureResource(L"OVER_TITLEBACK_TX", texturePath + L"TitleBackTrain.png");
 		AddTextureResource(L"RAIL_LINE_TX", texturePath + L"RailLine.tga");
 
 		// ゴールガイドテクスチャ
@@ -214,8 +216,11 @@ namespace basecross
 		m_continueSprite->SetDiffuseColor(COL_ALPHA);
 		m_titleBackSprite->SetDiffuseColor(COL_ALPHA);
 
-		m_clearState.reset(new GameClearState(GetThis<GameStage>()));
-		m_clearState->CreateState();
+		m_gameClearState.reset(new GameClearState(GetThis<GameStage>()));
+		m_gameClearState->CreateState();
+
+		m_gameOverState.reset(new GameOverState(GetThis<GameStage>()));
+		m_gameOverState->CreateState();
 	}
 
 	// UIの生成
@@ -321,6 +326,7 @@ namespace basecross
 			break;
 
 		case GameOver:
+		case ContinueFadeIn:
 			m_gameSprite->SetTexture(L"GAMEOVER_TX");
 			m_gameSprite->SetDrawActive(true);
 			break;
@@ -351,14 +357,14 @@ namespace basecross
 
 	void GameStage::ToClearSelectStage()
 	{
-		if (m_clearState->GetClearState() != eGameClearState::StandBy)
+		if (m_gameClearState->GetClearState() != eGameClearState::StandBy)
 		{
-			m_clearState->UpdateState();
+			m_gameClearState->UpdateState();
 			return;
 		}
 
-		auto select = m_clearState->GetSelectStage();
-		m_gameProgress = select != eSelectStage::TitleBack ? eGameProgress::ToNext : eGameProgress::ToTitle;
+		auto select = m_gameClearState->GetSelectStage();
+		m_gameProgress = select != eSelectGameClear::TitleBack ? eGameProgress::ToNext : eGameProgress::ToTitle;
 	}
 
 	void GameStage::ToNextStage()
@@ -373,7 +379,7 @@ namespace basecross
 			ResetGroundStage();
 			ResetCameraObject();
 			CreateStartBGM();
-			m_clearState->ResetState();
+			m_gameClearState->ResetState();
 			m_gameProgress = eGameProgress::FadeIn;
 		}
 
@@ -419,17 +425,19 @@ namespace basecross
 	}
 
 	// コンティニュー処理
-	void GameStage::ToContinueStage()
+	void GameStage::ToGameOverStage()
 	{
 		// フェードイン開始の条件を満たしていた場合の処理
 		if (m_countTime >= m_defermentTransition) 
 		{
-			// フェード用スプライトのエラーチェック
-			if (!m_fadeSprite) return;
+			if (m_gameOverState->GetClearState() != eGameOverState::StandBy)
+			{
+				m_gameOverState->UpdateState();
+				return;
+			}
 
-			// コンティニュー処理を送る
-			if (m_continueFunc.find(m_continueState) == m_continueFunc.end()) return;
-			m_continueFunc.at(m_continueState)();
+			auto select = m_gameOverState->GetSelectStage();
+			m_gameProgress = select != eSelectGameOver::TitleBack ? eGameProgress::ContinueFadeIn : eGameProgress::ToTitle;
 		}
 		else
 		{
@@ -437,64 +445,22 @@ namespace basecross
 		}
 	}
 
-	// コンティニュー時のフェードイン処理
-	void GameStage::ContinueFadeInState()
+	void GameStage::ToContinueFadeIn()
 	{
 		if (m_fadeSprite->FadeInColor(2.0f))
 		{
-			m_continueState = eContinueState::SelectFade;
+			ResetCreateStage();
+			m_gameOverState->ResetState();
+			m_gameProgress = eGameProgress::ContinueFadeOut;
 		}
 	}
 
-	void GameStage::ContinueSelectFadeState()
+	void GameStage::ToContinueFadeOut()
 	{
-		m_titleBackSprite->FadeInColor(0.5f);
-		if (m_continueSprite->FadeInColor(0.5f))
+		if (m_fadeSprite->FadeOutColor(2.0f))
 		{
-			m_continueState = eContinueState::Selecting;
+			m_gameProgress = eGameProgress::Playing;
 		}
-	}
-
-	void GameStage::ContinueSelectingState()
-	{
-		float stickVal = Input::GetLStickValue().x;
-		
-		m_totalTime += DELTA_TIME * 2.0f;
-		if (m_totalTime >= XM_2PI) m_totalTime = 0.0f;
-
-		if (stickVal && !m_pastStickVal)
-		{
-			m_totalTime = 0.0f;
-			m_pastState = m_currentState;
-			switch (m_currentState)
-			{
-			case eContinueSelect::Continue:
-				m_currentState = eContinueSelect::TitleBack;
-				break;
-
-			case eContinueSelect::TitleBack:
-				m_currentState = eContinueSelect::Continue;
-				break;
-
-			default:
-				break;
-			}
-		}
-
-		m_pastStickVal = stickVal;
-		float scale = Utility::SinCurve(m_totalTime, 1.0f, 1.25f);
-		m_selectMap.at(m_pastState).lock()->SetScale(m_defScale);
-		m_selectMap.at(m_currentState).lock()->SetScale(m_defScale * scale);
-
-		if (Input::GetPushB()) m_continueState = eContinueState::SelectState;
-	}
-
-	// コンティニュー時の選択肢を呼び出す
-	void GameStage::ContinueSelectState()
-	{
-		if (m_selectFunc.find(m_currentState) == m_selectFunc.end()) return;
-
-		m_selectFunc.at(m_currentState)();
 	}
 
 	// コンティニュー時のリセット処理
@@ -502,8 +468,7 @@ namespace basecross
 	{
 		ResetCreateStage();
 
-		m_continueState = eContinueState::FadeOut;
-		m_gameProgress = eGameProgress::ContinueFade;
+		m_gameProgress = eGameProgress::ContinueFadeIn;
 	}
 
 	// タイトルに戻る
@@ -520,19 +485,6 @@ namespace basecross
 
 		float volume = Utility::Lerp(0.0f, 0.5f, m_gameSprite->GetDiffuseColor().w);
 		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
-	}
-
-	// コンティニュー時のフェードアウト
-	void GameStage::ContinueFadeOutState()
-	{
-		m_titleBackSprite->FadeOutColor(0.5f);
-		m_continueSprite->FadeOutColor(0.5f);
-
-		if (m_fadeSprite->FadeOutColor(2.0f))
-		{
-			m_gameProgress = eGameProgress::Playing;
-			m_continueState = eContinueState::FadeIn;
-		}
 	}
 
 	// 生成時の処理
