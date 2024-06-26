@@ -422,14 +422,14 @@ namespace basecross
 		if (m_gameProgress == Pause) // ポーズ中なら
 		{
 			// ポーズ画面を閉じる
-			m_bgmItem = m_soundManager->StartBGM(L"PAUSE_CLOSE_SE", 0, 1.0f, ThisPtr);
+			m_soundManager->StartBGM(L"PAUSE_CLOSE_SE", 0, 1.0f, ThisPtr);
 			menu->OnClose();
 			return;
 		}
 		if (m_gameProgress == Playing) // プレイ中なら
 		{
 			// ポーズ画面を表示する
-			m_bgmItem = m_soundManager->StartBGM(L"PAUSE_OPEN_SE", 0, 1.0f, ThisPtr);
+			m_soundManager->StartBGM(L"PAUSE_OPEN_SE", 0, 1.0f, ThisPtr);
 			menu->OnOpen();
 		}
 	}
