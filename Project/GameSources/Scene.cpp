@@ -116,7 +116,11 @@ namespace basecross {
 		// ステージ選択のモデル
 		RegisterSingleMesh(L"BOARD", modelPath + L"Bilding/", L"RouteMap", false);
 
-		app->RegisterTexture(L"SIGNBOARD_TX", modelPath + L"Signboard/" + L"T_kanban.png");
+		// 看板のモデル
+		app->RegisterTexture(L"SIGNBOARD_TX", modelPath + L"Signboard/" + L"T_kanban_gamestart.png");
+		app->RegisterTexture(L"SIGNBOARD_OFFICIAL_TX", modelPath + L"Signboard/" + L"T_kanban_office.png");
+		app->RegisterTexture(L"SIGNBOARD_SELECT_TX", modelPath + L"Signboard/" + L"T_kanban_stageselect.png");
+		app->RegisterTexture(L"SIGNBOARD_START_TX", modelPath + L"Signboard/" + L"T_kanban_gamestart.png");
 		RegisterSingleMesh(L"SIGNBOARD", modelPath + L"Signboard/", L"kanban", false);
 
 		// 不壊岩モデル
