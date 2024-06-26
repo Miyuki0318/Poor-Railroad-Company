@@ -44,10 +44,21 @@ namespace basecross
 		const float m_fadeOutTime = 1.0f;
 		const float m_fadeInTime = 3.0f;
 		
-		const float m_width = static_cast<float>(App::GetApp()->GetGameWidth());
-		const float m_height = static_cast<float>(App::GetApp()->GetGameHeight());
-
 		const float m_searchArea = 3.0f;
+
+		wstring m_textureKeys[3] = {
+			L"SIGNBOARD_OFFICIAL_TX",
+			L"SIGNBOARD_SELECT_TX",
+			L"SIGNBOARD_START_TX"
+		};
+
+		Vec3 m_boardPositions[3] = {
+			Vec3( 9.5f,1.0f,-10.0f),
+			Vec3(18.5f,1.0f,-9.0f),
+			Vec3(23.0f,1.0f,-14.5f),
+		};
+
+		const int m_boardQuantity = sizeof(m_textureKeys) / sizeof(m_textureKeys[0]);
 
 		eTitleProgress titleProgress;
 
@@ -75,7 +86,7 @@ namespace basecross
 		void CreateResourses() override;
 		
 		/*
-		@brief オープニング画面の生成
+		@brief タイトルロゴの生成
 		*/
 		void CreateOpningScreen();
 
@@ -110,6 +121,11 @@ namespace basecross
 		void CreateTrain();
 
 		/*
+		@brief 看板の生成
+		*/
+		void CreateSignBoard();
+
+		/*
 		@brief カメラのズーム処理
 		*/
 		void TitleCameraZoom();
@@ -123,11 +139,6 @@ namespace basecross
 		@brief ボタンを押した時の処理
 		*/
 		void PushButtonB();
-
-		/*
-		@brief 状態を変化させる処理
-		*/
-		void Progress(shared_ptr<GameObject>& obj);
 
 		/*!
 		@brief ステージをcsvで生成

@@ -65,12 +65,13 @@ namespace basecross
 		AddedAudioResources();
 	}
 
+	// BGM開始関数
 	void TitleStage::StartBGM()
 	{
 		m_bgmItem = m_soundManager->StartBGM(L"TITLE_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);
 	}
 
-	// オープニング画面の生成
+	// タイトルロゴの生成
 	void TitleStage::CreateOpningScreen()
 	{
 		auto& opning = AddGameObject<TitleLogo>();
@@ -123,6 +124,7 @@ namespace basecross
 		}
 	}
 
+	// 採集オブジェクトの生成
 	void TitleStage::CreateGatheringManager()
 	{
 		const auto& gatheringManager = AddGameObject<GatheringManager>();
@@ -157,9 +159,6 @@ namespace basecross
 		const auto& routeMap = AddGameObject<RouteMap>();
 		SetSharedGameObject(L"RouteMap", routeMap);
 		m_objectGroup->IntoGroup(routeMap);
-
-		const auto& board = AddGameObject<SignBoard>();
-		SetSharedGameObject(L"SignBoard", board);
 	}
 
 	// 列車の生成
@@ -168,6 +167,15 @@ namespace basecross
 		const auto& train = AddGameObject<TitleTrain>(m_trainPos);
 		SetSharedGameObject(L"TitleTrain", train);
 		m_objectGroup->IntoGroup(train);
+	}
+
+	// 看板の生成
+	void TitleStage::CreateSignBoard()
+	{
+		for (int i = 0; i < m_boardQuantity; i++)
+		{
+			AddGameObject<SignBoard>(m_textureKeys[i], m_boardPositions[i]);
+		}
 	}
 
 	// ボタンを押した時の処理
@@ -305,6 +313,8 @@ namespace basecross
 			CreateBuilding();
 
 			CreateTrain();
+
+			CreateSignBoard();
 		}
 		catch (...)
 		{
@@ -361,6 +371,9 @@ namespace basecross
 
 			// 通常時以外は演出中のフラグを立てる
 			m_isStaging = titleProgress != normal;
+
+			Debug::Log(m_boardQuantity);
+
 		}
 		catch (...)
 		{
