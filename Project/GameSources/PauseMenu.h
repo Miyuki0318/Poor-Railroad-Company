@@ -10,7 +10,7 @@ namespace basecross
 			Close,	// クローズ
 			Opened, // オープン後
 			Closed,	// クローズ後
-			Continued // ボタンセレクト後
+			Selected // ボタンセレクト後
 		};
 		enum eButtons {
 			Retry,
@@ -100,6 +100,10 @@ namespace basecross
 		/// </summary>
 		void RetryButton();
 
+		/// <summary>
+		/// ボタンのDrawActiveを切り替える処理
+		/// </summary>
+		/// <param name="drawFlag">DrawActiveのオンオフ</param>
 		void SetDrawActiveButtons(bool drawFlag);
 	};
 }
