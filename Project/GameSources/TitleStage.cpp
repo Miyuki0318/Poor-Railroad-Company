@@ -58,13 +58,6 @@ namespace basecross
 		AddTextureResource(L"FOURTH_TX", modelPath + L"FourthMapTexture.tga");
 		AddTextureResource(L"FIFTH_TX", modelPath + L"FifthMapTexture.tga");
 
-		// マップのテクスチャ
-		AddTextureResource(L"FIRSTMAP_TX", texturePath + L"MapSecond.png");
-		AddTextureResource(L"SECONDMAP_TX", texturePath + L"MapSecond.png");
-		AddTextureResource(L"THIRDMAP_TX", texturePath + L"MapThird.png");
-		AddTextureResource(L"FOURTHMAP_TX", texturePath + L"MapFourth.png");
-		AddTextureResource(L"FIFTHMAP_TX", texturePath + L"MapFifth.png");
-
 		AddAudioResource(L"TITLE_BGM", soundPath + L"Title");
 
 		AddedTextureResources();
