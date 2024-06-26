@@ -361,9 +361,6 @@ namespace basecross
 
 			// 通常時以外は演出中のフラグを立てる
 			m_isStaging = titleProgress != normal;
-		
-			auto board = GetSharedGameObject<SignBoard>(L"SignBoard");
-			Debug::Log(board->GetPosition());
 		}
 		catch (...)
 		{
