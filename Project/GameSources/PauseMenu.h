@@ -14,7 +14,8 @@ namespace basecross
 		};
 		enum eButtons {
 			Retry,
-			BackTitle
+			BackTitle,
+			ButtonNum
 		};
 		State m_state;	// 現在の状態
 		eButtons m_currentButton;
@@ -29,8 +30,8 @@ namespace basecross
 		const Vec3 m_DefaultTitleButtonPos; // タイトルボタン表示位置
 		const Vec2 m_DefaultButtonScale;	// ボタンサイズ
 
-		const float m_LerpSpeed; // 線形補間速度
-		const float m_ScaleSpeed; // 大きさ変更速度
+		const float m_LerpSpeed;	// 線形補間速度
+		const float m_ScaleSpeed;	// 大きさ変更速度
 		const float m_MaxScaleRatio; // 大きさ変更上限
 		const float m_MinScaleRatio; // 大きさ変更下限
 
@@ -38,9 +39,7 @@ namespace basecross
 		float m_scaleRatio; // 大きさ変更割合
 		float m_pastStickVal; // 直前のLスティックの量
 
-		weak_ptr<Sprite> m_menuSprite;		// メニュー画像
-		weak_ptr<Sprite> m_retrySprite;		// リトライボタン画像
-		weak_ptr<Sprite> m_titleBackSprite;	// タイトルボタン画像
+		weak_ptr<Sprite> m_menuSprite;	// メニュー画像
 		map<eButtons, weak_ptr<Sprite>> m_buttonSprites; // ボタン用スプライト
 
 		/// <summary>
@@ -100,5 +99,7 @@ namespace basecross
 		/// リトライボタンセレクト後の処理
 		/// </summary>
 		void RetryButton();
+
+		void SetDrawActiveButtons(bool drawFlag);
 	};
 }

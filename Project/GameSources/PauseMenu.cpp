@@ -11,12 +11,9 @@ namespace basecross
 		const shared_ptr<Stage>& stagePtr = GetStage();
 
 		m_menuSprite = stagePtr->AddGameObject<Sprite>(L"PAUSEMENU_TX", m_CloseMenuScale, m_CloseMenuPos);
-		m_retrySprite = stagePtr->AddGameObject<Sprite>(L"CONTINUE_TX", m_DefaultButtonScale, m_DefaultRetryButtonPos);
-		m_titleBackSprite = stagePtr->AddGameObject<Sprite>(L"CONTINUE_TITLEBACK_TX", m_DefaultButtonScale, m_DefaultTitleButtonPos);
-		m_retrySprite.lock()->SetDrawActive(false);
-		m_titleBackSprite.lock()->SetDrawActive(false);
-		m_buttonSprites.emplace(eButtons::Retry, m_retrySprite);
-		m_buttonSprites.emplace(eButtons::BackTitle, m_titleBackSprite);
+		m_buttonSprites.emplace(eButtons::Retry, stagePtr->AddGameObject<Sprite>(L"CONTINUE_TX", m_DefaultButtonScale, m_DefaultRetryButtonPos));
+		m_buttonSprites.emplace(eButtons::BackTitle, stagePtr->AddGameObject<Sprite>(L"CONTINUE_TITLEBACK_TX", m_DefaultButtonScale, m_DefaultTitleButtonPos));
+		SetDrawActiveButtons(false);
 	}
 
 	void PauseMenu::OnUpdate()
@@ -35,8 +32,7 @@ namespace basecross
 	void PauseMenu::OnClose()
 	{
 		if (m_state != State::Opened) return;
-		m_retrySprite.lock()->SetDrawActive(false);
-		m_titleBackSprite.lock()->SetDrawActive(false);
+		SetDrawActiveButtons(false);
 
 		m_state = State::Close;
 		GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::Playing);
@@ -61,8 +57,7 @@ namespace basecross
 		}
 		if (state == State::Opened)
 		{
-			m_retrySprite.lock()->SetDrawActive(true);
-			m_titleBackSprite.lock()->SetDrawActive(true);
+			SetDrawActiveButtons(true);
 			ButtonSelect();
 		}
 		if (state == State::Continued)
@@ -124,8 +119,15 @@ namespace basecross
 		auto& gameStage = GetTypeStage<GameStage>();
 		gameStage->ResetCreateStage();
 		gameStage->SetGameProgress(eGameProgress::Playing);
-		m_retrySprite.lock()->SetDrawActive(false);
-		m_titleBackSprite.lock()->SetDrawActive(false);
+		SetDrawActiveButtons(false);
 		m_state = State::Close;
+	}
+
+	void PauseMenu::SetDrawActiveButtons(bool drawFlag)
+	{
+		for (int i = 0; i < eButtons::ButtonNum; i++)
+		{
+			m_buttonSprites.at((eButtons)i).lock()->SetDrawActive(drawFlag);
+		}
 	}
 }
