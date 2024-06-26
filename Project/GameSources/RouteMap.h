@@ -65,15 +65,22 @@ namespace basecross {
 	class SignBoard : public TemplateObject
 	{
 		const Vec3 m_scale = Vec3(1.0f);
-		const Vec3 m_position = Vec3(9.5f, 1.0f, -10.0f);
 
 		Mat4x4 m_spanMat;
 
 		weak_ptr<PNTStaticDraw> m_drawComp;
 
+		const wstring m_textureKey;
+		const Vec3 m_position;
+
 	public :
-		SignBoard(const shared_ptr<Stage>& stagePtr) :
-			TemplateObject(stagePtr)
+		SignBoard(const shared_ptr<Stage>& stagePtr,
+			wstring& texKey,
+			Vec3 pos
+			) :
+			TemplateObject(stagePtr),
+			m_textureKey(texKey),
+			m_position(pos)
 		{
 			m_spanMat.affineTransformation(
 				Vec3(0.3f),

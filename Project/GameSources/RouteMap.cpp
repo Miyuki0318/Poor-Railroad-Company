@@ -118,6 +118,6 @@ namespace basecross {
 		m_drawComp = AddComponent<PNTStaticDraw>();
 		m_drawComp.lock()->SetMeshToTransformMatrix(m_spanMat);
 		m_drawComp.lock()->SetMeshResource(L"SIGNBOARD");
-		m_drawComp.lock()->SetTextureResource(L"SIGNBOARD_TX");
+		m_drawComp.lock()->SetTextureResource(m_textureKey);
 	}
 }
