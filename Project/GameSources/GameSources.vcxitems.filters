@@ -238,6 +238,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GameOverState.h">
       <Filter>Stage\GameStage\GameOverState</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PaymentsState.h">
+      <Filter>Stage\GameStage\PaymentsState</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MoneyCountUI.h">
+      <Filter>UI\MoneyCount</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -320,9 +326,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp">
       <Filter>Camera</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
-      <Filter>Player</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)RailGuide.cpp">
       <Filter>Guide\RailGuide</Filter>
@@ -443,6 +446,15 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameOverState.cpp">
       <Filter>Stage\GameStage\GameOverState</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PaymentsState.cpp">
+      <Filter>Stage\GameStage\PaymentsState</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MoneyCountUI.cpp">
+      <Filter>UI\MoneyCount</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
+      <Filter>Player\Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -685,6 +697,12 @@
     </Filter>
     <Filter Include="Stage\GameStage\GameOverState">
       <UniqueIdentifier>{7a95b17b-052f-4d2b-8ded-974702c98d55}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage\GameStage\PaymentsState">
+      <UniqueIdentifier>{030977a7-f99e-496c-bfab-e27e2d4af868}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\MoneyCount">
+      <UniqueIdentifier>{e687562b-b554-443e-995c-650fa17628ec}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

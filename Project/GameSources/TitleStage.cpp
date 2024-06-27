@@ -58,27 +58,24 @@ namespace basecross
 		AddTextureResource(L"FOURTH_TX", modelPath + L"FourthMapTexture.tga");
 		AddTextureResource(L"FIFTH_TX", modelPath + L"FifthMapTexture.tga");
 
-		// マップのテクスチャ
-		AddTextureResource(L"FIRSTMAP_TX", texturePath + L"MapSecond.png");
-		AddTextureResource(L"SECONDMAP_TX", texturePath + L"MapSecond.png");
-		AddTextureResource(L"THIRDMAP_TX", texturePath + L"MapThird.png");
-		AddTextureResource(L"FOURTHMAP_TX", texturePath + L"MapFourth.png");
-		AddTextureResource(L"FIFTHMAP_TX", texturePath + L"MapFifth.png");
-
+		// タイトルBGM
 		AddAudioResource(L"TITLE_BGM", soundPath + L"Title");
 
 		AddedTextureResources();
 		AddedAudioResources();
 	}
 
+	// BGM開始関数
 	void TitleStage::StartBGM()
 	{
-		m_bgmItem = m_soundManager->StartBGM(L"TITLE_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);
+		m_bgmItem = m_soundManager->StartBGM(L"TITLE_BGM", XAUDIO2_LOOP_INFINITE, 0.0f, ThisPtr);
 	}
 
-	// オープニング画面の生成
+	// タイトルロゴの生成
 	void TitleStage::CreateOpningScreen()
 	{
+		if (titleProgress != opening) return;
+
 		auto& opning = AddGameObject<TitleLogo>();
 		SetSharedGameObject(L"TitleLogo", opning);
 	}
@@ -129,6 +126,7 @@ namespace basecross
 		}
 	}
 
+	// 採集オブジェクトの生成
 	void TitleStage::CreateGatheringManager()
 	{
 		const auto& gatheringManager = AddGameObject<GatheringManager>();
@@ -173,6 +171,23 @@ namespace basecross
 		m_objectGroup->IntoGroup(train);
 	}
 
+	// 看板の生成
+	void TitleStage::CreateSignBoard()
+	{
+		for (int i = 0; i < m_boardQuantity; i++)
+		{
+			AddGameObject<SignBoard>(m_textureKeys[i], m_boardPositions[i]);
+		}
+	}
+
+	// 所持金UIの生成
+	void TitleStage::CreateUISprite()
+	{
+		const float scale = 75.0f;
+		const Vec3 position = Vec3(650.0f, 460.0f, 0.2f);
+		AddGameObject<MoneyCountUI>(scale, position);
+	}
+
 	// ボタンを押した時の処理
 	void TitleStage::PushButtonB()
 	{
@@ -206,7 +221,7 @@ namespace basecross
 			titleCamera->ZoomStart(objPos);
 		}
 
-		if (titleProgress == normal)
+		if (Utility::OR(titleProgress, normal, opening))
 		{
 			titleCamera->ZoomEnd();
 			//CameraReset();
@@ -228,21 +243,30 @@ namespace basecross
 	void TitleStage::FadeSprite()
 	{
 		if (!m_fadeSprite) return;
+		
+		// normal か push の場合…
+		if(Utility::OR(titleProgress,normal,push))
+		{
+			m_fadeSprite->SetDiffuseColor(COL_ALPHA);
+		}
 
+		// zoom の場合…
 		if (titleProgress == zoom)
 		{
-			if (m_fadeSprite->FadeInColor(2.0f))
+			if (m_selectObj == GetSharedGameObject<RouteMap>(L"RouteMap"))
+			{
+				titleProgress = select;
+			}
+			if (m_fadeSprite->FadeInColor(1.0f))
 			{
 				titleProgress = select;
 			}
 		}
-		else if (titleProgress == start)
+
+		// start の場合…
+		if (titleProgress == start)
 		{
 			m_fadeSprite->FadeInColor(2.0f);
-		}
-		else if(titleProgress == normal || titleProgress == push)
-		{
-			m_fadeSprite->SetDiffuseColor(COL_ALPHA);
 		}
 	}
 
@@ -308,6 +332,10 @@ namespace basecross
 			CreateBuilding();
 
 			CreateTrain();
+
+			CreateSignBoard();
+			
+			CreateUISprite();
 		}
 		catch (...)
 		{
@@ -334,6 +362,19 @@ namespace basecross
 	{
 		try 
 		{
+			if (m_bgmItem.lock() && Utility::OR(titleProgress, opening, normal))
+			{
+				auto& item = m_bgmItem.lock()->m_SourceVoice;
+				
+				float volume = 0.0f;
+				item->GetVolume(&volume);
+
+				if (volume <= m_bgmVolume)
+				{
+					item->SetVolume(volume + DELTA_TIME);
+				}
+			}
+
 			if (Input::GetPushB())
 			{
 				PushButtonB();
@@ -360,10 +401,11 @@ namespace basecross
 
 			FadeSprite();
 
-			m_fadeSprite->SetDrawActive(false);
-
 			// 通常時以外は演出中のフラグを立てる
 			m_isStaging = titleProgress != normal;
+
+			Debug::Log(m_boardQuantity);
+
 		}
 		catch (...)
 		{

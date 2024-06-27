@@ -33,6 +33,7 @@ namespace basecross
 		AddTextureResource(L"OVER_CONTINUE_TX", texturePath + L"ContinueTrain.png");
 		AddTextureResource(L"OVER_TITLEBACK_TX", texturePath + L"TitleBackTrain.png");
 		AddTextureResource(L"RAIL_LINE_TX", texturePath + L"RailLine.tga");
+		AddTextureResource(L"PAYMENTS_MENU_TX", texturePath + L"PaymentsMenu.tga");
 
 		// ゴールガイドテクスチャ
 		AddTextureResource(L"GOAL_GUIDE_TX", texturePath + L"GoalGuide.png");
@@ -44,6 +45,10 @@ namespace basecross
 		AddAudioResource(L"THIRD_BGM", soundPath + L"ThirdBGM");
 		AddAudioResource(L"FOURTH_BGM", soundPath + L"FourthBGM");
 		AddAudioResource(L"FIFTH_BGM", soundPath + L"FifthBGM");
+
+		// ゲーム中のSE
+		AddAudioResource(L"PAUSE_OPEN_SE", soundPath + L"PauseOpen");
+		AddAudioResource(L"PAUSE_CLOSE_SE", soundPath + L"PauseClose");
 
 		// 追加したリソースをメモリに追加
 		AddedTextureResources();
@@ -204,15 +209,12 @@ namespace basecross
 	// スプライトの生成
 	void GameStage::CreateSpriteObject()
 	{
-		m_fadeSprite->SetPosition(m_fadeSprite->GetPosition() + Vec3(0.0f, 0.0f, 0.1f));
 		m_fadeSprite->SetDiffuseColor(COL_WHITE);
-		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f, 400.0f), Vec3(0.0f, 200.0f, 0.3f));
+		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f, 300.0f), Vec3(0.0f, 375.0f, 0.3f));
 
 		// コンティニュー時に扱うスプライト
 		m_continueSprite = AddGameObject<Sprite>(L"CONTINUE_TX", m_defScale, m_leftPos);
 		m_titleBackSprite = AddGameObject<Sprite>(L"CONTINUE_TITLEBACK_TX", m_defScale, m_rightPos);
-		m_selectMap.emplace(eContinueSelect::Continue, m_continueSprite);
-		m_selectMap.emplace(eContinueSelect::TitleBack, m_titleBackSprite);
 		m_continueSprite->SetDiffuseColor(COL_ALPHA);
 		m_titleBackSprite->SetDiffuseColor(COL_ALPHA);
 
@@ -221,6 +223,9 @@ namespace basecross
 
 		m_gameOverState.reset(new GameOverState(GetThis<GameStage>()));
 		m_gameOverState->CreateState();
+
+		m_paymentsState.reset(new PaymentsState(GetThis<GameStage>()));
+		m_paymentsState->CreateState();
 	}
 
 	// UIの生成
@@ -228,7 +233,7 @@ namespace basecross
 	{
 		// パラメータ
 		const float scale = 60.0f;
-		const Vec3 startPos = Vec3(-900.0f, 500.0f, 0.3f);
+		const Vec3 startPos = Vec3(-900.0f, 500.0f, 0.4f);
 		const Vec3 distance = Vec3(0.0f, -scale * 1.75f, 0.0f);
 
 		// アイテム数UI
@@ -318,14 +323,17 @@ namespace basecross
 		switch (m_gameProgress)
 		{
 		case GameClear:
-		case ClearSlect:
+		case ClearSelect:
 		case ToNext:
-		case ToTitle:
+		case ToTitleClear:
+		case MoneyCalculation:
+		case MoneyCountDown:
 			m_gameSprite->SetTexture(L"GAMECLEAR_TX");
 			m_gameSprite->SetDrawActive(true);
 			break;
 
 		case GameOver:
+		case ToTitleOver:
 		case ContinueFadeIn:
 			m_gameSprite->SetTexture(L"GAMEOVER_TX");
 			m_gameSprite->SetDrawActive(true);
@@ -343,7 +351,11 @@ namespace basecross
 			m_gameProgress = eGameProgress::Playing;
 		}
 
-		float volume = Utility::Lerp(0.5f, 0.0f, m_fadeSprite->GetDiffuseColor().w);
+		float volume = 0.0f;
+		m_bgmItem.lock()->m_SourceVoice->GetVolume(&volume);
+
+		if (volume >= m_bgmVolume) return;
+		volume = Utility::Lerp(m_bgmVolume, 0.0f, m_fadeSprite->GetDiffuseColor().w);
 		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
 	}
 
@@ -355,6 +367,62 @@ namespace basecross
 		}
 	}
 
+	void GameStage::ToMoneyCalculationState()
+	{
+		const auto& player = GetSharedGameObject<GamePlayer>(L"Player");
+		const auto& railManager = GetSharedGameObject<RailManager>(L"RailManager");
+		const auto reward = CSVLoader::LoadFile("StageClearReward");
+		vector<int> moneyOperator = CSVLoader::ReadDataToInt(CSVLoader::LoadFile("MoneyOperator")).at(0);
+
+		int addMoney = 0;
+		int count = 0;
+
+		count = int(railManager->GetAddRailNum()) * moneyOperator.at(0);
+		m_paymentsState->SetNumberGoal(eGamePaymentsState::RailsInstallations, count * -1);
+		addMoney += count;
+
+		count = player->GetItemCount(eItemType::Wood) * moneyOperator.at(1);
+		count += player->GetItemCount(eItemType::Stone) * moneyOperator.at(1);
+		m_paymentsState->SetNumberGoal(eGamePaymentsState::ResourceSales, count);
+		addMoney += count;
+
+		count = player->GetItemCount(eItemType::Rail) * moneyOperator.at(2);
+		m_paymentsState->SetNumberGoal(eGamePaymentsState::RailsSales, count);
+		addMoney += count;
+
+		count = player->GetItemCount(eItemType::GoldBar) * moneyOperator.at(3);
+		m_paymentsState->SetNumberGoal(eGamePaymentsState::GoldBarSales, count);
+		addMoney += count;
+
+		for (size_t i = 0; i < reward.size(); i++)
+		{
+			if (reward.at(i).at(0) == m_stagePath)
+			{
+				count = stoi(reward.at(i).at(1));
+				break;
+			}
+		}
+
+		m_paymentsState->SetNumberGoal(eGamePaymentsState::RewardCount, count);
+		addMoney += count;
+
+		AddMoney(addMoney);
+		m_paymentsState->SetNumberGoal(eGamePaymentsState::TotalIncome, addMoney);
+		m_gameProgress = eGameProgress::MoneyCountDown;
+	}
+
+	void GameStage::ToMoneyCountDownState()
+	{
+		if (m_paymentsState->GetPaymentsState() != eGamePaymentsState::StandBy)
+		{
+			m_paymentsState->UpdateState();
+			return;
+		}
+
+		m_paymentsState->ResetState();
+		m_gameProgress = eGameProgress::ClearSelect;
+	}
+
 	void GameStage::ToClearSelectStage()
 	{
 		if (m_gameClearState->GetClearState() != eGameClearState::StandBy)
@@ -364,7 +432,7 @@ namespace basecross
 		}
 
 		auto select = m_gameClearState->GetSelectStage();
-		m_gameProgress = select != eSelectGameClear::TitleBack ? eGameProgress::ToNext : eGameProgress::ToTitle;
+		m_gameProgress = select != eSelectGameClear::TitleBack ? eGameProgress::ToNext : eGameProgress::ToTitleClear;
 	}
 
 	void GameStage::ToNextStage()
@@ -389,38 +457,38 @@ namespace basecross
 
 	void GameStage::ToTitleStage()
 	{
-		// フェードイン開始の条件を満たしていた場合の処理
-		if (m_countTime >= m_defermentTransition) {
-			// フェード用スプライトのエラーチェック
-			if (!m_fadeSprite) return;
+		// フェード用スプライトのエラーチェック
+		if (!m_fadeSprite) return;
 
-			// スプライトのフェードイン処理が終了していた場合の処理
-			if (m_fadeSprite->FadeInColor(2.0f))
-			{
-				// タイトルステージへ遷移
-				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"TitleStage");
-				m_countTime = 0.0f;
-			}
-
-			float volume = Utility::Lerp(0.5f, 0.0f, m_fadeSprite->GetDiffuseColor().w);
-			m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
+		// スプライトのフェードイン処理が終了していた場合の処理
+		if (m_fadeSprite->FadeInColor(2.0f))
+		{
+			// タイトルステージへ遷移
+			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"TitleStage");
 		}
 
-		m_countTime += DELTA_TIME;
+		float volume = Utility::Lerp(m_bgmVolume, 0.0f, m_fadeSprite->GetDiffuseColor().w);
+		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
 	}
 
 	void GameStage::PushButtonStart()
 	{
+		// QTE中はポーズできないようにする
 		if (GetSharedGameObject<Player>(L"Player")->GetStatus(ePlayerStatus::IsCraftQTE)) return;
-		if (m_gameProgress == Pause)
+		auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE"); // ポーズメニューオブジェクトを取得
+
+		if (m_gameProgress == Pause) // ポーズ中なら
 		{
-			auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
-			menu->OnClose();
+			// ポーズ画面を閉じる
+			if (!menu->OnClose()) return; // ポーズ画面を閉じれなかったらSEを鳴らさない
+			m_soundManager->StartBGM(L"PAUSE_CLOSE_SE", 0, 1.0f, ThisPtr);
+			return;
 		}
-		if (m_gameProgress == Playing)
+		if (m_gameProgress == Playing) // プレイ中なら
 		{
-			auto& menu = GetSharedGameObject<PauseMenu>(L"PAUSE");
-			menu->OnOpen();
+			// ポーズ画面を表示する
+			if (!menu->OnOpen()) return; // ポーズ画面を表示できなかったらSEを鳴らさない
+			m_soundManager->StartBGM(L"PAUSE_OPEN_SE", 0, 1.0f, ThisPtr);
 		}
 	}
 
@@ -430,14 +498,14 @@ namespace basecross
 		// フェードイン開始の条件を満たしていた場合の処理
 		if (m_countTime >= m_defermentTransition) 
 		{
-			if (m_gameOverState->GetClearState() != eGameOverState::StandBy)
+			if (m_gameOverState->GetState() != eGameOverState::StandBy)
 			{
 				m_gameOverState->UpdateState();
 				return;
 			}
 
 			auto select = m_gameOverState->GetSelectStage();
-			m_gameProgress = select != eSelectGameOver::TitleBack ? eGameProgress::ContinueFadeIn : eGameProgress::ToTitle;
+			m_gameProgress = select != eSelectGameOver::TitleBack ? eGameProgress::ContinueFadeIn : eGameProgress::ToTitleOver;
 		}
 		else
 		{
@@ -483,7 +551,7 @@ namespace basecross
 			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"TitleStage");
 		}
 
-		float volume = Utility::Lerp(0.0f, 0.5f, m_gameSprite->GetDiffuseColor().w);
+		float volume = Utility::Lerp(0.0f, m_bgmVolume, m_gameSprite->GetDiffuseColor().w);
 		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
 	}
 

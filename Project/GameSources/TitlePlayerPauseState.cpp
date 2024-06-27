@@ -75,10 +75,20 @@ namespace basecross
 			return;
 		}
 
-		// オープニングスプライト中にBボタン入力したら待機状態ステートに切り替え
-		auto& opening = titleStage->GetSharedGameObject<TitleLogo>(L"TitleLogo");
-		if (opening->GetLogoState() == eLogoState::exit && Input::GetPushB())
+		// タイトルプログレスがノーマルなら待機状態ステートに切り替え
+		if (prog == normal)
 		{
+			player->SetState(TitlePlayerIdleState::Instance());
+			titleStage->StartBGM();
+			return;
+		}
+
+		// オープニングスプライト中にボタン入力したら待機状態ステートに切り替え
+		if (prog != opening) return;
+		auto& opening = titleStage->GetSharedGameObject<TitleLogo>(L"TitleLogo");
+		if (opening->GetLogoState() == eLogoState::exit && Input::GetPush())
+		{
+			prog = eTitleProgress::normal;
 			player->SetState(TitlePlayerIdleState::Instance());
 		}
 	}

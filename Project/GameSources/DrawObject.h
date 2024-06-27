@@ -25,6 +25,9 @@ namespace basecross
 	{
 	protected:
 
+		// 開始時の座標
+		const Vec3 m_startPosition;
+
 		Vec2 m_velocity;		// UV用ベロシティ
 		Col4 m_diffuseColor;	// ディヒューズ色
 		Col4 m_verticesColor;	// 頂点色
@@ -39,7 +42,8 @@ namespace basecross
 		@param ステージポインタ
 		*/
 		DrawObject(const shared_ptr<Stage>& stagePtr) :
-			TemplateObject(stagePtr)
+			TemplateObject(stagePtr),
+			m_startPosition(0.0f)
 		{
 			m_scale.zero();
 			m_velocity.zero();
@@ -64,7 +68,8 @@ namespace basecross
 			const Vec3& rotation, const Vec2& scale
 		) :
 			TemplateObject(stagePtr, position, rotation, Vec3(scale.x, scale.y, 1.0f)),
-			m_texWstr(texWstr)
+			m_texWstr(texWstr),
+			m_startPosition(position)
 		{
 			m_velocity.zero();
 			m_emissiveColor = COL_NONE;
@@ -118,6 +123,22 @@ namespace basecross
 		void SetVelocity(float x, float y)
 		{
 			SetVelocity(Vec2(x, y));
+		}
+
+		/*!
+		@brief 開始時の座標に変更する関数
+		*/
+		void SetStartPosition()
+		{
+			SetPosition(m_startPosition);
+		}
+
+		/*!
+		@brief 開始時の座標を取得する関数
+		*/
+		Vec3 GetStartPosition() const
+		{
+			return m_startPosition;
 		}
 
 		/*!

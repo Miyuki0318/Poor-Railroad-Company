@@ -119,7 +119,7 @@ namespace basecross
 		@brief ステート取得関数
 		@return m_gameClearState
 		*/
-		eGameOverState GetClearState() const
+		eGameOverState GetState() const
 		{
 			return m_currentState;
 		}

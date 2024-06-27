@@ -41,10 +41,6 @@ namespace basecross
 	// ステート更新時の処理
 	void GamePlayerIdleState::Execute(const shared_ptr<GamePlayer>& player)
 	{
-		// ポーズ中なら無視
-		bool isPause = player->GetTypeStage<GameStage>()->GetGameProgress() == eGameProgress::Pause;
-		if (isPause) return;
-
 		// Lスティック入力があれば移動ステートに遷移
 		if (Input::IsInputLStick() || !player->GetStatus(ePlayerStatus::IsIdle)) player->SetState(GamePlayerMovingState::Instance());
 

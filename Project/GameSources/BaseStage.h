@@ -71,6 +71,7 @@ namespace basecross
 
 		bool m_isStaging;
 		float m_stageDistanceX;
+		const float m_bgmVolume;
 
 		/*!
 		@brief リソースの読込
@@ -104,7 +105,10 @@ namespace basecross
 		/*!
 		@brief コンストラクタ
 		*/
-		BaseStage(const string stagePath) : Stage(), m_stagePath(stagePath) 
+		BaseStage(const string stagePath) : 
+			Stage(), 
+			m_stagePath(stagePath),
+			m_bgmVolume(0.5f)
 		{
 			m_isStaging = false;
 			m_stageDistanceX = 0.0f;
@@ -239,6 +243,7 @@ namespace basecross
 			int money = scene.lock()->GetMoney();
 			//moneyに値を加算
 			money += value;
+			money = min(money, MONEY_LIMIT);
 			// Sceneのmoneyを更新
 			scene.lock()->SetMoney(money);
 		}
@@ -255,6 +260,7 @@ namespace basecross
 			int money = scene.lock()->GetMoney();
 			//moneyから値を減算
 			money -= value;
+			money = max(money, 0);
 			// Sceneのmoneyを更新
 			scene.lock()->SetMoney(money);
 		}

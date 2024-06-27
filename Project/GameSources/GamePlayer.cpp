@@ -39,6 +39,10 @@ namespace basecross
 	// 毎フレーム更新処理
 	void GamePlayer::OnUpdate()
 	{
+		// ポーズ中なら無視
+		bool isPause = GetTypeStage<GameStage>()->GetGameProgress() == eGameProgress::Pause;
+		if (isPause) return;
+
 		// ステートマシンの更新処理を送る
 		m_playerState->Update();
 
@@ -57,10 +61,6 @@ namespace basecross
 		// アイテム状態の更新
 		UpdateStatus();
 		UpdateItemCount();
-
-		// デバック用文字列
-		Debug::Log(L"プレイヤーの座標 : ", GetPosition());
-		Debug::Log(L"プレイヤーのステート : ", m_playerState->GetCurrentState()->GetStateName());
 	}
 
 	// リセット処理
@@ -80,6 +80,15 @@ namespace basecross
 
 		// クラフトマネージャーにリセット処理を送る
 		m_craft->ResetCraftManager();
+
+		// ステータスの設定
+		const auto& scene = App::GetApp()->GetScene<Scene>();
+		m_statusLevel = scene->GetStatusLevel();
+		m_backPackLevel = scene->GetBackPackLevel();
+		m_startGearLevel = scene->GetStartGearLevel();
+
+		// 開始時の所持ギア設定
+		AddItemCount(eItemType::Gear, (int)m_playerData.at(ePST::StartGear).at(m_startGearLevel));
 	}
 
 	// プレイヤーに付加する機能の生成

@@ -61,4 +61,35 @@ namespace basecross {
 		*/
 		virtual void MapSelect();
 	};
+
+	class SignBoard : public TemplateObject
+	{
+		const Vec3 m_scale = Vec3(1.0f);
+
+		Mat4x4 m_spanMat;
+
+		weak_ptr<PNTStaticDraw> m_drawComp;
+
+		const wstring m_textureKey;
+		const Vec3 m_position;
+
+	public :
+		SignBoard(const shared_ptr<Stage>& stagePtr,
+			wstring& texKey,
+			Vec3 pos
+			) :
+			TemplateObject(stagePtr),
+			m_textureKey(texKey),
+			m_position(pos)
+		{
+			m_spanMat.affineTransformation(
+				Vec3(0.3f),
+				Vec3(0.0f),
+				Vec3(0.0f),
+				Vec3(0.0f)
+			);
+		}
+
+		virtual void OnCreate() override;
+	};
 }

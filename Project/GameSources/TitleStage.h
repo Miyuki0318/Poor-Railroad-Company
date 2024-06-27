@@ -12,6 +12,7 @@ namespace basecross
 {
 	enum eTitleProgress
 	{
+		opening,// オープニング
 		normal, // 通常
 		push,   // ボタン押す
 		zoom,   // ズーム
@@ -41,13 +42,24 @@ namespace basecross
 		const Vec3 m_trainPos = Vec3(23.0f,1.0f,-20.0f);
 
 		// フェードの時間
-		const float m_fadeOutTime = 1.0f;
-		const float m_fadeInTime = 3.0f;
+		//const float m_fadeOutTime = 1.0f;
+		//const float m_fadeInTime = 3.0f;
 		
-		const float m_width = static_cast<float>(App::GetApp()->GetGameWidth());
-		const float m_height = static_cast<float>(App::GetApp()->GetGameHeight());
-
 		const float m_searchArea = 3.0f;
+
+		wstring m_textureKeys[3] = {
+			L"SIGNBOARD_OFFICIAL_TX",
+			L"SIGNBOARD_SELECT_TX",
+			L"SIGNBOARD_START_TX"
+		};
+
+		Vec3 m_boardPositions[3] = {
+			Vec3( 9.5f,1.0f,-10.0f),
+			Vec3(18.5f,1.0f,-9.0f),
+			Vec3(23.0f,1.0f,-14.5f),
+		};
+
+		const int m_boardQuantity = sizeof(m_textureKeys) / sizeof(m_textureKeys[0]);
 
 		eTitleProgress titleProgress;
 
@@ -75,7 +87,7 @@ namespace basecross
 		void CreateResourses() override;
 		
 		/*
-		@brief オープニング画面の生成
+		@brief タイトルロゴの生成
 		*/
 		void CreateOpningScreen();
 
@@ -110,6 +122,16 @@ namespace basecross
 		void CreateTrain();
 
 		/*
+		@brief 看板の生成
+		*/
+		void CreateSignBoard();
+				
+		/*
+		@brief 所持金スプライトの生成
+		*/
+		void CreateUISprite();
+
+		/*
 		@brief カメラのズーム処理
 		*/
 		void TitleCameraZoom();
@@ -124,11 +146,6 @@ namespace basecross
 		*/
 		void PushButtonB();
 
-		/*
-		@brief 状態を変化させる処理
-		*/
-		void Progress(shared_ptr<GameObject>& obj);
-
 		/*!
 		@brief ステージをcsvで生成
 		@param csvのファイル名
@@ -139,13 +156,12 @@ namespace basecross
 		/*
 		@brief コンストラクタ
 		*/
-		TitleStage(const string& stagePath) : 
+		TitleStage(const string& stagePath, eTitleProgress prog) :
 			BaseStage(stagePath),
-			m_objDiffEye(0.0f, 2.0f, 0.0f),
+			titleProgress(prog),
+			m_objDiffEye(0.0f, 3.0f, -0.5f),
 			m_trainDiffEye(0.0f, 8.0f, 12.0f)
 		{
-			titleProgress = eTitleProgress::normal;
-
 			m_zooming = false;
 
 			m_zoomEnd = false;

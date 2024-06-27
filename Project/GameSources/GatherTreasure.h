@@ -81,9 +81,9 @@ namespace basecross
 			TemplateObject(stagePtr),
 			m_items{eItemType::Rail, eItemType::Gear, eItemType::GoldBar}
 		{
-			m_addVal.emplace(eItemType::Rail, 5);
+			m_addVal.emplace(eItemType::Rail, 3);
 			m_addVal.emplace(eItemType::Gear, 1);
-			m_addVal.emplace(eItemType::GoldBar, 3);
+			m_addVal.emplace(eItemType::GoldBar, 2);
 		}
 
 		/*!

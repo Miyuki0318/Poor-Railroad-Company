@@ -104,4 +104,20 @@ namespace basecross {
 		m_drawComp->SetTextureResource(m_modelTextures[m_mapLevel]);
 		scene->SetMapLevel(m_mapLevel);
 	}
+
+	void SignBoard::OnCreate()
+	{
+		TemplateObject::OnCreate();
+
+		// 大きさ・回転・位置の設定
+		SetScale(m_scale);
+		SetRotation(Vec3(0.0f));
+		SetPosition(m_position);
+
+		// オブジェクト描画
+		m_drawComp = AddComponent<PNTStaticDraw>();
+		m_drawComp.lock()->SetMeshToTransformMatrix(m_spanMat);
+		m_drawComp.lock()->SetMeshResource(L"SIGNBOARD");
+		m_drawComp.lock()->SetTextureResource(m_textureKey);
+	}
 }

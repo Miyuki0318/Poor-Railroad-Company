@@ -39,9 +39,9 @@ namespace basecross {
 
 	void MainCamera::FollowTarget()
 	{
+		// ターゲットのX軸移動のみ追尾する(それ以外は固定)
 		Vec3 newEye = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialEye.y, m_initialEye.z);
 		Vec3 newAt = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialAt.y, m_initialAt.z);
-		Debug::Log(newEye);
 
 		SetAt(newAt);
 		SetEye(Utility::Lerp(newAt, newEye, m_ZoomRatioC));
@@ -60,14 +60,14 @@ namespace basecross {
 		}
 		if (m_cameraState == State::ZoomOut)
 		{
-			if (m_zoomRatio <= 0.0f) m_cameraState = State::Fixed;
+			if (m_zoomRatio <= 0.0f) m_cameraState = m_DefaultState; // ズームが終わったら初期状態に戻る
 			m_zoomRatio -= DELTA_TIME * m_zoomSpeed;
 		}
 	}
 
 	void MainCamera::ResetCamera(Vec3 eyePos, Vec3 atPos)
 	{
-		m_cameraState = State::Follow;
+		m_cameraState = m_DefaultState;
 		m_initialEye = eyePos;
 		m_initialAt = atPos;
 		SetEye(eyePos);

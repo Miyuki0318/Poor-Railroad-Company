@@ -7,10 +7,6 @@
 #include "stdafx.h"
 #include "Project.h"
 
-// 桁の計算用マクロ
-#define ONE_PLACE(num) num / 1 % 10
-#define TENS_PLACE(num) num / 10 % 10
-
 namespace basecross
 {
 	// 生成時の処理

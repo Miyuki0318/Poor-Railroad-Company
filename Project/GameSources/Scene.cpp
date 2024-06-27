@@ -38,7 +38,18 @@ namespace basecross {
 	{
 		if (event->m_MsgStr == L"TitleStage")
 		{
-			ResetActiveStage<TitleStage>("Title");
+			eGameProgress prog = eGameProgress::ToTitleOver;
+			if (auto& stage = GetActiveStage(false))
+			{
+				if (auto& gameStage = dynamic_pointer_cast<GameStage>(stage))
+				{
+					prog = gameStage->GetGameProgress();
+				}
+			}
+
+			eTitleProgress titleProg = prog != eGameProgress::ToTitleOver ? eTitleProgress::normal : eTitleProgress::opening;
+
+			ResetActiveStage<TitleStage>("Title", titleProg);
 		}
 		if (event->m_MsgStr == L"GameStage")
 		{
@@ -113,8 +124,15 @@ namespace basecross {
 		app->RegisterTexture(L"COMPANY_TX", modelPath + L"Bilding/" + L"T_Building.png");
 		RegisterSingleMesh(L"COMPANY", modelPath + L"Bilding/", L"buillding", false);
 
-		// 看板のモデル
+		// ステージ選択のモデル
 		RegisterSingleMesh(L"BOARD", modelPath + L"Bilding/", L"RouteMap", false);
+
+		// 看板のモデル
+		app->RegisterTexture(L"SIGNBOARD_TX", modelPath + L"Signboard/" + L"T_kanban_gamestart.png");
+		app->RegisterTexture(L"SIGNBOARD_OFFICIAL_TX", modelPath + L"Signboard/" + L"T_kanban_office.png");
+		app->RegisterTexture(L"SIGNBOARD_SELECT_TX", modelPath + L"Signboard/" + L"T_kanban_stageselect.png");
+		app->RegisterTexture(L"SIGNBOARD_START_TX", modelPath + L"Signboard/" + L"T_kanban_gamestart.png");
+		RegisterSingleMesh(L"SIGNBOARD", modelPath + L"Signboard/", L"kanban", false);
 
 		// 不壊岩モデル
 		app->RegisterTexture(L"UN_BREAK_ROCK_TX", modelPath + L"UnBreakRock/Rock.png");
