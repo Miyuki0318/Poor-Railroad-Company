@@ -84,12 +84,12 @@ namespace basecross
 		/// <summary>
 		/// メニューオープン時に呼び出す関数
 		/// </summary>
-		void OnOpen();
+		bool OnOpen();
 
 		/// <summary>
 		/// メニュークローズ時に呼び出す関数
 		/// </summary>
-		void OnClose();
+		bool OnClose();
 
 		/// <summary>
 		/// ボタンセレクト中の処理	

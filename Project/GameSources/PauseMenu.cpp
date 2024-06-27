@@ -28,22 +28,24 @@ namespace basecross
 		StateProcess(m_state);
 	}
 
-	void PauseMenu::OnOpen()
+	bool PauseMenu::OnOpen()
 	{
-		if (m_state != State::Closed) return; // 状態がクローズ後でなければ何もしない
+		if (m_state != State::Closed) return false; // 状態がクローズ後でなければ何もしない
 		m_state = State::Open; // オープン状態に移行
 		GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::Pause); // ゲーム進行状態をポーズ状態にする
 		m_lerpRatio = 0.0f; // 補間割合を0に
+		return true;
 	}
 
-	void PauseMenu::OnClose()
+	bool PauseMenu::OnClose()
 	{
-		if (m_state != State::Opened) return; // 状態がオープン後でなければ何もしない
+		if (m_state != State::Opened) return false; // 状態がオープン後でなければ何もしない
 
 		SetDrawActiveButtons(false); // ボタンを非表示
 		m_state = State::Close;	// クローズ状態に移行
 		GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::Playing); // ゲーム進行状態をプレイ状態にする
 		m_lerpRatio = 1.0f; // 補間割合を1に
+		return true;
 	}
 
 	void PauseMenu::StateProcess(State state)
