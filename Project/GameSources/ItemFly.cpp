@@ -21,6 +21,9 @@ namespace basecross
 		// 非アクティブに
 		SetDrawActive(false);
 		SetUpdateActive(false);
+
+		// 星型エフェクトの生成
+		m_starEffect = GetStage()->GetSharedGameObject<SpriteParticle>(L"StarEffect");
 	}
 
 	// 更新処理
@@ -41,8 +44,15 @@ namespace basecross
 		}
 		
 		// 座標の更新
+		Vec3 pastPos = GetPosition();
 		SetPosition(pos);
 		SetRotation(Vec3(0.0f, 0.0f, m_totalTime));
+
+		// 星型エフェクトの生成
+		Vec2 velo = Vec2(Vec3(pastPos - pos).normalize());
+		auto& starEffect = m_starEffect.lock();
+		starEffect->SetEmitterPosition(pos + Vec3(0.0f, 0.0f, 0.1f));
+		starEffect->AddParticle(Vec2(m_scale), -velo, RangeRand(XM_PI, -XM_PI), 0.25f);
 	}
 
 	// 開始設定

@@ -19,6 +19,9 @@ namespace basecross
 		Vec3 m_targetPointEnd;		// 終了位置
 		Vec3 m_targetPointMiddle;	// 中間位置
 
+		// 星型エフェクト
+		weak_ptr<SpriteParticle> m_starEffect;
+
 		const float m_flyTime;	// 飛翔時間
 		float m_totalTime;	// 経過時間
 

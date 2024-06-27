@@ -73,6 +73,9 @@ namespace basecross
 		// 列車の煙テクスチャ
 		AddTextureResource(L"SMOKE_TX", texturePath + L"Smoke.png");
 
+		// 星マークテクスチャ
+		AddTextureResource(L"STAR_TX", texturePath + L"Star.png");
+
 		// レール設置時のSE
 		AddAudioResource(L"ADDRAIL_SE", soundPath + L"Rail");
 

@@ -222,6 +222,9 @@ namespace basecross
 		auto& smoke = AddGameObject<SpriteParticle>(L"SMOKE_TX");
 		SetSharedGameObject(L"SmokeEffect", smoke);
 
+		auto& star = AddGameObject<SpriteParticle>(L"STAR_TX", 60);
+		SetSharedGameObject(L"StarEffect", star);
+
 		m_gameClearState.reset(new GameClearState(GetThis<GameStage>()));
 		m_gameClearState->CreateState();
 
