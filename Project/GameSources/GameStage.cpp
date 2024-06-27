@@ -209,6 +209,7 @@ namespace basecross
 	// スプライトの生成
 	void GameStage::CreateSpriteObject()
 	{
+		m_fadeSprite->SetDiffuseColor(COL_WHITE);
 		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f, 400.0f), Vec3(0.0f, 200.0f, 0.3f));
 
 		// コンティニュー時に扱うスプライト
