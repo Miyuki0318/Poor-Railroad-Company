@@ -9,6 +9,9 @@
 
 namespace basecross
 {
+	// ネームスペースの省略
+	using namespace Utility;
+
 	// 生成時の処理
 	void GameClearState::CreateState()
 	{
@@ -19,6 +22,9 @@ namespace basecross
 		m_nextStageSprite = stagePtr->AddGameObject<Sprite>(L"NEXTSTAGE_TX", m_defScale, m_leftPos - m_moveVal);
 		m_clearBackSprite = stagePtr->AddGameObject<Sprite>(L"CLEAR_TITLEBACK_TX", m_defScale, m_rightPos - m_moveVal);
 		m_railLineSprite = stagePtr->AddGameObject<Sprite>(L"RAIL_LINE_TX", Vec2(WINDOW_WIDTH, 128.0f), m_railPos);
+
+		// 煙のエフェクトスプライトを取得
+		m_smoke = stagePtr->GetSharedGameObject<SpriteParticle>(L"SmokeEffect");
 
 		// 選択肢マップに追加
 		m_selectSprite.emplace(eSelectGameClear::NextStage, m_nextStageSprite);
@@ -116,7 +122,7 @@ namespace basecross
 		m_pastStick = stickVal;
 
 		// スケールをサインカーブでバウンド処理
-		float scale = Utility::SinCurve(m_totalTime, 1.0f, m_boundScale);
+		float scale = SinCurve(m_totalTime, 1.0f, m_boundScale);
 		m_selectSprite.at(m_pastSelect).lock()->SetScale(m_defScale);
 		m_selectSprite.at(m_currentSelect).lock()->SetScale(m_defScale * scale);
 
@@ -149,5 +155,9 @@ namespace basecross
 		m_totalTime += DELTA_TIME;
 		m_nextStageSprite.lock()->SetPosition(m_leftPos + move);
 		m_clearBackSprite.lock()->SetPosition(m_rightPos + move);
+
+		// 煙のエフェクトを追加
+		m_smoke.lock()->SetEmitterPosition(m_selectSprite.at(m_currentSelect).lock()->GetPosition() + m_smokeDiff);
+		m_smoke.lock()->AddParticle(Vec2(RangeRand(50.0f, 5.0f)), m_smokeVelo, RangeRand(XM_PI, -XM_PI), 0.5f);
 	}
 }

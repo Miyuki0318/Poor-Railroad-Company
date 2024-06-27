@@ -10,5 +10,6 @@
 #include "DrawObject.h"
 #include "Sprite.h"
 #include "Number.h"
+#include "SpriteParticle.h"
 #include "Billboard.h"
 #include "BillboardNumber.h"

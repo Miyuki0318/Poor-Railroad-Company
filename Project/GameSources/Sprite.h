@@ -159,5 +159,10 @@ namespace basecross
 		@brief テクスチャをベロシティに応じて回転させる関数
 		*/
 		void RotateTexture();
+
+		/*!
+		@brief スプライトをベロシティに応じて移動させる関数
+		*/
+		void MoveSprite();
 	};
 }

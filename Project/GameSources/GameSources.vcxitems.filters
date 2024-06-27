@@ -22,9 +22,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)BillboardNumber.h">
       <Filter>OzawaFuncs\DrawObject\Billboard</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Number.h">
-      <Filter>OzawaFuncs\DrawObject\Sprite</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Sprite.h">
       <Filter>OzawaFuncs\DrawObject\Sprite</Filter>
     </ClInclude>
@@ -244,6 +241,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MoneyCountUI.h">
       <Filter>UI\MoneyCount</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Number.h">
+      <Filter>OzawaFuncs\DrawObject\Sprite\Number</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)SpriteParticle.h">
+      <Filter>OzawaFuncs\DrawObject\Sprite\Particle</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -260,9 +263,6 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)BillboardNumber.cpp">
       <Filter>OzawaFuncs\DrawObject\Billboard</Filter>
-    </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Number.cpp">
-      <Filter>OzawaFuncs\DrawObject\Sprite</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Sprite.cpp">
       <Filter>OzawaFuncs\DrawObject\Sprite</Filter>
@@ -455,6 +455,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
       <Filter>Player\Title</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Number.cpp">
+      <Filter>OzawaFuncs\DrawObject\Sprite\Number</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)SpriteParticle.cpp">
+      <Filter>OzawaFuncs\DrawObject\Sprite\Particle</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -703,6 +709,12 @@
     </Filter>
     <Filter Include="UI\MoneyCount">
       <UniqueIdentifier>{e687562b-b554-443e-995c-650fa17628ec}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OzawaFuncs\DrawObject\Sprite\Number">
+      <UniqueIdentifier>{5e1f0fdc-429d-4ba2-84ec-2c769eba0123}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OzawaFuncs\DrawObject\Sprite\Particle">
+      <UniqueIdentifier>{205e7944-0d07-4809-95ef-194f9972af64}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

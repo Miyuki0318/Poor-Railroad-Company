@@ -244,4 +244,13 @@ namespace basecross
 		// 頂点の更新
 		m_ptrDraw->UpdateVertices(m_vertex.vertices);
 	}
+
+	/*!
+	@brief スプライトをベロシティに応じて移動させる関数
+	*/
+	void Sprite::MoveSprite()
+	{
+		Vec3 velo = Vec3(m_velocity);
+		SetPosition(GetPosition() + velo);
+	}
 }

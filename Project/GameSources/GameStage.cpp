@@ -218,6 +218,10 @@ namespace basecross
 		m_continueSprite->SetDiffuseColor(COL_ALPHA);
 		m_titleBackSprite->SetDiffuseColor(COL_ALPHA);
 
+		// 煙のエフェクトオブジェクトの生成
+		auto& smoke = AddGameObject<SpriteParticle>(L"SMOKE_TX");
+		SetSharedGameObject(L"SmokeEffect", smoke);
+
 		m_gameClearState.reset(new GameClearState(GetThis<GameStage>()));
 		m_gameClearState->CreateState();
 
