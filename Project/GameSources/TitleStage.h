@@ -41,8 +41,8 @@ namespace basecross
 		const Vec3 m_trainPos = Vec3(23.0f,1.0f,-20.0f);
 
 		// フェードの時間
-		const float m_fadeOutTime = 1.0f;
-		const float m_fadeInTime = 3.0f;
+		//const float m_fadeOutTime = 1.0f;
+		//const float m_fadeInTime = 3.0f;
 		
 		const float m_searchArea = 3.0f;
 
