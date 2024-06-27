@@ -31,6 +31,7 @@ namespace basecross {
 			GameStart,	// ゲームスタート
 			OnRail,		// 線路上
 			Derail,		// 脱線
+			Staging,	// 脱線演出
 			Arrival,	// 到着
 			StandBy,	// 遷移等の待機
 		};

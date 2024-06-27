@@ -29,6 +29,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrain.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainCurveExitState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainCurveStandbyState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainDeRailedState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainStraightState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainCurvingState.h" />
@@ -111,6 +112,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrain.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainCurveExitState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainCurveStandbyState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainDeRailedState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainStraightState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainCurvingState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GatheringObject.cpp" />

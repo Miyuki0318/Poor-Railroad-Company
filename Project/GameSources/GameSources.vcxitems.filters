@@ -247,6 +247,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)SpriteParticle.h">
       <Filter>OzawaFuncs\DrawObject\Sprite\Particle</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainDeRailedState.h">
+      <Filter>StageObject\Train\GameTrain\GameTrainState\GameTrainDeRailedState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -461,6 +464,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SpriteParticle.cpp">
       <Filter>OzawaFuncs\DrawObject\Sprite\Particle</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainDeRailedState.cpp">
+      <Filter>StageObject\Train\GameTrain\GameTrainState\GameTrainDeRailedState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -715,6 +721,9 @@
     </Filter>
     <Filter Include="OzawaFuncs\DrawObject\Sprite\Particle">
       <UniqueIdentifier>{205e7944-0d07-4809-95ef-194f9972af64}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\Train\GameTrain\GameTrainState\GameTrainDeRailedState">
+      <UniqueIdentifier>{2686b10f-5f92-46d1-b534-3dbdd637c3ce}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

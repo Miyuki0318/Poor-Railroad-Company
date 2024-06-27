@@ -17,6 +17,7 @@ namespace basecross {
 	class GameTrainCurveStandbyState;
 	class GameTrainCurvingState;
 	class GameTrainCurveExitState;
+	class GameTrainDeRailedState;
 
 	// カーブに使う座標群
 	struct CurvePoints
@@ -56,6 +57,7 @@ namespace basecross {
 		friend GameTrainCurveStandbyState;
 		friend GameTrainCurvingState;
 		friend GameTrainCurveExitState;
+		friend GameTrainDeRailedState;
 
 	public:
 		GameTrain(const shared_ptr<Stage>& stagePtr) :

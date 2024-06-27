@@ -28,6 +28,7 @@ namespace basecross
 		ToNext,
 		ToTitleClear,
 		ToTitleOver,
+		DeRailed,
 		GameOver,
 		ContinueFadeIn,
 		ContinueFadeOut,
