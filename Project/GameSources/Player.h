@@ -109,7 +109,7 @@ namespace basecross
 		// アニメーションマップ
 		map<ePAK, AnimationMap> m_animationMap;
 
-		eItemType m_addItem; // 追加したアイテムのタイプ
+		pair<eItemType, bool> m_addItem; // 追加したアイテムのタイプ
 		map<eStageID, pair<eItemType, wstring>> m_gatherMap; // 採取対象と取得アイテムタイプ
 
 		// 歩くSEキーマップ
@@ -171,7 +171,8 @@ namespace basecross
 				Vec3(0.0f, -1.05f, 0.0f)		// ポジション
 			);
 
-			m_addItem = eItemType::Wood; // 取り敢えず木で初期化
+			// 取り敢えず木で初期化
+			m_addItem = make_pair(eItemType::Wood, false); 
 
 			// 採取オブジェクトのIDと採取時に扱うデータ
 			m_gatherMap.emplace(eStageID::Stone1, make_pair(eItemType::Stone, L"ROCK"));
@@ -255,6 +256,16 @@ namespace basecross
 		{
 			return 0;
 		};
+
+		/*!
+		@brief アイテム上限数取得関数
+		@param アイテムタイプenum
+		@return アイテム数
+		*/
+		virtual int GetLimitCount(eItemType type)
+		{
+			return 99;
+		}
 
 		/*!
 		@brief クラフトできるの取得関数

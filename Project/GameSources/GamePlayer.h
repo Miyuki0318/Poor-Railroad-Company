@@ -196,7 +196,7 @@ namespace basecross
 		@param アイテムタイプenum
 		@return アイテム数
 		*/
-		int GetLimitCount(eItemType type)
+		int GetLimitCount(eItemType type) override
 		{
 			if (m_itemLimitMap.find(type) == m_itemLimitMap.end()) return 99;
 			return (int)m_playerData.at(m_itemLimitMap.at(type)).at(m_backPackLevel);

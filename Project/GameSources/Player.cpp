@@ -120,9 +120,16 @@ namespace basecross
 		// アイテムカウンタの追加とSEの再生
 		if (m_gatherMap.find(id) != m_gatherMap.end())
 		{
-			m_addItem = m_gatherMap.at(id).first;
-			AddItemCount(m_gatherMap.at(id).first);
 			StartSE(m_gatherMap.at(id).second + L"_SE", 1.0f);
+
+			// 採取できるかの真偽
+			eItemType type = m_gatherMap.at(id).first;
+			m_addItem.second = (GetItemCount(type) < GetLimitCount(type));
+			if (m_addItem.second)
+			{
+				m_addItem.first = type;
+				AddItemCount(type);
+			}
 		}
 
 		// 採掘状態にする

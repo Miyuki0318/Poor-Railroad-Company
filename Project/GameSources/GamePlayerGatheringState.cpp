@@ -50,10 +50,10 @@ namespace basecross
 
 		// アイテムエフェクトを出す
 		float animeTime = player->m_ptrDraw->GetCurrentAnimationTime();
-		if (!m_isFlyEffect && m_animeHelfTime <= animeTime)
+		if (!m_isFlyEffect && m_animeHelfTime <= animeTime && player->m_addItem.second)
 		{
 			m_isFlyEffect = true;
-			player->m_itemFly.lock()->StartFly(player->m_addItem);
+			player->m_itemFly.lock()->StartFly(player->m_addItem.first);
 		}
 
 		// 採掘中の待機時間
