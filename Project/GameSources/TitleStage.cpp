@@ -243,21 +243,30 @@ namespace basecross
 	void TitleStage::FadeSprite()
 	{
 		if (!m_fadeSprite) return;
+		
+		// normal か push の場合…
+		if(Utility::OR(titleProgress,normal,push))
+		{
+			m_fadeSprite->SetDiffuseColor(COL_ALPHA);
+		}
 
+		// zoom の場合…
 		if (titleProgress == zoom)
 		{
-			if (m_fadeSprite->FadeInColor(2.0f))
+			if (m_selectObj == GetSharedGameObject<RouteMap>(L"RouteMap"))
+			{
+				titleProgress = select;
+			}
+			if (m_fadeSprite->FadeInColor(1.0f))
 			{
 				titleProgress = select;
 			}
 		}
-		else if (titleProgress == start)
+
+		// start の場合…
+		if (titleProgress == start)
 		{
 			m_fadeSprite->FadeInColor(2.0f);
-		}
-		else if(titleProgress == normal || titleProgress == push)
-		{
-			m_fadeSprite->SetDiffuseColor(COL_ALPHA);
 		}
 	}
 
@@ -391,8 +400,6 @@ namespace basecross
 			TitleCameraZoom();
 
 			FadeSprite();
-
-			m_fadeSprite->SetDrawActive(false);
 
 			// 通常時以外は演出中のフラグを立てる
 			m_isStaging = titleProgress != normal;
