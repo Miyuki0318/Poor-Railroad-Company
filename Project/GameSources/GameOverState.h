@@ -42,11 +42,15 @@ namespace basecross
 		weak_ptr<Sprite> m_titleBackSprite;	// タイトルバック
 		weak_ptr<Sprite> m_railLineSprite;	// レール
 
+		weak_ptr<SpriteParticle> m_smoke; // 煙のエフェクト
+
 		const Vec2 m_defScale;	// スケール
 		const Vec3 m_leftPos;	// 選択肢左の座標
 		const Vec3 m_rightPos;	// 選択肢右の座標
 		const Vec3 m_railPos;	// レールの座標
 		const Vec3 m_moveVal;	// 動く量
+		const Vec3 m_smokeDiff;	// 煙の出る位置
+		const Vec2 m_smokeVelo;	// 煙の移動量
 
 		const float m_boundScale;		// バウンド時のスケール
 		const float m_railFadeTime;		// レールのフェード時間
@@ -80,7 +84,9 @@ namespace basecross
 			m_leftPos(-300.0f, -200.0f, 0.0f),
 			m_rightPos(300.0f, -200.0f, 0.0f),
 			m_railPos(1920.0f, -250.0f, 0.2f),
-			m_moveVal(1920.0f, 0.0f, 0.0f)
+			m_moveVal(1920.0f, 0.0f, 0.0f),
+			m_smokeDiff(-93.0f, 140.0f, 0.0f),
+			m_smokeVelo(3.0f)
 		{
 			m_totalTime = 0.0f;
 			m_pastStick = 0.0f;
