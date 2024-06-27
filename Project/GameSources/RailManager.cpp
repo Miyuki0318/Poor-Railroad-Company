@@ -90,8 +90,15 @@ namespace basecross
 	// 更新処理
 	void RailManager::OnUpdate()
 	{
-		// ステージと列車の取得
-		const auto& stagePtr = GetTypeStage<BaseStage>();
+		// ステージの取得
+		const auto& stagePtr = GetTypeStage<GameStage>(false);
+		if (!stagePtr) return;
+
+		// ゲーム中じゃなければ無視
+		auto prog = stagePtr->GetGameProgress();
+		if (!ORS(prog, eGameProgress::FadeIn, eGameProgress::Playing, eGameProgress::GoalConect)) return;
+
+		// 列車の取得
 		auto& train = stagePtr->GetSharedGameObject<GameTrain>(L"Train", false);
 		if (!train) return;
 
@@ -188,9 +195,6 @@ namespace basecross
 	// レールの追加
 	void RailManager::AddRail(const Point2D<size_t>& point)
 	{
-		// ステージcsvの取得
-		auto& stageMap = GetTypeStage<BaseStage>()->GetStageMap();
-
 		// レールマップに追加
 		AddRailDataMap(point.x, point.y);
 
@@ -204,17 +208,8 @@ namespace basecross
 		m_railNum++;
 		m_pastLine = ROWCOL2LINE(point.x, point.y);
 
-		// csvの書き換え
-		stageMap.at(point.x).at(point.y) = UnSTAGE_ID(eStageID::DeRail);
-		m_guideMap = stageMap;
-		if (m_isConnectionGoal)
-		{
-			m_guidePoints.clear();
-			return;
-		}
-
-		SetGuideID(point.x, point.y);
-		SetRailID(point.x, point.y);
+		// マップにIDを追加
+		SetMapID(point);
 	}
 
 	// インスタンス描画の追加
@@ -323,6 +318,26 @@ namespace basecross
 		if (UNDER2RIGHT(current, past)) past.angle = eRailAngle::Right;
 		if (UPPER2LEFT(current, past))  past.angle = eRailAngle::Right;
 		if (UPPER2RIGHT(current, past)) past.angle = eRailAngle::Left;
+	}
+
+	// IDの追加
+	void RailManager::SetMapID(const Point2D<size_t>& point)
+	{
+		// csvの書き換え
+		auto& stageMap = GetTypeStage<BaseStage>()->GetStageMap();
+		stageMap.at(point.x).at(point.y) = UnSTAGE_ID(eStageID::DeRail);
+		m_guideMap = stageMap;
+
+		// ゴールに繋がってたらガイドを消して終了
+		if (m_isConnectionGoal)
+		{
+			m_guidePoints.clear();
+			return;
+		}
+
+		// ガイドとレールIDの追加
+		SetGuideID(point.x, point.y);
+		SetRailID(point.x, point.y);
 	}
 
 	// 先端レールの書き換え

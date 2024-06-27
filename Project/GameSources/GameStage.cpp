@@ -49,6 +49,7 @@ namespace basecross
 		// ゲーム中のSE
 		AddAudioResource(L"PAUSE_OPEN_SE", soundPath + L"PauseOpen");
 		AddAudioResource(L"PAUSE_CLOSE_SE", soundPath + L"PauseClose");
+		AddAudioResource(L"TRAIN_DERAIL_SE", soundPath + L"DeRailed");
 
 		// 追加したリソースをメモリに追加
 		AddedTextureResources();

@@ -96,8 +96,10 @@ namespace basecross {
 		{
 			stagePtr->GetSharedGameObject<GamePlayer>(L"Player")->SetGameResult(eGameProgress::GameOver);
 			stagePtr->SetGameProgress(eGameProgress::DeRailed);
+			m_railManager.lock()->GetGuidePoints().clear();
 			m_trainState->ChangeState(GameTrainDeRailedState::Instance());
 			m_state = State::Staging;
+			StartSE(L"TRAIN_DERAIL_SE", 1.0f);
 		}
 
 		if (state == State::Staging)

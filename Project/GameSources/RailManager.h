@@ -227,7 +227,7 @@ namespace basecross
 		@brief ガイドのポイント取得関数
 		@return m_guidePoints
 		*/
-		const vector<Point2D<size_t>>& GetGuidePoints() const
+		vector<Point2D<size_t>>& GetGuidePoints()
 		{
 			return m_guidePoints;
 		}
@@ -309,14 +309,30 @@ namespace basecross
 		void AddRailDataMap(size_t row, size_t col);
 
 		/*!
+		@brief マップにレールIDを追加する関数
+		@param 選択ポイント
+		*/
+		void SetMapID(const Point2D<size_t>& point);
+
+		/*!
 		@brief CSVをレールIDに書き換える関数
 		@param row
 		@param col
 		*/
 		void SetRailID(size_t row, size_t col) const;
 
+		/*!
+		@brief レールデータの角度を設定する関数
+		@param 現在のレールデータ
+		@param 一つ前のレールデータ
+		*/
 		void SetPastRailDataAngle(RailData& current, RailData& past);
 
+		/*!
+		@brief レールデータの種類を設定する関数
+		@param 現在のレールデータ
+		@param 一つ前のレールデータ
+		*/
 		void SetPastRailDataType(RailData& current, RailData& past);
 
 		/*!
