@@ -411,6 +411,7 @@ namespace basecross
 			return;
 		}
 
+		m_paymentsState->ResetState();
 		m_gameProgress = eGameProgress::ClearSelect;
 	}
 
