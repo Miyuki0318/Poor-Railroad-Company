@@ -56,6 +56,7 @@ namespace basecross {
 
 		if (m_cameraState == State::ZoomIn)
 		{
+			if (m_zoomRatio >= 1.0f) m_cameraState = State::Zoomed;
 			m_zoomRatio += DELTA_TIME * m_zoomSpeed;
 		}
 		if (m_cameraState == State::ZoomOut)

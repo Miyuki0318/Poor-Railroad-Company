@@ -50,10 +50,11 @@ namespace basecross
 		auto& camera = dynamic_pointer_cast<MainCamera>(titleStage->GetView()->GetTargetCamera());
 		
 		// 移動後でカメラが固定ならプレイヤー周りのチェックとカメラリセットを送る
-		if (prog == eTitleProgress::move && camera->m_cameraState == MainCamera::Fixed)
+		if (prog == eTitleProgress::move && camera->m_cameraState == MainCamera::Zoomed)
 		{
-			titleStage->DistanceToPlayer();
-			titleStage->CameraReset();
+			prog = eTitleProgress::start;
+			const auto& train = titleStage->GetSharedGameObject<TitleTrain>(L"TitleTrain");
+			train->AddTag(App::GetApp()->GetScene<Scene>()->GetTagName());
 			return;
 		}
 

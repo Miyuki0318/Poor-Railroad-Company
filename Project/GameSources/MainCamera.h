@@ -29,7 +29,8 @@ namespace basecross {
 			Fixed,	// 固定
 			Follow,	// 追従
 			ZoomIn,	// ズームイン
-			ZoomOut	// ズームアウト
+			ZoomOut,// ズームアウト
+			Zoomed,	// ズーム後
 		};
 		State m_cameraState;	// カメラの現在の状態
 		const State m_DefaultState;	// カメラの初期状態

@@ -65,7 +65,8 @@ namespace basecross
 			// カメラのズームを終了
 			const auto& titleStage = player->GetTypeStage<TitleStage>();
 			auto& zoomCamera = dynamic_pointer_cast<MainCamera>(titleStage->GetView()->GetTargetCamera());
-			zoomCamera->ZoomEnd();
+			const auto& train = titleStage->GetSharedGameObject<TitleTrain>(L"TitleTrain");
+			zoomCamera->ZoomStart(m_startPosition, m_endPosition);
 		}
 
 		// 座標を更新
