@@ -224,7 +224,6 @@ namespace basecross
 		if (Utility::OR(titleProgress, normal, opening))
 		{
 			titleCamera->ZoomEnd();
-			//CameraReset();
 		}
 	}
 
@@ -253,11 +252,7 @@ namespace basecross
 		// zoom ÇÃèÍçáÅc
 		if (titleProgress == zoom)
 		{
-			if (m_selectObj == GetSharedGameObject<RouteMap>(L"RouteMap"))
-			{
-				titleProgress = select;
-			}
-			if (m_fadeSprite->FadeInColor(1.0f))
+			if (m_selectObj != NULL)
 			{
 				titleProgress = select;
 			}
