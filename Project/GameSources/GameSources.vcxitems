@@ -75,6 +75,10 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectIndicator.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Shop.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShopCloseState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShopConfirmationState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShopShoppingState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShopState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SmokeEffect.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SoundManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)SkyBox.h" />
@@ -149,6 +153,9 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Scene.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectIndicator.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Shop.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShopCloseState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShopConfirmationState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShopShoppingState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SmokeEffect.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SoundManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)SkyBox.cpp" />
