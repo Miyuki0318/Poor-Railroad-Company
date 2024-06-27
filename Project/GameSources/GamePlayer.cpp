@@ -80,6 +80,15 @@ namespace basecross
 
 		// クラフトマネージャーにリセット処理を送る
 		m_craft->ResetCraftManager();
+
+		// ステータスの設定
+		const auto& scene = App::GetApp()->GetScene<Scene>();
+		m_statusLevel = scene->GetStatusLevel();
+		m_backPackLevel = scene->GetBackPackLevel();
+		m_startGearLevel = scene->GetStartGearLevel();
+
+		// 開始時の所持ギア設定
+		AddItemCount(eItemType::Gear, (int)m_playerData.at(ePST::StartGear).at(m_startGearLevel));
 	}
 
 	// プレイヤーに付加する機能の生成

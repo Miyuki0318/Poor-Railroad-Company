@@ -210,7 +210,7 @@ namespace basecross
 	void GameStage::CreateSpriteObject()
 	{
 		m_fadeSprite->SetDiffuseColor(COL_WHITE);
-		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f, 400.0f), Vec3(0.0f, 200.0f, 0.3f));
+		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f, 300.0f), Vec3(0.0f, 375.0f, 0.3f));
 
 		// コンティニュー時に扱うスプライト
 		m_continueSprite = AddGameObject<Sprite>(L"CONTINUE_TX", m_defScale, m_leftPos);
@@ -325,12 +325,15 @@ namespace basecross
 		case GameClear:
 		case ClearSelect:
 		case ToNext:
-		case ToTitle:
+		case ToTitleClear:
+		case MoneyCalculation:
+		case MoneyCountDown:
 			m_gameSprite->SetTexture(L"GAMECLEAR_TX");
 			m_gameSprite->SetDrawActive(true);
 			break;
 
 		case GameOver:
+		case ToTitleOver:
 		case ContinueFadeIn:
 			m_gameSprite->SetTexture(L"GAMEOVER_TX");
 			m_gameSprite->SetDrawActive(true);
@@ -425,7 +428,7 @@ namespace basecross
 		}
 
 		auto select = m_gameClearState->GetSelectStage();
-		m_gameProgress = select != eSelectGameClear::TitleBack ? eGameProgress::ToNext : eGameProgress::ToTitle;
+		m_gameProgress = select != eSelectGameClear::TitleBack ? eGameProgress::ToNext : eGameProgress::ToTitleClear;
 	}
 
 	void GameStage::ToNextStage()
@@ -497,14 +500,14 @@ namespace basecross
 		// フェードイン開始の条件を満たしていた場合の処理
 		if (m_countTime >= m_defermentTransition) 
 		{
-			if (m_gameOverState->GetClearState() != eGameOverState::StandBy)
+			if (m_gameOverState->GetState() != eGameOverState::StandBy)
 			{
 				m_gameOverState->UpdateState();
 				return;
 			}
 
 			auto select = m_gameOverState->GetSelectStage();
-			m_gameProgress = select != eSelectGameOver::TitleBack ? eGameProgress::ContinueFadeIn : eGameProgress::ToTitle;
+			m_gameProgress = select != eSelectGameOver::TitleBack ? eGameProgress::ContinueFadeIn : eGameProgress::ToTitleOver;
 		}
 		else
 		{

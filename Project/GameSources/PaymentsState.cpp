@@ -14,7 +14,7 @@ namespace basecross
 	{
 		// スプライトの生成
 		const auto& stagePtr = m_stage.lock();
-		m_menuSprite = stagePtr->AddGameObject<Sprite>(L"PAYMENTS_MENU_TX", WINDOW_SIZE, Vec3(0.0f, WINDOW_HEIGHT, 0.1f));
+		m_menuSprite = stagePtr->AddGameObject<Sprite>(L"PAYMENTS_MENU_TX", WINDOW_SIZE, Vec3(0.0f, WINDOW_HEIGHT, 0.0f) + m_menuPosition);
 
 		// 数字スプライトの生成
 		NumberCount reward, rSales, gold, resource, rInstallations, total;
@@ -79,7 +79,7 @@ namespace basecross
 		auto& menu = m_menuSprite.lock();
 
 		// 線形補間で移動
-		Vec3 pos = Utility::Lerp(menu->GetStartPosition(), Vec3(0.0f, 0.0f, 0.1f), m_fadeTotalTime / m_menuFadeTime);
+		Vec3 pos = Utility::Lerp(menu->GetStartPosition(), m_menuPosition, m_fadeTotalTime / m_menuFadeTime);
 
 		// フェード時間を過ぎたらステートを切り替え
 		if (m_fadeTotalTime >= m_menuFadeTime)
@@ -176,7 +176,7 @@ namespace basecross
 		{
 			// コインSEを止め、購入SEを再生
 			m_menuSprite.lock()->StopSE(L"COIN_SE");
-			m_menuSprite.lock()->StartSE(L"BUY_SE", 1.0f);
+			m_menuSprite.lock()->StartSE(L"BUY_SE", 1.5f);
 			m_state = eGamePaymentsState::DrawStandBy;
 		}
 	}
@@ -203,7 +203,7 @@ namespace basecross
 
 		// 線形補間で移動
 		float ratio = m_fadeTotalTime / m_menuFadeTime;
-		Vec3 pos = Utility::Lerp(Vec3(0.0f, 0.0f, 0.1f), menu->GetStartPosition(), ratio);
+		Vec3 pos = Utility::Lerp(m_menuPosition, menu->GetStartPosition(), ratio);
 		Vec3 move = Utility::Lerp(Vec3(0.0f), Vec3(0.0f, WINDOW_HEIGHT, 0.0f), ratio);
 
 		// フェード時間を過ぎたらステートを切り替え

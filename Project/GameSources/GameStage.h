@@ -26,7 +26,8 @@ namespace basecross
 		MoneyCountDown,
 		ClearSelect,
 		ToNext,
-		ToTitle,
+		ToTitleClear,
+		ToTitleOver,
 		GameOver,
 		ContinueFadeIn,
 		ContinueFadeOut,
@@ -211,7 +212,8 @@ namespace basecross
 			m_progressFunc.emplace(eGameProgress::MoneyCountDown, bind(&GameStage::ToMoneyCountDownState, this));
 			m_progressFunc.emplace(eGameProgress::ClearSelect, bind(&GameStage::ToClearSelectStage, this));
 			m_progressFunc.emplace(eGameProgress::ToNext, bind(&GameStage::ToNextStage, this));
-			m_progressFunc.emplace(eGameProgress::ToTitle, bind(&GameStage::ToTitleStage, this));
+			m_progressFunc.emplace(eGameProgress::ToTitleClear, bind(&GameStage::ToTitleStage, this));
+			m_progressFunc.emplace(eGameProgress::ToTitleOver, bind(&GameStage::ToTitleStage, this));
 			m_progressFunc.emplace(eGameProgress::GameOver, bind(&GameStage::ToGameOverStage, this));
 			m_progressFunc.emplace(eGameProgress::ContinueFadeIn, bind(&GameStage::ToContinueFadeIn, this));
 			m_progressFunc.emplace(eGameProgress::ContinueFadeOut, bind(&GameStage::ToContinueFadeOut, this));

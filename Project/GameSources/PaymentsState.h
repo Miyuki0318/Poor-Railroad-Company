@@ -60,6 +60,7 @@ namespace basecross
 		const Vec3 m_numberMarginX;	// 数字同士の余白
 		const Vec3 m_numberMarginY;	// 数字同士の余白
 		const Vec3 m_totalMargin;	// 合計収入の余白
+		const Vec3 m_menuPosition;	// メニューの座標
 
 		eGamePaymentsState m_state;	// 処理ステート
 
@@ -77,10 +78,11 @@ namespace basecross
 			m_menuFadeTime(1.5f),
 			m_standByTime(2.5f),
 			m_numberScale(55.0f),
-			m_startPosition(135.0f, 275.0f, 0.0f),
+			m_startPosition(135.0f, 75.0f, 0.0f),
 			m_numberMarginX(45.0f, 0.0f, 0.0f),
 			m_numberMarginY(0.0f, -70.0f, 0.0f),
-			m_totalMargin(0.0f, -25.0f, 0.0f)
+			m_totalMargin(0.0f, -25.0f, 0.0f),
+			m_menuPosition(0.0f, -200.0f, 0.1f)
 		{
 			m_state = eGamePaymentsState::MenuFadeIn;
 			m_fadeTotalTime = 0.0f;

@@ -123,7 +123,7 @@ namespace basecross
 
 	void PauseMenu::TitleButton()
 	{
-		GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::ToTitle); // ゲーム進行状態をタイトルに戻る状態に移行
+		GetTypeStage<GameStage>()->SetGameProgress(eGameProgress::ToTitleClear); // ゲーム進行状態をタイトルに戻る状態に移行
 	}
 
 	void PauseMenu::RetryButton()
