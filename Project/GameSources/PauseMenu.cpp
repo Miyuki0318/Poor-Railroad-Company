@@ -130,7 +130,7 @@ namespace basecross
 	{
 		auto& gameStage = GetTypeStage<GameStage>();
 		gameStage->ResetCreateStage();	// ステージをリセット
-		gameStage->SetGameProgress(eGameProgress::Playing); // ゲーム進行状態をプレイ状態に移行
+		gameStage->SetGameProgress(eGameProgress::FadeIn); // ゲーム進行状態をプレイ状態に移行
 		SetDrawActiveButtons(false); // ボタンを非表示
 		m_state = State::Close; // クローズ状態に移行
 	}

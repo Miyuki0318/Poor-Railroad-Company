@@ -351,7 +351,11 @@ namespace basecross
 			m_gameProgress = eGameProgress::Playing;
 		}
 
-		float volume = Utility::Lerp(0.5f, 0.0f, m_fadeSprite->GetDiffuseColor().w);
+		float volume = 0.0f;
+		m_bgmItem.lock()->m_SourceVoice->GetVolume(&volume);
+
+		if (volume >= m_bgmVolume) return;
+		volume = Utility::Lerp(m_bgmVolume, 0.0f, m_fadeSprite->GetDiffuseColor().w);
 		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
 	}
 
@@ -453,24 +457,18 @@ namespace basecross
 
 	void GameStage::ToTitleStage()
 	{
-		// フェードイン開始の条件を満たしていた場合の処理
-		if (m_countTime >= m_defermentTransition) {
-			// フェード用スプライトのエラーチェック
-			if (!m_fadeSprite) return;
+		// フェード用スプライトのエラーチェック
+		if (!m_fadeSprite) return;
 
-			// スプライトのフェードイン処理が終了していた場合の処理
-			if (m_fadeSprite->FadeInColor(2.0f))
-			{
-				// タイトルステージへ遷移
-				PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"TitleStage");
-				m_countTime = 0.0f;
-			}
-
-			float volume = Utility::Lerp(0.5f, 0.0f, m_fadeSprite->GetDiffuseColor().w);
-			m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
+		// スプライトのフェードイン処理が終了していた場合の処理
+		if (m_fadeSprite->FadeInColor(2.0f))
+		{
+			// タイトルステージへ遷移
+			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"TitleStage");
 		}
 
-		m_countTime += DELTA_TIME;
+		float volume = Utility::Lerp(m_bgmVolume, 0.0f, m_fadeSprite->GetDiffuseColor().w);
+		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
 	}
 
 	void GameStage::PushButtonStart()
@@ -553,7 +551,7 @@ namespace basecross
 			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"TitleStage");
 		}
 
-		float volume = Utility::Lerp(0.0f, 0.5f, m_gameSprite->GetDiffuseColor().w);
+		float volume = Utility::Lerp(0.0f, m_bgmVolume, m_gameSprite->GetDiffuseColor().w);
 		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
 	}
 

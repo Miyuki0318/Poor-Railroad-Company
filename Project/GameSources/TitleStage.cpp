@@ -68,12 +68,14 @@ namespace basecross
 	// BGM開始関数
 	void TitleStage::StartBGM()
 	{
-		m_bgmItem = m_soundManager->StartBGM(L"TITLE_BGM", XAUDIO2_LOOP_INFINITE, 0.5f, ThisPtr);
+		m_bgmItem = m_soundManager->StartBGM(L"TITLE_BGM", XAUDIO2_LOOP_INFINITE, 0.0f, ThisPtr);
 	}
 
 	// タイトルロゴの生成
 	void TitleStage::CreateOpningScreen()
 	{
+		if (titleProgress != opening) return;
+
 		auto& opning = AddGameObject<TitleLogo>();
 		SetSharedGameObject(L"TitleLogo", opning);
 	}
@@ -219,7 +221,7 @@ namespace basecross
 			titleCamera->ZoomStart(objPos);
 		}
 
-		if (titleProgress == normal)
+		if (Utility::OR(titleProgress, normal, opening))
 		{
 			titleCamera->ZoomEnd();
 			//CameraReset();
@@ -351,6 +353,19 @@ namespace basecross
 	{
 		try 
 		{
+			if (m_bgmItem.lock() && Utility::OR(titleProgress, opening, normal))
+			{
+				auto& item = m_bgmItem.lock()->m_SourceVoice;
+				
+				float volume = 0.0f;
+				item->GetVolume(&volume);
+
+				if (volume <= m_bgmVolume)
+				{
+					item->SetVolume(volume + DELTA_TIME);
+				}
+			}
+
 			if (Input::GetPushB())
 			{
 				PushButtonB();

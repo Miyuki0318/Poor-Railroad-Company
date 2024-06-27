@@ -327,9 +327,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
-      <Filter>Player</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)RailGuide.cpp">
       <Filter>Guide\RailGuide</Filter>
     </ClCompile>
@@ -455,6 +452,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)MoneyCountUI.cpp">
       <Filter>UI\MoneyCount</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
+      <Filter>Player\Title</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>

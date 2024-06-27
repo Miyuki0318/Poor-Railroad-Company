@@ -38,7 +38,18 @@ namespace basecross {
 	{
 		if (event->m_MsgStr == L"TitleStage")
 		{
-			ResetActiveStage<TitleStage>("Title");
+			eGameProgress prog = eGameProgress::ToTitleOver;
+			if (auto& stage = GetActiveStage(false))
+			{
+				if (auto& gameStage = dynamic_pointer_cast<GameStage>(stage))
+				{
+					prog = gameStage->GetGameProgress();
+				}
+			}
+
+			eTitleProgress titleProg = prog != eGameProgress::ToTitleOver ? eTitleProgress::normal : eTitleProgress::opening;
+
+			ResetActiveStage<TitleStage>("Title", titleProg);
 		}
 		if (event->m_MsgStr == L"GameStage")
 		{
