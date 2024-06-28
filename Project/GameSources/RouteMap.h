@@ -33,8 +33,10 @@ namespace basecross {
 		eMapLevel m_mapLevel;
 
 	public:
-		RouteMap(const shared_ptr<Stage>& stagePtr) :
-			TemplateObject(stagePtr)
+		RouteMap(const shared_ptr<Stage>& stagePtr,
+			eMapLevel& mapLevel) :
+			TemplateObject(stagePtr),
+			m_mapLevel(mapLevel)
 		{
 			m_spanMat.affineTransformation(
 				Vec3(1.0f),
@@ -44,7 +46,6 @@ namespace basecross {
 			);
 
 			m_currentX = 0.0f;
-			m_mapLevel = eMapLevel::FirstMap;
 
 			m_modelTextures.emplace(eMapLevel::FirstMap, L"FIRST_TX");
 			m_modelTextures.emplace(eMapLevel::SecondMap, L"SECOND_TX");

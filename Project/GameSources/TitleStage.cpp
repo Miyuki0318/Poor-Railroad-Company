@@ -152,13 +152,15 @@ namespace basecross
 	// Œš•¨‚Ì¶¬
 	void TitleStage::CreateBuilding()
 	{
+		auto& scene = App::GetApp()->GetScene<Scene>();
+
 		// ‰ïĞ‚Ì¶¬
 		const auto& company = AddGameObject<Company>();
 		SetSharedGameObject(L"Company", company);
 		m_objectGroup->IntoGroup(company);
-		
+
 		// ˜Hü}‚Ì¶¬
-		const auto& routeMap = AddGameObject<RouteMap>();
+		const auto& routeMap = AddGameObject<RouteMap>(scene->GetMapLevel());
 		SetSharedGameObject(L"RouteMap", routeMap);
 		m_objectGroup->IntoGroup(routeMap);
 	}
