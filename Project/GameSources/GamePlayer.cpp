@@ -29,7 +29,7 @@ namespace basecross
 		// ステータスの設定
 		const auto& scene = App::GetApp()->GetScene<Scene>();
 		m_statusLevel = scene->GetStatusLevel();
-		m_backPackLevel = ePL::Level1;
+		m_backPackLevel = scene->GetBackPackLevel();
 		m_startGearLevel = scene->GetStartGearLevel();
 
 		// 開始時の所持ギア設定
