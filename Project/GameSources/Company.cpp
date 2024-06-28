@@ -26,6 +26,8 @@ namespace basecross {
 
 		m_menuSprite = GetStage()->AddGameObject<Sprite>(L"MENU_TX", m_scale);
 		m_menuSprite->SetDrawActive(FindTag(tagName));
+		// ショップ機能の生成
+		m_shopPtr = GetStage()->AddGameObject<Shop>();
 	}
 
 	void Company::OnUpdate()

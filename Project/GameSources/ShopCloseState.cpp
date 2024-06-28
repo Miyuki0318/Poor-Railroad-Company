@@ -12,14 +12,16 @@ namespace basecross
 	// ステート開始時の処理
 	void ShopCloseState::Enter(const shared_ptr<Shop>& shop)
 	{
-
-
+		// 現在のステートを初期化
+		shop->m_currentState = Shop::ShopState::Close;
+		// 選択先を初期化
+		shop->m_currentEnhancements = Shop::Enhancements::Backpack;
 	}
 
 	// ステート更新時の処理
 	void ShopCloseState::Execute(const shared_ptr<Shop>& shop)
 	{
-
+		shop->SetState(ShopShoppingState::Instance());
 
 	}
 

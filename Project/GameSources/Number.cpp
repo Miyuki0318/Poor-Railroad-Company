@@ -24,7 +24,7 @@ namespace basecross
 		Utility::NumberVerticesIndices(m_vertex, 0);
 
 		// ’¸“_‚ğXV
-		SetNumber(0);
+		SetNumber(m_number);
 	}
 
 	/*!
