@@ -24,8 +24,8 @@ namespace basecross
 			ButtonNum
 		};
 		State m_state;	// 現在の状態
-		eButtons m_currentButton;
-		eButtons m_pastButton;
+		eButtons m_currentButton; // 現在選ばれているボタン
+		eButtons m_pastButton; // 前選ばれていたボタン
 
 		const Vec3 m_CloseMenuPos;	 // クローズ時メニュー位置
 		const Vec3 m_OpenMenuPos;	 // オープン時メニュー位置
