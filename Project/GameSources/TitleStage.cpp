@@ -241,27 +241,40 @@ namespace basecross
 	// スプライトのフェード処理
 	void TitleStage::FadeSprite()
 	{
-		if (!m_fadeSprite) return;
-		
-		// normal か push の場合…
-		if(Utility::OR(titleProgress,normal,push))
+		switch (titleProgress)
 		{
-			m_fadeSprite->SetDiffuseColor(COL_ALPHA);
-		}
+		case basecross::opening:
+			m_fadeSprite->FadeOutColor(1.0f);
+			break;
 
-		// zoom の場合…
-		if (titleProgress == zoom)
-		{
-			if (m_selectObj != NULL)
+		case basecross::normal:
+		case basecross::push:
+			if (m_fadeSprite->GetDiffuseColor() != Col4(COL_ALPHA))
+			{
+				m_fadeSprite->FadeOutColor(1.0f);
+			}
+			break;
+
+		case basecross::zoom:
+			if (m_selectObj == GetSharedGameObject<Company>(L"Company"))
+			{
+				if (m_fadeSprite->FadeInColor(1.0f))
+				{
+					titleProgress = select;
+				}
+			}
+			else
 			{
 				titleProgress = select;
 			}
-		}
+			break;
 
-		// start の場合…
-		if (titleProgress == start)
-		{
+		case basecross::start:
 			m_fadeSprite->FadeInColor(2.0f);
+			break;
+
+		default:
+			break;
 		}
 	}
 
@@ -309,6 +322,8 @@ namespace basecross
 		try
 		{
 			BaseStage::OnCreate();
+
+			m_fadeSprite->SetDiffuseColor(COL_WHITE);
 
 			CreateViewLight();
 
