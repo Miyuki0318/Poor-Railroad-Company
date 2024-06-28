@@ -34,7 +34,7 @@ namespace basecross
 
 		// 画面内にクリッピングする
 		Vec3 pos = WindowClipLineVec(Vec3(0.0f), stationPos);
-		pos.z = 0.5f;
+		pos.z = 0.7f;
 
 		// ウィンドウサイズからスケール分を引いた数でクランプする
 		Vec3 windowMax = Vec3((WINDOW_SIZE / 2.0f) - Vec2(m_scale / 2.0f), 1.0f);
