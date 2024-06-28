@@ -1,5 +1,5 @@
 /*!
-@file ShopState.h
+@file eShopState.h
 @brief ショップの状態ステート
 @author 小宅碧
 */
@@ -17,12 +17,27 @@ namespace basecross
 	*/
 	class ShopState : public ObjState<Shop>
 	{
+	protected:
+		// Lスティック入力の下限値
+		float m_LStickLowerLimit;
+		// Lスティック入力量と下限値を比較した値をLスティックの入力の有無として保持
+		bool m_isInputLStick;
+		// 強化内容が変更されてからの経過時間
+		float m_totalTime;
+
 	public:
 
 		/*!
 		@brief	コンストラクタ
 		*/
-		ShopState() {}
+		ShopState() {
+			// Lスティック入力の下限値を設定
+			m_LStickLowerLimit = 0.3f;
+
+			// 変数の初期化
+			m_isInputLStick = false;
+			m_totalTime = 0.0f;
+		}
 
 		/*!
 		@brief	デストラクタ

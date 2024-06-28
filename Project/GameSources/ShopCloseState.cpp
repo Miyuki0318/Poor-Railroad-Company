@@ -5,28 +5,29 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "Shop.h"
+#include "ShopCloseState.h"
 
 namespace basecross
 {
 	// ステート開始時の処理
 	void ShopCloseState::Enter(const shared_ptr<Shop>& shop)
 	{
-
-
+		// 現在のステートを初期化
+		shop->m_currentState = Shop::eShopState::Close;
+		// 選択先を初期化
+		shop->m_currentEnhancements = Shop::eEnhancements::Backpack;
 	}
 
 	// ステート更新時の処理
 	void ShopCloseState::Execute(const shared_ptr<Shop>& shop)
 	{
 
-
 	}
 
 	// ステート終了時の処理
 	void ShopCloseState::Exit(const shared_ptr<Shop>& shop)
 	{
-
 
 	}
 

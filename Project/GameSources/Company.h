@@ -6,6 +6,7 @@
 
 #pragma once
 #include "TemplateObject.h"
+#include "Shop.h"
 
 namespace basecross {
 	class Company : public TemplateObject
@@ -22,6 +23,8 @@ namespace basecross {
 		shared_ptr<PNTStaticDraw> drawComp;
 
 		shared_ptr<Sprite> m_menuSprite;
+
+		weak_ptr<Shop> m_shopPtr;
 
 	public:
 		Company(const shared_ptr<Stage>& stagePtr // ステージのポインタ
