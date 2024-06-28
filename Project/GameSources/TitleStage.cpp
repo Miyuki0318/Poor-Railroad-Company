@@ -256,7 +256,7 @@ namespace basecross
 			break;
 
 		case basecross::zoom:
-			if (m_selectObj == GetSharedGameObject<Company>(L"Company"))
+			if (m_selectObj != GetSharedGameObject<RouteMap>(L"RouteMap"))
 			{
 				if (m_fadeSprite->FadeInColor(1.0f))
 				{
