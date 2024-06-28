@@ -34,6 +34,10 @@ namespace basecross {
 		{
 			ZoomProcess();
 		}
+		if (m_cameraState == State::Zoomed)
+		{
+			ZoomedFollowTarget();
+		}
 		Camera::OnUpdate();
 	}
 
@@ -45,6 +49,12 @@ namespace basecross {
 
 		SetAt(newAt);
 		SetEye(Utility::Lerp(newAt, newEye, m_ZoomRatioC));
+	}
+
+	void MainCamera::ZoomedFollowTarget()
+	{
+		SetAt(Utility::Lerp(m_initialAt, Vec3(m_targetPos.x, m_targetPos.y, m_targetPos.z), 1.0f));
+		SetEye(Utility::Lerp(m_currentEye, Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z + m_zoomEye.z), 1.0f));
 	}
 
 	void MainCamera::ZoomProcess()

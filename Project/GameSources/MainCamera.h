@@ -63,6 +63,8 @@ namespace basecross {
 		/// </summary>
 		void FollowTarget();
 
+		void ZoomedFollowTarget();
+
 		/// <summary>
 		/// ƒY[ƒ€ˆ—
 		/// </summary>

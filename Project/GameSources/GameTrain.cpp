@@ -117,7 +117,9 @@ namespace basecross {
 				{
 					auto& camera = dynamic_pointer_cast<MainCamera>(stagePtr->GetView()->GetTargetCamera());
 					camera->SetTargetObject(GetThis<GameTrain>());
-					camera->ZoomStart(Utility::Lerp(camera->GetEye(), m_position, 0.75f), m_position);
+
+					Vec3 eye = Utility::Lerp(camera->GetEye(), m_position, 0.75f);
+					camera->ZoomStart(eye, m_position);
 
 					stagePtr->SetGameProgress(eGameProgress::GoalConect);
 				}
