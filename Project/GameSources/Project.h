@@ -47,3 +47,4 @@
 #include "GameOverState.h"
 #include "PaymentsState.h"
 #include "MoneyCountUI.h"
+#include "MouseCursor.h"

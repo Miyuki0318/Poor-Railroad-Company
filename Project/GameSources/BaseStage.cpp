@@ -45,6 +45,8 @@ namespace basecross
 		AddTextureResource(L"BUTTON_B_TX", texturePath + L"B.png");
 		AddTextureResource(L"BUTTON_Y_TX", texturePath + L"Y.png");
 
+		AddTextureResource(L"CURSOR_TX", texturePath + L"Cursor.png");
+
 		// アイコンテクスチャ
 		AddTextureResource(L"I_AXE_TX", texturePath + L"AxeIcon.png");
 		AddTextureResource(L"I_PICK_TX", texturePath + L"PickIcon.png");
@@ -122,6 +124,8 @@ namespace basecross
 		m_fadeSprite = AddGameObject<Sprite>(L"FADE_TX", WINDOW_SIZE);
 		m_fadeSprite->SetDiffuseColor(COL_ALPHA);
 		SetSharedGameObject(L"FadeSprite", m_fadeSprite);
+
+		AddGameObject<MouseCursor>();
 	}
 
 	// CSVの読み込み用

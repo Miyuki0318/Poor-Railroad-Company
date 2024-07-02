@@ -24,6 +24,16 @@ namespace basecross
 		}
 
 		/*!
+		@brief キーボードステート取得関数
+		@return KEYBOARD_STATE
+		*/
+		inline const KEYBOARD_STATE& GetKeyboard()
+		{
+			// アプリケーションオブジェクトから入力デバイスを取得して返す
+			return App::GetApp()->GetInputDevice().GetKeyState();
+		}
+
+		/*!
 		@brief コントローラーが接続されているかの取得関数
 		@return GetPad().bConnected
 		*/
@@ -41,9 +51,18 @@ namespace basecross
 			// コントローラーが接続されてるなら
 			if (GetPadConected())
 			{
-				// Aボタンが入力された瞬間かを返す
+				// ボタンが入力された瞬間かを返す
 				return GetPad().wPressedButtons;
 			}
+
+			// キーボードを取得し、
+			auto& key = GetKeyboard();
+			for (size_t i = 0; i < key.MAX_KEYVCODE; i++)
+			{
+				// 何かしら入力があれば返す
+				if (key.m_bPressedKeyTbl[i]) return true;
+			}
+
 			return false;
 		}
 
@@ -59,7 +78,7 @@ namespace basecross
 				// Aボタンが入力された瞬間かを返す
 				return GetPad().wPressedButtons & XINPUT_GAMEPAD_B;
 			}
-			return false;
+			return GetKeyboard().m_bPressedKeyTbl[VK_LBUTTON];
 		}
 
 		/*!
@@ -74,7 +93,7 @@ namespace basecross
 				// Aボタンが入力された瞬間かを返す
 				return GetPad().wButtons & XINPUT_GAMEPAD_B;
 			}
-			return false;
+			return GetKeyboard().m_bPushKeyTbl[VK_LBUTTON];
 		}
 
 		/*!
@@ -89,7 +108,7 @@ namespace basecross
 				// Aボタンが入力された瞬間かを返す
 				return GetPad().wPressedButtons & XINPUT_GAMEPAD_A;
 			}
-			return false;
+			return GetKeyboard().m_bPressedKeyTbl[VK_RBUTTON];
 		}
 
 		/*!
@@ -104,7 +123,7 @@ namespace basecross
 				// Aボタンが入力された瞬間かを返す
 				return GetPad().wPressedButtons & XINPUT_GAMEPAD_X;
 			}
-			return false;
+			return GetKeyboard().m_bPressedKeyTbl[VK_TAB];
 		}
 
 		/*!
@@ -119,7 +138,7 @@ namespace basecross
 				// Aボタンが入力された瞬間かを返す
 				return GetPad().wPressedButtons & XINPUT_GAMEPAD_Y;
 			}
-			return false;
+			return GetKeyboard().m_bPressedKeyTbl[VK_MBUTTON];
 		}
 
 		/*!
@@ -151,7 +170,19 @@ namespace basecross
 				// コントローラーのLスティック入力量をVec2にして返す
 				return Vec2(pad.fThumbLX, pad.fThumbLY);
 			}
-			return Vec2(0.0f);
+
+			// キーボードWASDでの入力を設定
+			Vec2 keyInput;
+			auto& key = GetKeyboard();
+			if (key.m_bPushKeyTbl['W']) keyInput.y += 1.0f;
+			if (key.m_bPushKeyTbl['S']) keyInput.y -= 1.0f;
+			if (key.m_bPushKeyTbl['A']) keyInput.x -= 1.0f;
+			if (key.m_bPushKeyTbl['D']) keyInput.x += 1.0f;
+
+			// 斜め入力なら
+			if (keyInput.length() > 1.0f) keyInput *= 0.7f;
+
+			return keyInput;
 		}
 
 		/*!

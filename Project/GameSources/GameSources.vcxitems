@@ -53,6 +53,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Input.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MathFunc.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MoneyCountUI.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)MouseCursor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Number.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Opening.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OzawaFuncs.h" />
@@ -132,6 +133,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MathFunc.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MoneyCountUI.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)MouseCursor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Number.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Opening.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OzawaUtility.cpp" />
