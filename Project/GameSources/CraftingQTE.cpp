@@ -70,7 +70,7 @@ namespace basecross
 		Vec3 pos = windowPos + Vec3(0.0f, (m_posDiff + m_drawScale.y) * diff.y, 0.0f);
 		SetPosition(Vec3(pos.x, pos.y, 0.2f));
 		flame->SetPosition(Vec3(pos.x, pos.y, 0.0f));
-		point->SetPosition(Vec3(pos.x + (m_drawScale.x * (m_qteRatio - 0.1f)) * diff.x, pos.y, 0.1f));
+		point->SetPosition(Vec3(pos.x + (m_drawScale.x * (m_qteRatio - m_qteRange)) * diff.x, pos.y, 0.1f));
 		button->SetPosition(point->GetPosition() + Vec3(point->m_drawScale.x / 2.0f * diff.x, button->m_drawScale.y / 1.25f * diff.y, 0.0f));
 	}
 	
@@ -125,8 +125,8 @@ namespace basecross
 		SetScale(0.0f, m_scale.y);
 
 		// QTE‚Ì”ÍˆÍ‚ğİ’è
-		const float upper = m_qteRatio + 0.1f;
-		const float under = m_qteRatio - 0.1f;
+		const float upper = m_qteRatio + m_qteRange;
+		const float under = m_qteRatio - m_qteRange;
 
 		// ƒo[‚ÌŠ„‡‚ªQTE‚Ì”ÍˆÍ“à‚©‚ğ•Ô‚·
 		return Utility::GetBetween(m_barRatio, upper, under);

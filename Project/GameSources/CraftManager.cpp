@@ -78,7 +78,7 @@ namespace basecross
 			window->SetRectType(rect);
 
 			// •`‰æó‘ÔÝ’è‚ð‘—‚é
-			window->SetDrawEnable(enable, windowPos + Vec3(0.0f, 0.0f, 0.1f));
+			window->SetDrawEnable(enable, windowPos + BACK_VEC);
 			qte->SetDrawEnable(enable, window->GetPosition());
 
 			// ƒAƒCƒRƒ“‚É‚àÝ’è‚ð‘—‚é

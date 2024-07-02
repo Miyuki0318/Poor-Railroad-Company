@@ -45,7 +45,7 @@ namespace basecross
 
 		// 座標の更新など
 		SetPosition(pos);
-		m_arrowSprite.lock()->SetPosition(pos + Vec3(0.0f, 0.0f, 0.1f));
+		m_arrowSprite.lock()->SetPosition(pos + BACK_VEC);
 		m_arrowSprite.lock()->SetRotation(Vec3(0.0f, 0.0f, rad));
 
 		// ゴール駅が画面内なら非表示

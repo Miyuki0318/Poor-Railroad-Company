@@ -68,6 +68,7 @@ namespace basecross
 		// エフェクト配列
 		vector<weak_ptr<GatherEffect>> m_effectVec;
 
+		const int m_probability; // 提供割合
 		const eItemType m_items[3]; // アイテムタイプ
 		map<eItemType, int> m_addVal; // アイテム加算量
 
@@ -79,6 +80,7 @@ namespace basecross
 		*/
 		GatherTreasure(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr),
+			m_probability(9),
 			m_items{eItemType::Rail, eItemType::Gear, eItemType::GoldBar}
 		{
 			m_addVal.emplace(eItemType::Rail, 3);

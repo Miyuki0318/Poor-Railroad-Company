@@ -17,7 +17,9 @@ namespace basecross
 		shared_ptr<PCStaticDraw> m_ptrDraw; // 描画コンポーネント
 		weak_ptr<TemplateObject> m_player; // プレイヤー
 		Point2D<size_t> m_selectPoint; // 選択しているポイント
-		Vec3 m_cursolPosition;
+		Vec3 m_cursolPosition; // カーソルの座標
+
+		const float m_deadZone; // 入力閾値
 
 	public:
 
@@ -30,7 +32,8 @@ namespace basecross
 			const shared_ptr<TemplateObject>& playerPtr
 		) :
 			TemplateObject(stagePtr, Vec3(0.0f, 1.5f, 0.0f), Vec3(0.0f), Vec3(1.0f)),
-			m_player(playerPtr)
+			m_player(playerPtr),
+			m_deadZone(0.1f)
 		{
 		}
 

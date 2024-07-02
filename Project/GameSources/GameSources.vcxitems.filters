@@ -49,9 +49,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Timer.h">
       <Filter>OzawaFuncs\Timer</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Ground.h">
-      <Filter>StageObject\Ground</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Input.h">
       <Filter>OzawaFuncs</Filter>
     </ClInclude>
@@ -143,7 +140,7 @@
       <Filter>OzawaFuncs\SoundManager</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)GroundManager.h">
-      <Filter>StageObject\Ground\GroundManager</Filter>
+      <Filter>StageObject\GroundManager</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)UnBreakRock.h">
       <Filter>StageObject\UnBreakRock</Filter>
@@ -285,9 +282,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Timer.cpp">
       <Filter>OzawaFuncs\Timer</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp">
-      <Filter>StageObject\Ground</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Station.cpp">
       <Filter>StageObject\Station</Filter>
     </ClCompile>
@@ -370,7 +364,7 @@
       <Filter>Stage\BaseStage</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)GroundManager.cpp">
-      <Filter>StageObject\Ground\GroundManager</Filter>
+      <Filter>StageObject\GroundManager</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)UnBreakRock.cpp">
       <Filter>StageObject\UnBreakRock</Filter>
@@ -456,9 +450,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MoneyCountUI.cpp">
       <Filter>UI\MoneyCount</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
-      <Filter>Player\Title</Filter>
-    </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Number.cpp">
       <Filter>OzawaFuncs\DrawObject\Sprite\Number</Filter>
     </ClCompile>
@@ -467,6 +458,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameTrainDeRailedState.cpp">
       <Filter>StageObject\Train\GameTrain\GameTrainState\GameTrainDeRailedState</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
+      <Filter>Player</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -511,9 +505,6 @@
     </Filter>
     <Filter Include="StageObject">
       <UniqueIdentifier>{d271ecb3-29fb-4417-856d-d918f7c768c6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="StageObject\Ground">
-      <UniqueIdentifier>{ab7af347-7f4d-4c24-9333-d0c2e7f05321}</UniqueIdentifier>
     </Filter>
     <Filter Include="StageObject\Station">
       <UniqueIdentifier>{72f7c1be-3362-4034-a892-ff59da128b08}</UniqueIdentifier>
@@ -572,9 +563,6 @@
     <Filter Include="Player\Game\Craft\CraftUI">
       <UniqueIdentifier>{9daab37d-9590-401e-adab-74d74c5a7409}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Player\Game\Craft\CraftUI\CraftingIcon">
-      <UniqueIdentifier>{77cbad18-3cb3-48c8-bafa-d76064ddcbab}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Player\Game\Craft\CraftUI\CraftingQTE">
       <UniqueIdentifier>{f4a7f1b8-503b-48eb-b6ee-50c874a2a1d0}</UniqueIdentifier>
     </Filter>
@@ -619,9 +607,6 @@
     </Filter>
     <Filter Include="OzawaFuncs\SoundManager">
       <UniqueIdentifier>{50c74e25-6bcc-4821-a669-c06796f985df}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="StageObject\Ground\GroundManager">
-      <UniqueIdentifier>{fb56feb6-4e12-44de-be45-4ced223d34e1}</UniqueIdentifier>
     </Filter>
     <Filter Include="StageObject\UnBreakRock">
       <UniqueIdentifier>{0be8b190-6bc2-4d76-8e61-a9d56d806f7f}</UniqueIdentifier>
@@ -724,6 +709,9 @@
     </Filter>
     <Filter Include="StageObject\Train\GameTrain\GameTrainState\GameTrainDeRailedState">
       <UniqueIdentifier>{2686b10f-5f92-46d1-b534-3dbdd637c3ce}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="StageObject\GroundManager">
+      <UniqueIdentifier>{fb56feb6-4e12-44de-be45-4ced223d34e1}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

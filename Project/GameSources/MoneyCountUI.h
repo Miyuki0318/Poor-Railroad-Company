@@ -27,6 +27,7 @@ namespace basecross
 		const Vec3 m_startPos;		// 開始座標
 		const Vec3 m_spriteMargin;	// スプライト分の余白
 		const Vec3 m_numberMargin;	// 数字分の余白
+		const Vec3 m_backMargin;	// 背景の余白
 
 	public:
 
@@ -48,7 +49,8 @@ namespace basecross
 			m_numberScale(scale * 0.7f),
 			m_spriteMargin(scale * 1.1f, 0.0f, 0.0f),
 			m_numberMargin(scale * 0.55f, 0.0f, 0.0f),
-			m_backScale(Vec2(scale * 5.0f, scale * 2.0f))
+			m_backScale(Vec2(scale * 5.0f, scale * 2.0f)),
+			m_backMargin(Vec3(scale * 1.4f, 0.0f, 0.0f))
 		{
 		}
 

@@ -7,8 +7,6 @@
 #include "stdafx.h"
 #include "Project.h"
 
-const float DEFF_SCALE = 0.28f; // デフォルトのスケール
-
 namespace basecross
 {
 	// ネームスペースの省略
@@ -67,11 +65,11 @@ namespace basecross
 				m_mtxRotation.rotation(quatRot);
 
 				// スケール
-				float scaleY = DEFF_SCALE * RangeRand(1.5f, 1.0f);
-				m_mtxScale.scale(Vec3(DEFF_SCALE, scaleY, DEFF_SCALE));
+				float scaleY = m_deffScale * RangeRand(m_randRange, 1.0f);
+				m_mtxScale.scale(Vec3(m_deffScale, scaleY, m_deffScale));
 
 				// ポジション
-				m_mtxPosition.translation(Vec3(float(col), 0.5f, -float(row)));
+				m_mtxPosition.translation(Vec3(float(col), m_deffPosY, -float(row)));
 
 				// 追加する用の行列
 				Mat4x4 matrix = m_mtxScale * m_mtxRotation * m_mtxPosition;

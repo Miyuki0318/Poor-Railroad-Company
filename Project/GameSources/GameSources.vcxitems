@@ -50,7 +50,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)DebugLog.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)DrawObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameStage.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Ground.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Input.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MathFunc.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MoneyCountUI.h" />
@@ -131,7 +130,6 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)CSVLoader.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)DebugLog.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp" />
-    <ClCompile Include="$(MSBuildThisFileDirectory)Ground.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MathFunc.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MoneyCountUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Number.cpp" />

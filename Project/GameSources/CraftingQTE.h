@@ -32,6 +32,7 @@ namespace basecross
 
 		const float m_posDiff;  // ウィンドウとの座標差分
 		const float m_qteRatio; // QTEの成功位置の割合
+		const float m_qteRange;	// QTEの範囲
 		const float m_barSpeed; // QTEバーの速度
 		float m_barRatio; // QTEバーの割合
 		bool m_qteEnable; // QTE中かの真偽
@@ -45,6 +46,7 @@ namespace basecross
 			CraftUI(stagePtr, L"WHITE_TX", Vec2(200.0f, 10.0f), 0.25f),
 			m_posDiff(130.0f),
 			m_qteRatio(0.75f),
+			m_qteRange(0.1f),
 			m_barSpeed(1.0f)
 		{
 			m_barRatio = 0.0f;

@@ -93,6 +93,10 @@ namespace basecross
 		Mat4x4 m_mtxRotation;	// インスタンス描画用のローテーション
 		Mat4x4 m_mtxPosition;	// インスタンス描画用のローテーション
 
+		const float m_deffPosY;
+		const float m_deffScale;
+		const float m_randRange;
+
 		// インスタンス描画マップ
 		map<eRockMeshType, weak_ptr<InstanceRock>> m_instanceMap;
 
@@ -104,7 +108,10 @@ namespace basecross
 		*/
 		UnBreakRock(const shared_ptr<Stage>& stagePtr
 		) :
-			TemplateObject(stagePtr)
+			TemplateObject(stagePtr),
+			m_deffPosY(0.5f),
+			m_randRange(1.5f),
+			m_deffScale(0.28f)
 		{
 		}
 

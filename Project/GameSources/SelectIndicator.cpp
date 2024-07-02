@@ -116,8 +116,8 @@ namespace basecross
 			{
 				m_cursolPosition += cntlVec * DELTA_TIME * 4.0f;
 				m_cursolPosition.clamp(Vec3(-1.0f, 0.0f, -1.0f), Vec3(1.0f, 0.0f, 1.0f));
-				if (cntlVec.x <= 0.1f && cntlVec.x >= -0.1f) m_cursolPosition.x = 0.0f;
-				if (cntlVec.z <= 0.1f && cntlVec.z >= -0.1f) m_cursolPosition.z = 0.0f;
+				if (GetBetween(cntlVec.x, m_deadZone, -m_deadZone)) m_cursolPosition.x = 0.0f;
+				if (GetBetween(cntlVec.z, m_deadZone, -m_deadZone)) m_cursolPosition.z = 0.0f;
 			}
 		}
 
@@ -174,10 +174,10 @@ namespace basecross
 	{
 		// 採取オブジェクトマネージャーの取得
 		const auto& gatheringManager = GetStage()->GetSharedGameObject<GatheringManager>(L"GatheringManager", false);
-		if (!gatheringManager) return 0;
+		if (!gatheringManager) return UnSTAGE_ID(eStageID::None);
 
 		// 選択ポイントがガイドの位置と一致しているか
-		int id = 0;
+		int id = UnSTAGE_ID(eStageID::None);
 		if (gatheringManager->GetIsGatheringPoint(m_selectPoint))
 		{
 			// 一致してたらマネージャーにレール追加処理を送る
