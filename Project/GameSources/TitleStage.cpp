@@ -74,7 +74,7 @@ namespace basecross
 	// タイトルロゴの生成
 	void TitleStage::CreateOpningScreen()
 	{
-		if (titleProgress != opening) return;
+		if (m_titleProgress != opening) return;
 
 		auto& opning = AddGameObject<TitleLogo>();
 		SetSharedGameObject(L"TitleLogo", opning);
@@ -193,14 +193,14 @@ namespace basecross
 	// ボタンを押した時の処理
 	void TitleStage::PushButtonB()
 	{
-		if (titleProgress == normal)
+		if (MatchProgress() && m_titleProgress == normal)
 		{
-			titleProgress = push;
+			m_titleProgress = push;
 		}
 
-		if (titleProgress == select || titleProgress == zoom)
+		if (m_titleProgress == select || m_titleProgress == zoom)
 		{
-			titleProgress = normal;
+			m_titleProgress = normal;
 		}
 	}
 
@@ -223,7 +223,7 @@ namespace basecross
 			titleCamera->ZoomStart(objPos);
 		}
 
-		if (Utility::OR(titleProgress, normal, opening))
+		if (Utility::OR(m_titleProgress, normal, opening))
 		{
 			titleCamera->ZoomEnd();
 		}
@@ -243,7 +243,7 @@ namespace basecross
 	// スプライトのフェード処理
 	void TitleStage::FadeSprite()
 	{
-		switch (titleProgress)
+		switch (m_titleProgress)
 		{
 		case basecross::opening:
 			m_fadeSprite->FadeOutColor(1.0f);
@@ -262,12 +262,12 @@ namespace basecross
 			{
 				if (m_fadeSprite->FadeInColor(1.0f))
 				{
-					titleProgress = select;
+					m_titleProgress = select;
 				}
 			}
 			else
 			{
-				titleProgress = select;
+				m_titleProgress = select;
 			}
 			break;
 
@@ -304,7 +304,7 @@ namespace basecross
 				if (!m_selectObj->FindTag(tagName))
 				{
 					m_selectObj->AddTag(tagName);
-					titleProgress = zoom;
+					m_titleProgress = zoom;
 				}
 
 				player->SetState(TitlePlayerPauseState::Instance());
@@ -313,7 +313,7 @@ namespace basecross
 
 			if (!m_selectObj)
 			{
-				titleProgress = normal;
+				m_titleProgress = normal;
 			}
 		}
 	}
@@ -374,7 +374,7 @@ namespace basecross
 	{
 		try 
 		{
-			if (m_bgmItem.lock() && Utility::OR(titleProgress, opening, normal))
+			if (m_bgmItem.lock() && Utility::OR(m_titleProgress, opening, normal))
 			{
 				auto& item = m_bgmItem.lock()->m_SourceVoice;
 				
@@ -395,11 +395,11 @@ namespace basecross
 			auto& camera = GetView()->GetTargetCamera();
 			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 			
-			if (titleProgress == push)
+			if (m_titleProgress == push)
 			{
 				DistanceToPlayer();
 			}
-			else if(titleProgress == normal || titleProgress == move)
+			else if(m_titleProgress == normal || m_titleProgress == move)
 			{
 				if (m_selectObj && m_selectObj->FindTag(tagName))
 				{
@@ -414,10 +414,11 @@ namespace basecross
 			FadeSprite();
 
 			// 通常時以外は演出中のフラグを立てる
-			m_isStaging = titleProgress != normal;
+			m_isStaging = m_titleProgress != normal;
 
 			Debug::Log(m_boardQuantity);
 
+			m_oldProgress = m_titleProgress;
 		}
 		catch (...)
 		{
