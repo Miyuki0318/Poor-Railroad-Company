@@ -55,7 +55,7 @@ namespace basecross
 
 		Vec3 m_boardPositions[3] = {
 			Vec3( 9.5f,1.0f,-10.0f),
-			Vec3(18.5f,1.0f,-9.0f),
+			Vec3(18.0f,1.0f,-13.0f),
 			Vec3(23.0f,1.0f,-14.5f),
 		};
 
