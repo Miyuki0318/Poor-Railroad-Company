@@ -352,7 +352,7 @@ namespace basecross
 		auto& camera = GetView()->GetTargetCamera();
 		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 
-		if (titleCamera->m_cameraState == titleCamera->Zoomed && MatchSelectObject(routeMap))
+		if (titleCamera->m_cameraState == MainCamera::Zoomed && MatchSelectObject(routeMap))
 		{
 			m_rightArrow.lock()->SetDrawActive(true);
 			m_leftArrow.lock()->SetDrawActive(true);
@@ -449,7 +449,7 @@ namespace basecross
 			{
 				DistanceToPlayer();
 			}
-			else if(m_titleProgress == normal || m_titleProgress == move)
+			else if(Utility::OR(m_titleProgress,normal,move))
 			{
 				if (m_selectObj && m_selectObj->FindTag(tagName))
 				{

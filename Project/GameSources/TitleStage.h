@@ -264,11 +264,17 @@ namespace basecross
 			return m_selectObj;
 		}
 
+		/*
+		@brief 状態が一致しているかを判定する関数
+		*/
 		bool MatchProgress()
 		{
 			return m_oldProgress == m_titleProgress;
 		}
 
+		/*
+		@brief 指定したオブジェクトが選択されているか判定する関数
+		*/
 		bool MatchSelectObject(const shared_ptr<GameObject>& obj)
 		{
 			return m_selectObj == obj;
