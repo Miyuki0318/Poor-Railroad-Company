@@ -190,7 +190,16 @@ namespace basecross
 		AddGameObject<MoneyCountUI>(scale, position);
 	}
 
-	// ボタンを押した時の処理
+	// Aボタンを押した時の処理
+	void TitleStage::PushButtonA()
+	{
+		if (m_titleProgress == select)
+		{
+			m_titleProgress = normal;
+		}
+	}
+
+	// Bボタンを押した時の処理
 	void TitleStage::PushButtonB()
 	{
 		if (MatchProgress() && m_titleProgress == normal)
@@ -198,7 +207,7 @@ namespace basecross
 			m_titleProgress = push;
 		}
 
-		if (m_titleProgress == select || m_titleProgress == zoom)
+		if (Utility::OR(m_titleProgress,select,zoom))
 		{
 			m_titleProgress = normal;
 		}
@@ -390,6 +399,11 @@ namespace basecross
 			if (Input::GetPushB())
 			{
 				PushButtonB();
+			}
+
+			if (Input::GetPushA())
+			{
+				PushButtonA();
 			}
 			
 			auto& camera = GetView()->GetTargetCamera();

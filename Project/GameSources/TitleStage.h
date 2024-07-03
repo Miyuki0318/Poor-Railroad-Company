@@ -144,7 +144,12 @@ namespace basecross
 		void FadeSprite();
 
 		/*
-		@brief ボタンを押した時の処理
+		@brief Aボタンを押した時の処理
+		*/
+		void PushButtonA();
+
+		/*
+		@brief Bボタンを押した時の処理
 		*/
 		void PushButtonB();
 
