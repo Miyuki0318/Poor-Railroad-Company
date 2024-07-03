@@ -6,6 +6,7 @@
 
 #include "stdafx.h"
 #include "Project.h"
+#include "GameClearState.h"
 
 namespace basecross
 {

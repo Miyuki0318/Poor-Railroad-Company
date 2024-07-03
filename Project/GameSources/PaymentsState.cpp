@@ -6,6 +6,7 @@
 
 #include "stdafx.h"
 #include "Project.h"
+#include "PaymentsState.h"
 
 namespace basecross
 {
