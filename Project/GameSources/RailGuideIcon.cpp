@@ -32,12 +32,16 @@ namespace basecross
 	// 毎フレーム更新
 	void RailGuideIcon::OnUpdate()
 	{
-		// プレイヤーがレールを持ってるかで表示非表示
-		const auto& player = GetStage()->GetSharedGameObject<GamePlayer>(L"Player");
-		bool isHaveRail = player->GetStatus(ePlayerStatus::IsHaveRail);
-		
 		// 一度非表示にする
 		SetIconDraw(false);
+
+		// ステージを取得し、イベント中なら非表示にして終了
+		const auto& stagePtr = GetTypeStage<GameStage>();
+		if (stagePtr->GetIsStaging()) return;
+
+		// プレイヤーがレールを持ってるかで表示非表示
+		const auto& player = stagePtr->GetSharedGameObject<GamePlayer>(L"Player");
+		bool isHaveRail = player->GetStatus(ePlayerStatus::IsHaveRail);
 
 		// プレイヤーがレールを所持しているなら
 		if (isHaveRail)
@@ -117,9 +121,11 @@ namespace basecross
 	// アイコン全体の表示設定
 	void RailGuideIcon::SetIconDraw(bool b)
 	{
-		for (auto& icon : m_iconVec)
+		// 座標の更新
+		for (size_t i = 0; i < m_iconVec.size(); i++)
 		{
-			icon.lock()->SetDrawActive(b);
+			bool isRange = Utility::WithInElemRange(i, m_pastGuidePoint.size());
+			m_iconVec.at(i).lock()->SetDrawActive(isRange && b);
 		}
 	}
 }
