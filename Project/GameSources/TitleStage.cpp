@@ -267,7 +267,7 @@ namespace basecross
 			break;
 
 		case basecross::zoom:
-			if (m_selectObj != GetSharedGameObject<RouteMap>(L"RouteMap"))
+			if (m_selectObj == GetSharedGameObject<TitleTrain>(L"TitleTrain"))
 			{
 				if (m_fadeSprite->FadeInColor(1.0f))
 				{
@@ -406,9 +406,6 @@ namespace basecross
 				PushButtonA();
 			}
 			
-			auto& camera = GetView()->GetTargetCamera();
-			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
-			
 			if (m_titleProgress == push)
 			{
 				DistanceToPlayer();
@@ -429,8 +426,6 @@ namespace basecross
 
 			// 通常時以外は演出中のフラグを立てる
 			m_isStaging = m_titleProgress != normal;
-
-			Debug::Log(m_boardQuantity);
 
 			m_oldProgress = m_titleProgress;
 		}
