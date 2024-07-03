@@ -156,6 +156,26 @@ namespace basecross
 		}
 
 		/*!
+		@brief WASDの入力量取得関数
+		@return Vec2(AD, WS)
+		*/
+		inline Vec2 GetWASDValue()
+		{
+			// キーボードWASDでの入力を設定
+			Vec2 keyInput;
+			auto& key = GetKeyboard();
+			if (key.m_bPushKeyTbl['W']) keyInput.y += 1.0f;
+			if (key.m_bPushKeyTbl['S']) keyInput.y -= 1.0f;
+			if (key.m_bPushKeyTbl['A']) keyInput.x -= 1.0f;
+			if (key.m_bPushKeyTbl['D']) keyInput.x += 1.0f;
+
+			// 斜め入力なら
+			if (keyInput.length() > 1.0f) keyInput *= 0.7f;
+
+			return keyInput;
+		}
+
+		/*!
 		@brief Lスティックの入力量取得関数
 		@return Vec2(pad.fThumbLX, pad.fThumbLY)
 		*/
@@ -171,18 +191,8 @@ namespace basecross
 				return Vec2(pad.fThumbLX, pad.fThumbLY);
 			}
 
-			// キーボードWASDでの入力を設定
-			Vec2 keyInput;
-			auto& key = GetKeyboard();
-			if (key.m_bPushKeyTbl['W']) keyInput.y += 1.0f;
-			if (key.m_bPushKeyTbl['S']) keyInput.y -= 1.0f;
-			if (key.m_bPushKeyTbl['A']) keyInput.x -= 1.0f;
-			if (key.m_bPushKeyTbl['D']) keyInput.x += 1.0f;
-
-			// 斜め入力なら
-			if (keyInput.length() > 1.0f) keyInput *= 0.7f;
-
-			return keyInput;
+			// WASDでの入力量を返す
+			return GetWASDValue();
 		}
 
 		/*!
@@ -217,6 +227,35 @@ namespace basecross
 			Vec2 stick = GetLStickValue();
 			stick.x = 0.0f; // X軸を0に
 			return stick.length() > 0.0f; // Y軸のみでで長さを比較
+		}
+
+		/*!
+		@brief 画面上のマウスの2D座標(Basecrossの座標系)を取得する関数
+		@return マウス座標
+		*/
+		inline Vec2 GetMousePosition()
+		{
+			// キーステートからマウス座標を取得
+			Vec2 mousePos;
+			auto& keyState = GetKeyboard();
+
+			// 座標系が0.0中心であるため、画面サイズの半分を引く
+			mousePos.x = float(keyState.m_MouseClientPoint.x) - (WINDOW_WIDTH / 2.0f);
+			mousePos.y = float(keyState.m_MouseClientPoint.y) - (WINDOW_HEIGHT / 2.0f);
+			mousePos.y *= -1.0f;
+
+			if (mousePos.x == 0.0f)
+			{
+				return Vec2(0.0f);
+			}
+
+			if (mousePos.y == 0.0f)
+			{
+				return Vec2(0.0f);
+			}
+
+			// 返す
+			return mousePos;
 		}
 	}
 }

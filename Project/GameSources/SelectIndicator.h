@@ -17,7 +17,7 @@ namespace basecross
 		shared_ptr<PCStaticDraw> m_ptrDraw; // 描画コンポーネント
 		weak_ptr<TemplateObject> m_player; // プレイヤー
 		Point2D<size_t> m_selectPoint; // 選択しているポイント
-		Vec3 m_cursolPosition; // カーソルの座標
+		Vec3 m_cursorPosition; // カーソルの座標
 
 		const float m_deadZone; // 入力閾値
 
@@ -121,6 +121,18 @@ namespace basecross
 		@param 現在の座標
 		*/
 		void UpdateCursolPosition(Vec3& position);
+
+		/*!
+		@brief コントローラー入力でカーソルの座標を求める関数
+		@retrun カーソルの座標
+		*/
+		Vec3 ControllerPosition();
+
+		/*!
+		@brief マウスでカーソルの座標を求める関数
+		@retrun カーソルの座標
+		*/
+		Vec3 MousePosition(const Vec3& playerPos);
 
 		/*!
 		@brief 選択ポイントの更新処理関数

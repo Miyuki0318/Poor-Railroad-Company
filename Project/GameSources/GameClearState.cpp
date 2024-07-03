@@ -88,14 +88,37 @@ namespace basecross
 		m_clearBackSprite.lock()->SetPosition(m_rightPos - move);
 	}
 
+	// 選択中
 	void GameClearState::SelectStageState()
 	{
-		// LStick入力
-		float stickVal = Input::GetLStickValue().x;
-
 		// 経過時間(0.0f～XM_2PI)
 		m_totalTime += DELTA_TIME * 2.0f;
 		if (m_totalTime >= XM_2PI) m_totalTime = 0.0f;
+
+		// コントローラーの接続に応じて選択処理を行う
+		Input::GetPadConected() ? ControllerSelect() : MouseSelect();
+
+		// スケールをサインカーブでバウンド処理
+		float scale = SinCurve(m_totalTime, 1.0f, m_boundScale);
+		m_selectSprite.at(m_pastSelect).lock()->SetScale(m_defScale);
+		m_selectSprite.at(m_currentSelect).lock()->SetScale(m_defScale * scale);
+
+		// Bボタン入力があれば
+		if (Input::GetPushB())
+		{
+			// SEを鳴らして初期化し、ステートを切り替える
+			m_totalTime = 0.0f;
+			m_stage.lock()->CreateSE(L"WHISTLE_SE", 1.0f);
+			m_selectSprite.at(m_currentSelect).lock()->SetScale(m_defScale);
+			m_currentState = eGameClearState::SelectFadeOut;
+		}
+	}
+
+	// コントローラーで選択
+	void GameClearState::ControllerSelect()
+	{
+		// LStick入力
+		float stickVal = Input::GetLStickValue().x;
 
 		// 前回は未入力で、現在で入力があれば
 		if (stickVal && !m_pastStick)
@@ -120,20 +143,38 @@ namespace basecross
 
 		// 入力の保存
 		m_pastStick = stickVal;
+	}
 
-		// スケールをサインカーブでバウンド処理
-		float scale = SinCurve(m_totalTime, 1.0f, m_boundScale);
-		m_selectSprite.at(m_pastSelect).lock()->SetScale(m_defScale);
-		m_selectSprite.at(m_currentSelect).lock()->SetScale(m_defScale * scale);
+	// マウスでの選択
+	void GameClearState::MouseSelect()
+	{
+		Vec2 mousePos = Input::GetMousePosition();	// マウスの座標
+		Vec2 helfScale = m_defScale / 2.0f;			// スケールの半分
 
-		// Bボタン入力があれば
-		if (Input::GetPushB())
+		// 選択肢の座標
+		Vec2 nextPos = Vec2(m_nextStageSprite.lock()->GetPosition());
+		Vec2 backPos = Vec2(m_clearBackSprite.lock()->GetPosition());
+
+		// 次のステージへスプライトの範囲内なら
+		if (GetBetween(mousePos, nextPos + helfScale, nextPos - helfScale))
 		{
-			// SEを鳴らして初期化し、ステートを切り替える
-			m_totalTime = 0.0f;
-			m_stage.lock()->CreateSE(L"WHISTLE_SE", 1.0f);
-			m_selectSprite.at(m_currentSelect).lock()->SetScale(m_defScale);
-			m_currentState = eGameClearState::SelectFadeOut;
+			if (m_currentSelect == eSelectGameClear::NextStage) return;
+
+			// 選択肢を変更
+			m_totalTime = -XM_PIDIV4;
+			m_currentSelect = eSelectGameClear::NextStage;
+			m_pastSelect = eSelectGameClear::TitleBack;
+		}
+
+		// タイトルへスプライトの範囲内なら
+		if (GetBetween(mousePos, backPos + helfScale, backPos - helfScale))
+		{
+			if (m_currentSelect == eSelectGameClear::TitleBack) return;
+
+			// 選択肢を変更
+			m_totalTime = -XM_PIDIV4;
+			m_currentSelect = eSelectGameClear::TitleBack;
+			m_pastSelect = eSelectGameClear::NextStage;
 		}
 	}
 

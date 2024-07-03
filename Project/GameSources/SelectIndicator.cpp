@@ -60,7 +60,7 @@ namespace basecross
 	// 座標の更新処理
 	void SelectIndicator::UpdatePosition()
 	{	
-		Vec3 position;
+		Vec3 position; // 仮の座標
 
 		// 隣接する場所に配置
 		UpdateCursolPosition(position);
@@ -107,6 +107,16 @@ namespace basecross
 		pos.z = round(pos.z);
 		pos.y = m_position.y;
 
+		// カーソルの座標
+		Vec3 cursor = GetPadConected() ? ControllerPosition() : MousePosition(pos);
+
+		// 座標を上書き
+		position = pos + cursor;
+	}
+
+	// コントローラーでのカーソルの座標
+	Vec3 SelectIndicator::ControllerPosition()
+	{
 		// RBボタン入力が無ければ
 		if (!GetButtonRB())
 		{
@@ -114,19 +124,35 @@ namespace basecross
 			Vec3 cntlVec = Vec3(GetLStickValue().x, 0.0f, GetLStickValue().y);
 			if (cntlVec.length() > 0.0f)
 			{
-				m_cursolPosition += cntlVec * DELTA_TIME * 4.0f;
-				m_cursolPosition.clamp(Vec3(-1.0f, 0.0f, -1.0f), Vec3(1.0f, 0.0f, 1.0f));
-				if (GetBetween(cntlVec.x, m_deadZone, -m_deadZone)) m_cursolPosition.x = 0.0f;
-				if (GetBetween(cntlVec.z, m_deadZone, -m_deadZone)) m_cursolPosition.z = 0.0f;
+				m_cursorPosition += cntlVec * DELTA_TIME * 4.0f;
+				m_cursorPosition.clamp(Vec3(-1.0f, 0.0f, -1.0f), Vec3(1.0f, 0.0f, 1.0f));
+				if (GetBetween(cntlVec.x, m_deadZone, -m_deadZone)) m_cursorPosition.x = 0.0f;
+				if (GetBetween(cntlVec.z, m_deadZone, -m_deadZone)) m_cursorPosition.z = 0.0f;
 			}
 		}
 
-		Vec3 cursol = m_cursolPosition;
-		cursol.x = round(cursol.x);
-		cursol.z = round(cursol.z);
+		// 座標を四捨五入
+		Vec3 cursor = m_cursorPosition;
+		cursor.x = round(cursor.x);
+		cursor.z = round(cursor.z);
 
-		// 座標を上書き
-		position = pos + cursol;
+		return cursor;
+	}
+
+	// マウスでのカーソルの座標
+	Vec3 SelectIndicator::MousePosition(const Vec3& playerPos)
+	{
+		const auto& view = GetStage()->GetView();
+		Vec3 winPos = Utility::ConvertToWorldPosition(view, playerPos);
+		Vec3 mousePos = Vec3(GetMousePosition());
+
+		float rad = atan2f(mousePos.y - winPos.y, mousePos.x - winPos.x);
+
+		Vec3 cursor = Vec3(cos(rad), 0.0f, sin(rad));
+		cursor.x = round(cursor.x);
+		cursor.z = round(cursor.z);
+
+		return cursor;
 	}
 
 	// 採取オブジェクトを選択しているか

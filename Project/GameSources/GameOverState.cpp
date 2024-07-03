@@ -91,36 +91,12 @@ namespace basecross
 	// 選択中のステート
 	void GameOverState::SelectStageState()
 	{
-		// LStick入力
-		float stickVal = Input::GetLStickValue().x;
-
 		// 経過時間(0.0f～XM_2PI)
 		m_totalTime += DELTA_TIME * 2.0f;
 		if (m_totalTime >= XM_2PI) m_totalTime = 0.0f;
 
-		// 前回は未入力で、現在で入力があれば
-		if (stickVal && !m_pastStick)
-		{
-			// 経過時間をリセットし、選択肢を切り替える
-			m_totalTime = -XM_PIDIV4;
-			m_pastSelect = m_currentSelect;
-			switch (m_currentSelect)
-			{
-			case eSelectGameOver::TitleBack:
-				m_currentSelect = eSelectGameOver::Continue;
-				break;
-
-			case eSelectGameOver::Continue:
-				m_currentSelect = eSelectGameOver::TitleBack;
-				break;
-
-			default:
-				break;
-			}
-		}
-
-		// 入力の保存
-		m_pastStick = stickVal;
+		// コントローラーの接続に応じて選択処理を行う
+		Input::GetPadConected() ? ControllerSelect() : MouseSelect();
 
 		// スケールをサインカーブでバウンド処理
 		float scale = SinCurve(m_totalTime, 1.0f, m_boundScale);
@@ -135,6 +111,70 @@ namespace basecross
 			m_stage.lock()->CreateSE(L"WHISTLE_SE", 1.0f);
 			m_selectSprite.at(m_currentSelect).lock()->SetScale(m_defScale);
 			m_currentState = eGameOverState::SelectFadeOut;
+		}
+	}
+
+	// コントローラーで選択
+	void GameOverState::ControllerSelect()
+	{
+		// LStick入力
+		float stickVal = Input::GetLStickValue().x;
+
+		// 前回は未入力で、現在で入力があれば
+		if (stickVal && !m_pastStick)
+		{
+			// 経過時間をリセットし、選択肢を切り替える
+			m_totalTime = -XM_PIDIV4;
+			m_pastSelect = m_currentSelect;
+			switch (m_currentSelect)
+			{
+			case eSelectGameOver::Continue:
+				m_currentSelect = eSelectGameOver::TitleBack;
+				break;
+
+			case eSelectGameOver::TitleBack:
+				m_currentSelect = eSelectGameOver::Continue;
+				break;
+
+			default:
+				break;
+			}
+		}
+
+		// 入力の保存
+		m_pastStick = stickVal;
+	}
+
+	// マウスでの選択
+	void GameOverState::MouseSelect()
+	{
+		Vec2 mousePos = Input::GetMousePosition();	// マウスの座標
+		Vec2 helfScale = m_defScale / 2.0f;			// スケールの半分
+
+		// 選択肢の座標
+		Vec2 cntnPos = Vec2(m_continueSprite.lock()->GetPosition());
+		Vec2 backPos = Vec2(m_titleBackSprite.lock()->GetPosition());
+
+		// 次のステージへスプライトの範囲内なら
+		if (GetBetween(mousePos, cntnPos + helfScale, cntnPos - helfScale))
+		{
+			if (m_currentSelect == eSelectGameOver::Continue) return;
+
+			// 選択肢を変更
+			m_totalTime = -XM_PIDIV4;
+			m_currentSelect = eSelectGameOver::Continue;
+			m_pastSelect = eSelectGameOver::TitleBack;
+		}
+
+		// タイトルへスプライトの範囲内なら
+		if (GetBetween(mousePos, backPos + helfScale, backPos - helfScale))
+		{
+			if (m_currentSelect == eSelectGameOver::TitleBack) return;
+
+			// 選択肢を変更
+			m_totalTime = -XM_PIDIV4;
+			m_currentSelect = eSelectGameOver::TitleBack;
+			m_pastSelect = eSelectGameOver::Continue;
 		}
 	}
 

@@ -157,6 +157,16 @@ namespace basecross
 		void SelectStageState();
 
 		/*!
+		@brief コントローラーでの選択
+		*/
+		void ControllerSelect();
+
+		/*!
+		@brief マウスでの選択
+		*/
+		void MouseSelect();
+
+		/*!
 		@brief 選択肢プライトのフェードイン処理
 		*/
 		void SelectSpriteFadeOut();
