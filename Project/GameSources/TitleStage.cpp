@@ -48,6 +48,10 @@ namespace basecross
 		// 開発開始のテクスチャ
 		AddTextureResource(L"START_TX", texturePath + L"PleaseButton.png");
 
+		// 矢印のテクスチャ
+		AddTextureResource(L"RIGHTARROW_TX", texturePath + L"RightArrow.png");
+		AddTextureResource(L"LEFTARROW_TX", texturePath + L"LeftArrow.png");
+		
 		// ボードのテクスチャ
 		AddTextureResource(L"BOARD_TX", modelPath + L"RouteMapTexture.tga");
 
@@ -57,7 +61,6 @@ namespace basecross
 		AddTextureResource(L"THIRD_TX", modelPath + L"ThirdMapTexture.tga");
 		AddTextureResource(L"FOURTH_TX", modelPath + L"FourthMapTexture.tga");
 		AddTextureResource(L"FIFTH_TX", modelPath + L"FifthMapTexture.tga");
-
 		// タイトルBGM
 		AddAudioResource(L"TITLE_BGM", soundPath + L"Title");
 
@@ -74,7 +77,7 @@ namespace basecross
 	// タイトルロゴの生成
 	void TitleStage::CreateOpningScreen()
 	{
-		if (titleProgress != opening) return;
+		if (m_titleProgress != opening) return;
 
 		auto& opning = AddGameObject<TitleLogo>();
 		SetSharedGameObject(L"TitleLogo", opning);
@@ -190,17 +193,40 @@ namespace basecross
 		AddGameObject<MoneyCountUI>(scale, position);
 	}
 
-	// ボタンを押した時の処理
+	// 矢印の生成
+	void TitleStage::CreateArrowSprite()
+	{
+		const float scale = 100.0f;
+		const float posX = 1920.0f / 6.0f;
+		const float posY = 1080.0f / 4.0f;
+
+		m_rightArrow = AddGameObject<Sprite>(L"RIGHTARROW_TX", Vec2(scale), Vec3(+posX,+posY,0.0f));
+		m_leftArrow = AddGameObject<Sprite>(L"LEFTARROW_TX", Vec2(scale), Vec3(-posX, +posY, 0.0f));
+
+		m_rightArrow.lock()->SetDrawActive(false);
+		m_leftArrow.lock()->SetDrawActive(false);
+	}
+
+	// Aボタンを押した時の処理
+	void TitleStage::PushButtonA()
+	{
+		if (m_titleProgress == select)
+		{
+			m_titleProgress = normal;
+		}
+	}
+
+	// Bボタンを押した時の処理
 	void TitleStage::PushButtonB()
 	{
-		if (titleProgress == normal)
+		if (MatchProgress() && m_titleProgress == normal)
 		{
-			titleProgress = push;
+			m_titleProgress = push;
 		}
 
-		if (titleProgress == select || titleProgress == zoom)
+		if (Utility::OR(m_titleProgress,select,zoom))
 		{
-			titleProgress = normal;
+			m_titleProgress = normal;
 		}
 	}
 
@@ -218,12 +244,12 @@ namespace basecross
 			titleCamera->SetTargetObject(m_selectObj);
 
 			bool isTrain = bool(dynamic_pointer_cast<TitleTrain>(m_selectObj));
-			objPos += isTrain ? m_trainDiffEye : m_objDiffEye;
+			objPos += isTrain ? m_trainDiffEye : Vec3(0.0f, 3.0f,+4.0f);
 
 			titleCamera->ZoomStart(objPos);
 		}
 
-		if (Utility::OR(titleProgress, normal, opening))
+		if (Utility::OR(m_titleProgress, normal, opening))
 		{
 			titleCamera->ZoomEnd();
 		}
@@ -243,7 +269,7 @@ namespace basecross
 	// スプライトのフェード処理
 	void TitleStage::FadeSprite()
 	{
-		switch (titleProgress)
+		switch (m_titleProgress)
 		{
 		case basecross::opening:
 			m_fadeSprite->FadeOutColor(1.0f);
@@ -258,16 +284,16 @@ namespace basecross
 			break;
 
 		case basecross::zoom:
-			if (m_selectObj != GetSharedGameObject<RouteMap>(L"RouteMap"))
+			if (m_selectObj == GetSharedGameObject<TitleTrain>(L"TitleTrain"))
 			{
 				if (m_fadeSprite->FadeInColor(1.0f))
 				{
-					titleProgress = select;
+					m_titleProgress = select;
 				}
 			}
 			else
 			{
-				titleProgress = select;
+				m_titleProgress = select;
 			}
 			break;
 
@@ -304,7 +330,7 @@ namespace basecross
 				if (!m_selectObj->FindTag(tagName))
 				{
 					m_selectObj->AddTag(tagName);
-					titleProgress = zoom;
+					m_titleProgress = zoom;
 				}
 
 				player->SetState(TitlePlayerPauseState::Instance());
@@ -313,8 +339,28 @@ namespace basecross
 
 			if (!m_selectObj)
 			{
-				titleProgress = normal;
+				m_titleProgress = normal;
 			}
+		}
+	}
+
+	// 矢印の表示・非表示
+	void TitleStage::ArrowActive()
+	{
+		const auto& routeMap = GetSharedGameObject<RouteMap>(L"RouteMap");
+
+		auto& camera = GetView()->GetTargetCamera();
+		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+
+		if (titleCamera->m_cameraState == MainCamera::Zoomed && MatchSelectObject(routeMap))
+		{
+			m_rightArrow.lock()->SetDrawActive(true);
+			m_leftArrow.lock()->SetDrawActive(true);
+		}
+		else
+		{
+			m_rightArrow.lock()->SetDrawActive(false);
+			m_leftArrow.lock()->SetDrawActive(false);
 		}
 	}
 
@@ -348,6 +394,8 @@ namespace basecross
 			CreateSignBoard();
 			
 			CreateUISprite();
+
+			CreateArrowSprite();
 		}
 		catch (...)
 		{
@@ -374,7 +422,7 @@ namespace basecross
 	{
 		try 
 		{
-			if (m_bgmItem.lock() && Utility::OR(titleProgress, opening, normal))
+			if (m_bgmItem.lock() && Utility::OR(m_titleProgress, opening, normal))
 			{
 				auto& item = m_bgmItem.lock()->m_SourceVoice;
 				
@@ -391,15 +439,17 @@ namespace basecross
 			{
 				PushButtonB();
 			}
+
+			if (Input::GetPushA())
+			{
+				PushButtonA();
+			}
 			
-			auto& camera = GetView()->GetTargetCamera();
-			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
-			
-			if (titleProgress == push)
+			if (m_titleProgress == push)
 			{
 				DistanceToPlayer();
 			}
-			else if(titleProgress == normal || titleProgress == move)
+			else if(Utility::OR(m_titleProgress,normal,move))
 			{
 				if (m_selectObj && m_selectObj->FindTag(tagName))
 				{
@@ -409,15 +459,16 @@ namespace basecross
 				m_zooming = false;
 			}
 
+			ArrowActive();
+
 			TitleCameraZoom();
 
 			FadeSprite();
 
 			// 通常時以外は演出中のフラグを立てる
-			m_isStaging = titleProgress != normal;
+			m_isStaging = m_titleProgress != normal;
 
-			Debug::Log(m_boardQuantity);
-
+			m_oldProgress = m_titleProgress;
 		}
 		catch (...)
 		{
