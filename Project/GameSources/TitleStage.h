@@ -76,6 +76,9 @@ namespace basecross
 
 		weak_ptr<SoundItem> m_bgmItem;
 
+		weak_ptr<Sprite> m_rightArrow;
+		weak_ptr<Sprite> m_leftArrow;
+
 		eTitleProgress m_oldProgress;
 
 		/*
@@ -134,6 +137,11 @@ namespace basecross
 		void CreateUISprite();
 
 		/*
+		@brief 矢印トの生成
+		*/
+		void CreateArrowSprite();
+
+		/*
 		@brief カメラのズーム処理
 		*/
 		void TitleCameraZoom();
@@ -152,6 +160,11 @@ namespace basecross
 		@brief Bボタンを押した時の処理
 		*/
 		void PushButtonB();
+
+		/*
+		@brief 矢印スプライトの表示・非表示
+		*/
+		void ArrowActive();
 
 		/*!
 		@brief ステージをcsvで生成
@@ -254,6 +267,11 @@ namespace basecross
 		bool MatchProgress()
 		{
 			return m_oldProgress == m_titleProgress;
+		}
+
+		bool MatchSelectObject(const shared_ptr<GameObject>& obj)
+		{
+			return m_selectObj == obj;
 		}
 	};
 }

@@ -48,6 +48,10 @@ namespace basecross
 		// 開発開始のテクスチャ
 		AddTextureResource(L"START_TX", texturePath + L"PleaseButton.png");
 
+		// 矢印のテクスチャ
+		AddTextureResource(L"RIGHTARROW_TX", texturePath + L"RightArrow.png");
+		AddTextureResource(L"LEFTARROW_TX", texturePath + L"LeftArrow.png");
+		
 		// ボードのテクスチャ
 		AddTextureResource(L"BOARD_TX", modelPath + L"RouteMapTexture.tga");
 
@@ -57,7 +61,6 @@ namespace basecross
 		AddTextureResource(L"THIRD_TX", modelPath + L"ThirdMapTexture.tga");
 		AddTextureResource(L"FOURTH_TX", modelPath + L"FourthMapTexture.tga");
 		AddTextureResource(L"FIFTH_TX", modelPath + L"FifthMapTexture.tga");
-
 		// タイトルBGM
 		AddAudioResource(L"TITLE_BGM", soundPath + L"Title");
 
@@ -190,6 +193,20 @@ namespace basecross
 		AddGameObject<MoneyCountUI>(scale, position);
 	}
 
+	// 矢印の生成
+	void TitleStage::CreateArrowSprite()
+	{
+		const float scale = 100.0f;
+		const float posX = 1920.0f / 6.0f;
+		const float posY = 1080.0f / 4.0f;
+
+		m_rightArrow = AddGameObject<Sprite>(L"RIGHTARROW_TX", Vec2(scale), Vec3(+posX,+posY,0.0f));
+		m_leftArrow = AddGameObject<Sprite>(L"LEFTARROW_TX", Vec2(scale), Vec3(-posX, +posY, 0.0f));
+
+		m_rightArrow.lock()->SetDrawActive(false);
+		m_leftArrow.lock()->SetDrawActive(false);
+	}
+
 	// Aボタンを押した時の処理
 	void TitleStage::PushButtonA()
 	{
@@ -227,7 +244,7 @@ namespace basecross
 			titleCamera->SetTargetObject(m_selectObj);
 
 			bool isTrain = bool(dynamic_pointer_cast<TitleTrain>(m_selectObj));
-			objPos += isTrain ? m_trainDiffEye : m_objDiffEye;
+			objPos += isTrain ? m_trainDiffEye : Vec3(0.0f, 3.0f,+4.0f);
 
 			titleCamera->ZoomStart(objPos);
 		}
@@ -327,6 +344,26 @@ namespace basecross
 		}
 	}
 
+	// 矢印の表示・非表示
+	void TitleStage::ArrowActive()
+	{
+		const auto& routeMap = GetSharedGameObject<RouteMap>(L"RouteMap");
+
+		auto& camera = GetView()->GetTargetCamera();
+		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+
+		if (titleCamera->m_cameraState == titleCamera->Zoomed && MatchSelectObject(routeMap))
+		{
+			m_rightArrow.lock()->SetDrawActive(true);
+			m_leftArrow.lock()->SetDrawActive(true);
+		}
+		else
+		{
+			m_rightArrow.lock()->SetDrawActive(false);
+			m_leftArrow.lock()->SetDrawActive(false);
+		}
+	}
+
 	// 実行時、一度だけ処理される関数
 	void TitleStage::OnCreate()
 	{
@@ -357,6 +394,8 @@ namespace basecross
 			CreateSignBoard();
 			
 			CreateUISprite();
+
+			CreateArrowSprite();
 		}
 		catch (...)
 		{
@@ -419,6 +458,8 @@ namespace basecross
 				m_selectObj = NULL;
 				m_zooming = false;
 			}
+
+			ArrowActive();
 
 			TitleCameraZoom();
 
