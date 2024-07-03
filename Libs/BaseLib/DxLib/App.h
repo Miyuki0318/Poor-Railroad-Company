@@ -379,6 +379,7 @@ namespace basecross {
 				m_MouseClientPoint = { p.x, p.y };
 			}
 			else {
+				m_MouseClientPoint = { 0, 0 };
 				return false;
 			}
 
@@ -397,6 +398,14 @@ namespace basecross {
 				RECT rc;
 				::GetClientRect(hWnd, &rc);
 				if (::PtInRect(&rc, p)) {
+					return true;
+				}
+				else {
+					p.x = max(p.x, rc.left);
+					p.x = min(p.x, rc.right);
+					p.y = max(p.y, rc.top);
+					p.y = min(p.y, rc.bottom);
+
 					return true;
 				}
 			}

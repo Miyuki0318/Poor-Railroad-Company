@@ -144,6 +144,11 @@ namespace basecross
 		void UpdateMove() override;
 
 		/*!
+		@brief クラフト状態初期化関数
+		*/
+		void ResetCrafting();
+
+		/*!
 		@brief State変更関数
 		@param 新しいステートのポインタ
 		*/

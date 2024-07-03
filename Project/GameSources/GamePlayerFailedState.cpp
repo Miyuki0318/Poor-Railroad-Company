@@ -33,16 +33,7 @@ namespace basecross
 			player->SetAnimationMesh(ePAK::GameFailed);
 		}
 
-		if (player->GetStatus(ePlayerStatus::IsCraftQTE))
-		{
-			player->m_craft->DestroyCraftQTE();
-			player->m_status.Set(ePlayerStatus::IsCraftQTE) = false;
-		}
-
-		if (player->GetStatus(ePlayerStatus::IsCrafting))
-		{
-			player->SwitchCraftWindow();
-		}
+		player->ResetCrafting();
 	}
 
 	// ステート更新時の処理

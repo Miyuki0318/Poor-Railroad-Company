@@ -113,7 +113,7 @@ namespace basecross
 
 		/*!
 		@brief Xボタンを押した瞬間の取得関数
-		@return GetPad().wPressedButtons & XINPUT_GAMEPAD_A
+		@return GetPad().wPressedButtons & XINPUT_GAMEPAD_X
 		*/
 		inline bool GetPushX()
 		{
@@ -123,7 +123,7 @@ namespace basecross
 				// Aボタンが入力された瞬間かを返す
 				return GetPad().wPressedButtons & XINPUT_GAMEPAD_X;
 			}
-			return GetKeyboard().m_bPressedKeyTbl[VK_TAB];
+			return GetKeyboard().m_bPressedKeyTbl['Q'];
 		}
 
 		/*!
@@ -153,6 +153,20 @@ namespace basecross
 				return GetPad().wButtons & XINPUT_GAMEPAD_RIGHT_SHOULDER;
 			}
 			return false;
+		}
+
+		/*!
+		@brief スタートボタンを押した瞬間の取得関数
+		@return GetPad().wPressedButtons & XINPUT_GAMEPAD_START
+		*/
+		inline bool GetStartPush()
+		{
+			if (GetPadConected())
+			{
+				// スタートボタンが入力された瞬間かを返す
+				return GetPad().wPressedButtons & XINPUT_GAMEPAD_START;
+			}
+			return GetKeyboard().m_bPressedKeyTbl[VK_TAB];
 		}
 
 		/*!
@@ -236,23 +250,13 @@ namespace basecross
 		inline Vec2 GetMousePosition()
 		{
 			// キーステートからマウス座標を取得
-			Vec2 mousePos;
+			Vec2 mousePos = Vec2(1.0f);
 			auto& keyState = GetKeyboard();
 
 			// 座標系が0.0中心であるため、画面サイズの半分を引く
-			mousePos.x = float(keyState.m_MouseClientPoint.x) - (WINDOW_WIDTH / 2.0f);
-			mousePos.y = float(keyState.m_MouseClientPoint.y) - (WINDOW_HEIGHT / 2.0f);
+			mousePos.x = float(keyState.m_MouseClientPoint.x - (int(WINDOW_WIDTH) / 2));
+			mousePos.y = float(keyState.m_MouseClientPoint.y - (int(WINDOW_HEIGHT) / 2));
 			mousePos.y *= -1.0f;
-
-			if (mousePos.x == 0.0f)
-			{
-				return Vec2(0.0f);
-			}
-
-			if (mousePos.y == 0.0f)
-			{
-				return Vec2(0.0f);
-			}
 
 			// 返す
 			return mousePos;
