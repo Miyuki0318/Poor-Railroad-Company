@@ -9,8 +9,6 @@
 
 namespace basecross
 {
-	using namespace Input;
-
 	// ビューとライトの作成
 	void TitleStage::CreateViewLight()
 	{

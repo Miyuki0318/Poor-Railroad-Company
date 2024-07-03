@@ -82,7 +82,8 @@ namespace basecross
 		if (isLStick)
 		{
 			// LStick“ü—Í—Ê‚ÌŽæ“¾
-			Vec3 stickValue = Vec3(GetLStickValue().x, 0.0f, GetLStickValue().y);
+			Vec2 LStick = GetLStickValue();
+			Vec3 stickValue = Vec3(LStick.x, 0.0f, LStick.y);
 
 			m_acsel += DELTA_TIME;
 			m_acsel = min(m_acsel, m_maxAcsel);

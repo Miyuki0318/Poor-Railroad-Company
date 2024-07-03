@@ -121,7 +121,8 @@ namespace basecross
 		if (!GetButtonRB())
 		{
 			// コントローラー入力
-			Vec3 cntlVec = Vec3(GetLStickValue().x, 0.0f, GetLStickValue().y);
+			Vec2 LStick = GetLStickValue();
+			Vec3 cntlVec = Vec3(LStick.x, 0.0f, LStick.y);
 			if (cntlVec.length() > 0.0f)
 			{
 				m_cursorPosition += cntlVec * DELTA_TIME * 4.0f;

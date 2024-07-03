@@ -1,24 +1,41 @@
+/*!
+@file RailGuideIcon.h
+@brief レールを設置する場所のガイド表示
+@author 小澤博貴
+*/
+
 #pragma once
 #include "Billboard.h"
 
 namespace basecross
 {
+	/*!
+	@brief レール設置ガイド
+	*/
 	class RailGuideIcon : public GameObject
 	{
+		// アイコン配列
 		vector<weak_ptr<Billboard>> m_iconVec;
 
 		// 前回のガイドポイント
 		vector<Point2D<size_t>> m_pastGuidePoint;
 
-		const Vec2 m_deffScale;
-		const float m_boundValue;
-		const float m_drawRange;
-		const float m_deffPosY;
+		// プレイヤーのポインタ
+		weak_ptr<TemplateObject> m_playerPtr;
 
-		float m_totalTime;
+		const Vec2 m_deffScale;		// スケール
+		const float m_boundValue;	// バウンドする量
+		const float m_drawRange;	// 表示する距離
+		const float m_deffPosY;		// デフォルトの座標Y
+
+		float m_totalTime;	// 経過時間
 
 	public:
 
+		/*!
+		@brief コンストラクタ
+		@param ステージポインタ
+		*/
 		RailGuideIcon(const shared_ptr<Stage>& stagePtr) :
 			GameObject(stagePtr),
 			m_drawRange(3.0f),
@@ -31,6 +48,9 @@ namespace basecross
 			m_iconVec.resize(3);
 		}
 
+		/*!
+		@brief デストラクタ
+		*/
 		virtual ~RailGuideIcon() {}
 
 		/*!
@@ -44,7 +64,7 @@ namespace basecross
 		void OnUpdate() override;
 
 		/*!
-		@brief 点滅の更新処理関数
+		@brief 目立つ動きの更新処理関数
 		*/
 		void UpdateIconMove();
 
@@ -52,6 +72,11 @@ namespace basecross
 		@brief ガイドの配置更新処理関数
 		*/
 		void UpdateGuide();
+
+		/*!
+		@brief プレイヤーとの距離で表示するかの更新処理関数
+		*/
+		void UpdateRange();
 
 		/*!
 		@brief ガイドの表示設定関数

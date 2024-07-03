@@ -9,9 +9,6 @@
 
 namespace basecross
 {
-	// ネームスペースの省略
-	using namespace Input;
-
 	void CraftManager::OnCreate()
 	{
 		const auto& stagePtr = m_player.lock()->GetStage();
