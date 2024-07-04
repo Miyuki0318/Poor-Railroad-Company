@@ -5,7 +5,20 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "Input.h"
+#include "TitleStage.h"
+#include "MainCamera.h"
+#include "SkyBox.h"
+#include "Opening.h"
+#include "GroundManager.h"
+#include "RailManager.h"
+#include "GatheringObject.h"
+#include "TitlePlayer.h"
+#include "Company.h"
+#include "RouteMap.h"
+#include "TitleTrain.h"
+#include "TitlePlayerState.h"
+#include "UnBreakRock.h"
 #include "MoneyCountUI.h"
 
 namespace basecross
