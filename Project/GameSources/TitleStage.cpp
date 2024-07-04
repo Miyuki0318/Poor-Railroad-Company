@@ -62,6 +62,10 @@ namespace basecross
 		AddTextureResource(L"THIRD_TX", routePath + L"ThirdMapTexture.tga");
 		AddTextureResource(L"FOURTH_TX", routePath + L"FourthMapTexture.tga");
 		AddTextureResource(L"FIFTH_TX", routePath + L"FifthMapTexture.tga");
+
+		//// ボタンのテクスチャ
+		//AddTextureResource(L"BUTTON_B_TX", texturePath + L"B.png");
+
 		// タイトルBGM
 		AddAudioResource(L"TITLE_BGM", soundPath + L"Title");
 
@@ -201,6 +205,11 @@ namespace basecross
 		SetSharedGameObject(L"SelectArrow", arrow);
 	}
 
+	// ボタンUIの生成
+	void TitleStage::CreateButtonUI()
+	{
+	}
+
 	// Aボタンを押した時の処理
 	void TitleStage::PushButtonA()
 	{
@@ -338,26 +347,6 @@ namespace basecross
 		}
 	}
 
-	// 矢印の表示・非表示
-	void TitleStage::ArrowActive()
-	{
-		const auto& routeMap = GetSharedGameObject<RouteMap>(L"RouteMap");
-
-		auto& camera = GetView()->GetTargetCamera();
-		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
-
-		if (titleCamera->m_cameraState == MainCamera::Zoomed && MatchSelectObject(routeMap))
-		{
-			m_rightArrow.lock()->SetDrawActive(true);
-			m_leftArrow.lock()->SetDrawActive(true);
-		}
-		else
-		{
-			m_rightArrow.lock()->SetDrawActive(false);
-			m_leftArrow.lock()->SetDrawActive(false);
-		}
-	}
-
 	// 実行時、一度だけ処理される関数
 	void TitleStage::OnCreate()
 	{
@@ -389,9 +378,9 @@ namespace basecross
 			
 			CreateUISprite();
 
-			AddGameObject<SelectArrow>();
+			CreateArrowSprite();
 
-			//CreateArrowSprite();
+			CreateButtonUI();
 		}
 		catch (...)
 		{
@@ -454,8 +443,6 @@ namespace basecross
 				m_selectObj = NULL;
 				m_zooming = false;
 			}
-
-			//ArrowActive();
 
 			TitleCameraZoom();
 
