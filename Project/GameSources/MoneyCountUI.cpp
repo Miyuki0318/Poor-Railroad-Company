@@ -5,8 +5,8 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
 #include "MoneyCountUI.h"
+#include "Scene.h"
 
 namespace basecross
 {
