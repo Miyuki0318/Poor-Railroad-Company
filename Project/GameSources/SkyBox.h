@@ -7,6 +7,7 @@
 #pragma once
 #include "stdafx.h"
 #include "TemplateObject.h"
+#include "MainCamera.h"
 
 namespace basecross {
 	class SkyBox : public TemplateObject
