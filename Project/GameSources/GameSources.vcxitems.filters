@@ -253,6 +253,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RailGuideIcon.h">
       <Filter>Guide\RailGuideIcon</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Arrow.h">
+      <Filter>UI\Arrow</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -473,6 +476,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)RailGuideIcon.cpp">
       <Filter>Guide\RailGuideIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Arrow.cpp">
+      <Filter>UI\Arrow</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -733,6 +739,9 @@
     </Filter>
     <Filter Include="Guide\RailGuideBlinking">
       <UniqueIdentifier>{1db75497-19dd-4dab-994e-9f2f9bf9a2f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Arrow">
+      <UniqueIdentifier>{786a982b-b9d6-4ea9-87da-31b06bd16f3b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
