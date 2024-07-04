@@ -18,8 +18,12 @@ namespace basecross
 
 		// 各種スプライトの生成
 		m_menuSprite = stagePtr->AddGameObject<Sprite>(L"PAUSEMENU_TX", m_CloseMenuScale, m_CloseMenuPos);
+		m_menuSprite.lock()->SetDrawLayer(8);
 		m_buttonSprites.emplace(eButtons::Retry, stagePtr->AddGameObject<Sprite>(L"CONTINUE_TX", m_DefaultButtonScale, m_DefaultRetryButtonPos));
 		m_buttonSprites.emplace(eButtons::BackTitle, stagePtr->AddGameObject<Sprite>(L"CONTINUE_TITLEBACK_TX", m_DefaultButtonScale, m_DefaultTitleButtonPos));
+		m_buttonSprites.at(eButtons::Retry).lock()->SetDrawLayer(9);
+		m_buttonSprites.at(eButtons::BackTitle).lock()->SetDrawLayer(9);
+
 		SetDrawActiveButtons(false);
 	}
 

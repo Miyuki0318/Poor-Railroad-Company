@@ -23,6 +23,11 @@ namespace basecross
 		m_clearBackSprite = stagePtr->AddGameObject<Sprite>(L"CLEAR_TITLEBACK_TX", m_defScale, m_rightPos - m_moveVal);
 		m_railLineSprite = stagePtr->AddGameObject<Sprite>(L"RAIL_LINE_TX", Vec2(WINDOW_WIDTH, 128.0f), m_railPos);
 
+		// レイヤー設定
+		m_nextStageSprite.lock()->SetDrawLayer(8);
+		m_clearBackSprite.lock()->SetDrawLayer(8);
+		m_railLineSprite.lock()->SetDrawLayer(8);
+
 		// 煙のエフェクトスプライトを取得
 		m_smoke = stagePtr->GetSharedGameObject<SpriteParticle>(L"SmokeEffect");
 

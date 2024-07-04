@@ -215,7 +215,9 @@ namespace basecross
 	void GameStage::CreateSpriteObject()
 	{
 		m_fadeSprite->SetDiffuseColor(COL_WHITE);
+		m_fadeSprite->SetDrawLayer(10);
 		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f, 300.0f), Vec3(0.0f, 375.0f, 0.3f));
+		m_gameSprite->SetDrawLayer(7);
 
 		// コンティニュー時に扱うスプライト
 		m_continueSprite = AddGameObject<Sprite>(L"CONTINUE_TX", m_defScale, m_leftPos);

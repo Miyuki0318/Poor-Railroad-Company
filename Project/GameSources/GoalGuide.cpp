@@ -22,6 +22,10 @@ namespace basecross
 		const auto& stagePtr = GetStage();
 		m_arrowSprite = stagePtr->AddGameObject<Sprite>(L"GOAL_ARROW_TX", Vec2(m_scale));
 		m_goalStation = stagePtr->GetSharedGameObject<TemplateObject>(L"Station");
+
+		// レイヤー設定
+		m_arrowSprite.lock()->SetDrawLayer(1);
+		m_goalStation.lock()->SetDrawLayer(1);
 	}
 
 	// 毎フレーム更新
@@ -34,7 +38,7 @@ namespace basecross
 
 		// 画面内にクリッピングする
 		Vec3 pos = WindowClipLineVec(Vec3(0.0f), stationPos);
-		pos.z = 0.7f;
+		pos.z = 0.8f;
 
 		// ウィンドウサイズからスケール分を引いた数でクランプする
 		Vec3 windowMax = Vec3((WINDOW_SIZE / 2.0f) - Vec2(m_scale / 2.0f), 1.0f);
@@ -45,7 +49,7 @@ namespace basecross
 
 		// 座標の更新など
 		SetPosition(pos);
-		m_arrowSprite.lock()->SetPosition(pos + BACK_VEC);
+		m_arrowSprite.lock()->SetPosition(pos + BACK_LAYER);
 		m_arrowSprite.lock()->SetRotation(Vec3(0.0f, 0.0f, rad));
 
 		// ゴール駅が画面内なら非表示

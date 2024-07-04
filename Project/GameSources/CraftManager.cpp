@@ -61,6 +61,7 @@ namespace basecross
 			Vec3 windowRect = Vec3((WINDOW_WIDTH / 2.0f), WINDOW_HEIGHT / 2.0f, 1.0f);
 			windowPos.clamp(-windowRect, windowRect);
 			windowPos.z = 0.0f;
+			windowPos += BACK_LAYER;
 			eRectType rect = eRectType::DownLeft;
 			if (windowPos.x < 0.0f) rect = eRectType::DownRight;
 			if (windowPos.y < 0.0f) rect = eRectType::UpLeft;
@@ -75,8 +76,8 @@ namespace basecross
 			window->SetRectType(rect);
 
 			// •`‰æó‘ÔÝ’è‚ð‘—‚é
-			window->SetDrawEnable(enable, windowPos + BACK_VEC);
-			qte->SetDrawEnable(enable, window->GetPosition());
+			window->SetDrawEnable(enable, windowPos + BACK_LAYER);
+			qte->SetDrawEnable(enable, window->GetPosition() + BACK_LAYER);
 
 			// ƒAƒCƒRƒ“‚É‚àÝ’è‚ð‘—‚é
 			for (auto& icon : m_iconMap)
@@ -85,7 +86,7 @@ namespace basecross
 				ptr->SetVerticesRect(rect);
 				ptr->SetRectType(rect);
 				ptr->SetCraftPosshible(CraftOrder(icon.first));
-				ptr->SetDrawEnable(enable, windowPos);
+				ptr->SetDrawEnable(enable, windowPos + BACK_LAYER);
 			}
 		}
 	}
