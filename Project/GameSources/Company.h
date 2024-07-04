@@ -6,6 +6,8 @@
 
 #pragma once
 #include "TemplateObject.h"
+#include "Sprite.h"
+#include "Scene.h"
 
 namespace basecross {
 	class Company : public TemplateObject

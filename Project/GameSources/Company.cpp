@@ -6,7 +6,7 @@
 
 #pragma once
 #include "stdafx.h"
-#include "Project.h"
+#include "Company.h"
 
 namespace basecross {
 	void Company::OnCreate()
