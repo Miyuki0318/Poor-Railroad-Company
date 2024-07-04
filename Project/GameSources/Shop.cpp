@@ -6,7 +6,7 @@
 
 #pragma once
 #include "stdafx.h"
-#include "Project.h"
+#include "Shop.h"
 
 namespace basecross {
 	void Shop::OnCreate()
