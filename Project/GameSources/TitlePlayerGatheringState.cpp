@@ -7,7 +7,6 @@
 #include "stdafx.h"
 #include "TitlePlayerGatheringState.h"
 #include "TitlePlayerIdleState.h"
-#include "Player.h"
 
 namespace basecross
 {

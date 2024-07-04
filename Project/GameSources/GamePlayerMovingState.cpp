@@ -9,7 +9,6 @@
 #include "GamePlayerIdleState.h"
 #include "GamePlayerGatheringState.h"
 #include "GamePlayerCraftingState.h"
-#include "Player.h"
 
 namespace basecross
 {

@@ -9,7 +9,6 @@
 #include "GamePlayerMovingState.h"
 #include "GamePlayerGatheringState.h"
 #include "GamePlayerCraftingState.h"
-#include "Player.h"
 
 namespace basecross
 {

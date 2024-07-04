@@ -6,7 +6,6 @@
 
 #include "stdafx.h"
 #include "GamePlayerSuccesState.h"
-#include "Player.h"
 
 namespace basecross
 {
