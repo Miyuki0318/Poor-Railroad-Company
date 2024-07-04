@@ -5,7 +5,9 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "TitlePlayerIdleState.h"
+#include "TitlePlayerGatheringState.h"
+#include "TitlePlayerMovingState.h"
 
 namespace basecross
 {
