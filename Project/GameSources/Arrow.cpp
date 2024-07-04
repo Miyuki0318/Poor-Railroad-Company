@@ -6,7 +6,10 @@
 
 #pragma once
 #include "stdafx.h"
-#include "Project.h"
+#include "Arrow.h"
+#include "TitleStage.h"
+#include "RouteMap.h"
+#include "MainCamera.h"
 
 namespace basecross {
 	void SelectArrow::OnCreate()

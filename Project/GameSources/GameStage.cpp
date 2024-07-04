@@ -22,6 +22,7 @@
 #include "RailManager.h"
 #include "SkyBox.h"
 #include "UnBreakRock.h"
+#include "CraftPosshibleGuide.h"
 
 namespace basecross
 {

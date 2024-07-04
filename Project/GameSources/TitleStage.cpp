@@ -20,6 +20,8 @@
 #include "TitlePlayerState.h"
 #include "UnBreakRock.h"
 #include "MoneyCountUI.h"
+#include "TitleGuide.h"
+#include "Arrow.h"
 
 namespace basecross
 {

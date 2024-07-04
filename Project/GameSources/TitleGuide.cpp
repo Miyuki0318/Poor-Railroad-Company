@@ -5,7 +5,8 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "TitleGuide.h"
+#include "TitleStage.h"
 
 namespace basecross
 {
