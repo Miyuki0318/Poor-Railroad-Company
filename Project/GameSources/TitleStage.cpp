@@ -196,15 +196,8 @@ namespace basecross
 	// –îˆó‚Ì¶¬
 	void TitleStage::CreateArrowSprite()
 	{
-		const float scale = 100.0f;
-		const float posX = 1920.0f / 6.0f;
-		const float posY = 1080.0f / 4.0f;
-
-		m_rightArrow = AddGameObject<Sprite>(L"RIGHTARROW_TX", Vec2(scale), Vec3(+posX,+posY,0.0f));
-		m_leftArrow = AddGameObject<Sprite>(L"LEFTARROW_TX", Vec2(scale), Vec3(-posX, +posY, 0.0f));
-
-		m_rightArrow.lock()->SetDrawActive(false);
-		m_leftArrow.lock()->SetDrawActive(false);
+		const auto& arrow = AddGameObject<SelectArrow>();
+		SetSharedGameObject(L"SelectArrow", arrow);
 	}
 
 	// Aƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚Ìˆ—
@@ -395,7 +388,9 @@ namespace basecross
 			
 			CreateUISprite();
 
-			CreateArrowSprite();
+			AddGameObject<SelectArrow>();
+
+			//CreateArrowSprite();
 		}
 		catch (...)
 		{
@@ -459,7 +454,7 @@ namespace basecross
 				m_zooming = false;
 			}
 
-			ArrowActive();
+			//ArrowActive();
 
 			TitleCameraZoom();
 
