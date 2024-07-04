@@ -32,6 +32,9 @@ namespace basecross
 		m_backPackLevel = scene->GetBackPackLevel();
 		m_startGearLevel = scene->GetStartGearLevel();
 
+		// ‰Šú‰»
+		m_addItem = make_pair(eItemType::None, 0);
+
 		// ŠJn‚ÌŠƒMƒAİ’è
 		AddItemCount(eItemType::Gear, (int)m_playerData.at(ePST::StartGear).at(m_startGearLevel));
 	}

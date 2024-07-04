@@ -35,6 +35,7 @@ namespace basecross
 	// アイテムカウンタ用enum
 	enum class eItemType : size_t
 	{
+		None,		// 何もなし
 		Wood,		// 木
 		Stone,		// 石
 		Gear,		// 歯車

@@ -102,6 +102,11 @@ namespace basecross
 		virtual ~FlyItemManager() {}
 
 		/*!
+		@brief リセット処理
+		*/
+		void ResetFly();
+
+		/*!
 		@brief エフェクト開始関数
 		@param アイテムのタイプ
 		*/

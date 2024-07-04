@@ -317,6 +317,18 @@ namespace basecross
 
 		const auto& player = GetSharedGameObject<GamePlayer>(L"Player");
 		player->ResetPlayer(m_startPosition, m_goalStagingPosition);
+
+		const auto& flyEffect = GetSharedGameObject<FlyItemManager>(L"FlyItemManager");
+		flyEffect->ResetFly();
+
+		const auto& smokeEffect = GetSharedGameObject<SpriteParticle>(L"SmokeEffect");
+		smokeEffect->ResetParticle();
+
+		const auto& starEffect = GetSharedGameObject<SpriteParticle>(L"StarEffect");
+		starEffect->ResetParticle();
+
+		const auto& craftEffect = GetSharedGameObject<SpriteParticle>(L"CraftEffect");
+		craftEffect->ResetParticle();
 	}
 
 	// ’n–Ê‚ÌÄ¶¬ˆ—

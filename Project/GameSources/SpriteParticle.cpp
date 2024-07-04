@@ -19,6 +19,7 @@ namespace basecross
 			// エラーチェック
 			auto& sprite = spriteData.sprite.lock();
 			if (!sprite) continue;
+			if (!sprite->GetUpdateActive()) continue;
 
 			// 経過時間が描画時間以上になってたら非アクティブ化
 			if (spriteData.totalTime >= spriteData.drawTime)
@@ -34,6 +35,22 @@ namespace basecross
 			
 			// デルタタイムで経過時間を加算
 			spriteData.totalTime += DELTA_TIME;
+		}
+	}
+
+	// リセット処理
+	void SpriteParticle::ResetParticle()
+	{
+		// 全ループ
+		const auto& stagePtr = GetStage();
+		for (auto& spriteData : m_spriteVec)
+		{
+			// エラーチェック
+			auto& sprite = spriteData.sprite.lock();
+			if (!sprite) continue;
+
+			// 初期化
+			stagePtr->RemoveGameObject<GameObject>(sprite);
 		}
 	}
 
