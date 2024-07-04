@@ -5,7 +5,9 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "GameTrainCurveStandbyState.h"
+#include "GameTrainCurvingState.h"
+#include "MathFunc.h"
 
 namespace basecross
 {
