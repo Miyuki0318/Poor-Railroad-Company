@@ -5,7 +5,12 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "OzawaUtility.h"
+#include "GatheringObject.h"
+#include "RailManager.h"
+#include "TitleStage.h"
+#include "GatherTreasure.h"
+#include "GamePlayer.h"
 
 namespace basecross
 {
