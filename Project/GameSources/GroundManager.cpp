@@ -5,7 +5,8 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "OzawaUtility.h"
+#include "GroundManager.h"
 
 #define END_INDEX 10 // ‹æØ‚é‚Ü‚Å‚Ì”
 
