@@ -4,8 +4,7 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
-
+#include "OzawaFuncs.h"
 namespace basecross
 {
 	// SE‚ÌÄ¶

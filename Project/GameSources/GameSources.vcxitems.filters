@@ -7,9 +7,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Player.h">
       <Filter>Player</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)Project.h">
-      <Filter>Project</Filter>
-    </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Scene.h">
       <Filter>Scene</Filter>
     </ClInclude>
@@ -111,9 +108,6 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Company.h">
       <Filter>StageObject\Building\Company</Filter>
-    </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RouteMap.h">
-      <Filter>StageObject\RouteMap</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)BaseStage.h">
       <Filter>Stage\BaseStage</Filter>
@@ -246,6 +240,9 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)GameTrainDeRailedState.h">
       <Filter>StageObject\Train\GameTrain\GameTrainState\GameTrainDeRailedState</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RouteMap.h">
+      <Filter>StageObject\RouteMap</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

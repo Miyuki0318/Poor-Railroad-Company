@@ -5,7 +5,8 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "OzawaFuncs.h"
+#include "Scene.h"
 
 /*!
 @brief ’l‚ðwstringŒ^‚É•ÏŠ·‚µ•Ô‚·ŠÖ”(ˆø”–³‚µ‚Í‰üs)
@@ -250,7 +251,7 @@ wstring Debug::GetWss(const Flt4& str)
 */
 void Debug::AddLog(const wstring& logStr)
 {
-	auto activeStage = basecross::App::GetApp()->GetScene<Scene>()->GetActiveStage(false);
+	auto activeStage = basecross::App::GetApp()->GetScene<basecross::Scene>()->GetActiveStage(false);
 	if (!activeStage) return;
 
 	auto debugStr = activeStage->GetSharedObject(L"DebugString");

@@ -67,7 +67,6 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerMovingState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerStateMachine.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerSuccesState.h" />
-    <ClInclude Include="$(MSBuildThisFileDirectory)Project.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RailGuide.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RailManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ResourcesManager.h" />
