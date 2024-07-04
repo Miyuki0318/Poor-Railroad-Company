@@ -24,8 +24,8 @@ namespace basecross
 		m_goalStation = stagePtr->GetSharedGameObject<TemplateObject>(L"Station");
 
 		// レイヤー設定
+		SetDrawLayer(1);
 		m_arrowSprite.lock()->SetDrawLayer(1);
-		m_goalStation.lock()->SetDrawLayer(1);
 	}
 
 	// 毎フレーム更新

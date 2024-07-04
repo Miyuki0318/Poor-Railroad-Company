@@ -208,6 +208,14 @@ namespace basecross
 
 		// クラフトマネージャーにクラフト状態を送る
 		m_craft->CraftingEnabled(m_status(ePlayerStatus::IsCrafting));
+
+		// ステージの状態を変更する
+		const auto& stagePtr = GetTypeStage<GameStage>();
+		auto prog = stagePtr->GetGameProgress();
+		if (OR(prog, eGameProgress::Playing, eGameProgress::CraftPause))
+		{
+			stagePtr->SetGameProgress(m_status(ePlayerStatus::IsCrafting) ? eGameProgress::CraftPause : eGameProgress::Playing);
+		}
 	}
 
 	// クラフト中なら初期化する
