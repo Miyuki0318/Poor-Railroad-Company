@@ -6,6 +6,7 @@
 
 #pragma once
 #include "Number.h"
+#include "GameStage.h"
 
 namespace basecross
 {

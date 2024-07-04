@@ -6,6 +6,8 @@
 
 #pragma once
 #include "Sprite.h"
+#include "OzawaFuncs.h"
+#include "GameStage.h"
 
 namespace basecross
 {
