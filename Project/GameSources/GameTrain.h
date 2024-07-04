@@ -9,6 +9,7 @@
 #include "TemplateObject.h"
 #include "RailManager.h"
 #include "SmokeEffect.h"
+#include "Train.h"
 
 namespace basecross {
 

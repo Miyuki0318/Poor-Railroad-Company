@@ -4,8 +4,23 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "BridgeManager.h"
+#include "Crossing.h"
+#include "GameTrain.h"
+#include "GameStage.h"
+#include "GamePlayer.h"
+#include "GatheringObject.h"
+#include "GatherTreasure.h"
+#include "Gear.h"
+#include "GoalGuide.h"
+#include "GroundManager.h"
+#include "ItemCountUI.h"
+#include "MainCamera.h"
 #include "PauseMenu.h"
+#include "RailGuide.h"
+#include "RailManager.h"
+#include "SkyBox.h"
+#include "UnBreakRock.h"
 
 namespace basecross
 {
