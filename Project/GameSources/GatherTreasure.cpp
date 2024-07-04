@@ -5,7 +5,8 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "OzawaUtility.h"
+#include "GatherTreasure.h"
 
 namespace basecross
 {
