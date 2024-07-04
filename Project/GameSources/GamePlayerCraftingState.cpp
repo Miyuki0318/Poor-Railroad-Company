@@ -5,7 +5,9 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "GamePlayerCraftingState.h"
+#include "GamePlayerIdleState.h"
+#include "Player.h"
 
 namespace basecross
 {
