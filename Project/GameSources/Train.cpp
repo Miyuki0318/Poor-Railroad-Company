@@ -5,7 +5,9 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "Train.h"
+#include "RailManager.h"
+#include "MathFunc.h"
 
 namespace basecross {
 
