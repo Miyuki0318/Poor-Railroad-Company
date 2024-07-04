@@ -5,7 +5,8 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "TitleTrain.h"
+#include "TitleStage.h"
 
 namespace basecross {
 	void TitleTrain::OnCreate()
