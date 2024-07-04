@@ -5,7 +5,9 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "OzawaUtility.h"
+#include "UnBreakRock.h"
+#include "BaseStage.h"
 
 namespace basecross
 {
