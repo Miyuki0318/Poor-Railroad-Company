@@ -5,7 +5,10 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "Input.h"
+#include "OzawaUtility.h"
+#include "Player.h"
+#include "RailManager.h"
 
 #define MESH L"SM_PLAYER_"
 
