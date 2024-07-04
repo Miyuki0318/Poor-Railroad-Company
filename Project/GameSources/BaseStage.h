@@ -7,6 +7,8 @@
 #pragma once
 #include "stdafx.h"
 #include "ResourcesManager.h"
+#include "Scene.h"
+#include "OzawaFuncs.h"
 
 // ステージIDキャストマクロ
 #define STAGE_ID(id) static_cast<eStageID>(id)

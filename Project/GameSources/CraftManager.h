@@ -10,6 +10,7 @@
 #include "CraftWindow.h"
 #include "CraftItemIcon.h"
 #include "CraftingQTE.h"
+#include "CSVLoader.h"
 
 namespace basecross
 {

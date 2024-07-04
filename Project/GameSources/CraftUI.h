@@ -6,6 +6,7 @@
 
 #pragma once
 #include "Sprite.h"
+#include "OzawaFuncs.h"
 
 namespace basecross
 {

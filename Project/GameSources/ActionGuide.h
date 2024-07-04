@@ -7,6 +7,7 @@
 #pragma once
 #include "Sprite.h"
 #include "GamePlayer.h"
+#include "BaseStage.h"
 
 namespace basecross
 {

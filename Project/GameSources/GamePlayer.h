@@ -8,6 +8,7 @@
 #include "Player.h"
 #include "ItemFly.h"
 #include "GamePlayerStateMachine.h"
+#include "GameStage.h"
 
 namespace basecross
 {
