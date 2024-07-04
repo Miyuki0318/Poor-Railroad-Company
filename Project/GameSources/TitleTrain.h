@@ -7,6 +7,7 @@
 #pragma once
 #include "stdafx.h"
 #include "TemplateObject.h"
+#include "Train.h"
 
 namespace basecross {
 	class TitleTrain : public Train

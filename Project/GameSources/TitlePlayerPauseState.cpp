@@ -5,7 +5,14 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "TitlePlayerPauseState.h"
+#include "TitlePlayerIdleState.h"
+#include "TitlePlayerStartState.h"
+#include "TitleTrain.h"
+#include "TitleStage.h"
+#include "Opening.h"
+#include "MainCamera.h"
+#include "Company.h"
 
 namespace basecross
 {

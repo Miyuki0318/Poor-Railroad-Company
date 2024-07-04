@@ -6,6 +6,7 @@
 
 #pragma once
 #include "TitlePlayerStateMachine.h"
+#include "TitlePlayer.h"
 
 namespace basecross
 {
