@@ -5,7 +5,9 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "MathFunc.h"
+#include "MainCamera.h"
+#include "OzawaUtility.h"
 
 namespace basecross {
 
