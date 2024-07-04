@@ -32,6 +32,9 @@ namespace basecross {
 
 		eMapLevel m_mapLevel;
 
+		bool moveLeft;
+		bool moveRight;
+
 	public:
 		RouteMap(const shared_ptr<Stage>& stagePtr,
 			eMapLevel& mapLevel) :
@@ -39,13 +42,16 @@ namespace basecross {
 			m_mapLevel(mapLevel)
 		{
 			m_spanMat.affineTransformation(
-				Vec3(2.7f),
+				Vec3(0.65f),
 				Vec3(0.0f),
 				Vec3(0.0f),
 				Vec3(0.0f)
 			);
 
 			m_currentX = 0.0f;
+
+			moveLeft = false;
+			moveRight = false;
 
 			m_modelTextures.emplace(eMapLevel::FirstMap, L"FIRST_TX");
 			m_modelTextures.emplace(eMapLevel::SecondMap, L"SECOND_TX");
@@ -61,6 +67,21 @@ namespace basecross {
 		@brief マップの難易度選択
 		*/
 		virtual void MapSelect();
+	
+		float GetInputMoveX()
+		{
+			return m_currentX;
+		}
+
+		bool GetInputMoveRight()
+		{
+			return moveRight;
+		}
+
+		bool GetInputMoveLeft()
+		{
+			return moveLeft;
+		}
 	};
 
 	class SignBoard : public TemplateObject

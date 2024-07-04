@@ -106,8 +106,8 @@ namespace basecross
 			m_distanceX(60.0f)
 		{
 			// アイコンタイプに応じた座標テーブル
-			m_typePos.emplace(eSpriteType::Icon, Vec3(0.0f, 0.0f, 0.5f));
-			m_typePos.emplace(eSpriteType::Balloon, Vec3(0.0f, 0.0f, 0.6f));
+			m_typePos.emplace(eSpriteType::Icon, Vec3(0.0f, 0.0f, 0.6f));
+			m_typePos.emplace(eSpriteType::Balloon, Vec3(0.0f, 0.0f, 0.7f));
 
 			// ステージIDに応じたアイコンテーブル
 			m_iconMap.emplace(eStageID::Stone1, eActionIcon::Pick);

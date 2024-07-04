@@ -21,6 +21,7 @@ namespace basecross {
 		Vec3 m_initialEye;	// カメラの初期位置
 		Vec3 m_initialAt;	// カメラの初期注視点
 
+		float m_zoomAtY;		// ズーム後の注視点
 		float m_zoomRatio; // ズームの割合
 		float m_zoomSpeed; // ズーム速度
 
@@ -49,6 +50,7 @@ namespace basecross {
 			m_currentEye(0.0f),
 			m_ZoomRatioC(0.6f),
 			m_zoomEye(Vec3(0.0f)),
+			m_zoomAtY(0.0f),
 			m_zoomRatio(0.0f),
 			m_zoomSpeed(0.8f)
 		{
@@ -83,6 +85,18 @@ namespace basecross {
 		/// <param name="zoomEye">ズーム後の位置</param>
 		void ZoomStart(Vec3 zoomEye) {
 			m_zoomEye = zoomEye;
+			m_currentEye = GetEye();
+			m_cameraState = ZoomIn;
+			m_zoomRatio = 0.0f;
+		}
+
+		/// <summary>
+		/// ズーム処理スタート時に呼び出す処理
+		/// </summary>
+		/// <param name="zoomEye">ズーム後の位置</param>
+		void ZoomStart(Vec3 zoomEye, float zoomAtY) {
+			m_zoomEye = zoomEye;
+			m_zoomAtY = zoomAtY;
 			m_currentEye = GetEye();
 			m_cameraState = ZoomIn;
 			m_zoomRatio = 0.0f;

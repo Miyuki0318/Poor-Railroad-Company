@@ -80,7 +80,7 @@ namespace basecross
 	{
 		// 1割りの確率を設ける
 		int random = rand() % 10;
-		if (m_probability > random) return make_pair(eItemType::Rail, 0);
+		if (m_probability > random) return make_pair(eItemType::None, 0);
 
 		// アイテムタイプと加算数を設定
 		int max = sizeof(m_items) / sizeof(eItemType);

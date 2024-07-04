@@ -93,6 +93,13 @@ namespace basecross
 		@brief 表示非表示設定関数
 		@param bool
 		*/
+		virtual void SetDrawEnable(bool enable);
+
+		/*!
+		@brief 表示非表示設定関数
+		@param bool
+		@param position
+		*/
 		virtual void SetDrawEnable(bool enable, const Vec3& position);
 
 		/*!

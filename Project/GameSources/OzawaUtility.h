@@ -577,6 +577,12 @@ namespace Utility
 	 */
 #define BACK_VEC	Vec3(0.0f, 0.0f, 1.0f)
 
+	 /*!
+	 @brief 2D座標z軸加算Vec3
+	 @return Vec3(0.0f, 0.0f, 0.1f)
+	 */
+#define BACK_LAYER	Vec3(0.0f, 0.0f, 0.1f)
+
 	/*!
 	@brief シンプルな頂点データを作成
 	@param (vertices) 頂点データ

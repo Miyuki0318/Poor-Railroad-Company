@@ -61,6 +61,11 @@ namespace basecross
 		void OnUpdate() override;
 
 		/*!
+		@brief リセット処理
+		*/
+		void ResetParticle();
+
+		/*!
 		@brief パーティクル追加関数
 		@param スケール
 		@param 移動量

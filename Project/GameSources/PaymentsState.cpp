@@ -16,6 +16,7 @@ namespace basecross
 		// スプライトの生成
 		const auto& stagePtr = m_stage.lock();
 		m_menuSprite = stagePtr->AddGameObject<Sprite>(L"PAYMENTS_MENU_TX", WINDOW_SIZE, Vec3(0.0f, WINDOW_HEIGHT, 0.0f) + m_menuPosition);
+		m_menuSprite.lock()->SetDrawLayer(8);
 
 		// 数字スプライトの生成
 		NumberCount reward, rSales, gold, resource, rInstallations, total;
@@ -43,6 +44,7 @@ namespace basecross
 		{
 			for (auto& number : numbers.second.sprite)
 			{
+				number.lock()->SetDrawLayer(8);
 				number.lock()->SetDiffuseColor(COL_ALPHA);
 			}
 		}

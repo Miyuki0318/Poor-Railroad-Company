@@ -36,6 +36,7 @@ namespace basecross
 	// アイテムカウンタ用enum
 	enum class eItemType : size_t
 	{
+		None,		// 何もなし
 		Wood,		// 木
 		Stone,		// 石
 		Gear,		// 歯車
@@ -116,7 +117,7 @@ namespace basecross
 		@param クラフトするアイテム
 		@return クラフト可能かの真偽
 		*/
-		bool CraftOrder(eCraftItem item);
+		bool CraftOrder(eCraftItem item) const;
 
 		/*!
 		@brief クラフト有効化関数
@@ -200,7 +201,7 @@ namespace basecross
 		@param 素材タイプ
 		@return 素材要求数
 		*/
-		int GetRacipeValue(eCraftItem item, eCraftParam param)
+		int GetRacipeValue(eCraftItem item, eCraftParam param) const
 		{
 			return stoi(m_racipe.at(static_cast<size_t>(item)).at(static_cast<size_t>(param)));
 		}

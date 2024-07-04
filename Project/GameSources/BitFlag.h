@@ -170,4 +170,28 @@ public:
     {
         m_flags = 0;
     }
+
+    /*!
+    @brief !=‰‰ŽZŽq
+    */
+    void operator=(BitFlag<Enum, BitType> temp)
+    {
+        this->m_flags = temp.m_flags;
+    }
+
+    /*!
+    @brief !=‰‰ŽZŽq
+    */
+    bool operator!=(BitFlag<Enum, BitType> temp)
+    {
+        return this->m_flags != temp.m_flags;
+    }
+
+    /*!
+    @brief ==‰‰ŽZŽq
+    */
+    bool operator==(BitFlag<Enum, BitType> temp)
+    {
+        return this->m_flags == temp.m_flags;
+    }
 };

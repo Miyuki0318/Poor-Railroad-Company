@@ -26,6 +26,7 @@ namespace basecross
 		for (auto& sprite : m_spriteMap)
 		{
 			sprite.sprite.lock()->SetScale(m_scale);
+			sprite.sprite.lock()->SetDrawLayer(3);
 		}
 
 		SetDrawActive(false);

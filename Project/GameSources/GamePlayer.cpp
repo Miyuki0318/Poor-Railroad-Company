@@ -36,6 +36,9 @@ namespace basecross
 		m_backPackLevel = scene->GetBackPackLevel();
 		m_startGearLevel = scene->GetStartGearLevel();
 
+		// 初期化
+		m_addItem = make_pair(eItemType::None, 0);
+
 		// 開始時の所持ギア設定
 		AddItemCount(eItemType::Gear, (int)m_playerData.at(ePST::StartGear).at(m_startGearLevel));
 	}
@@ -212,6 +215,14 @@ namespace basecross
 
 		// クラフトマネージャーにクラフト状態を送る
 		m_craft->CraftingEnabled(m_status(ePlayerStatus::IsCrafting));
+
+		// ステージの状態を変更する
+		const auto& stagePtr = GetTypeStage<GameStage>();
+		auto prog = stagePtr->GetGameProgress();
+		if (OR(prog, eGameProgress::Playing, eGameProgress::CraftPause))
+		{
+			stagePtr->SetGameProgress(m_status(ePlayerStatus::IsCrafting) ? eGameProgress::CraftPause : eGameProgress::Playing);
+		}
 	}
 
 	// クラフト中なら初期化する
@@ -267,7 +278,8 @@ namespace basecross
 		if (isLStick)
 		{
 			// LStick入力量の取得
-			Vec3 stickValue = Vec3(GetLStickValue().x, 0.0f, GetLStickValue().y);
+			Vec2 LStick = GetLStickValue();
+			Vec3 stickValue = Vec3(LStick.x, 0.0f, LStick.y);
 
 			m_acsel += DELTA_TIME;
 			m_acsel = min(m_acsel, m_maxAcsel);

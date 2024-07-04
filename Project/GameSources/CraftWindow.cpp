@@ -15,6 +15,9 @@ namespace basecross
 		// 継承元の生成時の処理を実行
 		Sprite::OnCreate();
 
+		// レイヤーを設定
+		SetDrawLayer(5);
+
 		// 描画モードを変更
 		m_ptrDraw->SetRasterizerState(RasterizerState::DoubleDraw);
 	}

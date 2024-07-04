@@ -9,6 +9,16 @@
 
 namespace basecross
 {
+	// 生成時の処理
+	void CraftItemIcon::OnCreate()
+	{
+		// 継承元の生成時の処理
+		CraftUI::OnCreate();
+
+		// レイヤー設定
+		SetDrawLayer(7);
+	}
+
 	// 更新処理
 	void CraftItemIcon::OnUpdate()
 	{

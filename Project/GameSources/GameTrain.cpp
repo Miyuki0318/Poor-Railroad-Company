@@ -40,7 +40,7 @@ namespace basecross {
 	void GameTrain::OnUpdate()
 	{
 		eGameProgress prog = GetTypeStage<GameStage>()->GetGameProgress();
-		if (!Utility::OR(prog, eGameProgress::FadeIn, eGameProgress::Pause))
+		if (!Utility::ORS(prog, eGameProgress::FadeIn, eGameProgress::Pause, eGameProgress::CraftPause))
 		{
 			StateProcess(m_state);
 		}

@@ -71,6 +71,22 @@ namespace basecross
 		SetUpdateActive(true);
 	}
 
+	// リセット処理
+	void FlyItemManager::ResetFly()
+	{
+		// 全ループ
+		for (auto& weakPtr : m_spriteVec)
+		{
+			// エラーチェック
+			auto& sprite = weakPtr.lock();
+			if (!sprite) continue;
+
+			// 非アクティブ処理
+			sprite->SetDrawActive(false);
+			sprite->SetUpdateActive(false);
+		}
+	}
+
 	// 開始呼び出し
 	void FlyItemManager::StartFly(eItemType itemType)
 	{

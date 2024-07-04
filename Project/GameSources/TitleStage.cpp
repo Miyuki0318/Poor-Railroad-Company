@@ -23,8 +23,6 @@
 
 namespace basecross
 {
-	using namespace Input;
-
 	// ビューとライトの作成
 	void TitleStage::CreateViewLight()
 	{
@@ -54,6 +52,7 @@ namespace basecross
 		wstring mediaPath = app->GetDataDirWString();
 		wstring texturePath = mediaPath + L"Textures/";
 		wstring soundPath = mediaPath + L"Sounds/";
+		wstring routePath = mediaPath + L"Models/" + L"RouteMap/" ;
 		wstring modelPath = mediaPath + L"Models/" + L"Bilding/";
 		
 		// タイトルロゴ
@@ -67,14 +66,20 @@ namespace basecross
 		AddTextureResource(L"LEFTARROW_TX", texturePath + L"LeftArrow.png");
 		
 		// ボードのテクスチャ
-		AddTextureResource(L"BOARD_TX", modelPath + L"RouteMapTexture.tga");
+		AddTextureResource(L"BOARD_TX", routePath + L"MapTexture.tga");
 
 		// マップ選択モデルのテクスチャ
-		AddTextureResource(L"FIRST_TX", modelPath + L"FirstMapTexture.tga");
-		AddTextureResource(L"SECOND_TX", modelPath + L"SecondMapTexture.tga");
-		AddTextureResource(L"THIRD_TX", modelPath + L"ThirdMapTexture.tga");
-		AddTextureResource(L"FOURTH_TX", modelPath + L"FourthMapTexture.tga");
-		AddTextureResource(L"FIFTH_TX", modelPath + L"FifthMapTexture.tga");
+		AddTextureResource(L"FIRST_TX", routePath + L"FirstMapTexture.tga");
+		AddTextureResource(L"SECOND_TX", routePath + L"SecondMapTexture.tga");
+		AddTextureResource(L"THIRD_TX", routePath + L"ThirdMapTexture.tga");
+		AddTextureResource(L"FOURTH_TX", routePath + L"FourthMapTexture.tga");
+		AddTextureResource(L"FIFTH_TX", routePath + L"FifthMapTexture.tga");
+
+		// ガイドのテクスチャ
+		AddTextureResource(L"ROUTEMAP_TX", texturePath + L"StageSelectGuide.png");
+		AddTextureResource(L"START_TRAIN_TX", texturePath + L"GameStartGuide.png");
+		AddTextureResource(L"COMPANIY_TX", texturePath + L"ShopGuide.png");
+
 		// タイトルBGM
 		AddAudioResource(L"TITLE_BGM", soundPath + L"Title");
 
@@ -138,6 +143,13 @@ namespace basecross
 					int random = Utility::RangeRand(2, 0);
 					id = id + random;
 				}
+
+				// プレイヤーの開始位置とクリア演出時の移動先を保持
+				if (num == eStageID::PlayerStart)
+				{
+					m_startPosition = Vec3(float(j), 2.0f, -float(i));
+					id = 0;
+				}
 			}
 			m_positionMap.push_back(tempVec);
 		}
@@ -153,9 +165,8 @@ namespace basecross
 	// プレイヤーの生成
 	void TitleStage::CreatePlayer()
 	{
-		Vec3 startPos = Vec3(m_cameraAt.x, 2.0f, m_cameraAt.z);
 		auto& player = AddGameObject<TitlePlayer>();
-		player->SetPosition(startPos);
+		player->SetPosition(m_startPosition);
 		SetSharedGameObject(L"Player", player);
 	}
 
@@ -205,20 +216,20 @@ namespace basecross
 		const float scale = 75.0f;
 		const Vec3 position = Vec3(650.0f, 460.0f, 0.2f);
 		AddGameObject<MoneyCountUI>(scale, position);
+
+		AddGameObject<TitleGuide>();
 	}
 
 	// 矢印の生成
 	void TitleStage::CreateArrowSprite()
 	{
-		const float scale = 100.0f;
-		const float posX = 1920.0f / 6.0f;
-		const float posY = 1080.0f / 4.0f;
+		const auto& arrow = AddGameObject<SelectArrow>();
+		SetSharedGameObject(L"SelectArrow", arrow);
+	}
 
-		m_rightArrow = AddGameObject<Sprite>(L"RIGHTARROW_TX", Vec2(scale), Vec3(+posX,+posY,0.0f));
-		m_leftArrow = AddGameObject<Sprite>(L"LEFTARROW_TX", Vec2(scale), Vec3(-posX, +posY, 0.0f));
-
-		m_rightArrow.lock()->SetDrawActive(false);
-		m_leftArrow.lock()->SetDrawActive(false);
+	// ボタンUIの生成
+	void TitleStage::CreateButtonUI()
+	{
 	}
 
 	// Aボタンを押した時の処理
@@ -260,7 +271,7 @@ namespace basecross
 			bool isTrain = bool(dynamic_pointer_cast<TitleTrain>(m_selectObj));
 			objPos += isTrain ? m_trainDiffEye : Vec3(0.0f, 3.0f,+4.0f);
 
-			titleCamera->ZoomStart(objPos);
+			titleCamera->ZoomStart(objPos, 4.0f);
 		}
 
 		if (Utility::OR(m_titleProgress, normal, opening))
@@ -358,26 +369,6 @@ namespace basecross
 		}
 	}
 
-	// 矢印の表示・非表示
-	void TitleStage::ArrowActive()
-	{
-		const auto& routeMap = GetSharedGameObject<RouteMap>(L"RouteMap");
-
-		auto& camera = GetView()->GetTargetCamera();
-		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
-
-		if (titleCamera->m_cameraState == MainCamera::Zoomed && MatchSelectObject(routeMap))
-		{
-			m_rightArrow.lock()->SetDrawActive(true);
-			m_leftArrow.lock()->SetDrawActive(true);
-		}
-		else
-		{
-			m_rightArrow.lock()->SetDrawActive(false);
-			m_leftArrow.lock()->SetDrawActive(false);
-		}
-	}
-
 	// 実行時、一度だけ処理される関数
 	void TitleStage::OnCreate()
 	{
@@ -391,9 +382,9 @@ namespace basecross
 
 			CreateOpningScreen();
 
-			CreatePlayer();
-
 			CreateStageCSV(m_stagePath);
+
+			CreatePlayer();
 
 			CreateRailManager();
 
@@ -410,6 +401,8 @@ namespace basecross
 			CreateUISprite();
 
 			CreateArrowSprite();
+
+			CreateButtonUI();
 		}
 		catch (...)
 		{
@@ -472,8 +465,6 @@ namespace basecross
 				m_selectObj = NULL;
 				m_zooming = false;
 			}
-
-			ArrowActive();
 
 			TitleCameraZoom();
 

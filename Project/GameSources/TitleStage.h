@@ -41,9 +41,8 @@ namespace basecross
 		// 列車の開始位置
 		const Vec3 m_trainPos = Vec3(23.0f,1.0f,-20.0f);
 
-		// フェードの時間
-		//const float m_fadeOutTime = 1.0f;
-		//const float m_fadeInTime = 3.0f;
+		// プレイヤーの開始座標
+		Vec3 m_startPosition;
 		
 		const float m_searchArea = 3.0f;
 
@@ -75,9 +74,6 @@ namespace basecross
 		shared_ptr<GameObjectGroup> m_objectGroup;
 
 		weak_ptr<SoundItem> m_bgmItem;
-
-		weak_ptr<Sprite> m_rightArrow;
-		weak_ptr<Sprite> m_leftArrow;
 
 		eTitleProgress m_oldProgress;
 
@@ -137,9 +133,14 @@ namespace basecross
 		void CreateUISprite();
 
 		/*
-		@brief 矢印トの生成
+		@brief 矢印UIの生成
 		*/
 		void CreateArrowSprite();
+
+		/*
+		@brief ボタンUIの生成
+		*/
+		void CreateButtonUI();
 
 		/*
 		@brief カメラのズーム処理
@@ -160,11 +161,6 @@ namespace basecross
 		@brief Bボタンを押した時の処理
 		*/
 		void PushButtonB();
-
-		/*
-		@brief 矢印スプライトの表示・非表示
-		*/
-		void ArrowActive();
 
 		/*!
 		@brief ステージをcsvで生成

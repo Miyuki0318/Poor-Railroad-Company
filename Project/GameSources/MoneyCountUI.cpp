@@ -16,7 +16,7 @@ namespace basecross
 		const shared_ptr<Stage>& stagePtr = GetStage(); // ステージの取得
 
 		// スプライトの生成
-		m_backSprite = stagePtr->AddGameObject<Sprite>(L"UI_MENUBACK_TX", m_backScale, m_startPos + m_backMargin + BACK_VEC);
+		m_backSprite = stagePtr->AddGameObject<Sprite>(L"UI_MENUBACK_TX", m_backScale, m_startPos + m_backMargin + BACK_LAYER);
 		m_itemSprite = stagePtr->AddGameObject<Sprite>(L"UI_COIN_TX", Vec2(m_spriteScale), Vec3(m_startPos));
 
 		// 数字スプライトの生成

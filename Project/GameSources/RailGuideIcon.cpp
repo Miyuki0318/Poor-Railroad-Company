@@ -1,3 +1,9 @@
+/*!
+@file RailGuideIcon.cpp
+@brief レールを設置する場所のガイド表示
+@author 小澤博貴
+*/
+
 #include "stdafx.h"
 #include "RailGuideIcon.h"
 #include "GamePlayer.h"
@@ -5,13 +11,20 @@
 
 namespace basecross
 {
+	// 生成時の処理
 	void RailGuideIcon::OnCreate()
 	{
+		// ステージの取得
 		const auto& stagePtr = GetStage();
 
+		// プレイヤーのポインタを保持
+		m_playerPtr = stagePtr->GetSharedGameObject<GamePlayer>(L"Player");
+
+		// アイコンの生成
 		for (size_t i = 0; i < m_iconVec.size(); i++)
 		{
 			auto& ptr = stagePtr->AddGameObject<Billboard>(L"GUIDE_RAIL_TX", m_deffScale, Vec3(0.0f));
+			ptr->SetDrawLayer(1);
 			ptr->SetDrawActive(false);
 			ptr->SetUpdateActive(false);
 
@@ -19,23 +32,36 @@ namespace basecross
 		}
 	}
 
+	// 毎フレーム更新
 	void RailGuideIcon::OnUpdate()
 	{
-		// プレイヤーがレールを持ってるかで表示非表示
-		const auto& player = GetStage()->GetSharedGameObject<GamePlayer>(L"Player");
-		bool isHaveRail = player->GetStatus(ePlayerStatus::IsHaveRail);
-
+		// 一度非表示にする
 		SetIconDraw(false);
 
+		// ステージを取得し、イベント中なら非表示にして終了
+		const auto& stagePtr = GetTypeStage<GameStage>();
+		if (stagePtr->GetIsStaging()) return;
+
+		// プレイヤーがレールを持ってるかで表示非表示
+		const auto& player = stagePtr->GetSharedGameObject<GamePlayer>(L"Player");
+		bool isHaveRail = player->GetStatus(ePlayerStatus::IsHaveRail);
+
+		// プレイヤーがレールを所持しているなら
 		if (isHaveRail)
 		{
 			// 各種更新処理
 			UpdateIconMove();
 			UpdateGuide();
+			UpdateRange();
 		}
+
+		// ガイドポイントの更新
+		const auto& railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager");
+		const auto& guidePoints = railManager->GetGuidePoints();
+		m_pastGuidePoint = guidePoints;
 	}
 
-	// 点滅の更新
+	// 動きの更新
 	void RailGuideIcon::UpdateIconMove()
 	{
 		// カメラを取得
@@ -65,9 +91,7 @@ namespace basecross
 		// ガイドのcsv上のポイント配列
 		const auto& railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager");
 		const auto& guidePoints = railManager->GetGuidePoints();
-
 		bool isIdentity = (guidePoints == m_pastGuidePoint);
-		m_pastGuidePoint = guidePoints;
 
 		// 座標の更新
 		for (size_t i = 0; i < m_iconVec.size(); i++)
@@ -82,12 +106,34 @@ namespace basecross
 		}
 	}
 
+	// プレイヤーとの距離で表示するか
+	void RailGuideIcon::UpdateRange()
+	{
+		// プレイヤーの取得
+		const auto& playerPtr = m_playerPtr.lock();
+		if (!playerPtr) return;
+
+		// プレイヤーの座標
+		Vec3 playerPos = playerPtr->GetPosition();
+
+		// 距離を比較し、描画距離より離れていれば表示
+		for (auto& icon : m_iconVec)
+		{
+			float length = (icon.lock()->GetPosition() - playerPos).length();
+
+			if (m_drawRange <= length) continue;
+			icon.lock()->SetDrawActive(false);
+		}
+	}
+
 	// アイコン全体の表示設定
 	void RailGuideIcon::SetIconDraw(bool b)
 	{
-		for (auto& icon : m_iconVec)
+		// 座標の更新
+		for (size_t i = 0; i < m_iconVec.size(); i++)
 		{
-			icon.lock()->SetDrawActive(b);
+			bool isRange = Utility::WithInElemRange(i, m_pastGuidePoint.size());
+			m_iconVec.at(i).lock()->SetDrawActive(isRange && b);
 		}
 	}
 }

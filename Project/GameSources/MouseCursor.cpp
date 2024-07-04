@@ -20,7 +20,7 @@ namespace basecross
 		Sprite::OnCreate();
 
 		// レイヤー設定
-		SetDrawLayer(1);
+		SetDrawLayer(11);
 	}
 
 	// 更新処理
