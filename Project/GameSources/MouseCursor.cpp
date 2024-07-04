@@ -5,7 +5,8 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "Input.h"
+#include "MouseCursor.h"
 
 namespace basecross
 {

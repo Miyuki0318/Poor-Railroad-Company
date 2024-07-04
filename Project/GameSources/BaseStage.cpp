@@ -6,6 +6,7 @@
 
 #include "stdafx.h"
 #include "BaseStage.h"
+#include "MouseCursor.h"
 
 namespace basecross
 {

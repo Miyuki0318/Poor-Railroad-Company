@@ -5,6 +5,7 @@
 
 #pragma once
 #include "stdafx.h"
+#include "OzawaUtility.h"
 
 namespace basecross
 {

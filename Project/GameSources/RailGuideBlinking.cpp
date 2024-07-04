@@ -5,7 +5,7 @@
 */
 
 #include "stdafx.h"
-#include "RailGuide.h"
+#include "RailGuideBlinking.h"
 #include "GamePlayer.h"
 #include "RailManager.h"
 
