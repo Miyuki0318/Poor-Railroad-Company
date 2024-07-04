@@ -6,6 +6,7 @@
 
 #pragma once
 #include "TemplateObject.h"
+#include "Sprite.h"
 
 namespace basecross {
 	enum class eLogoState
