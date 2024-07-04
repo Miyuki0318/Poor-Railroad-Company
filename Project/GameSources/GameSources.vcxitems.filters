@@ -754,8 +754,8 @@
     </Filter>
     <Filter Include="UI\Arrow">
       <UniqueIdentifier>{786a982b-b9d6-4ea9-87da-31b06bd16f3b}</UniqueIdentifier>
-    <Filter Include="Guide\CraftPosshible">
     </Filter>
+    <Filter Include="Guide\CraftPosshible">
       <UniqueIdentifier>{5919daa1-c774-418a-af72-a1ae890de217}</UniqueIdentifier>
     </Filter>
     <Filter Include="Guide\TitleGuide">

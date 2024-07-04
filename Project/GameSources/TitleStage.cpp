@@ -151,9 +151,8 @@ namespace basecross
 	// ƒvƒŒƒCƒ„[‚Ì¶¬
 	void TitleStage::CreatePlayer()
 	{
-		Vec3 startPos = Vec3(m_cameraAt.x, 2.0f, m_cameraAt.z);
 		auto& player = AddGameObject<TitlePlayer>();
-		player->SetPosition(startPos);
+		player->SetPosition(m_startPosition);
 		SetSharedGameObject(L"Player", player);
 	}
 
@@ -369,9 +368,9 @@ namespace basecross
 
 			CreateOpningScreen();
 
-			CreatePlayer();
-
 			CreateStageCSV(m_stagePath);
+
+			CreatePlayer();
 
 			CreateRailManager();
 
