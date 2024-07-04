@@ -256,6 +256,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftPosshibleGuide.h">
       <Filter>Guide\CraftPosshible</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleGuide.h">
+      <Filter>Guide\TitleGuide</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -479,6 +482,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftPosshibleGuide.cpp">
       <Filter>Guide\CraftPosshible</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleGuide.cpp">
+      <Filter>Guide\TitleGuide</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -742,6 +748,9 @@
     </Filter>
     <Filter Include="Guide\CraftPosshible">
       <UniqueIdentifier>{5919daa1-c774-418a-af72-a1ae890de217}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Guide\TitleGuide">
+      <UniqueIdentifier>{05ce54d7-ecad-4a17-a789-f5fec620525b}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

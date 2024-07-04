@@ -50,3 +50,4 @@
 #include "MoneyCountUI.h"
 #include "MouseCursor.h"
 #include "CraftPosshibleGuide.h"
+#include "TitleGuide.h"

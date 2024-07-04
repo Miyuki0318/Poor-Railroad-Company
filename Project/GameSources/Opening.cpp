@@ -20,6 +20,9 @@ namespace basecross {
 		m_titleLogo->SetPosition(Vec3(0.0f, -m_startPosY, 0.0f));
 		m_pushLogo->SetPosition(Vec3(0.0f, -m_startPosY + (-m_titleLogo->GetScale().y), 0.0f));
 
+		m_titleLogo->SetDrawLayer(2);
+		m_pushLogo->SetDrawLayer(2);
+
 		m_titlePos = m_titleLogo->GetPosition();
 		m_pushPos = m_pushLogo->GetPosition();
 	}

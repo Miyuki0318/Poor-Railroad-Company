@@ -41,6 +41,9 @@ namespace basecross
 		// 列車の開始位置
 		const Vec3 m_trainPos = Vec3(23.0f,1.0f,-20.0f);
 
+		// プレイヤーの開始座標
+		Vec3 m_startPosition;
+
 		// フェードの時間
 		//const float m_fadeOutTime = 1.0f;
 		//const float m_fadeInTime = 3.0f;
