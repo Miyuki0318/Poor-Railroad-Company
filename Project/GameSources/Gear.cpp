@@ -5,7 +5,10 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "Gear.h"
+#include "BaseStage.h"
+#include "GamePlayer.h"
+#include "RailManager.h"
 
 namespace basecross
 {
