@@ -5,7 +5,11 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "RailManager.h"
+#include "BaseStage.h"
+#include "GameStage.h"
+#include "GameTrain.h"
+#include "Station.h"
 
 // カーブレールの方向設定用真偽
 #define LEFT2UNDER(current, past)  past.pastPos.x < current.thisPos.x && past.pastPos.z > current.thisPos.z && current.type == eRailType::AxisZLine	// 左から下
