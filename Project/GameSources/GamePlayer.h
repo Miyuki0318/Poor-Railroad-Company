@@ -160,6 +160,15 @@ namespace basecross
 	public:
 
 		/*!
+		@brief クラフトマネージャーの取得関数
+		@param m_craft.get()
+		*/
+		const CraftManager* GetCraftManager() const
+		{
+			return m_craft.get();
+		}
+
+		/*!
 		@brief ゲーム結果時用のステート設定関数
 		@param eGameProgress
 		*/

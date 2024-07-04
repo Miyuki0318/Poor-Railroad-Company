@@ -37,6 +37,11 @@ namespace basecross
 		virtual ~CraftItemIcon() {}
 
 		/*!
+		@brief 生成時の処理関数
+		*/
+		void OnCreate() override;
+
+		/*!
 		@brief 毎フレーム度に呼び出される関数
 		*/
 		void OnUpdate() override;

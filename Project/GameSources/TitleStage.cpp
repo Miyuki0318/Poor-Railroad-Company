@@ -9,8 +9,6 @@
 
 namespace basecross
 {
-	using namespace Input;
-
 	// ビューとライトの作成
 	void TitleStage::CreateViewLight()
 	{
@@ -63,8 +61,10 @@ namespace basecross
 		AddTextureResource(L"FOURTH_TX", routePath + L"FourthMapTexture.tga");
 		AddTextureResource(L"FIFTH_TX", routePath + L"FifthMapTexture.tga");
 
-		//// ボタンのテクスチャ
-		//AddTextureResource(L"BUTTON_B_TX", texturePath + L"B.png");
+		// ガイドのテクスチャ
+		AddTextureResource(L"ROUTEMAP_TX", texturePath + L"StageSelectGuide.png");
+		AddTextureResource(L"START_TRAIN_TX", texturePath + L"GameStartGuide.png");
+		AddTextureResource(L"COMPANIY_TX", texturePath + L"ShopGuide.png");
 
 		// タイトルBGM
 		AddAudioResource(L"TITLE_BGM", soundPath + L"Title");
@@ -128,6 +128,13 @@ namespace basecross
 				{
 					int random = Utility::RangeRand(2, 0);
 					id = id + random;
+				}
+
+				// プレイヤーの開始位置とクリア演出時の移動先を保持
+				if (num == eStageID::PlayerStart)
+				{
+					m_startPosition = Vec3(float(j), 2.0f, -float(i));
+					id = 0;
 				}
 			}
 			m_positionMap.push_back(tempVec);
@@ -196,6 +203,8 @@ namespace basecross
 		const float scale = 75.0f;
 		const Vec3 position = Vec3(650.0f, 460.0f, 0.2f);
 		AddGameObject<MoneyCountUI>(scale, position);
+
+		AddGameObject<TitleGuide>();
 	}
 
 	// 矢印の生成

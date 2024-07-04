@@ -58,7 +58,7 @@ namespace basecross
 		PauseMenu(const shared_ptr<Stage>& stagePtr) :
 			GameObject(stagePtr),
 			m_CloseMenuPos(Vec3(1920.0f, 1080.0f, 0.2f)),
-			m_OpenMenuPos(Vec3(0.0f, 0.0f, 0.3f)),
+			m_OpenMenuPos(Vec3(0.0f, 0.0f, 0.2f)),
 			m_CloseMenuScale(Vec2(0.0f)),
 			m_OpenMenuScale(Vec2(1920.0f, 1080.0f)),
 			m_DefaultRetryButtonPos(Vec3(-350.0f, -380.0f, 0.1f)),

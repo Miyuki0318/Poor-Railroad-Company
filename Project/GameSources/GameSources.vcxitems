@@ -21,6 +21,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Bool_t.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)BridgeManager.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Company.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftPosshibleGuide.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Crossing.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameClearState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GameOverState.h" />
@@ -87,6 +88,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Station.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TemplateObject.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Timer.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)TitleGuide.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayer.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerGatheringState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)TitlePlayerIdleState.h" />
@@ -108,6 +110,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)BillboardNumber.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)BridgeManager.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Company.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftPosshibleGuide.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Crossing.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameClearState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GameOverState.cpp" />
@@ -164,6 +167,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Station.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TemplateObject.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Timer.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)TitleGuide.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayer.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayerGatheringState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayerIdleState.cpp" />

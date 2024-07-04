@@ -80,7 +80,10 @@ namespace basecross
 		if (prog == normal)
 		{
 			player->SetState(TitlePlayerIdleState::Instance());
-			titleStage->StartBGM();
+
+			// BGM‚ª—¬‚ê‚Ä‚¢‚È‚¯‚ê‚ÎÄ¶
+			if (!titleStage->GetBGMItem().lock()) titleStage->StartBGM();
+
 			return;
 		}
 

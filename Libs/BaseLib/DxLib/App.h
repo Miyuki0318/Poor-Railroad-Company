@@ -344,6 +344,7 @@ namespace basecross {
 		bool m_bPressedKeyTbl[MAX_KEYVCODE];	///< 押された瞬間のキーボード
 		bool m_bUpKeyTbl[MAX_KEYVCODE];		///< 離された瞬間のキーボード
 		bool m_KeyMessageActive;	///<何かのキーイベントが発生
+		bool m_MouseCheck;	///<マウスが正常に入力されているか
 		Point2D<int> m_MouseClientPoint; ///< クライアント上のマウスポイント
 		//--------------------------------------------------------------------------------------
 		/*!
@@ -352,6 +353,7 @@ namespace basecross {
 		//--------------------------------------------------------------------------------------
 		KEYBOARD_STATE() :
 			m_KeyMessageActive{ false },
+			m_MouseCheck{ false },
 			m_MouseClientPoint{ 0, 0 }
 		{
 			//キーボードテーブルの初期化
@@ -429,6 +431,7 @@ namespace basecross {
 			::ZeroMemory(&m_bUpKeyTbl, sizeof(m_bUpKeyTbl));
 			//マウスのチェック
 			bool MouseEnabled = IsMouseEnabled(hWnd, UseKeyVec);
+			m_MouseCheck = MouseEnabled;
 			//自分自身にフォーカスがない場合はfalse
 			if (::GetFocus() != hWnd) {
 				return false;

@@ -43,6 +43,50 @@ namespace basecross
 		}
 
 		/*!
+		@brief 左クリックを押した瞬間の取得関数
+		@return GetAsyncKeyState(VK_LBUTTON)
+		*/
+		inline bool GetPushLClick()
+		{
+			// 静的変数の宣言
+			static unsigned int pastFrame = 0;	// 前回呼び出し時のフレーム
+			static bool isPush = false;	// 押した瞬間かの真偽
+
+			// 現在の経過フレーム
+			unsigned int currentFrame = App::GetApp()->GetFrameCount();
+
+			// 入力状態の取得
+			SHORT keyState = GetAsyncKeyState(VK_LBUTTON);
+			bool isDown = keyState & 0x8000; // 押されているか
+			bool isUp = keyState & 0x0001;   // (現在のフレームで)押された瞬間か
+
+			// フレームが違うならフレームを保持し、(押しているか && 押された瞬間か)を返す
+			if (pastFrame != currentFrame)
+			{
+				pastFrame = currentFrame;
+				return (isPush = isDown && isUp);
+			}
+
+			// フレームが同じなら(押した瞬間か && 押されているか)を返す
+			return isPush && isDown;
+		}
+
+		/*!
+		@brief Bボタンを押した瞬間の取得関数
+		@return GetPad().wPressedButtons & XINPUT_GAMEPAD_B
+		*/
+		inline bool GetPushB()
+		{
+			// コントローラーが接続されてるなら
+			if (GetPadConected())
+			{
+				// Aボタンが入力された瞬間かを返す
+				return GetPad().wPressedButtons & XINPUT_GAMEPAD_B;
+			}
+			return GetPushLClick();
+		}
+
+		/*!
 		@brief Aボタンを押した瞬間の取得関数
 		@return GetPad().wPressedButtons & XINPUT_GAMEPAD_A
 		*/
@@ -55,7 +99,10 @@ namespace basecross
 				return GetPad().wPressedButtons;
 			}
 
-			// キーボードを取得し、
+			// 右クリックが入力された瞬間かを返す
+			if (GetPushLClick()) return true;
+
+			// キーボードを取得し
 			auto& key = GetKeyboard();
 			for (size_t i = 0; i < key.MAX_KEYVCODE; i++)
 			{
@@ -70,21 +117,6 @@ namespace basecross
 		@brief Aボタンを押した瞬間の取得関数
 		@return GetPad().wPressedButtons & XINPUT_GAMEPAD_A
 		*/
-		inline bool GetPushB()
-		{
-			// コントローラーが接続されてるなら
-			if (GetPadConected())
-			{
-				// Aボタンが入力された瞬間かを返す
-				return GetPad().wPressedButtons & XINPUT_GAMEPAD_B;
-			}
-			return GetKeyboard().m_bPressedKeyTbl[VK_LBUTTON];
-		}
-
-		/*!
-		@brief Aボタンを押した瞬間の取得関数
-		@return GetPad().wPressedButtons & XINPUT_GAMEPAD_A
-		*/
 		inline bool GetButtonB()
 		{
 			// コントローラーが接続されてるなら
@@ -93,7 +125,7 @@ namespace basecross
 				// Aボタンが入力された瞬間かを返す
 				return GetPad().wButtons & XINPUT_GAMEPAD_B;
 			}
-			return GetKeyboard().m_bPushKeyTbl[VK_LBUTTON];
+			return GetAsyncKeyState(VK_LBUTTON) & 0x8000;
 		}
 
 		/*!
@@ -250,8 +282,11 @@ namespace basecross
 		inline Vec2 GetMousePosition()
 		{
 			// キーステートからマウス座標を取得
-			Vec2 mousePos = Vec2(1.0f);
+			Vec2 mousePos = Vec2(0.0f);
 			auto& keyState = GetKeyboard();
+
+			// マウスが正常じゃなければ終了
+			if (!keyState.m_MouseCheck) return mousePos;
 
 			// 座標系が0.0中心であるため、画面サイズの半分を引く
 			mousePos.x = float(keyState.m_MouseClientPoint.x - (int(WINDOW_WIDTH) / 2));

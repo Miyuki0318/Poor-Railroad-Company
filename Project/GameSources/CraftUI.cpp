@@ -50,6 +50,13 @@ namespace basecross
 	}
 
 	// •\¦Ø‚è‘Ö‚¦
+	void CraftUI::SetDrawEnable(bool enable)
+	{
+		// Ø‘Ö‚é
+		SetEnable(enable);
+	}
+
+	// •\¦Ø‚è‘Ö‚¦
 	void CraftUI::SetDrawEnable(bool enable, const Vec3& position)
 	{
 		SetEnable(enable);

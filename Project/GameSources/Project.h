@@ -1,6 +1,6 @@
 /*!
 @file Project.h
-@brief ƒRƒ“ƒeƒ“ƒc—p‚Ìƒwƒbƒ_‚ð‚Ü‚Æ‚ß‚é
+@brief ï¿½Rï¿½ï¿½ï¿½eï¿½ï¿½ï¿½cï¿½pï¿½Ìƒwï¿½bï¿½_ï¿½ï¿½ï¿½Ü‚Æ‚ß‚ï¿½
 */
 
 #pragma once
@@ -50,3 +50,5 @@
 #include "MoneyCountUI.h"
 #include "MouseCursor.h"
 #include "Arrow.h"
+#include "CraftPosshibleGuide.h"
+#include "TitleGuide.h"

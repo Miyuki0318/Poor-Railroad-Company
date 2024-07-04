@@ -17,21 +17,22 @@ namespace basecross
 	*/
 	enum eGameProgress
 	{
-		FadeIn,
-		Playing,
-		GoalConect,
-		Pause,
-		GameClear,
-		MoneyCalculation,
-		MoneyCountDown,
-		ClearSelect,
-		ToNext,
-		ToTitleClear,
-		ToTitleOver,
-		DeRailed,
-		GameOver,
-		ContinueFadeIn,
-		ContinueFadeOut,
+		FadeIn,				// 開始時のフェードイン
+		Playing,			// プレイ中
+		CraftPause,			// クラフト中のポーズ
+		Pause,				// ポーズ
+		GoalConect,			// ゴールと接続完了
+		GameClear,			// ゲームクリア
+		MoneyCalculation,	// 精算処理
+		MoneyCountDown,		// 精算結果表示
+		ClearSelect,		// クリア後の選択
+		ToNext,				// 次のステージへ
+		ToTitleClear,		// クリア時のタイトルステージへ
+		ToTitleOver,		// 失敗時のタイトルステージへ
+		DeRailed,			// 脱線時
+		GameOver,			// ゲームオーバー
+		ContinueFadeIn,		// コンティニュー時のフェードイン
+		ContinueFadeOut,	// コンティニュー時のフェードアウト
 	};
 
 	/*!

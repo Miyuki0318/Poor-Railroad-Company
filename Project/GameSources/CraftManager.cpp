@@ -9,9 +9,6 @@
 
 namespace basecross
 {
-	// ネームスペースの省略
-	using namespace Input;
-
 	void CraftManager::OnCreate()
 	{
 		const auto& stagePtr = m_player.lock()->GetStage();
@@ -38,7 +35,7 @@ namespace basecross
 	}
 
 	// アイテムクラフト
-	bool CraftManager::CraftOrder(eCraftItem item)
+	bool CraftManager::CraftOrder(eCraftItem item) const
 	{
 		// 素材要求数の取得
 		const int woodValue = GetRacipeValue(item, eCraftParam::WoodValue);
@@ -64,6 +61,7 @@ namespace basecross
 			Vec3 windowRect = Vec3((WINDOW_WIDTH / 2.0f), WINDOW_HEIGHT / 2.0f, 1.0f);
 			windowPos.clamp(-windowRect, windowRect);
 			windowPos.z = 0.0f;
+			windowPos += BACK_LAYER;
 			eRectType rect = eRectType::DownLeft;
 			if (windowPos.x < 0.0f) rect = eRectType::DownRight;
 			if (windowPos.y < 0.0f) rect = eRectType::UpLeft;
@@ -78,8 +76,8 @@ namespace basecross
 			window->SetRectType(rect);
 
 			// 描画状態設定を送る
-			window->SetDrawEnable(enable, windowPos + BACK_VEC);
-			qte->SetDrawEnable(enable, window->GetPosition());
+			window->SetDrawEnable(enable, windowPos + BACK_LAYER);
+			qte->SetDrawEnable(enable, window->GetPosition() + BACK_LAYER);
 
 			// アイコンにも設定を送る
 			for (auto& icon : m_iconMap)
@@ -88,7 +86,7 @@ namespace basecross
 				ptr->SetVerticesRect(rect);
 				ptr->SetRectType(rect);
 				ptr->SetCraftPosshible(CraftOrder(icon.first));
-				ptr->SetDrawEnable(enable, windowPos);
+				ptr->SetDrawEnable(enable, windowPos + BACK_LAYER);
 			}
 		}
 	}

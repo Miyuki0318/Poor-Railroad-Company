@@ -34,7 +34,7 @@ namespace basecross
 		// 列車の座標を元に、線形補間に使う座標を保持
 		const auto& train = player->GetStage()->GetSharedGameObject<TitleTrain>(L"TitleTrain");
 		m_startPosition = player->GetPosition();
-		m_endPosition = (train->GetPosition() + BACK_VEC);
+		m_endPosition = (train->GetPosition() + (LEFT_VEC * 2.0f));
 		m_endPosition.y = m_startPosition.y;
 
 		// 回転先を設定
@@ -48,7 +48,7 @@ namespace basecross
 	void TitlePlayerStartState::Execute(const shared_ptr<TitlePlayer>& player)
 	{
 		// アニメーションと回転の更新
-		player->UpdateAnimation();
+		player->UpdateAnimation(0.5f);
 		player->UpdateRotation();
 
 		// 線形補間で移動

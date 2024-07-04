@@ -15,7 +15,6 @@ const float GRID_HELF = 0.5f;
 namespace basecross
 {
 	// ネームスペースの省略
-	using namespace Input;
 	using namespace Utility;
 
 	// 生成時の処理
