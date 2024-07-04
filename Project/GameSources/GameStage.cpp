@@ -53,6 +53,7 @@ namespace basecross
 		AddAudioResource(L"PAUSE_OPEN_SE", soundPath + L"PauseOpen");
 		AddAudioResource(L"PAUSE_CLOSE_SE", soundPath + L"PauseClose");
 		AddAudioResource(L"TRAIN_DERAIL_SE", soundPath + L"DeRailed");
+		AddAudioResource(L"POSSHIBLE_SE", soundPath + L"CraftPosshible");
 
 		// 追加したリソースをメモリに追加
 		AddedTextureResources();
@@ -229,9 +230,14 @@ namespace basecross
 		auto& smoke = AddGameObject<SpriteParticle>(L"SMOKE_TX");
 		SetSharedGameObject(L"SmokeEffect", smoke);
 
+		// 星型エフェクトオブジェクトの生成
 		auto& star = AddGameObject<SpriteParticle>(L"STAR_TX");
 		SetSharedGameObject(L"StarEffect", star);
 
+		// クラフト可能エフェクトオブジェクトの生成
+		auto& craft = AddGameObject<SpriteParticle>(L"RED_CIRCLE_TX");
+		SetSharedGameObject(L"CraftEffect", craft);
+		
 		m_gameClearState.reset(new GameClearState(GetThis<GameStage>()));
 		m_gameClearState->CreateState();
 
@@ -268,6 +274,13 @@ namespace basecross
 		itemFly->SetTargetUIData(eItemType::WoodBridge, L"UI_BRIDGE_TX", startPos + (distance * 5.0));
 		itemFly->SetTargetUIData(eItemType::Crossing, L"UI_CROSSING_TX", startPos + (distance * 6.0));
 		itemFly->SetTargetUIData(eItemType::GoldBar, L"UI_GOLDBAR_TX", startPos + (distance * 7.0));
+
+		// クラフト可能になった時に知らせるエフェクトの生成と設定
+		const auto& craftGuide = AddGameObject<CraftPosshibleGuide>();
+		Vec3 scaleDiff = Vec3(scale * 2.5f, 0.0f, 0.0f);
+		craftGuide->SetUIPosition(eCraftItem::Rail, startPos + scaleDiff + (distance * 4.0));
+		craftGuide->SetUIPosition(eCraftItem::WoodBridge, startPos + scaleDiff + (distance * 5.0));
+		craftGuide->SetUIPosition(eCraftItem::Crossing, startPos + scaleDiff + (distance * 6.0));
 
 		// ポーズメニューの作成
 		auto& pauseMenu = AddGameObject<PauseMenu>();

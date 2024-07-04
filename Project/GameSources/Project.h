@@ -49,3 +49,4 @@
 #include "PaymentsState.h"
 #include "MoneyCountUI.h"
 #include "MouseCursor.h"
+#include "CraftPosshibleGuide.h"

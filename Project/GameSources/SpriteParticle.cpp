@@ -77,6 +77,7 @@ namespace basecross
 		auto& sprite = GetStage()->AddGameObject<Sprite>(m_textureStr, scale, m_emitterPosition, rotZ);
 		sprite->GetComponent<PCTSpriteDraw>()->SetBlendState(BlendState::Additive);
 		sprite->SetVelocity(velo);
+		sprite->SetDrawLayer(11);
 		spriteData.sprite = sprite;
 
 		// 配列にスプライトデータを追加

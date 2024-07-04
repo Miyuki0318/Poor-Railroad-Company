@@ -78,6 +78,9 @@ namespace basecross
 		// 星マークテクスチャ
 		AddTextureResource(L"STAR_TX", texturePath + L"Star.png");
 
+		// 星マークテクスチャ
+		AddTextureResource(L"RED_CIRCLE_TX", texturePath + L"Effect.png");
+
 		// レール設置時のSE
 		AddAudioResource(L"ADDRAIL_SE", soundPath + L"Rail");
 

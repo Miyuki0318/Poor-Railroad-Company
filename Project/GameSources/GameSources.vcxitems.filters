@@ -253,6 +253,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RailGuideIcon.h">
       <Filter>Guide\RailGuideIcon</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)CraftPosshibleGuide.h">
+      <Filter>Guide\CraftPosshible</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -473,6 +476,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)RailGuideIcon.cpp">
       <Filter>Guide\RailGuideIcon</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)CraftPosshibleGuide.cpp">
+      <Filter>Guide\CraftPosshible</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -733,6 +739,9 @@
     </Filter>
     <Filter Include="Guide\RailGuideBlinking">
       <UniqueIdentifier>{1db75497-19dd-4dab-994e-9f2f9bf9a2f3}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Guide\CraftPosshible">
+      <UniqueIdentifier>{5919daa1-c774-418a-af72-a1ae890de217}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

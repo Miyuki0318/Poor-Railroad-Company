@@ -35,7 +35,7 @@ namespace basecross
 	}
 
 	// アイテムクラフト
-	bool CraftManager::CraftOrder(eCraftItem item)
+	bool CraftManager::CraftOrder(eCraftItem item) const
 	{
 		// 素材要求数の取得
 		const int woodValue = GetRacipeValue(item, eCraftParam::WoodValue);

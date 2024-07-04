@@ -22,6 +22,7 @@ namespace basecross
 		for (size_t i = 0; i < m_iconVec.size(); i++)
 		{
 			auto& ptr = stagePtr->AddGameObject<Billboard>(L"GUIDE_RAIL_TX", m_deffScale, Vec3(0.0f));
+			ptr->SetDrawLayer(1);
 			ptr->SetDrawActive(false);
 			ptr->SetUpdateActive(false);
 
@@ -51,6 +52,11 @@ namespace basecross
 			UpdateGuide();
 			UpdateRange();
 		}
+
+		// ガイドポイントの更新
+		const auto& railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager");
+		const auto& guidePoints = railManager->GetGuidePoints();
+		m_pastGuidePoint = guidePoints;
 	}
 
 	// 動きの更新
@@ -83,9 +89,7 @@ namespace basecross
 		// ガイドのcsv上のポイント配列
 		const auto& railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager");
 		const auto& guidePoints = railManager->GetGuidePoints();
-
 		bool isIdentity = (guidePoints == m_pastGuidePoint);
-		m_pastGuidePoint = guidePoints;
 
 		// 座標の更新
 		for (size_t i = 0; i < m_iconVec.size(); i++)
@@ -114,7 +118,9 @@ namespace basecross
 		for (auto& icon : m_iconVec)
 		{
 			float length = (icon.lock()->GetPosition() - playerPos).length();
-			icon.lock()->SetDrawActive(m_drawRange <= length);
+
+			if (m_drawRange <= length) continue;
+			icon.lock()->SetDrawActive(false);
 		}
 	}
 

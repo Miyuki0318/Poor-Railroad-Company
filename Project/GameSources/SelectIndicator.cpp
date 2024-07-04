@@ -45,6 +45,7 @@ namespace basecross
 
 		// 透明色の描画を可能に
 		SetAlphaActive(true);
+		SetDrawLayer(1);
 	}
 
 	// 毎フレーム更新処理
