@@ -5,7 +5,8 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "OzawaUtility.h"
+#include "SmokeEffect.h"
 
 namespace basecross
 {
