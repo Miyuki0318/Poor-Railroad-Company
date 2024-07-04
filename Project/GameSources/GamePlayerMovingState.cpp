@@ -5,7 +5,11 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "GamePlayerMovingState.h"
+#include "GamePlayerIdleState.h"
+#include "GamePlayerGatheringState.h"
+#include "GamePlayerCraftingState.h"
+#include "Player.h"
 
 namespace basecross
 {
