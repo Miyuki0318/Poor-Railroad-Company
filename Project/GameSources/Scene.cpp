@@ -5,7 +5,10 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "Scene.h"
+#include "OzawaFuncs.h"
+#include "GameStage.h"
+#include "TitleStage.h"
 
 namespace basecross {
 
