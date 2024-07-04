@@ -31,7 +31,7 @@ namespace basecross {
 			TemplateObject(stagePtr)
 		{
 			m_spanMat.affineTransformation(
-				Vec3(2.0f),
+				Vec3(1.8f),
 				Vec3(0.0f),
 				Vec3(0.0f),
 				Vec3(0.0f)

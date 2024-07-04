@@ -15,7 +15,7 @@ namespace basecross {
 		TemplateObject::OnCreate();
 
 		// ‘å‚«‚³E‰ñ“]EˆÊ’u‚Ìİ’è
-		SetScale(m_scale);
+		SetScale(Vec3(1.0f));
 		SetRotation(Vec3(0.0f));
 		SetPosition(m_position);
 

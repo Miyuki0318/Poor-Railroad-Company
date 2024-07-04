@@ -1,5 +1,5 @@
 /*!
-@file RailGuide.h
+@file RailGuideBlinking.h
 @brief レールを設置する場所のガイド表示
 @author 小澤博貴
 */
@@ -12,10 +12,13 @@ namespace basecross
 	/*!
 	@brief レール設置ガイド
 	*/
-	class RailGuide : public TemplateObject
+	class RailGuideBlinking : public TemplateObject
 	{
 		// 描画コンポーネント
 		shared_ptr<PNTStaticInstanceDraw> m_ptrDraw;
+
+		// 前回のガイドポイント
+		vector<Point2D<size_t>> m_pastGuidePoint;
 
 		const Mat4x4 m_mtxScale;	// インスタンス描画用のスケール
 		Mat4x4 m_mtxRotAxisX;		// インスタンス描画用のローテーションX
@@ -31,7 +34,7 @@ namespace basecross
 		@brief コンストラクタ
 		@param ステージポインタ
 		*/
-		RailGuide(const shared_ptr<Stage>& stagePtr) :
+		RailGuideBlinking(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr),
 			m_defColor(1.0f, 1.0f, 1.0f, 0.5f),
 			m_blinkRatio(0.0f),
@@ -45,7 +48,7 @@ namespace basecross
 		/*!
 		@brief デストラクタ
 		*/
-		virtual ~RailGuide() {}
+		virtual ~RailGuideBlinking() {}
 
 		/*!
 		@brief 生成時に一度だけ呼び出される関数

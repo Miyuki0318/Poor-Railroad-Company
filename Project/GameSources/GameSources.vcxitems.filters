@@ -53,28 +53,28 @@
       <Filter>StageObject\Station</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)SelectIndicator.h">
-      <Filter>Player\Game\SelectIndicator</Filter>
+      <Filter>Player\Futures\SelectIndicator</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Train.h">
       <Filter>StageObject\Train</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftManager.h">
-      <Filter>Player\Game\Craft</Filter>
+      <Filter>Player\Futures\Craft</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftItemIcon.h">
-      <Filter>Player\Game\Craft\CraftUI\CraftItemIcon</Filter>
+      <Filter>Player\Futures\Craft\CraftUI\CraftItemIcon</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftWindow.h">
-      <Filter>Player\Game\Craft\CraftUI\CraftWindow</Filter>
+      <Filter>Player\Futures\Craft\CraftUI\CraftWindow</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftingQTE.h">
-      <Filter>Player\Game\Craft\CraftUI\CraftingQTE</Filter>
+      <Filter>Player\Futures\Craft\CraftUI\CraftingQTE</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleStage.h">
       <Filter>Stage\TitleStage</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)CraftUI.h">
-      <Filter>Player\Game\Craft\CraftUI</Filter>
+      <Filter>Player\Futures\Craft\CraftUI</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerMovingState.h">
       <Filter>Player\Game\State\Moving</Filter>
@@ -91,8 +91,8 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)RailManager.h">
       <Filter>StageObject\Rail</Filter>
     </ClInclude>
-    <ClInclude Include="$(MSBuildThisFileDirectory)RailGuide.h">
-      <Filter>Guide\RailGuide</Filter>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RailGuideBlinking.h">
+      <Filter>Guide\RailGuideBlinking</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h">
       <Filter>Camera</Filter>
@@ -212,7 +212,7 @@
       <Filter>Player\Title\State\Start</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)GatherTreasure.h">
-      <Filter>Player\Game\GatherTreasure</Filter>
+      <Filter>Player\Futures\GatherTreasure</Filter>
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)Shop.h">
       <Filter>UI\Shop</Filter>
@@ -243,6 +243,12 @@
     </ClInclude>
     <ClInclude Include="$(MSBuildThisFileDirectory)RouteMap.h">
       <Filter>StageObject\RouteMap</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MouseCursor.h">
+      <Filter>UI\MouseCursor</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)RailGuideIcon.h">
+      <Filter>Guide\RailGuideIcon</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -283,28 +289,28 @@
       <Filter>StageObject\Station</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)SelectIndicator.cpp">
-      <Filter>Player\Game\SelectIndicator</Filter>
+      <Filter>Player\Futures\SelectIndicator</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Train.cpp">
       <Filter>StageObject\Train</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftManager.cpp">
-      <Filter>Player\Game\Craft</Filter>
+      <Filter>Player\Futures\Craft</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftItemIcon.cpp">
-      <Filter>Player\Game\Craft\CraftUI\CraftItemIcon</Filter>
+      <Filter>Player\Futures\Craft\CraftUI\CraftItemIcon</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftWindow.cpp">
-      <Filter>Player\Game\Craft\CraftUI\CraftWindow</Filter>
+      <Filter>Player\Futures\Craft\CraftUI\CraftWindow</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftingQTE.cpp">
-      <Filter>Player\Game\Craft\CraftUI\CraftingQTE</Filter>
+      <Filter>Player\Futures\Craft\CraftUI\CraftingQTE</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleStage.cpp">
       <Filter>Stage\TitleStage</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)CraftUI.cpp">
-      <Filter>Player\Game\Craft\CraftUI</Filter>
+      <Filter>Player\Futures\Craft\CraftUI</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayerMovingState.cpp">
       <Filter>Player\Game\State\Moving</Filter>
@@ -321,8 +327,8 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp">
       <Filter>Camera</Filter>
     </ClCompile>
-    <ClCompile Include="$(MSBuildThisFileDirectory)RailGuide.cpp">
-      <Filter>Guide\RailGuide</Filter>
+    <ClCompile Include="$(MSBuildThisFileDirectory)RailGuideBlinking.cpp">
+      <Filter>Guide\RailGuideBlinking</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TitlePlayer.cpp">
       <Filter>Player\Title</Filter>
@@ -427,7 +433,7 @@
       <Filter>Player\Title\State\Start</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)GatherTreasure.cpp">
-      <Filter>Player\Game\GatherTreasure</Filter>
+      <Filter>Player\Futures\GatherTreasure</Filter>
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Shop.cpp">
       <Filter>UI\Shop</Filter>
@@ -458,6 +464,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Player.cpp">
       <Filter>Player</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MouseCursor.cpp">
+      <Filter>UI\MouseCursor</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)RailGuideIcon.cpp">
+      <Filter>Guide\RailGuideIcon</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -524,9 +536,6 @@
     <Filter Include="Guide">
       <UniqueIdentifier>{deec4a4e-7420-44b3-abfe-9464db24cf2c}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Guide\RailGuide">
-      <UniqueIdentifier>{1db75497-19dd-4dab-994e-9f2f9bf9a2f3}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Camera">
       <UniqueIdentifier>{f30f9633-9775-486b-983b-eb32cadf7119}</UniqueIdentifier>
     </Filter>
@@ -550,24 +559,6 @@
     </Filter>
     <Filter Include="Player\Game\State\Idle">
       <UniqueIdentifier>{f34c0152-ae2e-4e2d-802e-ac09c2b67bb7}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Player\Game\SelectIndicator">
-      <UniqueIdentifier>{5f4ee246-7983-4dd3-a4a3-971d6203b9a9}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Player\Game\Craft">
-      <UniqueIdentifier>{eea4401e-a506-4257-af28-d7b93e6a3204}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Player\Game\Craft\CraftUI">
-      <UniqueIdentifier>{9daab37d-9590-401e-adab-74d74c5a7409}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Player\Game\Craft\CraftUI\CraftingQTE">
-      <UniqueIdentifier>{f4a7f1b8-503b-48eb-b6ee-50c874a2a1d0}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Player\Game\Craft\CraftUI\CraftItemIcon">
-      <UniqueIdentifier>{14d3a9f5-fd76-4cbe-88bb-dd1cb3acbbf6}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Player\Game\Craft\CraftUI\CraftWindow">
-      <UniqueIdentifier>{e7f02516-575c-4118-bda2-19ef8539b878}</UniqueIdentifier>
     </Filter>
     <Filter Include="Guide\ActionGuide">
       <UniqueIdentifier>{398b7ea4-8bf4-4edf-bdaa-dbfab36cf36d}</UniqueIdentifier>
@@ -677,9 +668,6 @@
     <Filter Include="Player\Title\State\Start">
       <UniqueIdentifier>{ff453aae-fa1a-4c12-928f-051b684e73bd}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Player\Game\GatherTreasure">
-      <UniqueIdentifier>{674ca517-8d79-4f2a-91fd-d5f71b400687}</UniqueIdentifier>
-    </Filter>
     <Filter Include="UI\Shop">
       <UniqueIdentifier>{f14d6fcb-7237-4de0-b34f-f002633a57c2}</UniqueIdentifier>
     </Filter>
@@ -709,6 +697,39 @@
     </Filter>
     <Filter Include="StageObject\GroundManager">
       <UniqueIdentifier>{fb56feb6-4e12-44de-be45-4ced223d34e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\MouseCursor">
+      <UniqueIdentifier>{f9794741-d68e-4834-bc64-880841aef026}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Futures">
+      <UniqueIdentifier>{dff2bc5e-6b33-4434-82d9-78c2dd13d360}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Futures\Craft">
+      <UniqueIdentifier>{eea4401e-a506-4257-af28-d7b93e6a3204}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Futures\Craft\CraftUI">
+      <UniqueIdentifier>{9daab37d-9590-401e-adab-74d74c5a7409}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Futures\Craft\CraftUI\CraftingQTE">
+      <UniqueIdentifier>{f4a7f1b8-503b-48eb-b6ee-50c874a2a1d0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Futures\Craft\CraftUI\CraftItemIcon">
+      <UniqueIdentifier>{14d3a9f5-fd76-4cbe-88bb-dd1cb3acbbf6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Futures\Craft\CraftUI\CraftWindow">
+      <UniqueIdentifier>{e7f02516-575c-4118-bda2-19ef8539b878}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Futures\GatherTreasure">
+      <UniqueIdentifier>{674ca517-8d79-4f2a-91fd-d5f71b400687}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Futures\SelectIndicator">
+      <UniqueIdentifier>{5f4ee246-7983-4dd3-a4a3-971d6203b9a9}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Guide\RailGuideIcon">
+      <UniqueIdentifier>{9111b076-a440-47be-8e44-e0569db60b2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Guide\RailGuideBlinking">
+      <UniqueIdentifier>{1db75497-19dd-4dab-994e-9f2f9bf9a2f3}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

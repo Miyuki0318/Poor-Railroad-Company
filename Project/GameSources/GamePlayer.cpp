@@ -78,6 +78,7 @@ namespace basecross
 		m_startPosition = start;
 		m_goalStagingPosition = goal;
 		SetPosition(m_startPosition);
+		ResetCrafting();
 
 		// 待機状態ステートに変更
 		m_playerState->SetState(GamePlayerIdleState::Instance());
@@ -211,6 +212,23 @@ namespace basecross
 
 		// クラフトマネージャーにクラフト状態を送る
 		m_craft->CraftingEnabled(m_status(ePlayerStatus::IsCrafting));
+	}
+
+	// クラフト中なら初期化する
+	void GamePlayer::ResetCrafting()
+	{
+		// クラフトQTE中なら閉じる
+		if (GetStatus(ePlayerStatus::IsCraftQTE))
+		{
+			m_craft->DestroyCraftQTE();
+			m_status.Set(ePlayerStatus::IsCraftQTE) = false;
+		}
+
+		// クラフト中ならウィンドウを閉じる
+		if (GetStatus(ePlayerStatus::IsCrafting))
+		{
+			SwitchCraftWindow();
+		}
 	}
 
 	// アイテム状態の更新

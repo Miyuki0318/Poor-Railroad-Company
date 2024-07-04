@@ -54,6 +54,9 @@ namespace basecross
 		AddTextureResource(L"GOAL_GUIDE_TX", texturePath + L"GoalGuide.png");
 		AddTextureResource(L"GOAL_ARROW_TX", texturePath + L"GoalGuideArrow.png");
 
+		// レールガイドテクスチャ
+		AddTextureResource(L"GUIDE_RAIL_TX", texturePath + L"RailGuide.png");
+
 		// ゲーム中のBGM
 		AddAudioResource(L"FIRST_BGM", soundPath + L"FirstBGM");
 		AddAudioResource(L"SECOND_BGM", soundPath + L"SecondBGM");
@@ -184,7 +187,8 @@ namespace basecross
 		const auto& railManager = AddGameObject<RailManager>();
 		SetSharedGameObject(L"RailManager", railManager);
 
-		AddGameObject<RailGuide>();
+		AddGameObject<RailGuideIcon>();
+		AddGameObject<RailGuideBlinking>();
 	}
 
 	void GameStage::CreateBridgeManager()
@@ -669,7 +673,7 @@ namespace basecross
 			LogoActive();
 
 			// STARTボタンを押したら
-			if (Input::GetPad().wPressedButtons & XINPUT_GAMEPAD_START)
+			if (Input::GetStartPush())
 			{
 				PushButtonStart();
 			}

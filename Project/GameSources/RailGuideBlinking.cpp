@@ -1,5 +1,5 @@
 /*!
-@file RailGuide.cpp
+@file RailGuideBlinking.cpp
 @brief レールを設置する場所のガイド表示
 @author 小澤博貴
 */
@@ -12,7 +12,7 @@
 namespace basecross
 {
 	// 生成時の処理を実行
-	void RailGuide::OnCreate()
+	void RailGuideBlinking::OnCreate()
 	{
 		// 描画コンポーネントの設定
 		m_ptrDraw = AddComponent<PNTStaticInstanceDraw>();
@@ -27,7 +27,7 @@ namespace basecross
 	}
 
 	// 毎フレーム更新処理
-	void RailGuide::OnUpdate()
+	void RailGuideBlinking::OnUpdate()
 	{
 		// プレイヤーがレールを持ってるかで表示非表示
 		const auto& player = GetStage()->GetSharedGameObject<GamePlayer>(L"Player");
@@ -43,7 +43,7 @@ namespace basecross
 	}
 
 	// 点滅の更新
-	void RailGuide::UpdateBlinking()
+	void RailGuideBlinking::UpdateBlinking()
 	{
 		// 割合を加算
 		m_blinkRatio += DELTA_TIME / m_blinkTime;
@@ -55,16 +55,22 @@ namespace basecross
 	}
 
 	// ガイドの更新
-	void RailGuide::UpdateGuide()
+	void RailGuideBlinking::UpdateGuide()
 	{
+		// ガイドのcsv上のポイント配列
+		const auto& railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager");
+		const auto& guidePoints = railManager->GetGuidePoints();
+
+		// ガイドポイントに相違がなければ無視
+		if (m_pastGuidePoint == guidePoints) return;
+		m_pastGuidePoint = guidePoints;
+
 		// 行列用変数と行列配列
 		Mat4x4 matrix, mtxPosition, mtxRotation;
 		auto& matrixVec = m_ptrDraw->GetMatrixVec();
 		matrixVec.clear();
 		
-		// ガイドのcsv上のポイント配列
-		const auto& railManager = GetStage()->GetSharedGameObject<RailManager>(L"RailManager");
-		const auto& guidePoints = railManager->GetGuidePoints();
+		// 最後のレール設置座標
 		Vec3 pastPos = railManager->GetPastRailPos();
 
 		// 配列の数ループ

@@ -55,13 +55,13 @@ namespace basecross
 
 		Vec3 m_boardPositions[3] = {
 			Vec3( 9.5f,1.0f,-10.0f),
-			Vec3(18.5f,1.0f,-9.0f),
+			Vec3(18.0f,1.0f,-13.0f),
 			Vec3(23.0f,1.0f,-14.5f),
 		};
 
 		const int m_boardQuantity = sizeof(m_textureKeys) / sizeof(m_textureKeys[0]);
 
-		eTitleProgress titleProgress;
+		eTitleProgress m_titleProgress;
 
 		Vec3 m_diff;
 		float m_distance;
@@ -75,6 +75,11 @@ namespace basecross
 		shared_ptr<GameObjectGroup> m_objectGroup;
 
 		weak_ptr<SoundItem> m_bgmItem;
+
+		weak_ptr<Sprite> m_rightArrow;
+		weak_ptr<Sprite> m_leftArrow;
+
+		eTitleProgress m_oldProgress;
 
 		/*
 		@brief ビューとライトの生成
@@ -132,6 +137,11 @@ namespace basecross
 		void CreateUISprite();
 
 		/*
+		@brief 矢印トの生成
+		*/
+		void CreateArrowSprite();
+
+		/*
 		@brief カメラのズーム処理
 		*/
 		void TitleCameraZoom();
@@ -142,9 +152,19 @@ namespace basecross
 		void FadeSprite();
 
 		/*
-		@brief ボタンを押した時の処理
+		@brief Aボタンを押した時の処理
+		*/
+		void PushButtonA();
+
+		/*
+		@brief Bボタンを押した時の処理
 		*/
 		void PushButtonB();
+
+		/*
+		@brief 矢印スプライトの表示・非表示
+		*/
+		void ArrowActive();
 
 		/*!
 		@brief ステージをcsvで生成
@@ -158,10 +178,12 @@ namespace basecross
 		*/
 		TitleStage(const string& stagePath, eTitleProgress prog) :
 			BaseStage(stagePath),
-			titleProgress(prog),
+			m_titleProgress(prog),
 			m_objDiffEye(0.0f, 3.0f, -0.5f),
 			m_trainDiffEye(0.0f, 8.0f, 12.0f)
 		{
+			m_oldProgress = eTitleProgress::start;
+
 			m_zooming = false;
 
 			m_zoomEnd = false;
@@ -218,7 +240,7 @@ namespace basecross
 		*/
 		bool GetPlayerStop() const
 		{
-			return titleProgress == eTitleProgress::select;
+			return m_titleProgress == eTitleProgress::select;
 		}
 
 		/*
@@ -226,7 +248,7 @@ namespace basecross
 		*/
 		bool GetStartFlag() const
 		{
-			return titleProgress == eTitleProgress::start;
+			return m_titleProgress == eTitleProgress::start;
 		}
 
 		/*
@@ -234,12 +256,28 @@ namespace basecross
 		*/
 		eTitleProgress& GetTitleProgress()
 		{
-			return titleProgress;
+			return m_titleProgress;
 		}
 
 		shared_ptr<GameObject> GetSelectObject() const
 		{
 			return m_selectObj;
+		}
+
+		/*
+		@brief 状態が一致しているかを判定する関数
+		*/
+		bool MatchProgress()
+		{
+			return m_oldProgress == m_titleProgress;
+		}
+
+		/*
+		@brief 指定したオブジェクトが選択されているか判定する関数
+		*/
+		bool MatchSelectObject(const shared_ptr<GameObject>& obj)
+		{
+			return m_selectObj == obj;
 		}
 	};
 }
