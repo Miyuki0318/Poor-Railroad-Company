@@ -6,6 +6,7 @@
 
 #pragma once
 #include "TemplateObject.h"
+#include "Scene.h"
 
 namespace basecross {
 	class RouteMap : public TemplateObject

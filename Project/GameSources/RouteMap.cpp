@@ -6,7 +6,8 @@
 
 #pragma once
 #include "stdafx.h"
-#include "Project.h"
+#include "RouteMap.h"
+#include "Input.h"
 
 namespace basecross {
 	void RouteMap::OnCreate()
