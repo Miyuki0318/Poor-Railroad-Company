@@ -5,7 +5,8 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "Input.h"
+#include "CraftManager.h"
 
 namespace basecross
 {
