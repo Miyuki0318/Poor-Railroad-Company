@@ -6,6 +6,7 @@
 
 #pragma once
 #include "GamePlayerStateMachine.h"
+#include "GamePlayer.h"
 
 namespace basecross
 {
