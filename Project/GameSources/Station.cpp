@@ -6,8 +6,7 @@
 
 #pragma once
 #include "stdafx.h"
-#include "Project.h"
-
+#include "Station.h"
 
 namespace basecross {
 	void Station::OnCreate() {
