@@ -249,7 +249,7 @@ namespace basecross
 			bool isTrain = bool(dynamic_pointer_cast<TitleTrain>(m_selectObj));
 			objPos += isTrain ? m_trainDiffEye : Vec3(0.0f, 3.0f,+4.0f);
 
-			titleCamera->ZoomStart(objPos);
+			titleCamera->ZoomStart(objPos, 4.0f);
 		}
 
 		if (Utility::OR(m_titleProgress, normal, opening))
