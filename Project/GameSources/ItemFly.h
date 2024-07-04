@@ -5,6 +5,9 @@
 */
 
 #pragma once
+#include "Sprite.h"
+#include "OzawaFuncs.h"
+#include "CraftManager.h"
 
 namespace basecross
 {

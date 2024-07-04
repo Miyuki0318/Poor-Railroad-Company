@@ -39,6 +39,5 @@
 #include "MathFunc.h"
 #include "Crossing.h"
 #include "SmokeEffect.h"
-#include "Gear.h"
-#include "ItemFly.h"
+#include "Gear.h"	
 #include "Shop.h"
