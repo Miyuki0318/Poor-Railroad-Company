@@ -94,6 +94,7 @@ namespace basecross {
 		/// ズーム処理スタート時に呼び出す処理
 		/// </summary>
 		/// <param name="zoomEye">ズーム後の位置</param>
+		/// <param name="zoomAtY">ズーム後のY座標に加算する値</param>
 		void ZoomStart(Vec3 zoomEye, float zoomAtY) {
 			m_zoomEye = zoomEye;
 			m_zoomAtY = zoomAtY;
@@ -121,6 +122,7 @@ namespace basecross {
 		void ZoomEnd()
 		{
 			m_cameraState = ZoomOut;
+			m_zoomAtY = 0.0f;
 		}
 
 		// カメラが追尾するオブジェクトを取得する関数
