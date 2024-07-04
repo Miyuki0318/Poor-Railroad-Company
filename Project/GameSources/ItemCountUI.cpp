@@ -5,7 +5,8 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "ItemCountUI.h"
+#include "GamePlayer.h"
 
 namespace basecross
 {
