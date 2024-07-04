@@ -5,7 +5,10 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "BridgeManager.h"
+#include "RailManager.h"
+#include "OzawaUtility.h"
+#include "BaseStage.h"
 
 namespace basecross
 {

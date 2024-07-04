@@ -6,6 +6,7 @@
 
 #pragma once
 #include "stdafx.h"
+#include "OzawaUtility.h"
 
 #define ROW(posZ) size_t(-posZ)	// çs
 #define COL(posX) size_t(posX) // óÒ
