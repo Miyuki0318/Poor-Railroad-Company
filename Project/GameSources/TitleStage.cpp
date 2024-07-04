@@ -40,6 +40,7 @@ namespace basecross
 		wstring mediaPath = app->GetDataDirWString();
 		wstring texturePath = mediaPath + L"Textures/";
 		wstring soundPath = mediaPath + L"Sounds/";
+		wstring routePath = mediaPath + L"Models/" + L"RouteMap/" ;
 		wstring modelPath = mediaPath + L"Models/" + L"Bilding/";
 		
 		// タイトルロゴ
@@ -53,14 +54,14 @@ namespace basecross
 		AddTextureResource(L"LEFTARROW_TX", texturePath + L"LeftArrow.png");
 		
 		// ボードのテクスチャ
-		AddTextureResource(L"BOARD_TX", modelPath + L"RouteMapTexture.tga");
+		AddTextureResource(L"BOARD_TX", routePath + L"MapTexture.tga");
 
 		// マップ選択モデルのテクスチャ
-		AddTextureResource(L"FIRST_TX", modelPath + L"FirstMapTexture.tga");
-		AddTextureResource(L"SECOND_TX", modelPath + L"SecondMapTexture.tga");
-		AddTextureResource(L"THIRD_TX", modelPath + L"ThirdMapTexture.tga");
-		AddTextureResource(L"FOURTH_TX", modelPath + L"FourthMapTexture.tga");
-		AddTextureResource(L"FIFTH_TX", modelPath + L"FifthMapTexture.tga");
+		AddTextureResource(L"FIRST_TX", routePath + L"FirstMapTexture.tga");
+		AddTextureResource(L"SECOND_TX", routePath + L"SecondMapTexture.tga");
+		AddTextureResource(L"THIRD_TX", routePath + L"ThirdMapTexture.tga");
+		AddTextureResource(L"FOURTH_TX", routePath + L"FourthMapTexture.tga");
+		AddTextureResource(L"FIFTH_TX", routePath + L"FifthMapTexture.tga");
 		// タイトルBGM
 		AddAudioResource(L"TITLE_BGM", soundPath + L"Title");
 

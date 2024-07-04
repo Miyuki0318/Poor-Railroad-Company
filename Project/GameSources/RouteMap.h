@@ -41,7 +41,7 @@ namespace basecross {
 			m_mapLevel(mapLevel)
 		{
 			m_spanMat.affineTransformation(
-				Vec3(2.7f),
+				Vec3(0.65f),
 				Vec3(0.0f),
 				Vec3(0.0f),
 				Vec3(0.0f)

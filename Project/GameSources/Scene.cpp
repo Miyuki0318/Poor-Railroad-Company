@@ -125,7 +125,7 @@ namespace basecross {
 		RegisterSingleMesh(L"COMPANY", modelPath + L"Bilding/", L"buillding", false);
 
 		// ステージ選択のモデル
-		RegisterSingleMesh(L"BOARD", modelPath + L"Bilding/", L"RouteMap", false);
+		RegisterSingleMesh(L"BOARD", modelPath + L"RouteMap/", L"RouteMap", false);
 
 		// 看板のモデル
 		app->RegisterTexture(L"SIGNBOARD_TX", modelPath + L"Signboard/" + L"T_kanban_gamestart.png");
