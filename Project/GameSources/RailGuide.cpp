@@ -5,7 +5,9 @@
 */
 
 #include "stdafx.h"
-#include "Project.h"
+#include "RailGuide.h"
+#include "GamePlayer.h"
+#include "RailManager.h"
 
 namespace basecross
 {
