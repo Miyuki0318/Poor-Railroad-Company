@@ -53,7 +53,7 @@ namespace basecross {
 
 	void MainCamera::ZoomedFollowTarget()
 	{
-		SetAt(Utility::Lerp(m_initialAt, Vec3(m_targetPos.x, m_targetPos.y, m_targetPos.z), 1.0f));
+		SetAt(Utility::Lerp(m_initialAt, Vec3(m_targetPos.x, m_targetPos.y + m_zoomAtY, m_targetPos.z), 1.0f));
 		SetEye(Utility::Lerp(m_currentEye, Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z + m_zoomEye.z), 1.0f));
 	}
 
