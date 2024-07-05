@@ -1,5 +1,7 @@
 #include "stdafx.h"
-#include "OzawaFuncs.h"
+#include "CSVLoader.h"
+#include "OzawaUtility.h"
+
 vector<vector<string>> CSVLoader::LoadFile(const string& filePath)
 {
 	ifstream ifs("../media/CSV/" + filePath + ".csv");

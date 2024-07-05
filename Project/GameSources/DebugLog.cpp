@@ -5,7 +5,7 @@
 */
 
 #include "stdafx.h"
-#include "OzawaFuncs.h"
+#include "DebugLog.h"
 #include "Scene.h"
 
 /*!

@@ -6,9 +6,8 @@
 
 #pragma once
 #include "stdafx.h"
-#include "Sprite.h"
-#include "OzawaFuncs.h"
 #include "GameStage.h"
+#include "SpriteParticle.h"
 
 namespace basecross
 {

@@ -9,7 +9,6 @@
 #include "TemplateObject.h"
 #include "SelectIndicator.h"
 #include "CraftManager.h"
-#include "OzawaFuncs.h"
 #include "Scene.h"
 
 #define ANIME_FPS 30.0f

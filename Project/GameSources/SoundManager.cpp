@@ -1,10 +1,11 @@
 /*!
-@file SEManager.cpp
+@file SoundManager.cpp
 @brief SEŠÇ—ƒNƒ‰ƒX
 */
 
 #include "stdafx.h"
-#include "OzawaFuncs.h"
+#include "SoundManager.h"
+
 namespace basecross
 {
 	// SE‚ÌÄ¶

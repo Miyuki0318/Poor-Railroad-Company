@@ -7,7 +7,6 @@
 #pragma once
 #include "stdafx.h"
 #include "BillBoard.h"
-#include "OzawaUtility.h"
 
 namespace basecross
 {
