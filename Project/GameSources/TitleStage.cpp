@@ -270,10 +270,13 @@ namespace basecross
 			Vec3 objPos = m_selectObj->GetComponent<Transform>()->GetPosition();
 			titleCamera->SetTargetObject(m_selectObj);
 
+			// 列車選択中？
 			bool isTrain = bool(dynamic_pointer_cast<TitleTrain>(m_selectObj));
-			objPos += isTrain ? m_trainDiffEye : Vec3(0.0f, 3.0f,+4.0f);
+			// 路線図選択中？
+			bool isRouteMap = bool(dynamic_pointer_cast<RouteMap>(m_selectObj));
+			objPos += isTrain ? m_trainDiffEye : isRouteMap ? Vec3(0.0f, 3.0f, +11.0f) : m_objDiffEye;
 
-			titleCamera->ZoomStart(objPos, 4.0f);
+			titleCamera->ZoomStart(objPos, 2.75f);
 		}
 
 		if (Utility::OR(m_titleProgress, normal, opening))

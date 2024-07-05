@@ -11,9 +11,9 @@
 namespace basecross {
 	class SelectArrow : public TemplateObject
 	{
-		const float posX = 1920.0f / 6.0f;
-		const float posY = 1080.0f / 4.0f;
-		const Vec2 scale = Vec2(100.0f);
+		const float posX = 750.0f;
+		const float posY = 0.0f;
+		const Vec2 scale = Vec2(200.0f);
 
 		weak_ptr<Sprite> m_rightArrow;
 		weak_ptr<Sprite> m_leftArrow;
