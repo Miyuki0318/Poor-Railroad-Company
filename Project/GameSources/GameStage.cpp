@@ -59,6 +59,12 @@ namespace basecross
 		// レールガイドテクスチャ
 		AddTextureResource(L"GUIDE_RAIL_TX", texturePath + L"RailGuide.png");
 
+		// 操作方法テクスチャ
+		AddTextureResource(L"INST_CRAFT_K", texturePath + L"CraftInstruction_X.png");
+		AddTextureResource(L"INST_NORMAL_K", texturePath + L"NormalInstruction_X.png");
+		AddTextureResource(L"INST_CRAFT_X", texturePath + L"CraftInstruction_X.png");
+		AddTextureResource(L"INST_NORMAL_X", texturePath + L"NormalInstruction_X.png");
+
 		// ゲーム中のBGM
 		AddAudioResource(L"FIRST_BGM", soundPath + L"FirstBGM");
 		AddAudioResource(L"SECOND_BGM", soundPath + L"SecondBGM");

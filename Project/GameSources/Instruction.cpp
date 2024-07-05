@@ -9,4 +9,14 @@
 
 namespace basecross
 {
+	void Instruction::OnCreate()
+	{
+		const shared_ptr<Stage>& stagePtr = GetStage();
+
+	}
+
+	void Instruction::OnUpdate()
+	{
+
+	}
 }
