@@ -76,6 +76,9 @@ namespace basecross
 
 		weak_ptr<SoundItem> m_bgmItem;
 
+		weak_ptr<Sprite> m_pushAButton;
+		weak_ptr<Sprite> m_pushBButton;
+
 		eTitleProgress m_oldProgress;
 
 		/*
@@ -152,6 +155,11 @@ namespace basecross
 		@brief スプライトのフェード処理
 		*/
 		void FadeSprite();
+
+		/*
+		@brief ボタンUIの表示処理
+		*/
+		void ButtonUIActive();
 
 		/*
 		@brief Aボタンを押した時の処理

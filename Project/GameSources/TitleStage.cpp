@@ -123,9 +123,6 @@ namespace basecross
 		m_stageMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Stage"));
 		m_groundMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Ground"));
 
-		//AddGameObject<Sprite>(L"PUSHRETURN_TX");
-		//AddGameObject<Sprite>(L"PUSHSELECT_TX");
-
 		// 二重ループ
 		for (int i = 0; i < m_stageMap.size(); i++)
 		{
@@ -239,6 +236,15 @@ namespace basecross
 	// ボタンUIの生成
 	void TitleStage::CreateButtonUI()
 	{
+		const Vec2 scale = Vec2(200.0f, 100.0f);
+		const float posX = 1920.0f / 4.0f;
+		const float posY = (1080.0f / 2.0f) - scale.y;
+
+		m_pushAButton = AddGameObject<Sprite>(L"PUSHRETURN_TX", scale, Vec3(posX, -posY, 0.0f));
+		m_pushBButton = AddGameObject<Sprite>(L"PUSHSELECT_TX", scale, Vec3(-posX, -posY, 0.0f));
+
+		m_pushAButton.lock()->SetDrawActive(false);
+		m_pushBButton.lock()->SetDrawActive(false);
 	}
 
 	// Aボタンを押した時の処理
@@ -301,6 +307,26 @@ namespace basecross
 		titleCamera->SetAt(m_cameraAt);
 		titleCamera->SetTargetObject(nullptr);
 		m_zooming = false;
+	}
+
+	// ボタンUIの表示処理
+	void TitleStage::ButtonUIActive()
+	{
+		auto& camera = GetView()->GetTargetCamera();
+		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+
+		bool isMatch = MatchSelectObject(GetSharedGameObject<RouteMap>(L"RouteMap"));
+
+		if (titleCamera->m_cameraState == MainCamera::Zoomed && isMatch)
+		{
+			m_pushAButton.lock()->SetDrawActive(true);
+			m_pushBButton.lock()->SetDrawActive(true);
+		}
+		else
+		{
+			m_pushAButton.lock()->SetDrawActive(false);
+			m_pushBButton.lock()->SetDrawActive(false);
+		}
 	}
 
 	// スプライトのフェード処理
@@ -481,6 +507,8 @@ namespace basecross
 			TitleCameraZoom();
 
 			FadeSprite();
+
+			ButtonUIActive();
 
 			// 通常時以外は演出中のフラグを立てる
 			m_isStaging = m_titleProgress != normal;
