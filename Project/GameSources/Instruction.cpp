@@ -81,6 +81,7 @@ namespace basecross
 		if (cType == Keyboard)
 		{
 			m_keyboardInstructions.at(iType).lock()->SetDrawActive(flag);
+			return;
 		}
 		if (cType == XBoxPad)
 		{
