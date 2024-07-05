@@ -33,31 +33,9 @@ namespace basecross
 
 	void Instruction::OnUpdate()
 	{
-		// パッドが繋がれていたら
-		if (Input::GetPadConected())
-		{
-			m_currentContType = eControllerType::XBoxPad; // パッド状態
-		}
-		else // そうでなければ
-		{
-			m_currentContType = eControllerType::Keyboard; // キーボード/マウス状態
-		}
-		// 前フレームと現フレームの状態が違うなら表示していた画像を非表示にする
-		if (m_pastContType != m_currentContType) SetDrawActiveInstructions(false, m_pastContType, m_currentInstType);
-
-		auto& player = GetStage()->GetSharedGameObject<GamePlayer>(L"Player");
-
-		// プレイヤーのステータスがクラフト中またはQTE中なら
-		if (player->GetStatus(ePlayerStatus::IsCrafting) || player->GetStatus(ePlayerStatus::IsCraftQTE))
-		{
-			m_currentInstType = eInstructionType::Craft; // クラフト状態
-		}
-		else // そうでなければ
-		{
-			m_currentInstType = eInstructionType::Normal; // 通常状態
-		}
-		// 前フレームと現フレームの状態が違うなら表示していた画像を非表示にする
-		if (m_pastInstType != m_currentInstType) SetDrawActiveInstructions(false, m_currentContType, m_pastInstType);
+		// 現在の状態を決定する
+		ControllerTypeDecision();
+		InstructionTypeDecision();
 
 		// 現在の状態にマッチした画像を表示する
 		SetDrawActiveInstructions(true, m_currentContType, m_currentInstType);
@@ -78,14 +56,47 @@ namespace basecross
 
 	void Instruction::SetDrawActiveInstructions(bool flag, eControllerType cType, eInstructionType iType)
 	{
-		if (cType == Keyboard)
+		if (cType == Keyboard) // コントローラータイプがキーボード/マウスなら
 		{
 			m_keyboardInstructions.at(iType).lock()->SetDrawActive(flag);
 			return;
 		}
-		if (cType == XBoxPad)
+		if (cType == XBoxPad) // コントローラータイプがパッドなら
 		{
 			m_xBoxInstructions.at(iType).lock()->SetDrawActive(flag);
 		}
+	}
+
+	void Instruction::ControllerTypeDecision()
+	{
+		// パッドが繋がれていたら
+		if (Input::GetPadConected())
+		{
+			m_currentContType = eControllerType::XBoxPad; // パッド状態
+		}
+		else // そうでなければ
+		{
+			m_currentContType = eControllerType::Keyboard; // キーボード/マウス状態
+		}
+		// 前フレームと現フレームの状態が違うなら表示していた画像を非表示にする
+		if (m_pastContType != m_currentContType) SetDrawActiveInstructions(false, m_pastContType, m_currentInstType);
+	}
+
+	void Instruction::InstructionTypeDecision()
+	{
+		// プレイヤーを取得
+		auto& player = GetStage()->GetSharedGameObject<GamePlayer>(L"Player");
+
+		// プレイヤーのステータスがクラフト中またはQTE中なら
+		if (player->GetStatus(ePlayerStatus::IsCrafting) || player->GetStatus(ePlayerStatus::IsCraftQTE))
+		{
+			m_currentInstType = eInstructionType::Craft; // クラフト状態
+		}
+		else // そうでなければ
+		{
+			m_currentInstType = eInstructionType::Normal; // 通常状態
+		}
+		// 前フレームと現フレームの状態が違うなら表示していた画像を非表示にする
+		if (m_pastInstType != m_currentInstType) SetDrawActiveInstructions(false, m_currentContType, m_pastInstType);
 	}
 }

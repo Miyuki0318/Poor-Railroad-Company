@@ -24,10 +24,10 @@ namespace basecross
 			Craft,		// クラフト
 			TypeNum
 		};
-		eControllerType m_currentContType;
-		eControllerType m_pastContType;
-		eInstructionType m_currentInstType;
-		eInstructionType m_pastInstType;
+		eControllerType m_currentContType;	// 現在のコントローラータイプ
+		eControllerType m_pastContType;		// 前フレームのコントローラータイプ
+		eInstructionType m_currentInstType;	// 現在の操作タイプ
+		eInstructionType m_pastInstType;	// 前フレームの操作タイプ
 
 		const Vec2 m_DefaultScale;	// 初期サイズ
 		const Vec3 m_DefaultPos;	// 初期位置
@@ -35,9 +35,29 @@ namespace basecross
 		map<eInstructionType, weak_ptr<Sprite>> m_keyboardInstructions; // キーボード/マウス操作方法画像
 		map<eInstructionType, weak_ptr<Sprite>> m_xBoxInstructions;		// XBoxパッド操作方法画像
 
+		/// <summary>
+		/// 操作方法の表示非表示(すべて)
+		/// </summary>
+		/// <param name="flag">表示/非表示</param>
 		void SetDrawActiveInstructions(bool flag);
 
+		/// <summary>
+		/// 操作方法の表示非表示
+		/// </summary>
+		/// <param name="flag">表示/非表示</param>
+		/// <param name="cType">現在のコントローラータイプ</param>
+		/// <param name="iType">現在の操作タイプ</param>
 		void SetDrawActiveInstructions(bool flag, eControllerType cType, eInstructionType iType);
+
+		/// <summary>
+		/// コントローラータイプの決定処理
+		/// </summary>
+		void ControllerTypeDecision();
+
+		/// <summary>
+		/// 操作タイプの決定処理
+		/// </summary>
+		void InstructionTypeDecision();
 
 	public:
 		Instruction(const shared_ptr<Stage>& stagePtr) :
@@ -45,13 +65,14 @@ namespace basecross
 			m_DefaultScale(Vec2(1920.0f, 216.0f)),
 			m_DefaultPos(Vec3(0.0f, (-WINDOW_HEIGHT + m_DefaultScale.y) / 2, 0.0f)),
 			m_currentContType(eControllerType::Keyboard),
-			m_currentInstType(eInstructionType::Normal)
+			m_pastContType(eControllerType::Keyboard),
+			m_currentInstType(eInstructionType::Normal),
+			m_pastInstType(eInstructionType::Normal)
 		{
 		}
 		~Instruction() {}
 
 		void OnCreate() override;
 		void OnUpdate() override;
-
 	};
 }
