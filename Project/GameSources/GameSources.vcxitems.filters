@@ -259,6 +259,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)TitleGuide.h">
       <Filter>Guide\TitleGuide</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)Instruction.h">
+      <Filter>UI\Instruction</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -488,6 +491,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)TitleGuide.cpp">
       <Filter>Guide\TitleGuide</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)Instruction.cpp">
+      <Filter>UI\Instruction</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -757,6 +763,9 @@
     </Filter>
     <Filter Include="Guide\TitleGuide">
       <UniqueIdentifier>{05ce54d7-ecad-4a17-a789-f5fec620525b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Instruction">
+      <UniqueIdentifier>{bd72b4cd-a015-40f2-838e-7cf3600eb1d8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
