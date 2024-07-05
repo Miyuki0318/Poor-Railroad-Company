@@ -123,6 +123,9 @@ namespace basecross
 		m_stageMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Stage"));
 		m_groundMap = CSVLoader::ReadDataToInt(CSVLoader::LoadFile(csvPath + "Ground"));
 
+		//AddGameObject<Sprite>(L"PUSHRETURN_TX");
+		//AddGameObject<Sprite>(L"PUSHSELECT_TX");
+
 		// “ñdƒ‹[ƒv
 		for (int i = 0; i < m_stageMap.size(); i++)
 		{
@@ -142,7 +145,7 @@ namespace basecross
 					int random = Utility::RangeRand(3, 0);
 					id = id + random;
 				}
-
+				
 				// –Ø‚ÌID‚È‚ç
 				if (num == eStageID::Tree1)
 				{
