@@ -42,6 +42,8 @@ namespace basecross
 		{
 			m_currentContType = eControllerType::Keyboard; // キーボード/マウス状態
 		}
+		// 前フレームと現フレームの状態が違うなら表示していた画像を非表示にする
+		if (m_pastContType != m_currentContType) SetDrawActiveInstructions(false, m_pastContType, m_currentInstType);
 
 		auto& player = GetStage()->GetSharedGameObject<GamePlayer>(L"Player");
 
@@ -54,9 +56,7 @@ namespace basecross
 		{
 			m_currentInstType = eInstructionType::Normal; // 通常状態
 		}
-
 		// 前フレームと現フレームの状態が違うなら表示していた画像を非表示にする
-		if (m_pastContType != m_currentContType) SetDrawActiveInstructions(false, m_pastContType, m_currentInstType);
 		if (m_pastInstType != m_currentInstType) SetDrawActiveInstructions(false, m_currentContType, m_pastInstType);
 
 		// 現在の状態にマッチした画像を表示する
