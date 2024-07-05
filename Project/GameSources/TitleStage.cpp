@@ -274,7 +274,7 @@ namespace basecross
 			bool isTrain = bool(dynamic_pointer_cast<TitleTrain>(m_selectObj));
 			// ˜Hü}‘I‘ğ’†H
 			bool isRouteMap = bool(dynamic_pointer_cast<RouteMap>(m_selectObj));
-			objPos += isTrain ? m_trainDiffEye : isRouteMap ? Vec3(0.0f, 3.0f, +11.0f) : m_objDiffEye;
+			objPos += isTrain ? m_trainDiffEye : isRouteMap ? m_routeMapDiffEye : m_shopDiffEye;
 
 			titleCamera->ZoomStart(objPos, 2.75f);
 		}
