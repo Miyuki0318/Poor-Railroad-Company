@@ -82,6 +82,10 @@ namespace basecross
 		AddTextureResource(L"START_TRAIN_TX", texturePath + L"GameStartGuide.png");
 		AddTextureResource(L"COMPANIY_TX", texturePath + L"ShopGuide.png");
 
+		// ボタンUI
+		AddTextureResource(L"PUSHRETURN_TX", texturePath + L"ReturnPushA.png");
+		AddTextureResource(L"PUSHSELECT_TX", texturePath + L"SelectPushB.png");
+
 		// タイトルBGM
 		AddAudioResource(L"TITLE_BGM", soundPath + L"Title");
 
