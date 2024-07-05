@@ -5,7 +5,8 @@
 */
 
 #include "stdafx.h"
-#include "OzawaFuncs.h"
+#include "Number.h"
+
 namespace basecross
 {
 	/*!

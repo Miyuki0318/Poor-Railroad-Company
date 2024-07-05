@@ -7,8 +7,10 @@
 #pragma once
 #include "stdafx.h"
 #include "ResourcesManager.h"
+#include "SoundManager.h"
+#include "Timer.h"
 #include "Scene.h"
-#include "OzawaFuncs.h"
+#include "Sprite.h"
 
 // ステージIDキャストマクロ
 #define STAGE_ID(id) static_cast<eStageID>(id)

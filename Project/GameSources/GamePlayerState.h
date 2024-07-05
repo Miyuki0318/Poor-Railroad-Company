@@ -3,6 +3,7 @@
 @brief プレイヤーの状態ステートヘッダー
 @author 小澤博貴
 */
+
 #pragma once
 #include "GamePlayerStateMachine.h"
 #include "GamePlayerIdleState.h"

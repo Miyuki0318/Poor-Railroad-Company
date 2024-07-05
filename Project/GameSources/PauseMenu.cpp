@@ -7,6 +7,7 @@
 #include "stdafx.h"
 #include "PauseMenu.h"
 #include "MathFunc.h"
+#include "Input.h"
 #include "GameStage.h"
 
 namespace basecross

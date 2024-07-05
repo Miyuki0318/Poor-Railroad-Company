@@ -7,6 +7,8 @@
 #pragma once
 #include "stdafx.h"
 #include "Opening.h"
+#include "Input.h"
+#include "DebugLog.h"
 #include "TitleStage.h"
 
 namespace basecross {

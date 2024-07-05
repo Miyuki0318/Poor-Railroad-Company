@@ -7,6 +7,8 @@
 #include "stdafx.h"
 #include "BaseStage.h"
 #include "MouseCursor.h"
+#include "CSVLoader.h"
+#include "DebugLog.h"
 
 namespace basecross
 {

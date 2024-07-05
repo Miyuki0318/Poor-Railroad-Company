@@ -5,7 +5,8 @@
 */
 
 #include "stdafx.h"
-#include "OzawaFuncs.h"
+#include "BillboardNumber.h"
+
 namespace basecross
 {
 	/*!

@@ -1,5 +1,5 @@
 /*!
-@file SEManager.h
+@file SoundManager.h
 @brief SEŠÇ—ƒNƒ‰ƒX
 */
 
