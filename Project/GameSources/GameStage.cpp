@@ -23,6 +23,7 @@
 #include "SkyBox.h"
 #include "UnBreakRock.h"
 #include "CraftPosshibleGuide.h"
+#include "Instruction.h"
 
 namespace basecross
 {
@@ -308,6 +309,10 @@ namespace basecross
 		// ポーズメニューの作成
 		auto& pauseMenu = AddGameObject<PauseMenu>();
 		SetSharedGameObject(L"PAUSE", pauseMenu);
+
+		// 操作方法画像の作成
+		auto& inst = AddGameObject<Instruction>();
+		SetSharedGameObject(L"INSTRUCTION", inst);
 
 		// ゴールガイドの生成
 		AddGameObject<GoalGuide>();
