@@ -23,6 +23,7 @@
 #include "SkyBox.h"
 #include "UnBreakRock.h"
 #include "CraftPosshibleGuide.h"
+#include "Instruction.h"
 
 namespace basecross
 {
@@ -58,6 +59,12 @@ namespace basecross
 
 		// レールガイドテクスチャ
 		AddTextureResource(L"GUIDE_RAIL_TX", texturePath + L"RailGuide.png");
+
+		// 操作方法テクスチャ
+		AddTextureResource(L"INST_CRAFT_K", texturePath + L"CraftInstruction_K.png");
+		AddTextureResource(L"INST_NORMAL_K", texturePath + L"NormalInstruction_K.png");
+		AddTextureResource(L"INST_CRAFT_X", texturePath + L"CraftInstruction_X.png");
+		AddTextureResource(L"INST_NORMAL_X", texturePath + L"NormalInstruction_X.png");
 
 		// ゲーム中のBGM
 		AddAudioResource(L"FIRST_BGM", soundPath + L"FirstBGM");
@@ -302,6 +309,10 @@ namespace basecross
 		// ポーズメニューの作成
 		auto& pauseMenu = AddGameObject<PauseMenu>();
 		SetSharedGameObject(L"PAUSE", pauseMenu);
+
+		// 操作方法画像の作成
+		auto& inst = AddGameObject<Instruction>();
+		SetSharedGameObject(L"INSTRUCTION", inst);
 
 		// ゴールガイドの生成
 		AddGameObject<GoalGuide>();

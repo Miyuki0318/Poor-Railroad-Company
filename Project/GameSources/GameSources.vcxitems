@@ -39,6 +39,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Gear.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GoalGuide.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GroundManager.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)Instruction.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ItemCountUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)ItemFly.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MainCamera.h" />
@@ -125,6 +126,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)Gear.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GoalGuide.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GroundManager.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)Instruction.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ItemCountUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)ItemFly.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MainCamera.cpp" />
