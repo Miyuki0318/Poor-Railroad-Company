@@ -40,12 +40,13 @@ namespace basecross {
 	void GameTrain::OnUpdate()
 	{
 		eGameProgress prog = GetTypeStage<GameStage>()->GetGameProgress();
-		if (!Utility::ORS(prog, eGameProgress::FadeIn, eGameProgress::Pause, eGameProgress::CraftPause))
+		bool isPause = Utility::ORS(prog, eGameProgress::FadeIn, eGameProgress::Pause, eGameProgress::CraftPause);
+		if (!isPause)
 		{
 			StateProcess(m_state);
 		}
 
-		Debug::Log(L"現在のステート : ", m_trainState->GetCurrentState()->GetStateName());
+		PauseStopWhistleSE(isPause);
 	}
 
 	void GameTrain::OnCollisionEnter(shared_ptr<GameObject>& gameObject)
@@ -85,6 +86,7 @@ namespace basecross {
 			if (SetTimer(START_TIME))
 			{
 				m_state = State::OnRail;
+				m_isWhistle = true;
 				m_whistleSE = StartSE(L"WHISTLE_SE", 1.5f);
 			}
 		}
@@ -136,6 +138,39 @@ namespace basecross {
 		}
 
 		WhistleSmokeEffect();
+	}
+
+	void GameTrain::PauseStopWhistleSE(bool isPause)
+	{
+		if (!m_isWhistle && !isPause)
+		{
+			auto soundItem = m_whistleSE.lock();
+			if (!soundItem) return;
+			if (!soundItem->m_SourceVoice) return;
+
+			XAUDIO2_VOICE_STATE state;
+			soundItem->m_SourceVoice->GetState(&state);
+			if (!(state.BuffersQueued > 0) != 0) return;
+			if (m_whistleSEKey.find(soundItem->m_SoundKey) == m_whistleSEKey.end()) return;
+
+			soundItem->m_SourceVoice->Start();
+			m_isWhistle = true;
+		}
+
+		if (m_isWhistle && isPause)
+		{
+			auto soundItem = m_whistleSE.lock();
+			if (!soundItem) return;
+			if (!soundItem->m_SourceVoice) return;
+
+			XAUDIO2_VOICE_STATE state;
+			soundItem->m_SourceVoice->GetState(&state);
+			if (!(state.BuffersQueued > 0) != 0) return;
+			if (m_whistleSEKey.find(soundItem->m_SoundKey) == m_whistleSEKey.end()) return;
+
+			soundItem->m_SourceVoice->Stop();
+			m_isWhistle = false;
+		}
 	}
 
 	void GameTrain::WhistleSmokeEffect()
