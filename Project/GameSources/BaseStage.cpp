@@ -37,6 +37,7 @@ namespace basecross
 
 		// QTEバーのフレームのテクスチャ
 		AddTextureResource(L"C_QTE_FLAME_TX", texturePath + L"BarFlame.png");
+		AddTextureResource(L"C_QTE_POINT_TX", texturePath + L"QTEPoint.png");
 
 		// クラフトアイテムアイコンテクスチャ
 		AddTextureResource(L"C_RAIL_TX", texturePath + L"CraftRailIcon.png");

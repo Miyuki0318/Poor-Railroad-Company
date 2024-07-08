@@ -40,6 +40,7 @@ namespace basecross {
 	class GameTrain : public Train
 	{
 		float m_acsel; // ‰Á‘¬“x
+		bool m_isWhistle;
 		string m_trainPos;
 
 		const map<string, RailData>* m_railDataMap;
@@ -66,6 +67,7 @@ namespace basecross {
 			m_railDataMap(nullptr)
 		{
 			m_acsel = 0.0f;
+			m_isWhistle = false;
 
 			m_whistleSEKey.insert(L"WHISTLE_SE");
 			m_whistleSEKey.insert(L"SHORT_WHISTLE_SE");
@@ -78,6 +80,7 @@ namespace basecross {
 			m_railDataMap(nullptr)
 		{
 			m_acsel = 0.0f;
+			m_isWhistle = false;
 
 			m_whistleSEKey.insert(L"WHISTLE_SE");
 			m_whistleSEKey.insert(L"SHORT_WHISTLE_SE");
@@ -95,6 +98,8 @@ namespace basecross {
 		void OnCollisionEnter(shared_ptr<GameObject>& gameObject) override;
 
 		void ResetTrain();
+
+		void PauseStopWhistleSE(bool isPause);
 
 		void WhistleSmokeEffect();
 
