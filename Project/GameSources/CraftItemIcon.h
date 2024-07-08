@@ -26,7 +26,7 @@ namespace basecross
 		CraftItemIcon(const shared_ptr<Stage>& stagePtr,
 			const wstring texture
 		) :
-			CraftUI(stagePtr, texture, Vec2(200.0f), 0.25f)
+			CraftUI(stagePtr, texture, Vec2(300.0f), 0.25f)
 		{
 			m_craftPosshible = false;
 		}

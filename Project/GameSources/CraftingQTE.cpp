@@ -20,7 +20,7 @@ namespace basecross
 
 		// フレームとQTEポイントとボタン入力を生成
 		m_barFlame = stagePtr->AddGameObject<CraftUI>(L"C_QTE_FLAME_TX", m_drawScale, m_drawSpeed);
-		m_qtePoint = stagePtr->AddGameObject<CraftUI>(L"WHITE_TX", Vec2(40.0f, 10.0f), m_drawSpeed);
+		m_qtePoint = stagePtr->AddGameObject<CraftUI>(L"WHITE_TX", Vec2(m_drawScale.x / 5.0f, m_drawScale.y), m_drawSpeed);
 		m_qteButton = stagePtr->AddGameObject<CraftUI>(L"BUTTON_A_TX", Vec2(50.0f), m_drawSpeed);
 
 		// レイヤー設定

@@ -43,8 +43,8 @@ namespace basecross
 		@brief コンストラクタ
 		*/
 		CraftingQTE(const shared_ptr<Stage>& stagePtr) :
-			CraftUI(stagePtr, L"WHITE_TX", Vec2(200.0f, 10.0f), 0.25f),
-			m_posDiff(130.0f),
+			CraftUI(stagePtr, L"WHITE_TX", Vec2(300.0f, 15.0f), 0.25f),
+			m_posDiff(195.0f),
 			m_qteRatio(0.75f),
 			m_qteRange(0.1f),
 			m_barSpeed(1.0f)

@@ -21,7 +21,7 @@ namespace basecross
 		@param ステージポインタ
 		*/
 		CraftWindow(const shared_ptr<Stage>& stagePtr) :
-			CraftUI(stagePtr, L"C_WINDOW_TX", Vec2(200.0f), 0.25f)
+			CraftUI(stagePtr, L"C_WINDOW_TX", Vec2(300.0f), 0.25f)
 		{
 		}
 
