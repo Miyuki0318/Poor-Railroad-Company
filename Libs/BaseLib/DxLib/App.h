@@ -374,11 +374,17 @@ namespace basecross {
 			//マウスポイントは0,0に初期化
 			m_MouseClientPoint = { 0,0 };
 			//マウス利用にかかわらず、マウスポインタ座標は設定
+			//ウインドウの幅と高さ
+			int g_ClientWidth = 1920;
+			int g_ClientHeight = 1080;
+			float scaleX = float(g_ClientWidth) / float(::GetSystemMetrics(SM_CXSCREEN));
+			float scaleY = float(g_ClientHeight) / float(::GetSystemMetrics(SM_CYSCREEN));
+
 			POINT p;
 			::GetCursorPos(&p);
 			if (::ScreenToClient(hWnd, &p)) {
 				//クライアント座標に変換できたときのみ、マウス座標を設定
-				m_MouseClientPoint = { p.x, p.y };
+				m_MouseClientPoint = { int(p.x * scaleX), int(p.y * scaleY)};
 			}
 			else {
 				m_MouseClientPoint = { 0, 0 };
@@ -397,8 +403,12 @@ namespace basecross {
 			}
 			//マウス使用で座標がクライアント領域内ならtrue
 			if (MouseChk) {
-				RECT rc;
-				::GetClientRect(hWnd, &rc);
+				RECT rc = {};
+				rc.left = 0;
+				rc.top = 0;
+				rc.right = g_ClientWidth;
+				rc.bottom = g_ClientHeight;
+
 				if (::PtInRect(&rc, p)) {
 					return true;
 				}
