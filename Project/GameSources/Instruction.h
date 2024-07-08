@@ -31,6 +31,8 @@ namespace basecross
 
 		const Vec2 m_DefaultScale;	// 初期サイズ
 		const Vec3 m_DefaultPos;	// 初期位置
+		const int m_DrawLayer;
+		
 
 		map<eInstructionType, weak_ptr<Sprite>> m_keyboardInstructions; // キーボード/マウス操作方法画像
 		map<eInstructionType, weak_ptr<Sprite>> m_xBoxInstructions;		// XBoxパッド操作方法画像
@@ -64,6 +66,7 @@ namespace basecross
 			GameObject(stagePtr),
 			m_DefaultScale(Vec2(WINDOW_WIDTH, WINDOW_HEIGHT / 10.0f)),
 			m_DefaultPos(Vec3(0.0f, (-WINDOW_HEIGHT + m_DefaultScale.y) / 2, 0.0f)),
+			m_DrawLayer(7),
 			m_currentContType(eControllerType::Keyboard),
 			m_pastContType(eControllerType::Keyboard),
 			m_currentInstType(eInstructionType::Normal),
