@@ -15,7 +15,7 @@ namespace basecross
 		opening,// オープニング
 		normal, // 通常
 		push,   // ボタン押す
-		zoom,   // ズーム
+		zoom, // ズームイン
 		select, // オブジェクト選択
 		move,	// 列車に移動中
 		start   // ゲームスタート

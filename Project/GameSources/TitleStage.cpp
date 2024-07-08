@@ -264,10 +264,10 @@ namespace basecross
 			m_titleProgress = push;
 		}
 
-		if (Utility::OR(m_titleProgress,select,zoom))
-		{
-			m_titleProgress = normal;
-		}
+		//if (m_titleProgress == select)
+		//{
+		//	m_titleProgress = normal;
+		//}
 	}
 
 	// カメラのズーム処理
@@ -332,6 +332,9 @@ namespace basecross
 	// スプライトのフェード処理
 	void TitleStage::FadeSprite()
 	{
+		auto& camera = GetView()->GetTargetCamera();
+		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+
 		switch (m_titleProgress)
 		{
 		case basecross::opening:
@@ -356,7 +359,10 @@ namespace basecross
 			}
 			else
 			{
-				m_titleProgress = select;
+				if (titleCamera->m_cameraState == MainCamera::Zoomed)
+				{
+					m_titleProgress = select;
+				}
 			}
 			break;
 
@@ -367,6 +373,8 @@ namespace basecross
 		default:
 			break;
 		}
+
+		Debug::Log(L"カメラ : ",titleCamera->m_cameraState);
 	}
 
 	// オブジェクトとプレイヤーの距離
@@ -514,6 +522,8 @@ namespace basecross
 			m_isStaging = m_titleProgress != normal;
 
 			m_oldProgress = m_titleProgress;
+
+			Debug::Log(m_titleProgress);
 		}
 		catch (...)
 		{
