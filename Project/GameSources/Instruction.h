@@ -16,13 +16,14 @@ namespace basecross
 		enum eControllerType
 		{
 			Keyboard,	// キーボード/マウス操作
-			XBoxPad		// XBoxパッド操作
+			XBoxPad,	// XBoxパッド操作
+			ContTypeNum
 		};
 		enum eInstructionType
 		{
 			Normal,		// 通常
 			Craft,		// クラフト
-			TypeNum
+			InstTypeNum
 		};
 		eControllerType m_currentContType;	// 現在のコントローラータイプ
 		eControllerType m_pastContType;		// 前フレームのコントローラータイプ
@@ -33,8 +34,7 @@ namespace basecross
 		const Vec3 m_DefaultPos;	// 初期位置
 		const int m_DrawLayerNum;	// 表示レイヤー番号
 
-		map<eInstructionType, weak_ptr<Sprite>> m_keyboardInstructions; // キーボード/マウス操作方法画像
-		map<eInstructionType, weak_ptr<Sprite>> m_xBoxInstructions;		// XBoxパッド操作方法画像
+		map<eControllerType, map<eInstructionType, weak_ptr<Sprite>>> m_instructions; // 操作方法スプライト
 
 		/// <summary>
 		/// 操作方法の表示非表示(すべて)

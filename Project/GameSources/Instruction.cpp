@@ -16,16 +16,18 @@ namespace basecross
 		const shared_ptr<Stage>& stagePtr = GetStage();
 		
 		// スプライトの作成
-		m_keyboardInstructions.emplace(eInstructionType::Normal, stagePtr->AddGameObject<Sprite>(L"INST_NORMAL_K", m_DefaultScale, m_DefaultPos));
-		m_keyboardInstructions.emplace(eInstructionType::Craft, stagePtr->AddGameObject<Sprite>(L"INST_CRAFT_K", m_DefaultScale, m_DefaultPos));
-		m_xBoxInstructions.emplace(eInstructionType::Normal, stagePtr->AddGameObject<Sprite>(L"INST_NORMAL_X", m_DefaultScale, m_DefaultPos));
-		m_xBoxInstructions.emplace(eInstructionType::Craft, stagePtr->AddGameObject<Sprite>(L"INST_CRAFT_X", m_DefaultScale, m_DefaultPos));
+		m_instructions[Keyboard][Normal] = stagePtr->AddGameObject<Sprite>(L"INST_NORMAL_K", m_DefaultScale, m_DefaultPos);
+		m_instructions[Keyboard][Craft] = stagePtr->AddGameObject<Sprite>(L"INST_CRAFT_K", m_DefaultScale, m_DefaultPos);
+		m_instructions[XBoxPad][Normal] = stagePtr->AddGameObject<Sprite>(L"INST_NORMAL_X", m_DefaultScale, m_DefaultPos);
+		m_instructions[XBoxPad][Craft] = stagePtr->AddGameObject<Sprite>(L"INST_CRAFT_X", m_DefaultScale, m_DefaultPos);
 
 		// レイヤーの設定
-		for (int i = 0; i < eInstructionType::TypeNum; i++)
+		for (int i = 0; i < ContTypeNum; i++)
 		{
-			m_keyboardInstructions.at((eInstructionType)i).lock()->SetDrawLayer(m_DrawLayerNum);
-			m_xBoxInstructions.at((eInstructionType)i).lock()->SetDrawLayer(m_DrawLayerNum);
+			for (int j = 0; j < InstTypeNum; j++)
+			{
+				m_instructions.at((eControllerType)i).at((eInstructionType)j).lock()->SetDrawLayer(m_DrawLayerNum);
+			}
 		}
 
 		SetDrawActiveInstructions(false); // すべて非表示に
@@ -52,24 +54,20 @@ namespace basecross
 
 	void Instruction::SetDrawActiveInstructions(bool flag)
 	{
-		for (int i = 0; i < eInstructionType::TypeNum; i++)
+		// すべてのスプライト描画を切り替える
+		for (int i = 0; i < ContTypeNum; i++)
 		{
-			m_xBoxInstructions.at((eInstructionType)i).lock()->SetDrawActive(flag);
-			m_keyboardInstructions.at((eInstructionType)i).lock()->SetDrawActive(flag);
+			for (int j = 0; j < InstTypeNum; j++)
+			{
+				m_instructions.at((eControllerType)i).at((eInstructionType)j).lock()->SetDrawActive(flag);
+			}
 		}
 	}
 
 	void Instruction::SetDrawActiveInstructions(bool flag, eControllerType cType, eInstructionType iType)
 	{
-		if (cType == Keyboard) // コントローラータイプがキーボード/マウスなら
-		{
-			m_keyboardInstructions.at(iType).lock()->SetDrawActive(flag);
-			return;
-		}
-		if (cType == XBoxPad) // コントローラータイプがパッドなら
-		{
-			m_xBoxInstructions.at(iType).lock()->SetDrawActive(flag);
-		}
+		// 指定されたタイプのスプライトの描画を切り替える
+		m_instructions.at(cType).at(iType).lock()->SetDrawActive(flag);
 	}
 
 	void Instruction::ControllerTypeDecision()
