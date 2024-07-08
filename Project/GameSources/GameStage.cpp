@@ -244,12 +244,6 @@ namespace basecross
 		m_gameSprite = AddGameObject<Sprite>(L"GAMECLEAR_TX", Vec2(500.0f, 300.0f), Vec3(0.0f, 375.0f, 0.3f));
 		m_gameSprite->SetDrawLayer(7);
 
-		// コンティニュー時に扱うスプライト
-		m_continueSprite = AddGameObject<Sprite>(L"CONTINUE_TX", m_defScale, m_leftPos);
-		m_titleBackSprite = AddGameObject<Sprite>(L"CONTINUE_TITLEBACK_TX", m_defScale, m_rightPos);
-		m_continueSprite->SetDiffuseColor(COL_ALPHA);
-		m_titleBackSprite->SetDiffuseColor(COL_ALPHA);
-
 		// 煙のエフェクトオブジェクトの生成
 		auto& smoke = AddGameObject<SpriteParticle>(L"SMOKE_TX");
 		SetSharedGameObject(L"SmokeEffect", smoke);
@@ -596,30 +590,6 @@ namespace basecross
 		{
 			m_gameProgress = eGameProgress::Playing;
 		}
-	}
-
-	// コンティニュー時のリセット処理
-	void GameStage::ResetState()
-	{
-		ResetCreateStage();
-
-		m_gameProgress = eGameProgress::ContinueFadeIn;
-	}
-
-	// タイトルに戻る
-	void GameStage::TitleBackState()
-	{
-		// スプライトをフェードアウト
-		m_titleBackSprite->FadeOutColor(1.0f);
-		m_continueSprite->FadeOutColor(1.0f);
-		if (m_gameSprite->FadeOutColor(2.5f))
-		{
-			// タイトルステージに遷移
-			PostEvent(0.0f, GetThis<ObjectInterface>(), App::GetApp()->GetScene<Scene>(), L"TitleStage");
-		}
-
-		float volume = Utility::Lerp(0.0f, m_bgmVolume, m_gameSprite->GetDiffuseColor().w);
-		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
 	}
 
 	// 生成時の処理

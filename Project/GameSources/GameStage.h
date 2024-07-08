@@ -45,13 +45,6 @@ namespace basecross
 		// ゲームクリア・ゲームオーバーのスプライト
 		shared_ptr<Sprite> m_gameSprite;
 
-		// コンティニュー時のスプライト
-		shared_ptr<Sprite> m_continueSprite;	// コンティニュー
-		shared_ptr<Sprite> m_titleBackSprite;	// タイトルバック
-		const Vec2 m_defScale;
-		const Vec3 m_leftPos;
-		const Vec3 m_rightPos;
-
 		// クリア時の処理
 		unique_ptr<GameClearState> m_gameClearState;
 		unique_ptr<GameOverState> m_gameOverState;
@@ -70,9 +63,11 @@ namespace basecross
 		// コンティニュー時のスティック入力
 		float m_pastStickVal;
 
+		// 開始時の位置とゴール後の演出位置
 		Vec3 m_startPosition;
 		Vec3 m_goalStagingPosition;
 
+		// ステート処理
 		map<eGameProgress, function<void()>> m_progressFunc;
 
 		/*!
@@ -160,17 +155,35 @@ namespace basecross
 		@brief スプライトの表示
 		*/
 		void LogoActive();
-	
+
+		/*!
+		@brief 開始時のフェードインの処理
+		*/
 		void ToFadeInState();
 
+		/*!
+		@brief ゲーム中の処理
+		*/
 		void ToPlayingState();
 
+		/*!
+		@brief 収支計算の処理
+		*/
 		void ToMoneyCalculationState();
 
+		/*!
+		@brief 収支結果表示の処理
+		*/
 		void ToMoneyCountDownState();
 
+		/*!
+		@brief ゲームクリア時の選択処理
+		*/
 		void ToClearSelectStage();
 
+		/*!
+		@brief 次のステージへ処理
+		*/
 		void ToNextStage();
 
 		/*!
@@ -181,15 +194,19 @@ namespace basecross
 		void PushButtonStart();
 
 		/*!
-		@brief コンティニュー時の処理
+		@brief ゲームオーバー時の処理
 		*/
 		void ToGameOverStage();
 
+		/*!
+		@brief コンティニュー時フェードイン処理
+		*/
 		void ToContinueFadeIn();
-		void ToContinueFadeOut();
 
-		void ResetState();
-		void TitleBackState();
+		/*!
+		@brief コンティニュー時フェードアウト処理
+		*/
+		void ToContinueFadeOut();
 
 	public:
 
@@ -198,10 +215,7 @@ namespace basecross
 		*/
 		GameStage(const string stagePath) :
 			BaseStage(stagePath),
-			m_defermentTransition(3.0f),
-			m_defScale(275.0f, 100.0f),
-			m_leftPos(-300.0f, -200.0f, 0.0f),
-			m_rightPos(300.0f, -200.0f, 0.0f)
+			m_defermentTransition(3.0f)
 		{
 			m_countTime = 0.0f;
 			m_totalTime = 0.0f;
@@ -251,6 +265,9 @@ namespace basecross
 		*/
 		void ResetCreateStage();
 
+		/*!
+		@brief フェードインを送り、終わったかを返す関数
+		*/
 		bool GetFadeIn() const
 		{
 			return m_fadeSprite->FadeInColor(2.0f);
