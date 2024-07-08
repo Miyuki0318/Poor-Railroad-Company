@@ -281,7 +281,7 @@ namespace basecross
 		AddGameObject<ItemCountUI>(scale, startPos + (distance * 4.0), L"UI_RAIL_TX", eItemType::Rail);
 		AddGameObject<ItemCountUI>(scale, startPos + (distance * 5.0), L"UI_BRIDGE_TX", eItemType::WoodBridge);
 		AddGameObject<ItemCountUI>(scale, startPos + (distance * 6.0), L"UI_CROSSING_TX", eItemType::Crossing);
-		AddGameObject<ItemCountUI>(scale, startPos + (distance * 7.0), L"UI_GOLDBAR_TX", eItemType::GoldBar);
+		AddGameObject<ItemCountUI>(scale, startPos + (distance * 8.0), L"UI_GOLDBAR_TX", eItemType::GoldBar);
 
 		// アイテム取得時の跳んでくエフェクトの設定
 		const auto& itemFly = GetSharedGameObject<FlyItemManager>(L"FlyItemManager");
@@ -291,7 +291,7 @@ namespace basecross
 		itemFly->SetTargetUIData(eItemType::Rail, L"UI_RAIL_TX", startPos + (distance * 4.0));
 		itemFly->SetTargetUIData(eItemType::WoodBridge, L"UI_BRIDGE_TX", startPos + (distance * 5.0));
 		itemFly->SetTargetUIData(eItemType::Crossing, L"UI_CROSSING_TX", startPos + (distance * 6.0));
-		itemFly->SetTargetUIData(eItemType::GoldBar, L"UI_GOLDBAR_TX", startPos + (distance * 7.0));
+		itemFly->SetTargetUIData(eItemType::GoldBar, L"UI_GOLDBAR_TX", startPos + (distance * 8.0));
 
 		// クラフト可能になった時に知らせるエフェクトの生成と設定
 		const auto& craftGuide = AddGameObject<CraftPosshibleGuide>();
