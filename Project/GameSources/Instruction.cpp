@@ -24,8 +24,8 @@ namespace basecross
 		// ƒŒƒCƒ„[‚Ìİ’è
 		for (int i = 0; i < eInstructionType::TypeNum; i++)
 		{
-			m_keyboardInstructions.at((eInstructionType)i).lock()->SetDrawLayer(m_DrawLayer);
-			m_xBoxInstructions.at((eInstructionType)i).lock()->SetDrawLayer(m_DrawLayer);
+			m_keyboardInstructions.at((eInstructionType)i).lock()->SetDrawLayer(m_DrawLayerNum);
+			m_xBoxInstructions.at((eInstructionType)i).lock()->SetDrawLayer(m_DrawLayerNum);
 		}
 
 		SetDrawActiveInstructions(false); // ‚·‚×‚Ä”ñ•\¦‚É
