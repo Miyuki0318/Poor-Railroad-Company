@@ -31,7 +31,7 @@ namespace basecross
 
 		const Vec2 m_DefaultScale;	// 初期サイズ
 		const Vec3 m_DefaultPos;	// 初期位置
-		const int m_DrawLayer;
+		const int m_DrawLayer;		// 表示レイヤー
 		
 
 		map<eInstructionType, weak_ptr<Sprite>> m_keyboardInstructions; // キーボード/マウス操作方法画像
