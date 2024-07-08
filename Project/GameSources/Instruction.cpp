@@ -39,6 +39,11 @@ namespace basecross
 
 		// 現在の状態にマッチした画像を表示する
 		SetDrawActiveInstructions(true, m_currentContType, m_currentInstType);
+		
+		if (GetTypeStage<GameStage>()->GetIsStaging()) // 演出中なら
+		{
+			SetDrawActiveInstructions(false); // 非表示にする
+		}
 
 		// 現フレームの状態を保存する
 		m_pastContType = m_currentContType;

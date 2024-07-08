@@ -62,7 +62,7 @@ namespace basecross
 	public:
 		Instruction(const shared_ptr<Stage>& stagePtr) :
 			GameObject(stagePtr),
-			m_DefaultScale(Vec2(1920.0f, 108.0f)),
+			m_DefaultScale(Vec2(WINDOW_WIDTH, WINDOW_HEIGHT / 10.0f)),
 			m_DefaultPos(Vec3(0.0f, (-WINDOW_HEIGHT + m_DefaultScale.y) / 2, 0.0f)),
 			m_currentContType(eControllerType::Keyboard),
 			m_pastContType(eControllerType::Keyboard),
