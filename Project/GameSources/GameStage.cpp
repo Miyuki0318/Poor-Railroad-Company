@@ -253,7 +253,7 @@ namespace basecross
 		SetSharedGameObject(L"StarEffect", star);
 
 		// クラフト可能エフェクトオブジェクトの生成
-		auto& craft = AddGameObject<SpriteParticle>(L"RED_CIRCLE_TX");
+		auto& craft = AddGameObject<SpriteParticle>(L"RED_CIRCLE_EFEC_TX", 3);
 		SetSharedGameObject(L"CraftEffect", craft);
 		
 		m_gameClearState.reset(new GameClearState(GetThis<GameStage>()));

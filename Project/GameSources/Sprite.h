@@ -164,5 +164,14 @@ namespace basecross
 		@brief スプライトをベロシティに応じて移動させる関数
 		*/
 		void MoveSprite();
+
+		/*!
+		@brief 描画コンポーネント取得関数
+		@return shared_ptr<PCTSpriteDraw>
+		*/
+		shared_ptr<PCTSpriteDraw>& GetDrawComponent()
+		{
+			return m_ptrDraw;
+		}
 	};
 }
