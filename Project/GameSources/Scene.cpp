@@ -77,9 +77,6 @@ namespace basecross {
 		app->RegisterTexture(L"NUMBER_TX", texturePath + L"Number.png");
 		app->RegisterTexture(L"SLASH_TX", texturePath + L"Slash.png");
 
-		// メニューテクスチャ
-		app->RegisterTexture(L"MENU_TX", texturePath + L"Menu.png");
-
 		// ポーズメニューテクスチャ
 		app->RegisterTexture(L"PAUSEMENU_TX", texturePath + L"PauseMenu.png");
 
@@ -99,7 +96,7 @@ namespace basecross {
 		app->RegisterTexture(L"SHOP_STATUS_TX", texturePath + L"Shop_StatusEnhance.png");
 
 		// 強化内容「ギア」テクスチャ
-		app->RegisterTexture(L"SHOP_GEAR_TX", texturePath + L"Shop_StatusEnhance.png");
+		app->RegisterTexture(L"SHOP_GEAR_TX", texturePath + L"Shop_GearPayment.png");
 
 		// 選択肢「はい」テクスチャ
 		app->RegisterTexture(L"SHOP_YES_TX", texturePath + L"Shop_Yes.png");
