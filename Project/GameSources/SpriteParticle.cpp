@@ -92,7 +92,7 @@ namespace basecross
 		
 		// ステージにスプライトを追加生成
 		auto& sprite = GetStage()->AddGameObject<Sprite>(m_textureStr, scale, m_emitterPosition, rotZ);
-		sprite->GetComponent<PCTSpriteDraw>()->SetBlendState(BlendState::Additive);
+		sprite->GetDrawComponent()->SetBlendState(BlendState::Additive);
 		sprite->SetVelocity(velo);
 		sprite->SetDrawLayer(11);
 		spriteData.sprite = sprite;

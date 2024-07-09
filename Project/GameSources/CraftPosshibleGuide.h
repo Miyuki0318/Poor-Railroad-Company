@@ -16,14 +16,18 @@ namespace basecross
 	*/
 	class CraftPosshibleGuide : public TemplateObject
 	{
-		weak_ptr<SpriteParticle> m_effect;// パーティクル
+		weak_ptr<SpriteParticle> m_effect;	// パーティクル
 		weak_ptr<GamePlayer> m_playerPtr;	// プレイヤー
 		weak_ptr<SoundItem> m_seItem;		// SE
-		map<eCraftItem, Vec3> m_uiPosMap;	// UIの座標マップ
 		Bool8_t<eCraftItem> m_posshible;	// クラフト可能か
+		map<eCraftItem, Vec3> m_uiPosMap;	// UIの座標マップ
+
+		// クラフト可能状態を表す赤丸アイコン
+		map<eCraftItem, ParticleData> m_posshibleIcons;
 
 		const float m_drawTime;	// 表示時間
-		const Vec2 m_effScale;	// スケール
+		const Vec2 m_effScale;	// エフェクトのスケール
+		const Vec2 m_iconScale;	// アイコンのスケール
 
 	public:
 
@@ -34,7 +38,8 @@ namespace basecross
 		CraftPosshibleGuide(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr),
 			m_drawTime(1.0f),
-			m_effScale(200.0f)
+			m_effScale(200.0f),
+			m_iconScale(35.0f)
 		{
 			m_posshible = 0;
 		}
@@ -55,6 +60,12 @@ namespace basecross
 		void OnUpdate() override;
 
 		/*!
+		@brief クラフト可能かどうかのアイコン更新関数
+		@param 現在のフラグ
+		*/
+		void UpdatePosshibleIcon(Bool8_t<eCraftItem>& flag);
+
+		/*!
 		@brief クラフト可能になったかどうかのチェック関数
 		@param 現在のフラグ
 		@param クラフトするアイテム
@@ -72,9 +83,6 @@ namespace basecross
 		@param クラフトするアイテム
 		@param UIの座標
 		*/
-		void SetUIPosition(eCraftItem type, Vec3 position)
-		{
-			m_uiPosMap.emplace(type, position);
-		}
+		void SetUIPosition(eCraftItem type, Vec3 position);
 	}; 
 }

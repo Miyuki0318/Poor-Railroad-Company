@@ -35,6 +35,9 @@ namespace basecross
 		tempFlag.Set(eCraftItem::WoodBridge) = craft->CraftOrder(eCraftItem::WoodBridge);
 		tempFlag.Set(eCraftItem::Crossing) = craft->CraftOrder(eCraftItem::Crossing);
 		
+		// アイコンの更新処理を送る
+		UpdatePosshibleIcon(tempFlag);
+
 		// 前回の状態と同じなら終了
 		if (m_posshible == tempFlag) return;
 
@@ -45,6 +48,30 @@ namespace basecross
 
 		// 状態を保持
 		m_posshible = tempFlag;
+	}
+
+	// アイコンの更新処理
+	void CraftPosshibleGuide::UpdatePosshibleIcon(Bool8_t<eCraftItem>& flag)
+	{
+		// 全ループ
+		for (auto& icon : m_posshibleIcons)
+		{
+			// 描画するかの設定
+			bool isDraw = flag(icon.first);
+			auto& data = icon.second;
+			data.sprite.lock()->SetDrawActive(isDraw);
+
+			// 表示しないならこれ以降は無視
+			if (!isDraw) continue;
+
+			// 経過時間を加算
+			data.totalTime += DELTA_TIME * XM_PI;
+			if (data.totalTime >= XM_2PI) data.totalTime = 0.0f;
+
+			// エミッシブ色をサインカーブで変更
+			Col4 emissive = Utility::SinCurve(data.totalTime, COL_BLACK, COL_WHITE);
+			data.sprite.lock()->SetEmissiveColor(emissive);
+		}
 	}
 
 	// 確認処理と呼び出し処理
@@ -71,5 +98,25 @@ namespace basecross
 		// エフェクトにエミッター座標と開始処理を送る
 		m_effect.lock()->SetEmitterPosition(emitterPos);
 		m_effect.lock()->AddParticle(m_effScale, Vec2(0.0f), 0.0f, m_drawTime);
+	}
+
+	// UIのタイプと座標からの登録
+	void CraftPosshibleGuide::SetUIPosition(eCraftItem type, Vec3 position)
+	{
+		// UIの座標を保持
+		m_uiPosMap.emplace(type, position);
+
+		// 赤丸アイコンの生成
+		const auto& stagePtr = GetStage();
+		auto& sprite = stagePtr->AddGameObject<Sprite>(L"RED_CIRCLE_FILL_TX", m_iconScale, position + Vec3(m_iconScale));
+		sprite->SetDrawLayer(5);
+		sprite->SetDiffuseColor(COL_RED);
+		sprite->SetEmissiveColor(COL_GRAY);
+		sprite->GetDrawComponent()->SetBlendState(BlendState::AlphaBlend);
+
+		// パーティクルデータに格納し保持
+		ParticleData data = {};
+		data.sprite = sprite;
+		m_posshibleIcons.emplace(type, data);
 	}
 }
