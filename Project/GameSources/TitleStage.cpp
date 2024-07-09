@@ -96,6 +96,7 @@ namespace basecross
 	// BGMŠJŽnŠÖ”
 	void TitleStage::StartBGM()
 	{
+		if (m_bgmItem.lock()) return;
 		m_bgmItem = m_soundManager->StartBGM(L"TITLE_BGM", XAUDIO2_LOOP_INFINITE, 0.0f, ThisPtr);
 	}
 

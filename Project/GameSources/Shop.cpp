@@ -7,6 +7,7 @@
 #pragma once
 #include "stdafx.h"
 #include "Shop.h"
+#include "ShopCloseState.h"
 
 namespace basecross {
 	void Shop::OnCreate()
