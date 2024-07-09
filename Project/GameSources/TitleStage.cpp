@@ -96,6 +96,7 @@ namespace basecross
 	// BGM開始関数
 	void TitleStage::StartBGM()
 	{
+		if (m_bgmItem.lock()) return;
 		m_bgmItem = m_soundManager->StartBGM(L"TITLE_BGM", XAUDIO2_LOOP_INFINITE, 0.0f, ThisPtr);
 	}
 
@@ -259,7 +260,10 @@ namespace basecross
 	// Bボタンを押した時の処理
 	void TitleStage::PushButtonB()
 	{
-		if (MatchProgress() && m_titleProgress == normal)
+		auto& camera = GetView()->GetTargetCamera();
+		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+
+		if (titleCamera->m_cameraState == MainCamera::Fixed)
 		{
 			m_titleProgress = push;
 		}

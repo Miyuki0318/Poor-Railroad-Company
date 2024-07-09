@@ -108,6 +108,7 @@ namespace basecross
 
 		// ƒ{ƒ^ƒ““ü—ÍŽž‚ÌSE
 		AddAudioResource(L"PUSH_SE", soundPath + L"ButtonPush");
+		AddAudioResource(L"SELECT_SE", soundPath + L"Select");
 
 		// ‚¨‹àŠÖŒW‚ÌSE
 		AddAudioResource(L"COIN_SE", soundPath + L"Coin");

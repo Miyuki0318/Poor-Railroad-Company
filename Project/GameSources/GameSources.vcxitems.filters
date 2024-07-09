@@ -262,6 +262,18 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)Instruction.h">
       <Filter>UI\Instruction</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShopState.h">
+      <Filter>UI\Shop</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShopCloseState.h">
+      <Filter>UI\Shop\ShopCloseState</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShopConfirmationState.h">
+      <Filter>UI\Shop\ShopConfirmationState</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)ShopShoppingState.h">
+      <Filter>UI\Shop\ShopShoppingState</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -494,6 +506,15 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)Instruction.cpp">
       <Filter>UI\Instruction</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShopCloseState.cpp">
+      <Filter>UI\Shop\ShopCloseState</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShopConfirmationState.cpp">
+      <Filter>UI\Shop\ShopConfirmationState</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)ShopShoppingState.cpp">
+      <Filter>UI\Shop\ShopShoppingState</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -766,6 +787,15 @@
     </Filter>
     <Filter Include="UI\Instruction">
       <UniqueIdentifier>{bd72b4cd-a015-40f2-838e-7cf3600eb1d8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Shop\ShopCloseState">
+      <UniqueIdentifier>{0a2d8316-bba0-4bde-8d8b-f95578bf4619}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Shop\ShopConfirmationState">
+      <UniqueIdentifier>{b51ff039-7ada-4260-bba2-9bde51fc82ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Shop\ShopShoppingState">
+      <UniqueIdentifier>{248eba74-ca88-40d7-9543-bd28ae41f5c8}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

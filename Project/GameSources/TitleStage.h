@@ -17,6 +17,7 @@ namespace basecross
 		push,   // ボタン押す
 		zoom, // ズームイン
 		select, // オブジェクト選択
+		shop, // ショップ画面中
 		move,	// 列車に移動中
 		start   // ゲームスタート
 	};
