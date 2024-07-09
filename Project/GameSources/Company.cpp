@@ -34,7 +34,7 @@ namespace basecross {
 	{
 		if (FindTag(tagName)) {
 			auto& camera = dynamic_pointer_cast<MainCamera>(GetStage()->GetView()->GetTargetCamera());
-			if (camera->m_cameraState != MainCamera::Zoomed) return;
+			if (camera->m_cameraState != MainCamera::ZoomedIn) return;
 
 			if (m_shopPtr.lock()->GetState() == Shop::eShopState::Close) {
 				m_shopPtr.lock()->SetState(ShopShoppingState::Instance());
