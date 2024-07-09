@@ -20,7 +20,7 @@ namespace basecross {
 		// 強化費用の最大桁数を取得
 		m_maxDigit = DemandDigit();
 		// 最大桁数分のサイズに拡張する
-		for (int i = 0; i < eEnhancements::size; i++) {
+		for (int i = 0; i < m_maxDigit; i++) {
 			m_enhancementsCostNumSprite.at(i).resize(m_maxDigit);
 		}
 		m_enhancementsNextCostSprite.resize(m_maxDigit);

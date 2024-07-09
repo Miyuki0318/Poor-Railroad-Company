@@ -139,7 +139,7 @@ namespace basecross
 
 		// Aボタン入力があった場合、ショップを閉じる
 		if (isPushA) {
-			shop->StartSE(L"PUSH_SE", 1.0f);
+			shop->StartSE(L"CLOSE_SE", 1.0f);
 			// ステージを取得
 			const weak_ptr<TitleStage>& stagePtr = shop->GetTypeStage<TitleStage>();
 			// タイトルステージのプログレスを変更
