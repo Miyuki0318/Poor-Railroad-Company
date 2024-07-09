@@ -66,7 +66,7 @@ namespace basecross
 		}
 
 		// 選択またはズーム中でBボタン入力したら
-		if (Utility::OR(prog, eTitleProgress::select, eTitleProgress::zoom) && Input::GetPushB())
+		if (prog == eTitleProgress::select && Input::GetPushB())
 		{
 			// 会社オブジェクトを選択してるならズームを終えて元に戻す
 			if (dynamic_pointer_cast<Company>(titleStage->GetSelectObject()))

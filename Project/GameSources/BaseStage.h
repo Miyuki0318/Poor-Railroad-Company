@@ -112,7 +112,7 @@ namespace basecross
 		BaseStage(const string stagePath) : 
 			Stage(), 
 			m_stagePath(stagePath),
-			m_bgmVolume(0.5f)
+			m_bgmVolume(0.35f)
 		{
 			m_isStaging = false;
 			m_stageDistanceX = 0.0f;
