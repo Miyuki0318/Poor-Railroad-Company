@@ -20,9 +20,12 @@ namespace basecross {
 
 		weak_ptr<Sprite> m_selectArrow;
 
+		float oldStick;
+
 	public:
 		SelectArrow(const shared_ptr<Stage>& stagePtr) :
-			TemplateObject(stagePtr)
+			TemplateObject(stagePtr),
+			oldStick(0.0f)
 		{
 		}
 
@@ -30,5 +33,7 @@ namespace basecross {
 		virtual void OnUpdate() override;
 
 		void ChangeColor();
+
+		void PushSE();
 	};
 }
