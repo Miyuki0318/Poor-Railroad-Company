@@ -72,11 +72,17 @@ namespace basecross {
 				m_rightArrow.lock()->SetDiffuseColor(COL_WHITE);
 				m_leftArrow.lock()->SetDiffuseColor(COL_GRAY);
 			}
+			if (oldStick != stickL)
+			{
+				StartSE(L"PUSH_SE", 1.0f);
+			}
 		}
 		else
 		{
 			m_rightArrow.lock()->SetDiffuseColor(COL_WHITE);
 			m_leftArrow.lock()->SetDiffuseColor(COL_WHITE);
 		}
+
+		oldStick = stickL;
 	}
 }
