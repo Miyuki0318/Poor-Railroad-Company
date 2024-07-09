@@ -17,9 +17,11 @@ namespace basecross
 		shared_ptr<PCStaticDraw> m_ptrDraw; // 描画コンポーネント
 		weak_ptr<TemplateObject> m_player; // プレイヤー
 		Point2D<size_t> m_selectPoint; // 選択しているポイント
-		Vec3 m_cursorPosition; // カーソルの座標
-
+		vector<VertexPositionColor> m_vertices; // 頂点データ
+		const vector<float> m_rotArray; // 角度配列
 		const float m_deadZone; // 入力閾値
+
+		float m_pastRotY;	// 前回の回転軸Y
 
 	public:
 
@@ -33,8 +35,10 @@ namespace basecross
 		) :
 			TemplateObject(stagePtr, Vec3(0.0f, 1.5f, 0.0f), Vec3(0.0f), Vec3(1.0f)),
 			m_player(playerPtr),
-			m_deadZone(0.1f)
+			m_deadZone(0.1f),
+			m_rotArray{ 0.0f, 45.0f, 90.0f, 135.0f, 180.0f, -45.0f, -90.0f, -135.0f, -180.0f }
 		{
+			m_pastRotY = 0.0f;
 		}
 
 		/*!
@@ -138,5 +142,11 @@ namespace basecross
 		@brief 選択ポイントの更新処理関数
 		*/
 		void UpdateSelectPoint();
+
+		/*!
+		@brief 選択ポイントの色設定関数
+		@param 設定する色
+		*/
+		void SetVerticesColor(const Col4& color);
 	};
 }

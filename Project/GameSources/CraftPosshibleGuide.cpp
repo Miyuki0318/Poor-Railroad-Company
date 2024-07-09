@@ -21,6 +21,14 @@ namespace basecross
 	// 毎フレーム更新処理
 	void CraftPosshibleGuide::OnUpdate()
 	{
+		// ステージがイベント中じゃなければ
+		const auto& stagePtr = GetTypeStage<GameStage>();
+		if (stagePtr->GetIsStaging())
+		{
+			UpdatePosshibleIcon(Bool8_t<eCraftItem>());
+			return;
+		}
+
 		// プレイヤーが存在しなければ終了
 		const auto& player = m_playerPtr.lock();
 		if (!player) return;

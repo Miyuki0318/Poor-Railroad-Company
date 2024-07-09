@@ -230,14 +230,5 @@ namespace basecross
 
 			return rail || bridge || crossing;
 		}
-
-		/*!
-		@brief コントローラーで向けた方向取得関数
-		@return atan2f(m_rotTarget.z, m_rotTarget.x)
-		*/
-		float GetPastRotTarget() const
-		{
-			return atan2f(m_rotTarget.z, m_rotTarget.x);
-		}
 	};
 }
