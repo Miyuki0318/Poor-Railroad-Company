@@ -184,7 +184,7 @@ namespace basecross
 				m_totalTime = 0.0f;
 
 				// スティック入力の効果音を再生
-				shop->StartSE(L"PUSH_SE", 1.0f);
+				shop->StartSE(L"SELECT_SE", 1.0f);
 			}
 			// 入力量が下限値を超えていた為、スティック入力があったと判定する
 			m_isInputLStick = true;

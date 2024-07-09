@@ -219,7 +219,7 @@ namespace basecross
 				shop->m_selectPointSprite.lock()->SetPosition(shop->m_selectPointSpritePos.at(shop->m_currentEnhancements));
 
 				// スティック入力の効果音を再生
-				shop->StartSE(L"PUSH_SE", 1.0f);
+				shop->StartSE(L"SELECT_SE", 1.0f);
 
 				// 経過時間をリセットする
 				m_totalTime = 0.0f;
