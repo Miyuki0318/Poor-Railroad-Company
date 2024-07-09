@@ -21,8 +21,8 @@ namespace basecross
 			Selected // ボタンセレクト後
 		};
 		enum eMenuTypes {
-			KeyBoard,
-			XBoxPad,
+			KeyBoard, // キーボード/マウス
+			XBoxPad,  // パッド
 			MenuNum
 		};
 		enum eButtons {
