@@ -83,8 +83,10 @@ namespace basecross
 		AddTextureResource(L"COMPANIY_TX", texturePath + L"ShopGuide.png");
 
 		// ボタンUI
-		AddTextureResource(L"PUSHRETURN_TX", texturePath + L"ReturnPushA.png");
-		AddTextureResource(L"PUSHSELECT_TX", texturePath + L"SelectPushB.png");
+		AddTextureResource(L"PUSH_GAMESTART_TX", texturePath + L"BGameStart.png");
+		AddTextureResource(L"PUSH_GAMEBACK_TX", texturePath + L"AGameBack.png");
+		AddTextureResource(L"CLICK_GAMESTART_TX", texturePath + L"M1GameStart.png");
+		AddTextureResource(L"CLICK_GAMEBACK_TX", texturePath + L"M2GameBack.png");
 
 		// タイトルBGM
 		AddAudioResource(L"TITLE_BGM", soundPath + L"Title");
@@ -241,8 +243,8 @@ namespace basecross
 		const float posX = 1920.0f / 4.0f;
 		const float posY = (1080.0f / 2.0f) - scale.y;
 
-		m_pushAButton = AddGameObject<Sprite>(L"PUSHRETURN_TX", scale, Vec3(posX, -posY, 0.0f));
-		m_pushBButton = AddGameObject<Sprite>(L"PUSHSELECT_TX", scale, Vec3(-posX, -posY, 0.0f));
+		m_pushAButton = AddGameObject<Sprite>(L"PUSH_GAMEBACK_TX", scale, Vec3(posX, -posY, 0.0f));
+		m_pushBButton = AddGameObject<Sprite>(L"PUSH_GAMESTART_TX", scale, Vec3(-posX, -posY, 0.0f));
 
 		m_pushAButton.lock()->SetDrawActive(false);
 		m_pushBButton.lock()->SetDrawActive(false);
