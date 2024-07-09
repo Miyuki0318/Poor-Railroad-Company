@@ -121,6 +121,7 @@ namespace basecross {
 		/// </summary>
 		void ZoomEnd()
 		{
+			if (m_cameraState != Zoomed) return;
 			m_cameraState = ZoomOut;
 			m_zoomAtY = 0.0f;
 		}
