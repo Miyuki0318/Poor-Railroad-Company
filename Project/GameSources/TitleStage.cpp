@@ -259,7 +259,10 @@ namespace basecross
 	// Bƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚½Žž‚Ìˆ—
 	void TitleStage::PushButtonB()
 	{
-		if (MatchProgress() && m_titleProgress == normal)
+		auto& camera = GetView()->GetTargetCamera();
+		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+
+		if (titleCamera->m_cameraState == MainCamera::Fixed)
 		{
 			m_titleProgress = push;
 		}
