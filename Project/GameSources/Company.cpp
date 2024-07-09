@@ -24,13 +24,17 @@ namespace basecross {
 		drawComp->SetMeshResource(L"COMPANY");
 		drawComp->SetTextureResource(L"COMPANY_TX");
 
-		m_menuSprite = GetStage()->AddGameObject<Sprite>(L"MENU_TX", m_scale);
-		m_menuSprite->SetDrawActive(FindTag(tagName));
+		// ショップ機能の生成
+		m_shopPtr = GetStage()->AddGameObject<Shop>();
 	}
 
 	void Company::OnUpdate()
 	{
-		m_menuSprite->SetDrawActive(FindTag(tagName));
+		if (FindTag(tagName)) {
+			if (m_shopPtr.lock()->GetState() == Shop::eShopState::Close) {
+				m_shopPtr.lock()->SetState(ShopShoppingState::Instance());
+			}
+		}
 	}
 
 	// オプション画面の処理

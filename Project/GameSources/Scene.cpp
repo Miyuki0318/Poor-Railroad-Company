@@ -80,11 +80,35 @@ namespace basecross {
 		app->RegisterTexture(L"NUMBER_TX", texturePath + L"Number.png");
 		app->RegisterTexture(L"SLASH_TX", texturePath + L"Slash.png");
 
-		// メニューテクスチャ
-		app->RegisterTexture(L"MENU_TX", texturePath + L"Menu.png");
-
 		// ポーズメニューテクスチャ
 		app->RegisterTexture(L"PAUSEMENU_TX", texturePath + L"PauseMenu.png");
+
+		// 購入画面テクスチャ
+		app->RegisterTexture(L"SHOP_PURCHASESCREEN_TX", texturePath + L"Shop_PurchaseScreen.png");
+
+		// 選択場所表示テクスチャ
+		app->RegisterTexture(L"SHOP_SELECTPOINT_TX", texturePath + L"Shop_SelectPoint.png");
+
+		// 購入内容確認テクスチャ
+		app->RegisterTexture(L"SHOP_CONFIRMATIONSCREEN_TX", texturePath + L"Shop_ConfirmationScreen.png");
+
+		// 強化内容「バックパック」テクスチャ
+		app->RegisterTexture(L"SHOP_BACKPACK_TX", texturePath + L"Shop_BackPackExpansion.png");
+
+		// 強化内容「ステータス」テクスチャ
+		app->RegisterTexture(L"SHOP_STATUS_TX", texturePath + L"Shop_StatusEnhance.png");
+
+		// 強化内容「ギア」テクスチャ
+		app->RegisterTexture(L"SHOP_GEAR_TX", texturePath + L"Shop_GearPayment.png");
+
+		// 選択肢「はい」テクスチャ
+		app->RegisterTexture(L"SHOP_YES_TX", texturePath + L"Shop_Yes.png");
+
+		// 選択肢「いいえ」テクスチャ
+		app->RegisterTexture(L"SHOP_NO_TX", texturePath + L"Shop_No.png");
+
+		// ショップ用数字テクスチャ
+		app->RegisterTexture(L"SHOP_NUMBER", texturePath + L"Shop_Number.png");
 
 		// レールの仮モデル
 		RegisterSingleMesh(L"RAIL", modelPath + L"Rail/", L"Rail", false);

@@ -38,6 +38,22 @@ namespace basecross
 		}
 
 		/*!
+		@brief コンストラクタ
+		@param ステージポインタ
+		@param スケール
+		@param ポジション
+		@param テクスチャ
+		*/
+		Number(const shared_ptr<Stage>& stagePtr,
+			const Vec2& scale, const Vec3& position,
+			const wstring& texture, const int& number
+		) :
+			Sprite(stagePtr, texture, scale, position)
+		{
+			m_number = number;
+		}
+
+		/*!
 		@brief デストラクタ
 		*/
 		virtual ~Number() {}
