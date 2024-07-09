@@ -260,6 +260,8 @@ namespace basecross
 	// Bƒ{ƒ^ƒ“‚ð‰Ÿ‚µ‚½Žž‚Ìˆ—
 	void TitleStage::PushButtonB()
 	{
+		if (m_titleProgress == opening) return;
+
 		auto& camera = GetView()->GetTargetCamera();
 		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 
@@ -410,7 +412,6 @@ namespace basecross
 
 				player->SetState(TitlePlayerPauseState::Instance());
 			}
-
 
 			if (!m_selectObj)
 			{
