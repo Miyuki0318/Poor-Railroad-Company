@@ -8,6 +8,7 @@
 #include "stdafx.h"
 #include "Company.h"
 #include "ShopShoppingState.h"
+#include "MainCamera.h"
 
 namespace basecross {
 	void Company::OnCreate()
@@ -32,6 +33,9 @@ namespace basecross {
 	void Company::OnUpdate()
 	{
 		if (FindTag(tagName)) {
+			auto& camera = dynamic_pointer_cast<MainCamera>(GetStage()->GetView()->GetTargetCamera());
+			if (camera->m_cameraState != MainCamera::Zoomed) return;
+
 			if (m_shopPtr.lock()->GetState() == Shop::eShopState::Close) {
 				m_shopPtr.lock()->SetState(ShopShoppingState::Instance());
 			}

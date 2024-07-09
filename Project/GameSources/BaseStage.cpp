@@ -114,6 +114,9 @@ namespace basecross
 		AddAudioResource(L"COIN_SE", soundPath + L"Coin");
 		AddAudioResource(L"BUY_SE", soundPath + L"Buy");
 
+		// ショップを閉じる時のSE
+		AddAudioResource(L"CLOSE_SE", soundPath + L"ShopClose");
+
 		// 追加したリソースをメモリに追加
 		AddedTextureResources();
 		AddedAudioResources();
