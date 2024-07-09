@@ -35,11 +35,14 @@ namespace basecross {
 		bool moveLeft;
 		bool moveRight;
 
+		bool holdTag;
+
 	public:
 		RouteMap(const shared_ptr<Stage>& stagePtr,
 			eMapLevel& mapLevel) :
 			TemplateObject(stagePtr),
-			m_mapLevel(mapLevel)
+			m_mapLevel(mapLevel),
+			holdTag(false)
 		{
 			m_spanMat.affineTransformation(
 				Vec3(0.65f),

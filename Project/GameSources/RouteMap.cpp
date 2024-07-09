@@ -32,6 +32,13 @@ namespace basecross {
 		{
 			MapSelect();
 		}
+
+		if (holdTag && !FindTag(tagName))
+		{
+			StartSE(L"PUSH_SE", 1.0f);
+		}
+
+		holdTag = FindTag(tagName);
 	}
 
 	void RouteMap::MapSelect()
