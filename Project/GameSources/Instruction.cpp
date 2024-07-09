@@ -75,11 +75,11 @@ namespace basecross
 		// パッドが繋がれていたら
 		if (Input::GetPadConected())
 		{
-			m_currentContType = eControllerType::XBoxPad; // パッド状態
+			m_currentContType = XBoxPad; // パッド状態
 		}
 		else // そうでなければ
 		{
-			m_currentContType = eControllerType::Keyboard; // キーボード/マウス状態
+			m_currentContType = Keyboard; // キーボード/マウス状態
 		}
 		// 前フレームと現フレームの状態が違うなら表示していた画像を非表示にする
 		if (m_pastContType != m_currentContType) SetDrawActiveInstructions(false, m_pastContType, m_currentInstType);
@@ -93,11 +93,11 @@ namespace basecross
 		// プレイヤーのステータスがクラフト中またはQTE中なら
 		if (player->GetStatus(ePlayerStatus::IsCrafting) || player->GetStatus(ePlayerStatus::IsCraftQTE))
 		{
-			m_currentInstType = eInstructionType::Craft; // クラフト状態
+			m_currentInstType = Craft; // クラフト状態
 		}
 		else // そうでなければ
 		{
-			m_currentInstType = eInstructionType::Normal; // 通常状態
+			m_currentInstType = Normal; // 通常状態
 		}
 		// 前フレームと現フレームの状態が違うなら表示していた画像を非表示にする
 		if (m_pastInstType != m_currentInstType) SetDrawActiveInstructions(false, m_currentContType, m_pastInstType);
