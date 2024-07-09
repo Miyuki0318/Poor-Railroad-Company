@@ -243,8 +243,16 @@ namespace basecross
 		const float posX = 1920.0f / 4.0f;
 		const float posY = (1080.0f / 2.0f) - scale.y;
 
-		m_pushAButton = AddGameObject<Sprite>(L"PUSH_GAMEBACK_TX", scale, Vec3(posX, -posY, 0.0f));
-		m_pushBButton = AddGameObject<Sprite>(L"PUSH_GAMESTART_TX", scale, Vec3(-posX, -posY, 0.0f));
+		if (Input::GetPadConected())
+		{
+			m_pushAButton = AddGameObject<Sprite>(L"PUSH_GAMEBACK_TX", scale, Vec3(posX, -posY, 0.0f));
+			m_pushBButton = AddGameObject<Sprite>(L"PUSH_GAMESTART_TX", scale, Vec3(-posX, -posY, 0.0f));
+		}
+		else
+		{
+			m_pushAButton = AddGameObject<Sprite>(L"CLICK_GAMEBACK_TX", scale, Vec3(posX, -posY, 0.0f));
+			m_pushBButton = AddGameObject<Sprite>(L"CLICK_GAMESTART_TX", scale, Vec3(-posX, -posY, 0.0f));
+		}
 
 		m_pushAButton.lock()->SetDrawActive(false);
 		m_pushBButton.lock()->SetDrawActive(false);
@@ -381,8 +389,6 @@ namespace basecross
 		default:
 			break;
 		}
-
-		Debug::Log(L"カメラ : ",titleCamera->m_cameraState);
 	}
 
 	// オブジェクトとプレイヤーの距離
@@ -529,8 +535,6 @@ namespace basecross
 			m_isStaging = m_titleProgress != normal;
 
 			m_oldProgress = m_titleProgress;
-
-			Debug::Log(m_titleProgress);
 		}
 		catch (...)
 		{
