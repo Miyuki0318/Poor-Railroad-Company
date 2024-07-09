@@ -179,7 +179,7 @@ namespace basecross
 		{
 			// ƒRƒCƒ“SE‚ðŽ~‚ßAw“üSE‚ðÄ¶
 			m_menuSprite.lock()->StopSE(L"COIN_SE");
-			m_menuSprite.lock()->StartSE(L"BUY_SE", 1.5f);
+			m_menuSprite.lock()->StartSE(L"BUY_SE", 2.0f);
 			m_state = eGamePaymentsState::DrawStandBy;
 		}
 	}
