@@ -20,7 +20,7 @@ namespace basecross {
 	void MainCamera::OnUpdate() {
 		if (m_cameraState == State::Fixed) // 固定状態
 		{
-			SetEye(Utility::Lerp(m_initialAt, m_initialEye, m_ZoomRatioC));
+			SetEye(m_initialEye);
 		}
 
 		// これ以降の処理はターゲットオブジェクトがなければ行わない
