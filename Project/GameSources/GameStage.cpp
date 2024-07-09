@@ -271,7 +271,7 @@ namespace basecross
 	{
 		// パラメータ
 		const float scale = 60.0f;
-		const Vec3 startPos = Vec3(-900.0f, 500.0f, 0.4f);
+		const Vec3 startPos = Vec3(-900.0f, 485.0f, 0.4f);
 		const Vec3 distance = Vec3(0.0f, -scale * 1.75f, 0.0f);
 
 		// アイテム数UI
@@ -577,7 +577,7 @@ namespace basecross
 
 	void GameStage::ToContinueFadeIn()
 	{
-		if (m_fadeSprite->FadeInColor(2.0f))
+		if (m_fadeSprite->FadeInColor(1.0f))
 		{
 			ResetCreateStage();
 			m_gameOverState->ResetState();
@@ -587,7 +587,7 @@ namespace basecross
 
 	void GameStage::ToContinueFadeOut()
 	{
-		if (m_fadeSprite->FadeOutColor(2.0f))
+		if (m_fadeSprite->FadeOutColor(1.0f))
 		{
 			m_gameProgress = eGameProgress::Playing;
 		}

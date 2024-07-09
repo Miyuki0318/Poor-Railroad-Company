@@ -145,6 +145,7 @@ namespace basecross
 
 		/*!
 		@brief 選択ポイントの色設定関数
+		@param 設定する色
 		*/
 		void SetVerticesColor(const Col4& color);
 	};
