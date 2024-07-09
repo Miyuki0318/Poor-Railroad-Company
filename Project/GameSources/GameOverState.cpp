@@ -132,6 +132,7 @@ namespace basecross
 			// 経過時間をリセットし、選択肢を切り替える
 			m_totalTime = -XM_PIDIV4;
 			m_pastSelect = m_currentSelect;
+			m_stage.lock()->CreateSE(L"SELECT_SE", 0.75f);
 			switch (m_currentSelect)
 			{
 			case eSelectGameOver::Continue:
@@ -170,6 +171,7 @@ namespace basecross
 			m_totalTime = -XM_PIDIV4;
 			m_currentSelect = eSelectGameOver::Continue;
 			m_pastSelect = eSelectGameOver::TitleBack;
+			m_stage.lock()->CreateSE(L"SELECT_SE", 0.75f);
 		}
 
 		// タイトルへスプライトの範囲内なら
@@ -181,6 +183,7 @@ namespace basecross
 			m_totalTime = -XM_PIDIV4;
 			m_currentSelect = eSelectGameOver::TitleBack;
 			m_pastSelect = eSelectGameOver::Continue;
+			m_stage.lock()->CreateSE(L"SELECT_SE", 0.75f);
 		}
 	}
 
