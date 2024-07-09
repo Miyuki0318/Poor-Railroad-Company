@@ -51,67 +51,74 @@ namespace basecross {
 		// 左スティックX軸の入力値
 		float stickX = move.getX();
 
-		moveLeft = stickX < -m_maxStickValue && m_currentX >= 0.0f;
-		moveRight = stickX > m_maxStickValue && m_currentX <= 0.0f;
+		// 一定以上のLスティック入力があった場合のみ選択処理を行う
+		if (abs(stickX) >= 0.9f) {
+			if (!m_isMove) {
+				if (stickX < 0.0f) {
+					switch (m_mapLevel)
+					{
+					case eMapLevel::FirstMap:
+						m_mapLevel = eMapLevel::FifthMap;
+						break;
 
-		if (moveLeft)
-		{
-			switch (m_mapLevel)
-			{
-			case eMapLevel::FirstMap:
-				m_mapLevel = eMapLevel::FifthMap;
-				break;
+					case eMapLevel::SecondMap:
+						m_mapLevel = eMapLevel::FirstMap;
+						break;
 
-			case eMapLevel::SecondMap:
-				m_mapLevel = eMapLevel::FirstMap;
-				break;
+					case eMapLevel::ThirdMap:
+						m_mapLevel = eMapLevel::SecondMap;
+						break;
 
-			case eMapLevel::ThirdMap:
-				m_mapLevel = eMapLevel::SecondMap;
-				break;
+					case eMapLevel::FourthMap:
+						m_mapLevel = eMapLevel::ThirdMap;
+						break;
 
-			case eMapLevel::FourthMap:
-				m_mapLevel = eMapLevel::ThirdMap;
-				break;
+					case eMapLevel::FifthMap:
+						m_mapLevel = eMapLevel::FourthMap;
+						break;
 
-			case eMapLevel::FifthMap:
-				m_mapLevel = eMapLevel::FourthMap;
-				break;
+					default:
+						break;
+					}
+				}
+				else {
+					switch (m_mapLevel)
+					{
+					case eMapLevel::FirstMap:
+						m_mapLevel = eMapLevel::SecondMap;
+						break;
 
-			default:
-				break;
+					case eMapLevel::SecondMap:
+						m_mapLevel = eMapLevel::ThirdMap;
+						break;
+
+					case eMapLevel::ThirdMap:
+						m_mapLevel = eMapLevel::FourthMap;
+						break;
+
+					case eMapLevel::FourthMap:
+						m_mapLevel = eMapLevel::FifthMap;
+						break;
+
+					case eMapLevel::FifthMap:
+						m_mapLevel = eMapLevel::FirstMap;
+						break;
+
+					default:
+						break;
+					}
+				}
+			}
+			// 入力量が下限値を超えていた為、スティック入力があったと判定する
+			m_isMove = true;
+		}
+		else {
+			if (abs(stickX) <= 0.3f) {
+				// 入力量が下限値を下回っていた為、スティック入力が無かったと判定する
+				m_isMove = false;
 			}
 		}
-		else if (moveRight)
-		{
-			switch (m_mapLevel)
-			{
-			case eMapLevel::FirstMap:
-				m_mapLevel = eMapLevel::SecondMap;
-				break;
 
-			case eMapLevel::SecondMap:
-				m_mapLevel = eMapLevel::ThirdMap;
-				break;
-
-			case eMapLevel::ThirdMap:
-				m_mapLevel = eMapLevel::FourthMap;
-				break;
-
-			case eMapLevel::FourthMap:
-				m_mapLevel = eMapLevel::FifthMap;
-				break;
-
-			case eMapLevel::FifthMap:
-				m_mapLevel = eMapLevel::FirstMap;
-				break;
-
-			default:
-				break;
-			}
-		}
-
-		m_currentX = stickX;
 		m_drawComp->SetTextureResource(m_modelTextures[m_mapLevel]);
 		scene->SetMapLevel(m_mapLevel);
 	}

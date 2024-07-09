@@ -21,11 +21,15 @@ namespace basecross {
 		weak_ptr<Sprite> m_selectArrow;
 
 		float oldStick;
+		bool m_currentStick;
+		bool m_oldStick;
 
 	public:
 		SelectArrow(const shared_ptr<Stage>& stagePtr) :
 			TemplateObject(stagePtr),
-			oldStick(0.0f)
+			oldStick(0.0f),
+			m_currentStick(false),
+			m_oldStick(false)
 		{
 		}
 
