@@ -122,7 +122,6 @@ namespace basecross {
 		void ZoomEnd()
 		{
 			m_cameraState = ZoomOut;
-			m_zoomAtY = 0.0f;
 		}
 
 		// カメラが追尾するオブジェクトを取得する関数
