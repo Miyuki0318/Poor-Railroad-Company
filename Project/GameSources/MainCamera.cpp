@@ -36,9 +36,9 @@ namespace basecross {
 		{
 			ZoomProcess();
 		}
-		if (m_cameraState == State::Zoomed)
+		if (m_cameraState == State::ZoomedIn) // ƒY[ƒ€ƒCƒ“Œã
 		{
-			ZoomedFollowTarget();
+			ZoomedInProcess();
 		}
 		Camera::OnUpdate();
 	}
@@ -53,10 +53,10 @@ namespace basecross {
 		SetEye(Utility::Lerp(newAt, newEye, m_ZoomRatioC));
 	}
 
-	void MainCamera::ZoomedFollowTarget()
+	void MainCamera::ZoomedInProcess()
 	{
-		SetAt(Utility::Lerp(m_initialAt, Vec3(m_targetPos.x, m_targetPos.y + m_zoomAtY, m_targetPos.z), 1.0f));
-		SetEye(Utility::Lerp(m_currentEye, Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z + m_zoomEye.z), 1.0f));
+		SetAt(Vec3(m_targetPos.x, m_targetPos.y + m_zoomAtY, m_targetPos.z));
+		SetEye(Vec3(m_targetPos.x, m_targetPos.y + m_zoomEye.y, m_targetPos.z + m_zoomEye.z));
 	}
 
 	void MainCamera::ZoomProcess()
@@ -68,7 +68,7 @@ namespace basecross {
 
 		if (m_cameraState == State::ZoomIn)
 		{
-			if (m_zoomRatio >= 1.0f) m_cameraState = State::Zoomed;
+			if (m_zoomRatio >= 1.0f) m_cameraState = State::ZoomedIn;
 			m_zoomRatio += DELTA_TIME * m_zoomSpeed;
 		}
 		if (m_cameraState == State::ZoomOut)

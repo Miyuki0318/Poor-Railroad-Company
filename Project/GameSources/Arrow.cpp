@@ -36,7 +36,7 @@ namespace basecross {
 		auto& mainCamera = dynamic_pointer_cast<MainCamera>(camera);
 
 		bool match = stage->MatchSelectObject(routeMap);
-		bool zoomed = mainCamera->m_cameraState == MainCamera::Zoomed;
+		bool zoomed = mainCamera->m_cameraState == MainCamera::ZoomedIn;
 
 		m_rightArrow.lock()->SetDrawActive(match && zoomed);
 		m_leftArrow.lock()->SetDrawActive(match && zoomed);

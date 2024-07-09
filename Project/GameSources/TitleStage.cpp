@@ -317,7 +317,7 @@ namespace basecross
 
 		bool isMatch = MatchSelectObject(GetSharedGameObject<RouteMap>(L"RouteMap"));
 
-		if (titleCamera->m_cameraState == MainCamera::Zoomed && isMatch)
+		if (titleCamera->m_cameraState == MainCamera::ZoomedIn && isMatch)
 		{
 			m_pushAButton.lock()->SetDrawActive(true);
 			m_pushBButton.lock()->SetDrawActive(true);
@@ -359,7 +359,7 @@ namespace basecross
 			}
 			else
 			{
-				if (titleCamera->m_cameraState == MainCamera::Zoomed)
+				if (titleCamera->m_cameraState == MainCamera::ZoomedIn)
 				{
 					m_titleProgress = select;
 				}

@@ -21,17 +21,17 @@ namespace basecross {
 		Vec3 m_initialEye;	// カメラの初期位置
 		Vec3 m_initialAt;	// カメラの初期注視点
 
-		float m_zoomAtY;		// ズーム後の注視点
-		float m_zoomRatio; // ズームの割合
-		float m_zoomSpeed; // ズーム速度
+		float m_zoomAtY;	// ズーム後の注視点
+		float m_zoomRatio;	// ズームの割合
+		float m_zoomSpeed;	// ズーム速度
 
 	public:
 		enum State {
 			Fixed,	// 固定
 			Follow,	// 追従
 			ZoomIn,	// ズームイン
-			ZoomOut,// ズームアウト
-			Zoomed,	// ズーム後
+			ZoomOut, // ズームアウト
+			ZoomedIn, // ズームイン後
 		};
 		State m_cameraState;	// カメラの現在の状態
 		const State m_DefaultState;	// カメラの初期状態
@@ -65,7 +65,10 @@ namespace basecross {
 		/// </summary>
 		void FollowTarget();
 
-		void ZoomedFollowTarget();
+		/// <summary>
+		/// ズームイン後の処理
+		/// </summary>
+		void ZoomedInProcess();
 
 		/// <summary>
 		/// ズーム処理
@@ -121,7 +124,7 @@ namespace basecross {
 		/// </summary>
 		void ZoomEnd()
 		{
-			if (m_cameraState != Zoomed) return;
+			if (m_cameraState != ZoomedIn) return;
 			m_cameraState = ZoomOut;
 		}
 

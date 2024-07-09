@@ -19,19 +19,29 @@ namespace basecross
 		const shared_ptr<Stage>& stagePtr = GetStage();
 
 		// 各種スプライトの生成
-		m_menuSprite = stagePtr->AddGameObject<Sprite>(L"PAUSEMENU_TX", m_CloseMenuScale, m_CloseMenuPos);
-		m_menuSprite.lock()->SetDrawLayer(8);
+		m_menuSprites.emplace(eMenuTypes::KeyBoard, stagePtr->AddGameObject<Sprite>(L"PAUSEMENU_TX", m_CloseMenuScale, m_CloseMenuPos));
+		m_menuSprites.emplace(eMenuTypes::XBoxPad, stagePtr->AddGameObject<Sprite>(L"PAUSEMENU_TX", m_CloseMenuScale, m_CloseMenuPos));
 		m_buttonSprites.emplace(eButtons::Retry, stagePtr->AddGameObject<Sprite>(L"CONTINUE_TX", m_DefaultButtonScale, m_DefaultRetryButtonPos));
 		m_buttonSprites.emplace(eButtons::BackTitle, stagePtr->AddGameObject<Sprite>(L"CONTINUE_TITLEBACK_TX", m_DefaultButtonScale, m_DefaultTitleButtonPos));
-		m_buttonSprites.at(eButtons::Retry).lock()->SetDrawLayer(9);
-		m_buttonSprites.at(eButtons::BackTitle).lock()->SetDrawLayer(9);
+
+		// 描画レイヤー設定
+		for (int i = 0; i < eMenuTypes::MenuNum; i++)
+		{
+			m_menuSprites.at((eMenuTypes)i).lock()->SetDrawLayer(m_MenuLayerNum);
+		}
+		for (int i = 0; i < eButtons::ButtonNum; i++)
+		{
+			m_buttonSprites.at((eButtons)i).lock()->SetDrawLayer(m_ButtonLayerNum);
+		}
 
 		SetDrawActiveButtons(false);
 	}
 
 	void PauseMenu::OnUpdate()
 	{
-		StateProcess(m_state);
+		MenuTypeDecision(); // メニュータイプ決定
+		SetDrawActiveMenu(true, m_currentMenuType); // 現在のメニュータイプのスプライトを表示
+		StateProcess(m_state); // 状態ごとの処理
 	}
 
 	bool PauseMenu::OnOpen()
@@ -59,8 +69,8 @@ namespace basecross
 		m_lerpRatio = Clamp01(m_lerpRatio); // 補間割合を0~1の範囲に制限する
 
 		// メニュースプライトのトランスフォーム設定
-		m_menuSprite.lock()->SetPosition(Utility::Lerp(m_CloseMenuPos, m_OpenMenuPos, m_lerpRatio)); 
-		m_menuSprite.lock()->SetScale(Utility::Lerp(m_CloseMenuScale, m_OpenMenuScale, m_lerpRatio));
+		m_menuSprites.at(m_currentMenuType).lock()->SetPosition(Utility::Lerp(m_CloseMenuPos, m_OpenMenuPos, m_lerpRatio));
+		m_menuSprites.at(m_currentMenuType).lock()->SetScale(Utility::Lerp(m_CloseMenuScale, m_OpenMenuScale, m_lerpRatio));
 
 		if (state == State::Open) // オープン状態の時
 		{
@@ -92,11 +102,28 @@ namespace basecross
 		}
 	}
 
+	void PauseMenu::MenuTypeDecision()
+	{
+		// ゲームパッドが接続されていたら
+		if (Input::GetPadConected())
+		{
+			m_currentMenuType = XBoxPad; // メニュータイプをXBOXに
+		}
+		else // そうでなければ
+		{
+			m_currentMenuType = KeyBoard; // メニュータイプをキーボード/マウスに
+		}
+		// 前フレームと現フレームのメニュータイプが違っていれば、表示していたメニューを非表示にする
+		if (m_pastMenuType != m_currentMenuType) SetDrawActiveMenu(false, m_pastMenuType);
+
+		m_pastMenuType = m_currentMenuType;
+	}
+
 	void PauseMenu::ButtonSelect()
 	{
 		float stickVal = Input::GetLStickValue().x; // スティック入力を取得
 
-		m_scaleRatio += DELTA_TIME * m_ScaleSpeed; // ボタンのスケール用
+		m_scaleRatio += DELTA_TIME * m_ButtonScaleSpeed;
 		if (m_scaleRatio >= XM_2PI) m_scaleRatio = 0.0f;
 
 		if (stickVal && !m_pastStickVal) // 入力があるかつ直前にスティック入力が無かったら
@@ -150,5 +177,10 @@ namespace basecross
 		{
 			m_buttonSprites.at((eButtons)i).lock()->SetDrawActive(drawFlag);
 		}
+	}
+
+	void PauseMenu::SetDrawActiveMenu(bool drawFlag, eMenuTypes mType)
+	{
+		m_menuSprites.at(mType).lock()->SetDrawActive(drawFlag);
 	}
 }
