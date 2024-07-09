@@ -467,6 +467,7 @@ namespace basecross
 		m_paymentsState->SetNumberGoal(eGamePaymentsState::RewardCount, count);
 		addMoney += count;
 
+		addMoney = max(addMoney, 0);
 		AddMoney(addMoney);
 		m_paymentsState->SetNumberGoal(eGamePaymentsState::TotalIncome, addMoney);
 		m_gameProgress = eGameProgress::MoneyCountDown;
