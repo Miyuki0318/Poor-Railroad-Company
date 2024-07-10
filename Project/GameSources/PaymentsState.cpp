@@ -102,7 +102,7 @@ namespace basecross
 	{
 		// 数字構造体を取得し、表示処理を送る
 		auto& numbers = m_numbersMap.at(m_state);
-		ConsecutiveNumberDraw(numbers);
+		NumberCount::ConsecutiveNumberDraw(numbers, m_totalTime);
 
 		// 処理が終わったらステートを切り替える
 		if (numbers.degit < 0)
@@ -116,7 +116,7 @@ namespace basecross
 	{
 		// 数字構造体を取得し、表示処理を送る
 		auto& numbers = m_numbersMap.at(m_state);
-		ConsecutiveNumberDraw(numbers);
+		NumberCount::ConsecutiveNumberDraw(numbers, m_totalTime);
 
 		// 処理が終わったらステートを切り替える
 		if (numbers.degit < 0)
@@ -130,7 +130,7 @@ namespace basecross
 	{
 		// 数字構造体を取得し、表示処理を送る
 		auto& numbers = m_numbersMap.at(m_state);
-		ConsecutiveNumberDraw(numbers);
+		NumberCount::ConsecutiveNumberDraw(numbers, m_totalTime);
 
 		// 処理が終わったらステートを切り替える
 		if (numbers.degit < 0)
@@ -144,7 +144,7 @@ namespace basecross
 	{
 		// 数字構造体を取得し、表示処理を送る
 		auto& numbers = m_numbersMap.at(m_state);
-		ConsecutiveNumberDraw(numbers);
+		NumberCount::ConsecutiveNumberDraw(numbers, m_totalTime);
 
 		// 処理が終わったらステートを切り替える
 		if (numbers.degit < 0)
@@ -158,7 +158,7 @@ namespace basecross
 	{
 		// 数字構造体を取得し、表示処理を送る
 		auto& numbers = m_numbersMap.at(m_state);
-		ConsecutiveNumberDraw(numbers);
+		NumberCount::ConsecutiveNumberDraw(numbers, m_totalTime);
 
 		// 処理が終わったらステートを切り替える
 		if (numbers.degit < 0)
@@ -172,7 +172,7 @@ namespace basecross
 	{
 		// 数字構造体を取得し、表示処理を送る
 		auto& numbers = m_numbersMap.at(m_state);
-		ConsecutiveNumberDraw(numbers);
+		NumberCount::ConsecutiveNumberDraw(numbers, m_totalTime);
 
 		// 処理が終わったらステートを切り替える
 		if (numbers.degit < 0)
@@ -235,44 +235,5 @@ namespace basecross
 			// 開始時の座標に移動量を足して座標を更新
 			ptr->SetPosition(ptr->GetStartPosition() + move);
 		}
-	}
-
-	// 連番カウンタ表示処理
-	void PaymentsState::ConsecutiveNumberDraw(NumberCount& count)
-	{
-		// 桁事の比較様にwssに変換
-		wstringstream time;
-		time << count.goal;
-		wstringstream total;
-		total << static_cast<int>(m_totalTime.at(count.degit));
-
-		// 配列の要素数を設定(元の桁数-現在の桁数)
-		int index = count.index - count.degit;
-
-		// 数字を経過時間の現在の桁数番目で更新
-		count.sprite.at(index).lock()->SetDiffuseColor(COL_BLACK);
-		count.sprite.at(index).lock()->SetNumber(static_cast<int>(m_totalTime.at(count.degit)));
-
-		// 目標数の現在の桁数番目と、経過時間の0番目が同じなら
-		bool notZero = (time.str()[count.degit] == '0'); // 目標数が0なら10まで数えてから切り替える
-		if (time.str()[count.degit] == total.str()[int(notZero)])
-		{
-			// 現在の桁数を減らす
-			count.degit--;
-
-			// 0より小さくなったら
-			if (count.degit < 0)
-			{
-				// 経過時間を初期化して終了
-				for (auto& totalTime : m_totalTime)
-				{
-					totalTime = 0.0f;
-				}
-				return;
-			}
-		}
-
-		// 現在の桁数番目の経過時間をデルタタイムで加算		
-		m_totalTime.at(count.degit) += DELTA_TIME / 0.025f;
 	}
 }

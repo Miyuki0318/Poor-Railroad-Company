@@ -67,7 +67,7 @@ namespace basecross{
 			m_nextLevel.emplace(eMapLevel::FourthMap, eMapLevel::FifthMap);
 			m_nextLevel.emplace(eMapLevel::FifthMap, eMapLevel::FirstMap);
 
-			m_money = 0;
+			m_money = MONEY_LIMIT;
 
 			m_statusLevel = ePL::Level1;
 			m_backPackLevel = ePL::Level1;

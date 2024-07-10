@@ -25,15 +25,6 @@ namespace basecross
 		StandBy,			// 待機状態
 	};
 
-	// 数字用構造体
-	struct NumberCount
-	{
-		int goal = 0;
-		int degit = 0;
-		int index = 0;
-		vector<weak_ptr<Number>> sprite;
-	};
-
 	// ゲームステージの名前宣言
 	class GameStage;
 
@@ -197,11 +188,5 @@ namespace basecross
 		@param 開始時の座標からの移動量
 		*/
 		void MoveNumbersPosition(const NumberCount& count, const Vec3& move);
-
-		/*!
-		@brief 連番数値表示関数
-		@param 数値構造体
-		*/
-		void ConsecutiveNumberDraw(NumberCount& count);
 	};
 }

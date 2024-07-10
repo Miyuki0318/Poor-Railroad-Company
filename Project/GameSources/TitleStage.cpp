@@ -224,7 +224,8 @@ namespace basecross
 	{
 		const float scale = 75.0f;
 		const Vec3 position = Vec3(650.0f, 460.0f, 0.2f);
-		AddGameObject<MoneyCountUI>(scale, position);
+		auto& moneyUI = AddGameObject<MoneyCountUI>(scale, position);
+		SetSharedGameObject(L"MoneyUI", moneyUI);
 
 		AddGameObject<TitleGuide>();
 	}
