@@ -5,6 +5,7 @@
 */
 
 #pragma once
+#include "Scene.h"
 #include "Number.h"
 
 namespace basecross
@@ -22,7 +23,7 @@ namespace basecross
 		NumberCount m_numbers;
 		vector<float> m_totalTime; // 経過時間
 		bool m_isGoal; // 表示し終わったかの真偽
-
+		bool m_isNow; // 計算中かの真偽
 
 		const float m_spriteScale;	// スプライトのスケール
 		const float m_numberScale;	// 数字のスケール
@@ -56,6 +57,7 @@ namespace basecross
 			m_backMargin(Vec3(scale * 1.4f, 0.0f, 0.0f))
 		{
 			m_isGoal = true;
+			m_isNow = false;
 			m_totalTime = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 		}
 
@@ -90,6 +92,12 @@ namespace basecross
 		void UpdateColor();
 
 		/*!
+		@brief 座標を移動量で加算して更新
+		@param 移動量
+		*/
+		void SetMovePosition(const Vec3& moveVal);
+
+		/*!
 		@brief 数字の桁数とインデックスの設定関数
 		@param 設定する金額
 		*/
@@ -97,8 +105,11 @@ namespace basecross
 		{
 			// 初期化設定
 			m_isGoal = false;
+			money = min(money, MONEY_LIMIT);
 			m_numbers.goal = money;
 			m_numbers.degit = max(Utility::GetUpperDigit(money) - 1, 0);
+			m_numbers.index = m_numbers.degit;
+			m_totalTime = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 		}
 	};
 }

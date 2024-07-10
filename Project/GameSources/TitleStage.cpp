@@ -489,6 +489,8 @@ namespace basecross
 	{
 		try 
 		{
+			Debug::Log(L"ŠŽ‹à : ", GetMoney());
+
 			if (m_bgmItem.lock() && Utility::OR(m_titleProgress, opening, normal))
 			{
 				auto& item = m_bgmItem.lock()->m_SourceVoice;

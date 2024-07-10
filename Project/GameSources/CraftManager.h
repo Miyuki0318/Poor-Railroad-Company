@@ -44,6 +44,7 @@ namespace basecross
 		WoodBridge,	// –Ø‚Ì‹´
 		Crossing,	// “¥Ø
 		GoldBar,	// ‹à‰ò
+		Money,		// ‚¨‹à
 	};
 
 	/*!

@@ -7,6 +7,7 @@
 #pragma once
 #include "Number.h"
 #include "GameStage.h"
+#include "MoneyCountUI.h"
 
 namespace basecross
 {
@@ -39,6 +40,9 @@ namespace basecross
 		// メニュースプライト
 		weak_ptr<Sprite> m_menuSprite;	
 
+		// 所持金UI
+		weak_ptr<MoneyCountUI> m_moneyCount;
+
 		// 数値スプライトマップ
 		map<eGamePaymentsState, NumberCount> m_numbersMap;
 		
@@ -46,6 +50,7 @@ namespace basecross
 		map<eGamePaymentsState, function<void()>> m_stateFunc;
 
 		const float m_numberScale;	// 数字のスケール
+		const float m_moneyScale;	// 所持金UIのスケール
 		const float m_menuFadeTime;	// フェード時間
 		const float m_standByTime;	// 観るための時間
 		const Vec3 m_startPosition;	// 開始座標
@@ -53,6 +58,7 @@ namespace basecross
 		const Vec3 m_numberMarginY;	// 数字同士の余白
 		const Vec3 m_totalMargin;	// 合計収入の余白
 		const Vec3 m_menuPosition;	// メニューの座標
+		const Vec3 m_moneyStartPos;	// 所持金UIの開始時の座標
 
 		eGamePaymentsState m_state;	// 処理ステート
 
@@ -68,13 +74,15 @@ namespace basecross
 		PaymentsState(const shared_ptr<GameStage>& stagePtr) :
 			m_stage(stagePtr),
 			m_menuFadeTime(1.5f),
-			m_standByTime(2.5f),
+			m_standByTime(4.0f),
 			m_numberScale(55.0f),
+			m_moneyScale(75.0f),
 			m_startPosition(135.0f, 75.0f, 0.0f),
 			m_numberMarginX(45.0f, 0.0f, 0.0f),
 			m_numberMarginY(0.0f, -70.0f, 0.0f),
 			m_totalMargin(0.0f, -25.0f, 0.0f),
-			m_menuPosition(0.0f, -200.0f, 0.1f)
+			m_menuPosition(0.0f, -200.0f, 0.1f),
+			m_moneyStartPos(650.0f, 1000.0f, 0.2f)
 		{
 			m_state = eGamePaymentsState::MenuFadeIn;
 			m_fadeTotalTime = 0.0f;

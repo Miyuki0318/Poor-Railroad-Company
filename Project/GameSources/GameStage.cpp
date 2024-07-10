@@ -292,6 +292,7 @@ namespace basecross
 		itemFly->SetTargetUIData(eItemType::WoodBridge, L"UI_BRIDGE_TX", startPos + (distance * 5.0));
 		itemFly->SetTargetUIData(eItemType::Crossing, L"UI_CROSSING_TX", startPos + (distance * 6.0));
 		itemFly->SetTargetUIData(eItemType::GoldBar, L"UI_GOLDBAR_TX", startPos + (distance * 8.0));
+		itemFly->SetTargetUIData(eItemType::Money, L"UI_COIN_TX", Vec3(650.0f, 460.0f, 0.0f));
 
 		// クラフト可能になった時に知らせるエフェクトの生成と設定
 		const auto& craftGuide = AddGameObject<CraftPosshibleGuide>();
@@ -468,7 +469,6 @@ namespace basecross
 		addMoney += count;
 
 		addMoney = max(addMoney, 0);
-		AddMoney(addMoney);
 		m_paymentsState->SetNumberGoal(eGamePaymentsState::TotalIncome, addMoney);
 		m_gameProgress = eGameProgress::MoneyCountDown;
 	}

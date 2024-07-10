@@ -40,13 +40,13 @@ namespace basecross
 		if (!m_isGoal) UpdateNumbers();
 
 		// 色の更新処理
-		UpdateColor();
+		if (!m_isNow) UpdateColor();
 	}
 
 	void MoneyCountUI::StartSetNumbers()
 	{
 		const auto& scene = App::GetApp()->GetScene<Scene>();
-		int money = scene->GetMoney();
+		int money = min(scene->GetMoney(), MONEY_LIMIT);
 		m_numbers.goal = money;
 		m_numbers.degit = max(Utility::GetUpperDigit(money) - 1, 0);
 		m_numbers.index = m_numbers.degit;
@@ -62,6 +62,7 @@ namespace basecross
 	void MoneyCountUI::UpdateNumbers()
 	{
 		// カウントダウン表示
+		m_isNow = true;
 		NumberCount::ConsecutiveNumberDraw(m_numbers, m_totalTime);
 
 		// 表示し終わったら
@@ -69,6 +70,7 @@ namespace basecross
 		{
 			// SEを止める
 			m_isGoal = true;
+			m_isNow = false;
 		}
 	}
 
@@ -76,11 +78,33 @@ namespace basecross
 	void MoneyCountUI::UpdateColor()
 	{
 		const auto& scene = App::GetApp()->GetScene<Scene>();
-		bool isLimit = scene->GetMoney() >= MONEY_LIMIT;
+		int money = scene->GetMoney();
+		bool isLimit = money >= MONEY_LIMIT;
+		m_numbers.index = max(Utility::GetUpperDigit(money) - 1, 0);
+
+		for (size_t i = 0; i < m_numbers.sprite.size(); i++)
+		{
+			auto& number = m_numbers.sprite.at(i).lock();
+			if (m_numbers.index < i)
+			{
+				number->SetDiffuseColor(COL_ALPHA);
+				continue;
+			}
+
+			number->SetDiffuseColor(isLimit ? COL_RED : COL_BLACK);
+		}
+	}
+
+	// 移動処理
+	void MoneyCountUI::SetMovePosition(const Vec3& moveVal)
+	{
+		m_backSprite.lock()->SetPosition(m_backSprite.lock()->GetStartPosition() + moveVal);
+		m_itemSprite.lock()->SetPosition(m_itemSprite.lock()->GetStartPosition() + moveVal);
 
 		for (auto& number : m_numbers.sprite)
 		{
-			number.lock()->SetDiffuseColor(isLimit ? COL_RED : COL_BLACK);
+			auto& ptr = number.lock();
+			ptr->SetPosition(ptr->GetStartPosition() + moveVal);
 		}
 	}
 }

@@ -18,6 +18,9 @@ namespace basecross
 		m_menuSprite = stagePtr->AddGameObject<Sprite>(L"PAYMENTS_MENU_TX", WINDOW_SIZE, Vec3(0.0f, WINDOW_HEIGHT, 0.0f) + m_menuPosition);
 		m_menuSprite.lock()->SetDrawLayer(8);
 
+		// 金額UIの生成
+		m_moneyCount = stagePtr->AddGameObject<MoneyCountUI>(m_moneyScale, m_moneyStartPos);
+
 		// 数字スプライトの生成
 		NumberCount reward, rSales, gold, resource, rInstallations, total;
 		for (int i = 0; i < 5; i++)
@@ -62,6 +65,7 @@ namespace basecross
 		// ステートをメニューフェードにし、スプライトを開始時の座標に
 		m_state = eGamePaymentsState::MenuFadeIn;
 		m_menuSprite.lock()->SetStartPosition();
+		m_moneyCount.lock()->SetMovePosition(Vec3(0.0f, WINDOW_HEIGHT / 2.0f, 0.0f));
 
 		// 全ての数字スプライトを0番・透明・開始時の座標に
 		for (auto& numbers : m_numbersMap)
@@ -82,7 +86,9 @@ namespace basecross
 		auto& menu = m_menuSprite.lock();
 
 		// 線形補間で移動
-		Vec3 pos = Utility::Lerp(menu->GetStartPosition(), m_menuPosition, m_fadeTotalTime / m_menuFadeTime);
+		float ratio = m_fadeTotalTime / m_menuFadeTime;
+		Vec3 pos = Utility::Lerp(menu->GetStartPosition(), m_menuPosition, ratio);
+		float moveVal = Utility::Lerp(0.0f, -WINDOW_HEIGHT / 2.0f, ratio);
 
 		// フェード時間を過ぎたらステートを切り替え
 		if (m_fadeTotalTime >= m_menuFadeTime)
@@ -95,6 +101,7 @@ namespace basecross
 		// 経過時間をデルタタイムで加算し、座標を更新
 		m_fadeTotalTime += DELTA_TIME;
 		menu->SetPosition(pos);
+		m_moneyCount.lock()->SetMovePosition(Vec3(0.0f, moveVal, 0.0f));
 	}
 
 	// 開発報酬表示
@@ -194,6 +201,24 @@ namespace basecross
 			m_fadeTotalTime = 0.0f;
 		}
 
+		// 跳んで行くお金アイコン
+		auto& number = m_numbersMap.at(eGamePaymentsState::TotalIncome);
+		float ratio = number.goal / 200.0f;
+		ratio = ceil(ratio);
+		float time = m_standByTime / ratio;
+		if (m_menuSprite.lock()->SetTimer(time))
+		{
+			if (m_fadeTotalTime <= time * 2.0f)
+			{
+				const auto& scene = App::GetApp()->GetScene<Scene>();
+				m_stage.lock()->AddMoney(number.goal);
+				m_moneyCount.lock()->SetNumberGoal(scene->GetMoney());
+			}
+
+			const auto& itemFly = m_stage.lock()->GetSharedGameObject<FlyItemManager>(L"FlyItemManager");
+			itemFly->StartFly(eItemType::Money, number.sprite.front().lock()->GetPosition());
+		}
+
 		// 経過時間をデルタタイムで加算し、座標を更新
 		m_fadeTotalTime += DELTA_TIME;
 	}
@@ -209,6 +234,9 @@ namespace basecross
 		Vec3 pos = Utility::Lerp(m_menuPosition, menu->GetStartPosition(), ratio);
 		Vec3 move = Utility::Lerp(Vec3(0.0f), Vec3(0.0f, WINDOW_HEIGHT, 0.0f), ratio);
 
+		float moveVal = -WINDOW_HEIGHT / 2.0f;
+		if (ratio >= 0.5f) moveVal = Utility::Lerp(-WINDOW_HEIGHT / 2.0f, 0.0f, ratio - 0.5f);
+
 		// フェード時間を過ぎたらステートを切り替え
 		if (m_fadeTotalTime >= m_menuFadeTime)
 		{
@@ -219,6 +247,7 @@ namespace basecross
 		// 経過時間をデルタタイムで加算し、座標を更新
 		m_fadeTotalTime += DELTA_TIME;
 		menu->SetPosition(pos);
+		m_moneyCount.lock()->SetMovePosition(Vec3(0.0f, moveVal, 0.0f));
 		for (auto& numbers : m_numbersMap)
 		{
 			MoveNumbersPosition(numbers.second, move);
