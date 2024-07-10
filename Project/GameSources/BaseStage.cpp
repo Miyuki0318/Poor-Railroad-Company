@@ -104,6 +104,7 @@ namespace basecross
 
 		// ‹D“J‚ÌSE
 		AddAudioResource(L"WHISTLE_SE", soundPath + L"Whistle");
+		AddAudioResource(L"START_WHISTLE_SE", soundPath + L"StartWhistle");
 		AddAudioResource(L"SHORT_WHISTLE_SE", soundPath + L"ShortWhistle");
 
 		// ƒ{ƒ^ƒ““ü—ÍŽž‚ÌSE

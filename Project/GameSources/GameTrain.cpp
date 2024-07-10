@@ -13,7 +13,7 @@
 
 namespace basecross {
 
-	const float START_TIME = 5.0f;
+	const float START_TIME = 13.0f;
 
 	void GameTrain::OnCreate()
 	{
@@ -79,6 +79,8 @@ namespace basecross {
 
 		if (state == State::None)
 		{
+			if (m_acsel <= 0.0f) StartSE(L"START_WHISTLE_SE", 1.0f);
+
 			m_acsel += DELTA_TIME / START_TIME;
 			m_acsel = min(m_acsel, 1.0f);
 			m_trainState->Update();
@@ -128,8 +130,15 @@ namespace basecross {
 					camera->ZoomStart(eye, m_position);
 
 					stagePtr->SetGameProgress(eGameProgress::GoalConect);
+					StopSE(L"WHISTLE_SE");
+					m_whistleSE = StartSE(L"WHISTLE_SE", 1.0f);
 				}
 				m_moveSpeed = m_defSpeed * 5.0f; // ëÅÇ≠êiÇﬁ
+
+				if (SetTimer(START_TIME / 2.0f))
+				{
+					m_whistleSE = StartSE(L"WHISTLE_SE", 1.0f);
+				}
 			}
 			else
 			{
