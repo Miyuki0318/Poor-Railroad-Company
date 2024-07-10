@@ -69,7 +69,7 @@ namespace basecross{
 
 			m_money = 0;
 
-			m_statusLevel = ePL::Level5;
+			m_statusLevel = ePL::Level1;
 			m_backPackLevel = ePL::Level1;
 			m_startGearLevel = ePL::Level1;
 		}
