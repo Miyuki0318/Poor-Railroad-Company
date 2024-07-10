@@ -210,15 +210,6 @@ namespace basecross
 		m_objectGroup->IntoGroup(train);
 	}
 
-	// ŠÅ”Â‚Ì¶¬
-	void TitleStage::CreateSignBoard()
-	{
-		for (int i = 0; i < m_boardQuantity; i++)
-		{
-			AddGameObject<SignBoard>(m_textureKeys[i], m_boardPositions[i]);
-		}
-	}
-
 	// Š‹àUI‚Ì¶¬
 	void TitleStage::CreateUISprite()
 	{
@@ -455,8 +446,6 @@ namespace basecross
 
 			CreateTrain();
 
-			CreateSignBoard();
-			
 			CreateUISprite();
 
 			CreateArrowSprite();

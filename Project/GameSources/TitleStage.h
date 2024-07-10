@@ -128,11 +128,6 @@ namespace basecross
 		void CreateTrain();
 
 		/*
-		@brief 看板の生成
-		*/
-		void CreateSignBoard();
-				
-		/*
 		@brief 所持金スプライトの生成
 		*/
 		void CreateUISprite();
