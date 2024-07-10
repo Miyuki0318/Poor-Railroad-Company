@@ -46,6 +46,7 @@ namespace basecross{
 		ePL m_backPackLevel;
 		ePL m_startGearLevel;
 
+		bool m_MovieActive;
 	public:
 		const wstring m_objTagName = L"SELECT";
 		//--------------------------------------------------------------------------------------
@@ -224,6 +225,11 @@ namespace basecross{
 		ePL GetStartGearLevel() const
 		{
 			return m_startGearLevel;
+		}
+
+		bool IsMovieActive() const 
+		{
+			return m_MovieActive;
 		}
 	};
 }

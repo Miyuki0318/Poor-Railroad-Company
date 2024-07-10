@@ -11,6 +11,14 @@
 
 namespace basecross
 {
+	void LeaveMovieStage::CreateResourses()
+	{
+		const auto& app = App::GetApp();
+		wstring mediaPath = app->GetDataDirWString() + L"Movies/";
+
+		moviePath = mediaPath + L"GamePlay.mp4";
+	}
+
 	// ステージ移行
 	void LeaveMovieStage::ChangeStage()
 	{
@@ -20,7 +28,6 @@ namespace basecross
 
 		if (m_timer >= m_fadeTime)
 		{
-			m_timer = m_fadeTime;
 			PostEvent(0.0f, GetThis<ObjectInterface>(), app->GetScene<Scene>(), L"TitleStage");
 		}
 	}
@@ -35,10 +42,8 @@ namespace basecross
 	{
 		MovieStage::OnCreate();
 
-		wstring dataPath;
-		App::GetApp()->GetAssetsDirectory(dataPath);
+		CreateResourses();
 
-		wstring moviePath = dataPath + L"";
 		SetMovieFileName(moviePath);
 
 		Play();
@@ -49,6 +54,11 @@ namespace basecross
 		if (Input::GetPush())
 		{
 			ButtonPush();
+		}
+
+		if (m_isPushButton)
+		{
+			ChangeStage();
 		}
 	}
 }

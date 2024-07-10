@@ -16,7 +16,14 @@ namespace basecross
 
 		float m_timer;
 
+		wstring moviePath;
+
 		bool m_isPushButton;
+
+		/*
+		@brief リソースの読込
+		*/
+		void CreateResourses();
 
 		/*
 		@brief ボタンを押した時の処理
@@ -36,6 +43,10 @@ namespace basecross
 			m_isPushButton(false)
 		{
 		}
+
+		virtual ~LeaveMovieStage()
+		{
+		};
 
 		virtual void OnCreate() override;
 		virtual void OnUpdate() override;

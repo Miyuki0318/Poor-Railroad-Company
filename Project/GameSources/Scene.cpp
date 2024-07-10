@@ -9,6 +9,7 @@
 #include "OzawaFuncs.h"
 #include "GameStage.h"
 #include "TitleStage.h"
+#include "MovieStage.h"
 
 namespace basecross {
 
@@ -41,6 +42,7 @@ namespace basecross {
 	{
 		if (event->m_MsgStr == L"TitleStage")
 		{
+			m_MovieActive = false;
 			eGameProgress prog = eGameProgress::ToTitleOver;
 			if (auto& stage = GetActiveStage(false))
 			{
@@ -56,9 +58,17 @@ namespace basecross {
 		}
 		if (event->m_MsgStr == L"GameStage")
 		{
+			m_MovieActive = false;
 			//最初のアクティブステージの設定
 			ResetActiveStage<GameStage>(m_stagePathMap.at(m_mapLevel));
 		}
+		if (event->m_MsgStr == L"MovieStage")
+		{
+			m_MovieActive = true;
+			//最初のアクティブステージの設定
+			ResetActiveStage<LeaveMovieStage>();
+		}
+
 	}
 
 	void Scene::CreateResourses()

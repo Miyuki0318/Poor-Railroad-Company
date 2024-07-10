@@ -258,6 +258,14 @@ namespace basecross
 		m_pushBButton.lock()->SetDrawActive(false);
 	}
 
+	// 動画再生
+	void TitleStage::PlayMovie()
+	{
+		const auto& app = App::GetApp();
+
+		PostEvent(0.0f, GetThis<ObjectInterface>(), app->GetScene<Scene>(), L"MovieStage");
+	}
+
 	// Aボタンを押した時の処理
 	void TitleStage::PushButtonA()
 	{
@@ -530,6 +538,15 @@ namespace basecross
 			FadeSprite();
 
 			ButtonUIActive();
+
+			m_timer += App::GetApp()->GetElapsedTime();
+
+			if (m_timer >= 5.0f)
+			{
+				//PlayMovie();
+			}
+			
+			Debug::Log(L"時間 : ", m_timer);
 
 			// 通常時以外は演出中のフラグを立てる
 			m_isStaging = m_titleProgress != normal;

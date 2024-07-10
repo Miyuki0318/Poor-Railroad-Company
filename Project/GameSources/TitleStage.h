@@ -67,9 +67,13 @@ namespace basecross
 		Vec3 m_diff;
 		float m_distance;
 
+		float m_timer;
+
 		bool m_zooming;
 
 		bool m_zoomEnd;
+
+		bool test;
 
 		shared_ptr<GameObject> m_selectObj;
 
@@ -163,6 +167,11 @@ namespace basecross
 		void ButtonUIActive();
 
 		/*
+		@brief “®‰æÄ¶
+		*/
+		void PlayMovie();
+
+		/*
 		@brief Aƒ{ƒ^ƒ“‚ğ‰Ÿ‚µ‚½‚Ìˆ—
 		*/
 		void PushButtonA();
@@ -194,6 +203,8 @@ namespace basecross
 			m_zooming = false;
 
 			m_zoomEnd = false;
+
+			test = false;
 
 			m_objectGroup = CreateSharedObjectGroup(L"Settings");
 		}
