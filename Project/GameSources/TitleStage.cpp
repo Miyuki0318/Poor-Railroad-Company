@@ -539,11 +539,18 @@ namespace basecross
 
 			ButtonUIActive();
 
-			m_timer += App::GetApp()->GetElapsedTime();
-
-			if (m_timer >= 5.0f)
+			if (Utility::OR(m_titleProgress, opening, normal))
 			{
-				//PlayMovie();
+				m_timer += App::GetApp()->GetElapsedTime();
+
+				if (m_timer >= 5.0f)
+				{
+					PlayMovie();
+				}
+			}
+			else
+			{
+				m_timer = 0.0f;
 			}
 			
 			Debug::Log(L"ŽžŠÔ : ", m_timer);
