@@ -344,9 +344,6 @@ namespace basecross
 		const auto& flyEffect = GetSharedGameObject<FlyItemManager>(L"FlyItemManager");
 		flyEffect->ResetFly();
 
-		const auto& smokeEffect = GetSharedGameObject<SpriteParticle>(L"SmokeEffect");
-		smokeEffect->ResetParticle();
-
 		const auto& starEffect = GetSharedGameObject<SpriteParticle>(L"StarEffect");
 		starEffect->ResetParticle();
 

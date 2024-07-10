@@ -25,6 +25,7 @@ namespace basecross
 		weak_ptr<CraftUI> m_barFlame;	// バーのフレーム
 		weak_ptr<CraftUI> m_qtePoint;	// QTEのタイミング範囲
 		weak_ptr<CraftUI> m_qteButton;	// QTEで入力するボタン
+		weak_ptr<CraftUI> m_qteBack;	// QTEの背景
 
 		map<eRectType, Vec3> m_rectDiff;
 		map<eInputButton, wstring> m_buttonTexMap;
