@@ -545,7 +545,7 @@ namespace basecross
 
 				if (m_timer >= 5.0f)
 				{
-					PlayMovie();
+					//PlayMovie();
 				}
 			}
 			else
