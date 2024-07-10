@@ -114,6 +114,13 @@ namespace basecross
 		void StartFly(eItemType itemType);
 
 		/*!
+		@brief エフェクト開始関数
+		@param アイテムのタイプ
+		@param 開始座標
+		*/
+		void StartFly(eItemType itemType, const Vec3& position);
+
+		/*!
 		@brief アイテムUIのデータ設定関数
 		@param アイテムのタイプ
 		@param テクスチャキー

@@ -126,4 +126,40 @@ namespace basecross
 		// 配列に追加
 		m_spriteVec.push_back(newSprite);
 	}
+
+	// 開始呼び出し
+	void FlyItemManager::StartFly(eItemType itemType, const Vec3& position)
+	{
+		// エラーチェック
+		if (m_itemUIPosMap.find(itemType) == m_itemUIPosMap.end()) return;
+		
+		// アイテムタイプとステージの取得
+		const auto& item = m_itemUIPosMap.at(itemType);
+		const auto& stagePtr = GetStage();
+		
+		// 中間座標を設定
+		Vec3 middlePos = Vec3(position.x, item.first.y, 0.0f);
+
+		// スプライト配列に非アクティブがあるならそれを扱う
+		for (auto& weakPtr : m_spriteVec)
+		{
+			// エラーチェック
+			auto& sprite = weakPtr.lock();
+			if (!sprite) continue;
+
+			// 非アクティブなら開始処理を送り終了
+			if (!sprite->GetUpdateActive())
+			{
+				sprite->StartDraw(item.second, position, middlePos, item.first);
+				return;
+			}
+		}
+
+		// 非アクティブが無かったので生成して開始処理を送る
+		auto& newSprite = stagePtr->AddGameObject<FlySprite>();
+		newSprite->StartDraw(item.second, position, middlePos, item.first);
+		
+		// 配列に追加
+		m_spriteVec.push_back(newSprite);
+	}
 }

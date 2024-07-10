@@ -247,7 +247,6 @@ namespace basecross
 			int money = scene.lock()->GetMoney();
 			//money‚É’l‚ð‰ÁŽZ
 			money += value;
-			money = min(money, MONEY_LIMIT);
 			// Scene‚Ìmoney‚ðXV
 			scene.lock()->SetMoney(money);
 		}
