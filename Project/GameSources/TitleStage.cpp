@@ -86,10 +86,10 @@ namespace basecross
 		AddTextureResource(L"COMPANIY_TX", texturePath + L"ShopGuide.png");
 
 		// ボタンUI
-		AddTextureResource(L"PUSH_GAMESTART_TX", texturePath + L"BGameStart.png");
-		AddTextureResource(L"PUSH_GAMEBACK_TX", texturePath + L"AGameBack.png");
-		AddTextureResource(L"CLICK_GAMESTART_TX", texturePath + L"M1GameStart.png");
-		AddTextureResource(L"CLICK_GAMEBACK_TX", texturePath + L"M2GameBack.png");
+		AddTextureResource(L"PLEASEBUTTON_TX", texturePath + L"PleaseButton.png");
+		AddTextureResource(L"TITLEBACK_TX", texturePath + L"TitleBack.png");
+		AddTextureResource(L"CLICK_M1_TX", texturePath + L"ClickM1.png");
+		AddTextureResource(L"CLICK_M2_TX", texturePath + L"ClickM2.png");
 
 		// タイトルBGM
 		AddAudioResource(L"TITLE_BGM", soundPath + L"Title");
@@ -234,23 +234,31 @@ namespace basecross
 	// ボタンUIの生成
 	void TitleStage::CreateButtonUI()
 	{
+		// ボタン生成のパラメータ
 		const Vec2 scale = Vec2(350.0f, 100.0f);
 		const float posX = 1920.0f / 4.0f;
 		const float posY = (1080.0f / 2.0f) - scale.y;
 
+		const Vec2 buttonScale = Vec2(70.0f);
+		const Vec3 pushAPos = Vec3(-700.0f, -posY, 0.0f);
+		const Vec3 pushBPos = Vec3(+260.0f, -posY, 0.0f);
+
+
+		m_backButton = AddGameObject<Sprite>(L"TITLEBACK_TX", scale, Vec3(posX, -posY, 0.0f));
+		m_pleaseButton = AddGameObject<Sprite>(L"PLEASEBUTTON_TX", scale, Vec3(-posX, -posY, 0.0f));
 		if (Input::GetPadConected())
 		{
-			m_pushAButton = AddGameObject<Sprite>(L"PUSH_GAMEBACK_TX", scale, Vec3(posX, -posY, 0.0f));
-			m_pushBButton = AddGameObject<Sprite>(L"PUSH_GAMESTART_TX", scale, Vec3(-posX, -posY, 0.0f));
+			m_pushAButton = AddGameObject<Sprite>(L"BUTTON_A_TX", buttonScale, pushAPos);
+			m_pushBButton = AddGameObject<Sprite>(L"BUTTON_B_TX", buttonScale, pushBPos);
+
 		}
 		else
 		{
-			m_pushAButton = AddGameObject<Sprite>(L"CLICK_GAMEBACK_TX", scale, Vec3(posX, -posY, 0.0f));
-			m_pushBButton = AddGameObject<Sprite>(L"CLICK_GAMESTART_TX", scale, Vec3(-posX, -posY, 0.0f));
+			m_pushAButton = AddGameObject<Sprite>(L"CLICK_M1_TX", buttonScale, pushAPos);
+			m_pushBButton = AddGameObject<Sprite>(L"CLICK_M2_TX", buttonScale, pushBPos);
 		}
 
-		m_pushAButton.lock()->SetDrawActive(false);
-		m_pushBButton.lock()->SetDrawActive(false);
+		ButtonUIActive(false);
 	}
 
 	// Aボタンを押した時の処理
@@ -321,23 +329,12 @@ namespace basecross
 	}
 
 	// ボタンUIの表示処理
-	void TitleStage::ButtonUIActive()
+	void TitleStage::ButtonUIActive(bool active)
 	{
-		auto& camera = GetView()->GetTargetCamera();
-		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
-
-		bool isMatch = MatchSelectObject(GetSharedGameObject<RouteMap>(L"RouteMap"));
-
-		if (titleCamera->m_cameraState == MainCamera::ZoomedIn && isMatch)
-		{
-			m_pushAButton.lock()->SetDrawActive(true);
-			m_pushBButton.lock()->SetDrawActive(true);
-		}
-		else
-		{
-			m_pushAButton.lock()->SetDrawActive(false);
-			m_pushBButton.lock()->SetDrawActive(false);
-		}
+		m_backButton.lock()->SetDrawActive(active);
+		m_pleaseButton.lock()->SetDrawActive(active);
+		m_pushAButton.lock()->SetDrawActive(active);
+		m_pushBButton.lock()->SetDrawActive(active);
 	}
 
 	// スプライトのフェード処理
@@ -524,7 +521,19 @@ namespace basecross
 
 			FadeSprite();
 
-			ButtonUIActive();
+			auto& camera = GetView()->GetTargetCamera();
+			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+
+			bool isMatch = MatchSelectObject(GetSharedGameObject<RouteMap>(L"RouteMap"));
+
+			if (titleCamera->m_cameraState == MainCamera::ZoomedIn && isMatch)
+			{
+				ButtonUIActive(true);
+			}
+			else
+			{
+				ButtonUIActive(false);
+			}
 
 			// 通常時以外は演出中のフラグを立てる
 			m_isStaging = m_titleProgress != normal;
