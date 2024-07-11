@@ -66,6 +66,9 @@ namespace basecross
 		// 矢印のテクスチャ
 		AddTextureResource(L"RIGHTARROW_TX", texturePath + L"RightArrow.png");
 		AddTextureResource(L"LEFTARROW_TX", texturePath + L"LeftArrow.png");
+		AddTextureResource(L"D_RIGHTARROW_TX", texturePath + L"D_RightArrow.png");
+		AddTextureResource(L"A_LEFTARROW_TX", texturePath + L"A_LeftArrow.png");
+
 		
 		// ボードのテクスチャ
 		AddTextureResource(L"BOARD_TX", routePath + L"MapTexture.tga");

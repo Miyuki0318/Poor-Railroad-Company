@@ -17,8 +17,16 @@ namespace basecross {
 	{
 		const shared_ptr<Stage>& stagePtr = GetStage(); // ステージの取得
 
-		m_rightArrow = stagePtr->AddGameObject<Sprite>(L"RIGHTARROW_TX", scale, Vec3(posX, posY, 0.0f));
-		m_leftArrow = stagePtr->AddGameObject<Sprite>(L"LEFTARROW_TX", scale, Vec3(-posX, posY, 0.0f));
+		if (Input::GetPadConected())
+		{
+			m_rightArrow = stagePtr->AddGameObject<Sprite>(L"RIGHTARROW_TX", scale, Vec3(posX, posY, 0.0f));
+			m_leftArrow = stagePtr->AddGameObject<Sprite>(L"LEFTARROW_TX", scale, Vec3(-posX, posY, 0.0f));
+		}
+		else
+		{
+			m_rightArrow = stagePtr->AddGameObject<Sprite>(L"D_RIGHTARROW_TX", scale, Vec3(posX, posY, 0.0f));
+			m_leftArrow = stagePtr->AddGameObject<Sprite>(L"A_LEFTARROW_TX", scale, Vec3(-posX, posY, 0.0f));
+		}
 
 		m_rightArrow.lock()->SetDrawActive(true);
 		m_leftArrow.lock()->SetDrawActive(true);
