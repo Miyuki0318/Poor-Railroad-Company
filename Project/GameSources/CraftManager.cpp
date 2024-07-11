@@ -14,9 +14,9 @@ namespace basecross
 	{
 		const auto& stagePtr = m_player.lock()->GetStage();
 
-		m_iconMap.emplace(eCraftItem::Rail, stagePtr->AddGameObject<CraftItemIcon>(L"C_RAIL_TX"));
-		m_iconMap.emplace(eCraftItem::WoodBridge, stagePtr->AddGameObject<CraftItemIcon>(L"C_BRIDGE_TX"));
-		m_iconMap.emplace(eCraftItem::Crossing, stagePtr->AddGameObject<CraftItemIcon>(L"C_CROSSING_TX"));
+		m_iconMap.emplace(eCraftItem::Rail, stagePtr->AddGameObject<CraftItemIcon>(L"MOUSE_RAIL_TX"));
+		m_iconMap.emplace(eCraftItem::WoodBridge, stagePtr->AddGameObject<CraftItemIcon>(L"MOUSE_BRIDGE_TX"));
+		m_iconMap.emplace(eCraftItem::Crossing, stagePtr->AddGameObject<CraftItemIcon>(L"MOUSE_CROSSING_TX"));
 	}
 
 	// リセット処理
@@ -50,46 +50,81 @@ namespace basecross
 	// クラフトウィンドウの呼び出し
 	void CraftManager::CraftingEnabled(bool enable)
 	{
-		// QTEとウィンドウオブジェクトの取得
+		// プレイヤーとQTEとウィンドウオブジェクトの取得
 		const auto& qte = m_craftQTE.lock();
 		const auto& window = m_window.lock();
 		const auto& player = m_player.lock();
-		if (qte && window && player)
+		if (!qte || !window || !player) return;
+
+		// スプライトの中心位置設定を送る
+		Vec3 windowPos = GetPlayerWindowPosition(player);
+		eRectType rect = GetWindowRectType(windowPos);
+
+		// 頂点座標を変更
+		qte->SetVerticesRect(rect);
+		window->SetVerticesRect(rect);
+
+		// 描画方向を設定
+		qte->SetRectType(rect);
+		window->SetRectType(rect);
+
+		// 描画状態設定を送る
+		window->SetDrawEnable(enable, windowPos + BACK_LAYER);
+		qte->SetDrawEnable(enable, window->GetPosition() + BACK_LAYER);
+
+		// アイコンにも設定を送る
+		for (auto& icon : m_iconMap)
 		{
-			// スプライトの中心位置設定を送る
-			Vec3 playerPos = player->GetPosition();
-			Vec3 windowPos = Utility::ConvertToWorldPosition(player->GetStage()->GetView(), playerPos);
-			Vec3 windowRect = Vec3((WINDOW_WIDTH / 2.0f), WINDOW_HEIGHT / 2.0f, 1.0f);
-			windowPos.clamp(-windowRect, windowRect);
-			windowPos.z = 0.0f;
-			windowPos += BACK_LAYER;
-			eRectType rect = eRectType::DownLeft;
-			if (windowPos.x < 0.0f) rect = eRectType::DownRight;
-			if (windowPos.y < 0.0f) rect = eRectType::UpLeft;
-			if (windowPos.x < 0.0f && windowPos.y < 0.0f) rect = eRectType::UpRight;
-
-			// 頂点座標を変更
-			qte->SetVerticesRect(rect);
-			window->SetVerticesRect(rect);
-
-			// 描画方向を設定
-			qte->SetRectType(rect);
-			window->SetRectType(rect);
-
-			// 描画状態設定を送る
-			window->SetDrawEnable(enable, windowPos + BACK_LAYER);
-			qte->SetDrawEnable(enable, window->GetPosition() + BACK_LAYER);
-
-			// アイコンにも設定を送る
-			for (auto& icon : m_iconMap)
-			{
-				auto& ptr = icon.second.lock();
-				ptr->SetVerticesRect(rect);
-				ptr->SetRectType(rect);
-				ptr->SetCraftPosshible(CraftOrder(icon.first));
-				ptr->SetDrawEnable(enable, windowPos + BACK_LAYER);
-			}
+			auto& ptr = icon.second.lock();
+			ptr->SetVerticesRect(rect);
+			ptr->SetRectType(rect);
+			ptr->SetCraftPosshible(CraftOrder(icon.first));
+			ptr->SetDrawEnable(enable, windowPos + BACK_LAYER);
 		}
+
+		// アイコンのテクスチャを設定する
+		SetIconDeviceTexture();
+	}
+
+	// プレイヤーのウィンドウ座標取得
+	Vec3 CraftManager::GetPlayerWindowPosition(const shared_ptr<TemplateObject>& player)
+	{
+		Vec3 playerPos = player->GetPosition();
+		Vec3 windowPos = Utility::ConvertToWorldPosition(player->GetStage()->GetView(), playerPos);
+
+		// 画面範囲外なら範囲内に矯正する
+		Vec3 windowRect = Vec3((WINDOW_WIDTH / 2.0f), WINDOW_HEIGHT / 2.0f, 1.0f);
+		windowPos.clamp(-windowRect, windowRect);
+		windowPos.z = 0.0f;
+
+		// 優先度レイヤーを下げる
+		windowPos += BACK_LAYER;
+		return windowPos;
+	}
+
+	// クラフトウィンドウの描画方向タイプ設定
+	eRectType CraftManager::GetWindowRectType(const Vec3& windowPos)
+	{
+		// 画面の中心(Basecrossは0.0)からの方向で設定
+		eRectType rect = eRectType::DownLeft;
+		if (windowPos.x < 0.0f) rect = eRectType::DownRight;
+		if (windowPos.y < 0.0f) rect = eRectType::UpLeft;
+		if (windowPos.x < 0.0f && windowPos.y < 0.0f) rect = eRectType::UpRight;
+
+		return rect;
+	}
+
+	// アイコンをデバイスに応じたテクスチャに変更
+	void CraftManager::SetIconDeviceTexture()
+	{
+		// パッドの接続状態からデバイス用のキーを設定
+		bool isPad = Input::GetPadConected();
+		wstring deviceStr = isPad ? L"PAD" : L"MOUSE";
+
+		// 各種アイコンにテクスチャ設定を送る
+		m_iconMap.at(eCraftItem::Rail).lock()->SetTexture(deviceStr + L"_RAIL_TX");
+		m_iconMap.at(eCraftItem::WoodBridge).lock()->SetTexture(deviceStr + L"_BRIDGE_TX");
+		m_iconMap.at(eCraftItem::Crossing).lock()->SetTexture(deviceStr + L"_CROSSING_TX");
 	}
 
 	// QTEの開始呼び出し

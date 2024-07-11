@@ -234,7 +234,7 @@ namespace basecross
 	// É{É^ÉìUIÇÃê∂ê¨
 	void TitleStage::CreateButtonUI()
 	{
-		const Vec2 scale = Vec2(200.0f, 100.0f);
+		const Vec2 scale = Vec2(350.0f, 100.0f);
 		const float posX = 1920.0f / 4.0f;
 		const float posY = (1080.0f / 2.0f) - scale.y;
 

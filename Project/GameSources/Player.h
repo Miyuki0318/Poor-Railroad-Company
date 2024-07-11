@@ -192,7 +192,7 @@ namespace basecross
 			m_animationMap.emplace(ePAK::QTESucces, AnimationMap(L"SUCCES", 24, 1.0f));			// QTE¬Œ÷
 			m_animationMap.emplace(ePAK::QTEFailed, AnimationMap(L"FAILED", 24, 1.0f));			// QTE¸”s
 			m_animationMap.emplace(ePAK::GameSucces, AnimationMap(L"SUCCES", 24, 1.0f, true));	// ƒQ[ƒ€¬Œ÷
-			m_animationMap.emplace(ePAK::GameFailed, AnimationMap(L"FAILED", 24, 0.5f));		// ƒQ[ƒ€¸”s
+			m_animationMap.emplace(ePAK::GameFailed, AnimationMap(L"FAILED", 24, 0.25f));		// ƒQ[ƒ€¸”s
 
 			// •à‚­SE‚ÌƒL[
 			m_walkSEKeyMap.emplace(eStageID::Grass, L"WALK_GRASS_SE");	// ‘’n‚Ì‚ÌSE

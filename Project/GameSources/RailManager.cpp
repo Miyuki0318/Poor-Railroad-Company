@@ -146,6 +146,7 @@ namespace basecross
 		// ‰Šú‰»
 		m_isConnectionGoal = false;
 		m_railDataMap.clear();
+		m_railNum = 0;
 
 		// ‰Šú‰»
 		for (auto& rail : m_instanceRail)

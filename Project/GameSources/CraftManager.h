@@ -127,6 +127,25 @@ namespace basecross
 		void CraftingEnabled(bool enable);
 
 		/*!
+		@brief プレイヤーの座標からウィンドウ座標を取得する関数
+		@param プレイヤーのシェアドポインタ
+		@return ウィンドウ座標
+		*/
+		Vec3 GetPlayerWindowPosition(const shared_ptr<TemplateObject>& player);
+
+		/*!
+		@brief ウィンドウ座標から画像のRectを取得する関数
+		@param ウィンドウ座標
+		@return eRectType
+		*/
+		eRectType GetWindowRectType(const Vec3& windowPos);
+
+		/*!
+		@brief 接続デバイスに応じたテクスチャを設定する関数
+		*/
+		void SetIconDeviceTexture();
+
+		/*!
 		@brief QTE開始関数
 		*/
 		void StartQTE(eCraftItem item, eItemType type);

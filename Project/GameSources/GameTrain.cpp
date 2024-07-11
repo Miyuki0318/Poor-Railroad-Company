@@ -13,7 +13,7 @@
 
 namespace basecross {
 
-	const float START_TIME = 5.0f;
+	const float START_TIME = 13.0f;
 
 	void GameTrain::OnCreate()
 	{
@@ -79,6 +79,8 @@ namespace basecross {
 
 		if (state == State::None)
 		{
+			if (m_acsel <= 0.0f) m_whistleSE.push_back(StartSE(L"START_WHISTLE_SE", 1.0f));
+
 			m_acsel += DELTA_TIME / START_TIME;
 			m_acsel = min(m_acsel, 1.0f);
 			m_trainState->Update();
@@ -87,7 +89,7 @@ namespace basecross {
 			{
 				m_state = State::OnRail;
 				m_isWhistle = true;
-				m_whistleSE = StartSE(L"WHISTLE_SE", 1.5f);
+				m_whistleSE.push_back(StartSE(L"WHISTLE_SE", 1.5f));
 			}
 		}
 
@@ -128,8 +130,15 @@ namespace basecross {
 					camera->ZoomStart(eye, m_position);
 
 					stagePtr->SetGameProgress(eGameProgress::GoalConect);
+					StopSE(L"WHISTLE_SE");
+					m_whistleSE.push_back(StartSE(L"WHISTLE_SE", 1.0f));
 				}
 				m_moveSpeed = m_defSpeed * 5.0f; // 早く進む
+
+				if (SetTimer(START_TIME / 2.0f))
+				{
+					m_whistleSE.push_back(StartSE(L"WHISTLE_SE", 1.0f));
+				}
 			}
 			else
 			{
@@ -144,42 +153,59 @@ namespace basecross {
 	{
 		if (!m_isWhistle && !isPause)
 		{
-			auto soundItem = m_whistleSE.lock();
-			if (!soundItem) return;
-			if (!soundItem->m_SourceVoice) return;
+			for (auto& sound : m_whistleSE)
+			{
+				auto soundItem = sound.lock();
+				if (!soundItem) continue;
+				if (!soundItem->m_SourceVoice) continue;
 
-			XAUDIO2_VOICE_STATE state;
-			soundItem->m_SourceVoice->GetState(&state);
-			if (!(state.BuffersQueued > 0) != 0) return;
-			if (m_whistleSEKey.find(soundItem->m_SoundKey) == m_whistleSEKey.end()) return;
+				XAUDIO2_VOICE_STATE state;
+				soundItem->m_SourceVoice->GetState(&state);
+				if (!(state.BuffersQueued > 0) != 0) continue;
+				if (m_stopedSEKey.find(soundItem->m_SoundKey) == m_stopedSEKey.end()) continue;
 
-			soundItem->m_SourceVoice->Start();
+				soundItem->m_SourceVoice->Start();
+			}
 			m_isWhistle = true;
 		}
 
 		if (m_isWhistle && isPause)
 		{
-			auto soundItem = m_whistleSE.lock();
-			if (!soundItem) return;
-			if (!soundItem->m_SourceVoice) return;
+			for (auto& sound : m_whistleSE)
+			{
+				auto soundItem = sound.lock();
+				if (!soundItem) continue;
+				if (!soundItem->m_SourceVoice) continue;
 
-			XAUDIO2_VOICE_STATE state;
-			soundItem->m_SourceVoice->GetState(&state);
-			if (!(state.BuffersQueued > 0) != 0) return;
-			if (m_whistleSEKey.find(soundItem->m_SoundKey) == m_whistleSEKey.end()) return;
+				XAUDIO2_VOICE_STATE state;
+				soundItem->m_SourceVoice->GetState(&state);
+				if (!(state.BuffersQueued > 0) != 0) continue;
+				if (m_stopedSEKey.find(soundItem->m_SoundKey) == m_stopedSEKey.end()) continue;
 
-			soundItem->m_SourceVoice->Stop();
+				soundItem->m_SourceVoice->Stop();
+			}
 			m_isWhistle = false;
 		}
 	}
 
 	void GameTrain::WhistleSmokeEffect()
 	{
-		auto soundItem = m_whistleSE.lock();
-		if (!soundItem) return;
-		if (m_whistleSEKey.find(soundItem->m_SoundKey) == m_whistleSEKey.end()) return;
-		if (!soundItem->m_AudioResource.lock()) return;
+		bool isWhistle = false;
+		for (auto& sound : m_whistleSE)
+		{
+			auto soundItem = sound.lock();
+			if (!soundItem) continue;
+			if (!soundItem->m_SourceVoice) continue;
 
+			XAUDIO2_VOICE_STATE state;
+			soundItem->m_SourceVoice->GetState(&state);
+			if (!(state.BuffersQueued > 0) != 0) continue;
+			if (m_whistleSEKey.find(soundItem->m_SoundKey) == m_whistleSEKey.end()) continue;
+
+			isWhistle = true;
+		}
+
+		if (!isWhistle) return;
 		m_smokeEffect.lock()->AddSmokeEffect(m_rotation.y);
 	}
 
@@ -217,9 +243,18 @@ namespace basecross {
 		int nextedRail = GetNextedRailCount();
 		if (1 >= nextedRail)
 		{
-			// サウンドアイテムが存在しない、またはリソースが空なら
-			if (auto& item = m_whistleSE.lock()) if (item->m_AudioResource.lock()) return;
-			m_whistleSE = StartSE(L"SHORT_WHISTLE_SE", 1.5f);
+			for (auto& sound : m_whistleSE)
+			{
+				auto soundItem = sound.lock();
+				if (!soundItem) continue;
+				if (!soundItem->m_SourceVoice) continue;
+
+				XAUDIO2_VOICE_STATE state;
+				soundItem->m_SourceVoice->GetState(&state);
+				if (!(state.BuffersQueued > 0) != 0) continue;
+				if (soundItem->m_SoundKey == L"SHORT_WHISTLE_SE") return;
+			}
+			m_whistleSE.push_back(StartSE(L"SHORT_WHISTLE_SE", 1.5f));
 		}
 	}
 

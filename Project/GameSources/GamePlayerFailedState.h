@@ -15,10 +15,19 @@ namespace basecross
 	*/
 	class GamePlayerFailedState : public GamePlayerState
 	{
+		// ローテーション
+		Vec3 m_rotate;
+
+		// 経過時間
+		float m_totalTime;
+
 		/*!
 		@brief コンストラクタ
 		*/
-		GamePlayerFailedState() {}
+		GamePlayerFailedState() 
+		{
+			m_totalTime = 0.0f;
+		}
 
 	public:
 

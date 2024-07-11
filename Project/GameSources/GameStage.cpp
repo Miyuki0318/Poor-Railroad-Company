@@ -66,6 +66,22 @@ namespace basecross
 		AddTextureResource(L"INST_CRAFT_X", texturePath + L"CraftInstruction_X.png");
 		AddTextureResource(L"INST_NORMAL_X", texturePath + L"NormalInstruction_X.png");
 
+		// クラフトウィンドウのテクスチャ
+		AddTextureResource(L"C_WINDOW_TX", texturePath + L"CraftWindow.png");
+
+		// QTEバーのフレームのテクスチャ
+		AddTextureResource(L"C_QTE_FLAME_TX", texturePath + L"BarFlame.png");
+		AddTextureResource(L"C_QTE_POINT_TX", texturePath + L"QTEPoint.png");
+
+		// クラフトアイテムアイコンテクスチャ
+		AddTextureResource(L"PAD_RAIL_TX", texturePath + L"CraftRailIcon.png");
+		AddTextureResource(L"PAD_BRIDGE_TX", texturePath + L"CraftBridgeIcon.png");
+		AddTextureResource(L"PAD_CROSSING_TX", texturePath + L"CraftCrossingIcon.png");
+
+		AddTextureResource(L"MOUSE_RAIL_TX", texturePath + L"Mouse_CraftRailIcon.png");
+		AddTextureResource(L"MOUSE_BRIDGE_TX", texturePath + L"Mouse_CraftBridgeIcon.png");
+		AddTextureResource(L"MOUSE_CROSSING_TX", texturePath + L"Mouse_CraftCrossingIcon.png");
+
 		// ゲーム中のBGM
 		AddAudioResource(L"FIRST_BGM", soundPath + L"FirstBGM");
 		AddAudioResource(L"SECOND_BGM", soundPath + L"SecondBGM");
@@ -343,9 +359,6 @@ namespace basecross
 
 		const auto& flyEffect = GetSharedGameObject<FlyItemManager>(L"FlyItemManager");
 		flyEffect->ResetFly();
-
-		const auto& smokeEffect = GetSharedGameObject<SpriteParticle>(L"SmokeEffect");
-		smokeEffect->ResetParticle();
 
 		const auto& starEffect = GetSharedGameObject<SpriteParticle>(L"StarEffect");
 		starEffect->ResetParticle();
