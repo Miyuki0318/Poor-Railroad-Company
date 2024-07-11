@@ -19,7 +19,7 @@ namespace basecross
 		wstring moviePath = mediaPath + L"Movies/";
 		wstring texturePath = mediaPath + L"Textures/";
 
-		moviePath = moviePath + L"GamePlay.mp4";
+		m_moviePath = moviePath + L"GamePlay.mp4";
 
 		// フェード用のテクスチャ
 		AddTextureResource(L"FADE_TX", texturePath + L"Fade_1.png");
@@ -30,6 +30,7 @@ namespace basecross
 	void LeaveMovieStage::CreateBackSprite()
 	{
 		const auto& back = AddGameObject<Sprite>(L"FADE_TX", WINDOW_SIZE);
+		SetSharedGameObject(L"BackSprite", back);
 	}
 
 	// ステージ移行
@@ -57,15 +58,21 @@ namespace basecross
 
 		CreateResourses();
 
-		//CreateBackSprite();
-
 		SetMovieFileName(m_moviePath);
+
+		CreateBackSprite();
 
 		Play();
 	}
 
 	void LeaveMovieStage::OnUpdate()
 	{
+
+		if (GetSharedGameObject<Sprite>(L"BackSprite")->FadeOutColor(1.0f) && !m_isStart)
+		{
+			m_isStart = true;
+		}
+
 		if (Input::GetPush())
 		{
 			ButtonPush();

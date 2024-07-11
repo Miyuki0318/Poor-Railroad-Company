@@ -19,6 +19,8 @@ namespace basecross
 
 		wstring m_moviePath;
 
+		bool m_isStart;
+
 		bool m_isPushButton;
 
 		/*
@@ -46,6 +48,7 @@ namespace basecross
 			MovieStage(),
 			m_fadeTime(1.0f),
 			m_timer(0.0f),
+			m_isStart(false),
 			m_isPushButton(false)
 		{
 		}
