@@ -24,6 +24,7 @@
 #include "UnBreakRock.h"
 #include "CraftPosshibleGuide.h"
 #include "Instruction.h"
+#include "Station.h"
 
 namespace basecross
 {
@@ -423,7 +424,7 @@ namespace basecross
 	{
 		if (m_fadeSprite->FadeOutColor(2.0f))
 		{
-			m_gameProgress = eGameProgress::Playing;
+			m_gameProgress = eGameProgress::Opening;
 		}
 
 		float volume = 0.0f;
@@ -432,6 +433,23 @@ namespace basecross
 		if (volume >= m_bgmVolume) return;
 		volume = Utility::Lerp(m_bgmVolume, 0.0f, m_fadeSprite->GetDiffuseColor().w);
 		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
+	}
+
+	void GameStage::ToOpeningState()
+	{
+		// —ñŽÔ‚ÆƒJƒƒ‰‚ðŽæ“¾
+		auto& camera = GetView()->GetTargetCamera();
+		auto mainCamera = dynamic_pointer_cast<MainCamera>(camera);
+		auto station = GetSharedGameObject<Station>(L"Station");
+
+		if (mainCamera->m_cameraState != MainCamera::State::Scroll)
+		{
+			mainCamera->ScrollStart(station->GetPosition());
+		}
+		if (mainCamera->GetScrollEnd())
+		{
+			m_gameProgress = eGameProgress::Playing;
+		}
 	}
 
 	void GameStage::ToPlayingState()

@@ -20,10 +20,12 @@ namespace basecross {
 		Vec3 m_currentEye;	// ズームのスタート位置
 		Vec3 m_initialEye;	// カメラの初期位置
 		Vec3 m_initialAt;	// カメラの初期注視点
+		Vec3 m_stationPos;	// 駅の位置
 
 		float m_zoomAtY;	// ズーム後の注視点
 		float m_zoomRatio;	// ズームの割合
 		float m_zoomSpeed;	// ズーム速度
+		float m_scrollRatio; // スクロール割合
 
 	public:
 		enum State {
@@ -32,6 +34,8 @@ namespace basecross {
 			ZoomIn,	// ズームイン
 			ZoomOut, // ズームアウト
 			ZoomedIn, // ズームイン後
+			Scroll,	// スクロール
+			Scrolled, // スクロール後
 		};
 		State m_cameraState;	// カメラの現在の状態
 		const State m_DefaultState;	// カメラの初期状態
@@ -46,13 +50,15 @@ namespace basecross {
 			m_targetPos(Vec3(0.0f)),
 			m_initialEye(eyePos),
 			m_initialAt(atPos),
+			m_stationPos(Vec3(0.0f)),
 			m_MaxEye(Vec3(400.0f, 20.0f, -22.0f)),
 			m_currentEye(0.0f),
 			m_ZoomRatioC(0.6f),
 			m_zoomEye(Vec3(0.0f)),
 			m_zoomAtY(0.0f),
 			m_zoomRatio(0.0f),
-			m_zoomSpeed(0.8f)
+			m_zoomSpeed(0.8f),
+			m_scrollRatio(0.0f)
 		{
 		}
 		~MainCamera() {}
@@ -74,6 +80,11 @@ namespace basecross {
 		/// ズーム処理
 		/// </summary>
 		void ZoomProcess();
+
+		/// <summary>
+		/// スクロール処理
+		/// </summary>
+		void ScrollProcess();
 
 		/// <summary>
 		/// カメラのリセット処理
@@ -128,6 +139,13 @@ namespace basecross {
 			m_cameraState = ZoomOut;
 		}
 
+		void ScrollStart(Vec3 stationPos)
+		{
+			m_stationPos = stationPos;
+			m_scrollRatio = 0.0f;
+			m_cameraState = Scroll;
+		}
+
 		// カメラが追尾するオブジェクトを取得する関数
 		shared_ptr<GameObject> GetTargetObject() const {
 			if (!m_targetObject.expired()) {
@@ -138,6 +156,11 @@ namespace basecross {
 		// カメラが追尾するオブジェクトを設定する関数
 		void SetTargetObject(const shared_ptr<GameObject>& Obj) {
 			m_targetObject = Obj;
+		}
+
+		bool GetScrollEnd() const
+		{
+			return m_scrollRatio >= 1.0f;
 		}
 	};
 }

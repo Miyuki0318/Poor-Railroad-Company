@@ -40,6 +40,10 @@ namespace basecross {
 		{
 			ZoomedInProcess();
 		}
+		if (m_cameraState == State::Scroll)
+		{
+			ScrollProcess();
+		}
 		Camera::OnUpdate();
 	}
 
@@ -76,6 +80,20 @@ namespace basecross {
 			if (m_zoomRatio <= 0.0f) m_cameraState = m_DefaultState; // ƒY[ƒ€‚ªI‚í‚Á‚½‚ç‰Šúó‘Ô‚É–ß‚é
 			m_zoomRatio -= DELTA_TIME * m_zoomSpeed;
 		}
+	}
+
+	void MainCamera::ScrollProcess()
+	{
+		//SetEye(m_stationPos);
+		//SetAt(m_stationPos);
+		//m_scrollRatio = Clamp01(m_scrollRatio);
+		//Vec3 trainPos = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialEye.y, m_initialEye.z);
+		//Vec3 stationPos = Vec3(Clamp(m_stationPos.x, m_MaxEye.x, m_initialEye.x), m_initialAt.y, m_initialAt.z);
+
+		//SetAt(Utility::Lerp(stationPos, trainPos, m_scrollRatio));
+		//SetEye(Utility::Lerp(stationPos, trainPos, m_scrollRatio));
+		//if (m_scrollRatio >= 1.0f) m_cameraState = Scrolled;
+		//m_scrollRatio += DELTA_TIME;
 	}
 
 	void MainCamera::ResetCamera(Vec3 eyePos, Vec3 atPos)
