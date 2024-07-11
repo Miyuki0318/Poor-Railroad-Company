@@ -8,15 +8,28 @@
 #include "MovieStage.h"
 #include "Scene.h"
 #include "Input.h"
+#include "Sprite.h"
 
 namespace basecross
 {
 	void LeaveMovieStage::CreateResourses()
 	{
 		const auto& app = App::GetApp();
-		wstring mediaPath = app->GetDataDirWString() + L"Movies/";
+		wstring mediaPath = app->GetDataDirWString();
+		wstring moviePath = mediaPath + L"Movies/";
+		wstring texturePath = mediaPath + L"Textures/";
 
-		moviePath = mediaPath + L"GamePlay.mp4";
+		moviePath = moviePath + L"GamePlay.mp4";
+
+		// フェード用のテクスチャ
+		AddTextureResource(L"FADE_TX", texturePath + L"Fade_1.png");
+
+		AddedTextureResources();
+	}
+
+	void LeaveMovieStage::CreateBackSprite()
+	{
+		const auto& back = AddGameObject<Sprite>(L"FADE_TX", WINDOW_SIZE);
 	}
 
 	// ステージ移行
@@ -44,7 +57,9 @@ namespace basecross
 
 		CreateResourses();
 
-		SetMovieFileName(moviePath);
+		//CreateBackSprite();
+
+		SetMovieFileName(m_moviePath);
 
 		Play();
 	}
