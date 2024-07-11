@@ -124,7 +124,7 @@ namespace basecross
 		// プレイヤーのステータス
 		map<ePST, map<ePL, float>> m_playerData;
 		ePL m_statusLevel;
-		ePL m_backPackLevel;
+		ePL m_limitChoicesLevel;
 		ePL m_startGearLevel;
 
 		// モデルとトランスフォーム差分行列
@@ -161,7 +161,7 @@ namespace basecross
 			m_rotTarget = Vec3(0.0f, XM_PIDIV2, 0.0f); // 回転先は0.0fで初期化
 			m_currentRot = Vec3(0.0f, XM_PIDIV2, 0.0f); // 回転先は0.0fで初期化
 			m_statusLevel = ePL::Level1;
-			m_backPackLevel = ePL::Level1;
+			m_limitChoicesLevel = ePL::Level1;
 			m_startGearLevel = ePL::Level1;
 
 			// モデルとトランスフォームの差分行列を設定

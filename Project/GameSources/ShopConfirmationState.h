@@ -16,8 +16,10 @@ namespace basecross
 		bool m_isEnhancements;
 		// 強化内容の現在のレベル
 		int m_currentLv;
-		// 強化内容の現在のレベル
+		// 強化内容の現在の費用
 		int m_cost;
+		// 強化費用の桁数
+		int m_digit;
 
 	public:
 		/*!

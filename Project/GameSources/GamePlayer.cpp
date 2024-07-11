@@ -33,7 +33,7 @@ namespace basecross
 		// ステータスの設定
 		const auto& scene = App::GetApp()->GetScene<Scene>();
 		m_statusLevel = scene->GetStatusLevel();
-		m_backPackLevel = scene->GetBackPackLevel();
+		m_limitChoicesLevel = scene->GetLimitChoicesLevel();
 		m_startGearLevel = scene->GetStartGearLevel();
 
 		// 初期化
@@ -92,7 +92,7 @@ namespace basecross
 		// ステータスの設定
 		const auto& scene = App::GetApp()->GetScene<Scene>();
 		m_statusLevel = scene->GetStatusLevel();
-		m_backPackLevel = scene->GetBackPackLevel();
+		m_limitChoicesLevel = scene->GetLimitChoicesLevel();
 		m_startGearLevel = scene->GetStartGearLevel();
 
 		// 開始時の所持ギア設定
@@ -259,12 +259,12 @@ namespace basecross
 	void GamePlayer::UpdateItemCount()
 	{
 		// アイテム数が越えない様に上書き
-		m_craft->m_itemCount.at(eItemType::Stone) = min(m_craft->m_itemCount.at(eItemType::Stone), (unsigned char)m_playerData.at(ePST::StoneMax).at(m_backPackLevel));
-		m_craft->m_itemCount.at(eItemType::Wood) = min(m_craft->m_itemCount.at(eItemType::Wood), (unsigned char)m_playerData.at(ePST::WoodMax).at(m_backPackLevel));
-		m_craft->m_itemCount.at(eItemType::Gear) = min(m_craft->m_itemCount.at(eItemType::Gear), (unsigned char)m_playerData.at(ePST::GearMax).at(m_backPackLevel));
-		m_craft->m_itemCount.at(eItemType::Rail) = min(m_craft->m_itemCount.at(eItemType::Rail), (unsigned char)m_playerData.at(ePST::RailMax).at(m_backPackLevel));
-		m_craft->m_itemCount.at(eItemType::WoodBridge) = min(m_craft->m_itemCount.at(eItemType::WoodBridge), (unsigned char)m_playerData.at(ePST::BridgeMax).at(m_backPackLevel));
-		m_craft->m_itemCount.at(eItemType::Crossing) = min(m_craft->m_itemCount.at(eItemType::Crossing), (unsigned char)m_playerData.at(ePST::CrossingMax).at(m_backPackLevel));
+		m_craft->m_itemCount.at(eItemType::Stone) = min(m_craft->m_itemCount.at(eItemType::Stone), (unsigned char)m_playerData.at(ePST::StoneMax).at(m_limitChoicesLevel));
+		m_craft->m_itemCount.at(eItemType::Wood) = min(m_craft->m_itemCount.at(eItemType::Wood), (unsigned char)m_playerData.at(ePST::WoodMax).at(m_limitChoicesLevel));
+		m_craft->m_itemCount.at(eItemType::Gear) = min(m_craft->m_itemCount.at(eItemType::Gear), (unsigned char)m_playerData.at(ePST::GearMax).at(m_limitChoicesLevel));
+		m_craft->m_itemCount.at(eItemType::Rail) = min(m_craft->m_itemCount.at(eItemType::Rail), (unsigned char)m_playerData.at(ePST::RailMax).at(m_limitChoicesLevel));
+		m_craft->m_itemCount.at(eItemType::WoodBridge) = min(m_craft->m_itemCount.at(eItemType::WoodBridge), (unsigned char)m_playerData.at(ePST::BridgeMax).at(m_limitChoicesLevel));
+		m_craft->m_itemCount.at(eItemType::Crossing) = min(m_craft->m_itemCount.at(eItemType::Crossing), (unsigned char)m_playerData.at(ePST::CrossingMax).at(m_limitChoicesLevel));
 	}
 
 	// 移動更新

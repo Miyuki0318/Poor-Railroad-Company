@@ -35,7 +35,6 @@ namespace basecross
 		shop->m_purchaseScreenSprite.lock()->SetDrawActive(true);
 		shop->m_selectPointSprite.lock()->SetDrawActive(true);
 
-
 		// スプライトの座標を選択内容に応じて更新
 		shop->m_selectPointSprite.lock()->SetPosition(shop->m_selectPointSpritePos.at(shop->m_currentEnhancements));
 
@@ -46,18 +45,18 @@ namespace basecross
 		{
 			switch (i)
 			{
-			case Shop::eEnhancements::Backpack:
-				// バックパックのレベルを取得
-				Lv.push_back(scenePtr.lock()->GetBackPackLevel());
+			case Shop::eEnhancements::LimitChoices:
+				// 資材所持上限のレベルを取得
+				Lv.push_back(scenePtr.lock()->GetLimitChoicesLevel());
 				break;
 
 			case Shop::eEnhancements::Status:
-				// ステータスのレベルを取得
+				// 採掘/移動速度強化のレベルを取得
 				Lv.push_back(scenePtr.lock()->GetStatusLevel());
 				break;
 
 			case Shop::eEnhancements::Gear:
-				// ギアのレベルを取得
+				// 踏切素材初期所持数のレベルを取得
 				Lv.push_back(scenePtr.lock()->GetStartGearLevel());
 				break;
 			default:
@@ -70,37 +69,69 @@ namespace basecross
 
 			// 強化費用を入れる変数
 			int cost = 0;
+			// 10^(桁数分-1)の数値を取得する為の変数
+			int place = 0;
+
 			// 現在のレベルが最大になっていないかをチェック
 			if (Lv.at(i) != ePL::Level5) {
 				// 強化費用を取得
-				cost = shop->m_enhancementsCost.at(i).at(int(Lv.at(i)));
+				m_cost.at(i) = shop->m_enhancementsCost.at(i).at(int(Lv.at(i)));
+				// 桁数を初期化
+				m_digit.at(i) = 0;
+			}
+			// 現在のレベルが最大の場合は0を表示
+			else {
+				m_cost.at(i) = 0;
+				// 桁数を1に設定
+				m_digit.at(i) = 1;
+				// 0を0で割ることはできないので1を入れる
+				place = 1;
+			}
+			// 強化費用の桁数
+			int& digit = m_digit.at(i);
+			// 現在のレベルが最大になっていないかをチェック
+			if (Lv.at(i) != ePL::Level5) {
+				// 強化費用を取得
+				cost = m_cost.at(i);
+				// 桁数を計算
+				while (cost > 0) {
+					digit++;
+					cost /= 10;
+				}
+
+				// 10^(桁数-1)の数値を取得する
+				place = int(pow(10, digit - 1));
+
+				// 強化費用を再取得
+				cost = m_cost.at(i);
 			}
 
-			// 10^(最大桁数分-1)の数値を取得
-			int digit = int(pow(10, shop->m_maxDigit - 1));
-
 			// 費用を一番上の桁から生成
-			for (int j = 0; j < shop->m_maxDigit; j++) {
+			for (int j = 0; j < digit; j++) {
 				// 表示する数字を計算
-				int num = cost / digit;
+				int num = cost / place;
 				// 費用表示スプライトの生成
 				auto& costSprite = stagePtr.lock()->AddGameObject<Number>(Vec2(shop->m_numberScale),
-					Vec3(shop->m_enhancementsCostSpritePos.at(i) + (shop->m_numberMargin * float(j))), L"SHOP_NUMBER", num);
+					Vec3(shop->m_enhancementsCostSpritePos.at(i) + (-shop->m_numberMargin * float(digit - j))), L"SHOP_NUMBER", num);
 				// 数字スプライト保持用の配列に格納
 				shop->m_enhancementsCostNumSprite.at(i).at(j) = costSprite;
+				// 費用を再計算
+				cost = m_cost.at(i) % place;
 				// digitの桁数を減らす
-				digit /= 10;
+				place /= 10;
+			}
+
+			for (int j = 0; j < digit; j++) {
+				if (!shop->m_enhancementsCostNumSprite.at(i).at(j).lock()) continue;
+				shop->m_enhancementsCostNumSprite.at(i).at(j).lock()->SetDrawLayer(11);
 			}
 
 			// 所持金を取得
 			int money = scenePtr.lock()->GetMoney();
 
-			// 現在のレベルが最大になっていないかをチェック
-			if (Lv.at(i) != ePL::Level5) {
-				// 費用と所持金を比較し、強化可能かを判別
-				if (shop->m_enhancementsCost.at(i).at(int(Lv.at(i))) <= money) {
-					shop->m_canEnhancements.at(i) = true;
-				}
+			// 現在のレベルが最大になっていないか、費用と所持金を比較し、強化可能かを判別
+			if (Lv.at(i) != ePL::Level5 && m_cost.at(i) <= money) {
+				shop->m_canEnhancements.at(i) = true;
 			}
 			else {
 				shop->m_canEnhancements.at(i) = false;
@@ -120,10 +151,6 @@ namespace basecross
 			shop->m_playerLvNumSprite.at(i).lock()->SetDrawLayer(11);
 		}
 		for (int i = 0; i < shop->m_enhancementsCostNumSprite.size(); i++) {
-			for (int j = 0; j < shop->m_enhancementsCostNumSprite.at(i).size(); j++) {
-				if (!shop->m_enhancementsCostNumSprite.at(i).at(j).lock()) continue;
-				shop->m_enhancementsCostNumSprite.at(i).at(j).lock()->SetDrawLayer(11);
-			}
 		}
 	}
 
@@ -178,17 +205,17 @@ namespace basecross
 					// 現在の選択内容に応じて次の選択内容を変更する
 					switch (shop->m_currentEnhancements)
 					{
-					case Shop::eEnhancements::Backpack:
-						// 選択内容をステータスに変更
+					case Shop::eEnhancements::LimitChoices:
+						// 選択内容を採掘/移動速度強化に変更
 						shop->m_currentEnhancements = Shop::eEnhancements::Status;
 						break;
 					case Shop::eEnhancements::Status:
-						// 選択内容をギアに変更
+						// 選択内容を踏切素材初期所持数に変更
 						shop->m_currentEnhancements = Shop::eEnhancements::Gear;
 						break;
 					case Shop::eEnhancements::Gear:
-						// 選択内容をバックパックに変更
-						shop->m_currentEnhancements = Shop::eEnhancements::Backpack;
+						// 選択内容を資材所持上限上昇に変更
+						shop->m_currentEnhancements = Shop::eEnhancements::LimitChoices;
 						break;
 					default:
 						break;
@@ -198,16 +225,16 @@ namespace basecross
 					// 現在の選択内容に応じて次の選択内容を変更する
 					switch (shop->m_currentEnhancements)
 					{
-					case Shop::eEnhancements::Backpack:
-						// 選択内容をギアに変更
+					case Shop::eEnhancements::LimitChoices:
+						// 選択内容を踏切素材初期所持数に変更
 						shop->m_currentEnhancements = Shop::eEnhancements::Gear;
 						break;
 					case Shop::eEnhancements::Status:
-						// 選択内容をバックパックに変更
-						shop->m_currentEnhancements = Shop::eEnhancements::Backpack;
+						// 選択内容を資材所持上限上昇に変更
+						shop->m_currentEnhancements = Shop::eEnhancements::LimitChoices;
 						break;
 					case Shop::eEnhancements::Gear:
-						// 選択内容をステータスに変更
+						// 選択内容を採掘/移動速度強化に変更
 						shop->m_currentEnhancements = Shop::eEnhancements::Status;
 						break;
 					default:
@@ -228,8 +255,11 @@ namespace basecross
 			m_isInputLStick = true;
 		}
 		else {
-			// 入力量が下限値を下回っていた為、スティック入力が無かったと判定する
-			m_isInputLStick = false;
+			// Lスティック入力の下限値ギリギリで入力され続けることを防止する為の処理
+			if (stickValueY <= 0.1f) {
+				// 入力量が下限値を下回っていた為、スティック入力が無かったと判定する
+				m_isInputLStick = false;
+			}
 		}
 
 		// 選択肢の点滅処理
@@ -271,7 +301,7 @@ namespace basecross
 			shop->m_playerLvNumSprite.at(i).lock()->SetDrawActive(false);
 		}
 		for (int i = 0; i < shop->m_enhancementsCostNumSprite.size(); i++) {
-			for (int j = 0; j < shop->m_enhancementsCostNumSprite.at(i).size(); j++) {
+			for (int j = 0; j < m_digit.at(i); j++) {
 				shop->m_enhancementsCostNumSprite.at(i).at(j).lock()->SetDrawActive(false);
 			}
 		}

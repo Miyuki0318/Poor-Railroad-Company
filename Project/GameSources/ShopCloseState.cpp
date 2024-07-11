@@ -16,7 +16,7 @@ namespace basecross
 		// 現在のステートを初期化
 		shop->m_currentState = Shop::eShopState::Close;
 		// 選択先を初期化
-		shop->m_currentEnhancements = Shop::eEnhancements::Backpack;
+		shop->m_currentEnhancements = Shop::eEnhancements::LimitChoices;
 	}
 
 	// ステート更新時の処理

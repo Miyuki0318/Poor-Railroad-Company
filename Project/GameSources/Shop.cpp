@@ -20,7 +20,7 @@ namespace basecross {
 		// 強化費用の最大桁数を取得
 		m_maxDigit = DemandDigit();
 		// 最大桁数分のサイズに拡張する
-		for (int i = 0; i < m_maxDigit; i++) {
+		for (int i = 0; i < eEnhancements::size; i++) {
 			m_enhancementsCostNumSprite.at(i).resize(m_maxDigit);
 		}
 		m_enhancementsNextCostSprite.resize(m_maxDigit);
@@ -34,30 +34,32 @@ namespace basecross {
 		 
 		// 現在Lvの表示位置を設定
 		m_playerLvSpritePos = vector<Vec3>{
-			Vec3(-370.0f, 112.0f, 0.0f),
-			Vec3(-370.0f, -133.0f, 0.0f),
-			Vec3(-370.0f, -388.0f, 0.0f)
+			Vec3(-370.0f, 117.0f, 0.0f),
+			Vec3(-370.0f, -128.0f, 0.0f),
+			Vec3(-370.0f, -383.0f, 0.0f)
 		};
 
 		// 強化費用の表示位置を設定
 		m_enhancementsCostSpritePos = vector<Vec3>{
-			Vec3(160.0f, 112.0f, 0.0f),
-			Vec3(160.0f, -133.0f, 0.0f),
-			Vec3(160.0f, -388.0f, 0.0f)
+			Vec3(400.0f, 117.0f, 0.0f),
+			Vec3(400.0f, -128.0f, 0.0f),
+			Vec3(400.0f, -383.0f, 0.0f)
 		};
 
+		// 選択肢「はい」「いいえ」表示位置を設定
 		m_confirmSpritePos = vector<Vec3>{
 			Vec3(-550.0f, -300.0f, 0.0f), // 選択肢「はい」
 			Vec3(-250.0f, -300.0f, 0.0f) // 選択肢「いいえ」
 		};
 
-		m_confirmSpritedefScale = Vec2(600.0f, 150.0f);
+		// 選択肢「はい」「いいえ」初期スケールを設定
+		m_confirmSpritedefScale = Vec2(360.0f, 90.0f);
 
 		// 強化費用の表示座標を設定
-		m_nextCostSpritePos = Vec3(180.0f, -90.0f, 0.0f);
+		m_nextCostSpritePos = Vec3(120.0f + m_maxDigit * m_numberScale.x, -90.0f, 0.0f);
+
 		// 次のレベルの表示座標を設定
 		m_nextLevelSpritePos = Vec3(-350.0f, -90.0f, 0.0f);
-
 
 		// ステージを取得
 		const shared_ptr<Stage>& stagePtr = GetStage();
@@ -67,12 +69,12 @@ namespace basecross {
 		m_purchaseScreenSprite.lock()->SetDrawLayer(10);
 		m_purchaseScreenSprite.lock()->SetDrawActive(false);
 		// 選択場所表示用スプライトの設定
-		m_selectPointSprite = stagePtr->AddGameObject<Sprite>(L"SHOP_SELECTPOINT_TX", Vec2(1170.0f, 240.0), m_selectPointSpritePos.at(m_currentEnhancements));
+		m_selectPointSprite = stagePtr->AddGameObject<Sprite>(L"WHITE_TX", Vec2(1170.0f, 238.0), m_selectPointSpritePos.at(m_currentEnhancements));
 		m_selectPointSprite.lock()->SetDrawLayer(12);
 		m_selectPointSprite.lock()->SetDrawActive(false);
 		// 選択場所表示用スプライトの設定
 		for (int i = 0; i < m_notSelectableSprite.size(); i++) {
-			m_notSelectableSprite[i] = stagePtr->AddGameObject<Sprite>(L"SHOP_SELECTPOINT_TX", Vec2(1170.0f, 240.0), m_selectPointSpritePos.at(i));
+			m_notSelectableSprite[i] = stagePtr->AddGameObject<Sprite>(L"WHITE_TX", Vec2(1170.0f, 238.0), m_selectPointSpritePos.at(i));
 			m_notSelectableSprite[i].lock()->SetDrawLayer(13);
 			m_notSelectableSprite[i].lock()->SetDiffuseColor(Col4(0.5f, 0.5f, 0.5f, 0.5f));
 			m_notSelectableSprite[i].lock()->SetDrawActive(false);
@@ -81,16 +83,16 @@ namespace basecross {
 		m_confirmationScreenSprite = stagePtr->AddGameObject<Sprite>(L"SHOP_CONFIRMATIONSCREEN_TX", Vec2(1920.0f, 1080.0f), Vec3(-400.0f, 0.0f, 0.0f));
 		m_confirmationScreenSprite.lock()->SetDrawLayer(14);
 		m_confirmationScreenSprite.lock()->SetDrawActive(false);
-		// 強化内容「バックパック」用スプライトの設定
-		m_backpackSprite = stagePtr->AddGameObject<Sprite>(L"SHOP_BACKPACK_TX", Vec2(700.0f, 170.0f), Vec3(-170.0f, 100.0f, 0.0f));
-		m_backpackSprite.lock()->SetDrawLayer(15);
-		m_backpackSprite.lock()->SetDrawActive(false);
-		// 強化内容「ステータス」用スプライトの設定
-		m_statusSprite = stagePtr->AddGameObject<Sprite>(L"SHOP_STATUS_TX", Vec2(700.0f, 170.0f), Vec3(-170.0f, 100.0f, 0.0f));
+		// 強化内容「資材所持上限上昇」用スプライトの設定
+		m_LimitChoicesSprite = stagePtr->AddGameObject<Sprite>(L"SHOP_LIMITCHOICES_TX", Vec2(875.0f, 125.0f), Vec3(-170.0f, 100.0f, 0.0f));
+		m_LimitChoicesSprite.lock()->SetDrawLayer(15);
+		m_LimitChoicesSprite.lock()->SetDrawActive(false);
+		// 強化内容「採掘/移動速度強化」用スプライトの設定
+		m_statusSprite = stagePtr->AddGameObject<Sprite>(L"SHOP_SPEEDCHOICES_TX", Vec2(875.0f, 125.0f), Vec3(-170.0f, 100.0f, 0.0f));
 		m_statusSprite.lock()->SetDrawLayer(15);
 		m_statusSprite.lock()->SetDrawActive(false);
-		// 強化内容「ギア」用スプライトの設定
-		m_gearSprite = stagePtr->AddGameObject<Sprite>(L"SHOP_GEAR_TX", Vec2(700.0f, 170.0f), Vec3(-170.0f, 100.0f, 0.0f));
+		// 強化内容「踏切素材初期所持数」用スプライトの設定
+		m_gearSprite = stagePtr->AddGameObject<Sprite>(L"SHOP_CROSSINGCHOICES_TX", Vec2(875.0f, 125.0f), Vec3(-170.0f, 100.0f, 0.0f));
 		m_gearSprite.lock()->SetDrawLayer(15);
 		m_gearSprite.lock()->SetDrawActive(false);
 		// 選択肢「はい」用スプライトの設定
@@ -127,9 +129,9 @@ namespace basecross {
 		}
 
 		// 最大桁数を計算
-		while (maxCost > 1) {
-			maxCost /= 10;
+		while (maxCost > 0) {
 			maxDigit++;
+			maxCost /= 10;
 		}
 
 		// 最大桁数を返す

@@ -11,12 +11,19 @@ namespace basecross
 {
 	class ShopShoppingState : public ShopState
 	{
+	private:
+		// 強化内容の現在の費用
+		vector<int> m_cost;
+		// 強化費用の桁数
+		vector<int> m_digit;
 
 	public:
 		/*!
 		@brief	コンストラクタ
 		*/
 		ShopShoppingState() {
+			m_cost.resize(Shop::eEnhancements::size);
+			m_digit.resize(Shop::eEnhancements::size);
 		}
 
 		/*!

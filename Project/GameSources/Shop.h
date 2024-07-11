@@ -24,8 +24,8 @@ namespace basecross {
 	public:
 		// 強化内容定数
 		enum eEnhancements {
-			Backpack, // バックパック
-			Status, // ステータス
+			LimitChoices, // 資材所持上限
+			Status, // 採掘/移動速度強化
 			Gear, //歯車
 			size
 		};
@@ -75,7 +75,7 @@ namespace basecross {
 		vector<Vec3> m_enhancementsCostSpritePos;
 		// 強化確認スプライトの表示座標
 		vector<Vec3> m_confirmSpritePos;
-		// 強化確認スプライトの初期スケール
+		// 選択肢「はい」「いいえ」初期スケールを設定
 		Vec2 m_confirmSpritedefScale;
 		// 強化費用の表示座標
 		Vec3 m_nextCostSpritePos;
@@ -99,11 +99,11 @@ namespace basecross {
 		weak_ptr<Number> m_enhancementsNextLvSprite;
 		// 選択された強化内容の強化費用の数値スプライト
 		vector<weak_ptr<Number>> m_enhancementsNextCostSprite;
-		// 強化内容「バックパック」用スプライト
-		weak_ptr<Sprite> m_backpackSprite;
+		// 強化内容「資材所持上限上昇」用スプライト
+		weak_ptr<Sprite> m_LimitChoicesSprite;
 		// 強化内容「ステータス」用スプライト
 		weak_ptr<Sprite> m_statusSprite;
-		// 強化内容「ギア」用スプライト
+		// 強化内容「踏切素材初期所持数」用スプライト
 		weak_ptr<Sprite> m_gearSprite;
 		// 選択肢「はい」用スプライト
 		weak_ptr<Sprite>m_yesSprite;

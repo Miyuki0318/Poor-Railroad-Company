@@ -86,20 +86,17 @@ namespace basecross {
 		// 購入画面テクスチャ
 		app->RegisterTexture(L"SHOP_PURCHASESCREEN_TX", texturePath + L"Shop_PurchaseScreen.png");
 
-		// 選択場所表示テクスチャ
-		app->RegisterTexture(L"SHOP_SELECTPOINT_TX", texturePath + L"Shop_SelectPoint.png");
-
 		// 購入内容確認テクスチャ
 		app->RegisterTexture(L"SHOP_CONFIRMATIONSCREEN_TX", texturePath + L"Shop_ConfirmationScreen.png");
 
-		// 強化内容「バックパック」テクスチャ
-		app->RegisterTexture(L"SHOP_BACKPACK_TX", texturePath + L"Shop_BackPackExpansion.png");
+		// 強化内容「資材所持上限上昇」テクスチャ
+		app->RegisterTexture(L"SHOP_LIMITCHOICES_TX", texturePath + L"Shop_LimitChoices.png");
 
-		// 強化内容「ステータス」テクスチャ
-		app->RegisterTexture(L"SHOP_STATUS_TX", texturePath + L"Shop_StatusEnhance.png");
+		// 強化内容「採掘/移動速度強化」テクスチャ
+		app->RegisterTexture(L"SHOP_SPEEDCHOICES_TX", texturePath + L"Shop_SpeedChoices.png");
 
-		// 強化内容「ギア」テクスチャ
-		app->RegisterTexture(L"SHOP_GEAR_TX", texturePath + L"Shop_GearPayment.png");
+		// 強化内容「踏切素材初期所持数」テクスチャ
+		app->RegisterTexture(L"SHOP_CROSSINGCHOICES_TX", texturePath + L"Shop_CrossingChoices.png");
 
 		// 選択肢「はい」テクスチャ
 		app->RegisterTexture(L"SHOP_YES_TX", texturePath + L"Shop_Yes.png");

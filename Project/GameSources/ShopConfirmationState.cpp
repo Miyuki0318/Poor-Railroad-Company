@@ -30,8 +30,8 @@ namespace basecross
 		shop->m_noSprite.lock()->SetDrawActive(true);
 		switch (shop->m_currentEnhancements)
 		{
-		case Shop::eEnhancements::Backpack:
-			shop->m_backpackSprite.lock()->SetDrawActive(true);
+		case Shop::eEnhancements::LimitChoices:
+			shop->m_LimitChoicesSprite.lock()->SetDrawActive(true);
 			break;
 
 		case Shop::eEnhancements::Status:
@@ -55,9 +55,9 @@ namespace basecross
 		// 選択内容に応じて取得するデータを変える
 		switch (shop->m_currentEnhancements)
 		{
-		case Shop::eEnhancements::Backpack:
+		case Shop::eEnhancements::LimitChoices:
 			// 現在のレベルを取得
-			m_currentLv = int(scenePtr.lock()->GetBackPackLevel());
+			m_currentLv = int(scenePtr.lock()->GetLimitChoicesLevel());
 			break;
 
 		case Shop::eEnhancements::Status:
@@ -82,26 +82,43 @@ namespace basecross
 		// 強化費用を取得
 		m_cost = shop->m_enhancementsCost.at(shop->m_currentEnhancements).at(m_currentLv);
 
-		// 10^(最大桁数分-1)の数値を取得
-		int digit = int(pow(10, shop->m_maxDigit - 1));
+		// 費用を取得
+		int cost = m_cost;
+		// 桁数を計算
+		m_digit = 0;
+		while (cost > 0) {
+			m_digit++;
+			cost /= 10;
+		}
+
+		// 10^(桁数分-1)の数値を取得
+		int place = int(pow(10, m_digit -	1));
+
+		// 費用を取得
+		cost = m_cost;
 
 		// 費用を一番上の桁から生成
-		for (int i = 0; i < shop->m_maxDigit; i++) {
+		for (int i = 0; i < m_digit; i++) {
 			// 表示する数字を計算
-			int num = m_cost / digit;
-			// 費用表示スプライトの生成
+			int num = cost / place;
+
+			// 費用表示スプライトの生成(右揃えで生成)
 			auto& costSprite = stagePtr.lock()->AddGameObject<Number>(Vec2(shop->m_numberScale),
-				Vec3(shop->m_nextCostSpritePos + (shop->m_numberMargin * float(i))), L"SHOP_NUMBER", num);
+				Vec3(shop->m_nextCostSpritePos + (-shop->m_numberMargin * float(m_digit - i))), L"SHOP_NUMBER", num);
 			// 数字スプライト保持用の配列に格納
 			shop->m_enhancementsNextCostSprite.at(i) = costSprite;
+
+			// 費用を再計算
+			cost = m_cost % place;
 			// digitの桁数を減らす
-			digit /= 10;
+			place /= 10;
 		}
 
 		// 数字スプライトのレイヤー設定
 		shop->m_enhancementsNextLvSprite.lock()->SetDrawLayer(15);
-		for (int i = 0; i < shop->m_enhancementsCostNumSprite.size(); i++) {
+		for (int i = 0; i < m_digit; i++) {
 			if (!shop->m_enhancementsNextCostSprite.at(i).lock()) continue;
+			shop->m_enhancementsNextCostSprite.at(i).lock()->SetDrawActive(true);
 			shop->m_enhancementsNextCostSprite.at(i).lock()->SetDrawLayer(15);
 		}
 	}
@@ -126,9 +143,9 @@ namespace basecross
 				// 選択内容に応じて取得するデータを変える
 				switch (shop->m_currentEnhancements)
 				{
-				case Shop::eEnhancements::Backpack:
+				case Shop::eEnhancements::LimitChoices:
 					// レベルを上げる処理
-					scenePtr.lock()->SetBackPackLevel(ePL(m_currentLv + 1));
+					scenePtr.lock()->SetLimitChoicesLevel(ePL(m_currentLv + 1));
 					break;
 
 				case Shop::eEnhancements::Status:
@@ -237,8 +254,8 @@ namespace basecross
 
 		switch (shop->m_currentEnhancements)
 		{
-		case Shop::eEnhancements::Backpack:
-			shop->m_backpackSprite.lock()->SetDrawActive(false);
+		case Shop::eEnhancements::LimitChoices:
+			shop->m_LimitChoicesSprite.lock()->SetDrawActive(false);
 			break;
 
 		case Shop::eEnhancements::Status:
@@ -254,7 +271,7 @@ namespace basecross
 		}
 
 		shop->m_enhancementsNextLvSprite.lock()->SetDrawActive(false);
-		for (int i = 0; i < shop->m_enhancementsCostNumSprite.size(); i++) {
+		for (int i = 0; i < shop->m_enhancementsNextCostSprite.size(); i++) {
 			if (!shop->m_enhancementsNextCostSprite.at(i).lock()) continue;
 			shop->m_enhancementsNextCostSprite.at(i).lock()->SetDrawActive(false);
 		}

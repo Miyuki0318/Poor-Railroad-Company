@@ -43,7 +43,7 @@ namespace basecross{
 
 		// 各種レベル
 		ePL m_statusLevel;
-		ePL m_backPackLevel;
+		ePL m_limitChoicesLevel;
 		ePL m_startGearLevel;
 
 	public:
@@ -67,10 +67,10 @@ namespace basecross{
 			m_nextLevel.emplace(eMapLevel::FourthMap, eMapLevel::FifthMap);
 			m_nextLevel.emplace(eMapLevel::FifthMap, eMapLevel::FirstMap);
 
-			m_money = 0;
+			m_money = 5000;
 
 			m_statusLevel = ePL::Level1;
-			m_backPackLevel = ePL::Level1;
+			m_limitChoicesLevel = ePL::Level1;
 			m_startGearLevel = ePL::Level1;
 		}
 		//--------------------------------------------------------------------------------------
@@ -173,8 +173,8 @@ namespace basecross{
 		}
 
 		/*!
-		@brief ステータスレベルの設定
-		@param[in] 設定するステータスレベルの値
+		@brief 採掘/移動速度強化レベルの設定
+		@param[in] 設定する採掘/移動速度強化レベルの値
 		*/
 		void SetStatusLevel(ePL level)
 		{
@@ -182,8 +182,8 @@ namespace basecross{
 		}
 
 		/*!
-		@brief ステータスレベルの取得
-		@return 取得するステータスレベルの値
+		@brief 採掘/移動速度強化レベルの取得
+		@return 取得する採掘/移動速度強化レベルの値
 		*/
 		ePL GetStatusLevel() const
 		{
@@ -191,21 +191,21 @@ namespace basecross{
 		}
 
 		/*!
-		@brief バックパックレベルの設定
-		@param[in] 設定するバックパックレベルの値
+		@brief 資材所持上限レベルの設定
+		@param[in] 設定する資材所持上限レベルの値
 		*/
-		void SetBackPackLevel(ePL level)
+		void SetLimitChoicesLevel(ePL level)
 		{
-			m_backPackLevel = level;
+			m_limitChoicesLevel = level;
 		}
 
 		/*!
-		@brief バックパックレベルの取得
-		@return 取得するバックパックレベルの値
+		@brief 資材所持上限レベルの取得
+		@return 取得する資材所持上限レベルの値
 		*/
-		ePL GetBackPackLevel() const
+		ePL GetLimitChoicesLevel() const
 		{
-			return m_backPackLevel;
+			return m_limitChoicesLevel;
 		}
 
 		/*!
