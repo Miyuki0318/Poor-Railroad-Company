@@ -76,12 +76,23 @@ namespace basecross {
 		// 強化確認スプライトの表示座標
 		vector<Vec3> m_confirmSpritePos;
 		// 強化確認スプライトの初期スケール
-		Vec2 m_confirmSpritedefScale;
+		const Vec2 m_confirmSpritedefScale;
+		// 強化内容スプライトのスケール
+		const Vec2 m_enhancementsContentsScale;
+		// 強化内容スプライトの座標
+		const Vec3 m_enhancementsContentsPosition;
+		// 選択肢スプライトのスケール
+		const Vec2 m_selectPointDefScale;
+		// スクリーンスプライトの表示座標
+		const Vec3 m_screenDefPosition;
+		// YES選択肢スプライトの表示座標
+		const Vec3 m_yesSpritePosition;
+		// NO選択肢スプライトの表示座標
+		const Vec3 m_noSpritePosition;
 		// 強化費用の表示座標
 		Vec3 m_nextCostSpritePos;
 		// 次のレベルの表示座標
 		Vec3 m_nextLevelSpritePos;
-
 
 		// 強化費用の数値スプライト
 		vector<vector<weak_ptr<Number>>> m_enhancementsCostNumSprite;
@@ -117,7 +128,16 @@ namespace basecross {
 	public:
 		Shop(const shared_ptr<Stage>& stagePtr // ステージのポインタ
 		) :
-			TemplateObject(stagePtr)
+			TemplateObject(stagePtr),
+			m_confirmSpritedefScale(Vec2(600.0f, 150.0f)),	// 選択肢の標準のスケール
+			m_enhancementsContentsScale(Vec2(700.0f, 170.0f)),	// 強化内容のスケール
+			m_selectPointDefScale(Vec2(1170.0f, 240.0)),		// 選択肢スプライトのスケール
+			m_screenDefPosition(Vec3(-400.0f, 0.0f, 0.0f)),		// スクリーンスプライトの表示座標を設定
+			m_nextCostSpritePos(Vec3(180.0f, -90.0f, 0.0f)),	// 強化費用の表示座標を設定
+			m_nextLevelSpritePos(Vec3(-350.0f, -90.0f, 0.0f)),	// 次のレベルの表示座標を設定
+			m_yesSpritePosition(Vec3(-400.0f, -270.0f, 0.0f)),	// 「はい」スプライトの表示座標
+			m_noSpritePosition(Vec3(80.0f, -270.0f, 0.0f)),		// 「いいえ」スプライトの表示座標
+			m_enhancementsContentsPosition(Vec3(-170.0f, 100.0f, 0.0f))	// 強化内容の標準座標を設定
 		{
 			// csvから強化費用を取得
 			m_enhancementsCost = CSVLoader::ReadDataToInt(CSVLoader::LoadFile("ManagingMoney"));
@@ -138,14 +158,37 @@ namespace basecross {
 			// サイズを強化内容の種類分に設定
 			m_playerLv.resize(eEnhancements::size);
 			m_canEnhancements.resize(eEnhancements::size);
-			m_selectPointSpritePos.resize(eEnhancements::size);
 			m_notSelectableSprite.resize(eEnhancements::size);
-			m_enhancementsCostSpritePos.resize(eEnhancements::size);
 			m_enhancementsCostNumSprite.resize(eEnhancements::size);
 			m_playerLvNumSprite.resize(eEnhancements::size);
 
-			// サイズを「はい」「いいえ」の2択分用意
-			m_confirmSpritePos.resize(2);
+			// 選択肢の表示位置を設定
+			m_selectPointSpritePos = {
+				Vec3(-179.0f, 181.0f, 0.0f),
+				Vec3(-179.0f, -66.0f, 0.0f),
+				Vec3(-179.0f, -320.0f, 0.0f)
+			};
+
+			// 現在Lvの表示位置を設定
+			m_playerLvSpritePos = {
+				Vec3(-370.0f, 112.0f, 0.0f),
+				Vec3(-370.0f, -133.0f, 0.0f),
+				Vec3(-370.0f, -388.0f, 0.0f)
+			};
+
+			// 強化費用の表示位置を設定
+			m_enhancementsCostSpritePos = {
+				Vec3(160.0f, 112.0f, 0.0f),
+				Vec3(160.0f, -133.0f, 0.0f),
+				Vec3(160.0f, -388.0f, 0.0f)
+			};
+
+			// 選択肢スプライトの表示位置を設定
+			m_confirmSpritePos = {
+				Vec3(-550.0f, -300.0f, 0.0f), // 選択肢「はい」
+				Vec3(-250.0f, -300.0f, 0.0f) // 選択肢「いいえ」
+			};
+
 		}
 
 		// デストラクタ
