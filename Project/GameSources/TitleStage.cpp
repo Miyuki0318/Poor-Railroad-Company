@@ -240,8 +240,8 @@ namespace basecross
 		const float posY = (1080.0f / 2.0f) - scale.y;
 
 		const Vec2 buttonScale = Vec2(70.0f);
-		const Vec3 pushAPos = Vec3(-700.0f, -posY, 0.0f);
-		const Vec3 pushBPos = Vec3(+260.0f, -posY, 0.0f);
+		const Vec3 pushAPos = Vec3(+260.0f, -posY, 0.0f);
+		const Vec3 pushBPos = Vec3(-700.0f, -posY, 0.0f);
 
 
 		m_backButton = AddGameObject<Sprite>(L"TITLEBACK_TX", scale, Vec3(posX, -posY, 0.0f));
@@ -250,12 +250,11 @@ namespace basecross
 		{
 			m_pushAButton = AddGameObject<Sprite>(L"BUTTON_A_TX", buttonScale, pushAPos);
 			m_pushBButton = AddGameObject<Sprite>(L"BUTTON_B_TX", buttonScale, pushBPos);
-
 		}
 		else
 		{
-			m_pushAButton = AddGameObject<Sprite>(L"CLICK_M1_TX", buttonScale, pushAPos);
-			m_pushBButton = AddGameObject<Sprite>(L"CLICK_M2_TX", buttonScale, pushBPos);
+			m_pushAButton = AddGameObject<Sprite>(L"CLICK_M2_TX", buttonScale, pushAPos);
+			m_pushBButton = AddGameObject<Sprite>(L"CLICK_M1_TX", buttonScale, pushBPos);
 		}
 
 		ButtonUIActive(false);
@@ -282,11 +281,6 @@ namespace basecross
 		{
 			m_titleProgress = push;
 		}
-
-		//if (m_titleProgress == select)
-		//{
-		//	m_titleProgress = normal;
-		//}
 	}
 
 	// ƒJƒƒ‰‚ÌƒY[ƒ€ˆ—
@@ -521,7 +515,7 @@ namespace basecross
 
 			FadeSprite();
 
-			auto& camera = GetView()->GetTargetCamera();
+			const auto& camera = GetView()->GetTargetCamera();
 			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 
 			bool isMatch = MatchSelectObject(GetSharedGameObject<RouteMap>(L"RouteMap"));
