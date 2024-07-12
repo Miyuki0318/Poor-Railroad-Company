@@ -119,8 +119,9 @@ namespace basecross {
 		/// <summary>
 		/// カメラのリセット処理
 		/// </summary>
-		/// <param name="eyePos">位置</param>
-		/// <param name="atPos">注視点</param>
+		/// <param name="defEyePos">スクロール前の位置</param>
+		/// <param name="startEyePos">プレイスタート時の位置</param>
+		/// <param name="atPos">ゲーム中の注視点</param>
 		void ResetCamera(Vec3 defEyePos, Vec3 startEyePos, Vec3 atPos);
 
 		/// <summary>
@@ -169,6 +170,9 @@ namespace basecross {
 			m_cameraState = ZoomOut;
 		}
 
+		/// <summary>
+		/// スクロール開始処理
+		/// </summary>
 		void ScrollStart()
 		{
 			m_scrollRatio = 0.0f;
@@ -187,6 +191,10 @@ namespace basecross {
 			m_targetObject = Obj;
 		}
 
+		/// <summary>
+		/// スクロールが終了しているかどうか
+		/// </summary>
+		/// <returns>終了していたらtrue</returns>
 		bool GetScrollEnd() const
 		{
 			return m_scrollRatio >= 1.0f;

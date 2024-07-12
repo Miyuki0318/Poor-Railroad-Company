@@ -40,7 +40,7 @@ namespace basecross {
 		{
 			ZoomedInProcess();
 		}
-		if (m_cameraState == State::Scroll)
+		if (m_cameraState == State::Scroll) // スクロール状態
 		{
 			ScrollProcess();
 		}
@@ -50,13 +50,13 @@ namespace basecross {
 	void MainCamera::FollowTarget()
 	{
 		Vec3 newEye, newAt;
-		if (!GetScrollEnd())
+		if (!GetScrollEnd()) // スクロールが終わっていないなら
 		{
-			// ターゲットのX軸移動のみ追尾する(それ以外は固定)
-			newEye = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_defScrollEye.x), m_initialEye.y, m_initialEye.z);
-			newAt = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_defScrollEye.x), m_initialAt.y, m_initialAt.z);
+			// スクロール前の位置で固定する
+			newEye = Vec3(m_defScrollEye.x, m_initialEye.y, m_initialEye.z);
+			newAt = Vec3(m_defScrollEye.x, m_initialAt.y, m_initialAt.z);
 		}
-		else
+		else // 終わっていたら
 		{
 			// ターゲットのX軸移動のみ追尾する(それ以外は固定)
 			newEye = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialEye.y, m_initialEye.z);
@@ -96,18 +96,18 @@ namespace basecross {
 		// スクロールの開始位置
 		Vec3 startAt = Vec3(m_defScrollEye.x, m_initialAt.y, m_initialAt.z);
 		Vec3 startEye = Utility::Lerp(startAt, Vec3(m_defScrollEye.x, m_initialEye.y, m_initialEye.z), m_ZoomRatioC);
-
 		Vec3 targetEye = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialEye.y, m_initialEye.z);
 
 		// スクロールの終了位置
 		Vec3 endAt = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialAt.y, m_initialAt.z);
 		Vec3 endEye = Utility::Lerp(endAt, targetEye, m_ZoomRatioC);
 
+		// 位置と注視点の更新
 		SetEye(Utility::Lerp(startEye, endEye, m_scrollRatio));
 		SetAt(Utility::Lerp(startAt, endAt, m_scrollRatio));
 		m_scrollRatio = Clamp01(m_scrollRatio);
 
-		if (m_scrollRatio >= 1.0f) m_cameraState = m_DefaultState;
+		if (GetScrollEnd()) m_cameraState = m_DefaultState; // スクロールが終わったら初期状態に移行
 		m_scrollRatio += DELTA_TIME * m_ScrollSpeed;
 	}
 
