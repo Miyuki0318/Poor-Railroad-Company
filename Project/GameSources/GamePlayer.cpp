@@ -48,7 +48,7 @@ namespace basecross
 	{
 		// ポーズ中またはスクロール中なら無視
 		const auto& prog = GetTypeStage<GameStage>()->GetGameProgress();
-		bool isPause = ORS(prog, eGameProgress::Pause, eGameProgress::Opening);
+		bool isPause = ORS(prog, eGameProgress::FadeIn, eGameProgress::Pause, eGameProgress::Opening);
 		if (isPause) return;
 
 		// ステートマシンの更新処理を送る
