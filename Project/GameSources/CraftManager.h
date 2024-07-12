@@ -44,6 +44,7 @@ namespace basecross
 		WoodBridge,	// 木の橋
 		Crossing,	// 踏切
 		GoldBar,	// 金塊
+		Money,		// お金
 	};
 
 	/*!
@@ -124,6 +125,25 @@ namespace basecross
 		@param 有効にするかの真偽
 		*/
 		void CraftingEnabled(bool enable);
+
+		/*!
+		@brief プレイヤーの座標からウィンドウ座標を取得する関数
+		@param プレイヤーのシェアドポインタ
+		@return ウィンドウ座標
+		*/
+		Vec3 GetPlayerWindowPosition(const shared_ptr<TemplateObject>& player);
+
+		/*!
+		@brief ウィンドウ座標から画像のRectを取得する関数
+		@param ウィンドウ座標
+		@return eRectType
+		*/
+		eRectType GetWindowRectType(const Vec3& windowPos);
+
+		/*!
+		@brief 接続デバイスに応じたテクスチャを設定する関数
+		*/
+		void SetIconDeviceTexture();
 
 		/*!
 		@brief QTE開始関数

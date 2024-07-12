@@ -46,10 +46,11 @@ namespace basecross {
 		const map<string, RailData>* m_railDataMap;
 		
 		set<wstring> m_whistleSEKey;
+		set<wstring> m_stopedSEKey;
 		
 		weak_ptr<RailManager> m_railManager;
 		weak_ptr<SmokeEffect> m_smokeEffect;
-		weak_ptr<SoundItem> m_whistleSE;
+		vector<weak_ptr<SoundItem>> m_whistleSE;
 
 		// ステートマシン
 		unique_ptr<StateMachine<GameTrain>> m_trainState;
@@ -71,6 +72,10 @@ namespace basecross {
 
 			m_whistleSEKey.insert(L"WHISTLE_SE");
 			m_whistleSEKey.insert(L"SHORT_WHISTLE_SE");
+
+			m_stopedSEKey.insert(L"WHISTLE_SE");
+			m_stopedSEKey.insert(L"SHORT_WHISTLE_SE");
+			m_stopedSEKey.insert(L"START_WHISTLE_SE");
 		}
 
 		GameTrain(const shared_ptr<Stage>& stagePtr,
@@ -84,6 +89,10 @@ namespace basecross {
 
 			m_whistleSEKey.insert(L"WHISTLE_SE");
 			m_whistleSEKey.insert(L"SHORT_WHISTLE_SE");
+
+			m_stopedSEKey.insert(L"WHISTLE_SE");
+			m_stopedSEKey.insert(L"SHORT_WHISTLE_SE");
+			m_stopedSEKey.insert(L"START_WHISTLE_SE");
 		}
 
 		~GameTrain() 

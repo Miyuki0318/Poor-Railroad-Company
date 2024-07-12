@@ -80,12 +80,12 @@ namespace basecross
 		GameClearState(const shared_ptr<GameStage>& stagePtr) :
 			m_stage(stagePtr),
 			m_boundScale(1.25f),
-			m_railFadeTime(3.0f),
-			m_selectFadeTime(5.0f),
+			m_railFadeTime(1.0f),
+			m_selectFadeTime(2.5f),
 			m_defScale(300.0f, 350.0f),
 			m_leftPos(-300.0f, -200.0f, 0.0f),
 			m_rightPos(300.0f, -200.0f, 0.0f),
-			m_railPos(-1920.0f, -250.0f, 0.2f),
+			m_railPos(-1920.0f, -275.0f, 0.2f),
 			m_moveVal(1920.0f, 0.0f, 0.0f),
 			m_smokeDiff(93.0f, 140.0f, 0.0f),
 			m_smokeVelo(-3.0f, 3.0f)

@@ -77,6 +77,9 @@ namespace basecross
 
 		weak_ptr<SoundItem> m_bgmItem;
 
+		weak_ptr<Sprite> m_backButton;
+		weak_ptr<Sprite> m_pleaseButton;
+
 		weak_ptr<Sprite> m_pushAButton;
 		weak_ptr<Sprite> m_pushBButton;
 
@@ -128,11 +131,6 @@ namespace basecross
 		void CreateTrain();
 
 		/*
-		@brief 看板の生成
-		*/
-		void CreateSignBoard();
-				
-		/*
 		@brief 所持金スプライトの生成
 		*/
 		void CreateUISprite();
@@ -160,7 +158,7 @@ namespace basecross
 		/*
 		@brief ボタンUIの表示処理
 		*/
-		void ButtonUIActive();
+		void ButtonUIActive(bool active);
 
 		/*
 		@brief Aボタンを押した時の処理

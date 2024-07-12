@@ -5,6 +5,7 @@
 */
 
 #pragma once
+#include "Scene.h"
 #include "Number.h"
 
 namespace basecross
@@ -12,14 +13,17 @@ namespace basecross
 	/*!
 	@brief 所持金UI
 	*/
-	class MoneyCountUI : public GameObject
+	class MoneyCountUI : public TemplateObject
 	{
 		weak_ptr<Sprite> m_backSprite;	// 背景スプライト
 		weak_ptr<Sprite> m_itemSprite;	// アイテムアイコンスプライト
 		weak_ptr<Sprite> m_slashSprite;	// ／スプライト
 
 		// 所持金の数値スプライト
-		vector<weak_ptr<Number>> m_numbers;
+		NumberCount m_numbers;
+		vector<float> m_totalTime; // 経過時間
+		bool m_isGoal; // 表示し終わったかの真偽
+		bool m_isNow; // 計算中かの真偽
 
 		const float m_spriteScale;	// スプライトのスケール
 		const float m_numberScale;	// 数字のスケール
@@ -43,7 +47,7 @@ namespace basecross
 			const float scale,
 			const Vec3& position
 		) :
-			GameObject(stagePtr),
+			TemplateObject(stagePtr),
 			m_startPos(position),
 			m_spriteScale(scale * 1.3f),
 			m_numberScale(scale * 0.7f),
@@ -52,6 +56,9 @@ namespace basecross
 			m_backScale(Vec2(scale * 5.0f, scale * 2.0f)),
 			m_backMargin(Vec3(scale * 1.4f, 0.0f, 0.0f))
 		{
+			m_isGoal = true;
+			m_isNow = false;
+			m_totalTime = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
 		}
 
 		/*!
@@ -70,8 +77,39 @@ namespace basecross
 		void OnUpdate() override;
 
 		/*!
+		@brief 開始時の数値設定関数
+		*/
+		void StartSetNumbers();
+
+		/*!
 		@brief 数字の更新
 		*/
 		void UpdateNumbers();
+
+		/*!
+		@brief 色の更新
+		*/
+		void UpdateColor();
+
+		/*!
+		@brief 座標を移動量で加算して更新
+		@param 移動量
+		*/
+		void SetMovePosition(const Vec3& moveVal);
+
+		/*!
+		@brief 数字の桁数とインデックスの設定関数
+		@param 設定する金額
+		*/
+		void SetNumberGoal(int money)
+		{
+			// 初期化設定
+			m_isGoal = false;
+			money = min(money, MONEY_LIMIT);
+			m_numbers.goal = money;
+			m_numbers.degit = max(Utility::GetUpperDigit(money) - 1, 0);
+			m_numbers.index = m_numbers.degit;
+			m_totalTime = { 0.0f, 0.0f, 0.0f, 0.0f, 0.0f };
+		}
 	};
 }

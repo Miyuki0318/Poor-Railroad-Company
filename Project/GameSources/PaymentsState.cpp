@@ -18,6 +18,9 @@ namespace basecross
 		m_menuSprite = stagePtr->AddGameObject<Sprite>(L"PAYMENTS_MENU_TX", WINDOW_SIZE, Vec3(0.0f, WINDOW_HEIGHT, 0.0f) + m_menuPosition);
 		m_menuSprite.lock()->SetDrawLayer(8);
 
+		// 金額UIの生成
+		m_moneyCount = stagePtr->AddGameObject<MoneyCountUI>(m_moneyScale, m_moneyStartPos);
+
 		// 数字スプライトの生成
 		NumberCount reward, rSales, gold, resource, rInstallations, total;
 		for (int i = 0; i < 5; i++)
@@ -62,6 +65,7 @@ namespace basecross
 		// ステートをメニューフェードにし、スプライトを開始時の座標に
 		m_state = eGamePaymentsState::MenuFadeIn;
 		m_menuSprite.lock()->SetStartPosition();
+		m_moneyCount.lock()->SetMovePosition(Vec3(0.0f, WINDOW_HEIGHT / 2.0f, 0.0f));
 
 		// 全ての数字スプライトを0番・透明・開始時の座標に
 		for (auto& numbers : m_numbersMap)
@@ -82,7 +86,9 @@ namespace basecross
 		auto& menu = m_menuSprite.lock();
 
 		// 線形補間で移動
-		Vec3 pos = Utility::Lerp(menu->GetStartPosition(), m_menuPosition, m_fadeTotalTime / m_menuFadeTime);
+		float ratio = m_fadeTotalTime / m_menuFadeTime;
+		Vec3 pos = Utility::Lerp(menu->GetStartPosition(), m_menuPosition, ratio);
+		float moveVal = Utility::Lerp(0.0f, -WINDOW_HEIGHT / 2.0f, ratio);
 
 		// フェード時間を過ぎたらステートを切り替え
 		if (m_fadeTotalTime >= m_menuFadeTime)
@@ -95,6 +101,7 @@ namespace basecross
 		// 経過時間をデルタタイムで加算し、座標を更新
 		m_fadeTotalTime += DELTA_TIME;
 		menu->SetPosition(pos);
+		m_moneyCount.lock()->SetMovePosition(Vec3(0.0f, moveVal, 0.0f));
 	}
 
 	// 開発報酬表示
@@ -102,7 +109,7 @@ namespace basecross
 	{
 		// 数字構造体を取得し、表示処理を送る
 		auto& numbers = m_numbersMap.at(m_state);
-		ConsecutiveNumberDraw(numbers);
+		NumberCount::ConsecutiveNumberDraw(numbers, m_totalTime);
 
 		// 処理が終わったらステートを切り替える
 		if (numbers.degit < 0)
@@ -116,7 +123,7 @@ namespace basecross
 	{
 		// 数字構造体を取得し、表示処理を送る
 		auto& numbers = m_numbersMap.at(m_state);
-		ConsecutiveNumberDraw(numbers);
+		NumberCount::ConsecutiveNumberDraw(numbers, m_totalTime);
 
 		// 処理が終わったらステートを切り替える
 		if (numbers.degit < 0)
@@ -130,7 +137,7 @@ namespace basecross
 	{
 		// 数字構造体を取得し、表示処理を送る
 		auto& numbers = m_numbersMap.at(m_state);
-		ConsecutiveNumberDraw(numbers);
+		NumberCount::ConsecutiveNumberDraw(numbers, m_totalTime);
 
 		// 処理が終わったらステートを切り替える
 		if (numbers.degit < 0)
@@ -144,7 +151,7 @@ namespace basecross
 	{
 		// 数字構造体を取得し、表示処理を送る
 		auto& numbers = m_numbersMap.at(m_state);
-		ConsecutiveNumberDraw(numbers);
+		NumberCount::ConsecutiveNumberDraw(numbers, m_totalTime);
 
 		// 処理が終わったらステートを切り替える
 		if (numbers.degit < 0)
@@ -158,7 +165,7 @@ namespace basecross
 	{
 		// 数字構造体を取得し、表示処理を送る
 		auto& numbers = m_numbersMap.at(m_state);
-		ConsecutiveNumberDraw(numbers);
+		NumberCount::ConsecutiveNumberDraw(numbers, m_totalTime);
 
 		// 処理が終わったらステートを切り替える
 		if (numbers.degit < 0)
@@ -172,7 +179,7 @@ namespace basecross
 	{
 		// 数字構造体を取得し、表示処理を送る
 		auto& numbers = m_numbersMap.at(m_state);
-		ConsecutiveNumberDraw(numbers);
+		NumberCount::ConsecutiveNumberDraw(numbers, m_totalTime);
 
 		// 処理が終わったらステートを切り替える
 		if (numbers.degit < 0)
@@ -194,6 +201,24 @@ namespace basecross
 			m_fadeTotalTime = 0.0f;
 		}
 
+		// 跳んで行くお金アイコン
+		auto& number = m_numbersMap.at(eGamePaymentsState::TotalIncome);
+		float ratio = number.goal / 200.0f;
+		ratio = ceil(ratio);
+		float time = m_standByTime / ratio;
+		if (m_menuSprite.lock()->SetTimer(time))
+		{
+			if (m_fadeTotalTime <= time * 2.0f)
+			{
+				const auto& scene = App::GetApp()->GetScene<Scene>();
+				m_stage.lock()->AddMoney(number.goal);
+				m_moneyCount.lock()->SetNumberGoal(scene->GetMoney());
+			}
+
+			const auto& itemFly = m_stage.lock()->GetSharedGameObject<FlyItemManager>(L"FlyItemManager");
+			itemFly->StartFly(eItemType::Money, number.sprite.front().lock()->GetPosition());
+		}
+
 		// 経過時間をデルタタイムで加算し、座標を更新
 		m_fadeTotalTime += DELTA_TIME;
 	}
@@ -209,6 +234,9 @@ namespace basecross
 		Vec3 pos = Utility::Lerp(m_menuPosition, menu->GetStartPosition(), ratio);
 		Vec3 move = Utility::Lerp(Vec3(0.0f), Vec3(0.0f, WINDOW_HEIGHT, 0.0f), ratio);
 
+		float moveVal = -WINDOW_HEIGHT / 2.0f;
+		if (ratio >= 0.5f) moveVal = Utility::Lerp(-WINDOW_HEIGHT / 2.0f, 0.0f, ratio - 0.5f);
+
 		// フェード時間を過ぎたらステートを切り替え
 		if (m_fadeTotalTime >= m_menuFadeTime)
 		{
@@ -219,6 +247,7 @@ namespace basecross
 		// 経過時間をデルタタイムで加算し、座標を更新
 		m_fadeTotalTime += DELTA_TIME;
 		menu->SetPosition(pos);
+		m_moneyCount.lock()->SetMovePosition(Vec3(0.0f, moveVal, 0.0f));
 		for (auto& numbers : m_numbersMap)
 		{
 			MoveNumbersPosition(numbers.second, move);
@@ -235,44 +264,5 @@ namespace basecross
 			// 開始時の座標に移動量を足して座標を更新
 			ptr->SetPosition(ptr->GetStartPosition() + move);
 		}
-	}
-
-	// 連番カウンタ表示処理
-	void PaymentsState::ConsecutiveNumberDraw(NumberCount& count)
-	{
-		// 桁事の比較様にwssに変換
-		wstringstream time;
-		time << count.goal;
-		wstringstream total;
-		total << static_cast<int>(m_totalTime.at(count.degit));
-
-		// 配列の要素数を設定(元の桁数-現在の桁数)
-		int index = count.index - count.degit;
-
-		// 数字を経過時間の現在の桁数番目で更新
-		count.sprite.at(index).lock()->SetDiffuseColor(COL_BLACK);
-		count.sprite.at(index).lock()->SetNumber(static_cast<int>(m_totalTime.at(count.degit)));
-
-		// 目標数の現在の桁数番目と、経過時間の0番目が同じなら
-		bool notZero = (time.str()[count.degit] == '0'); // 目標数が0なら10まで数えてから切り替える
-		if (time.str()[count.degit] == total.str()[int(notZero)])
-		{
-			// 現在の桁数を減らす
-			count.degit--;
-
-			// 0より小さくなったら
-			if (count.degit < 0)
-			{
-				// 経過時間を初期化して終了
-				for (auto& totalTime : m_totalTime)
-				{
-					totalTime = 0.0f;
-				}
-				return;
-			}
-		}
-
-		// 現在の桁数番目の経過時間をデルタタイムで加算		
-		m_totalTime.at(count.degit) += DELTA_TIME / 0.025f;
 	}
 }

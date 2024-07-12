@@ -47,7 +47,8 @@ namespace basecross
 	void GamePlayer::OnUpdate()
 	{
 		// ポーズ中なら無視
-		bool isPause = GetTypeStage<GameStage>()->GetGameProgress() == eGameProgress::Pause;
+		const auto& prog = GetTypeStage<GameStage>()->GetGameProgress();
+		bool isPause = ORS(prog, eGameProgress::Pause);
 		if (isPause) return;
 
 		// ステートマシンの更新処理を送る

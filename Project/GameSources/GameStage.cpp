@@ -66,6 +66,22 @@ namespace basecross
 		AddTextureResource(L"INST_CRAFT_X", texturePath + L"CraftInstruction_X.png");
 		AddTextureResource(L"INST_NORMAL_X", texturePath + L"NormalInstruction_X.png");
 
+		// クラフトウィンドウのテクスチャ
+		AddTextureResource(L"C_WINDOW_TX", texturePath + L"CraftWindow.png");
+
+		// QTEバーのフレームのテクスチャ
+		AddTextureResource(L"C_QTE_FLAME_TX", texturePath + L"BarFlame.png");
+		AddTextureResource(L"C_QTE_POINT_TX", texturePath + L"QTEPoint.png");
+
+		// クラフトアイテムアイコンテクスチャ
+		AddTextureResource(L"PAD_RAIL_TX", texturePath + L"CraftRailIcon.png");
+		AddTextureResource(L"PAD_BRIDGE_TX", texturePath + L"CraftBridgeIcon.png");
+		AddTextureResource(L"PAD_CROSSING_TX", texturePath + L"CraftCrossingIcon.png");
+
+		AddTextureResource(L"MOUSE_RAIL_TX", texturePath + L"Mouse_CraftRailIcon.png");
+		AddTextureResource(L"MOUSE_BRIDGE_TX", texturePath + L"Mouse_CraftBridgeIcon.png");
+		AddTextureResource(L"MOUSE_CROSSING_TX", texturePath + L"Mouse_CraftCrossingIcon.png");
+
 		// ゲーム中のBGM
 		AddAudioResource(L"FIRST_BGM", soundPath + L"FirstBGM");
 		AddAudioResource(L"SECOND_BGM", soundPath + L"SecondBGM");
@@ -271,7 +287,7 @@ namespace basecross
 	{
 		// パラメータ
 		const float scale = 60.0f;
-		const Vec3 startPos = Vec3(-900.0f, 500.0f, 0.4f);
+		const Vec3 startPos = Vec3(-900.0f, 485.0f, 0.4f);
 		const Vec3 distance = Vec3(0.0f, -scale * 1.75f, 0.0f);
 
 		// アイテム数UI
@@ -292,6 +308,7 @@ namespace basecross
 		itemFly->SetTargetUIData(eItemType::WoodBridge, L"UI_BRIDGE_TX", startPos + (distance * 5.0));
 		itemFly->SetTargetUIData(eItemType::Crossing, L"UI_CROSSING_TX", startPos + (distance * 6.0));
 		itemFly->SetTargetUIData(eItemType::GoldBar, L"UI_GOLDBAR_TX", startPos + (distance * 8.0));
+		itemFly->SetTargetUIData(eItemType::Money, L"UI_COIN_TX", Vec3(650.0f, 460.0f, 0.0f));
 
 		// クラフト可能になった時に知らせるエフェクトの生成と設定
 		const auto& craftGuide = AddGameObject<CraftPosshibleGuide>();
@@ -342,9 +359,6 @@ namespace basecross
 
 		const auto& flyEffect = GetSharedGameObject<FlyItemManager>(L"FlyItemManager");
 		flyEffect->ResetFly();
-
-		const auto& smokeEffect = GetSharedGameObject<SpriteParticle>(L"SmokeEffect");
-		smokeEffect->ResetParticle();
 
 		const auto& starEffect = GetSharedGameObject<SpriteParticle>(L"StarEffect");
 		starEffect->ResetParticle();
@@ -468,7 +482,6 @@ namespace basecross
 		addMoney += count;
 
 		addMoney = max(addMoney, 0);
-		AddMoney(addMoney);
 		m_paymentsState->SetNumberGoal(eGamePaymentsState::TotalIncome, addMoney);
 		m_gameProgress = eGameProgress::MoneyCountDown;
 	}
@@ -577,7 +590,7 @@ namespace basecross
 
 	void GameStage::ToContinueFadeIn()
 	{
-		if (m_fadeSprite->FadeInColor(2.0f))
+		if (m_fadeSprite->FadeInColor(1.0f))
 		{
 			ResetCreateStage();
 			m_gameOverState->ResetState();
@@ -587,7 +600,7 @@ namespace basecross
 
 	void GameStage::ToContinueFadeOut()
 	{
-		if (m_fadeSprite->FadeOutColor(2.0f))
+		if (m_fadeSprite->FadeOutColor(1.0f))
 		{
 			m_gameProgress = eGameProgress::Playing;
 		}

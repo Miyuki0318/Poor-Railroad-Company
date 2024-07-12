@@ -12,6 +12,7 @@
 #include "Shop.h"
 #include "ShopShoppingState.h"
 #include "ShopConfirmationState.h"
+#include "MoneyCountUI.h"
 
 namespace basecross
 {
@@ -168,7 +169,9 @@ namespace basecross
 				money -= m_cost;
 				// 所持金の減少を適用
 				scenePtr.lock()->SetMoney(money);
-
+				// UIに更新処理を送る
+				auto& ui = scenePtr.lock()->GetActiveStage()->GetSharedGameObject<MoneyCountUI>(L"MoneyUI");
+				ui->SetNumberGoal(money);
 				// 強化完了時の効果音を鳴らす
 				shop->StartSE(L"BUY_SE", 2.0f);
 

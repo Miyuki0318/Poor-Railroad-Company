@@ -6,6 +6,7 @@
 
 #pragma once
 #include "stdafx.h"
+#include "Input.h"
 #include "Arrow.h"
 #include "TitleStage.h"
 #include "RouteMap.h"
@@ -16,8 +17,16 @@ namespace basecross {
 	{
 		const shared_ptr<Stage>& stagePtr = GetStage(); // ステージの取得
 
-		m_rightArrow = stagePtr->AddGameObject<Sprite>(L"RIGHTARROW_TX", scale, Vec3(posX, posY, 0.0f));
-		m_leftArrow = stagePtr->AddGameObject<Sprite>(L"LEFTARROW_TX", scale, Vec3(-posX, posY, 0.0f));
+		if (Input::GetPadConected())
+		{
+			m_rightArrow = stagePtr->AddGameObject<Sprite>(L"RIGHTARROW_TX", scale, Vec3(posX, posY, 0.0f));
+			m_leftArrow = stagePtr->AddGameObject<Sprite>(L"LEFTARROW_TX", scale, Vec3(-posX, posY, 0.0f));
+		}
+		else
+		{
+			m_rightArrow = stagePtr->AddGameObject<Sprite>(L"D_RIGHTARROW_TX", scale, Vec3(posX, posY, 0.0f));
+			m_leftArrow = stagePtr->AddGameObject<Sprite>(L"A_LEFTARROW_TX", scale, Vec3(-posX, posY, 0.0f));
+		}
 
 		m_rightArrow.lock()->SetDrawActive(true);
 		m_leftArrow.lock()->SetDrawActive(true);
@@ -55,34 +64,38 @@ namespace basecross {
 		// 路線図オブジェクト取得
 		const auto& routeMap = stage->GetSharedGameObject<RouteMap>(L"RouteMap");
 
-		float stickL = routeMap->GetInputMoveX();
+		float stickL = Input::GetLStickValue().x;
 
-		bool selectRight = routeMap->GetInputMoveRight();
-		bool selectLeft = routeMap->GetInputMoveLeft();
+		bool isSelect = routeMap->GetIsInputX();
 
-		if (stickL != 0.0f)
+		if (abs(stickL) >= 0.9f)
 		{
-			if (selectRight)
+			if (stickL >= 0.0f)
 			{
 				m_rightArrow.lock()->SetDiffuseColor(COL_GRAY);
 				m_leftArrow.lock()->SetDiffuseColor(COL_WHITE);
 			}
-			else if (selectLeft)
+			else if (isSelect)
 			{
 				m_rightArrow.lock()->SetDiffuseColor(COL_WHITE);
 				m_leftArrow.lock()->SetDiffuseColor(COL_GRAY);
 			}
-			if (oldStick != stickL)
-			{
+
+			if (!m_currentStick) {
 				StartSE(L"PUSH_SE", 1.0f);
 			}
+
+			m_currentStick = true;
 		}
-		else
-		{
-			m_rightArrow.lock()->SetDiffuseColor(COL_WHITE);
-			m_leftArrow.lock()->SetDiffuseColor(COL_WHITE);
+		else{
+			if (abs(stickL) <= 0.3f) {
+				m_rightArrow.lock()->SetDiffuseColor(COL_WHITE);
+				m_leftArrow.lock()->SetDiffuseColor(COL_WHITE);
+				m_currentStick = false;
+			}
 		}
 
 		oldStick = stickL;
+		m_oldStick = m_currentStick;
 	}
 }
