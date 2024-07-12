@@ -46,34 +46,15 @@ namespace basecross
 		// プレイヤーの開始座標
 		Vec3 m_startPosition;
 		
+		// 検索範囲
 		const float m_searchArea = 3.0f;
-
-		wstring m_textureKeys[3] = {
-			L"SIGNBOARD_OFFICIAL_TX",
-			L"SIGNBOARD_SELECT_TX",
-			L"SIGNBOARD_START_TX"
-		};
-
-		Vec3 m_boardPositions[3] = {
-			Vec3( 9.5f,1.0f,-10.0f),
-			Vec3(18.0f,1.0f,-13.0f),
-			Vec3(23.0f,1.0f,-14.5f),
-		};
-
-		const int m_boardQuantity = sizeof(m_textureKeys) / sizeof(m_textureKeys[0]);
 
 		eTitleProgress m_titleProgress;
 
-		Vec3 m_diff;
-		float m_distance;
-
-		float m_timer;
+		// 放置された時間
+		float m_leaveTime;
 
 		bool m_zooming;
-
-		bool m_zoomEnd;
-
-		bool test;
 
 		shared_ptr<GameObject> m_selectObj;
 
@@ -84,8 +65,7 @@ namespace basecross
 		weak_ptr<Sprite> m_pushAButton;
 		weak_ptr<Sprite> m_pushBButton;
 
-		eTitleProgress m_oldProgress;
-
+		Vec3 m_oldPlayerPos;
 		/*
 		@brief ビューとライトの生成
 		*/
@@ -130,11 +110,6 @@ namespace basecross
 		@brief 列車の生成
 		*/
 		void CreateTrain();
-
-		/*
-		@brief 看板の生成
-		*/
-		void CreateSignBoard();
 				
 		/*
 		@brief 所持金スプライトの生成
@@ -167,9 +142,9 @@ namespace basecross
 		void ButtonUIActive();
 
 		/*
-		@brief 動画再生
+		@brief 一定時間放置したらムービーステージに移行する処理
 		*/
-		void PlayMovie();
+		void ChengeMovieTime(Vec3 pos);
 
 		/*
 		@brief Aボタンを押した時の処理
@@ -196,16 +171,10 @@ namespace basecross
 			m_titleProgress(prog),
 			m_shopDiffEye(0.0f, 3.0f, -0.5f),
 			m_routeMapDiffEye(0.0f, 3.0f, +11.0f),
-			m_trainDiffEye(0.0f, 8.0f, 12.0f)
+			m_trainDiffEye(0.0f, 8.0f, 12.0f),
+			m_oldPlayerPos(0.0f),
+			m_zooming(false)
 		{
-			m_oldProgress = eTitleProgress::start;
-
-			m_zooming = false;
-
-			m_zoomEnd = false;
-
-			test = false;
-
 			m_objectGroup = CreateSharedObjectGroup(L"Settings");
 		}
 
@@ -277,17 +246,12 @@ namespace basecross
 			return m_titleProgress;
 		}
 
+		/*
+		@brief 選択されているオブジェクトを返す関数
+		*/
 		shared_ptr<GameObject> GetSelectObject() const
 		{
 			return m_selectObj;
-		}
-
-		/*
-		@brief 状態が一致しているかを判定する関数
-		*/
-		bool MatchProgress()
-		{
-			return m_oldProgress == m_titleProgress;
 		}
 
 		/*

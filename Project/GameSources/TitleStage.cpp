@@ -210,15 +210,6 @@ namespace basecross
 		m_objectGroup->IntoGroup(train);
 	}
 
-	// 看板の生成
-	void TitleStage::CreateSignBoard()
-	{
-		for (int i = 0; i < m_boardQuantity; i++)
-		{
-			AddGameObject<SignBoard>(m_textureKeys[i], m_boardPositions[i]);
-		}
-	}
-
 	// 所持金UIの生成
 	void TitleStage::CreateUISprite()
 	{
@@ -258,12 +249,30 @@ namespace basecross
 		m_pushBButton.lock()->SetDrawActive(false);
 	}
 
-	// 動画再生
-	void TitleStage::PlayMovie()
+	// 一定時間放置したらムービーステージに移行する処理
+	void TitleStage::ChengeMovieTime(Vec3 pos)
 	{
-		const auto& app = App::GetApp();
+		Vec3 diff = pos - m_oldPlayerPos;
+		float distance = diff.length();
 
-		PostEvent(0.0f, GetThis<ObjectInterface>(), app->GetScene<Scene>(), L"MovieStage");
+		if (distance != 0.0f)
+		{
+			m_leaveTime = 0.0f;
+			m_fadeSprite->SetDiffuseColor(COL_ALPHA);
+			return;
+		}
+
+		const auto& app = App::GetApp();
+		m_leaveTime += app->GetElapsedTime();
+
+		if (m_leaveTime >= 5.0f)
+		{
+			m_fadeSprite->FadeInColor(2.0f);
+			if (m_fadeSprite->GetDiffuseColor() == COL_WHITE)
+			{
+				PostEvent(0.0f, GetThis<ObjectInterface>(), app->GetScene<Scene>(), L"MovieStage");
+			}
+		}
 	}
 
 	// Aボタンを押した時の処理
@@ -287,11 +296,6 @@ namespace basecross
 		{
 			m_titleProgress = push;
 		}
-
-		//if (m_titleProgress == select)
-		//{
-		//	m_titleProgress = normal;
-		//}
 	}
 
 	// カメラのズーム処理
@@ -362,6 +366,7 @@ namespace basecross
 		switch (m_titleProgress)
 		{
 		case basecross::opening:
+			if (m_leaveTime >= 5.0f) return;
 			m_fadeSprite->FadeOutColor(1.0f);
 			break;
 
@@ -413,10 +418,10 @@ namespace basecross
 			auto targetPos = target->GetComponent<Transform>()->GetPosition();
 
 			// オブジェクトとプレイヤーの距離を求める
-			m_diff = targetPos - playerPos;
-			m_distance = m_diff.length();
+			Vec3 diff = targetPos - playerPos;
+			float distance = diff.length();
 
-			if (m_distance < m_searchArea)
+			if (distance < m_searchArea)
 			{
 				m_selectObj = target;
 
@@ -462,8 +467,6 @@ namespace basecross
 			CreateBuilding();
 
 			CreateTrain();
-
-			CreateSignBoard();
 			
 			CreateUISprite();
 
@@ -496,6 +499,8 @@ namespace basecross
 	{
 		try 
 		{
+			const auto& player = GetSharedGameObject<TitlePlayer>(L"Player");
+
 			if (m_bgmItem.lock() && Utility::OR(m_titleProgress, opening, normal))
 			{
 				auto& item = m_bgmItem.lock()->m_SourceVoice;
@@ -541,24 +546,15 @@ namespace basecross
 
 			if (Utility::OR(m_titleProgress, opening, normal))
 			{
-				m_timer += App::GetApp()->GetElapsedTime();
-
-				if (m_timer >= 5.0f)
-				{
-					PlayMovie();
-				}
-			}
-			else
-			{
-				m_timer = 0.0f;
+				ChengeMovieTime(player->GetPosition());
 			}
 			
-			Debug::Log(L"時間 : ", m_timer);
+			Debug::Log(L"時間 : ", m_leaveTime);
 
 			// 通常時以外は演出中のフラグを立てる
 			m_isStaging = m_titleProgress != normal;
 
-			m_oldProgress = m_titleProgress;
+			m_oldPlayerPos = player->GetPosition();
 		}
 		catch (...)
 		{
