@@ -115,12 +115,13 @@ namespace basecross
 	//ビューとライトの生成
 	void GameStage::CreateViewLight()
 	{
+		Vec3 stationPos = GetSharedGameObject<Station>(L"Station")->GetPosition();
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
-		Vec3 defEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
+		Vec3 startEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
 		Vec3 defAt = Vec3(3.0f, 1.0f, -8.5f);
 
-		auto PtrCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow, defEye, defAt);
+		auto PtrCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow, stationPos, startEye, defAt);
 		PtrView->SetCamera(PtrCamera);
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
@@ -381,14 +382,14 @@ namespace basecross
 
 	void GameStage::ResetCameraObject()
 	{
-		auto train = GetSharedGameObject<GameTrain>(L"Train");
+		Vec3 stationPos = GetSharedGameObject<Station>(L"Station")->GetPosition();
+		Vec3 startEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
 
-		Vec3 defEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
 		Vec3 defAt = Vec3(3.0f, 1.0f, -8.5f);
 
 		auto& camera = GetView()->GetTargetCamera();
 		auto mainCamera = dynamic_pointer_cast<MainCamera>(camera);
-		mainCamera->ResetCamera(defEye, defAt);
+		mainCamera->ResetCamera(startEye, stationPos, defAt);
 	}
 
 	// スプライトの表示
@@ -444,7 +445,7 @@ namespace basecross
 
 		if (mainCamera->m_cameraState != MainCamera::State::Scroll)
 		{
-			mainCamera->ScrollStart(station->GetPosition());
+			mainCamera->ScrollStart();
 		}
 		if (mainCamera->GetScrollEnd())
 		{

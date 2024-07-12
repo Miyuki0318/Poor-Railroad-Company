@@ -49,10 +49,19 @@ namespace basecross {
 
 	void MainCamera::FollowTarget()
 	{
-		// ターゲットのX軸移動のみ追尾する(それ以外は固定)
-		Vec3 newEye = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialEye.y, m_initialEye.z);
-		Vec3 newAt = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialAt.y, m_initialAt.z);
-
+		Vec3 newEye, newAt;
+		if (!GetScrollEnd())
+		{
+			// ターゲットのX軸移動のみ追尾する(それ以外は固定)
+			newEye = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_defScrollEye.x), m_initialEye.y, m_initialEye.z);
+			newAt = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_defScrollEye.x), m_initialAt.y, m_initialAt.z);
+		}
+		else
+		{
+			// ターゲットのX軸移動のみ追尾する(それ以外は固定)
+			newEye = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialEye.y, m_initialEye.z);
+			newAt = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialAt.y, m_initialAt.z);
+		}
 		SetAt(newAt);
 		SetEye(Utility::Lerp(newAt, newEye, m_ZoomRatioC));
 	}
@@ -84,11 +93,13 @@ namespace basecross {
 
 	void MainCamera::ScrollProcess()
 	{
-		Vec3 startAt = Vec3(m_stationPos.x, m_initialAt.y, m_initialAt.z);
-		Vec3 startEye = Utility::Lerp(m_stationPos, Vec3(m_stationPos.x, m_initialEye.y, m_initialEye.z), m_ZoomRatioC);
+		// スクロールの開始位置
+		Vec3 startAt = Vec3(m_defScrollEye.x, m_initialAt.y, m_initialAt.z);
+		Vec3 startEye = Utility::Lerp(startAt, Vec3(m_defScrollEye.x, m_initialEye.y, m_initialEye.z), m_ZoomRatioC);
 
 		Vec3 targetEye = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialEye.y, m_initialEye.z);
 
+		// スクロールの終了位置
 		Vec3 endAt = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialAt.y, m_initialAt.z);
 		Vec3 endEye = Utility::Lerp(endAt, targetEye, m_ZoomRatioC);
 
@@ -106,6 +117,15 @@ namespace basecross {
 		m_initialEye = eyePos;
 		m_initialAt = atPos;
 		SetEye(eyePos);
+		SetAt(atPos);
+	}
+	void MainCamera::ResetCamera(Vec3 defEyePos, Vec3 startEyePos, Vec3 atPos)
+	{
+		m_cameraState = m_DefaultState;
+		m_defScrollEye = defEyePos;
+		m_initialEye = startEyePos;
+		m_initialAt = atPos;
+		SetEye(defEyePos);
 		SetAt(atPos);
 	}
 }
