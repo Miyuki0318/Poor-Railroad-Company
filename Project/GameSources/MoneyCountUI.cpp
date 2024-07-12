@@ -47,6 +47,7 @@ namespace basecross
 	{
 		const auto& scene = App::GetApp()->GetScene<Scene>();
 		int money = min(scene->GetMoney(), MONEY_LIMIT);
+		money = max(money, 0);
 		m_numbers.goal = money;
 		m_numbers.degit = max(Utility::GetUpperDigit(money) - 1, 0);
 		m_numbers.index = m_numbers.degit;

@@ -60,12 +60,19 @@ namespace basecross
 		// 非アクティブ状態のスプライトがあれば再利用
 		for (auto& spriteData : m_spriteVec)
 		{
-			// エラーチェック
+			// ポインタの取得
 			auto& sprite = spriteData.sprite.lock();
-			if (!sprite) continue;
+
+			// 空なら上書き
+			if (!sprite)
+			{
+				// 上書きして終了
+				spriteData = CreateParticleData(scale, velo, rotZ, drawTime);
+				return;
+			}
 
 			// 非アクティブなら初期化設定を行って終了
-			if (!sprite->GetDrawActive())
+			if (!sprite->GetDrawActive() || !sprite->GetUpdateActive())
 			{
 				spriteData.totalTime = 0.0f;
 				spriteData.drawTime = drawTime;
@@ -85,19 +92,26 @@ namespace basecross
 
 		// 配列のサイズが上限数以上なら無視
 		if (m_spriteVec.size() >= m_maxSprite) return;
-
-		// 新規スプライトデータを生成
-		ParticleData spriteData = {};
-		spriteData.drawTime = drawTime;
 		
+		// 配列にスプライトデータを追加
+		m_spriteVec.push_back(CreateParticleData(scale, velo, rotZ, drawTime));
+	}
+
+	// パーティクルデータの生成
+	ParticleData SpriteParticle::CreateParticleData(Vec2 scale, Vec2 velo, float rotZ, float drawTime)
+	{
+		// 新規スプライトデータを生成
+		ParticleData data = {};
+		data.drawTime = drawTime;
+
 		// ステージにスプライトを追加生成
 		auto& sprite = GetStage()->AddGameObject<Sprite>(m_textureStr, scale, m_emitterPosition, rotZ);
 		sprite->GetDrawComponent()->SetBlendState(BlendState::Additive);
 		sprite->SetVelocity(velo);
 		sprite->SetDrawLayer(11);
-		spriteData.sprite = sprite;
+		data.sprite = sprite;
 
-		// 配列にスプライトデータを追加
-		m_spriteVec.push_back(spriteData);
+		// 生成したデータを返す
+		return data;
 	}
 }

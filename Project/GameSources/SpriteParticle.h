@@ -75,6 +75,15 @@ namespace basecross
 		void AddParticle(Vec2 scale, Vec2 velo, float rotZ, float drawTime);
 
 		/*!
+		@brief パーティクル生成関数
+		@param スケール
+		@param 移動量
+		@param ローテーションZ軸
+		@param 描画時間
+		*/
+		ParticleData CreateParticleData(Vec2 scale, Vec2 velo, float rotZ, float drawTime);
+
+		/*!
 		@brief エミッター座標設定関数
 		@param position
 		*/
