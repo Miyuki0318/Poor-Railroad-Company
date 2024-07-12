@@ -192,7 +192,7 @@ namespace basecross
 			m_animationMap.emplace(ePAK::QTESucces, AnimationMap(L"SUCCES", 24, 1.0f));			// QTE成功
 			m_animationMap.emplace(ePAK::QTEFailed, AnimationMap(L"FAILED", 24, 1.0f));			// QTE失敗
 			m_animationMap.emplace(ePAK::GameSucces, AnimationMap(L"SUCCES", 24, 1.0f, true));	// ゲーム成功時
-			m_animationMap.emplace(ePAK::GameFailed, AnimationMap(L"FAILED", 24, 0.5f));		// ゲーム失敗時
+			m_animationMap.emplace(ePAK::GameFailed, AnimationMap(L"FAILED", 24, 0.25f));		// ゲーム失敗時
 
 			// 歩くSEのキー
 			m_walkSEKeyMap.emplace(eStageID::Grass, L"WALK_GRASS_SE");	// 草地の時のSE
@@ -286,6 +286,15 @@ namespace basecross
 		bool GetStatus(ePlayerStatus status) const
 		{
 			return m_status(status);
+		}
+
+		/*!
+		@brief コントローラーで向けた方向取得関数
+		@return atan2f(m_rotTarget.z, m_rotTarget.x)
+		*/
+		float GetPastRotTarget() const
+		{
+			return atan2f(m_rotTarget.z, m_rotTarget.x);
 		}
 
 	protected:

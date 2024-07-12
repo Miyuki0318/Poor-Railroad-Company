@@ -32,18 +32,6 @@ namespace basecross
 		AddTextureResource(L"G_SAND_TX", texturePath + L"Sand.png");
 		AddTextureResource(L"G_ROCK_TX", texturePath + L"Rock.png");
 
-		// クラフトウィンドウのテクスチャ
-		AddTextureResource(L"C_WINDOW_TX", texturePath + L"CraftWindow.png");
-
-		// QTEバーのフレームのテクスチャ
-		AddTextureResource(L"C_QTE_FLAME_TX", texturePath + L"BarFlame.png");
-		AddTextureResource(L"C_QTE_POINT_TX", texturePath + L"QTEPoint.png");
-
-		// クラフトアイテムアイコンテクスチャ
-		AddTextureResource(L"C_RAIL_TX", texturePath + L"CraftRailIcon.png");
-		AddTextureResource(L"C_BRIDGE_TX", texturePath + L"CraftBridgeIcon.png");
-		AddTextureResource(L"C_CROSSING_TX", texturePath + L"CraftCrossingIcon.png");
-
 		// ボタン入力アイコンテクスチャ
 		AddTextureResource(L"BUTTON_A_TX", texturePath + L"A.png");
 		AddTextureResource(L"BUTTON_B_TX", texturePath + L"B.png");
@@ -104,6 +92,7 @@ namespace basecross
 
 		// 汽笛のSE
 		AddAudioResource(L"WHISTLE_SE", soundPath + L"Whistle");
+		AddAudioResource(L"START_WHISTLE_SE", soundPath + L"StartWhistle");
 		AddAudioResource(L"SHORT_WHISTLE_SE", soundPath + L"ShortWhistle");
 
 		// ボタン入力時のSE

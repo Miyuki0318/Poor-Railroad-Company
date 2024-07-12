@@ -29,7 +29,7 @@ namespace basecross
 
 		// 頂点データの設定
 		const float HELF = 0.55f;
-		vector<VertexPositionColor> vertices = {
+		m_vertices = {
 			{{-HELF, -HELF, -HELF}, COL_WHITE}, // 0
 			{{-HELF,  HELF, -HELF}, COL_ALPHA}, // 1
 			{{ HELF,  HELF, -HELF}, COL_ALPHA}, // 2
@@ -49,7 +49,7 @@ namespace basecross
 		// 描画コンポーネントの設定
 		m_ptrDraw = AddComponent<PCStaticDraw>();
 		m_ptrDraw->SetOriginalMeshUse(true);
-		m_ptrDraw->CreateOriginalMesh(vertices, indices);
+		m_ptrDraw->CreateOriginalMesh(m_vertices, indices);
 
 		// 透明色の描画を可能に
 		SetAlphaActive(true);
@@ -126,27 +126,38 @@ namespace basecross
 	// コントローラーでのカーソルの座標
 	Vec3 SelectIndicator::ControllerPosition()
 	{
+		// 方向ベロシティ
+		Vec3 velo;
+		
 		// RBボタン入力が無ければ
-		if (!GetButtonRB())
+		bool isPushRB = GetButtonRB();
+		if (!isPushRB)
 		{
-			// コントローラー入力
-			Vec2 LStick = GetLStickValue();
-			Vec3 cntlVec = Vec3(LStick.x, 0.0f, LStick.y);
-			if (cntlVec.length() > 0.0f)
-			{
-				m_cursorPosition += cntlVec * DELTA_TIME * 4.0f;
-				m_cursorPosition.clamp(Vec3(-1.0f, 0.0f, -1.0f), Vec3(1.0f, 0.0f, 1.0f));
-				if (GetBetween(cntlVec.x, m_deadZone, -m_deadZone)) m_cursorPosition.x = 0.0f;
-				if (GetBetween(cntlVec.z, m_deadZone, -m_deadZone)) m_cursorPosition.z = 0.0f;
-			}
+			// プレイヤーの回転角Y軸の中から90の倍数に一番近いのに設定
+			const auto& player = dynamic_pointer_cast<Player>(m_player.lock());
+			float rotY = DegToRad(GetClosest(RadToDeg(player->GetPastRotTarget()), m_rotArray));
+			m_pastRotY = rotY;
+
+			// 方向ベクトルを定義(小数点以下四捨五入)
+			velo = Vec3(cosf(rotY), 0.0f, -sinf(rotY));
+			
+			// 白色の設定
+			SetVerticesColor(COL_WHITE);
+		}
+
+		// 入力があれば
+		if (isPushRB)
+		{
+			velo = Vec3(cosf(m_pastRotY), 0.0f, -sinf(m_pastRotY));
+
+			// 赤色の設定
+			SetVerticesColor(COL_RED);
 		}
 
 		// 座標を四捨五入
-		Vec3 cursor = m_cursorPosition;
-		cursor.x = round(cursor.x);
-		cursor.z = round(cursor.z);
-
-		return cursor;
+		velo.x = round(velo.x);
+		velo.z = round(velo.z);
+		return velo;
 	}
 
 	// マウスでのカーソルの座標
@@ -163,6 +174,19 @@ namespace basecross
 		cursor.z = round(cursor.z);
 
 		return cursor;
+	}
+	
+	// 色の設定
+	void SelectIndicator::SetVerticesColor(const Col4& color)
+	{
+		// 透明色じゃなければ色を設定
+		for (auto& vertex : m_vertices)
+		{
+			if (vertex.color == COL_ALPHA) continue;
+			vertex.color = color;
+		}
+
+		m_ptrDraw->UpdateVertices(m_vertices);
 	}
 
 	// 採取オブジェクトを選択しているか
