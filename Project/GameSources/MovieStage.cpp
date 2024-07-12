@@ -68,14 +68,11 @@ namespace basecross
 	void LeaveMovieStage::OnUpdate()
 	{
 
-		if (GetSharedGameObject<Sprite>(L"BackSprite")->FadeOutColor(1.0f) && !m_isStart)
-		{
-			m_isStart = true;
-		}
 
 		if (Input::GetPush())
 		{
 			ButtonPush();
+			OnDestroy();
 		}
 
 		if (m_isPushButton)
