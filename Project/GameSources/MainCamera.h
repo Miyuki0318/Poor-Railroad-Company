@@ -10,6 +10,7 @@
 namespace basecross {
 	class MainCamera : public Camera {
 		const Vec3 m_MaxEye;		// カメラの最大移動距離
+		const float m_ScrollSpeed;
 		const float m_ZoomRatioC;	// 固定状態時のズーム割合
 
 		weak_ptr<GameObject> m_targetObject; // 目標となるオブジェクト
@@ -35,7 +36,6 @@ namespace basecross {
 			ZoomOut, // ズームアウト
 			ZoomedIn, // ズームイン後
 			Scroll,	// スクロール
-			Scrolled, // スクロール後
 		};
 		State m_cameraState;	// カメラの現在の状態
 		const State m_DefaultState;	// カメラの初期状態
@@ -54,6 +54,7 @@ namespace basecross {
 			m_MaxEye(Vec3(400.0f, 20.0f, -22.0f)),
 			m_currentEye(0.0f),
 			m_ZoomRatioC(0.6f),
+			m_ScrollSpeed(0.3f),
 			m_zoomEye(Vec3(0.0f)),
 			m_zoomAtY(0.0f),
 			m_zoomRatio(0.0f),

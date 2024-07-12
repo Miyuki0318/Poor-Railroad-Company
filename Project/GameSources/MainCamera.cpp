@@ -84,16 +84,20 @@ namespace basecross {
 
 	void MainCamera::ScrollProcess()
 	{
-		//SetEye(m_stationPos);
-		//SetAt(m_stationPos);
-		//m_scrollRatio = Clamp01(m_scrollRatio);
-		//Vec3 trainPos = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialEye.y, m_initialEye.z);
-		//Vec3 stationPos = Vec3(Clamp(m_stationPos.x, m_MaxEye.x, m_initialEye.x), m_initialAt.y, m_initialAt.z);
+		Vec3 startAt = Vec3(m_stationPos.x, m_initialAt.y, m_initialAt.z);
+		Vec3 startEye = Utility::Lerp(m_stationPos, Vec3(m_stationPos.x, m_initialEye.y, m_initialEye.z), m_ZoomRatioC);
 
-		//SetAt(Utility::Lerp(stationPos, trainPos, m_scrollRatio));
-		//SetEye(Utility::Lerp(stationPos, trainPos, m_scrollRatio));
-		//if (m_scrollRatio >= 1.0f) m_cameraState = Scrolled;
-		//m_scrollRatio += DELTA_TIME;
+		Vec3 targetEye = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialEye.y, m_initialEye.z);
+
+		Vec3 endAt = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialAt.y, m_initialAt.z);
+		Vec3 endEye = Utility::Lerp(endAt, targetEye, m_ZoomRatioC);
+
+		SetEye(Utility::Lerp(startEye, endEye, m_scrollRatio));
+		SetAt(Utility::Lerp(startAt, endAt, m_scrollRatio));
+		m_scrollRatio = Clamp01(m_scrollRatio);
+
+		if (m_scrollRatio >= 1.0f) m_cameraState = m_DefaultState;
+		m_scrollRatio += DELTA_TIME * m_ScrollSpeed;
 	}
 
 	void MainCamera::ResetCamera(Vec3 eyePos, Vec3 atPos)
