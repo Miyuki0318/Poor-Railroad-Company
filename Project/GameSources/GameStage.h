@@ -18,6 +18,7 @@ namespace basecross
 	enum eGameProgress
 	{
 		FadeIn,				// 開始時のフェードイン
+		Opening,			// 開始時の演出
 		Playing,			// プレイ中
 		CraftPause,			// クラフト中のポーズ
 		Pause,				// ポーズ
@@ -162,6 +163,11 @@ namespace basecross
 		void ToFadeInState();
 
 		/*!
+		@brief 開始時の演出処理
+		*/
+		void ToOpeningState();
+
+		/*!
 		@brief ゲーム中の処理
 		*/
 		void ToPlayingState();
@@ -223,6 +229,7 @@ namespace basecross
 			m_gameProgress = eGameProgress::FadeIn;
 
 			m_progressFunc.emplace(eGameProgress::FadeIn, bind(&GameStage::ToFadeInState, this));
+			m_progressFunc.emplace(eGameProgress::Opening, bind(&GameStage::ToOpeningState, this));
 			m_progressFunc.emplace(eGameProgress::Playing, bind(&GameStage::ToPlayingState, this));
 			m_progressFunc.emplace(eGameProgress::MoneyCalculation, bind(&GameStage::ToMoneyCalculationState, this));
 			m_progressFunc.emplace(eGameProgress::MoneyCountDown, bind(&GameStage::ToMoneyCountDownState, this));

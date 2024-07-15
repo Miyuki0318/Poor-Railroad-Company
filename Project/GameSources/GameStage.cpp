@@ -24,6 +24,7 @@
 #include "UnBreakRock.h"
 #include "CraftPosshibleGuide.h"
 #include "Instruction.h"
+#include "Station.h"
 
 namespace basecross
 {
@@ -114,12 +115,13 @@ namespace basecross
 	//ビューとライトの生成
 	void GameStage::CreateViewLight()
 	{
+		Vec3 stationPos = GetSharedGameObject<Station>(L"Station")->GetPosition();
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
-		Vec3 defEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
+		Vec3 startEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
 		Vec3 defAt = Vec3(3.0f, 1.0f, -8.5f);
 
-		auto PtrCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow, defEye, defAt);
+		auto PtrCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow, stationPos, startEye, defAt);
 		PtrView->SetCamera(PtrCamera);
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
@@ -380,14 +382,14 @@ namespace basecross
 
 	void GameStage::ResetCameraObject()
 	{
-		auto train = GetSharedGameObject<GameTrain>(L"Train");
+		Vec3 stationPos = GetSharedGameObject<Station>(L"Station")->GetPosition();
+		Vec3 startEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
 
-		Vec3 defEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
 		Vec3 defAt = Vec3(3.0f, 1.0f, -8.5f);
 
 		auto& camera = GetView()->GetTargetCamera();
 		auto mainCamera = dynamic_pointer_cast<MainCamera>(camera);
-		mainCamera->ResetCamera(defEye, defAt);
+		mainCamera->ResetCamera(startEye, stationPos, defAt);
 	}
 
 	// スプライトの表示
@@ -423,7 +425,7 @@ namespace basecross
 	{
 		if (m_fadeSprite->FadeOutColor(2.0f))
 		{
-			m_gameProgress = eGameProgress::Playing;
+			m_gameProgress = eGameProgress::Opening;
 		}
 
 		float volume = 0.0f;
@@ -432,6 +434,23 @@ namespace basecross
 		if (volume >= m_bgmVolume) return;
 		volume = Utility::Lerp(m_bgmVolume, 0.0f, m_fadeSprite->GetDiffuseColor().w);
 		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
+	}
+
+	void GameStage::ToOpeningState()
+	{
+		// 列車とカメラを取得
+		auto& camera = GetView()->GetTargetCamera();
+		auto mainCamera = dynamic_pointer_cast<MainCamera>(camera);
+		auto station = GetSharedGameObject<Station>(L"Station");
+
+		if (mainCamera->m_cameraState != MainCamera::State::Scroll)
+		{
+			mainCamera->ScrollStart();
+		}
+		if (mainCamera->GetScrollEnd())
+		{
+			m_gameProgress = eGameProgress::Playing;
+		}
 	}
 
 	void GameStage::ToPlayingState()

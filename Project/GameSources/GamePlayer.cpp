@@ -46,9 +46,9 @@ namespace basecross
 	// 毎フレーム更新処理
 	void GamePlayer::OnUpdate()
 	{
-		// ポーズ中なら無視
+		// ポーズ中またはスクロール中なら無視
 		const auto& prog = GetTypeStage<GameStage>()->GetGameProgress();
-		bool isPause = ORS(prog, eGameProgress::Pause);
+		bool isPause = ORS(prog, eGameProgress::FadeIn, eGameProgress::Pause, eGameProgress::Opening);
 		if (isPause) return;
 
 		// ステートマシンの更新処理を送る
