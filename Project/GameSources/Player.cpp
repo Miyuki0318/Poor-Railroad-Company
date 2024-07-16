@@ -126,9 +126,12 @@ namespace basecross
 
 			// 採取できるかの真偽
 			eItemType type = m_gatherMap.at(id).first;
+
+			// アイテム数が上限数未満か
 			m_addItem.second = (GetItemCount(type) < GetLimitCount(type));
 			if (m_addItem.second)
 			{
+				// アイテムタイプを保持し、カウンタを増やす
 				m_addItem.first = type;
 				AddItemCount(type);
 			}
