@@ -255,17 +255,16 @@ namespace basecross
 		Vec3 diff = pos - m_oldPlayerPos;
 		float distance = diff.length();
 
-		if (distance != 0.0f)
+		if (distance != 0.0f || Input::GetPush())
 		{
 			m_leaveTime = 0.0f;
-			//m_fadeSprite->SetDiffuseColor(COL_ALPHA);
 			return;
 		}
 
 		const auto& app = App::GetApp();
 		m_leaveTime += app->GetElapsedTime();
 
-		if (m_leaveTime >= 5.0f)
+		if (m_leaveTime >= m_setTime)
 		{
 			m_fadeSprite->FadeInColor(2.0f);
 			if (m_fadeSprite->GetDiffuseColor() == COL_WHITE)

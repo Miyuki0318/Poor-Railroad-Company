@@ -43,6 +43,8 @@ namespace basecross
 		// 列車の開始位置
 		const Vec3 m_trainPos = Vec3(23.0f,1.0f,-20.0f);
 
+		const float m_setTime;
+
 		// プレイヤーの開始座標
 		Vec3 m_startPosition;
 		
@@ -173,6 +175,7 @@ namespace basecross
 			m_routeMapDiffEye(0.0f, 3.0f, +11.0f),
 			m_trainDiffEye(0.0f, 8.0f, 12.0f),
 			m_oldPlayerPos(0.0f),
+			m_setTime(30.0f),
 			m_zooming(false)
 		{
 			m_objectGroup = CreateSharedObjectGroup(L"Settings");
