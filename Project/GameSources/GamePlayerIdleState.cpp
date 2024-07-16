@@ -57,7 +57,6 @@ namespace basecross
 
 		Vec3 pos = player->GetPosition();
 		player->GridHitResponse(pos);
-		player->SetPosition(pos);
 	}
 
 	// ステート終了時の処理

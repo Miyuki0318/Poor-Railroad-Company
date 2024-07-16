@@ -29,6 +29,7 @@ namespace basecross
 		// ステートマシンの初期化
 		m_playerState.reset(new GamePlayerStateMachine(GetThis<GamePlayer>()));
 		m_playerState->SetState(GamePlayerIdleState::Instance());
+		m_status.Set(ePlayerStatus::IsIdle) = true;
 
 		// ステータスの設定
 		const auto& scene = App::GetApp()->GetScene<Scene>();
