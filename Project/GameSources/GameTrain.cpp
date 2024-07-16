@@ -59,6 +59,7 @@ namespace basecross {
 
 	void GameTrain::ResetTrain()
 	{
+		// 初期化処理
 		m_acsel = 0.0f;
 		m_state = State::None;
 		m_moveSpeed = m_defSpeed;
@@ -66,6 +67,18 @@ namespace basecross {
 		m_DefaultPosition = m_railManager.lock()->GetStartRailPos();
 		m_trainState->ChangeState(GameTrainStraightState::Instance());
 		m_trainState->Update();
+
+		// SEリストをリセット
+		for (auto& sound : m_whistleSE)
+		{
+			auto soundItem = sound.lock();
+			if (!soundItem) continue;
+			if (!soundItem->m_SourceVoice) continue;
+
+			soundItem->m_SourceVoice->Stop();
+		}
+
+		m_whistleSE.clear();
 	}
 
 	const map<string, RailData>& GameTrain::GetRailDataMap() const
@@ -79,13 +92,13 @@ namespace basecross {
 
 		if (state == State::None)
 		{
-			if (m_acsel <= 0.0f) m_whistleSE.push_back(StartSE(L"START_WHISTLE_SE", 1.0f));
+			if (m_acsel <= 0.0f) m_whistleSE.push_back(StartSE(L"START_WHISTLE_SE", 0.75f));
 
 			m_acsel += DELTA_TIME / START_TIME;
 			m_acsel = min(m_acsel, 1.0f);
 			m_trainState->Update();
 
-			if (SetTimer(START_TIME))
+			if (m_acsel >= 1.0f)
 			{
 				m_state = State::OnRail;
 				m_isWhistle = true;
