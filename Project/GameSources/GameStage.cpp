@@ -24,6 +24,7 @@
 #include "UnBreakRock.h"
 #include "CraftPosshibleGuide.h"
 #include "Instruction.h"
+#include "Station.h"
 
 namespace basecross
 {
@@ -106,7 +107,7 @@ namespace basecross
 		// BGMのキーをステージパスから設定
 		wstring bgmKey;
 		Util::ConvertUtf8toWstring(m_stagePath, bgmKey);
-			
+
 		// BGMの再生
 		m_bgmItem = m_soundManager->StartBGM(Utility::ToUpperString(bgmKey) + L"_BGM", XAUDIO2_LOOP_INFINITE, 0.0f, ThisPtr);
 	}
@@ -114,12 +115,13 @@ namespace basecross
 	//ビューとライトの生成
 	void GameStage::CreateViewLight()
 	{
+		Vec3 stationPos = GetSharedGameObject<Station>(L"Station")->GetPosition();
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
-		Vec3 defEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
+		Vec3 startEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
 		Vec3 defAt = Vec3(3.0f, 1.0f, -8.5f);
 
-		auto PtrCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow, defEye, defAt);
+		auto PtrCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow, stationPos, startEye, defAt);
 		PtrView->SetCamera(PtrCamera);
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
@@ -133,7 +135,7 @@ namespace basecross
 		const float scale = 1.0f;
 		const auto& ground = AddGameObject<GroundManager>(scale);	// 地面の描画生成
 		SetSharedGameObject(L"GroundManager", ground);
-		
+
 		const auto& treasure = AddGameObject<GatherTreasure>();
 		SetSharedGameObject(L"GatherTreasure", treasure);
 
@@ -192,7 +194,7 @@ namespace basecross
 					m_startPosition = Vec3(float(j), 2.0f, -float(i));
 					id = 0;
 				}
-				if (num == eStageID::PlayerGoal) 
+				if (num == eStageID::PlayerGoal)
 				{
 					m_goalStagingPosition = Vec3(float(j), 2.0f, -float(i));
 					id = 0;
@@ -271,7 +273,7 @@ namespace basecross
 		// クラフト可能エフェクトオブジェクトの生成
 		auto& craft = AddGameObject<SpriteParticle>(L"RED_CIRCLE_EFEC_TX", 3);
 		SetSharedGameObject(L"CraftEffect", craft);
-		
+
 		m_gameClearState.reset(new GameClearState(GetThis<GameStage>()));
 		m_gameClearState->CreateState();
 
@@ -380,14 +382,14 @@ namespace basecross
 
 	void GameStage::ResetCameraObject()
 	{
-		auto train = GetSharedGameObject<GameTrain>(L"Train");
+		Vec3 stationPos = GetSharedGameObject<Station>(L"Station")->GetPosition();
+		Vec3 startEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
 
-		Vec3 defEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
 		Vec3 defAt = Vec3(3.0f, 1.0f, -8.5f);
 
 		auto& camera = GetView()->GetTargetCamera();
 		auto mainCamera = dynamic_pointer_cast<MainCamera>(camera);
-		mainCamera->ResetCamera(defEye, defAt);
+		mainCamera->ResetCamera(stationPos, startEye, defAt);
 	}
 
 	// スプライトの表示
@@ -423,7 +425,7 @@ namespace basecross
 	{
 		if (m_fadeSprite->FadeOutColor(2.0f))
 		{
-			m_gameProgress = eGameProgress::Playing;
+			m_gameProgress = eGameProgress::Opening;
 		}
 
 		float volume = 0.0f;
@@ -432,6 +434,23 @@ namespace basecross
 		if (volume >= m_bgmVolume) return;
 		volume = Utility::Lerp(m_bgmVolume, 0.0f, m_fadeSprite->GetDiffuseColor().w);
 		m_bgmItem.lock()->m_SourceVoice->SetVolume(volume);
+	}
+
+	void GameStage::ToOpeningState()
+	{
+		// 列車とカメラを取得
+		auto& camera = GetView()->GetTargetCamera();
+		auto mainCamera = dynamic_pointer_cast<MainCamera>(camera);
+		auto station = GetSharedGameObject<Station>(L"Station");
+
+		if (mainCamera->m_cameraState != MainCamera::State::Scroll)
+		{
+			mainCamera->ScrollStart();
+		}
+		if (mainCamera->GetScrollEnd())
+		{
+			m_gameProgress = eGameProgress::Playing;
+		}
 	}
 
 	void GameStage::ToPlayingState()
@@ -571,7 +590,7 @@ namespace basecross
 	void GameStage::ToGameOverStage()
 	{
 		// フェードイン開始の条件を満たしていた場合の処理
-		if (m_countTime >= m_defermentTransition) 
+		if (m_countTime >= m_defermentTransition)
 		{
 			if (m_gameOverState->GetState() != eGameOverState::StandBy)
 			{
@@ -607,9 +626,9 @@ namespace basecross
 	}
 
 	// 生成時の処理
-	void GameStage::OnCreate() 
+	void GameStage::OnCreate()
 	{
-		try 
+		try
 		{
 			// 継承元の生成時の処理
 			BaseStage::OnCreate();
@@ -664,7 +683,7 @@ namespace basecross
 			mainCamera->SetTargetObject(train);
 			mainCamera->SetAt(train->GetDefaultPosition());
 		}
-		catch (...) 
+		catch (...)
 		{
 			throw;
 		}
