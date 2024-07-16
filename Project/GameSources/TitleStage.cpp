@@ -366,7 +366,6 @@ namespace basecross
 		switch (m_titleProgress)
 		{
 		case basecross::opening:
-			if (m_leaveTime >= 5.0f) return;
 			m_fadeSprite->FadeOutColor(1.0f);
 			break;
 
@@ -550,6 +549,8 @@ namespace basecross
 			}
 			
 			Debug::Log(L"時間 : ", m_leaveTime);
+
+			Debug::Log(L"色　 : ", m_fadeSprite->GetDiffuseColor());
 
 			// 通常時以外は演出中のフラグを立てる
 			m_isStaging = m_titleProgress != normal;
