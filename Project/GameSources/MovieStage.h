@@ -15,13 +15,13 @@ namespace basecross
 	private:
 		const float m_fadeTime;
 
+		// 経過時間
 		float m_timer;
 
 		wstring m_moviePath;
 
-		bool m_isStart;
-
-		bool m_isPushButton;
+		// ボタンが押されたか
+		bool m_pushButton;
 
 		/*
 		@brief リソースの読込
@@ -48,8 +48,7 @@ namespace basecross
 			MovieStage(),
 			m_fadeTime(1.0f),
 			m_timer(0.0f),
-			m_isStart(false),
-			m_isPushButton(false)
+			m_pushButton(false)
 		{
 		}
 

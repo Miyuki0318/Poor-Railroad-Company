@@ -367,6 +367,7 @@ namespace basecross
 		{
 		case basecross::opening:
 			if (m_leaveTime >= 5.0f) return;
+
 			m_fadeSprite->FadeOutColor(1.0f);
 			break;
 
