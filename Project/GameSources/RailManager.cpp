@@ -343,6 +343,12 @@ namespace basecross
 		// ガイドとレールIDの追加
 		SetGuideID(point.x, point.y);
 		SetRailID(point.x, point.y);
+
+		// これ以降レールを追加できないなら
+		if (!CheckCannotAddRail(point.x, point.y))
+		{
+			m_isCannotAddRail = true;
+		}
 	}
 
 	// 先端レールの書き換え
@@ -485,5 +491,42 @@ namespace basecross
 				return;
 			}
 		}
+	}
+
+	// これ以降レールを追加できるか
+	bool RailManager::CheckCannotAddRail(size_t row, size_t col)
+	{
+		// レールデータの取得
+		string line = ROWCOL2LINE(row, col);
+		RailData data = m_railDataMap.at(line);
+		RailData past = m_railDataMap.at(POS2LINE(data.pastPos));
+
+		// ガイド付きcsvマップから設置位置の上下左右を取得
+		auto& elems = CSVElementCheck::GetElemsCheck(row, col, m_guideMap);
+		for (auto& elem : elems)
+		{
+			if (!elem.isRange) continue;
+			
+			// 配置できないIDなら
+			eStageID id = STAGE_ID(m_guideMap.at(elem.row).at(elem.col));
+			if (m_canNotAddRailSet.find(id) != m_canNotAddRailSet.end()) continue;
+
+			// 1つ前のレールが直線じゃなければ
+			if (past.angle != eRailAngle::Straight)
+			{
+				// 設置したレールが直線なら
+				if (CheckStraightRail(data, elem.dir))
+				{			
+					// レールが設置できる可能性があるか
+					return m_canAddRailSet.find(id) != m_canAddRailSet.end();
+				}
+
+				continue;
+			}
+
+			// 四方に配置できる状態なら単純なチェック
+			if (m_canAddRailSet.find(id) != m_canAddRailSet.end()) return true;
+		}
+		return false;
 	}
 }

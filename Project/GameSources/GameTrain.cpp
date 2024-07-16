@@ -131,6 +131,10 @@ namespace basecross {
 		if (state == State::OnRail)
 		{
 			m_trainState->Update();
+			if (m_railManager.lock()->IsCannotAddRail())
+			{
+				m_moveSpeed = m_defSpeed * 10.0f; // ‘‚­i‚Ş
+			}
 
 			if (m_railManager.lock()->IsConnectionGoalRail()) // ƒS[ƒ‹‚Ü‚Åü˜H‚ª‚Â‚È‚ª‚Á‚½‚ç
 			{
