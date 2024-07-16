@@ -19,8 +19,8 @@ namespace basecross
 		const shared_ptr<Stage>& stagePtr = GetStage();
 
 		// 各種スプライトの生成
-		m_menuSprites.emplace(eMenuTypes::KeyBoard, stagePtr->AddGameObject<Sprite>(L"PAUSEMENU_TX", m_CloseMenuScale, m_CloseMenuPos));
-		m_menuSprites.emplace(eMenuTypes::XBoxPad, stagePtr->AddGameObject<Sprite>(L"PAUSEMENU_TX", m_CloseMenuScale, m_CloseMenuPos));
+		m_menuSprites.emplace(eMenuTypes::KeyBoard, stagePtr->AddGameObject<Sprite>(L"PAUSEMENU_K_TX", m_CloseMenuScale, m_CloseMenuPos));
+		m_menuSprites.emplace(eMenuTypes::XBoxPad, stagePtr->AddGameObject<Sprite>(L"PAUSEMENU_X_TX", m_CloseMenuScale, m_CloseMenuPos));
 		m_buttonSprites.emplace(eButtons::Retry, stagePtr->AddGameObject<Sprite>(L"CONTINUE_TX", m_DefaultButtonScale, m_DefaultRetryButtonPos));
 		m_buttonSprites.emplace(eButtons::BackTitle, stagePtr->AddGameObject<Sprite>(L"CONTINUE_TITLEBACK_TX", m_DefaultButtonScale, m_DefaultTitleButtonPos));
 

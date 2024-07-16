@@ -96,11 +96,10 @@ namespace basecross {
 		// スクロールの開始位置
 		Vec3 startAt = Vec3(m_defScrollEye.x, m_initialAt.y, m_initialAt.z);
 		Vec3 startEye = Utility::Lerp(startAt, Vec3(m_defScrollEye.x, m_initialEye.y, m_initialEye.z), m_ZoomRatioC);
-		Vec3 targetEye = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialEye.y, m_initialEye.z);
-
 
 		// スクロールの終了位置
 		Vec3 endAt = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialAt.y, m_initialAt.z);
+		Vec3 targetEye = Vec3(Clamp(m_targetPos.x, m_MaxEye.x, m_initialEye.x), m_initialEye.y, m_initialEye.z);
 		Vec3 endEye = Utility::Lerp(endAt, targetEye, m_ZoomRatioC);
 
 		// 位置と注視点の更新

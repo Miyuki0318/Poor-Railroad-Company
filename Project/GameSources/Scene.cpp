@@ -81,7 +81,8 @@ namespace basecross {
 		app->RegisterTexture(L"SLASH_TX", texturePath + L"Slash.png");
 
 		// ポーズメニューテクスチャ
-		app->RegisterTexture(L"PAUSEMENU_TX", texturePath + L"PauseMenu.png");
+		app->RegisterTexture(L"PAUSEMENU_X_TX", texturePath + L"PauseMenu_X.png");
+		app->RegisterTexture(L"PAUSEMENU_K_TX", texturePath + L"PauseMenu_K.png");
 
 		// 購入画面テクスチャ
 		app->RegisterTexture(L"SHOP_PURCHASESCREEN_TX", texturePath + L"Shop_PurchaseScreen.png");
