@@ -258,7 +258,7 @@ namespace basecross
 		if (distance != 0.0f)
 		{
 			m_leaveTime = 0.0f;
-			m_fadeSprite->SetDiffuseColor(COL_ALPHA);
+			//m_fadeSprite->SetDiffuseColor(COL_ALPHA);
 			return;
 		}
 
@@ -366,11 +366,14 @@ namespace basecross
 		switch (m_titleProgress)
 		{
 		case basecross::opening:
+			if (m_leaveTime >= 5.0f) return;
 			m_fadeSprite->FadeOutColor(1.0f);
 			break;
 
 		case basecross::normal:
 		case basecross::push:
+			if (m_leaveTime >= 5.0f) return;
+
 			if (m_fadeSprite->GetDiffuseColor() != Col4(COL_ALPHA))
 			{
 				m_fadeSprite->FadeOutColor(1.0f);
