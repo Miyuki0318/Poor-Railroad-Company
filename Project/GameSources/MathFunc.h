@@ -73,8 +73,8 @@ namespace MathF {
 	/// 与えられたvalueを0から1(または1から0)の範囲でループさせる関数
 	/// </summary>
 	/// <param name="value">ループさせる値</param>
-	/// <param name="invert">false:0から1 true:1から0</param>
-	/// <returns>value:補正後の値 flag:0~1の範囲外になったらtrue</returns>
+	/// <param name="speed">ループ速度(秒速)</param>
+	/// <returns>補正後の値</returns>
 	inline float Repeat01(float value, float speed)
 	{
 		value += ELAPSED_TIME * speed;
