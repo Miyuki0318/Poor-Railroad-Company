@@ -14,7 +14,12 @@
 
 namespace basecross {
 	void SelectArrow::OnCreate()
-	{
+	{		
+		// パラメータ設定
+		const float posX = 750.0f;
+		const float posY = 0.0f;
+		const Vec2 scale = Vec2(200.0f);
+
 		const shared_ptr<Stage>& stagePtr = GetStage(); // ステージの取得
 
 		if (Input::GetPadConected())
@@ -64,6 +69,7 @@ namespace basecross {
 		// 路線図オブジェクト取得
 		const auto& routeMap = stage->GetSharedGameObject<RouteMap>(L"RouteMap");
 
+		// LStickの入力量取得
 		float stickL = Input::GetLStickValue().x;
 
 		bool isSelect = routeMap->GetIsInputX();
@@ -81,14 +87,17 @@ namespace basecross {
 				m_leftArrow.lock()->SetDiffuseColor(COL_GRAY);
 			}
 
-			if (!m_currentStick) {
+			if (!m_currentStick)
+			{
 				StartSE(L"PUSH_SE", 1.0f);
 			}
 
 			m_currentStick = true;
 		}
-		else{
-			if (abs(stickL) <= 0.3f) {
+		else
+		{
+			if (abs(stickL) <= 0.3f)
+			{
 				m_rightArrow.lock()->SetDiffuseColor(COL_WHITE);
 				m_leftArrow.lock()->SetDiffuseColor(COL_WHITE);
 				m_currentStick = false;
