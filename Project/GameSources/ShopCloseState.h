@@ -24,19 +24,19 @@ namespace basecross
 
 		/*!
 		@brief ステートに入った時に実行される
-		@param プレイヤーのポインタ
+		@param ショップのポインタ
 		*/
 		void Enter(const shared_ptr<Shop>& shop) override;
 
 		/*!
 		@brief Updateの時に実行される
-		@param プレイヤーのポインタ
+		@param ショップのポインタ
 		*/
 		void Execute(const shared_ptr<Shop>& shop) override;
 
 		/*!
 		@brief ステートを出る時に実行される
-		@param プレイヤーのポインタ
+		@param ショップのポインタ
 		*/
 		void Exit(const shared_ptr<Shop>& shop) override;
 

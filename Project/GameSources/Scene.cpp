@@ -83,6 +83,12 @@ namespace basecross {
 		// ポーズメニューテクスチャ
 		app->RegisterTexture(L"PAUSEMENU_TX", texturePath + L"PauseMenu.png");
 
+		// Aボタンテクスチャ
+		app->RegisterTexture(L"ABUTTON_TX", texturePath + L"A.png");
+
+		//右クリックテクスチャ
+		app->RegisterTexture(L"RCLICK_TX", texturePath + L"ClickM2.png");
+
 		// 購入画面テクスチャ
 		app->RegisterTexture(L"SHOP_PURCHASESCREEN_TX", texturePath + L"Shop_PurchaseScreen.png");
 
