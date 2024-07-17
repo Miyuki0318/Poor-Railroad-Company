@@ -71,14 +71,14 @@ namespace basecross
 
 		
 		// ボードのテクスチャ
-		AddTextureResource(L"BOARD_TX", routePath + L"MapTexture.tga");
+		AddTextureResource(L"BOARD_TX", routePath + L"MapTexture.png");
 
 		// マップ選択モデルのテクスチャ
-		AddTextureResource(L"FIRST_TX", routePath + L"FirstMapTexture.tga");
-		AddTextureResource(L"SECOND_TX", routePath + L"SecondMapTexture.tga");
-		AddTextureResource(L"THIRD_TX", routePath + L"ThirdMapTexture.tga");
-		AddTextureResource(L"FOURTH_TX", routePath + L"FourthMapTexture.tga");
-		AddTextureResource(L"FIFTH_TX", routePath + L"FifthMapTexture.tga");
+		AddTextureResource(L"FIRST_TX", routePath + L"FirstMapTexture.png");
+		AddTextureResource(L"SECOND_TX", routePath + L"SecondMapTexture.png");
+		AddTextureResource(L"THIRD_TX", routePath + L"ThirdMapTexture.png");
+		AddTextureResource(L"FOURTH_TX", routePath + L"FourthMapTexture.png");
+		AddTextureResource(L"FIFTH_TX", routePath + L"FifthMapTexture.png");
 
 		// ガイドのテクスチャ
 		AddTextureResource(L"ROUTEMAP_TX", texturePath + L"StageSelectGuide.png");
