@@ -41,7 +41,7 @@ namespace basecross
 		// 各Lv取得用変数
 		vector<ePL> Lv;
 
-		for (int i = 0; i < Shop::eEnhancements::size; i++)
+		for (int i = 0; i < Shop::eEnhancements::EnhancementsSize; i++)
 		{
 			switch (i)
 			{
@@ -121,19 +121,22 @@ namespace basecross
 				place /= 10;
 			}
 
+			// 桁数分のスプライトのレイヤーを設定
 			for (int j = 0; j < digit; j++) {
 				if (!shop->m_enhancementsCostNumSprite.at(i).at(j).lock()) continue;
-				shop->m_enhancementsCostNumSprite.at(i).at(j).lock()->SetDrawLayer(11);
+				shop->m_enhancementsCostNumSprite.at(i).at(j).lock()->SetDrawLayer(6);
 			}
 
 			// 所持金を取得
 			int money = scenePtr.lock()->GetMoney();
 
-			// 現在のレベルが最大になっていないか、費用と所持金を比較し、強化可能かを判別
+			// 現在のレベルが最大になっていないこと、費用と所持金を比較することで、強化可能かを判別
 			if (Lv.at(i) != ePL::Level5 && m_cost.at(i) <= money) {
+				// 強化可能
 				shop->m_canEnhancements.at(i) = true;
 			}
 			else {
+				// 強化不可
 				shop->m_canEnhancements.at(i) = false;
 			}
 		}
@@ -141,28 +144,28 @@ namespace basecross
 		// 強化できない場所のスプライトを表示する
 		for (int i = 0; i < shop->m_notSelectableSprite.size(); i++) {
 			if (!shop->m_canEnhancements.at(i)) {
+				// 選択箇所をグレーのスプライトで覆う
 				shop->m_notSelectableSprite.at(i).lock()->SetDrawActive(true);
 			}
 		}
 
-		// 数字スプライトのレイヤー設定
+		// 数字スプライトのレイヤーを設定
 		for (int i = 0; i < shop->m_playerLvNumSprite.size(); i++) {
 			if (!shop->m_playerLvNumSprite.at(i).lock()) continue;
-			shop->m_playerLvNumSprite.at(i).lock()->SetDrawLayer(11);
-		}
-		for (int i = 0; i < shop->m_enhancementsCostNumSprite.size(); i++) {
+			shop->m_playerLvNumSprite.at(i).lock()->SetDrawLayer(6);
 		}
 	}
 
 	// ステート更新時の処理
 	void ShopShoppingState::Execute(const shared_ptr<Shop>& shop)
 	{
-		// Aボタン入力の取得
+		// Aボタン入力の取得(ゲームパッド未接続時は右クリックの取得)
 		bool isPushA = Input::GetPushA();
-		// Bボタン入力の取得
+		// Bボタン入力の取得(ゲームパッド未接続時は左クリックの取得)
 		bool isPushB = Input::GetPushB();
-		// LStickのY軸入力量を取得
-		float stickValueY = Input::GetLStickValue().y;
+
+		// コントローラーの接続に応じて選択処理を行う
+		Input::GetPadConected() ? ControllerSelect(shop) : MouseSelect(shop);
 
 		// Aボタン入力があった場合、ショップを閉じる
 		if (isPushA) {
@@ -193,9 +196,64 @@ namespace basecross
 			}
 			else {
 				// 選択不可の効果音を再生
-				shop->StartSE(L"C_FAILURE_SE", 1.0f);				
+				shop->StartSE(L"C_FAILURE_SE", 1.0f);
 			}
 		}
+
+		// 選択肢の点滅処理
+		float transparency = 0.0f;
+		float hulfLimit = m_totalTimeLimit / 2.0f;
+
+		// 経過時間に応じて点滅の切り替え
+		if (m_totalTime <= hulfLimit)
+		{
+			transparency = Utility::Lerp(shop->m_transparencyLimit, 0.0f, m_totalTime * 2.0f);
+		}
+		else {
+			transparency = Utility::Lerp(0.0f, shop->m_transparencyLimit, (m_totalTime - hulfLimit) * 2.0f);
+		}
+
+		// 経過時間を更新
+		m_totalTime += DELTA_TIME;
+
+		// 経過時間が1秒を経過していた場合、経過時間をリセットする
+		if (m_totalTime > m_totalTimeLimit) {
+			m_totalTime = 0.0f;
+		}
+
+		// 透明度を更新
+		shop->m_selectPointSprite.lock()->SetDiffuseColor(Col4(1.0f, 1.0f, 1.0f, transparency));
+	}
+
+	// ステート終了時の処理
+	void ShopShoppingState::Exit(const shared_ptr<Shop>& shop)
+	{
+		// スプライトの非表示処理
+		shop->m_purchaseScreenSprite.lock()->SetDrawActive(false);
+		shop->m_selectPointSprite.lock()->SetDrawActive(false);
+		shop->m_iconSprite.at(Shop::eOperationType::Controller).lock()->SetDrawActive(false);
+		shop->m_iconSprite.at(Shop::eOperationType::Keyboard).lock()->SetDrawActive(false);
+
+		for (int i = 0; i < shop->m_notSelectableSprite.size(); i++) {
+			shop->m_notSelectableSprite.at(i).lock()->SetDrawActive(false);
+		}
+		for (int i = 0; i < shop->m_playerLvNumSprite.size(); i++) {
+			shop->m_playerLvNumSprite.at(i).lock()->SetDrawActive(false);
+		}
+		for (int i = 0; i < shop->m_enhancementsCostNumSprite.size(); i++) {
+			for (int j = 0; j < m_digit.at(i); j++) {
+				shop->m_enhancementsCostNumSprite.at(i).at(j).lock()->SetDrawActive(false);
+			}
+		}
+	}
+
+	void ShopShoppingState::ControllerSelect(const shared_ptr<Shop>& shop) {
+		// スプライトの表示を変更
+		shop->m_iconSprite.at(Shop::eOperationType::Controller).lock()->SetDrawActive(true);
+		shop->m_iconSprite.at(Shop::eOperationType::Keyboard).lock()->SetDrawActive(false);
+
+		// LStickのY軸入力量を取得
+		float stickValueY = Input::GetLStickValue().y;
 
 		// 一定以上のLスティック入力があった場合のみ選択処理を行う
 		if (abs(stickValueY) >= m_LStickLowerLimit) {
@@ -261,51 +319,38 @@ namespace basecross
 				m_isInputLStick = false;
 			}
 		}
-
-		// 選択肢の点滅処理
-		float transparency = 0.0f;
-
-		// 経過時間に応じて点滅の切り替え
-		if (m_totalTime <= 0.5f)
-		{
-			transparency = Utility::Lerp(shop->m_transparencyLimit, 0.0f, m_totalTime * 2.0f);
-		}
-		else {
-			if (m_totalTime <= 1.0f) {
-				transparency = Utility::Lerp(0.0f, shop->m_transparencyLimit, (m_totalTime - 0.5f) * 2.0f);
-			}
-		}
-
-		// 経過時間を更新
-		m_totalTime += DELTA_TIME;
-
-		// 経過時間が1秒を経過していた場合、経過時間をリセットする
-		if (m_totalTime > 1.0f) {
-			m_totalTime = 0.0f;
-		}
-
-		// 透明度を更新
-		shop->m_selectPointSprite.lock()->SetDiffuseColor(Col4(1.0f, 1.0f, 1.0f, transparency));
 	}
 
-	// ステート終了時の処理
-	void ShopShoppingState::Exit(const shared_ptr<Shop>& shop)
-	{
-		// スプライトの非表示処理
-		shop->m_purchaseScreenSprite.lock()->SetDrawActive(false);
-		shop->m_selectPointSprite.lock()->SetDrawActive(false);
-		for (int i = 0; i < shop->m_notSelectableSprite.size(); i++) {
-			shop->m_notSelectableSprite.at(i).lock()->SetDrawActive(false);
-		}
-		for (int i = 0; i < shop->m_playerLvNumSprite.size(); i++) {
-			shop->m_playerLvNumSprite.at(i).lock()->SetDrawActive(false);
-		}
-		for (int i = 0; i < shop->m_enhancementsCostNumSprite.size(); i++) {
-			for (int j = 0; j < m_digit.at(i); j++) {
-				shop->m_enhancementsCostNumSprite.at(i).at(j).lock()->SetDrawActive(false);
+	void ShopShoppingState::MouseSelect(const shared_ptr<Shop>& shop) {
+		// スプライトの表示を変更
+		shop->m_iconSprite.at(Shop::eOperationType::Controller).lock()->SetDrawActive(false);
+		shop->m_iconSprite.at(Shop::eOperationType::Keyboard).lock()->SetDrawActive(true);
+
+		// マウスの座標を取得
+		Vec2 mousePos = Input::GetMousePosition();
+		// 選択範囲の半分のスケールを取得
+		Vec2 helfScale = shop->m_selectPointScale / 2.0f;
+
+		// 選択肢の数ループ
+		for (int i = 0; i < shop->m_selectPointSpritePos.size(); i++) {
+			// 選択肢の中心座標
+			Vec2 selectPos = Vec2(shop->m_selectPointSpritePos.at(i).x, shop->m_selectPointSpritePos.at(i).y);
+			// 選択範囲にマウスカーソルがあるかをチェック
+			if (Utility::GetBetween(mousePos, selectPos + helfScale, selectPos - helfScale)) {
+				if (shop->m_currentEnhancements != Shop::eEnhancements(i)) {
+					// スティック入力の効果音を再生
+					shop->StartSE(L"SELECT_SE", 1.0f);
+				}
+				// 選択内容を変更
+				shop->m_currentEnhancements = Shop::eEnhancements(i);
+
+				// スプライトの座標を選択内容に応じて更新
+				shop->m_selectPointSprite.lock()->SetPosition(shop->m_selectPointSpritePos.at(shop->m_currentEnhancements));
+
+				// 経過時間をリセットする
+				m_totalTime = 0.0f;
 			}
 		}
-
 	}
 
 	// インスタンス生成

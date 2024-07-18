@@ -19,16 +19,23 @@ namespace basecross
 	// ステート開始時の処理
 	void ShopConfirmationState::Enter(const shared_ptr<Shop>& shop)
 	{
+		// 選択肢をNoにリセット
+		m_confirmation = Shop::eConfirmState::No;
+
+		// 選択肢のスケールをリセット
+		shop->m_confirmSprite.at(Shop::eConfirmState::Yes).lock()->SetScale(shop->m_confirmSpriteScale);
+		shop->m_confirmSprite.at(Shop::eConfirmState::No).lock()->SetScale(shop->m_spriteSizeRange);
+
+		// 経過時間をリセット
+		m_totalTime = 0.0f;
+
 		// 現在のステートをConfirmationに変更
 		shop->m_currentState = Shop::eShopState::Confirmation;
 
-		// 変数の初期化
-		m_isEnhancements = false;
-
 		// スプライトの表示処理
 		shop->m_confirmationScreenSprite.lock()->SetDrawActive(true);
-		shop->m_yesSprite.lock()->SetDrawActive(true);
-		shop->m_noSprite.lock()->SetDrawActive(true);
+		shop->m_confirmSprite.at(Shop::eConfirmState::Yes).lock()->SetDrawActive(true);
+		shop->m_confirmSprite.at(Shop::eConfirmState::No).lock()->SetDrawActive(true);
 		switch (shop->m_currentEnhancements)
 		{
 		case Shop::eEnhancements::LimitChoices:
@@ -116,11 +123,11 @@ namespace basecross
 		}
 
 		// 数字スプライトのレイヤー設定
-		shop->m_enhancementsNextLvSprite.lock()->SetDrawLayer(15);
+		shop->m_enhancementsNextLvSprite.lock()->SetDrawLayer(10);
 		for (int i = 0; i < m_digit; i++) {
 			if (!shop->m_enhancementsNextCostSprite.at(i).lock()) continue;
 			shop->m_enhancementsNextCostSprite.at(i).lock()->SetDrawActive(true);
-			shop->m_enhancementsNextCostSprite.at(i).lock()->SetDrawLayer(15);
+			shop->m_enhancementsNextCostSprite.at(i).lock()->SetDrawLayer(10);
 		}
 	}
 
@@ -140,7 +147,7 @@ namespace basecross
 
 		// Bボタン入力があった場合、選択内容を強化
 		if (Input::GetPushB()) {
-			if (m_isEnhancements) {
+			if (m_confirmation == Shop::eConfirmState::Yes) {
 				// 選択内容に応じて取得するデータを変える
 				switch (shop->m_currentEnhancements)
 				{
@@ -190,29 +197,8 @@ namespace basecross
 			}
 		}
 
-		// 一定以上のLスティック入力があった場合のみ選択処理を行う
-		if (abs(Input::GetLStickValue().x) >= m_LStickLowerLimit) {
-			if (!m_isInputLStick) {
-				if (m_isEnhancements) {
-					// 選択肢の拡縮処理
-					m_isEnhancements = false;
-				}
-				else {
-					m_isEnhancements = true;
-				}
-				// 経過時間をリセットする
-				m_totalTime = 0.0f;
-
-				// スティック入力の効果音を再生
-				shop->StartSE(L"SELECT_SE", 1.0f);
-			}
-			// 入力量が下限値を超えていた為、スティック入力があったと判定する
-			m_isInputLStick = true;
-		}
-		else {
-			// 入力量が下限値を下回っていた為、スティック入力が無かったと判定する
-			m_isInputLStick = false;
-		}
+		// コントローラーの接続に応じて選択処理を行う
+		Input::GetPadConected() ? ControllerSelect(shop) : MouseSelect(shop);
 
 		// 選択肢の拡大率
 		float spriteSizeRange = 0.0f;
@@ -237,13 +223,13 @@ namespace basecross
 		}
 
 		// 透明度を更新
-		if (m_isEnhancements) {
-			shop->m_yesSprite.lock()->SetScale(shop->m_confirmSpritedefScale * spriteSizeRange);
-			shop->m_noSprite.lock()->SetScale(shop->m_confirmSpritedefScale);
+		if (m_confirmation == Shop::eConfirmState::Yes) {
+			shop->m_confirmSprite.at(Shop::eConfirmState::Yes).lock()->SetScale(shop->m_confirmSpriteScale * spriteSizeRange);
+			shop->m_confirmSprite.at(Shop::eConfirmState::No).lock()->SetScale(shop->m_confirmSpriteScale);
 		}
 		else {
-			shop->m_yesSprite.lock()->SetScale(shop->m_confirmSpritedefScale);
-			shop->m_noSprite.lock()->SetScale(shop->m_confirmSpritedefScale * spriteSizeRange);
+			shop->m_confirmSprite.at(Shop::eConfirmState::Yes).lock()->SetScale(shop->m_confirmSpriteScale);
+			shop->m_confirmSprite.at(Shop::eConfirmState::No).lock()->SetScale(shop->m_confirmSpriteScale * spriteSizeRange);
 		}		
 	}
 
@@ -252,8 +238,8 @@ namespace basecross
 	{
 		// スプライトの非表示処理
 		shop->m_confirmationScreenSprite.lock()->SetDrawActive(false);
-		shop->m_yesSprite.lock()->SetDrawActive(false);
-		shop->m_noSprite.lock()->SetDrawActive(false);
+		shop->m_confirmSprite.at(Shop::eConfirmState::Yes).lock()->SetDrawActive(false);
+		shop->m_confirmSprite.at(Shop::eConfirmState::No).lock()->SetDrawActive(false);
 
 		switch (shop->m_currentEnhancements)
 		{
@@ -289,5 +275,62 @@ namespace basecross
 
 		// 新しく生成されたthisポインタ
 		return instance;
+	}
+
+	void  ShopConfirmationState::ControllerSelect(const shared_ptr<Shop>& shop) {
+		// 一定以上のLスティック入力があった場合のみ選択処理を行う
+		if (abs(Input::GetLStickValue().x) >= m_LStickLowerLimit) {
+			if (!m_isInputLStick) {
+				if (m_confirmation == Shop::eConfirmState::Yes) {
+					// 選択肢の拡縮処理
+					m_confirmation = Shop::eConfirmState::No;
+				}
+				else {
+					m_confirmation = Shop::eConfirmState::Yes;
+				}
+				// 経過時間をリセットする
+				m_totalTime = 0.0f;
+
+				// スティック入力の効果音を再生
+				shop->StartSE(L"SELECT_SE", 1.0f);
+			}
+			// 入力量が下限値を超えていた為、スティック入力があったと判定する
+			m_isInputLStick = true;
+		}
+		else {
+			// 入力量が下限値を下回っていた為、スティック入力が無かったと判定する
+			m_isInputLStick = false;
+		}
+	}
+
+	void  ShopConfirmationState::MouseSelect(const shared_ptr<Shop>& shop) {
+		// マウスの座標を取得
+		Vec2 mousePos = Input::GetMousePosition();
+		// 選択範囲の半分のスケールを取得
+		Vec2 helfScale = shop->m_confirmSpriteScale / 2.0f;
+
+		// 選択肢の数ループ
+		for (int i = 0; i < Shop::eConfirmState::ConfirmSize; i++) {
+			// 選択肢の中心座標
+			Vec2 selectPos = Vec2(shop->m_confirmSpritePos.at(i).x, shop->m_confirmSpritePos.at(i).y);
+			// 選択範囲にマウスカーソルがあるかをチェック
+			if (Utility::GetBetween(mousePos, selectPos + helfScale, selectPos - helfScale)) {
+				// 前回の選択内容と異なっているかをチェック
+				if (m_confirmation != Shop::eConfirmState(i)) {
+					// スティック入力の効果音を再生
+					shop->StartSE(L"SELECT_SE", 1.0f);
+
+					// 経過時間をリセットする
+					m_totalTime = 0.0f;
+
+					// 選択内容を変更
+					m_confirmation = Shop::eConfirmState(i);
+
+					// スプライトの座標を選択内容に応じて更新
+					shop->m_selectPointSprite.lock()->SetPosition(shop->m_selectPointSpritePos.at(shop->m_currentEnhancements));
+				}
+			}
+		}
+
 	}
 }
