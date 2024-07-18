@@ -16,12 +16,15 @@ namespace basecross {
 	{
 		TemplateObject::OnCreate();
 
-		// タイトルロゴ生成
-		m_titleLogo = GetTypeStage<TitleStage>()->AddGameObject<Sprite>(L"TITLE_LOGO", Vec2(700.0f ,500.0f));
-		m_pushLogo = GetTypeStage<TitleStage>()->AddGameObject<Sprite>(L"START_TX", Vec2(350.0f, 100.0f));
+		// パラメータ設定
+		const Vec2 logoScale = Vec2(700.0f, 500.0f);
+		const Vec2 buttonScale = Vec2(350.0f, 100.0f);
+		const Vec3 logoPos = Vec3(0.0f, -m_startPosY, 0.0f);
+		const Vec3 buttonPos = Vec3(0.0f, -m_startPosY + (-m_titleLogo->GetScale().y), 0.0f);
 
-		m_titleLogo->SetPosition(Vec3(0.0f, -m_startPosY, 0.0f));
-		m_pushLogo->SetPosition(Vec3(0.0f, -m_startPosY + (-m_titleLogo->GetScale().y), 0.0f));
+		// タイトルロゴ生成
+		m_titleLogo = GetTypeStage<TitleStage>()->AddGameObject<Sprite>(L"TITLE_LOGO", logoScale, logoPos);
+		m_pushLogo = GetTypeStage<TitleStage>()->AddGameObject<Sprite>(L"START_TX", buttonScale, buttonPos);
 
 		m_titleLogo->SetDrawLayer(2);
 		m_pushLogo->SetDrawLayer(2);
@@ -32,41 +35,33 @@ namespace basecross {
 
 	void TitleLogo::OnUpdate()
 	{
-		switch (m_logoState)
+		if (m_logoState == eOpeningState::move)
 		{
-		case eLogoState::move:
 			MoveTitleLogo();
-			break;
-
-		case eLogoState::push:
-			PushButton();
-			break;
-
-		case eLogoState::exit:
-			FadeTitleLogo();
-			break;
-
-		case eLogoState::idel:
-			break;
-
-		default:
-			break;
 		}
 
-		if (m_logoState != eLogoState::move)
+		if (m_logoState == eOpeningState::push)
+		{
+			PushButton();
+		}
+		if (m_logoState == eOpeningState::exit)
+		{
+			FadeTitleLogo();
+		}
+
+		if (m_logoState != eOpeningState::move)
 		{
 			SpriteBrink();
 		}
-
-		Debug::Log(m_brinkTime);
 	}
 	
+	// ゲーム開始時の処理
 	void TitleLogo::MoveTitleLogo()
 	{
 		if (m_maxPosY <= m_titlePos.y)
 		{
 			m_deltaTime = 0.0f;
-			m_logoState = eLogoState::push;
+			m_logoState = eOpeningState::push;
 			GetTypeStage<TitleStage>()->StartBGM();
 			return;
 		}
@@ -83,12 +78,13 @@ namespace basecross {
 		m_pushLogo->SetPosition(m_pushPos);
 	}
 
+	// フェード処理
 	void TitleLogo::FadeTitleLogo()
 	{
 		if (m_pushPos.y <= -m_startPosY)
 		{
 			m_deltaTime = 0.0f;
-			m_logoState = eLogoState::idel;
+			m_logoState = eOpeningState::idel;
 			return;
 		}
 
@@ -104,16 +100,18 @@ namespace basecross {
 		m_pushLogo->SetPosition(m_pushPos);
 	}
 
+	// ボタンを押した時の処理
 	void TitleLogo::PushButton()
 	{
 		if (Input::GetPush())
 		{
 			StartSE(L"PUSH_SE", 1.0f);
-			m_logoState = eLogoState::exit;
+			m_logoState = eOpeningState::exit;
 			m_brinkTime = 25.0f;
 		}
 	}
 
+	// ボタンの点滅処理
 	void TitleLogo::SpriteBrink()
 	{
 		const auto& app = App::GetApp();

@@ -9,7 +9,8 @@
 #include "Sprite.h"
 
 namespace basecross {
-	enum class eLogoState
+	// オープニングの状態
+	enum class eOpeningState
 	{
 		move,
 		push,
@@ -38,7 +39,7 @@ namespace basecross {
 
 		float m_vel = 0.0f;
 
-		eLogoState m_logoState;
+		eOpeningState m_logoState;
 
 		shared_ptr<Sprite> m_titleLogo;
 		shared_ptr<Sprite> m_pushLogo;
@@ -56,7 +57,7 @@ namespace basecross {
 			TemplateObject(stagePtr)
 		{
 			m_deltaTime = 0.0f;
-			m_logoState = eLogoState::move;
+			m_logoState = eOpeningState::move;
 			m_brinkingFlag = false;
 		}
 
@@ -70,22 +71,23 @@ namespace basecross {
 		*/
 		virtual void OnUpdate() override;
 
-		// 移動処理の関数
+		// ゲーム開始時の処理
 		void MoveTitleLogo();
 
-		// フェード処理の関数
+		// フェード処理
 		void FadeTitleLogo();
 
 		// ボタンを押した時の処理
 		void PushButton();
 
+		// ボタンの点滅処理
 		void SpriteBrink();
 
 		/*!
 		@brief タイトルロゴステート取得関数
 		@return m_logoState
 		*/
-		eLogoState GetLogoState() const
+		eOpeningState GetLogoState() const
 		{
 			return m_logoState;
 		}

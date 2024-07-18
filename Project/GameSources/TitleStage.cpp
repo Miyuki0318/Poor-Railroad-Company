@@ -71,14 +71,14 @@ namespace basecross
 
 		
 		// ボードのテクスチャ
-		AddTextureResource(L"BOARD_TX", routePath + L"MapTexture.tga");
+		AddTextureResource(L"BOARD_TX", routePath + L"MapTexture.png");
 
 		// マップ選択モデルのテクスチャ
-		AddTextureResource(L"FIRST_TX", routePath + L"FirstMapTexture.tga");
-		AddTextureResource(L"SECOND_TX", routePath + L"SecondMapTexture.tga");
-		AddTextureResource(L"THIRD_TX", routePath + L"ThirdMapTexture.tga");
-		AddTextureResource(L"FOURTH_TX", routePath + L"FourthMapTexture.tga");
-		AddTextureResource(L"FIFTH_TX", routePath + L"FifthMapTexture.tga");
+		AddTextureResource(L"FIRST_TX", routePath + L"FirstMapTexture.png");
+		AddTextureResource(L"SECOND_TX", routePath + L"SecondMapTexture.png");
+		AddTextureResource(L"THIRD_TX", routePath + L"ThirdMapTexture.png");
+		AddTextureResource(L"FOURTH_TX", routePath + L"FourthMapTexture.png");
+		AddTextureResource(L"FIFTH_TX", routePath + L"FifthMapTexture.png");
 
 		// ガイドのテクスチャ
 		AddTextureResource(L"ROUTEMAP_TX", texturePath + L"StageSelectGuide.png");
@@ -192,7 +192,7 @@ namespace basecross
 	// 建物の生成
 	void TitleStage::CreateBuilding()
 	{
-		auto& scene = App::GetApp()->GetScene<Scene>();
+		const auto& scene = App::GetApp()->GetScene<Scene>();
 
 		// 会社の生成
 		const auto& company = AddGameObject<Company>();
@@ -248,11 +248,13 @@ namespace basecross
 		m_pleaseButton = AddGameObject<Sprite>(L"PLEASEBUTTON_TX", scale, Vec3(-posX, -posY, 0.0f));
 		if (Input::GetPadConected())
 		{
+			// ゲームパッド用
 			m_pushAButton = AddGameObject<Sprite>(L"BUTTON_A_TX", buttonScale, pushAPos);
 			m_pushBButton = AddGameObject<Sprite>(L"BUTTON_B_TX", buttonScale, pushBPos);
 		}
 		else
 		{
+			// キーボード用
 			m_pushAButton = AddGameObject<Sprite>(L"CLICK_M2_TX", buttonScale, pushAPos);
 			m_pushBButton = AddGameObject<Sprite>(L"CLICK_M1_TX", buttonScale, pushBPos);
 		}
@@ -274,7 +276,7 @@ namespace basecross
 	{
 		if (m_titleProgress == opening) return;
 
-		auto& camera = GetView()->GetTargetCamera();
+		const auto& camera = GetView()->GetTargetCamera();
 		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 
 		if (titleCamera->m_cameraState == MainCamera::Fixed)
@@ -286,7 +288,7 @@ namespace basecross
 	// カメラのズーム処理
 	void TitleStage::TitleCameraZoom()
 	{
-		auto& camera = GetView()->GetTargetCamera();
+		const auto& camera = GetView()->GetTargetCamera();
 		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 
 		if (m_selectObj && !m_zooming)
@@ -309,17 +311,14 @@ namespace basecross
 		{
 			titleCamera->ZoomEnd();
 		}
-	}
 
-	void TitleStage::CameraReset()
-	{
-		auto& camera = GetView()->GetTargetCamera();
-		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
-
-		titleCamera->SetEye(m_cameraEye);
-		titleCamera->SetAt(m_cameraAt);
-		titleCamera->SetTargetObject(nullptr);
-		m_zooming = false;
+		if (m_titleProgress == zoom)
+		{
+			if (titleCamera->m_cameraState == MainCamera::ZoomedIn)
+			{
+				m_titleProgress = select;
+			}
+		}
 	}
 
 	// ボタンUIの表示処理
@@ -334,46 +333,33 @@ namespace basecross
 	// スプライトのフェード処理
 	void TitleStage::FadeSprite()
 	{
-		auto& camera = GetView()->GetTargetCamera();
-		auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+		const auto& train = GetSharedGameObject<TitleTrain>(L"TitleTrain");
 
-		switch (m_titleProgress)
+		if (m_titleProgress == opening)
 		{
-		case basecross::opening:
 			m_fadeSprite->FadeOutColor(1.0f);
-			break;
+		}
 
-		case basecross::normal:
-		case basecross::push:
+		if (Utility::OR(m_titleProgress, normal, push))
+		{
 			if (m_fadeSprite->GetDiffuseColor() != Col4(COL_ALPHA))
 			{
 				m_fadeSprite->FadeOutColor(1.0f);
 			}
-			break;
+		}
 
-		case basecross::zoom:
-			if (m_selectObj == GetSharedGameObject<TitleTrain>(L"TitleTrain"))
+		if (MatchSelectObject(train))
+		{
+			if (m_fadeSprite->GetDiffuseColor() == COL_WHITE)
 			{
-				if (m_fadeSprite->FadeInColor(1.0f))
-				{
-					m_titleProgress = select;
-				}
+				m_titleProgress = select;
 			}
-			else
-			{
-				if (titleCamera->m_cameraState == MainCamera::ZoomedIn)
-				{
-					m_titleProgress = select;
-				}
-			}
-			break;
+			m_fadeSprite->FadeInColor(1.0f);
+		}
 
-		case basecross::start:
+		if (m_titleProgress == start)
+		{
 			m_fadeSprite->FadeInColor(2.0f);
-			break;
-
-		default:
-			break;
 		}
 	}
 
@@ -398,6 +384,7 @@ namespace basecross
 			{
 				m_selectObj = target;
 
+				// オブジェクトに特定のタグが無かったら…
 				if (!m_selectObj->FindTag(tagName))
 				{
 					m_selectObj->AddTag(tagName);
@@ -473,6 +460,8 @@ namespace basecross
 		try 
 		{
 			Debug::Log(L"所持金 : ", GetMoney());
+			const auto& camera = GetView()->GetTargetCamera();
+			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 
 			if (m_bgmItem.lock() && Utility::OR(m_titleProgress, opening, normal))
 			{
@@ -514,9 +503,6 @@ namespace basecross
 			TitleCameraZoom();
 
 			FadeSprite();
-
-			const auto& camera = GetView()->GetTargetCamera();
-			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 
 			bool isMatch = MatchSelectObject(GetSharedGameObject<RouteMap>(L"RouteMap"));
 

@@ -48,20 +48,6 @@ namespace basecross
 		
 		const float m_searchArea = 3.0f;
 
-		wstring m_textureKeys[3] = {
-			L"SIGNBOARD_OFFICIAL_TX",
-			L"SIGNBOARD_SELECT_TX",
-			L"SIGNBOARD_START_TX"
-		};
-
-		Vec3 m_boardPositions[3] = {
-			Vec3( 9.5f,1.0f,-10.0f),
-			Vec3(18.0f,1.0f,-13.0f),
-			Vec3(23.0f,1.0f,-14.5f),
-		};
-
-		const int m_boardQuantity = sizeof(m_textureKeys) / sizeof(m_textureKeys[0]);
-
 		eTitleProgress m_titleProgress;
 
 		Vec3 m_diff;
@@ -225,11 +211,6 @@ namespace basecross
 		@brief オブジェクトとプレイヤーの距離
 		*/
 		void DistanceToPlayer();
-
-		/*
-		@brief カメラの初期化
-		*/
-		void CameraReset();
 
 		/*
 		@brief bgmのサウンドアイテムを取得する関数

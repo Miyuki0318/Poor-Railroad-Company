@@ -97,7 +97,7 @@ namespace basecross
 		// オープニングスプライト中にボタン入力したら待機状態ステートに切り替え
 		if (prog != opening) return;
 		auto& opening = titleStage->GetSharedGameObject<TitleLogo>(L"TitleLogo");
-		if (opening->GetLogoState() == eLogoState::exit && Input::GetPush())
+		if (opening->GetLogoState() == eOpeningState::exit && Input::GetPush())
 		{
 			prog = eTitleProgress::normal;
 			player->SetState(TitlePlayerIdleState::Instance());
