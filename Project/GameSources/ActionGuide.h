@@ -73,18 +73,21 @@ namespace basecross
 	*/
 	class ActionGuide : public GameObject
 	{
+		map<bool, map<eActionIcon, TextureType>> m_texMap;		// テクスチャテーブル
+
 		map<eStageID, eActionIcon> m_iconMap;		// アイコンテーブル
-		map<eActionIcon, TextureType> m_texMap;		// テクスチャテーブル
 		map<eSpriteType, Vec3> m_typePos;			// タイプに応じた座標
 		vector<SpriteType> m_spriteMap;				// スプライトテーブル
 		map<int, eActionIcon> m_iconBuffer;			// アイコンタイプバッファ
 		Vec3 m_position;							// 座標
 
-		const weak_ptr<Player> m_player;		// プレイヤーのポインタ
+		const weak_ptr<Player> m_player;			// プレイヤーのポインタ
 		const weak_ptr<SelectIndicator> m_indicator;// インディケーターのポインタ
 		const Vec2 m_scale;							// スプライトのスケール
 		const Vec3 m_diffPosition;					// 頭上までの座標のずれ
 		const float m_distanceX;					// 複数表示時のX軸の余白
+
+		bool m_currentDevice;
 
 	public:
 
@@ -120,12 +123,23 @@ namespace basecross
 			m_iconMap.emplace(eStageID::Water, eActionIcon::Bridge);
 
 			// アイコンに応じたテクスチャと優先度テーブル
-			m_texMap.emplace(eActionIcon::Rail, TextureType(L"I_RAIL_TX", 1));
-			m_texMap.emplace(eActionIcon::Bridge, TextureType(L"I_BRIDGE_TX", 1));
-			m_texMap.emplace(eActionIcon::Crossing, TextureType(L"I_CROSSING_TX", 1));
-			m_texMap.emplace(eActionIcon::Axe, TextureType(L"I_AXE_TX", 2));
-			m_texMap.emplace(eActionIcon::Pick, TextureType(L"I_PICK_TX", 2));
-			m_texMap.emplace(eActionIcon::Craft, TextureType(L"I_CRAFT_TX", 3));
+			map<eActionIcon, TextureType> pad, mouse;
+			pad.emplace(eActionIcon::Rail, TextureType(L"I_PAD_RAIL_TX", 1));
+			pad.emplace(eActionIcon::Bridge, TextureType(L"I_PAD_BRIDGE_TX", 1));
+			pad.emplace(eActionIcon::Crossing, TextureType(L"I_PAD_CROSSING_TX", 1));
+			pad.emplace(eActionIcon::Axe, TextureType(L"I_PAD_AXE_TX", 2));
+			pad.emplace(eActionIcon::Pick, TextureType(L"I_PAD_PICK_TX", 2));
+			pad.emplace(eActionIcon::Craft, TextureType(L"I_PAD_CRAFT_TX", 3));
+			mouse.emplace(eActionIcon::Rail, TextureType(L"I_MOUSE_RAIL_TX", 1));
+			mouse.emplace(eActionIcon::Bridge, TextureType(L"I_MOUSE_BRIDGE_TX", 1));
+			mouse.emplace(eActionIcon::Crossing, TextureType(L"I_MOUSE_CROSSING_TX", 1));
+			mouse.emplace(eActionIcon::Axe, TextureType(L"I_MOUSE_AXE_TX", 2));
+			mouse.emplace(eActionIcon::Pick, TextureType(L"I_MOUSE_PICK_TX", 2));
+			mouse.emplace(eActionIcon::Craft, TextureType(L"I_MOUSE_CRAFT_TX", 3));
+
+			m_currentDevice = false;
+			m_texMap.emplace(true, pad);
+			m_texMap.emplace(false, mouse);
 		}
 
 		/*!

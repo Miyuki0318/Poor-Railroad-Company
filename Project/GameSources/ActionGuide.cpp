@@ -38,6 +38,9 @@ namespace basecross
 		// アクティブを初期化
 		SetSpriteActive(false);
 
+		// コントローラーの接続状態を保持
+		m_currentDevice = Input::GetPadConected();
+
 		// アイコンタイプの更新
 		UpdateIconType();
 
@@ -78,7 +81,8 @@ namespace basecross
 		if (!player || !indicator) return;
 
 		// クラフト可能ならクラフトアイコン
-		if (player->GetCraftPosshible()) m_iconBuffer.insert(make_pair(m_texMap.at(eActionIcon::Craft).layerIndex, eActionIcon::Craft));
+		auto& texMap = m_texMap.at(m_currentDevice);
+		if (player->GetCraftPosshible()) m_iconBuffer.insert(make_pair(texMap.at(eActionIcon::Craft).layerIndex, eActionIcon::Craft));
 
 		// アクションできるポイントを選択してなければ無視
 		if (!IsActionSelectPoint(player, indicator)) return;
@@ -91,7 +95,7 @@ namespace basecross
 		{
 			if (id != type.first) continue;
 
-			m_iconBuffer.insert(make_pair(m_texMap.at(type.second).layerIndex, type.second));
+			m_iconBuffer.insert(make_pair(texMap.at(type.second).layerIndex, type.second));
 		}
 	}
 
@@ -162,12 +166,13 @@ namespace basecross
 	// インデックスのソート
 	void ActionGuide::SortedIndicesBuffer(vector<int>& indices)
 	{
+		auto& texMap = m_texMap.at(m_currentDevice);
 		for (const auto& buff : m_iconBuffer)
 		{
 			// アクションアイコンと一致したら追加
-			if (m_texMap.find(buff.second) != m_texMap.end())
+			if (texMap.find(buff.second) != texMap.end())
 			{
-				indices.push_back(m_texMap.at(buff.second).layerIndex);
+				indices.push_back(texMap.at(buff.second).layerIndex);
 			}
 		}
 
@@ -197,7 +202,7 @@ namespace basecross
 				
 				// バッファが1つなら先頭の、複数ならループ数分先頭から進んだイテレータを取得し設定
 				auto textureIter = (buffSize == 1) ? m_iconBuffer.begin()->second : next(m_iconBuffer.begin(), loopNum)->second;
-				sprite.sprite.lock()->SetTexture(m_texMap.at(textureIter).textureStr);
+				sprite.sprite.lock()->SetTexture(m_texMap.at(m_currentDevice).at(textureIter).textureStr);
 				loopNum++;
 			}
 		}

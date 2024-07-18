@@ -7,6 +7,7 @@
 #pragma once
 #include "stdafx.h"
 #include "OzawaUtility.h"
+#include "BaseStage.h"
 
 #define ROW(posZ) size_t(-posZ)	// 行
 #define COL(posX) size_t(posX) // 列
@@ -157,6 +158,8 @@ namespace basecross
 		vector<vector<int>> m_guideMap;			// ガイド付きのステージcsv
 		map<string, RailData> m_railDataMap;	// レールデータマップ
 		map<eRailType, float> m_railAngleMap;	// レールのアングルマップ
+		set<eStageID> m_canAddRailSet;			// レールを追加できるIDセット
+		set<eStageID> m_canNotAddRailSet;		// レールを追加できないIDセット
 
 		// インスタンス描画のレール
 		map<eRailAngle, weak_ptr<InstanceRail>> m_instanceRail;
@@ -166,6 +169,7 @@ namespace basecross
 		Vec3 m_startRailPos;	 // 最初に設置した開始レール
 		Vec3 m_pastDeRailPos;	 // 最後に設置した先端レール
 		bool m_isConnectionGoal; // ゴールレールまで繋がったか
+		bool m_isCannotAddRail;  // これ以降レールを追加できないか
 		
 	public:
 
@@ -178,6 +182,7 @@ namespace basecross
 		{
 			m_railNum = 0;
 			m_isConnectionGoal = false;
+			m_isCannotAddRail = false;
 
 			m_railAngleMap.emplace(eRailType::AxisXLine, 0.0f);
 			m_railAngleMap.emplace(eRailType::AxisZLine, XM_PIDIV2);
@@ -185,6 +190,25 @@ namespace basecross
 			m_railAngleMap.emplace(eRailType::Left2Upper, -XM_PIDIV2);
 			m_railAngleMap.emplace(eRailType::Right2Under, XM_PIDIV2);
 			m_railAngleMap.emplace(eRailType::Right2Upper, 0.0f);
+
+			m_canAddRailSet.emplace(eStageID::None);
+			m_canAddRailSet.emplace(eStageID::Stone1);
+			m_canAddRailSet.emplace(eStageID::Stone2);
+			m_canAddRailSet.emplace(eStageID::Stone3);
+			m_canAddRailSet.emplace(eStageID::Tree1);
+			m_canAddRailSet.emplace(eStageID::Tree2);
+			m_canAddRailSet.emplace(eStageID::GuideRail);
+
+			m_canNotAddRailSet.emplace(eStageID::UnBreakRock);
+			m_canNotAddRailSet.emplace(eStageID::Water);
+			m_canNotAddRailSet.emplace(eStageID::Air);
+			m_canNotAddRailSet.emplace(eStageID::CrossingCross);
+			m_canNotAddRailSet.emplace(eStageID::CrossingOpen);
+			m_canNotAddRailSet.emplace(eStageID::DeRail);
+			m_canNotAddRailSet.emplace(eStageID::Rail);
+			m_canNotAddRailSet.emplace(eStageID::DrawRail);
+			m_canNotAddRailSet.emplace(eStageID::GoalRail);
+			m_canNotAddRailSet.emplace(eStageID::StartRail);
 		}
 
 		/*!
@@ -287,6 +311,15 @@ namespace basecross
 			return m_isConnectionGoal;
 		}
 
+		/*!
+		@brief これ以降レールを追加できないかの真偽取得関数
+		@return bool
+		*/
+		bool IsCannotAddRail() const
+		{
+			return m_isCannotAddRail;
+		}
+
 	private:
 
 		/*!
@@ -363,5 +396,12 @@ namespace basecross
 		@param 設置したレールのcol
 		*/
 		void CheckConnectionGoalRail(size_t row, size_t col);
+
+		/*!
+		@brief レールがこれ以降設置できないかの確認関数
+		@param 設置したレールのrow
+		@param 設置したレールのcol
+		*/
+		bool CheckCannotAddRail(size_t row, size_t col);
 	};
 }

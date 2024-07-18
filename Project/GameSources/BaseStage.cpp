@@ -40,12 +40,18 @@ namespace basecross
 		AddTextureResource(L"CURSOR_TX", texturePath + L"Cursor.png");
 
 		// アイコンテクスチャ
-		AddTextureResource(L"I_AXE_TX", texturePath + L"AxeIcon.png");
-		AddTextureResource(L"I_PICK_TX", texturePath + L"PickIcon.png");
-		AddTextureResource(L"I_RAIL_TX", texturePath + L"RailIcon.png");
-		AddTextureResource(L"I_CRAFT_TX", texturePath + L"CraftIcon.png");
-		AddTextureResource(L"I_BRIDGE_TX", texturePath + L"BridgeIcon.png");
-		AddTextureResource(L"I_CROSSING_TX", texturePath + L"CrossingIcon.png");
+		AddTextureResource(L"I_PAD_AXE_TX", texturePath + L"AxeIcon.png");
+		AddTextureResource(L"I_PAD_PICK_TX", texturePath + L"PickIcon.png");
+		AddTextureResource(L"I_PAD_RAIL_TX", texturePath + L"RailIcon.png");
+		AddTextureResource(L"I_PAD_CRAFT_TX", texturePath + L"CraftIcon.png");
+		AddTextureResource(L"I_PAD_BRIDGE_TX", texturePath + L"BridgeIcon.png");
+		AddTextureResource(L"I_PAD_CROSSING_TX", texturePath + L"CrossingIcon.png");
+		AddTextureResource(L"I_MOUSE_AXE_TX", texturePath + L"MouseAxeIcon.png");
+		AddTextureResource(L"I_MOUSE_PICK_TX", texturePath + L"MousePickIcon.png");
+		AddTextureResource(L"I_MOUSE_RAIL_TX", texturePath + L"MouseRailIcon.png");
+		AddTextureResource(L"I_MOUSE_CRAFT_TX", texturePath + L"MouseCraftIcon.png");
+		AddTextureResource(L"I_MOUSE_BRIDGE_TX", texturePath + L"MouseBridgeIcon.png");
+		AddTextureResource(L"I_MOUSE_CROSSING_TX", texturePath + L"MouseCrossingIcon.png");
 		AddTextureResource(L"I_BALOON_CENTER_TX", texturePath + L"BalloonCenter.png");
 		AddTextureResource(L"I_BALOON_RIGHT_TX", texturePath + L"BalloonRight.png");
 		AddTextureResource(L"I_BALOON_LEFT_TX", texturePath + L"BalloonLeft.png");

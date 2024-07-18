@@ -52,7 +52,7 @@ namespace basecross
 		// 星型エフェクトの生成
 		Vec2 velo = Vec2(Vec3(pastPos - pos).normalize());
 		auto& starEffect = m_starEffect.lock();
-		starEffect->SetEmitterPosition(pos + Vec3(0.0f, 0.0f, 0.1f));
+		starEffect->SetEmitterPosition(pos + BACK_LAYER);
 		starEffect->AddParticle(Vec2(m_scale), -velo, RangeRand(XM_PI, -XM_PI), 0.25f);
 	}
 
