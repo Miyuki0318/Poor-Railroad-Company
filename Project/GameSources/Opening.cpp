@@ -16,14 +16,14 @@ namespace basecross {
 	{
 		TemplateObject::OnCreate();
 
-		// パラメータ設定
-		const Vec2 logoScale = Vec2(700.0f, 500.0f);
-		const Vec2 buttonScale = Vec2(350.0f, 100.0f);
-		const Vec3 logoPos = Vec3(0.0f, -m_startPosY, 0.0f);
-		const Vec3 buttonPos = Vec3(0.0f, -m_startPosY + (-m_titleLogo->GetScale().y), 0.0f);
-
 		// タイトルロゴ生成
+		const Vec2 logoScale = Vec2(700.0f, 500.0f);
+		const Vec3 logoPos = Vec3(0.0f, -m_startPosY, 0.0f);
 		m_titleLogo = GetTypeStage<TitleStage>()->AddGameObject<Sprite>(L"TITLE_LOGO", logoScale, logoPos);
+
+		// プッシュボタンの生成
+		const Vec2 buttonScale = Vec2(350.0f, 100.0f);
+		const Vec3 buttonPos = Vec3(0.0f, -m_startPosY + (-m_titleLogo->GetScale().y), 0.0f);
 		m_pushLogo = GetTypeStage<TitleStage>()->AddGameObject<Sprite>(L"START_TX", buttonScale, buttonPos);
 
 		m_titleLogo->SetDrawLayer(2);
