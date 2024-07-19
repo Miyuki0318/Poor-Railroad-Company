@@ -85,7 +85,7 @@ namespace basecross
 
 		// ゲーム中のBGM
 		AddAudioResource(L"LV1_BGM", soundPath + L"FirstBGM");
-		AddAudioResource(L"SECOND_BGM", soundPath + L"SecondBGM");
+		AddAudioResource(L"LV2_BGM", soundPath + L"SecondBGM");
 		AddAudioResource(L"THIRD_BGM", soundPath + L"ThirdBGM");
 		AddAudioResource(L"FOURTH_BGM", soundPath + L"FourthBGM");
 		AddAudioResource(L"FIFTH_BGM", soundPath + L"FifthBGM");
@@ -118,10 +118,9 @@ namespace basecross
 		Vec3 stationPos = GetSharedGameObject<Station>(L"Station")->GetPosition();
 		auto PtrView = CreateView<SingleView>();
 		//ビューのカメラの設定
-		Vec3 startEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
-		Vec3 defAt = Vec3(3.0f, 1.0f, -8.5f);
+		Vec3 startEye = Vec3(m_DefStartEye.x + m_stageDistanceX, m_DefStartEye.y, m_DefStartEye.z);
 
-		auto PtrCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow, stationPos, startEye, defAt);
+		auto PtrCamera = ObjectFactory::Create<MainCamera>(MainCamera::State::Follow, stationPos, startEye, m_DefStartAt);
 		PtrView->SetCamera(PtrCamera);
 		//マルチライトの作成
 		auto PtrMultiLight = CreateLight<MultiLight>();
@@ -383,13 +382,11 @@ namespace basecross
 	void GameStage::ResetCameraObject()
 	{
 		Vec3 stationPos = GetSharedGameObject<Station>(L"Station")->GetPosition();
-		Vec3 startEye = Vec3(3.0f + m_stageDistanceX, 20.0f, -23.5f);
-
-		Vec3 defAt = Vec3(3.0f, 1.0f, -8.5f);
+		Vec3 startEye = Vec3(m_DefStartEye.x + m_stageDistanceX, m_DefStartEye.y, m_DefStartEye.z);
 
 		auto& camera = GetView()->GetTargetCamera();
 		auto mainCamera = dynamic_pointer_cast<MainCamera>(camera);
-		mainCamera->ResetCamera(stationPos, startEye, defAt);
+		mainCamera->ResetCamera(stationPos, startEye, m_DefStartAt);
 	}
 
 	// スプライトの表示

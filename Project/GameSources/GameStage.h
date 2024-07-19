@@ -54,6 +54,9 @@ namespace basecross
 		// ゲームの状況
 		eGameProgress m_gameProgress;
 
+		const Vec3 m_DefStartEye;
+		const Vec3 m_DefStartAt;
+
 		// ゲームクリアからタイトルステージへの遷移までの猶予
 		const float m_defermentTransition;
 
@@ -221,7 +224,9 @@ namespace basecross
 		*/
 		GameStage(const string stagePath) :
 			BaseStage(stagePath),
-			m_defermentTransition(3.0f)
+			m_defermentTransition(3.0f),
+			m_DefStartEye(Vec3(7.0f, 20.0f, -23.5f)),
+			m_DefStartAt(Vec3(3.0f, 1.0f, -8.5f))
 		{
 			m_countTime = 0.0f;
 			m_totalTime = 0.0f;
