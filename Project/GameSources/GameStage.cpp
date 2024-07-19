@@ -84,7 +84,7 @@ namespace basecross
 		AddTextureResource(L"MOUSE_CROSSING_TX", texturePath + L"Mouse_CraftCrossingIcon.png");
 
 		// ゲーム中のBGM
-		AddAudioResource(L"FIRST_BGM", soundPath + L"FirstBGM");
+		AddAudioResource(L"LV1_BGM", soundPath + L"FirstBGM");
 		AddAudioResource(L"SECOND_BGM", soundPath + L"SecondBGM");
 		AddAudioResource(L"THIRD_BGM", soundPath + L"ThirdBGM");
 		AddAudioResource(L"FOURTH_BGM", soundPath + L"FourthBGM");
@@ -201,7 +201,7 @@ namespace basecross
 				}
 
 				// 先端レールなら配列の行番号をディスタンスにする
-				if (num == eStageID::DeRail)
+				if (num == eStageID::StartRail)
 				{
 					m_stageDistanceX = float(j);
 				}

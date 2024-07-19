@@ -55,7 +55,7 @@ namespace basecross{
 		//--------------------------------------------------------------------------------------
 		Scene() :SceneBase()
 		{
-			m_stagePathMap.emplace(eMapLevel::FirstMap, "First");
+			m_stagePathMap.emplace(eMapLevel::FirstMap, "Lv1");
 			m_stagePathMap.emplace(eMapLevel::SecondMap, "Second");
 			m_stagePathMap.emplace(eMapLevel::ThirdMap, "Third");
 			m_stagePathMap.emplace(eMapLevel::FourthMap, "Fourth");

@@ -8,6 +8,7 @@
 #include "MathFunc.h"
 #include "MainCamera.h"
 #include "OzawaUtility.h"
+#include "DebugLog.h"
 
 namespace basecross {
 
@@ -44,6 +45,8 @@ namespace basecross {
 		{
 			ScrollProcess();
 		}
+		Debug::Log("target : ", m_targetPos);
+		Debug::Log(GetEye());
 		Camera::OnUpdate();
 	}
 
@@ -105,6 +108,7 @@ namespace basecross {
 		// 位置と注視点の更新
 		SetEye(Utility::Lerp(startEye, endEye, m_scrollRatio));
 		SetAt(Utility::Lerp(startAt, endAt, m_scrollRatio));
+
 		m_scrollRatio = Clamp01(m_scrollRatio);
 
 		if (GetScrollEnd()) m_cameraState = m_DefaultState; // スクロールが終わったら初期状態に移行
