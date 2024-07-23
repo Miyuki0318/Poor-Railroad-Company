@@ -58,7 +58,7 @@ namespace basecross{
 			m_stagePathMap.emplace(eMapLevel::FirstMap, "Lv1");
 			m_stagePathMap.emplace(eMapLevel::SecondMap, "Lv2");
 			m_stagePathMap.emplace(eMapLevel::ThirdMap, "Lv3");
-			m_stagePathMap.emplace(eMapLevel::FourthMap, "Fourth");
+			m_stagePathMap.emplace(eMapLevel::FourthMap, "Lv4");
 			m_stagePathMap.emplace(eMapLevel::FifthMap, "Fifth");
 
 			m_nextLevel.emplace(eMapLevel::FirstMap, eMapLevel::SecondMap);
