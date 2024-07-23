@@ -8,7 +8,6 @@
 #include "MathFunc.h"
 #include "MainCamera.h"
 #include "OzawaUtility.h"
-#include "DebugLog.h"
 
 namespace basecross {
 
@@ -23,7 +22,6 @@ namespace basecross {
 		{
 			SetEye(m_initialEye);
 		}
-		Debug::Log("状態 : ", (int)m_cameraState);
 
 		// これ以降の処理はターゲットオブジェクトがなければ行わない
 		if (GetTargetObject() == nullptr) return;
