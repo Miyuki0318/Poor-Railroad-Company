@@ -19,6 +19,7 @@ namespace basecross {
 		Vec3 m_targetPos;	// ターゲットの位置
 		Vec3 m_zoomEye;		// ズーム後の位置
 		Vec3 m_currentEye;	// ズームのスタート位置
+		Vec3 m_currentAt;
 		Vec3 m_defScrollEye;// カメラの初期位置(スクロール前)
 		Vec3 m_initialEye;	// カメラの初期位置
 		Vec3 m_initialAt;	// カメラの初期注視点
@@ -53,6 +54,7 @@ namespace basecross {
 			m_initialAt(atPos),
 			m_MaxEye(Vec3(400.0f, 20.0f, -22.0f)),
 			m_currentEye(0.0f),
+			m_currentAt(0.0f),
 			m_ZoomRatioC(0.6f),
 			m_ScrollSpeed(0.3f),
 			m_zoomEye(Vec3(0.0f)),
@@ -75,6 +77,7 @@ namespace basecross {
 			m_initialAt(atPos),
 			m_MaxEye(Vec3(400.0f, 20.0f, -22.0f)),
 			m_currentEye(0.0f),
+			m_currentAt(0.0f),
 			m_ZoomRatioC(0.6f),
 			m_ScrollSpeed(0.3f),
 			m_zoomEye(Vec3(0.0f)),
@@ -124,6 +127,7 @@ namespace basecross {
 		void ZoomStart(Vec3 zoomEye) {
 			m_zoomEye = zoomEye;
 			m_currentEye = GetEye();
+			m_currentAt = GetAt();
 			m_cameraState = ZoomIn;
 			m_zoomRatio = 0.0f;
 		}
@@ -137,6 +141,7 @@ namespace basecross {
 			m_zoomEye = zoomEye;
 			m_zoomAtY = zoomAtY;
 			m_currentEye = GetEye();
+			m_currentAt = GetAt();
 			m_cameraState = ZoomIn;
 			m_zoomRatio = 0.0f;
 		}
@@ -148,8 +153,8 @@ namespace basecross {
 		/// <param name="defAt">初期注視点</param>
 		void ZoomStart(Vec3 zoomEye, Vec3 defAt) {
 			m_zoomEye = zoomEye;
-			m_initialAt = defAt;
 			m_currentEye = GetEye();
+			m_currentAt = GetAt();
 			m_cameraState = ZoomIn;
 			m_zoomRatio = 0.0f;
 		}
