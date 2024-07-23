@@ -37,6 +37,12 @@ namespace basecross
 		AddTextureResource(L"BUTTON_B_TX", texturePath + L"B.png");
 		AddTextureResource(L"BUTTON_Y_TX", texturePath + L"Y.png");
 
+		// マウス入力アイコンテクスチャ
+		AddTextureResource(L"BUTTON_M1_TX", texturePath + L"ClickM1.png");
+		AddTextureResource(L"BUTTON_M2_TX", texturePath + L"ClickM2.png");
+		AddTextureResource(L"BUTTON_M3_TX", texturePath + L"ClickM3.png");
+
+		// マウスカーソルのテクスチャ
 		AddTextureResource(L"CURSOR_TX", texturePath + L"Cursor.png");
 
 		// アイコンテクスチャ

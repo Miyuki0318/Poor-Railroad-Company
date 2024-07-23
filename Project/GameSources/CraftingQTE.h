@@ -28,7 +28,7 @@ namespace basecross
 		weak_ptr<CraftUI> m_qteBack;	// QTEの背景
 
 		map<eRectType, Vec3> m_rectDiff;
-		map<eInputButton, wstring> m_buttonTexMap;
+		map<bool, map<eInputButton, wstring>> m_buttonTexMap;
 		map<eInputButton, Col4> m_buttonBarColor;
 
 		const float m_posDiff;  // ウィンドウとの座標差分
@@ -58,9 +58,16 @@ namespace basecross
 			m_rectDiff.emplace(eRectType::DownRight, Vec3(1.0f, -1.0f, 1.0f));
 			m_rectDiff.emplace(eRectType::DownLeft, Vec3(-1.0f, -1.0f, 1.0f));
 
-			m_buttonTexMap.emplace(eInputButton::ButtonB, L"BUTTON_B_TX");
-			m_buttonTexMap.emplace(eInputButton::ButtonA, L"BUTTON_A_TX");
-			m_buttonTexMap.emplace(eInputButton::ButtonY, L"BUTTON_Y_TX");
+			map<eInputButton, wstring> pad, mouse;
+			pad.emplace(eInputButton::ButtonB, L"BUTTON_B_TX");
+			pad.emplace(eInputButton::ButtonA, L"BUTTON_A_TX");
+			pad.emplace(eInputButton::ButtonY, L"BUTTON_Y_TX");
+			mouse.emplace(eInputButton::ButtonB, L"BUTTON_M1_TX");
+			mouse.emplace(eInputButton::ButtonA, L"BUTTON_M2_TX");
+			mouse.emplace(eInputButton::ButtonY, L"BUTTON_M3_TX");
+
+			m_buttonTexMap.emplace(true, pad);
+			m_buttonTexMap.emplace(false, mouse);
 
 			m_buttonBarColor.emplace(eInputButton::ButtonB, Col4(1.0f, 0.23f, 0.18f, 1.0f));
 			m_buttonBarColor.emplace(eInputButton::ButtonA, Col4(0.0f, 1.0f, 0.6f, 1.0f));
@@ -132,7 +139,7 @@ namespace basecross
 		void SetButtonTexture(eInputButton button)
 		{
 			SetDiffuseColor(m_buttonBarColor.at(button));
-			m_qteButton.lock()->SetTexture(m_buttonTexMap.at(button));
+			m_qteButton.lock()->SetTexture(m_buttonTexMap.at(Input::GetPadConected()).at(button));
 		}
 	};
 }
