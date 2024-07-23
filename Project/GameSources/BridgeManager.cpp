@@ -24,6 +24,20 @@ namespace basecross
 		m_ptrDraw->SetTextureResource(L"WOOD_BRIDGE_TX");
 		m_ptrDraw->SetSpecular(COL_WHITE);
 		m_ptrDraw->SetDiffuse(COL_WHITE);
+
+		// ステージのcsvの取得
+		auto& stageMap = GetTypeStage<BaseStage>()->GetStageMap();
+
+		for (size_t row = 0; row < stageMap.size(); row++)
+		{
+			for (size_t col = 0; col < stageMap.at(row).size(); col++)
+			{
+				int& id = stageMap.at(row).at(col);
+				if (id != UnSTAGE_ID(eStageID::WoodBridge)) continue;
+
+				AddBridge(Point2D<size_t>(row, col));
+			}
+		}
 	}
 
 	// 初期化処理
