@@ -274,8 +274,6 @@ namespace basecross
 
 		bool isLineX = (addPos.z == pastData->thisPos.z);	// XŽ²‚Å’¼ü‚©
 		bool isLineZ = (addPos.x == pastData->thisPos.x);	// ZŽ²‚Å’¼ü‚©
-		bool isRight = (addPos.x > pastData->thisPos.x);	// ‰E‚ÉˆÚ“®‚·‚é‚Ì‚©
-		bool isUpper = (addPos.z > pastData->thisPos.z);	// ã‚ÉˆÚ“®‚·‚é‚Ì‚©
 
 		// ’¼ü‚©A‚»‚¤‚¶‚á‚È‚¯‚ê‚Î1‚Â‘O‚Ì‚É
 		data.type = isLineX ? eRailType::AxisXLine : isLineZ ? eRailType::AxisZLine : pastData->type;
