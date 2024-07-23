@@ -70,7 +70,7 @@ namespace basecross
 			const auto& titleStage = player->GetTypeStage<TitleStage>();
 			auto& zoomCamera = dynamic_pointer_cast<MainCamera>(titleStage->GetView()->GetTargetCamera());
 			const auto& train = titleStage->GetSharedGameObject<TitleTrain>(L"TitleTrain");
-			zoomCamera->ZoomStart(m_startPosition, m_endPosition);
+			zoomCamera->ZoomStart(m_startPosition);
 		}
 
 		// À•W‚ğXV

@@ -144,7 +144,7 @@ namespace basecross {
 					camera->SetTargetObject(GetThis<GameTrain>());
 
 					Vec3 eye = Utility::Lerp(camera->GetEye(), m_position, 0.75f);
-					camera->ZoomStart(eye, m_position);
+					camera->ZoomStart(eye);
 
 					stagePtr->SetGameProgress(eGameProgress::GoalConect);
 					StopSE(L"WHISTLE_SE");
