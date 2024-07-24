@@ -105,6 +105,9 @@ namespace basecross {
 		void OnCreate() override;
 		void OnUpdate() override;
 
+		/// <summary>
+		/// ŒÅ’è‚Ìˆ—
+		/// </summary>
 		void FixedProcess();
 
 		/// <summary>
