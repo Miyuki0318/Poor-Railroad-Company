@@ -92,7 +92,7 @@ namespace basecross {
 
 		if (state == State::None)
 		{
-			if (m_acsel <= 0.0f) m_whistleSE.push_back(StartSE(L"START_WHISTLE_SE", 0.75f));
+			if (m_acsel <= 0.0f) m_whistleSE.push_back(StartSE(L"START_WHISTLE_SE", 0.25f));
 
 			m_acsel += DELTA_TIME / START_TIME;
 			m_acsel = min(m_acsel, 1.0f);

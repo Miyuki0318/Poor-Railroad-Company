@@ -84,11 +84,10 @@ namespace basecross
 		AddTextureResource(L"MOUSE_CROSSING_TX", texturePath + L"Mouse_CraftCrossingIcon.png");
 
 		// ゲーム中のBGM
-		AddAudioResource(L"LV1_BGM", soundPath + L"FirstBGM");
-		AddAudioResource(L"LV2_BGM", soundPath + L"SecondBGM");
-		AddAudioResource(L"LV3_BGM", soundPath + L"ThirdBGM");
-		AddAudioResource(L"LV4_BGM", soundPath + L"FourthBGM");
-		AddAudioResource(L"FIFTH_BGM", soundPath + L"FifthBGM");
+		AddAudioResource(L"FIRST_BGM", soundPath + L"FirstBGM");
+		AddAudioResource(L"SECOND_BGM", soundPath + L"SecondBGM");
+		AddAudioResource(L"THIRD_BGM", soundPath + L"ThirdBGM");
+		AddAudioResource(L"FOURTH_BGM", soundPath + L"FourthBGM");
 
 		// ゲーム中のSE
 		AddAudioResource(L"PAUSE_OPEN_SE", soundPath + L"PauseOpen");
@@ -104,12 +103,15 @@ namespace basecross
 	// BGMの再生
 	void GameStage::CreateStartBGM()
 	{
-		// BGMのキーをステージパスから設定
-		wstring bgmKey;
-		Util::ConvertUtf8toWstring(m_stagePath, bgmKey);
-
-		// BGMの再生
-		m_bgmItem = m_soundManager->StartBGM(Utility::ToUpperString(bgmKey) + L"_BGM", XAUDIO2_LOOP_INFINITE, 0.0f, ThisPtr);
+		for (const auto& pair : m_bgmKeyMap)
+		{
+			if (pair.second == m_stagePath)
+			{
+				// BGMの再生
+				m_bgmItem = m_soundManager->StartBGM(pair.first, XAUDIO2_LOOP_INFINITE, 0.0f, ThisPtr);
+				break;
+			}
+		}
 	}
 
 	//ビューとライトの生成
