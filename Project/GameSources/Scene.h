@@ -16,7 +16,12 @@ namespace basecross{
 		SecondMap,
 		ThirdMap,
 		FourthMap,
-		FifthMap
+		FifthMap,
+		SixthMap,
+		SeventhMap,
+		EighthMap,
+		NinthMap,
+		TenthMap
 	};
 
 	//--------------------------------------------------------------------------------------
@@ -59,13 +64,23 @@ namespace basecross{
 			m_stagePathMap.emplace(eMapLevel::SecondMap, "Second");
 			m_stagePathMap.emplace(eMapLevel::ThirdMap, "Third");
 			m_stagePathMap.emplace(eMapLevel::FourthMap, "Fourth");
-			m_stagePathMap.emplace(eMapLevel::FifthMap, "Fifth");
+			m_stagePathMap.emplace(eMapLevel::FifthMap, "Lv5");
+			m_stagePathMap.emplace(eMapLevel::SixthMap, "Lv6");
+			m_stagePathMap.emplace(eMapLevel::SeventhMap, "Lv7");
+			m_stagePathMap.emplace(eMapLevel::EighthMap, "Lv8");
+			m_stagePathMap.emplace(eMapLevel::NinthMap, "Lv9");
+			m_stagePathMap.emplace(eMapLevel::TenthMap, "Lv10");
 
 			m_nextLevel.emplace(eMapLevel::FirstMap, eMapLevel::SecondMap);
 			m_nextLevel.emplace(eMapLevel::SecondMap, eMapLevel::ThirdMap);
 			m_nextLevel.emplace(eMapLevel::ThirdMap, eMapLevel::FourthMap);
 			m_nextLevel.emplace(eMapLevel::FourthMap, eMapLevel::FifthMap);
-			m_nextLevel.emplace(eMapLevel::FifthMap, eMapLevel::FirstMap);
+			m_nextLevel.emplace(eMapLevel::FifthMap, eMapLevel::SixthMap);
+			m_nextLevel.emplace(eMapLevel::SixthMap, eMapLevel::SeventhMap);
+			m_nextLevel.emplace(eMapLevel::SeventhMap, eMapLevel::EighthMap);
+			m_nextLevel.emplace(eMapLevel::EighthMap, eMapLevel::NinthMap);
+			m_nextLevel.emplace(eMapLevel::NinthMap, eMapLevel::TenthMap);
+			m_nextLevel.emplace(eMapLevel::TenthMap, eMapLevel::FirstMap);
 
 			m_money = 5000;
 

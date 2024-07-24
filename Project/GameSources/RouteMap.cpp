@@ -58,7 +58,7 @@ namespace basecross {
 					switch (m_mapLevel)
 					{
 					case eMapLevel::FirstMap:
-						m_mapLevel = eMapLevel::FifthMap;
+						m_mapLevel = eMapLevel::TenthMap;
 						break;
 
 					case eMapLevel::SecondMap:
@@ -75,6 +75,26 @@ namespace basecross {
 
 					case eMapLevel::FifthMap:
 						m_mapLevel = eMapLevel::FourthMap;
+						break;
+
+					case eMapLevel::SixthMap:
+						m_mapLevel = eMapLevel::FifthMap;
+						break;
+
+					case eMapLevel::SeventhMap:
+						m_mapLevel = eMapLevel::SixthMap;
+						break;
+
+					case eMapLevel::EighthMap:
+						m_mapLevel = eMapLevel::SeventhMap;
+						break;
+
+					case eMapLevel::NinthMap:
+						m_mapLevel = eMapLevel::EighthMap;
+						break;
+
+					case eMapLevel::TenthMap:
+						m_mapLevel = eMapLevel::NinthMap;
 						break;
 
 					default:
@@ -101,6 +121,26 @@ namespace basecross {
 						break;
 
 					case eMapLevel::FifthMap:
+						m_mapLevel = eMapLevel::SixthMap;
+						break;
+
+					case eMapLevel::SixthMap:
+						m_mapLevel = eMapLevel::SeventhMap;
+						break;
+
+					case eMapLevel::SeventhMap:
+						m_mapLevel = eMapLevel::EighthMap;
+						break;
+
+					case eMapLevel::EighthMap:
+						m_mapLevel = eMapLevel::NinthMap;
+						break;
+
+					case eMapLevel::NinthMap:
+						m_mapLevel = eMapLevel::TenthMap;
+						break;
+
+					case eMapLevel::TenthMap:
 						m_mapLevel = eMapLevel::FirstMap;
 						break;
 

@@ -88,7 +88,12 @@ namespace basecross
 		AddAudioResource(L"SECOND_BGM", soundPath + L"SecondBGM");
 		AddAudioResource(L"THIRD_BGM", soundPath + L"ThirdBGM");
 		AddAudioResource(L"FOURTH_BGM", soundPath + L"FourthBGM");
-		AddAudioResource(L"FIFTH_BGM", soundPath + L"FifthBGM");
+		AddAudioResource(L"LV5_BGM", soundPath + L"FifthBGM");
+		AddAudioResource(L"LV6_BGM", soundPath + L"FifthBGM");
+		AddAudioResource(L"LV7_BGM", soundPath + L"FifthBGM");
+		AddAudioResource(L"LV8_BGM", soundPath + L"FifthBGM");
+		AddAudioResource(L"LV9_BGM", soundPath + L"FifthBGM");
+		AddAudioResource(L"LV10_BGM", soundPath + L"FifthBGM");
 
 		// ÉQÅ[ÉÄíÜÇÃSE
 		AddAudioResource(L"PAUSE_OPEN_SE", soundPath + L"PauseOpen");
