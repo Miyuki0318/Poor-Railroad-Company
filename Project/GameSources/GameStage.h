@@ -71,6 +71,9 @@ namespace basecross
 		// ステート処理
 		map<eGameProgress, function<void()>> m_progressFunc;
 
+		// BGMkey
+		map<wstring, string> m_bgmKeyMap;
+
 		/*!
 		@brief リソースの読込
 		*/
@@ -226,6 +229,18 @@ namespace basecross
 			m_countTime = 0.0f;
 			m_totalTime = 0.0f;
 			m_pastStickVal = 0.0f;
+
+			m_bgmKeyMap.emplace(L"FIRST_BGM", "First");
+			m_bgmKeyMap.emplace(L"FIRST_BGM", "Second");
+			m_bgmKeyMap.emplace(L"FIRST_BGM", "Third");
+			m_bgmKeyMap.emplace(L"FIRST_BGM", "Fourth");
+			m_bgmKeyMap.emplace(L"SECOND_BGM", "Lv5");
+			m_bgmKeyMap.emplace(L"SECOND_BGM", "Lv6");
+			m_bgmKeyMap.emplace(L"THIRD_BGM", "Lv7");
+			m_bgmKeyMap.emplace(L"THIRD_BGM", "Lv8");
+			m_bgmKeyMap.emplace(L"FOURTH_BGM", "Lv9");
+			m_bgmKeyMap.emplace(L"FOURTH_BGM", "Lv10");
+
 			m_gameProgress = eGameProgress::FadeIn;
 
 			m_progressFunc.emplace(eGameProgress::FadeIn, bind(&GameStage::ToFadeInState, this));

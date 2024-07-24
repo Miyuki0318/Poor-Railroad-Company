@@ -33,7 +33,7 @@ namespace basecross
 
 		// 地面マップ
 		auto& groundMap = GetTypeStage<BaseStage>()->GetGroundMap();
-		map<int, weak_ptr<InstanceGround>> grass, unGrass, sand, water, rock;
+		map<int, weak_ptr<InstanceGround>> grass, unGrass, sand, unSand, water, rock, unRock;
 		for (int i = 0; i < groundMap.front().size(); i += END_INDEX)
 		{
 			// 区切り数ずつ追加
@@ -48,8 +48,10 @@ namespace basecross
 		m_groundMap.emplace(eStageID::Grass, grass);		// 草地
 		m_groundMap.emplace(eStageID::UnGrass, unGrass);	// 通過不可の草地
 		m_groundMap.emplace(eStageID::Sand, sand);			// 砂地
+		m_groundMap.emplace(eStageID::UnSand, unSand);		// 砂地
 		m_groundMap.emplace(eStageID::Watering, water);		// 水場
 		m_groundMap.emplace(eStageID::Rock, rock);			// 岩地
+		m_groundMap.emplace(eStageID::UnRock, unRock);		// 岩地
 
 		// 地面の生成
 		CreateInstanceGround();

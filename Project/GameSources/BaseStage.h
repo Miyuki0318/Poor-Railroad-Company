@@ -47,6 +47,8 @@ namespace basecross
 		Air = 111,			// 空気(なんもなし)
 		Watering = 112,		// 水場
 		UnGrass = 121,		// 描画のみ通過不可
+		UnSand = 122,		// 描画のみ通過不可
+		UnRock = 123,		// 描画のみ通過不可
 	};
 
 	/*!
