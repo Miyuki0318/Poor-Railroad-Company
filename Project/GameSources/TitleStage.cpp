@@ -79,6 +79,11 @@ namespace basecross
 		AddTextureResource(L"THIRD_TX", routePath + L"ThirdMapTexture.png");
 		AddTextureResource(L"FOURTH_TX", routePath + L"FourthMapTexture.png");
 		AddTextureResource(L"FIFTH_TX", routePath + L"FifthMapTexture.png");
+		AddTextureResource(L"SIXTH_TX", routePath + L"SixthMapTexture.png");
+		AddTextureResource(L"SEVENTH_TX", routePath + L"SeventhMapTexture.png");
+		AddTextureResource(L"EIGHTH_TX", routePath + L"EighthMapTexture.png");
+		AddTextureResource(L"NINTH_TX", routePath + L"NinthMapTexture.png");
+		AddTextureResource(L"TENTH_TX", routePath + L"TenthMapTexture.png");
 
 		// ガイドのテクスチャ
 		AddTextureResource(L"ROUTEMAP_TX", texturePath + L"StageSelectGuide.png");
