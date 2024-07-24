@@ -40,6 +40,7 @@ namespace basecross {
 		};
 		State m_cameraState;	// カメラの現在の状態
 		const State m_DefaultState;	// カメラの初期状態
+		map<State, function<void()>> m_stateFunc; // 状態ごとの処理
 
 		/// <summary>
 		/// カメラのコンストラクタ
@@ -63,6 +64,12 @@ namespace basecross {
 			m_zoomSpeed(0.8f),
 			m_scrollRatio(0.0f)
 		{
+			m_stateFunc.emplace(State::Fixed, bind(&MainCamera::FixedProcess, this));
+			m_stateFunc.emplace(State::Follow, bind(&MainCamera::FollowTarget, this));
+			m_stateFunc.emplace(State::ZoomIn, bind(&MainCamera::ZoomProcess, this));
+			m_stateFunc.emplace(State::ZoomOut, bind(&MainCamera::ZoomProcess, this));
+			m_stateFunc.emplace(State::ZoomedIn, bind(&MainCamera::ZoomedInProcess, this));
+			m_stateFunc.emplace(State::Scroll, bind(&MainCamera::ScrollProcess, this));
 		}
 		/// <summary>
 		/// カメラのコンストラクタ
@@ -86,11 +93,19 @@ namespace basecross {
 			m_zoomSpeed(0.8f),
 			m_scrollRatio(0.0f)
 		{
+			m_stateFunc.emplace(State::Fixed, bind(&MainCamera::FixedProcess, this));
+			m_stateFunc.emplace(State::Follow, bind(&MainCamera::FollowTarget, this));
+			m_stateFunc.emplace(State::ZoomIn, bind(&MainCamera::ZoomProcess, this));
+			m_stateFunc.emplace(State::ZoomOut, bind(&MainCamera::ZoomProcess, this));
+			m_stateFunc.emplace(State::ZoomedIn, bind(&MainCamera::ZoomedInProcess, this));
+			m_stateFunc.emplace(State::Scroll, bind(&MainCamera::ScrollProcess, this));
 		}
 		~MainCamera() {}
 
 		void OnCreate() override;
 		void OnUpdate() override;
+
+		void FixedProcess();
 
 		/// <summary>
 		/// 対象に追従する処理
@@ -138,12 +153,8 @@ namespace basecross {
 		/// <param name="zoomEye">ズーム後の位置</param>
 		/// <param name="zoomAtY">ズーム後のY座標に加算する値</param>
 		void ZoomStart(Vec3 zoomEye, float zoomAtY) {
-			m_zoomEye = zoomEye;
 			m_zoomAtY = zoomAtY;
-			m_currentEye = GetEye();
-			m_currentAt = GetAt();
-			m_cameraState = ZoomIn;
-			m_zoomRatio = 0.0f;
+			ZoomStart(zoomEye);
 		}
 
 		/// <summary>

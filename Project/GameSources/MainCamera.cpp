@@ -18,33 +18,20 @@ namespace basecross {
 	}
 
 	void MainCamera::OnUpdate() {
-		if (m_cameraState == State::Fixed) // 固定状態
-		{
-			SetEye(m_initialEye);
-		}
 
 		// これ以降の処理はターゲットオブジェクトがなければ行わない
-		if (GetTargetObject() == nullptr) return;
+		if (m_cameraState == State::Fixed || GetTargetObject() == nullptr) return;
 
 		m_targetPos = GetTargetObject()->GetComponent<Transform>()->GetPosition(); // ターゲットの位置を取得
 
-		if (m_cameraState == State::Follow) // 追尾状態
-		{
-			FollowTarget();
-		}
-		if (m_cameraState == State::ZoomIn || m_cameraState == State::ZoomOut) // ズーム状態
-		{
-			ZoomProcess();
-		}
-		if (m_cameraState == State::ZoomedIn) // ズームイン後
-		{
-			ZoomedInProcess();
-		}
-		if (m_cameraState == State::Scroll) // スクロール状態
-		{
-			ScrollProcess();
-		}
+		m_stateFunc.at(m_cameraState)(); // 状態ごとの処理を行う
+
 		Camera::OnUpdate();
+	}
+
+	void MainCamera::FixedProcess()
+	{
+		SetEye(m_initialEye);
 	}
 
 	void MainCamera::FollowTarget()
