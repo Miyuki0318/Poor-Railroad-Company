@@ -99,6 +99,7 @@ namespace basecross
 
 		// 開始時の所持ギア設定
 		AddItemCount(eItemType::Gear, (int)m_playerData.at(ePST::StartGear).at(m_startGearLevel));
+		UpdateStatus();
 	}
 
 	// プレイヤーに付加する機能の生成

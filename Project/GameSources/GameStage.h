@@ -75,7 +75,7 @@ namespace basecross
 		map<eGameProgress, function<void()>> m_progressFunc;
 
 		// BGMkey
-		map<wstring, string> m_bgmKeyMap;
+		map<string, wstring> m_bgmKeyMap;
 
 		/*!
 		@brief ÉäÉ\Å[ÉXÇÃì«çû
@@ -235,16 +235,16 @@ namespace basecross
 			m_totalTime = 0.0f;
 			m_pastStickVal = 0.0f;
 
-			m_bgmKeyMap.emplace(L"FIRST_BGM", "Lv1");
-			m_bgmKeyMap.emplace(L"FIRST_BGM", "Lv2");
-			m_bgmKeyMap.emplace(L"FIRST_BGM", "Lv3");
-			m_bgmKeyMap.emplace(L"FIRST_BGM", "Lv4");
-			m_bgmKeyMap.emplace(L"SECOND_BGM", "Lv5");
-			m_bgmKeyMap.emplace(L"SECOND_BGM", "Lv6");
-			m_bgmKeyMap.emplace(L"THIRD_BGM", "Lv7");
-			m_bgmKeyMap.emplace(L"THIRD_BGM", "Lv8");
-			m_bgmKeyMap.emplace(L"FOURTH_BGM", "Lv9");
-			m_bgmKeyMap.emplace(L"FOURTH_BGM", "Lv10");
+			m_bgmKeyMap.emplace("Lv1", L"FIRST_BGM");
+			m_bgmKeyMap.emplace("Lv2", L"FIRST_BGM");
+			m_bgmKeyMap.emplace("Lv3", L"FIRST_BGM");
+			m_bgmKeyMap.emplace("Lv4", L"FIRST_BGM");
+			m_bgmKeyMap.emplace("Lv5", L"SECOND_BGM");
+			m_bgmKeyMap.emplace("Lv6", L"SECOND_BGM");
+			m_bgmKeyMap.emplace("Lv7", L"THIRD_BGM");
+			m_bgmKeyMap.emplace("Lv8", L"THIRD_BGM");
+			m_bgmKeyMap.emplace("Lv9", L"FOURTH_BGM");
+			m_bgmKeyMap.emplace("Lv10", L"FOURTH_BGM");
 
 			m_gameProgress = eGameProgress::FadeIn;
 

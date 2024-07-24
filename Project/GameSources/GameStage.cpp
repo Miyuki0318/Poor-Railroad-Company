@@ -103,15 +103,7 @@ namespace basecross
 	// BGMの再生
 	void GameStage::CreateStartBGM()
 	{
-		for (const auto& pair : m_bgmKeyMap)
-		{
-			if (pair.second == m_stagePath)
-			{
-				// BGMの再生
-				m_bgmItem = m_soundManager->StartBGM(pair.first, XAUDIO2_LOOP_INFINITE, 0.0f, ThisPtr);
-				break;
-			}
-		}
+		m_bgmItem = m_soundManager->StartBGM(m_bgmKeyMap.at(m_stagePath), XAUDIO2_LOOP_INFINITE, 0.0f, ThisPtr);
 	}
 
 	//ビューとライトの生成
