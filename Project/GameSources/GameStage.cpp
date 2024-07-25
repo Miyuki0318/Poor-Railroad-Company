@@ -711,8 +711,9 @@ namespace basecross
 			{
 				PushButtonStart();
 			}
+
 			// 演出中かの真偽をプレイ中かどうかで立てる
-			m_isStaging = !Utility::ORS(m_gameProgress, eGameProgress::FadeIn, eGameProgress::Playing, eGameProgress::CraftPause);
+			m_isStaging = !Utility::ORS(m_gameProgress, eGameProgress::Playing, eGameProgress::CraftPause);
 
 			// ゲームの結果に応じて処理を実行
 			if (m_progressFunc.find(m_gameProgress) == m_progressFunc.end()) return;
