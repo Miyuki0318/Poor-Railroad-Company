@@ -82,7 +82,7 @@ namespace basecross{
 			m_nextLevel.emplace(eMapLevel::NinthMap, eMapLevel::TenthMap);
 			m_nextLevel.emplace(eMapLevel::TenthMap, eMapLevel::FirstMap);
 
-			m_money = 5000;
+			m_money = 0;
 
 			m_statusLevel = ePL::Level1;
 			m_limitChoicesLevel = ePL::Level1;

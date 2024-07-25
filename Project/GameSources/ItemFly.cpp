@@ -22,6 +22,7 @@ namespace basecross
 		// 非アクティブに
 		SetDrawActive(false);
 		SetUpdateActive(false);
+		SetDrawLayer(10);
 
 		// 星型エフェクトの生成
 		m_starEffect = GetStage()->GetSharedGameObject<SpriteParticle>(L"StarEffect");
