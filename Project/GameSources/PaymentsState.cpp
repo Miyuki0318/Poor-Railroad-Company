@@ -96,6 +96,7 @@ namespace basecross
 			menu->StartSE(L"COIN_SE", 1.0f);
 			m_state = eGamePaymentsState::RewardCount;
 			m_fadeTotalTime = 0.0f;
+			return;
 		}
 
 		// 経過時間をデルタタイムで加算し、座標を更新
@@ -199,12 +200,18 @@ namespace basecross
 		{
 			m_state = eGamePaymentsState::MenuFadeOut;
 			m_fadeTotalTime = 0.0f;
+			return;
 		}
 
 		// 跳んで行くお金アイコン
+		const auto& itemFly = m_stage.lock()->GetSharedGameObject<FlyItemManager>(L"FlyItemManager");
 		auto& number = m_numbersMap.at(eGamePaymentsState::TotalIncome);
-		float ratio = number.goal / 200.0f;
-		ratio = ceil(ratio);
+
+		// 初期で一回飛ばす
+		if (m_fadeTotalTime <= 0.0f) itemFly->StartFly(eItemType::Money, number.sprite.front().lock()->GetPosition());
+
+		// 割合分の時間でタイマーをセット
+		float ratio = ceil(number.goal / 200.0f);
 		float time = m_standByTime / ratio;
 		if (m_menuSprite.lock()->SetTimer(time))
 		{
@@ -215,7 +222,6 @@ namespace basecross
 				m_moneyCount.lock()->SetNumberGoal(scene->GetMoney());
 			}
 
-			const auto& itemFly = m_stage.lock()->GetSharedGameObject<FlyItemManager>(L"FlyItemManager");
 			itemFly->StartFly(eItemType::Money, number.sprite.front().lock()->GetPosition());
 		}
 
