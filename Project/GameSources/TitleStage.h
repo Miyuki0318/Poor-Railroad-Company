@@ -43,19 +43,20 @@ namespace basecross
 		// 列車の開始位置
 		const Vec3 m_trainPos = Vec3(23.0f,1.0f,-20.0f);
 
+		const float m_setTime;
+
 		// プレイヤーの開始座標
 		Vec3 m_startPosition;
 		
+		// 検索範囲
 		const float m_searchArea = 3.0f;
 
 		eTitleProgress m_titleProgress;
 
-		Vec3 m_diff;
-		float m_distance;
+		// 放置された時間
+		float m_leaveTime;
 
 		bool m_zooming;
-
-		bool m_zoomEnd;
 
 		shared_ptr<GameObject> m_selectObj;
 
@@ -69,8 +70,7 @@ namespace basecross
 		weak_ptr<Sprite> m_pushAButton;
 		weak_ptr<Sprite> m_pushBButton;
 
-		eTitleProgress m_oldProgress;
-
+		Vec3 m_oldPlayerPos;
 		/*
 		@brief ビューとライトの生成
 		*/
@@ -115,7 +115,7 @@ namespace basecross
 		@brief 列車の生成
 		*/
 		void CreateTrain();
-
+		
 		/*
 		@brief 所持金スプライトの生成
 		*/
@@ -147,6 +147,11 @@ namespace basecross
 		void ButtonUIActive(bool active);
 
 		/*
+		@brief 一定時間放置したらムービーステージに移行する処理
+		*/
+		void ChengeMovieTime(Vec3 pos);
+
+		/*
 		@brief Aボタンを押した時の処理
 		*/
 		void PushButtonA();
@@ -171,14 +176,11 @@ namespace basecross
 			m_titleProgress(prog),
 			m_shopDiffEye(0.0f, 3.0f, -0.5f),
 			m_routeMapDiffEye(0.0f, 3.0f, +11.0f),
-			m_trainDiffEye(0.0f, 8.0f, 12.0f)
+			m_trainDiffEye(0.0f, 8.0f, 12.0f),
+			m_oldPlayerPos(0.0f),
+			m_setTime(30.0f),
+			m_zooming(false)
 		{
-			m_oldProgress = eTitleProgress::start;
-
-			m_zooming = false;
-
-			m_zoomEnd = false;
-
 			m_objectGroup = CreateSharedObjectGroup(L"Settings");
 		}
 
@@ -245,17 +247,12 @@ namespace basecross
 			return m_titleProgress;
 		}
 
+		/*
+		@brief 選択されているオブジェクトを返す関数
+		*/
 		shared_ptr<GameObject> GetSelectObject() const
 		{
 			return m_selectObj;
-		}
-
-		/*
-		@brief 状態が一致しているかを判定する関数
-		*/
-		bool MatchProgress()
-		{
-			return m_oldProgress == m_titleProgress;
 		}
 
 		/*

@@ -267,6 +267,31 @@ namespace basecross
 		ButtonUIActive(false);
 	}
 
+	// 一定時間放置したらムービーステージに移行する処理
+	void TitleStage::ChengeMovieTime(Vec3 pos)
+	{
+		Vec3 diff = pos - m_oldPlayerPos;
+		float distance = diff.length();
+
+		if (distance != 0.0f || Input::GetPush())
+		{
+			m_leaveTime = 0.0f;
+			return;
+		}
+
+		const auto& app = App::GetApp();
+		m_leaveTime += app->GetElapsedTime();
+
+		if (m_leaveTime >= m_setTime)
+		{
+			m_fadeSprite->FadeInColor(2.0f);
+			if (m_fadeSprite->GetDiffuseColor() == COL_WHITE)
+			{
+				PostEvent(0.0f, GetThis<ObjectInterface>(), app->GetScene<Scene>(), L"MovieStage");
+			}
+		}
+	}
+
 	// Aボタンを押した時の処理
 	void TitleStage::PushButtonA()
 	{
@@ -342,11 +367,15 @@ namespace basecross
 
 		if (m_titleProgress == opening)
 		{
+			if (m_leaveTime >= 5.0f) return;
+
 			m_fadeSprite->FadeOutColor(1.0f);
 		}
 
 		if (Utility::OR(m_titleProgress, normal, push))
 		{
+			if (m_leaveTime >= 5.0f) return;
+
 			if (m_fadeSprite->GetDiffuseColor() != Col4(COL_ALPHA))
 			{
 				m_fadeSprite->FadeOutColor(1.0f);
@@ -382,10 +411,10 @@ namespace basecross
 			auto targetPos = target->GetComponent<Transform>()->GetPosition();
 
 			// オブジェクトとプレイヤーの距離を求める
-			m_diff = targetPos - playerPos;
-			m_distance = m_diff.length();
+			Vec3 diff = targetPos - playerPos;
+			float distance = diff.length();
 
-			if (m_distance < m_searchArea)
+			if (distance < m_searchArea)
 			{
 				m_selectObj = target;
 
@@ -432,7 +461,7 @@ namespace basecross
 			CreateBuilding();
 
 			CreateTrain();
-
+			
 			CreateUISprite();
 
 			CreateArrowSprite();
@@ -467,6 +496,7 @@ namespace basecross
 			Debug::Log(L"所持金 : ", GetMoney());
 			const auto& camera = GetView()->GetTargetCamera();
 			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
+			const auto& player = GetSharedGameObject<TitlePlayer>(L"Player");
 
 			if (m_bgmItem.lock() && Utility::OR(m_titleProgress, opening, normal))
 			{
@@ -520,10 +550,19 @@ namespace basecross
 				ButtonUIActive(false);
 			}
 
+			if (Utility::OR(m_titleProgress, opening, normal))
+			{
+				ChengeMovieTime(player->GetPosition());
+			}
+			
+			Debug::Log(L"時間 : ", m_leaveTime);
+
+			Debug::Log(L"色　 : ", m_fadeSprite->GetDiffuseColor());
+
 			// 通常時以外は演出中のフラグを立てる
 			m_isStaging = m_titleProgress != normal;
 
-			m_oldProgress = m_titleProgress;
+			m_oldPlayerPos = player->GetPosition();
 		}
 		catch (...)
 		{

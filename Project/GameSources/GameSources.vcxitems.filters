@@ -274,6 +274,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)ShopShoppingState.h">
       <Filter>UI\Shop\ShopShoppingState</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)MovieStage.h">
+      <Filter>Stage\MovieStage</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -515,6 +518,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)ShopShoppingState.cpp">
       <Filter>UI\Shop\ShopShoppingState</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)MovieStage.cpp">
+      <Filter>Stage\MovieStage</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -796,6 +802,9 @@
     </Filter>
     <Filter Include="UI\Shop\ShopShoppingState">
       <UniqueIdentifier>{248eba74-ca88-40d7-9543-bd28ae41f5c8}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Stage\MovieStage">
+      <UniqueIdentifier>{2bc8f705-7231-41af-b700-dd9cb48b2c3c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
