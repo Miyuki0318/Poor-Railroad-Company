@@ -227,6 +227,8 @@ namespace basecross
 		SetSharedGameObject(L"MoneyUI", moneyUI);
 
 		AddGameObject<TitleGuide>();
+
+		m_fadeSprite->SetDrawLayer(10);
 	}
 
 	// –îˆó‚Ì¶¬
