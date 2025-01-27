@@ -57,6 +57,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MoneyCountUI.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MouseCursor.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)MovieStage.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)NetworkComponent.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Number.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)Opening.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)OzawaFuncs.h" />
@@ -71,6 +72,7 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerMovingState.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerStateMachine.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)GamePlayerSuccesState.h" />
+    <ClInclude Include="$(MSBuildThisFileDirectory)PPDataConnecter.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RailGuideBlinking.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RailGuideIcon.h" />
     <ClInclude Include="$(MSBuildThisFileDirectory)RailManager.h" />
@@ -147,6 +149,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)MoneyCountUI.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MouseCursor.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)MovieStage.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)NetworkComponent.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Number.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)Opening.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)OzawaUtility.cpp" />
@@ -159,6 +162,7 @@
     <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayerGatheringState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayerMovingState.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)GamePlayerSuccesState.cpp" />
+    <ClCompile Include="$(MSBuildThisFileDirectory)PPDataConnecter.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RailGuideBlinking.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RailGuideIcon.cpp" />
     <ClCompile Include="$(MSBuildThisFileDirectory)RailManager.cpp" />

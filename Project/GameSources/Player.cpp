@@ -9,6 +9,7 @@
 #include "OzawaUtility.h"
 #include "Player.h"
 #include "RailManager.h"
+#include "NetworkComponent.h"
 
 #define MESH L"SM_PLAYER_"
 
@@ -55,6 +56,12 @@ namespace basecross
 
 		// コリジョンOBBの追加
 		AddComponent<CollisionCapsule>();
+
+		auto net = AddComponent<NetworkComponent>();
+		string data;
+		net->GetDataFromReceiveBuffer("POS", data);
+
+		StringSprite
 	}
 
 	// アニメーションメッシュの切り替え

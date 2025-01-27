@@ -13,3 +13,5 @@
 #include "SpriteParticle.h"
 #include "Billboard.h"
 #include "BillboardNumber.h"
+#include "PPDataConnecter.h"
+#include "NetworkComponent.h"

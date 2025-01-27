@@ -277,6 +277,12 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)MovieStage.h">
       <Filter>Stage\MovieStage</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)PPDataConnecter.h">
+      <Filter>OzawaFuncs\Network</Filter>
+    </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)NetworkComponent.h">
+      <Filter>OzawaFuncs\Network</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -521,6 +527,12 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)MovieStage.cpp">
       <Filter>Stage\MovieStage</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)PPDataConnecter.cpp">
+      <Filter>OzawaFuncs\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)NetworkComponent.cpp">
+      <Filter>OzawaFuncs\Network</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -805,6 +817,9 @@
     </Filter>
     <Filter Include="Stage\MovieStage">
       <UniqueIdentifier>{2bc8f705-7231-41af-b700-dd9cb48b2c3c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="OzawaFuncs\Network">
+      <UniqueIdentifier>{6c5c19dd-d06f-4307-872b-e7166e3c0576}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>
