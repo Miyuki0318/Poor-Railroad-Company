@@ -141,16 +141,17 @@ int MainLoop(HINSTANCE hInstance, HWND hWnd, bool isFullScreen, int iClientWidth
 		auto ScenePtr = App::GetApp()->CreateScene<Scene>();
 
 		// 初期化
-		auto netPtr = new PPDataConnecter;
-		netPtr->Initialize();
-		auto userIP = netPtr->GetLocalIPAddressW();
-		auto sock = netPtr->CreateSocket();
+		PPDataConnecter netPtr;
+		netPtr.Initialize();
+		auto userIP = netPtr.GetLocalIPAddressW();
+		auto sock = netPtr.CreateSocket();
 
 		// ソケット通信
-		netPtr->StartServerAsync(sock, userIP);
+		netPtr.StartServerAsync(sock, userIP);
 
 		// シーンに登録
-		ScenePtr->SetNetworkPtr(netPtr);
+		auto ptr = &netPtr;
+		ScenePtr->SetNetworkPtr(ptr);
 
 		//メッセージループ
 		MSG msg = { 0 };
@@ -169,12 +170,12 @@ int MainLoop(HINSTANCE hInstance, HWND hWnd, bool isFullScreen, int iClientWidth
 			//更新描画処理
 			App::GetApp()->UpdateDraw(1);
 
-			if (netPtr->isWaiting)
+			if (netPtr.isWaiting)
 			{
 				continue;
 			}
 
-			if (netPtr->isCanceled)
+			if (netPtr.isCanceled)
 			{
 				continue;
 			}
