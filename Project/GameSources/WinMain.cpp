@@ -134,20 +134,22 @@ int MainLoop(HINSTANCE hInstance, HWND hWnd, bool isFullScreen, int iClientWidth
 			// 初期化失敗
 			throw exception("Com初期化に失敗しました。");
 		}
-		////アプリケーションクラスの構築
-		App::CreateApp(hInstance, hWnd, isFullScreen, iClientWidth, iClientHeight);
-		//シーンの作成
-		//戻り値のScenePtrは汎用的に使える
-		auto ScenePtr = App::GetApp()->CreateScene<Scene>();
 
 		// 初期化
 		PPDataConnecter netPtr;
+		netPtr.SetConsoleToUnicode();
 		netPtr.Initialize();
 		auto userIP = netPtr.GetLocalIPAddressW();
 		auto sock = netPtr.CreateSocket();
 
 		// ソケット通信
 		netPtr.StartServerAsync(sock, userIP);
+
+		////アプリケーションクラスの構築
+		App::CreateApp(hInstance, hWnd, isFullScreen, iClientWidth, iClientHeight);
+		//シーンの作成
+		//戻り値のScenePtrは汎用的に使える
+		auto ScenePtr = App::GetApp()->CreateScene<Scene>();
 
 		// シーンに登録
 		auto ptr = &netPtr;
@@ -169,16 +171,6 @@ int MainLoop(HINSTANCE hInstance, HWND hWnd, bool isFullScreen, int iClientWidth
 			}
 			//更新描画処理
 			App::GetApp()->UpdateDraw(1);
-
-			if (netPtr.isWaiting)
-			{
-				continue;
-			}
-
-			if (netPtr.isCanceled)
-			{
-				continue;
-			}
 		}
 		//msg.wParamには終了コードが入っている
 		RetCode = (int)msg.wParam;

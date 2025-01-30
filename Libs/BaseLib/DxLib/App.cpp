@@ -1231,7 +1231,7 @@ namespace basecross {
 			//ムービーが無効
 			m_SceneInterface->OnDraw();
 			// バックバッファからフロントバッファに転送
-			m_DeviceResources->Present(SyncInterval, 0);
+			m_DeviceResources->Present(SyncInterval, DXGI_PRESENT_DO_NOT_WAIT);
 		}
 	}
 

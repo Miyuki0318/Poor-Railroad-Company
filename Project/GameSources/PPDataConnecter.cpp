@@ -199,7 +199,7 @@ void PPDataConnecter::BindAndListen(SOCKET& serverSocket)
 }
 
 // クライアントからの接続を受け入れる
-void PPDataConnecter::AcceptConnection(const SOCKET& serverSocket, SOCKET& clientSocket)
+void PPDataConnecter::AcceptConnection(SOCKET serverSocket, SOCKET& clientSocket)
 {
     clientSocket = accept(serverSocket, nullptr, nullptr);
     if (clientSocket == INVALID_SOCKET)
@@ -364,6 +364,12 @@ void PPDataConnecter::StartServer(SOCKET& serverSocket, const wstring& username)
     int addrLen = sizeof(serverAddr);
     getsockname(serverSocket, (sockaddr*)&serverAddr, &addrLen);
     currentPort = ntohs(serverAddr.sin_port);
+
+    auto ID = EncodeAndReverseIPPort(GetLocalIPAddress(), ntohs(serverAddr.sin_port));
+    if (ID == "")
+    {
+        return;
+    }
 
     // クライアント接続待機
     SOCKET clientSocket;

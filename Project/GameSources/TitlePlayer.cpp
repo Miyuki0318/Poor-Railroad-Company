@@ -35,11 +35,9 @@ namespace basecross
 		m_playerState->Update();
 
 		const auto netPtr = m_ptrNet->GetNetworkPtr();
-		Debug::Log(L"count : ", netPtr->isLoopCount);
 		Debug::Log(L"待機しているか : ", netPtr->isWaiting);
 		Debug::Log(L"接続しているか : ", netPtr->isConnected);
-		Debug::Log(L"IP : ", netPtr->GetLocalIPAddress());
-		Debug::Log(L"PORT : ", netPtr->GetPortNumber());
+		Debug::Log(L"ID : ", netPtr->EncodeAndReverseIPPort(netPtr->GetLocalIPAddress(), netPtr->GetPortNumber()));
 
 		// ステートマシンにBボタン入力時の処理を送る
 		if (GetPushB()) m_playerState->PushB();
