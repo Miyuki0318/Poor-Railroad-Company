@@ -81,7 +81,7 @@ unsigned long ConvertFromBase64(const string& base64Str)
     unsigned long base = 1;
 
     // 文字列の後ろ（最下位桁）から順に処理
-    for (size_t i = base64Str.length() - 1; i >= 0; --i)
+    for (int i = base64Str.length() - 1; i >= 0; --i)
     {
         size_t pos = base64chars.find(base64Str[i]);
         if (pos == string::npos)
@@ -227,12 +227,12 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
     // サーバー処理を別スレッドで実行
     connectThread = thread([&]()
         {
-            try
-            {
-                // クライアント接続待機
-                SOCKET clientSocket;
+            // クライアント接続待機
+            SOCKET clientSocket;
 
-                while (true)
+            while (isWaiting)
+            {
+                try
                 {
                     // 接続できたらtrue
                     if (AcceptConnection(serverSocket, clientSocket))
@@ -249,12 +249,14 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
                         return;
                     }
 
-                    // 数ミリ秒待機 (例: 10ミリ秒)
-                    this_thread::sleep_for(chrono::milliseconds(10));
+                    // 数ミリ秒待機
+                    this_thread::sleep_for(chrono::milliseconds(100));
                 }
-            }
-            catch (...)
-            {
+                catch (...)
+                {
+                    continue;
+                    this_thread::sleep_for(chrono::milliseconds(100));
+                }
             }
         }
     );
@@ -267,7 +269,7 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
     isCanceled = false;
 
     // 仮入力
-    string id = EncodeAndReverseIPPort("192.168.43.32", 0);
+    string id = EncodeAndReverseIPPort("192.168.7.130", 0);
 
     // サーバーIDをデコードしてIPアドレスとポート番号を取得
     auto decodeID = DecodeAndReverseIPPort(id);
@@ -280,9 +282,9 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
     // クライアント接続処理を非同期で実行
     connectThread = thread([&]()
         {
-            try
+            while (isWaiting)
             {
-                while (true)
+                try
                 {
                     // 接続できたらtrue
                     if (connect(clientSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) != SOCKET_ERROR)
@@ -299,12 +301,14 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
                         return;
                     }
 
-                    // 数ミリ秒待機 (例: 10ミリ秒)
-                    this_thread::sleep_for(chrono::milliseconds(10));
+                    // 数ミリ秒待機
+                    this_thread::sleep_for(chrono::milliseconds(100));
                 }
-            }
-            catch (...)
-            {
+                catch (...)
+                {
+                    continue;
+                    this_thread::sleep_for(chrono::milliseconds(100));
+                }
             }
         }
     );
