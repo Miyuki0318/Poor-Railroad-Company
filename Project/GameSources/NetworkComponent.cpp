@@ -14,7 +14,19 @@ namespace basecross
     NetworkComponent::~NetworkComponent() {}
 
     // GetNetworkPtrを使用してP2P通信クラスにアクセス
-    const PPDataConnecter* NetworkComponent::GetNetwork() const
+    PPDataConnecter* NetworkComponent::GetNetwork() const
+    {
+        auto scene = App::GetApp()->GetScene<Scene>();
+        auto network = scene->GetNetworkPtr();
+        if (!network)
+        {
+            throw std::runtime_error("Network instance is not available");
+        }
+        return network;
+    }
+
+    // GetNetworkPtrを使用してP2P通信クラスにアクセス(外部用)
+    const PPDataConnecter* NetworkComponent::GetNetworkPtr() const
     {
         auto scene = App::GetApp()->GetScene<Scene>();
         auto network = scene->GetNetworkPtr();

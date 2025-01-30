@@ -253,7 +253,7 @@ namespace basecross{
 			return m_MovieActive;
 		}
 
-		const PPDataConnecter* GetNetworkPtr()
+		PPDataConnecter* GetNetworkPtr()
 		{
 			return m_netObj;
 		}

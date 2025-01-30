@@ -34,7 +34,7 @@ namespace basecross
 		// ステートマシンの更新処理を送る
 		m_playerState->Update();
 
-		const auto netPtr = m_ptrNet->GetNetwork();
+		const auto netPtr = m_ptrNet->GetNetworkPtr();
 		Debug::Log(L"待機しているか : ", netPtr->isWaiting);
 		Debug::Log(L"接続しているか : ", netPtr->isConnected);
 		Debug::Log(L"ID : ", netPtr->EncodeAndReverseIPPort(netPtr->GetLocalIPAddress(), netPtr->GetPortNumber()));
