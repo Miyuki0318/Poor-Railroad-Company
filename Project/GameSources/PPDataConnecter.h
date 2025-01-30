@@ -79,7 +79,7 @@ public:
     // ソケット関連処理
     SOCKET CreateSocket(); // ソケット作成
     sockaddr_in BindAndListen(SOCKET& serverSocket); // ソケットをバインドして待機
-    void AcceptConnection(SOCKET serverSocket, SOCKET& clientSocket); // 接続を受け入れる
+    bool AcceptConnection(SOCKET serverSocket, SOCKET& clientSocket); // 接続を受け入れる
 
     // 通信開始
     void StartServer(SOCKET& socket, const wstring& username); // サーバー開始

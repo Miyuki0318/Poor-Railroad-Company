@@ -81,14 +81,14 @@ unsigned long ConvertFromBase64(const string& base64Str)
     unsigned long base = 1;
 
     // 文字列の後ろ（最下位桁）から順に処理
-    for (int i = base64Str.length() - 1; i >= 0; --i)
+    for (size_t i = base64Str.length() - 1; i >= 0; --i)
     {
         size_t pos = base64chars.find(base64Str[i]);
         if (pos == string::npos)
         {
             throw invalid_argument("Invalid base64 character."); // 不正な文字が含まれていた場合は例外を投げる
         }
-        result += pos * base;
+        result += (ULONG)pos * base;
         base *= 64;
     }
 
@@ -98,6 +98,7 @@ unsigned long ConvertFromBase64(const string& base64Str)
 // PPDataConnecter クラスのコンストラクタ（メンバ変数を初期化）
 PPDataConnecter::PPDataConnecter() :
     currentSocket(INVALID_SOCKET),
+    currentPort(0),
     isConnected(false),
     isWaiting(false),
     isCanceled(false)
@@ -201,13 +202,15 @@ sockaddr_in PPDataConnecter::BindAndListen(SOCKET& serverSocket)
 }
 
 // クライアントからの接続を受け入れる
-void PPDataConnecter::AcceptConnection(SOCKET serverSocket, SOCKET& clientSocket)
+bool PPDataConnecter::AcceptConnection(SOCKET serverSocket, SOCKET& clientSocket)
 {
     clientSocket = accept(serverSocket, nullptr, nullptr);
     if (clientSocket == INVALID_SOCKET)
     {
         throw runtime_error("接続の受け入れに失敗しました。");
     }
+
+    return clientSocket != INVALID_SOCKET;
 }
 
 // サーバーを非同期に起動する（接続待機とキャンセルを管理）
@@ -216,19 +219,42 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
     isWaiting = true;
     isCanceled = false;
 
+    // サーバーをバインドしてリスニングを開始
+    sockaddr_in serverAddr = BindAndListen(serverSocket);
+    int addrLen = sizeof(serverAddr);
+    getsockname(serverSocket, (sockaddr*)&serverAddr, &addrLen);
+
     // サーバー処理を別スレッドで実行
     connectThread = thread([&]()
         {
-            while (isWaiting)
+            try
             {
-                try
+                // クライアント接続待機
+                SOCKET clientSocket;
+
+                while (true)
                 {
-                    StartServer(serverSocket, username);
-                    isConnected = true;
+                    // 接続できたらtrue
+                    if (AcceptConnection(serverSocket, clientSocket))
+                    {
+                        isWaiting = false;
+                        isConnected = true;
+
+                        // ソケットを非ブロッキングモードに設定
+                        u_long mode = 1;
+                        ioctlsocket(clientSocket, FIONBIO, &mode);
+
+                        // 通信開始
+                        StartCommunication(clientSocket, username);
+                        return;
+                    }
+
+                    // 数ミリ秒待機 (例: 10ミリ秒)
+                    this_thread::sleep_for(chrono::milliseconds(10));
                 }
-                catch (...)
-                {
-                }
+            }
+            catch (...)
+            {
             }
         }
     );
@@ -240,19 +266,45 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
     isWaiting = true;
     isCanceled = false;
 
+    // 仮入力
+    string id = EncodeAndReverseIPPort("192.168.43.32", 0);
+
+    // サーバーIDをデコードしてIPアドレスとポート番号を取得
+    auto decodeID = DecodeAndReverseIPPort(id);
+
+    sockaddr_in serverAddr = {};
+    serverAddr.sin_family = AF_INET;
+    inet_pton(AF_INET, decodeID.first.c_str(), &serverAddr.sin_addr);
+    serverAddr.sin_port = htons(decodeID.second);
+
     // クライアント接続処理を非同期で実行
     connectThread = thread([&]()
         {
-            while (isWaiting)
+            try
             {
-                try
+                while (true)
                 {
-                    ConnectToServer(clientSocket, username);
-                    isConnected = true;
+                    // 接続できたらtrue
+                    if (connect(clientSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) != SOCKET_ERROR)
+                    {
+                        isWaiting = false;
+                        isConnected = true;
+
+                        // ソケットを非ブロッキングモードに設定
+                        u_long mode = 1;
+                        ioctlsocket(clientSocket, FIONBIO, &mode);
+
+                        // 通信開始
+                        StartCommunication(clientSocket, username);
+                        return;
+                    }
+
+                    // 数ミリ秒待機 (例: 10ミリ秒)
+                    this_thread::sleep_for(chrono::milliseconds(10));
                 }
-                catch (...)
-                {
-                }
+            }
+            catch (...)
+            {
             }
         }
     );
@@ -617,7 +669,7 @@ pair<string, unsigned short> PPDataConnecter::DecodeAndReverseIPPort(const strin
     }
 
     // 64進数からポート番号を復元
-    unsigned short port = ConvertFromBase64(port64);
+    unsigned short port = (USHORT)ConvertFromBase64(port64);
 
     return { ipAddress, port };
 }
