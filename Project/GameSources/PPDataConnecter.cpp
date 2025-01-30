@@ -228,7 +228,8 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
                 }
                 catch (const runtime_error& e)
                 {
-                    wcout << L"サーバーの開始に失敗しました: " << UTF8ToWString(e.what()) << endl;
+                    string message = "サーバーの開始に失敗しました: " + string(e.what());
+                    throw runtime_error(message);
                 }
             }
         }
@@ -246,18 +247,19 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
     // クライアント接続処理を非同期で実行
     thread clientThread([&]()
         {
-            try
+            while (isWaiting)
             {
-                // サーバーに接続を試みる
-                ConnectToServer(clientSocket, username);
-                isConnected = true;
+                try
+                {
+                    ConnectToServer(clientSocket, username);
+                    isConnected = true;
+                }
+                catch (const runtime_error& e)
+                {
+                    string message = "サーバーの接続に失敗しました: " + string(e.what());
+                    throw runtime_error(message);
+                }
             }
-            catch (const runtime_error& e)
-            {
-                // 接続エラーを表示
-                wcout << L"サーバーへの接続に失敗しました: " << UTF8ToWString(e.what()) << endl;
-            }
-            isWaiting = false;
         }
     );
 
