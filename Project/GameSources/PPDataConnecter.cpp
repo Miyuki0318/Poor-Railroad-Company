@@ -98,6 +98,7 @@ unsigned long ConvertFromBase64(const string& base64Str)
 // PPDataConnecter クラスのコンストラクタ（メンバ変数を初期化）
 PPDataConnecter::PPDataConnecter() :
     currentSocket(INVALID_SOCKET),
+    thisSocket(INVALID_SOCKET),
     currentPort(0),
     isConnected(false),
     isWaiting(false),
@@ -201,7 +202,7 @@ sockaddr_in PPDataConnecter::BindAndListen(SOCKET& serverSocket)
 }
 
 // クライアントからの接続を受け入れる
-bool PPDataConnecter::AcceptConnection(SOCKET serverSocket, SOCKET& clientSocket)
+bool PPDataConnecter::AcceptConnection(const SOCKET& serverSocket, SOCKET& clientSocket)
 {
     clientSocket = accept(serverSocket, nullptr, nullptr);
     return clientSocket != INVALID_SOCKET;
@@ -214,9 +215,10 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
     isCanceled = false;
 
     // サーバーをバインドしてリスニングを開始
-    sockaddr_in serverAddr = BindAndListen(serverSocket);
+    sockaddr_in serverAddr = BindAndListen(thisSocket);
     int addrLen = sizeof(serverAddr);
     getsockname(serverSocket, (sockaddr*)&serverAddr, &addrLen);
+    thisSocket = serverSocket;
     currentPort = ntohs(serverAddr.sin_port);
 
     isLoopCount = 0;
@@ -230,7 +232,7 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
                 SOCKET clientSocket;
 
                 // 接続できたらtrue
-                if (AcceptConnection(serverSocket, clientSocket))
+                if (AcceptConnection(thisSocket, clientSocket))
                 {
                     isWaiting = false;
                     isConnected = true;
@@ -250,6 +252,8 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
             }
         }
     );
+
+    connectThread.detach();
 }
 
 // サーバー接続をスレッドで開始
@@ -259,7 +263,7 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
     isCanceled = false;
 
     // 仮入力
-    string id = EncodeAndReverseIPPort("192.168.7.130", 0);
+    string id = EncodeAndReverseIPPort("192.168.43.32", 0);
 
     // サーバーIDをデコードしてIPアドレスとポート番号を取得
     auto decodeID = DecodeAndReverseIPPort(id);
@@ -270,23 +274,25 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
     serverAddr.sin_port = htons(decodeID.second);
     isLoopCount = 0;
 
+    thisSocket = clientSocket;
+
     // クライアント接続処理を非同期で実行
     connectThread = thread([&]()
         {
             while (isWaiting)
             {
                 // 接続できたらtrue
-                if (connect(clientSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) != SOCKET_ERROR)
+                if (connect(thisSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) != SOCKET_ERROR)
                 {
                     isWaiting = false;
                     isConnected = true;
 
                     // ソケットを非ブロッキングモードに設定
                     u_long mode = 1;
-                    ioctlsocket(clientSocket, FIONBIO, &mode);
+                    ioctlsocket(thisSocket, FIONBIO, &mode);
 
                     // 通信開始
-                    StartCommunication(clientSocket, username);
+                    StartCommunication(thisSocket, username);
                     return;
                 }
 
@@ -296,6 +302,8 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
             }
         }
     );
+
+    connectThread.detach();
 }
 
 // 通信の開始

@@ -54,6 +54,7 @@ private:
     mutex recvMutex; // 受信バッファの排他制御
 
     SOCKET currentSocket; // 現在の接続ソケット
+    SOCKET thisSocket; // 現在の接続ソケット
     USHORT currentPort; // 現在のポート番号
 
 public:
@@ -80,7 +81,7 @@ public:
     // ソケット関連処理
     SOCKET CreateSocket(); // ソケット作成
     sockaddr_in BindAndListen(SOCKET& serverSocket); // ソケットをバインドして待機
-    bool AcceptConnection(SOCKET serverSocket, SOCKET& clientSocket); // 接続を受け入れる
+    bool AcceptConnection(const SOCKET& serverSocket, SOCKET& clientSocket); // 接続を受け入れる
 
     // 通信開始
     void StartServer(SOCKET& socket, const wstring& username); // サーバー開始
