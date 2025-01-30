@@ -26,16 +26,6 @@ namespace basecross {
 			//クリアする色を設定
 			SetClearColor(Col4(COL_BLUE));
 
-			// 初期化
-			m_netObj = new PPDataConnecter;
-			m_netObj->Initialize();
-			
-			auto userIP = m_netObj->GetLocalIPAddressW();
-			auto sock = m_netObj->CreateSocket();
-
-			// ソケット通信
-			m_netObj->StartServerAsync(sock, userIP);
-
 			//自分自身にイベントを送る
 			//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる
 			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"TitleStage");

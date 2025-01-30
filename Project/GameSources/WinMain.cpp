@@ -139,6 +139,19 @@ int MainLoop(HINSTANCE hInstance, HWND hWnd, bool isFullScreen, int iClientWidth
 		//シーンの作成
 		//戻り値のScenePtrは汎用的に使える
 		auto ScenePtr = App::GetApp()->CreateScene<Scene>();
+
+		// 初期化
+		auto netPtr = new PPDataConnecter;
+		netPtr->Initialize();
+		auto userIP = netPtr->GetLocalIPAddressW();
+		auto sock = netPtr->CreateSocket();
+
+		// ソケット通信
+		netPtr->StartServerAsync(sock, userIP);
+
+		// シーンに登録
+		ScenePtr->SetNetworkPtr(netPtr);
+
 		//メッセージループ
 		MSG msg = { 0 };
 		//キーボード入力用
