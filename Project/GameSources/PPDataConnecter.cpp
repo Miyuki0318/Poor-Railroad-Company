@@ -215,32 +215,18 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
     isWaiting = true;
     isCanceled = false;
 
-    // サーバーをバインドしてリスニングを開始
-    currentSockAddr = BindAndListen(thisSocket);
-    int addrLen = sizeof(currentSockAddr);
-    getsockname(serverSocket, (sockaddr*)&currentSockAddr, &addrLen);
-    thisSocket = serverSocket;
-    currentPort = ntohs(currentSockAddr.sin_port);
-
     // サーバー処理を別スレッドで実行
     thread serverThread([&]()
         {
-            // クライアント接続待機
-            SOCKET clientSocket;
-
-            // 接続できたらtrue
-            if (AcceptConnection(thisSocket, clientSocket))
+            try
             {
-                // ソケットを非ブロッキングモードに設定
-                u_long mode = 1;
-                ioctlsocket(clientSocket, FIONBIO, &mode);
-
-                // 通信開始
-                isWaiting = false;
+                StartServer(serverSocket, username);
                 isConnected = true;
-                StartCommunication(clientSocket, username);
-                return;
             }
+            catch (...)
+            {
+            }
+            isWaiting = false;
         }
     );
 
@@ -253,33 +239,20 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
     isWaiting = true;
     isCanceled = false;
 
-    // 仮入力
-    string id = EncodeAndReverseIPPort("192.168.43.32", 0);
-
-    // サーバーIDをデコードしてIPアドレスとポート番号を取得
-    auto decodeID = DecodeAndReverseIPPort(id);
-
-    currentSockAddr.sin_family = AF_INET;
-    inet_pton(AF_INET, decodeID.first.c_str(), &currentSockAddr.sin_addr);
-    currentSockAddr.sin_port = htons(decodeID.second);
-
-    thisSocket = clientSocket;
-
     // クライアント接続処理を非同期で実行
     thread serverThread([&]()
         {
-            if (connect(thisSocket, (sockaddr*)&currentSockAddr, sizeof(currentSockAddr)) != SOCKET_ERROR)
+            try
             {
-                // ソケットを非ブロッキングモードに設定
-                u_long mode = 1;
-                ioctlsocket(thisSocket, FIONBIO, &mode);
-
-                // 通信開始
-                isWaiting = false;
+                // サーバーに接続を試みる
+                ConnectToServer(clientSocket, username);
                 isConnected = true;
-                StartCommunication(thisSocket, username);
-                return;
             }
+            catch (...)
+            {
+
+            }
+            isWaiting = false;
         }
     );
 
@@ -386,19 +359,15 @@ void PPDataConnecter::StopCommunication()
 void PPDataConnecter::StartServer(SOCKET& serverSocket, const wstring& username)
 {
     // サーバーをバインドしてリスニングを開始
-    sockaddr_in serverAddr = BindAndListen(serverSocket);
-    int addrLen = sizeof(serverAddr);
-    getsockname(serverSocket, (sockaddr*)&serverAddr, &addrLen);
-
-    // サーバー情報を表示
-    wcout << L"サーバーID: " << UTF8ToWString(EncodeAndReverseIPPort(GetLocalIPAddress(), ntohs(currentPort))) << endl;
-    wcout << L"接続を待っています..." << endl;
+    currentSockAddr = BindAndListen(thisSocket);
+    int addrLen = sizeof(currentSockAddr);
+    getsockname(serverSocket, (sockaddr*)&currentSockAddr, &addrLen);
+    thisSocket = serverSocket;
+    currentPort = ntohs(currentSockAddr.sin_port);
 
     // クライアント接続待機
     SOCKET clientSocket;
     AcceptConnection(serverSocket, clientSocket);
-    wcout << L"接続が確立されました。" << endl;
-    isWaiting = false;
 
     // ソケットを非ブロッキングモードに設定
     u_long mode = 1;
@@ -411,20 +380,18 @@ void PPDataConnecter::StartServer(SOCKET& serverSocket, const wstring& username)
 // クライアントがサーバーに接続する
 void PPDataConnecter::ConnectToServer(SOCKET& clientSocket, const wstring& username)
 {
-    wstring id;
-    wcout << L"接続先のサーバーIDを入力してください: ";
-    getline(wcin, id);
+    // 仮入力
+    string id = EncodeAndReverseIPPort("192.168.43.32", 0);
 
     // サーバーIDをデコードしてIPアドレスとポート番号を取得
-    auto decodeID = DecodeAndReverseIPPort(WStringToUTF8(id));
-
-    sockaddr_in serverAddr = {};
-    serverAddr.sin_family = AF_INET;
-    inet_pton(AF_INET, decodeID.first.c_str(), &serverAddr.sin_addr);
-    serverAddr.sin_port = htons(decodeID.second);
+    auto decodeID = DecodeAndReverseIPPort(id);
+    currentSockAddr.sin_family = AF_INET;
+    inet_pton(AF_INET, decodeID.first.c_str(), &currentSockAddr.sin_addr);
+    currentSockAddr.sin_port = htons(decodeID.second);
+    thisSocket = clientSocket;
 
     // サーバーへ接続
-    if (connect(clientSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
+    if (connect(clientSocket, (sockaddr*)&currentSockAddr, sizeof(currentSockAddr)) == SOCKET_ERROR)
     {
         throw runtime_error("接続に失敗しました。");
     }
@@ -432,8 +399,6 @@ void PPDataConnecter::ConnectToServer(SOCKET& clientSocket, const wstring& usern
     // ソケットを非ブロッキングモードに設定
     u_long mode = 1;
     ioctlsocket(clientSocket, FIONBIO, &mode);
-
-    wcout << L"接続しました。" << endl;
 
     // 通信開始
     StartCommunication(clientSocket, username);
