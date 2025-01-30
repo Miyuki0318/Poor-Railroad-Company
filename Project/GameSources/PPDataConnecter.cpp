@@ -185,8 +185,7 @@ sockaddr_in PPDataConnecter::BindAndListen(SOCKET& serverSocket)
     sockaddr_in serverAddr = {};
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = INADDR_ANY;
-    serverAddr.sin_port = htons(0); // OSにポートを自動割り当てさせる
-    currentPort = serverAddr.sin_port;
+    serverAddr.sin_port = 4000;
 
     if (::bind(serverSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
     {
@@ -218,17 +217,18 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
     sockaddr_in serverAddr = BindAndListen(serverSocket);
     int addrLen = sizeof(serverAddr);
     getsockname(serverSocket, (sockaddr*)&serverAddr, &addrLen);
+    currentPort = serverAddr.sin_port;
 
     isLoopCount = 0;
 
     // サーバー処理を別スレッドで実行
     connectThread = thread([&]()
         {
-            // クライアント接続待機
-            SOCKET clientSocket;
-
             while (isWaiting)
             {
+                // クライアント接続待機
+                SOCKET clientSocket;
+
                 // 接続できたらtrue
                 if (AcceptConnection(serverSocket, clientSocket))
                 {
@@ -259,7 +259,7 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
     isCanceled = false;
 
     // 仮入力
-    string id = EncodeAndReverseIPPort("192.168.7.130", 0);
+    string id = EncodeAndReverseIPPort("192.168.7.130", 4000);
 
     // サーバーIDをデコードしてIPアドレスとポート番号を取得
     auto decodeID = DecodeAndReverseIPPort(id);
@@ -267,7 +267,7 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
     sockaddr_in serverAddr = {};
     serverAddr.sin_family = AF_INET;
     inet_pton(AF_INET, decodeID.first.c_str(), &serverAddr.sin_addr);
-    serverAddr.sin_port = htons(decodeID.second);
+    serverAddr.sin_port = decodeID.second;
 
     isLoopCount = 0;
 
