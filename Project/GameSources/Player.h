@@ -10,6 +10,7 @@
 #include "SelectIndicator.h"
 #include "CraftManager.h"
 #include "Scene.h"
+#include "NetworkComponent.h"
 
 #define ANIME_FPS 30.0f
 
@@ -94,6 +95,7 @@ namespace basecross
 		// 描画コンポーネント
 		shared_ptr<BcPNTBoneModelDraw> m_ptrDraw; 
 		shared_ptr<Shadowmap> m_ptrShadow; 
+		shared_ptr<NetworkComponent> m_ptrNet;
 
 		weak_ptr<SelectIndicator> m_indicator; // セレクトインディケーター
 

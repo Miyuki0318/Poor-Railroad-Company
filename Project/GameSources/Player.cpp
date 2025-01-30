@@ -56,6 +56,9 @@ namespace basecross
 
 		// コリジョンOBBの追加
 		AddComponent<CollisionCapsule>();
+
+		// ネットワーク用コンポーネントの設定
+		m_ptrNet = AddComponent<NetworkComponent>();
 	}
 
 	// アニメーションメッシュの切り替え
