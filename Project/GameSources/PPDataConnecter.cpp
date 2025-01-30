@@ -203,10 +203,13 @@ sockaddr_in PPDataConnecter::BindAndListen(SOCKET& serverSocket)
 }
 
 // クライアントからの接続を受け入れる
-bool PPDataConnecter::AcceptConnection(const SOCKET& serverSocket, SOCKET& clientSocket)
+void PPDataConnecter::AcceptConnection(const SOCKET& serverSocket, SOCKET& clientSocket)
 {
     clientSocket = accept(serverSocket, nullptr, nullptr);
-    return clientSocket != INVALID_SOCKET;
+    if (clientSocket == INVALID_SOCKET)
+    {
+        throw runtime_error("接続の受け入れに失敗しました。");
+    }
 }
 
 // サーバーを非同期に起動する（接続待機とキャンセルを管理）
@@ -226,7 +229,6 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
             catch (...)
             {
             }
-            isWaiting = false;
         }
     );
 
@@ -252,7 +254,6 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
             {
 
             }
-            isWaiting = false;
         }
     );
 
@@ -272,6 +273,7 @@ void PPDataConnecter::StartCommunication(SOCKET sock, const wstring& username)
 
     // 通信開始フラグを設定
     isConnected = true;
+    isWaiting = false;
 
     // メッセージ送信スレッドを開始
     sendThread = thread([&]()
