@@ -215,46 +215,38 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
     isWaiting = true;
     isCanceled = false;
 
-    // サーバーをバインドしてリスニングを開始
-    currentSockAddr = BindAndListen(thisSocket);
-    int addrLen = sizeof(currentSockAddr);
-    getsockname(serverSocket, (sockaddr*)&currentSockAddr, &addrLen);
-    thisSocket = serverSocket;
-    currentPort = ntohs(currentSockAddr.sin_port);
-
     isLoopCount = 0;
 
     // サーバー処理を別スレッドで実行
-    connectThread = thread([&]()
+    thread serverThread([&]()
         {
-            while (isWaiting)
+            // サーバーをバインドしてリスニングを開始
+            currentSockAddr = BindAndListen(thisSocket);
+            int addrLen = sizeof(currentSockAddr);
+            getsockname(serverSocket, (sockaddr*)&currentSockAddr, &addrLen);
+            thisSocket = serverSocket;
+            currentPort = ntohs(currentSockAddr.sin_port);
+
+            // クライアント接続待機
+            SOCKET clientSocket;
+
+            // 接続できたらtrue
+            if (AcceptConnection(thisSocket, clientSocket))
             {
-                // クライアント接続待機
-                SOCKET clientSocket;
+                // ソケットを非ブロッキングモードに設定
+                u_long mode = 1;
+                ioctlsocket(clientSocket, FIONBIO, &mode);
 
-                // 接続できたらtrue
-                if (AcceptConnection(thisSocket, clientSocket))
-                {
-                    isWaiting = false;
-                    isConnected = true;
-
-                    // ソケットを非ブロッキングモードに設定
-                    u_long mode = 1;
-                    ioctlsocket(clientSocket, FIONBIO, &mode);
-
-                    // 通信開始
-                    StartCommunication(clientSocket, username);
-                    return;
-                }
-
-                // 数ミリ秒待機
-                isLoopCount++;
-                this_thread::sleep_for(chrono::milliseconds(100));
+                // 通信開始
+                isWaiting = false;
+                isConnected = true;
+                StartCommunication(clientSocket, username);
+                return;
             }
         }
     );
 
-    connectThread.detach();
+    serverThread.detach();
 }
 
 // サーバー接続をスレッドで開始
@@ -263,47 +255,37 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
     isWaiting = true;
     isCanceled = false;
 
-    // 仮入力
-    string id = EncodeAndReverseIPPort("192.168.43.32", 0);
-
-    // サーバーIDをデコードしてIPアドレスとポート番号を取得
-    auto decodeID = DecodeAndReverseIPPort(id);
-
-    currentSockAddr.sin_family = AF_INET;
-    inet_pton(AF_INET, decodeID.first.c_str(), &currentSockAddr.sin_addr);
-    currentSockAddr.sin_port = htons(decodeID.second);
-    isLoopCount = 0;
-
-    thisSocket = clientSocket;
-
     // クライアント接続処理を非同期で実行
-    connectThread = thread([&]()
+    thread serverThread([&]()
         {
-            while (isWaiting)
+            // 仮入力
+            string id = EncodeAndReverseIPPort("192.168.43.32", 0);
+
+            // サーバーIDをデコードしてIPアドレスとポート番号を取得
+            auto decodeID = DecodeAndReverseIPPort(id);
+
+            currentSockAddr.sin_family = AF_INET;
+            inet_pton(AF_INET, decodeID.first.c_str(), &currentSockAddr.sin_addr);
+            currentSockAddr.sin_port = htons(decodeID.second);
+
+            thisSocket = clientSocket;
+
+            if (connect(thisSocket, (sockaddr*)&currentSockAddr, sizeof(currentSockAddr)) != SOCKET_ERROR)
             {
-                // 接続できたらtrue
-                if (connect(thisSocket, (sockaddr*)&currentSockAddr, sizeof(currentSockAddr)) != SOCKET_ERROR)
-                {
-                    isWaiting = false;
-                    isConnected = true;
+                // ソケットを非ブロッキングモードに設定
+                u_long mode = 1;
+                ioctlsocket(thisSocket, FIONBIO, &mode);
 
-                    // ソケットを非ブロッキングモードに設定
-                    u_long mode = 1;
-                    ioctlsocket(thisSocket, FIONBIO, &mode);
-
-                    // 通信開始
-                    StartCommunication(thisSocket, username);
-                    return;
-                }
-
-                // 数ミリ秒待機
-                isLoopCount++;
-                this_thread::sleep_for(chrono::milliseconds(100));
+                // 通信開始
+                isWaiting = false;
+                isConnected = true;
+                StartCommunication(thisSocket, username);
+                return;
             }
         }
     );
 
-    connectThread.detach();
+    serverThread.detach();
 }
 
 // 通信の開始
