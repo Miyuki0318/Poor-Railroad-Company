@@ -205,11 +205,6 @@ sockaddr_in PPDataConnecter::BindAndListen(SOCKET& serverSocket)
 bool PPDataConnecter::AcceptConnection(SOCKET serverSocket, SOCKET& clientSocket)
 {
     clientSocket = accept(serverSocket, nullptr, nullptr);
-    if (clientSocket == INVALID_SOCKET)
-    {
-        throw runtime_error("接続の受け入れに失敗しました。");
-    }
-
     return clientSocket != INVALID_SOCKET;
 }
 
@@ -224,6 +219,8 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
     int addrLen = sizeof(serverAddr);
     getsockname(serverSocket, (sockaddr*)&serverAddr, &addrLen);
 
+    isLoopCount = 0;
+
     // サーバー処理を別スレッドで実行
     connectThread = thread([&]()
         {
@@ -232,31 +229,24 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
 
             while (isWaiting)
             {
-                try
+                // 接続できたらtrue
+                if (AcceptConnection(serverSocket, clientSocket))
                 {
-                    // 接続できたらtrue
-                    if (AcceptConnection(serverSocket, clientSocket))
-                    {
-                        isWaiting = false;
-                        isConnected = true;
+                    isWaiting = false;
+                    isConnected = true;
 
-                        // ソケットを非ブロッキングモードに設定
-                        u_long mode = 1;
-                        ioctlsocket(clientSocket, FIONBIO, &mode);
+                    // ソケットを非ブロッキングモードに設定
+                    u_long mode = 1;
+                    ioctlsocket(clientSocket, FIONBIO, &mode);
 
-                        // 通信開始
-                        StartCommunication(clientSocket, username);
-                        return;
-                    }
-
-                    // 数ミリ秒待機
-                    this_thread::sleep_for(chrono::milliseconds(100));
+                    // 通信開始
+                    StartCommunication(clientSocket, username);
+                    return;
                 }
-                catch (...)
-                {
-                    continue;
-                    this_thread::sleep_for(chrono::milliseconds(100));
-                }
+
+                // 数ミリ秒待機
+                isLoopCount++;
+                this_thread::sleep_for(chrono::milliseconds(100));
             }
         }
     );
@@ -279,36 +269,31 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
     inet_pton(AF_INET, decodeID.first.c_str(), &serverAddr.sin_addr);
     serverAddr.sin_port = htons(decodeID.second);
 
+    isLoopCount = 0;
+
     // クライアント接続処理を非同期で実行
     connectThread = thread([&]()
         {
             while (isWaiting)
             {
-                try
+                // 接続できたらtrue
+                if (connect(clientSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) != SOCKET_ERROR)
                 {
-                    // 接続できたらtrue
-                    if (connect(clientSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) != SOCKET_ERROR)
-                    {
-                        isWaiting = false;
-                        isConnected = true;
+                    isWaiting = false;
+                    isConnected = true;
 
-                        // ソケットを非ブロッキングモードに設定
-                        u_long mode = 1;
-                        ioctlsocket(clientSocket, FIONBIO, &mode);
+                    // ソケットを非ブロッキングモードに設定
+                    u_long mode = 1;
+                    ioctlsocket(clientSocket, FIONBIO, &mode);
 
-                        // 通信開始
-                        StartCommunication(clientSocket, username);
-                        return;
-                    }
-
-                    // 数ミリ秒待機
-                    this_thread::sleep_for(chrono::milliseconds(100));
+                    // 通信開始
+                    StartCommunication(clientSocket, username);
+                    return;
                 }
-                catch (...)
-                {
-                    continue;
-                    this_thread::sleep_for(chrono::milliseconds(100));
-                }
+
+                // 数ミリ秒待機
+                isLoopCount++;
+                this_thread::sleep_for(chrono::milliseconds(100));
             }
         }
     );

@@ -61,6 +61,7 @@ public:
     atomic<bool> isWaiting;  // 通信待機フラグ
     atomic<bool> isCanceled; // 通信キャンセルフラグ
     atomic<bool> isConnected; // 接続状態フラグ
+    atomic<int> isLoopCount;
 
     // コンストラクタ・デストラクタ
     PPDataConnecter();  // 初期化処理

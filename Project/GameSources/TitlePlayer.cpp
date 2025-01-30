@@ -35,6 +35,7 @@ namespace basecross
 		m_playerState->Update();
 
 		const auto netPtr = m_ptrNet->GetNetworkPtr();
+		Debug::Log(L"count : ", netPtr->isLoopCount);
 		Debug::Log(L"‘Ò‹@‚µ‚Ä‚¢‚é‚© : ", netPtr->isWaiting);
 		Debug::Log(L"Ú‘±‚µ‚Ä‚¢‚é‚© : ", netPtr->isConnected);
 		Debug::Log(L"IP : ", netPtr->GetLocalIPAddress());
