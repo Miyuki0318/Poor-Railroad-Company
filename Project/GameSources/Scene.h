@@ -5,6 +5,7 @@
 #pragma once
 
 #include "stdafx.h"
+#include "PPDataConnecter.h"
 
 #define MONEY_LIMIT 99999
 
@@ -52,6 +53,9 @@ namespace basecross{
 		ePL m_startGearLevel;
 
 		bool m_MovieActive;
+
+		PPDataConnecter* netObj;
+
 	public:
 		const wstring m_objTagName = L"SELECT";
 		//--------------------------------------------------------------------------------------
@@ -88,6 +92,8 @@ namespace basecross{
 			m_statusLevel = ePL::Level1;
 			m_limitChoicesLevel = ePL::Level1;
 			m_startGearLevel = ePL::Level1;
+
+			m_MovieActive = false;
 		}
 		//--------------------------------------------------------------------------------------
 		/*!

@@ -13,11 +13,9 @@ namespace basecross
 
         // 送信バッファにデータを追加
         void AddDataToSendBuffer(const string& header, const string& data) const;
-        void AddDataToSendBuffer(const string& header, const wstring& data) const;
 
         // 受信バッファからデータを取得
         bool GetDataFromReceiveBuffer(const string& header, string& outData) const;
-        bool GetDataFromReceiveBuffer(const string& header, wstring& outData) const;
 
         virtual void OnUpdate()override {}
         virtual void OnDraw()override {}

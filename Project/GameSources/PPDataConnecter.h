@@ -1,6 +1,7 @@
 #ifndef PPDATACONNECTER_H
 #define PPDATACONNECTER_H
 
+#include "stdafx.h"
 #include <string>
 #include <fstream>
 #include <queue>
@@ -12,143 +13,109 @@
 #include <ws2tcpip.h>
 #include <condition_variable>
 
-using namespace std;
+using namespace std; // 標準ライブラリを省略形で使用可能にする
 
-// コールバック関数の型定義
-using ReceiveCallback = function<void(const string& data)>;
+// 文字列変換ユーティリティ関数
+string WStringToUTF8(const wstring& wstr); // wstring を UTF-8 形式の string に変換
+wstring UTF8ToWString(const string& utf8Str); // UTF-8 形式の string を wstring に変換
 
-// wstringとUTF-8の相互変換を行うユーティリティ関数
-string WStringToUTF8(const wstring& wstr); // wstringをUTF-8形式のstringに変換
-wstring UTF8ToWString(const string& utf8Str); // UTF-8形式のstringをwstringに変換
+// 64進数変換ユーティリティ関数
+string ConvertToBase64(unsigned long number); // 10進数から64進数に変換
+unsigned long ConvertFromBase64(const string& base64Str); // 64進数から10進数に変換
 
-// 10進数から64進数に変換する関数
-static string ConvertToBase64(unsigned long number);
-static unsigned long ConvertFromBase64(const string& base64Str);
-
-// データバッファのための構造体
-struct BufferedData {
-    string header;  // データの種類を識別するヘッダー
-    string data;    // 実際のデータ
+// データ送受信用のバッファ構造体
+struct BufferedData
+{
+    string header;  // データの識別用ヘッダー
+    string data;    // 実際のデータ本体
 };
 
-// PPDataConnecterクラスは、データ通信やソケット管理を行う
+// データ通信およびソケット管理クラス
 class PPDataConnecter
 {
 private:
 
-    static const int BUFFER_SIZE = 4096;
-    queue<BufferedData> sendBuffer;    // 送信バッファ
-    queue<BufferedData> receiveBuffer; // 受信バッファ
-    mutex sendMutex;    // 送信バッファ用ミューテックス
-    mutex receiveMutex; // 受信バッファ用ミューテックス
+    static const int BUFFER_SIZE = 4096; // 送受信バッファのサイズ
 
-    // 非同期通信用のメンバ
-    thread sendThread;
-    thread receiveThread;
-    atomic<bool> isRunning;
-    condition_variable sendCondition;
-    SOCKET currentSocket;
-    mutex socketMutex;
-
-    // シングルトンインスタンス
+    // シングルトンインスタンス管理
     static PPDataConnecter* instance;
     static mutex instanceMutex;
 
-    // コールバック管理用のコンテナを追加
-    unordered_map<string, vector<ReceiveCallback>> receiveCallbacks;
-    mutex callbackMutex;
+    // 非同期通信用のメンバ変数
+    condition_variable waitCondition;  // 通信待機時の同期処理用
+    thread sendThread;   // 送信スレッド
+    thread receiveThread; // 受信スレッド
+
+    mutex socketMutex;  // ソケット保護用のミューテックス
+    deque<BufferedData> sendBuffer; // 送信バッファ
+    deque<BufferedData> recvBuffer; // 受信バッファ
+    mutex sendMutex; // 送信バッファの排他制御
+    mutex recvMutex; // 受信バッファの排他制御
+
+    SOCKET currentSocket; // 現在の接続ソケット
 
 public:
-    // コンストラクタとデストラクタ
-    PPDataConnecter(); // クラスの初期化
-    ~PPDataConnecter(); // クラスの終了処理
 
-    // シングルトンアクセス
+    atomic<bool> isWaiting;  // 通信待機フラグ
+    atomic<bool> isCanceled; // 通信キャンセルフラグ
+    atomic<bool> isConnected; // 接続状態フラグ
+
+    // コンストラクタ・デストラクタ
+    PPDataConnecter();  // 初期化処理
+    ~PPDataConnecter(); // 後始末処理
+
+    // シングルトン取得
     static PPDataConnecter* GetNetworkPtr();
 
-    // 初期化と終了
-    void InitializeWinsock();
-    void Initialize();
-    void Finalize();
+    // 初期化と終了処理
+    void Initialize();  // Winsock 初期化
+    void Finalize();    // Winsock 終了処理
 
-    // コンソールをUnicode（UTF-8）に設定
+    // コンソールのエンコーディング設定
     void SetConsoleToUnicode();
 
-    // 新しいソケットを作成
-    SOCKET CreateSocket();
+    // ソケット関連処理
+    SOCKET CreateSocket(); // ソケット作成
+    void BindAndListen(SOCKET& serverSocket); // ソケットをバインドして待機
+    void AcceptConnection(SOCKET serverSocket, SOCKET& clientSocket); // 接続を受け入れる
 
-    // サーバーを開始し、クライアントからの接続を待機
-    void StartServer(SOCKET& serverSocket, const wstring& username);
-    
-    // サーバーに接続して通信を開始
-    void ConnectToServer(SOCKET& clientSocket, const wstring& username);
+    // 通信開始
+    void StartServer(SOCKET& socket, const wstring& username); // サーバー開始
+    void ConnectToServer(SOCKET& socket, const wstring& username); // クライアント接続
 
-    // サーバーを開始し、クライアントからの接続を待機し、ファイルの送受信を行う
-    void StartFileTransServer(SOCKET& socket, const std::wstring& username);
+    // 非同期通信
+    void StartServerAsync(SOCKET& serverSocket, const wstring& username); // 非同期サーバー開始
+    void ConnectToServerAsync(SOCKET& clientSocket, const wstring& username); // 非同期クライアント接続
 
-    // サーバーに接続して通信を開始し、ファイルの送受信を行う
-    void ConnectToFileTransServer(SOCKET& socket, const std::wstring& username);
-
-    // メッセージを送信する静的メソッド
-    static void SendPPMessage(SOCKET sock, const wstring& username, const wstring& message);
-
-    // メッセージを受信する静的メソッド
-    static void ReceivePPMessages(SOCKET socket);
-    
-    // 通信制御
-    void StartCommunication(SOCKET sock);
+    // 通信スレッド制御
+    void StartCommunication(SOCKET sock, const wstring& username);
+    void CancelCommunication();
     void StopCommunication();
 
-    // バッファ関連
-    void AddToSendBuffer(const string& header, const string& data);
-    void AddToSendBuffer(const string& header, const wstring& data);
-    bool GetFromReceiveBuffer(const string& header, string& outData);
-    bool GetFromReceiveBuffer(const string& header, wstring& outData);
-    void ClearBuffers();
+    // データの送受信
+    void SendPPMessage(SOCKET sock, const wstring& username, const wstring& message); // メッセージ送信
+    void ReceivePPMessages(SOCKET socket); // メッセージ受信
+    void AddToSendBuffer(const std::string& header, const std::string& data); // 送信バッファにデータ追加
+    bool GetFromRecvBuffer(BufferedData& outData); // 受信バッファからデータ取得
+    bool GetFromRecvBufferByHeader(const string& header, BufferedData& outData); // 特定のヘッダーを検索
 
-    // ファイルを送信する静的メソッド
-    static void SendFile(SOCKET& socket, const wstring& filename, const wstring& fileContent);
-    
-    // ファイルを受信する静的メソッド
-    static void ReceiveFile(SOCKET& clientSocket, wstring& receivedFile);
+    // 送受信処理
+    void SendData(); // バッファから送信
+    void ReceiveData(const std::string& rawData); // 受信データを処理
 
-    // ローカルIPアドレスを取得する静的メソッド
-    static string GetLocalIPAddress();
-    static wstring GetLocalIPAddressW();
+    // ネットワークユーティリティ
+    static string GetLocalIPAddress(); // ローカルIP取得
+    static wstring GetLocalIPAddressW(); // ワイド文字列版のローカルIP取得
 
-    // IPアドレスとポート番号をサーバーIDに変換する静的メソッド
-    static string EncodeAndReverseIPPort(const string& ipAddress, unsigned short port);
-
-    // サーバーIDをIPアドレスとポート番号に変換する静的メソッド
-    static pair<string, unsigned short> DecodeAndReverseIPPort(const string& encodedReversed);
+    // サーバーIDエンコード/デコード
+    static string EncodeAndReverseIPPort(const string& ipAddress, unsigned short port); // IPとポートをエンコード
+    static pair<string, unsigned short> DecodeAndReverseIPPort(const string& encodedReversed); // エンコードされたIPとポートをデコード
 
 private:
 
-    // サーバーソケットをバインドしてリッスン状態にする
-    void BindAndListen(SOCKET& serverSocket);
-
-    // クライアントの接続を受け入れる
-    void AcceptConnection(SOCKET serverSocket, SOCKET& clientSocket);
-
-    // 文字列をファイルに保存する
-    static void SaveString(SOCKET& socket, const wstring& str);
-
-    // ファイルから文字列を取得する
-    static void ReadString(SOCKET& socket, string& str);
-
-    // logフォルダ作成関数
-    static void CreateLogDirectoryIfNotExist();
-
-    // 非同期通信用の内部メソッド
-    void SendThreadFunction();
-    void ReceiveThreadFunction();
-    void ProcessSendBuffer();
-    void ProcessReceiveBuffer();
-
-    // コールバック登録・解除用メソッド
-    void RegisterReceiveCallback(const string& header, ReceiveCallback callback);
-    void UnregisterReceiveCallback(const string& header);
-    void ClearCallbacks();
+    // 内部処理
+    static string Serialize(const BufferedData& data); // データをシリアライズ
+    static BufferedData Deserialize(const std::string& rawData); // デシリアライズ
 };
 
 #endif

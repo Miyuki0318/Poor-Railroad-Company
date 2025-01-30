@@ -47,35 +47,18 @@ namespace basecross
         }
     }
 
-    void NetworkComponent::AddDataToSendBuffer(const std::string& header, const std::wstring& data) const
+    bool NetworkComponent::GetDataFromReceiveBuffer(const string& header, string& outData) const
     {
         try 
         {
-            pImpl->GetNetwork()->AddToSendBuffer(header, data);
-        }
-        catch (...) {
-            // エラーハンドリング（必要に応じてログ出力など）
-            throw;
-        }
-    }
+            BufferedData buffer;
+            if (pImpl->GetNetwork()->GetFromRecvBufferByHeader(header, buffer))
+            {
+                outData = buffer.data;
+                return true;
+            }
 
-    bool NetworkComponent::GetDataFromReceiveBuffer(const std::string& header, std::string& outData) const
-    {
-        try 
-        {
-            return pImpl->GetNetwork()->GetFromReceiveBuffer(header, outData);
-        }
-        catch (...) {
-            // エラーハンドリング（必要に応じてログ出力など）
-            throw;
-        }
-    }
-
-    bool NetworkComponent::GetDataFromReceiveBuffer(const std::string& header, std::wstring& outData) const
-    {
-        try 
-        {
-            return pImpl->GetNetwork()->GetFromReceiveBuffer(header, outData);
+            return false;
         }
         catch (...) {
             // エラーハンドリング（必要に応じてログ出力など）
