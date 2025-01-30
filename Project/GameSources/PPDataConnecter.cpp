@@ -98,8 +98,6 @@ unsigned long ConvertFromBase64(const string& base64Str)
 // PPDataConnecter クラスのコンストラクタ（メンバ変数を初期化）
 PPDataConnecter::PPDataConnecter() :
     currentSocket(NULL),
-    thisSocket(NULL),
-    currentSockAddr(),
     currentPort(0),
     isConnected(false),
     isWaiting(false),
@@ -176,7 +174,7 @@ SOCKET PPDataConnecter::CreateSocket()
 }
 
 // サーバーソケットをバインドし、接続待ち状態にする
-sockaddr_in PPDataConnecter::BindAndListen(SOCKET& serverSocket)
+void PPDataConnecter::BindAndListen(SOCKET& serverSocket)
 {
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == INVALID_SOCKET)
@@ -198,8 +196,6 @@ sockaddr_in PPDataConnecter::BindAndListen(SOCKET& serverSocket)
     {
         throw runtime_error("リッスンに失敗しました。");
     }
-
-    return serverAddr;
 }
 
 // クライアントからの接続を受け入れる
@@ -361,11 +357,13 @@ void PPDataConnecter::StopCommunication()
 void PPDataConnecter::StartServer(SOCKET& serverSocket, const wstring& username)
 {
     // サーバーをバインドしてリスニングを開始
-    currentSockAddr = BindAndListen(thisSocket);
-    int addrLen = sizeof(currentSockAddr);
-    getsockname(serverSocket, (sockaddr*)&currentSockAddr, &addrLen);
-    thisSocket = serverSocket;
-    currentPort = ntohs(currentSockAddr.sin_port);
+    BindAndListen(serverSocket);
+        
+    // サーバーのIPアドレスとポートを取得
+    sockaddr_in serverAddr = {};
+    int addrLen = sizeof(serverAddr);
+    getsockname(serverSocket, (sockaddr*)&serverAddr, &addrLen);
+    currentPort = ntohs(serverAddr.sin_port);
 
     // クライアント接続待機
     SOCKET clientSocket;
@@ -387,13 +385,13 @@ void PPDataConnecter::ConnectToServer(SOCKET& clientSocket, const wstring& usern
 
     // サーバーIDをデコードしてIPアドレスとポート番号を取得
     auto decodeID = DecodeAndReverseIPPort(id);
-    currentSockAddr.sin_family = AF_INET;
-    inet_pton(AF_INET, decodeID.first.c_str(), &currentSockAddr.sin_addr);
-    currentSockAddr.sin_port = htons(decodeID.second);
-    thisSocket = clientSocket;
+    sockaddr_in serverAddr = {};
+    serverAddr.sin_family = AF_INET;
+    inet_pton(AF_INET, decodeID.first.c_str(), &serverAddr.sin_addr);
+    serverAddr.sin_port = htons(decodeID.second);
 
     // サーバーへ接続
-    if (connect(clientSocket, (sockaddr*)&currentSockAddr, sizeof(currentSockAddr)) == SOCKET_ERROR)
+    if (connect(clientSocket, (sockaddr*)&clientSocket, sizeof(clientSocket)) == SOCKET_ERROR)
     {
         throw runtime_error("接続に失敗しました。");
     }
