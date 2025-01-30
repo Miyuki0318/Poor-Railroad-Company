@@ -1,4 +1,5 @@
 #include "stdafx.h"
+#include "Scene.h"
 #include "NetworkComponent.h"
 #include "PPDataConnecter.h"
 #include <stdexcept>
@@ -13,9 +14,10 @@ namespace basecross
     NetworkComponent::~NetworkComponent() {}
 
     // GetNetworkPtrを使用してP2P通信クラスにアクセス
-    PPDataConnecter* NetworkComponent::GetNetwork() const
+    const PPDataConnecter* NetworkComponent::GetNetwork() const
     {
-        auto network = PPDataConnecter::GetNetworkPtr();
+        auto scene = App::GetApp()->GetScene<Scene>();
+        auto network = scene->GetNetworkPtr();
         if (!network)
         {
             throw std::runtime_error("Network instance is not available");

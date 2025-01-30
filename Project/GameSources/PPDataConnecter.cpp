@@ -173,7 +173,7 @@ SOCKET PPDataConnecter::CreateSocket()
 }
 
 // サーバーソケットをバインドし、接続待ち状態にする
-void PPDataConnecter::BindAndListen(SOCKET& serverSocket)
+sockaddr_in PPDataConnecter::BindAndListen(SOCKET& serverSocket)
 {
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == INVALID_SOCKET)
@@ -185,6 +185,7 @@ void PPDataConnecter::BindAndListen(SOCKET& serverSocket)
     serverAddr.sin_family = AF_INET;
     serverAddr.sin_addr.s_addr = INADDR_ANY;
     serverAddr.sin_port = htons(0); // OSにポートを自動割り当てさせる
+    currentPort = serverAddr.sin_port;
 
     if (::bind(serverSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) == SOCKET_ERROR)
     {
@@ -195,6 +196,8 @@ void PPDataConnecter::BindAndListen(SOCKET& serverSocket)
     {
         throw runtime_error("リッスンに失敗しました。");
     }
+
+    return serverAddr;
 }
 
 // クライアントからの接続を受け入れる
@@ -216,16 +219,18 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
     // サーバー処理を別スレッドで実行
     thread serverThread([&]()
         {
-            try
+            while (isWaiting)
             {
-                StartServer(serverSocket, username);
-                isConnected = true;
+                try
+                {
+                    StartServer(serverSocket, username);
+                    isConnected = true;
+                }
+                catch (const runtime_error& e)
+                {
+                    wcout << L"サーバーの開始に失敗しました: " << UTF8ToWString(e.what()) << endl;
+                }
             }
-            catch (const runtime_error& e)
-            {
-                wcout << L"サーバーの開始に失敗しました: " << UTF8ToWString(e.what()) << endl;
-            }
-            isWaiting = false;
         }
     );
 
@@ -355,21 +360,19 @@ void PPDataConnecter::StopCommunication()
 void PPDataConnecter::StartServer(SOCKET& serverSocket, const wstring& username)
 {
     // サーバーをバインドしてリスニングを開始
-    BindAndListen(serverSocket);
-
-    // サーバーのIPアドレスとポートを取得
-    sockaddr_in serverAddr = {};
+    sockaddr_in serverAddr = BindAndListen(serverSocket);
     int addrLen = sizeof(serverAddr);
     getsockname(serverSocket, (sockaddr*)&serverAddr, &addrLen);
 
     // サーバー情報を表示
-    wcout << L"サーバーID: " << UTF8ToWString(EncodeAndReverseIPPort(GetLocalIPAddress(), ntohs(serverAddr.sin_port))) << endl;
+    wcout << L"サーバーID: " << UTF8ToWString(EncodeAndReverseIPPort(GetLocalIPAddress(), ntohs(currentPort))) << endl;
     wcout << L"接続を待っています..." << endl;
 
     // クライアント接続待機
     SOCKET clientSocket;
     AcceptConnection(serverSocket, clientSocket);
     wcout << L"接続が確立されました。" << endl;
+    isWaiting = false;
 
     // ソケットを非ブロッキングモードに設定
     u_long mode = 1;
@@ -550,6 +553,11 @@ string PPDataConnecter::GetLocalIPAddress()
 wstring PPDataConnecter::GetLocalIPAddressW()
 {
     return UTF8ToWString(GetLocalIPAddress());
+}
+
+USHORT PPDataConnecter::GetPortNumber() const
+{
+    return currentPort;
 }
 
 // IPアドレスとポートをエンコードし、反転

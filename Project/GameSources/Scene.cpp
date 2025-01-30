@@ -27,14 +27,14 @@ namespace basecross {
 			SetClearColor(Col4(COL_BLUE));
 
 			// 初期化
-			netObj = new PPDataConnecter;
-			netObj->Initialize();
+			m_netObj = new PPDataConnecter;
+			m_netObj->Initialize();
 			
-			auto userIP = netObj->GetLocalIPAddressW();
-			auto sock = netObj->CreateSocket();
+			auto userIP = m_netObj->GetLocalIPAddressW();
+			auto sock = m_netObj->CreateSocket();
 
 			// ソケット通信
-			netObj->StartServerAsync(sock, userIP);
+			m_netObj->StartServerAsync(sock, userIP);
 
 			//自分自身にイベントを送る
 			//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる

@@ -53,6 +53,7 @@ private:
     mutex recvMutex; // 受信バッファの排他制御
 
     SOCKET currentSocket; // 現在の接続ソケット
+    USHORT currentPort; // 現在のポート番号
 
 public:
 
@@ -76,7 +77,7 @@ public:
 
     // ソケット関連処理
     SOCKET CreateSocket(); // ソケット作成
-    void BindAndListen(SOCKET& serverSocket); // ソケットをバインドして待機
+    sockaddr_in BindAndListen(SOCKET& serverSocket); // ソケットをバインドして待機
     void AcceptConnection(SOCKET serverSocket, SOCKET& clientSocket); // 接続を受け入れる
 
     // 通信開始
@@ -106,6 +107,7 @@ public:
     // ネットワークユーティリティ
     static string GetLocalIPAddress(); // ローカルIP取得
     static wstring GetLocalIPAddressW(); // ワイド文字列版のローカルIP取得
+    USHORT GetPortNumber() const;
 
     // サーバーIDエンコード/デコード
     static string EncodeAndReverseIPPort(const string& ipAddress, unsigned short port); // IPとポートをエンコード
