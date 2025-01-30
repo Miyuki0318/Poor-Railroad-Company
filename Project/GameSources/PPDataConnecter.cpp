@@ -215,18 +215,16 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
     isWaiting = true;
     isCanceled = false;
 
-    isLoopCount = 0;
+    // サーバーをバインドしてリスニングを開始
+    currentSockAddr = BindAndListen(thisSocket);
+    int addrLen = sizeof(currentSockAddr);
+    getsockname(serverSocket, (sockaddr*)&currentSockAddr, &addrLen);
+    thisSocket = serverSocket;
+    currentPort = ntohs(currentSockAddr.sin_port);
 
     // サーバー処理を別スレッドで実行
     thread serverThread([&]()
         {
-            // サーバーをバインドしてリスニングを開始
-            currentSockAddr = BindAndListen(thisSocket);
-            int addrLen = sizeof(currentSockAddr);
-            getsockname(serverSocket, (sockaddr*)&currentSockAddr, &addrLen);
-            thisSocket = serverSocket;
-            currentPort = ntohs(currentSockAddr.sin_port);
-
             // クライアント接続待機
             SOCKET clientSocket;
 
@@ -255,21 +253,21 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
     isWaiting = true;
     isCanceled = false;
 
+    // 仮入力
+    string id = EncodeAndReverseIPPort("192.168.43.32", 0);
+
+    // サーバーIDをデコードしてIPアドレスとポート番号を取得
+    auto decodeID = DecodeAndReverseIPPort(id);
+
+    currentSockAddr.sin_family = AF_INET;
+    inet_pton(AF_INET, decodeID.first.c_str(), &currentSockAddr.sin_addr);
+    currentSockAddr.sin_port = htons(decodeID.second);
+
+    thisSocket = clientSocket;
+
     // クライアント接続処理を非同期で実行
     thread serverThread([&]()
         {
-            // 仮入力
-            string id = EncodeAndReverseIPPort("192.168.43.32", 0);
-
-            // サーバーIDをデコードしてIPアドレスとポート番号を取得
-            auto decodeID = DecodeAndReverseIPPort(id);
-
-            currentSockAddr.sin_family = AF_INET;
-            inet_pton(AF_INET, decodeID.first.c_str(), &currentSockAddr.sin_addr);
-            currentSockAddr.sin_port = htons(decodeID.second);
-
-            thisSocket = clientSocket;
-
             if (connect(thisSocket, (sockaddr*)&currentSockAddr, sizeof(currentSockAddr)) != SOCKET_ERROR)
             {
                 // ソケットを非ブロッキングモードに設定
