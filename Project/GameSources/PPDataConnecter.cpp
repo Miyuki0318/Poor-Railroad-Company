@@ -97,8 +97,9 @@ unsigned long ConvertFromBase64(const string& base64Str)
 
 // PPDataConnecter クラスのコンストラクタ（メンバ変数を初期化）
 PPDataConnecter::PPDataConnecter() :
-    currentSocket(INVALID_SOCKET),
-    thisSocket(INVALID_SOCKET),
+    currentSocket(NULL),
+    thisSocket(NULL),
+    currentSockAddr(),
     currentPort(0),
     isConnected(false),
     isWaiting(false),
@@ -215,11 +216,11 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
     isCanceled = false;
 
     // サーバーをバインドしてリスニングを開始
-    sockaddr_in serverAddr = BindAndListen(thisSocket);
-    int addrLen = sizeof(serverAddr);
-    getsockname(serverSocket, (sockaddr*)&serverAddr, &addrLen);
+    currentSockAddr = BindAndListen(thisSocket);
+    int addrLen = sizeof(currentSockAddr);
+    getsockname(serverSocket, (sockaddr*)&currentSockAddr, &addrLen);
     thisSocket = serverSocket;
-    currentPort = ntohs(serverAddr.sin_port);
+    currentPort = ntohs(currentSockAddr.sin_port);
 
     isLoopCount = 0;
 
@@ -268,10 +269,9 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
     // サーバーIDをデコードしてIPアドレスとポート番号を取得
     auto decodeID = DecodeAndReverseIPPort(id);
 
-    sockaddr_in serverAddr = {};
-    serverAddr.sin_family = AF_INET;
-    inet_pton(AF_INET, decodeID.first.c_str(), &serverAddr.sin_addr);
-    serverAddr.sin_port = htons(decodeID.second);
+    currentSockAddr.sin_family = AF_INET;
+    inet_pton(AF_INET, decodeID.first.c_str(), &currentSockAddr.sin_addr);
+    currentSockAddr.sin_port = htons(decodeID.second);
     isLoopCount = 0;
 
     thisSocket = clientSocket;
@@ -282,7 +282,7 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
             while (isWaiting)
             {
                 // 接続できたらtrue
-                if (connect(thisSocket, (sockaddr*)&serverAddr, sizeof(serverAddr)) != SOCKET_ERROR)
+                if (connect(thisSocket, (sockaddr*)&currentSockAddr, sizeof(currentSockAddr)) != SOCKET_ERROR)
                 {
                     isWaiting = false;
                     isConnected = true;
