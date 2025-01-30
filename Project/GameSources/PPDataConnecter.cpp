@@ -217,7 +217,7 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
     isCanceled = false;
 
     // サーバー処理を別スレッドで実行
-    thread serverThread([&]()
+    connectThread = thread([&]()
         {
             while (isWaiting)
             {
@@ -226,16 +226,12 @@ void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& user
                     StartServer(serverSocket, username);
                     isConnected = true;
                 }
-                catch (const runtime_error& e)
+                catch (...)
                 {
-                    string message = "サーバーの開始に失敗しました: " + string(e.what());
-                    throw runtime_error(message);
                 }
             }
         }
     );
-
-    serverThread.detach(); // スレッドをデタッチ（バックグラウンド実行）
 }
 
 // サーバー接続をスレッドで開始
@@ -245,7 +241,7 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
     isCanceled = false;
 
     // クライアント接続処理を非同期で実行
-    thread clientThread([&]()
+    connectThread = thread([&]()
         {
             while (isWaiting)
             {
@@ -254,17 +250,12 @@ void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& 
                     ConnectToServer(clientSocket, username);
                     isConnected = true;
                 }
-                catch (const runtime_error& e)
+                catch (...)
                 {
-                    string message = "サーバーの接続に失敗しました: " + string(e.what());
-                    throw runtime_error(message);
                 }
             }
         }
     );
-
-    // スレッドをデタッチ（別スレッドで処理を継続）
-    clientThread.detach();
 }
 
 // 通信の開始
@@ -343,6 +334,11 @@ void PPDataConnecter::CancelCommunication()
 // 通信の停止
 void PPDataConnecter::StopCommunication()
 {
+    // 接続スレッドの終了待機
+    if (connectThread.joinable())
+    {
+        connectThread.join();
+    }
     // 送信スレッドの終了待機
     if (sendThread.joinable())
     {

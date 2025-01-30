@@ -43,6 +43,7 @@ private:
 
     // 非同期通信用のメンバ変数
     condition_variable waitCondition;  // 通信待機時の同期処理用
+    thread connectThread; // 接続スレッド
     thread sendThread;   // 送信スレッド
     thread receiveThread; // 受信スレッド
 
