@@ -5,44 +5,32 @@
 
 namespace basecross
 {
-    class NetworkComponent::Impl 
-    {
-    public:
-        Impl() 
-        {
-            // コンストラクタで特に初期化は必要ない
-        }
-
-        ~Impl() {}
-
-        // GetNetworkPtrを使用してP2P通信クラスにアクセス
-        PPDataConnecter* GetNetwork() const 
-        {
-            auto network = PPDataConnecter::GetNetworkPtr();
-            if (!network) 
-            {
-                throw std::runtime_error("Network instance is not available");
-            }
-            return network;
-        }
-    };
-
     NetworkComponent::NetworkComponent(const std::shared_ptr<GameObject>& GameObjectPtr)
         : Component(GameObjectPtr)
-        , pImpl(new Impl())
     {
     }
 
     NetworkComponent::~NetworkComponent() {}
 
+    // GetNetworkPtrを使用してP2P通信クラスにアクセス
+    PPDataConnecter* NetworkComponent::GetNetwork() const
+    {
+        auto network = PPDataConnecter::GetNetworkPtr();
+        if (!network)
+        {
+            throw std::runtime_error("Network instance is not available");
+        }
+        return network;
+    }
+
     void NetworkComponent::AddDataToSendBuffer(const std::string& header, const std::string& data) const
     {
         try 
         {
-            pImpl->GetNetwork()->AddToSendBuffer(header, data);
+            GetNetwork()->AddToSendBuffer(header, data);
         }
-        catch (...) {
-            // エラーハンドリング（必要に応じてログ出力など）
+        catch (...) 
+        {
             throw;
         }
     }
@@ -52,7 +40,7 @@ namespace basecross
         try 
         {
             BufferedData buffer;
-            if (pImpl->GetNetwork()->GetFromRecvBufferByHeader(header, buffer))
+            if (GetNetwork()->GetFromRecvBufferByHeader(header, buffer))
             {
                 outData = buffer.data;
                 return true;
@@ -60,8 +48,8 @@ namespace basecross
 
             return false;
         }
-        catch (...) {
-            // エラーハンドリング（必要に応じてログ出力など）
+        catch (...) 
+        {
             throw;
         }
     }
