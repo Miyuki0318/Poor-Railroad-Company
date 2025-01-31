@@ -136,24 +136,13 @@ int MainLoop(HINSTANCE hInstance, HWND hWnd, bool isFullScreen, int iClientWidth
 		}
 
 		// 初期化
-		PPDataConnecter netPtr;
-		netPtr.SetConsoleToUnicode();
-		netPtr.Initialize();
-		auto userIP = netPtr.GetLocalIPAddressW();
-		auto sock = netPtr.CreateSocket();
-
-		// ソケット通信
-		netPtr.StartServerAsync(sock, userIP);
+		PPDataConnecter::CreateNetwork();
 
 		////アプリケーションクラスの構築
 		App::CreateApp(hInstance, hWnd, isFullScreen, iClientWidth, iClientHeight);
 		//シーンの作成
 		//戻り値のScenePtrは汎用的に使える
 		auto ScenePtr = App::GetApp()->CreateScene<Scene>();
-
-		// シーンに登録
-		auto ptr = &netPtr;
-		ScenePtr->SetNetworkPtr(ptr);
 
 		//メッセージループ
 		MSG msg = { 0 };
@@ -219,8 +208,13 @@ int MainLoop(HINSTANCE hInstance, HWND hWnd, bool isFullScreen, int iClientWidth
 		}
 		RetCode = 1;
 	}
+
 	//アプリケーションの削除
 	App::DeleteApp();
+
+	// ネットワークの削除
+	PPDataConnecter::DeleteNetwork();
+
 	//例外処理終了
 	//COMのリリース
 	::CoUninitialize();

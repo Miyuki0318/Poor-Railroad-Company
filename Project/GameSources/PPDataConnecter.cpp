@@ -17,8 +17,8 @@
 #undef max  // 標準ライブラリの `max` を利用するために `max` マクロを解除
 #pragma comment(lib, "Ws2_32.lib") // Winsock2ライブラリをリンク
 
-PPDataConnecter* PPDataConnecter::instance = nullptr;
-mutex PPDataConnecter::instanceMutex; // インスタンス生成時の排他制御用ミューテックス
+//static変数実体
+unique_ptr<PPDataConnecter, PPDataConnecter::PPDataDeletar> PPDataConnecter::ppdataConnecter;
 
 // wstring（ワイド文字列）をUTF-8エンコードのstringに変換する関数
 string WStringToUTF8(const wstring& wstr)
@@ -101,25 +101,70 @@ PPDataConnecter::PPDataConnecter() :
     currentPort(0),
     isConnected(false),
     isWaiting(false),
-    isCanceled(false)
+    isCanceled(false),
+    isDelete(false)
 {
 }
 
-// デストラクタ（終了処理を実行）
-PPDataConnecter::~PPDataConnecter()
+// シングルトン構築
+unique_ptr<PPDataConnecter, PPDataConnecter::PPDataDeletar>& PPDataConnecter::CreateNetwork(bool isPreStart)
 {
-    Finalize();
-}
-
-// シングルトンパターンでPPDataConnecterのインスタンスを取得
-PPDataConnecter* PPDataConnecter::GetNetworkPtr()
-{
-    lock_guard<mutex> lock(instanceMutex); // スレッドセーフのためミューテックスをロック
-    if (!instance)
+    try
     {
-        instance = new PPDataConnecter();
+        if (ppdataConnecter.get() == 0)
+        {
+            ppdataConnecter.reset(new PPDataConnecter());
+            ppdataConnecter->Initialize();
+
+            // 最初から生成(非推奨)
+            if (isPreStart)
+            {
+                ppdataConnecter->StartServerAsync();
+            }
+        }
+        return ppdataConnecter;
     }
-    return instance;
+    catch (...)
+    {
+        throw;
+    }
+}
+
+// シングルトンアクセサ
+unique_ptr<PPDataConnecter, PPDataConnecter::PPDataDeletar>& PPDataConnecter::GetNetwork()
+{
+    try
+    {
+        if (ppdataConnecter.get() == 0)
+        {
+            throw runtime_error("ネットワークが生成されていません");
+        }
+        return ppdataConnecter;
+    }
+    catch (...)
+    {
+        throw;
+    }
+}
+
+// 存在するかのチェック
+bool PPDataConnecter::NetworkCheck()
+{
+    if (ppdataConnecter.get() == 0) 
+    {
+        return false;
+    }
+    return true;
+}
+
+// 破棄
+void PPDataConnecter::DeleteNetwork()
+{
+    if (ppdataConnecter.get())
+    {
+        ppdataConnecter->Finalize();
+        ppdataConnecter.reset();
+    }
 }
 
 // Winsockを初期化
@@ -174,7 +219,7 @@ SOCKET PPDataConnecter::CreateSocket()
 }
 
 // サーバーソケットをバインドし、接続待ち状態にする
-void PPDataConnecter::BindAndListen(SOCKET& serverSocket)
+sockaddr_in PPDataConnecter::BindAndListen(SOCKET& serverSocket)
 {
     serverSocket = socket(AF_INET, SOCK_STREAM, 0);
     if (serverSocket == INVALID_SOCKET)
@@ -196,6 +241,8 @@ void PPDataConnecter::BindAndListen(SOCKET& serverSocket)
     {
         throw runtime_error("リッスンに失敗しました。");
     }
+
+    return serverAddr;
 }
 
 // クライアントからの接続を受け入れる
@@ -209,59 +256,90 @@ void PPDataConnecter::AcceptConnection(SOCKET serverSocket, SOCKET& clientSocket
 }
 
 // サーバーを非同期に起動する（接続待機とキャンセルを管理）
-void PPDataConnecter::StartServerAsync(SOCKET& serverSocket, const wstring& username)
+void PPDataConnecter::StartServerAsync()
 {
     isWaiting = true;
     isCanceled = false;
 
-    // サーバー処理を別スレッドで実行
-    thread serverThread([&]()
+    SOCKET sock = CreateSocket();
+    sockaddr_in addr = BindAndListen(sock);
+    currentPort = ntohs(addr.sin_port);
+
+    connectThread = make_unique<thread>([this, sock]()
         {
-            try
+            SOCKET clientSock = accept(sock, nullptr, nullptr);
+            closesocket(sock);  // リスニングソケットを閉じる
+
+            if (clientSock != INVALID_SOCKET) 
             {
-                StartServer(serverSocket, username);
+                currentSocket = clientSock;
                 isConnected = true;
-            }
-            catch (...)
-            {
+                StartCommunication((SOCKET)sock);
             }
         }
     );
-
-    serverThread.detach();
 }
 
 // サーバー接続をスレッドで開始
-void PPDataConnecter::ConnectToServerAsync(SOCKET& clientSocket, const wstring& username)
+void PPDataConnecter::ConnectToServerAsync()
 {
     isWaiting = true;
     isCanceled = false;
 
-    // クライアント接続処理を非同期で実行
-    thread serverThread([&]()
-        {
-            try
-            {
-                // サーバーに接続を試みる
-                ConnectToServer(clientSocket, username);
-                isConnected = true;
-            }
-            catch (...)
-            {
+    // サーバーIDをデコードしてIPアドレスとポート番号を取得
+    auto decodeID = DecodeAndReverseIPPort("0x-2u0G03");
 
+    connectThread = make_unique<thread>([this, decodeID]() 
+        {
+            SOCKET clientSock = CreateSocket();
+            sockaddr_in addr;
+            addr.sin_family = AF_INET;
+            addr.sin_port = htons(decodeID.second);
+            inet_pton(AF_INET, decodeID.first.c_str(), &addr.sin_addr);
+            
+            // ノンブロッキングモードに設定
+            u_long mode = 1;
+            ioctlsocket(clientSock, FIONBIO, &mode);
+
+            // 接続完了を待機
+            while (isWaiting && !isDelete)
+            {
+                int result = connect(clientSock, (sockaddr*)&addr, sizeof(addr));
+                if (result != SOCKET_ERROR)
+                {
+                    // 接続成功
+                    mode = 0;  // ブロッキングモードに戻す
+                    ioctlsocket(clientSock, FIONBIO, &mode);
+                    isConnected = true;
+                    isWaiting = false;
+                    StartCommunication(clientSock);
+                    break;
+                }
+                else if (result == SOCKET_ERROR) 
+                {
+
+                    // ソケットの再生成
+                    closesocket(clientSock);
+                    clientSock = CreateSocket();
+
+                    // ノンブロッキングモードに設定
+                    u_long mode = 1;
+                    ioctlsocket(clientSock, FIONBIO, &mode);
+                    this_thread::sleep_for(chrono::milliseconds(10));
+                }
             }
         }
     );
 
-    serverThread.detach();
+    //connectThread->detach();
 }
 
 // 通信の開始
-void PPDataConnecter::StartCommunication(SOCKET sock, const wstring& username)
+void PPDataConnecter::StartCommunication(SOCKET& socket)
 {
     {
         lock_guard<mutex> lock(socketMutex);
-        currentSocket = sock;
+        currentSocket = socket;
     }
 
     // 既存の通信スレッドがあれば停止
@@ -270,13 +348,14 @@ void PPDataConnecter::StartCommunication(SOCKET sock, const wstring& username)
     // 通信開始フラグを設定
     isConnected = true;
     isWaiting = false;
+    isDelete = false;
 
     // メッセージ送信スレッドを開始
     sendThread = thread([&]()
         {
             try
             {
-                while (isConnected)
+                while (isConnected && !isDelete)
                 {
                     SendData();
 
@@ -299,7 +378,7 @@ void PPDataConnecter::StartCommunication(SOCKET sock, const wstring& username)
         {
             try
             {
-                while (isConnected)
+                while (isConnected && !isDelete)
                 {
                     // 受信データをバッファに追加
                     ReceivePPMessages(currentSocket);
@@ -333,10 +412,13 @@ void PPDataConnecter::CancelCommunication()
 // 通信の停止
 void PPDataConnecter::StopCommunication()
 {
+    isDelete = true;
+
     // 接続スレッドの終了待機
-    if (connectThread.joinable())
+    if (connectThread->joinable())
     {
-        connectThread.join();
+        connectThread->join();
+        connectThread.reset();
     }
     // 送信スレッドの終了待機
     if (sendThread.joinable())
@@ -354,7 +436,7 @@ void PPDataConnecter::StopCommunication()
 }
 
 // サーバーを開始してクライアントからの接続を待つ
-void PPDataConnecter::StartServer(SOCKET& serverSocket, const wstring& username)
+bool PPDataConnecter::StartServer(SOCKET& serverSocket, const wstring& username)
 {
     // サーバーをバインドしてリスニングを開始
     BindAndListen(serverSocket);
@@ -365,32 +447,31 @@ void PPDataConnecter::StartServer(SOCKET& serverSocket, const wstring& username)
     getsockname(serverSocket, (sockaddr*)&serverAddr, &addrLen);
     currentPort = ntohs(serverAddr.sin_port);
 
-    auto ID = EncodeAndReverseIPPort(GetLocalIPAddress(), ntohs(serverAddr.sin_port));
-    if (ID == "")
-    {
-        return;
-    }
-
     // クライアント接続待機
     SOCKET clientSocket;
-    AcceptConnection(serverSocket, clientSocket);
+    clientSocket = accept(serverSocket, nullptr, nullptr);
+    if (clientSocket == INVALID_SOCKET)
+    {
+        return false;
+    }
 
     // ソケットを非ブロッキングモードに設定
     u_long mode = 1;
     ioctlsocket(clientSocket, FIONBIO, &mode);
 
     // 通信開始
-    StartCommunication(clientSocket, username);
+    StartCommunication(clientSocket);
+    return true;
 }
 
 // クライアントがサーバーに接続する
-void PPDataConnecter::ConnectToServer(SOCKET& clientSocket, const wstring& username)
+bool PPDataConnecter::ConnectToServer(SOCKET& clientSocket, const wstring& username)
 {
-    // 仮入力
-    string id = EncodeAndReverseIPPort("192.168.43.32", 0);
+    //// 仮入力
+    //string id = EncodeAndReverseIPPort("192.168.43.32", 0);
 
     // サーバーIDをデコードしてIPアドレスとポート番号を取得
-    auto decodeID = DecodeAndReverseIPPort(id);
+    auto decodeID = DecodeAndReverseIPPort("id");
     sockaddr_in serverAddr = {};
     serverAddr.sin_family = AF_INET;
     inet_pton(AF_INET, decodeID.first.c_str(), &serverAddr.sin_addr);
@@ -399,7 +480,7 @@ void PPDataConnecter::ConnectToServer(SOCKET& clientSocket, const wstring& usern
     // サーバーへ接続
     if (connect(clientSocket, (sockaddr*)&clientSocket, sizeof(clientSocket)) == SOCKET_ERROR)
     {
-        throw runtime_error("接続に失敗しました。");
+        return false;
     }
 
     // ソケットを非ブロッキングモードに設定
@@ -407,7 +488,8 @@ void PPDataConnecter::ConnectToServer(SOCKET& clientSocket, const wstring& usern
     ioctlsocket(clientSocket, FIONBIO, &mode);
 
     // 通信開始
-    StartCommunication(clientSocket, username);
+    StartCommunication(clientSocket);
+    return true;
 }
 
 // 送信バッファにデータを追加

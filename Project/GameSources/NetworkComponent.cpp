@@ -16,8 +16,7 @@ namespace basecross
     // GetNetworkPtrを使用してP2P通信クラスにアクセス
     PPDataConnecter* NetworkComponent::GetNetwork() const
     {
-        auto scene = App::GetApp()->GetScene<Scene>();
-        auto network = scene->GetNetworkPtr();
+        auto network = PPDataConnecter::GetNetwork().get();
         if (!network)
         {
             throw std::runtime_error("Network instance is not available");
@@ -28,8 +27,7 @@ namespace basecross
     // GetNetworkPtrを使用してP2P通信クラスにアクセス(外部用)
     const PPDataConnecter* NetworkComponent::GetNetworkPtr() const
     {
-        auto scene = App::GetApp()->GetScene<Scene>();
-        auto network = scene->GetNetworkPtr();
+        auto network = PPDataConnecter::GetNetwork().get();
         if (!network)
         {
             throw std::runtime_error("Network instance is not available");

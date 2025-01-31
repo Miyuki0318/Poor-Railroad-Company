@@ -35,15 +35,19 @@ class PPDataConnecter
 {
 private:
 
+    // デリーター
+    struct PPDataDeletar
+    {
+        void operator()(PPDataConnecter* p) { delete p; }
+    };
+
     static const int BUFFER_SIZE = 4096; // 送受信バッファのサイズ
 
     // シングルトンインスタンス管理
-    static PPDataConnecter* instance;
-    static mutex instanceMutex;
+    static unique_ptr<PPDataConnecter, PPDataDeletar> ppdataConnecter;
 
     // 非同期通信用のメンバ変数
     condition_variable waitCondition;  // 通信待機時の同期処理用
-    thread connectThread; // 接続スレッド
     thread sendThread;   // 送信スレッド
     thread receiveThread; // 受信スレッド
 
@@ -55,20 +59,25 @@ private:
 
     SOCKET currentSocket; // 現在の接続ソケット
     USHORT currentPort; // 現在のポート番号
+    
+    // コンストラクタ・デストラクタ
+    PPDataConnecter();  // 初期化処理
+    virtual ~PPDataConnecter() {} // 後始末処理
 
 public:
+
+    // シングルトン構築とアクセサ
+    static unique_ptr<PPDataConnecter, PPDataDeletar>& CreateNetwork(bool isPreStart = false);
+    static unique_ptr<PPDataConnecter, PPDataDeletar>& GetNetwork();
+
+    static bool NetworkCheck();
+    static void DeleteNetwork();
 
     atomic<bool> isWaiting;  // 通信待機フラグ
     atomic<bool> isCanceled; // 通信キャンセルフラグ
     atomic<bool> isConnected; // 接続状態フラグ
-    atomic<int> isLoopCount;
-
-    // コンストラクタ・デストラクタ
-    PPDataConnecter();  // 初期化処理
-    ~PPDataConnecter(); // 後始末処理
-
-    // シングルトン取得
-    static PPDataConnecter* GetNetworkPtr();
+    atomic<bool> isDelete; // 削除フラグ
+    unique_ptr<thread> connectThread; // 接続スレッド
 
     // 初期化と終了処理
     void Initialize();  // Winsock 初期化
@@ -79,19 +88,19 @@ public:
 
     // ソケット関連処理
     SOCKET CreateSocket(); // ソケット作成
-    void BindAndListen(SOCKET& serverSocket); // ソケットをバインドして待機
+    sockaddr_in BindAndListen(SOCKET& serverSocket); // ソケットをバインドして待機
     void AcceptConnection(SOCKET serverSocket, SOCKET& clientSocket); // 接続を受け入れる
 
     // 通信開始
-    void StartServer(SOCKET& socket, const wstring& username); // サーバー開始
-    void ConnectToServer(SOCKET& socket, const wstring& username); // クライアント接続
+    bool StartServer(SOCKET& socket, const wstring& username); // サーバー開始
+    bool ConnectToServer(SOCKET& socket, const wstring& username); // クライアント接続
 
     // 非同期通信
-    void StartServerAsync(SOCKET& serverSocket, const wstring& username); // 非同期サーバー開始
-    void ConnectToServerAsync(SOCKET& clientSocket, const wstring& username); // 非同期クライアント接続
+    void StartServerAsync(); // 非同期サーバー開始
+    void ConnectToServerAsync(); // 非同期クライアント接続
 
     // 通信スレッド制御
-    void StartCommunication(SOCKET sock, const wstring& username);
+    void StartCommunication(SOCKET& socket);
     void CancelCommunication();
     void StopCommunication();
 

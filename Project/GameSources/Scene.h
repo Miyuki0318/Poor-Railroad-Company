@@ -54,8 +54,6 @@ namespace basecross{
 
 		bool m_MovieActive;
 
-		PPDataConnecter* m_netObj;
-
 	public:
 		const wstring m_objTagName = L"SELECT";
 		//--------------------------------------------------------------------------------------
@@ -251,16 +249,6 @@ namespace basecross{
 		bool IsMovieActive() const 
 		{
 			return m_MovieActive;
-		}
-
-		void SetNetworkPtr(PPDataConnecter* ptr)
-		{
-			m_netObj = ptr;
-		}
-
-		PPDataConnecter* GetNetworkPtr()
-		{
-			return m_netObj;
 		}
 	};
 }

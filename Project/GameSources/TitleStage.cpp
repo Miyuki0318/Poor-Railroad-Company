@@ -282,7 +282,7 @@ namespace basecross
 		}
 
 		const auto& app = App::GetApp();
-		m_leaveTime += app->GetElapsedTime();
+		//m_leaveTime += app->GetElapsedTime();
 
 		if (m_leaveTime >= m_setTime)
 		{
