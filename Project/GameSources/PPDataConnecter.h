@@ -50,6 +50,7 @@ private:
     condition_variable waitCondition;  // 通信待機時の同期処理用
     thread sendThread;   // 送信スレッド
     thread receiveThread; // 受信スレッド
+    thread connectThread; // 接続スレッド
 
     mutex socketMutex;  // ソケット保護用のミューテックス
     deque<BufferedData> sendBuffer; // 送信バッファ
@@ -77,7 +78,6 @@ public:
     atomic<bool> isCanceled; // 通信キャンセルフラグ
     atomic<bool> isConnected; // 接続状態フラグ
     atomic<bool> isDelete; // 削除フラグ
-    unique_ptr<thread> connectThread; // 接続スレッド
 
     // 初期化と終了処理
     void Initialize();  // Winsock 初期化
@@ -119,6 +119,7 @@ public:
     static string GetLocalIPAddress(); // ローカルIP取得
     static wstring GetLocalIPAddressW(); // ワイド文字列版のローカルIP取得
     USHORT GetPortNumber() const;
+    bool CheckConnected(SOCKET sock);
 
     // サーバーIDエンコード/デコード
     static string EncodeAndReverseIPPort(const string& ipAddress, unsigned short port); // IPとポートをエンコード

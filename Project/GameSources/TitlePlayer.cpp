@@ -39,6 +39,11 @@ namespace basecross
 		Debug::Log(L"接続しているか : ", netPtr->isConnected);
 		Debug::Log(L"ID : ", netPtr->EncodeAndReverseIPPort(netPtr->GetLocalIPAddress(), netPtr->GetPortNumber()));
 
+		if (netPtr->isConnected)
+		{
+			m_ptrNet->AddDataToSendBuffer("chinpo", "unko");
+		}
+
 		// ステートマシンにBボタン入力時の処理を送る
 		if (GetPushB()) m_playerState->PushB();
 
