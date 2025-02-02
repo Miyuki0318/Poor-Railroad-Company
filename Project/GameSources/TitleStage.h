@@ -70,6 +70,8 @@ namespace basecross
 		weak_ptr<Sprite> m_pushAButton;
 		weak_ptr<Sprite> m_pushBButton;
 
+		weak_ptr<TemplateObject> m_onlinePlayer;
+
 		Vec3 m_oldPlayerPos;
 		/*
 		@brief ビューとライトの生成
@@ -80,7 +82,12 @@ namespace basecross
 		@brief リソースの読込
 		*/
 		void CreateResourses() override;
-		
+
+		/*
+		@brief ネットワーク開始
+		*/
+		void CreateNetwork();
+
 		/*
 		@brief タイトルロゴの生成
 		*/
@@ -166,6 +173,11 @@ namespace basecross
 		@param csvのファイル名
 		*/
 		void CreateStageCSV(string csvPath = "Title") override;
+
+		/*
+		@brief ネットワークの更新処理
+		*/
+		void UpdateNetwork();
 
 	public:
 		/*

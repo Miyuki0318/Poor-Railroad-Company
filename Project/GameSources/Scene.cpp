@@ -26,12 +26,6 @@ namespace basecross {
 			//クリアする色を設定
 			SetClearColor(Col4(COL_BLUE));
 
-			// ネット開始
-			const auto& net = PPDataConnecter::GetNetwork();
-			auto sock = net->CreateSocket();
-			//net->StartServerAsync();
-			net->ConnectToServerAsync();
-
 			//自分自身にイベントを送る
 			//これにより各ステージやオブジェクトがCreate時にシーンにアクセスできる
 			PostEvent(0.0f, GetThis<ObjectInterface>(), GetThis<Scene>(), L"TitleStage");

@@ -41,7 +41,11 @@ namespace basecross
 
 		if (netPtr->isConnected)
 		{
-			m_ptrNet->AddDataToSendBuffer("chinpo", "unko");
+			Vec3 pos = GetPosition();
+			m_ptrNet->AddDataToSendBuffer("POSX", to_string(pos.x));
+			m_ptrNet->AddDataToSendBuffer("POSY", to_string(pos.y));
+			m_ptrNet->AddDataToSendBuffer("POSZ", to_string(pos.z));
+			m_ptrNet->AddDataToSendBuffer("ROTY", to_string(GetRotation().y));
 		}
 
 		// ステートマシンにBボタン入力時の処理を送る

@@ -351,7 +351,7 @@ void PPDataConnecter::StartCommunication(SOCKET& socket)
     isDelete = false;
 
     // メッセージ送信スレッドを開始
-    sendThread = thread([&, socket]()
+    sendThread = thread([&]()
         {
             try
             {
@@ -359,14 +359,12 @@ void PPDataConnecter::StartCommunication(SOCKET& socket)
                 {
                     SendData();
 
-                    // 切断確認
-                    if (!CheckConnected(socket))
-                    {
-                        isConnected = false;
-                        break;
-                    }
-
-                    this_thread::sleep_for(chrono::milliseconds(10));
+                    //// 切断確認
+                    //if (!CheckConnected(currentSocket))
+                    //{
+                    //    isConnected = false;
+                    //    break;
+                    //}
                 }
             }
             catch (const runtime_error& e)
@@ -377,7 +375,7 @@ void PPDataConnecter::StartCommunication(SOCKET& socket)
     );
 
     // メッセージ受信スレッドを開始
-    receiveThread = thread([&, socket]()
+    receiveThread = thread([&]()
         {
             try
             {
@@ -386,12 +384,12 @@ void PPDataConnecter::StartCommunication(SOCKET& socket)
                     // 受信データをバッファに追加
                     ReceivePPMessages(currentSocket);
 
-                    // 切断確認
-                    if (!CheckConnected(socket))
-                    {
-                        isConnected = false;
-                        break;
-                    }
+                    //// 切断確認
+                    //if (!CheckConnected(currentSocket))
+                    //{
+                    //    isConnected = false;
+                    //    break;
+                    //}
                 }
             }
             catch (const runtime_error& e)
@@ -401,8 +399,8 @@ void PPDataConnecter::StartCommunication(SOCKET& socket)
         }
     );
 
-    //sendThread.detach();
-    //receiveThread.detach();
+    sendThread.detach();
+    receiveThread.detach();
 }
 
 // 待機状態のキャンセル処理
@@ -520,7 +518,7 @@ bool PPDataConnecter::GetFromRecvBuffer(BufferedData& outData)
 }
 
 // 受信バッファから特定のヘッダのデータを取得
-bool PPDataConnecter::GetFromRecvBufferByHeader(const string& header, BufferedData& outData)
+bool PPDataConnecter::GetFromRecvBufferByHeader(const string& header, string& outData)
 {
     lock_guard<mutex> lock(recvMutex);
 
@@ -530,7 +528,7 @@ bool PPDataConnecter::GetFromRecvBufferByHeader(const string& header, BufferedDa
         if (it->header == header)
         {
             // データを取得して削除
-            outData = *it;
+            outData = it->data;
             recvBuffer.erase(it);
             return true;
         }
@@ -569,6 +567,7 @@ void PPDataConnecter::ReceivePPMessages(SOCKET socket)
         {
             buffer[bytesReceived] = '\0'; // 受信データをnull終端
             ReceiveData(string(buffer, bytesReceived)); // 受信データを処理
+            memset(buffer, 0, BUFFER_SIZE);
         }
         else
         {

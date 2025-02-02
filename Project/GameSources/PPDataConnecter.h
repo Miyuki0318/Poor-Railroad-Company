@@ -109,7 +109,7 @@ public:
     void ReceivePPMessages(SOCKET socket); // メッセージ受信
     void AddToSendBuffer(const std::string& header, const std::string& data); // 送信バッファにデータ追加
     bool GetFromRecvBuffer(BufferedData& outData); // 受信バッファからデータ取得
-    bool GetFromRecvBufferByHeader(const string& header, BufferedData& outData); // 特定のヘッダーを検索
+    bool GetFromRecvBufferByHeader(const string& header, string& outData); // 特定のヘッダーを検索
 
     // 送受信処理
     void SendData(); // バッファから送信

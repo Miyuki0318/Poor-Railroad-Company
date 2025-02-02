@@ -283,6 +283,9 @@
     <ClInclude Include="$(MSBuildThisFileDirectory)NetworkComponent.h">
       <Filter>OzawaFuncs\Network</Filter>
     </ClInclude>
+    <ClInclude Include="$(MSBuildThisFileDirectory)OnlinePlayer.h">
+      <Filter>Player\Online</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="$(MSBuildThisFileDirectory)GameStage.cpp">
@@ -533,6 +536,9 @@
     </ClCompile>
     <ClCompile Include="$(MSBuildThisFileDirectory)NetworkComponent.cpp">
       <Filter>OzawaFuncs\Network</Filter>
+    </ClCompile>
+    <ClCompile Include="$(MSBuildThisFileDirectory)OnlinePlayer.cpp">
+      <Filter>Player\Online</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -820,6 +826,9 @@
     </Filter>
     <Filter Include="OzawaFuncs\Network">
       <UniqueIdentifier>{6c5c19dd-d06f-4307-872b-e7166e3c0576}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Player\Online">
+      <UniqueIdentifier>{9b9d7e71-89fe-4b5a-a52f-93d1697c733c}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

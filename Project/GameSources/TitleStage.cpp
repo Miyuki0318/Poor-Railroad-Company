@@ -22,6 +22,7 @@
 #include "MoneyCountUI.h"
 #include "TitleGuide.h"
 #include "Arrow.h"
+#include "OnlinePlayer.h"
 
 namespace basecross
 {
@@ -101,6 +102,16 @@ namespace basecross
 
 		AddedTextureResources();
 		AddedAudioResources();
+	}
+
+	// ネットワークの開始など
+	void TitleStage::CreateNetwork()
+	{
+		// ネット開始
+		const auto& net = PPDataConnecter::GetNetwork();
+		auto sock = net->CreateSocket();
+		net->StartServerAsync();
+		//net->ConnectToServerAsync();
 	}
 
 	// BGM開始関数
@@ -437,6 +448,39 @@ namespace basecross
 		}
 	}
 
+	// ネットワークの更新
+	void TitleStage::UpdateNetwork()
+	{
+		const auto& network = PPDataConnecter::GetNetwork();
+		if (!network) return;
+		if (!network->isConnected) return;
+
+		if (!m_onlinePlayer.lock())
+		{
+			m_onlinePlayer = AddGameObject<OnlinePlayer>();
+			m_onlinePlayer.lock()->SetPosition(m_startPosition);
+		}
+
+		auto player = m_onlinePlayer.lock();
+		Vec3 pos = player->GetPosition();
+		string posX = to_string(pos.x);
+		string posY = to_string(pos.y);
+		string posZ = to_string(pos.z);
+		string rotY = to_string(player->GetRotation().y);
+
+		if (network->GetFromRecvBufferByHeader("POSX", posX))
+		{
+			network->GetFromRecvBufferByHeader("POSY", posY);
+			network->GetFromRecvBufferByHeader("POSZ", posZ);
+			player->SetPosition(stof(posX), stof(posY), stof(posZ));
+		}
+		
+		if (network->GetFromRecvBufferByHeader("ROTY", rotY))
+		{
+			player->SetRotation(Vec3(0.0f, stof(rotY), 0.0f));
+		}
+	}
+
 	// 実行時、一度だけ処理される関数
 	void TitleStage::OnCreate()
 	{
@@ -447,6 +491,8 @@ namespace basecross
 			m_fadeSprite->SetDiffuseColor(COL_WHITE);
 
 			CreateViewLight();
+
+			CreateNetwork();
 
 			CreateOpningScreen();
 
@@ -495,6 +541,8 @@ namespace basecross
 	{
 		try 
 		{
+			UpdateNetwork();
+
 			Debug::Log(L"所持金 : ", GetMoney());
 			const auto& camera = GetView()->GetTargetCamera();
 			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);

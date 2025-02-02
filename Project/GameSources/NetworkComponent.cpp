@@ -51,10 +51,8 @@ namespace basecross
     {
         try 
         {
-            BufferedData buffer;
-            if (GetNetwork()->GetFromRecvBufferByHeader(header, buffer))
+            if (GetNetwork()->GetFromRecvBufferByHeader(header, outData))
             {
-                outData = buffer.data;
                 return true;
             }
 
