@@ -13,6 +13,7 @@
 #include "NetworkComponent.h"
 
 #define ANIME_FPS 30.0f
+#define P_MESH L"SM_PLAYER_"
 
 namespace basecross
 {
@@ -111,6 +112,7 @@ namespace basecross
 
 		// アニメーションマップ
 		map<ePAK, AnimationMap> m_animationMap;
+		ePAK m_currentAnimaKey;	// 現在のアニメーションキー
 
 		pair<eItemType, bool> m_addItem; // 追加したアイテムのタイプ
 		map<eStageID, pair<eItemType, wstring>> m_gatherMap; // 採取対象と取得アイテムタイプ
@@ -195,6 +197,7 @@ namespace basecross
 			m_animationMap.emplace(ePAK::QTEFailed, AnimationMap(L"FAILED", 24, 1.0f));			// QTE失敗
 			m_animationMap.emplace(ePAK::GameSucces, AnimationMap(L"SUCCES", 24, 1.0f, true));	// ゲーム成功時
 			m_animationMap.emplace(ePAK::GameFailed, AnimationMap(L"FAILED", 24, 0.25f));		// ゲーム失敗時
+			m_currentAnimaKey = ePAK::Waiting;
 
 			// 歩くSEのキー
 			m_walkSEKeyMap.emplace(eStageID::Grass, L"WALK_GRASS_SE");	// 草地の時のSE
@@ -336,7 +339,13 @@ namespace basecross
 		virtual void SetAnimationMesh(ePAK animation, float start = 0.0f);
 
 		/*!
-		@brief アニメーションのこうしん
+		@brief アニメーションキーの取得
+		@return ePAK
+		*/
+		virtual ePAK GetAnimationKey() const;
+
+		/*!
+		@brief アニメーションの更新
 		@param DELTA_TIMEに掛ける速度
 		*/
 		virtual void UpdateAnimation(float speedValue = 1.0f);

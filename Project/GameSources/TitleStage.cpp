@@ -9,6 +9,7 @@
 #include "TitleStage.h"
 #include "MainCamera.h"
 #include "SkyBox.h"
+#include "OnlinePlayer.h"
 #include "Opening.h"
 #include "GroundManager.h"
 #include "RailManager.h"
@@ -22,7 +23,6 @@
 #include "MoneyCountUI.h"
 #include "TitleGuide.h"
 #include "Arrow.h"
-#include "OnlinePlayer.h"
 
 namespace basecross
 {
@@ -449,36 +449,14 @@ namespace basecross
 	}
 
 	// ネットワークの更新
-	void TitleStage::UpdateNetwork()
+	void TitleStage::CreateOnlinePlayer()
 	{
 		const auto& network = PPDataConnecter::GetNetwork();
 		if (!network) return;
 		if (!network->isConnected) return;
-
-		if (!m_onlinePlayer.lock())
-		{
-			m_onlinePlayer = AddGameObject<OnlinePlayer>();
-			m_onlinePlayer.lock()->SetPosition(m_startPosition);
-		}
-
-		auto player = m_onlinePlayer.lock();
-		Vec3 pos = player->GetPosition();
-		string posX = to_string(pos.x);
-		string posY = to_string(pos.y);
-		string posZ = to_string(pos.z);
-		string rotY = to_string(player->GetRotation().y);
-
-		if (network->GetFromRecvBufferByHeader("POSX", posX))
-		{
-			network->GetFromRecvBufferByHeader("POSY", posY);
-			network->GetFromRecvBufferByHeader("POSZ", posZ);
-			player->SetPosition(stof(posX), stof(posY), stof(posZ));
-		}
-		
-		if (network->GetFromRecvBufferByHeader("ROTY", rotY))
-		{
-			player->SetRotation(Vec3(0.0f, stof(rotY), 0.0f));
-		}
+			
+		m_onlinePlayer = AddGameObject<OnlinePlayer>();
+		m_onlinePlayer.lock()->SetPosition(m_startPosition);
 	}
 
 	// 実行時、一度だけ処理される関数
@@ -541,7 +519,10 @@ namespace basecross
 	{
 		try 
 		{
-			UpdateNetwork();
+			if (!m_onlinePlayer.lock())
+			{
+				CreateOnlinePlayer();
+			}
 
 			Debug::Log(L"所持金 : ", GetMoney());
 			const auto& camera = GetView()->GetTargetCamera();

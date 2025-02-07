@@ -10,6 +10,7 @@
 #include "TitlePlayer.h"
 #include "TitlePlayerState.h"
 #include "ActionGuide.h"
+#include "RailManager.h"
 
 namespace basecross
 {
@@ -34,29 +35,19 @@ namespace basecross
 		// ステートマシンの更新処理を送る
 		m_playerState->Update();
 
-		const auto netPtr = m_ptrNet->GetNetworkPtr();
-		Debug::Log(L"待機しているか : ", netPtr->isWaiting);
-		Debug::Log(L"接続しているか : ", netPtr->isConnected);
-		Debug::Log(L"ID : ", netPtr->EncodeAndReverseIPPort(netPtr->GetLocalIPAddress(), netPtr->GetPortNumber()));
-
-		if (netPtr->isConnected)
-		{
-			Vec3 pos = GetPosition();
-			m_ptrNet->AddDataToSendBuffer("POSX", to_string(pos.x));
-			m_ptrNet->AddDataToSendBuffer("POSY", to_string(pos.y));
-			m_ptrNet->AddDataToSendBuffer("POSZ", to_string(pos.z));
-			m_ptrNet->AddDataToSendBuffer("ROTY", to_string(GetRotation().y));
-		}
-
 		// ステートマシンにBボタン入力時の処理を送る
 		if (GetPushB()) m_playerState->PushB();
 
 		// アイテム状態の更新
 		UpdateStatus();
 
+		// ネットワークの更新
+		UpdateNetwork();
+
 		// デバック用文字列
 		Debug::Log(L"プレイヤーの座標 : ", GetPosition());
 		Debug::Log(L"プレイヤーのステート : ", m_playerState->GetCurrentState()->GetStateName());
+		Debug::Log(L"アニメーションタイム : ", m_ptrDraw->GetCurrentAnimationTime());
 	}
 
 	// プレイヤーに付加する機能の生成
@@ -124,5 +115,37 @@ namespace basecross
 		const auto& scene = App::GetApp()->GetScene<Scene>();
 		m_statusLevel = scene->GetStatusLevel();
 		m_limitChoicesLevel = scene->GetLimitChoicesLevel();
+	}
+
+	void TitlePlayer::UpdateNetwork()
+	{
+		Debug::Log(L"待機しているか : ", m_ptrNet->IsWaiting());
+		Debug::Log(L"接続しているか : ", m_ptrNet->IsConnected());
+		Debug::Log(L"ID : ", m_ptrNet->GetNetworkID());
+
+		if (m_ptrNet->IsConnected())
+		{
+			Vec3 pos = GetPosition();
+			m_ptrNet->AddSendData("POSX", to_string(pos.x));
+			m_ptrNet->AddSendData("POSY", to_string(pos.y));
+			m_ptrNet->AddSendData("POSZ", to_string(pos.z));
+			m_ptrNet->AddSendData("ROTY", to_string(GetRotation().y));
+			m_ptrNet->AddSendData("ANIMEKEY", WStringToUTF8(m_ptrDraw->GetCurrentAnimation()));
+
+			string line = "";
+			if (m_ptrNet->GetRecvData("GATHER", line))
+			{
+				Point2D<size_t> point;
+				GetLineStringToRowCol(point.x, point.y, line);
+				if (point.x == 0 && point.y == 0) return;
+
+				// 採掘命令を送り、採掘できたらタグセットを受け取る
+				auto& indicator = m_indicator.lock();
+				int id = indicator->OnlineGatheringOrder(point);
+
+				// 採掘オブジェクトのタグセットが空じゃなければ採掘処理を送る
+				if (id != 0) GatheringProcces(id);
+			}
+		}
 	}
 }

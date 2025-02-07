@@ -177,7 +177,7 @@ namespace basecross
 		/*
 		@brief ネットワークの更新処理
 		*/
-		void UpdateNetwork();
+		void CreateOnlinePlayer();
 
 	public:
 		/*

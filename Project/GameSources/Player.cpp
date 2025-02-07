@@ -11,8 +11,6 @@
 #include "RailManager.h"
 #include "NetworkComponent.h"
 
-#define MESH L"SM_PLAYER_"
-
 const int GRID_SIZE = 1;
 const float GRID_HELF = 0.5f;
 
@@ -67,14 +65,23 @@ namespace basecross
 		if (!m_ptrDraw) return;
 		if (!m_ptrShadow) return;
 
+		// キーの保持
+		m_currentAnimaKey = animation;
+
 		// アニメーション付きメッシュの変更
 		AnimationMap mesh = m_animationMap.at(animation);
-		m_ptrDraw->SetMeshResource(MESH + mesh.animeKey);
+		m_ptrDraw->SetMeshResource(P_MESH + mesh.animeKey);
 		m_ptrDraw->AddAnimation(mesh.animeKey, 0, mesh.flameNum, mesh.loopActive);
 		m_ptrDraw->ChangeCurrentAnimation(mesh.animeKey, start);
 
 		// 影の更新
-		m_ptrShadow->SetMeshResource(MESH + mesh.animeKey);
+		m_ptrShadow->SetMeshResource(P_MESH + mesh.animeKey);
+	}
+
+	// アニメーションキーの取得
+	ePAK Player::GetAnimationKey() const
+	{
+		return m_currentAnimaKey;
 	}
 
 	// アニメーションの更新
@@ -111,6 +118,7 @@ namespace basecross
 		if (id != 0)
 		{
 			GatheringProcces(id);
+			m_status.Set(ePlayerStatus::IsGathering) = true;
 			return true;
 		}
 
@@ -140,9 +148,6 @@ namespace basecross
 				AddItemCount(type);
 			}
 		}
-
-		// 採掘状態にする
-		m_status.Set(ePlayerStatus::IsGathering) = true;
 	}
 
 	// 回転先設定

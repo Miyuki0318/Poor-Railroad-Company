@@ -6,6 +6,7 @@
 
 #pragma once
 #include "TemplateObject.h"
+#include "NetworkComponent.h"
 
 namespace basecross
 {
@@ -15,6 +16,7 @@ namespace basecross
 	class SelectIndicator : public TemplateObject
 	{
 		shared_ptr<PCStaticDraw> m_ptrDraw; // 描画コンポーネント
+		shared_ptr<NetworkComponent> m_ptrNet; // ネットワーク用コンポーネント
 		weak_ptr<TemplateObject> m_player; // プレイヤー
 		Point2D<size_t> m_selectPoint; // 選択しているポイント
 		vector<VertexPositionColor> m_vertices; // 頂点データ
@@ -85,6 +87,12 @@ namespace basecross
 		@return 採取できていたらtrue
 		*/
 		int GatheringOrder() const;
+
+		/*!
+		@brief セレクターの位置に採取可能オブジェクトあるなら採取処理を行う関数
+		@return 採取できていたらtrue
+		*/
+		int OnlineGatheringOrder(Point2D<size_t> point = { 0,0 }) const;
 
 		/*!
 		@brief セレクターの位置にレールを設置可能なら設置処理を行う関数

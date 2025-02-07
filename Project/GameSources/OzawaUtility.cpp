@@ -77,6 +77,25 @@ namespace Utility
 		return str;
 	}
 
+	/*!
+	@brief •¶š—ñ‚Ì’Šo
+	@param Œ³X‚Ì•¶š—ñ
+	@param ”²‚«o‚·•¶š—ñ
+	@return Œ‹‰Ê‚Ì•¶š—ñ
+	*/
+	string RemoveString(const string& originalStr, const string& removeStr)
+	{
+		string result;
+		size_t found = originalStr.find(removeStr);
+
+		if (found != string::npos) 
+		{
+			result = originalStr.substr(found + removeStr.size());
+		}
+
+		return result;
+	}
+
 #if BASECROSS
 
 	/*!

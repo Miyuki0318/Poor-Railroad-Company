@@ -54,6 +54,9 @@ namespace basecross
 		// 透明色の描画を可能に
 		SetAlphaActive(true);
 		SetDrawLayer(1);
+
+		// ネットワークコンポーネントの追加
+		m_ptrNet = AddComponent<NetworkComponent>();
 	}
 
 	// 毎フレーム更新処理
@@ -242,6 +245,27 @@ namespace basecross
 		{
 			// 一致してたらマネージャーにレール追加処理を送る
 			id = gatheringManager->Gathering(m_selectPoint);
+
+			// ネットワークに採掘されたポイントを送る
+			if (m_ptrNet->IsConnected()) m_ptrNet->AddSendData("GATHER", ROWCOL2LINE(m_selectPoint.x, m_selectPoint.y));
+		}
+
+		return id;
+	}
+
+	// 採取命令
+	int SelectIndicator::OnlineGatheringOrder(Point2D<size_t> point) const
+	{
+		// 採取オブジェクトマネージャーの取得
+		const auto& gatheringManager = GetStage()->GetSharedGameObject<GatheringManager>(L"GatheringManager", false);
+		if (!gatheringManager) return UnSTAGE_ID(eStageID::None);
+
+		// 選択ポイントがガイドの位置と一致しているか
+		int id = UnSTAGE_ID(eStageID::None);
+		if (gatheringManager->GetIsGatheringPoint(point))
+		{
+			// 一致してたらマネージャーにレール追加処理を送る
+			id = gatheringManager->Gathering(point);
 		}
 
 		return id;

@@ -458,6 +458,14 @@ namespace Utility
 	@return 変更後文字列
 	*/
 	wstring ToLowerString(wstring str);
+	
+	/*!
+	@brief 文字列の抽出
+	@param 元々の文字列
+	@param 抜き出す文字列
+	@return 結果の文字列
+	*/
+	string RemoveString(const string& originalStr, const string& removeStr);
 
 #if BASECROSS
 

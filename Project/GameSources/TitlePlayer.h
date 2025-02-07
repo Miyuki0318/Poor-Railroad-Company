@@ -91,5 +91,10 @@ namespace basecross
 		@brief アイテム状態の更新関数
 		*/
 		void UpdateStatus();
+
+		/*!
+		@brief ネットワークの更新関数
+		*/
+		void UpdateNetwork();
 	};
 }

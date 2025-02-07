@@ -19,23 +19,16 @@ namespace basecross
         auto network = PPDataConnecter::GetNetwork().get();
         if (!network)
         {
-            throw std::runtime_error("Network instance is not available");
+            throw BaseException(
+                L"ネットワークオブジェクトが生成されていません",
+                L"WinMainで初期化されているか確認してください",
+                L"NetworkComponent::GetNetwork()"
+            );
         }
         return network;
     }
 
-    // GetNetworkPtrを使用してP2P通信クラスにアクセス(外部用)
-    const PPDataConnecter* NetworkComponent::GetNetworkPtr() const
-    {
-        auto network = PPDataConnecter::GetNetwork().get();
-        if (!network)
-        {
-            throw std::runtime_error("Network instance is not available");
-        }
-        return network;
-    }
-
-    void NetworkComponent::AddDataToSendBuffer(const std::string& header, const std::string& data) const
+    void NetworkComponent::AddSendData(const std::string& header, const std::string& data) const
     {
         try 
         {
@@ -47,7 +40,7 @@ namespace basecross
         }
     }
 
-    bool NetworkComponent::GetDataFromReceiveBuffer(const string& header, string& outData) const
+    bool NetworkComponent::GetRecvData(const string& header, string& outData) const
     {
         try 
         {
@@ -62,5 +55,21 @@ namespace basecross
         {
             throw;
         }
+    }
+
+    bool NetworkComponent::IsConnected() const
+    {
+        return GetNetwork()->isConnected;
+    }
+
+    bool NetworkComponent::IsWaiting() const
+    {
+        return GetNetwork()->isWaiting;
+    }
+
+    string NetworkComponent::GetNetworkID() const
+    {
+        auto netPtr = GetNetwork();
+        return netPtr->EncodeAndReverseIPPort(netPtr->GetLocalIPAddress(), netPtr->GetPortNumber());
     }
 }
