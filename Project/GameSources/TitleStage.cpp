@@ -524,7 +524,6 @@ namespace basecross
 				CreateOnlinePlayer();
 			}
 
-			Debug::Log(L"所持金 : ", GetMoney());
 			const auto& camera = GetView()->GetTargetCamera();
 			auto titleCamera = dynamic_pointer_cast<MainCamera>(camera);
 			const auto& player = GetSharedGameObject<TitlePlayer>(L"Player");
@@ -585,10 +584,6 @@ namespace basecross
 			{
 				ChengeMovieTime(player->GetPosition());
 			}
-			
-			Debug::Log(L"時間 : ", m_leaveTime);
-
-			Debug::Log(L"色　 : ", m_fadeSprite->GetDiffuseColor());
 
 			// 通常時以外は演出中のフラグを立てる
 			m_isStaging = m_titleProgress != normal;

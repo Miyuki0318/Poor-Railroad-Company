@@ -10,10 +10,6 @@ namespace basecross
 
 	void OnlinePlayer::OnUpdate()
 	{
-		Debug::Log(L"‘Ò‹@‚µ‚Ä‚¢‚é‚© : ", m_ptrNet->IsWaiting());
-		Debug::Log(L"Ú‘±‚µ‚Ä‚¢‚é‚© : ", m_ptrNet->IsConnected());
-		Debug::Log(L"ID : ", m_ptrNet->GetNetworkID());
-
 		UpdateMove();
 		UpdateRotation();
 		SetAnimation();

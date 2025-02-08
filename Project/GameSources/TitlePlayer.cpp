@@ -44,10 +44,10 @@ namespace basecross
 		// ネットワークの更新
 		UpdateNetwork();
 
-		// デバック用文字列
-		Debug::Log(L"プレイヤーの座標 : ", GetPosition());
-		Debug::Log(L"プレイヤーのステート : ", m_playerState->GetCurrentState()->GetStateName());
-		Debug::Log(L"アニメーションタイム : ", m_ptrDraw->GetCurrentAnimationTime());
+		//// デバック用文字列
+		//Debug::Log(L"プレイヤーの座標 : ", GetPosition());
+		//Debug::Log(L"プレイヤーのステート : ", m_playerState->GetCurrentState()->GetStateName());
+		//Debug::Log(L"アニメーションタイム : ", m_ptrDraw->GetCurrentAnimationTime());
 	}
 
 	// プレイヤーに付加する機能の生成
