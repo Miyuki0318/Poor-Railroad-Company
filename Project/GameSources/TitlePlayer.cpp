@@ -127,6 +127,7 @@ namespace basecross
 		{
 			Vec3 pos = GetPosition();
 			m_ptrNet->AddSendData("POS", Utility::Vec3ToString(pos));
+			m_ptrNet->AddSendData("ROT", to_string(GetRotation().y));
 			m_ptrNet->AddSendData("ANIMEKEY", WStringToUTF8(m_ptrDraw->GetCurrentAnimation()));
 
 			string line = "";

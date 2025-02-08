@@ -30,7 +30,7 @@ namespace basecross
 	{
 		string rotY = to_string(GetRotation().y);
 
-		if (m_ptrNet->GetRecvData("ROTY", rotY))
+		if (m_ptrNet->GetRecvData("ROT", rotY))
 		{
 			SetRotation(Vec3(0.0f, stof(rotY), 0.0f));
 		}
