@@ -244,7 +244,7 @@ int APIENTRY _tWinMain(_In_ HINSTANCE hInstance,
 	int iClientHeight = 1080;
 	// フルスクリーンにするかどうかの判定
 	// コマンドラインに/fが設定されていたらフルスクリーンにする
-	bool isFullScreen = true;
+	bool isFullScreen = false;
 	wstring wstrcmd = lpCmdLine;
 	if (wstrcmd == L"/f" || wstrcmd == L"/F") {
 		isFullScreen = true;     // フラグをtrueに設定

@@ -18,15 +18,11 @@ namespace basecross
 	void OnlinePlayer::UpdateMove()
 	{
 		Vec3 pos = GetPosition();
-		string posX = to_string(pos.x);
-		string posY = to_string(pos.y);
-		string posZ = to_string(pos.z);
+		string posStr = Utility::Vec3ToString(pos);
 		
-		if (m_ptrNet->GetRecvData("POSX", posX))
+		if (m_ptrNet->GetRecvData("POS", posStr))
 		{
-			m_ptrNet->GetRecvData("POSY", posY);
-			m_ptrNet->GetRecvData("POSZ", posZ);
-			SetPosition(stof(posX), stof(posY), stof(posZ));
+			SetPosition(Utility::StringToVec3(posStr));
 		}
 	}
 

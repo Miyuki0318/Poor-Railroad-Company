@@ -607,5 +607,19 @@ namespace Utility
 		}
 	}
 
+	string Vec3ToString(const Vec3& vec)
+	{
+		string result = to_string(vec.x) + "-" + to_string(vec.y) + "-" + to_string(vec.z);
+		return result;
+	}
+
+	Vec3 StringToVec3(const string& str)
+	{
+		float x, y, z;
+		sscanf_s(str.c_str(), "%f-%f-%f", &x, &y, &z);
+
+		return Vec3(x, y, z);
+	}
+
 #endif
 }

@@ -734,5 +734,10 @@ namespace Utility
 	*/
 	Vec3 WindowClipLineVec(const Vec3& center, const Vec3& target);
 
+
+	string Vec3ToString(const Vec3& vec);
+
+	Vec3 StringToVec3(const string& str);
+
 #endif
 }
